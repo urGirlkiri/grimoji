@@ -1,3 +1,6 @@
+// Copyright 2022, the Flutter project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
 import 'dart:developer' as dev;
 
 import 'package:flutter/foundation.dart';
@@ -9,7 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:mojingo/config/app_theme.dart';
 
 import 'config/app_lifecycle.dart';
-import 'audio/audio_controller.dart';
+import 'config/audio/audio_controller.dart';
 import 'player_progress/player_progress.dart';
 import 'router.dart';
 import 'settings/settings.dart';

@@ -11,12 +11,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';
 
-import '../config/app_lifecycle.dart';
-import '../settings/settings.dart';
+import '../app_lifecycle.dart';
+import '../../settings/settings.dart';
 import 'songs.dart';
 import 'sounds.dart';
 
-/// Allows playing music and sound. A facade to `package:audioplayers`.
 class AudioController {
   static final _log = Logger('AudioController');
 
