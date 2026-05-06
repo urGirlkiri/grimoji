@@ -10258,11 +10258,12 @@ ZP:function ZP(a){this.a=a},
 aBi(){return new A.tm(new A.a7o(),A.q(t.K,t.Qu))},
 aiu:function aiu(a,b){this.a=a
 this.b=b},
-mM:function mM(a,b,c,d){var _=this
+mM:function mM(a,b,c,d,e){var _=this
 _.ch=a
 _.cx=b
 _.db=c
-_.a=d},
+_.R8=d
+_.a=e},
 a7o:function a7o(){},
 a9z:function a9z(){},
 Ez:function Ez(){this.d=$
@@ -88068,7 +88069,7 @@ n=p?s.k3:s.c
 m=s.k2
 l=s.k3
 r=A.v4(p,q,m,m,s,m,A.at(31,l.B()>>>16&255,l.B()>>>8&255,l.B()&255),n,o,m,r,!0).amP(new A.tf(A.aL0(k,k,k,A.hl(k,k,k,k,k,k,k,k,k,k,k,20,k,k,B.dk,k,k,!0,k,k,k,k,k,k,k,k))))
-return new A.mM($.aIw(),"My Flutter Game",r,k)},
+return new A.mM($.aIw(),"Mojingo",r,!1,k)},
 $S:574}
 A.tO.prototype={
 K(a){var s,r,q,p=null
