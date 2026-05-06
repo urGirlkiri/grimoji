@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../config/audio/audio_controller.dart';
 import '../config/audio/sounds.dart';
-import '../settings/settings.dart';
+import 'settings/controller.dart';
 import '../style/my_button.dart';
 import '../config/palette.dart';
 import '../widgets/responsive_screen.dart';
@@ -63,8 +63,6 @@ class MainMenuScreen extends StatelessWidget {
                 },
               ),
             ),
-            _gap,
-            const Text('Music by Mr Smith'),
             _gap,
           ],
         ),

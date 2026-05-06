@@ -15,7 +15,7 @@ import 'config/app_lifecycle.dart';
 import 'config/audio/audio_controller.dart';
 import 'player_progress/player_progress.dart';
 import 'router.dart';
-import 'settings/settings.dart';
+import 'features/settings/controller.dart';
 import 'config/palette.dart';
 
 void main() async {

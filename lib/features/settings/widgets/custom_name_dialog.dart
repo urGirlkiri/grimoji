@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import 'settings.dart';
+import '../controller.dart';
 
 void showCustomNameDialog(BuildContext context) {
   showGeneralDialog(
@@ -36,7 +36,9 @@ class _CustomNameDialogState extends State<CustomNameDialog> {
         curve: Curves.easeOutCubic,
       ),
       child: SimpleDialog(
-        title: const Text('Change name'),
+        title:  Text('Change name',    
+                  style: Theme.of(context).textTheme.bodyMedium,
+),
         children: [
           TextField(
             controller: _controller,
@@ -56,7 +58,8 @@ class _CustomNameDialogState extends State<CustomNameDialog> {
           ),
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Close'),
+            child:  Text('Close',               style: Theme.of(context).textTheme.bodyMedium,
+),
           ),
         ],
       ),
