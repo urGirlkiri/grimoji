@@ -15,8 +15,8 @@ import '../game_internals/level_state.dart';
 import '../game_internals/score.dart';
 import '../level_selection/levels.dart';
 import '../player_progress/player_progress.dart';
-import '../style/confetti.dart';
-import '../style/my_button.dart';
+import '../widgets/confetti.dart';
+import '../widgets/custom_button.dart';
 import '../config/palette.dart';
 import 'game_widget.dart';
 
@@ -100,7 +100,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                   const Spacer(),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: MyButton(
+                    child: CustomButton(
                       onPressed: () => GoRouter.of(context).go('/play'),
                       child: const Text('Back'),
                     ),

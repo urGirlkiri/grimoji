@@ -12,7 +12,7 @@ import 'level_selection/levels.dart';
 import 'features/main_menu.dart';
 import 'play_session/play_session_screen.dart';
 import 'features/settings/screen.dart';
-import 'style/my_transition.dart';
+import 'widgets/custom_transition_page.dart';
 import 'config/palette.dart';
 import 'win_game/win_game_screen.dart';
 

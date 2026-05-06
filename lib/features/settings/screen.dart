@@ -9,7 +9,7 @@ import 'package:mojingo/features/settings/widgets/settings_line.dart';
 import 'package:provider/provider.dart';
 
 import '../../player_progress/player_progress.dart';
-import '../../style/my_button.dart';
+import '../../widgets/custom_button.dart';
 import '../../config/palette.dart';
 import '../../widgets/responsive_screen.dart';
 import 'controller.dart';
@@ -73,7 +73,7 @@ class SettingsScreen extends StatelessWidget {
             _gap,
           ],
         ),
-        rectangularMenuArea: MyButton(
+        rectangularMenuArea: CustomButton(
           onPressed: () {
             GoRouter.of(context).pop();
           },

@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../config/audio/audio_controller.dart';
 import '../config/audio/sounds.dart';
 import 'settings/controller.dart';
-import '../style/my_button.dart';
+import '../widgets/custom_button.dart';
 import '../config/palette.dart';
 import '../widgets/responsive_screen.dart';
 
@@ -38,7 +38,7 @@ class MainMenuScreen extends StatelessWidget {
         rectangularMenuArea: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            MyButton(
+            CustomButton(
               onPressed: () {
                 audioController.playSfx(SfxType.buttonTap);
                 GoRouter.of(context).go('/play');
@@ -46,7 +46,7 @@ class MainMenuScreen extends StatelessWidget {
               child: const Text('Play'),
             ),
             _gap,
-            MyButton(
+            CustomButton(
               onPressed: () => GoRouter.of(context).push('/settings'),
               child: const Text('Settings'),
             ),

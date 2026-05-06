@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../game_internals/score.dart';
-import '../style/my_button.dart';
+import '../widgets/custom_button.dart';
 import '../config/palette.dart';
 import '../widgets/responsive_screen.dart';
 
@@ -43,7 +43,7 @@ class WinGameScreen extends StatelessWidget {
             ),
           ],
         ),
-        rectangularMenuArea: MyButton(
+        rectangularMenuArea: CustomButton(
           onPressed: () {
             GoRouter.of(context).go('/play');
           },
