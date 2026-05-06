@@ -1,7 +1,3 @@
-// Copyright 2023, the Flutter project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -40,7 +36,7 @@ class _MyButtonState extends State<MyButton>
         _controller.stop(canceled: false);
       },
       child: RotationTransition(
-        turns: _controller.drive(const _MySineTween(0.005)),
+        turns: _controller.drive(const _MySineTween(0.0002)),
         child: FilledButton(onPressed: widget.onPressed, child: widget.child),
       ),
     );

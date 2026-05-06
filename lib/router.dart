@@ -13,7 +13,7 @@ import 'features/main_menu.dart';
 import 'play_session/play_session_screen.dart';
 import 'settings/settings_screen.dart';
 import 'style/my_transition.dart';
-import 'style/palette.dart';
+import 'config/palette.dart';
 import 'win_game/win_game_screen.dart';
 
 /// The router describes the game's navigational hierarchy, from the main

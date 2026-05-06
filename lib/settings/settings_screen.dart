@@ -8,8 +8,8 @@ import 'package:provider/provider.dart';
 
 import '../player_progress/player_progress.dart';
 import '../style/my_button.dart';
-import '../style/palette.dart';
-import '../style/responsive_screen.dart';
+import '../config/palette.dart';
+import '../widgets/responsive_screen.dart';
 import 'custom_name_dialog.dart';
 import 'settings.dart';
 

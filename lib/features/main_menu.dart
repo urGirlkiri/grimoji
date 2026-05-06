@@ -6,8 +6,8 @@ import '../audio/audio_controller.dart';
 import '../audio/sounds.dart';
 import '../settings/settings.dart';
 import '../style/my_button.dart';
-import '../style/palette.dart';
-import '../style/responsive_screen.dart';
+import '../config/palette.dart';
+import '../widgets/responsive_screen.dart';
 
 class MainMenuScreen extends StatelessWidget {
   const MainMenuScreen({super.key});

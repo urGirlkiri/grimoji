@@ -6,14 +6,14 @@ import 'package:flutter/services.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 
-import 'package:mojingo/style/app_theme.dart';
+import 'package:mojingo/config/app_theme.dart';
 
 import 'app_lifecycle/app_lifecycle.dart';
 import 'audio/audio_controller.dart';
 import 'player_progress/player_progress.dart';
 import 'router.dart';
 import 'settings/settings.dart';
-import 'style/palette.dart';
+import 'config/palette.dart';
 
 void main() async {
   // Basic logging setup.
