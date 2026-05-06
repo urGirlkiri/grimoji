@@ -32,7 +32,6 @@ class WinGameScreen extends StatelessWidget {
             const Center(
               child: Text(
                 'You won!',
-                style: TextStyle(fontFamily: 'Permanent Marker', fontSize: 50),
               ),
             ),
             gap,
@@ -40,10 +39,6 @@ class WinGameScreen extends StatelessWidget {
               child: Text(
                 'Score: ${score.score}\n'
                 'Time: ${score.formattedTime}',
-                style: const TextStyle(
-                  fontFamily: 'Permanent Marker',
-                  fontSize: 20,
-                ),
               ),
             ),
           ],

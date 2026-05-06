@@ -32,10 +32,6 @@ class LevelSelectionScreen extends StatelessWidget {
               child: Center(
                 child: Text(
                   'Select level',
-                  style: TextStyle(
-                    fontFamily: 'Permanent Marker',
-                    fontSize: 30,
-                  ),
                 ),
               ),
             ),

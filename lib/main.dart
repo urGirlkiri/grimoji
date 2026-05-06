@@ -1,7 +1,3 @@
-// Copyright 2022, the Flutter project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
 import 'dart:developer' as dev;
 
 import 'package:flutter/foundation.dart';
@@ -9,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
+
+import 'package:mojingo/style/app_theme.dart';
 
 import 'app_lifecycle/app_lifecycle.dart';
 import 'audio/audio_controller.dart';
@@ -48,12 +46,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppLifecycleObserver(
       child: MultiProvider(
-        // This is where you add objects that you want to have available
-        // throughout your game.
-        //
-        // Every widget in the game can access these objects by calling
-        // `context.watch()` or `context.read()`.
-        // See `lib/main_menu/main_menu_screen.dart` for example usage.
         providers: [
           Provider(create: (context) => SettingsController()),
           Provider(create: (context) => Palette()),
@@ -81,27 +73,7 @@ class MyApp extends StatelessWidget {
             return MaterialApp.router(
               title: 'Mojingo',
               debugShowCheckedModeBanner: false,
-              theme:
-                  ThemeData.from(
-                    colorScheme: ColorScheme.fromSeed(
-                      seedColor: palette.darkPen,
-                      surface: palette.backgroundMain,
-                    ),
-                    textTheme: TextTheme(
-                      bodyMedium: TextStyle(color: palette.ink),
-                    ),
-                    useMaterial3: true,
-                  ).copyWith(
-                    // Make buttons more fun.
-                    filledButtonTheme: FilledButtonThemeData(
-                      style: FilledButton.styleFrom(
-                        textStyle: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                  ),
+              theme: AppTheme.buildTheme(palette),
               routerConfig: router,
             );
           },

@@ -1,10 +1,7 @@
-// Copyright 2022, the Flutter project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../audio/audio_controller.dart';
 import '../audio/sounds.dart';
@@ -25,19 +22,23 @@ class MainMenuScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: palette.backgroundMain,
       body: ResponsiveScreen(
-        squarishMainArea: Center(
-          child: Transform.rotate(
-            angle: -0.1,
-            child: const Text(
-              'Flutter Game Template!',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'Permanent Marker',
-                fontSize: 55,
-                height: 1,
+        squarishMainArea: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset('assets/icons/icon.png'),
+            Transform.rotate(
+              angle: -0.1,
+              child: Text(
+                'Mojingo!',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.eagleLake(
+                  fontSize: 64,
+                  color: palette.pen,
+                  height: 1
+                ),
               ),
             ),
-          ),
+          ],
         ),
         rectangularMenuArea: Column(
           mainAxisAlignment: MainAxisAlignment.end,
