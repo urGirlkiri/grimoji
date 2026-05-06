@@ -5,10 +5,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../config/audio/audio_controller.dart';
-import '../config/audio/sounds.dart';
-import '../game_internals/level_state.dart';
-import '../level_selection/levels.dart';
+import '../../../config/audio/audio_controller.dart';
+import '../../../config/audio/sounds.dart';
+import '../../map/level_state.dart';
+import '../../map/levels.dart';
 
 /// This widget defines the game UI itself, without things like the settings
 /// button or the back button.

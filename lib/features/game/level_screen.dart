@@ -9,33 +9,33 @@ import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart' hide Level;
 import 'package:provider/provider.dart';
 
-import '../config/audio/audio_controller.dart';
-import '../config/audio/sounds.dart';
-import '../game_internals/level_state.dart';
-import '../game_internals/score.dart';
-import '../level_selection/levels.dart';
-import '../player_progress/player_progress.dart';
-import '../widgets/confetti.dart';
-import '../widgets/custom_button.dart';
-import '../config/palette.dart';
-import 'game_widget.dart';
+import '../../config/audio/audio_controller.dart';
+import '../../config/audio/sounds.dart';
+import '../map/level_state.dart';
+import '../../logic/score.dart';
+import '../map/levels.dart';
+import '../inventory/player_progress.dart';
+import 'widgets/confetti.dart';
+import '../../widgets/custom_button.dart';
+import '../../config/palette.dart';
+import 'widgets/game_widget.dart';
 
 /// This widget defines the entirety of the screen that the player sees when
 /// they are playing a level.
 ///
 /// It is a stateful widget because it manages some state of its own,
 /// such as whether the game is in a "celebration" state.
-class PlaySessionScreen extends StatefulWidget {
+class LevelScreen extends StatefulWidget {
   final GameLevel level;
 
-  const PlaySessionScreen(this.level, {super.key});
+  const LevelScreen(this.level, {super.key});
 
   @override
-  State<PlaySessionScreen> createState() => _PlaySessionScreenState();
+  State<LevelScreen> createState() => _LevelScreenState();
 }
 
-class _PlaySessionScreenState extends State<PlaySessionScreen> {
-  static final _log = Logger('PlaySessionScreen');
+class _LevelScreenState extends State<LevelScreen> {
+  static final _log = Logger('LevelScreen');
 
   static const _celebrationDuration = Duration(milliseconds: 2000);
 

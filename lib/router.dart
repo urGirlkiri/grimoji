@@ -6,15 +6,15 @@ import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import 'game_internals/score.dart';
-import 'level_selection/level_selection_screen.dart';
-import 'level_selection/levels.dart';
+import 'logic/score.dart';
+import 'features/map/screen.dart';
+import 'features/map/levels.dart';
 import 'features/main_menu.dart';
-import 'play_session/play_session_screen.dart';
+import 'features/game/level_screen.dart';
 import 'features/settings/screen.dart';
 import 'widgets/custom_transition_page.dart';
 import 'config/palette.dart';
-import 'win_game/win_game_screen.dart';
+import 'features/game/win_screen.dart';
 
 /// The router describes the game's navigational hierarchy, from the main
 /// screen through settings screens all the way to each individual level.
@@ -29,7 +29,7 @@ final router = GoRouter(
           pageBuilder: (context, state) => buildMyTransition<void>(
             key: const ValueKey('play'),
             color: context.watch<Palette>().midnight,
-            child: const LevelSelectionScreen(key: Key('level selection')),
+            child: const LevelMapScreen(key: Key('level selection')),
           ),
           routes: [
             GoRoute(
@@ -42,7 +42,7 @@ final router = GoRouter(
                 return buildMyTransition<void>(
                   key: const ValueKey('level'),
                   color: context.watch<Palette>().twilight,
-                  child: PlaySessionScreen(
+                  child: LevelScreen(
                     level,
                     key: const Key('play session'),
                   ),

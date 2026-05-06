@@ -8,7 +8,7 @@ import 'package:mojingo/features/settings/widgets/name_change_line.dart';
 import 'package:mojingo/features/settings/widgets/settings_line.dart';
 import 'package:provider/provider.dart';
 
-import '../../player_progress/player_progress.dart';
+import '../inventory/player_progress.dart';
 import '../../widgets/custom_button.dart';
 import '../../config/palette.dart';
 import '../../widgets/responsive_screen.dart';

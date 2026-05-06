@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../config/audio/audio_controller.dart';
-import '../config/audio/sounds.dart';
-import '../player_progress/player_progress.dart';
-import '../widgets/custom_button.dart';
-import '../config/palette.dart';
-import '../widgets/responsive_screen.dart';
+import '../../config/audio/audio_controller.dart';
+import '../../config/audio/sounds.dart';
+import '../inventory/player_progress.dart';
+import '../../widgets/custom_button.dart';
+import '../../config/palette.dart';
+import '../../widgets/responsive_screen.dart';
 import 'levels.dart';
 
-class LevelSelectionScreen extends StatelessWidget {
-  const LevelSelectionScreen({super.key});
+class LevelMapScreen extends StatelessWidget {
+  const LevelMapScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

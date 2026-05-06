@@ -13,7 +13,7 @@ import 'package:mojingo/config/app_theme.dart';
 
 import 'config/app_lifecycle.dart';
 import 'config/audio/audio_controller.dart';
-import 'player_progress/player_progress.dart';
+import 'features/inventory/player_progress.dart';
 import 'router.dart';
 import 'features/settings/controller.dart';
 import 'config/palette.dart';
