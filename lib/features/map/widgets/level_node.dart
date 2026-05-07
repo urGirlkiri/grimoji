@@ -11,19 +11,35 @@ class LevelNode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLargeScreen = MediaQuery.sizeOf(context).width > 600;
+
+    final double nodeSize = isLargeScreen ? 85.0 : 45.0;
+
+    final double fontSize = isLargeScreen ? 28.0 : 16.0;
 
     return InkWell(
       onTap: () => _showLevelDialog(context),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Image.asset(
-            "assets/images/map/level.png",
-            fit: BoxFit.fitWidth,
-            width: 45,
-          ),
-          Text("$level", style: Theme.of(context).textTheme.titleMedium),
-        ],
+      child: SizedBox(
+        width: 100,
+        height: 100,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Image.asset(
+              "assets/images/map/level.png",
+              fit: BoxFit.contain,
+              width: nodeSize,
+              height: nodeSize,
+            ),
+            Text(
+              "$level",
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -15,16 +15,19 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
 
   @override
   void initState() {
-    super.initState(); 
-    
+    super.initState();
+
     _points = List.generate(
-      1,
+      83,
       (index) => PointModel(100, LevelNode(level: index + 1)),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final isLargeScreen = MediaQuery.sizeOf(context).width > 600;
+    final double nudgeX = isLargeScreen ? -15.0 : 0.0;
+
     return Scaffold(
       body: GameLevelsScrollingMap.scrollable(
         imageUrl: "assets/images/map/map_visual.png",
@@ -32,8 +35,8 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
         imageHeight: 1967,
         direction: Axis.vertical,
         reverseScrolling: true,
-        pointsPositionDeltaX: 25,
-        pointsPositionDeltaY: 25,
+        pointsPositionDeltaX: nudgeX,
+        pointsPositionDeltaY: 0,
         svgUrl: 'assets/images/map/map_coordinates.svg',
         points: _points,
       ),
