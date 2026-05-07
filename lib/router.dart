@@ -20,7 +20,13 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: Routes.levelsMap,
-              builder: (context, state) => const LevelsMapScreen(),
+              builder: (context, state) {
+                final autoOpenStr = state.uri.queryParameters['autoOpen'];
+                final autoOpenInt = autoOpenStr != null
+                    ? int.tryParse(autoOpenStr)
+                    : null;
+                return LevelsMapScreen(autoOpenLevel: autoOpenInt,);
+              },
             ),
           ],
         ),

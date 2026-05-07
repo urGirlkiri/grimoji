@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:game_levels_scrolling_map/game_levels_scrolling_map.dart';
 import 'package:game_levels_scrolling_map/model/point_model.dart';
 import 'package:mojingo/features/map/widgets/level_node.dart';
+import 'package:mojingo/features/map/widgets/level_start_dialog.dart';
 
 import 'package:mojingo/utils/responsive.dart';
 
 class LevelsMapScreen extends StatefulWidget {
-  const LevelsMapScreen({super.key});
+  final int? autoOpenLevel;
+
+  const LevelsMapScreen({super.key, this.autoOpenLevel});
 
   @override
   State<LevelsMapScreen> createState() => _LevelsMapScreenState();
@@ -20,8 +23,24 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
     super.initState();
 
     _points = List.generate(
-      1,
+      3,
       (index) => PointModel(100, LevelNode(level: index + 1)),
+    );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+     if (widget.autoOpenLevel != null) {
+        _autoShowLevelDialog(widget.autoOpenLevel!);
+      }
+    });
+  }
+
+  void _autoShowLevelDialog(int levelNumber) {
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withValues(alpha: .7),
+      builder: (BuildContext context) {
+        return LevelStartDialog(level: levelNumber, targetEmoji: "☁️");
+      },
     );
   }
 
