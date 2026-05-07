@@ -4,11 +4,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mojingo/features/settings/widgets/name_change_line.dart';
-import 'package:mojingo/features/settings/widgets/settings_line.dart';
 import 'package:provider/provider.dart';
 
-import '../inventory/player_progress.dart';
+import 'package:mojingo/features/settings/widgets/name_change_line.dart';
+import 'package:mojingo/features/settings/widgets/settings_line.dart';
+import 'package:mojingo/features/map/level_data_controller.dart';
+
 import '../../widgets/custom_button.dart';
 import '../../config/palette.dart';
 import '../../widgets/responsive_screen.dart';
@@ -57,7 +58,7 @@ class SettingsScreen extends StatelessWidget {
               'Reset progress',
               const Icon(Icons.delete),
               onSelected: () {
-                context.read<PlayerProgress>().reset();
+                context.read<LevelDataController>().reset();
 
                 final messenger = ScaffoldMessenger.of(context);
                 messenger.showSnackBar(
@@ -77,9 +78,7 @@ class SettingsScreen extends StatelessWidget {
           onPressed: () {
             GoRouter.of(context).pop();
           },
-          child:  Text('Back',
-                        style: Theme.of(context).textTheme.bodyMedium,
-),
+          child: Text('Back', style: Theme.of(context).textTheme.bodyMedium),
         ),
       ),
     );

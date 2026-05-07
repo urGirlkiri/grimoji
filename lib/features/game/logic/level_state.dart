@@ -12,17 +12,18 @@ class LevelState extends ChangeNotifier {
   final VoidCallback onWin;
   final VoidCallback onFail;
 
-  final int goal;
+  final String goal;
   final int maxMoves;
 
   LevelState({
     required this.onWin,
     required this.onFail,
-     this.goal = 100,
-     this.maxMoves = 1
-     });
+    required this.goal,
+    required this.maxMoves,
+  });
 
   int _progress = 0;
+  // ignore: unused_field
   int _movesUsed = 0;
 
   int get progress => _progress;
@@ -35,10 +36,10 @@ class LevelState extends ChangeNotifier {
   }
 
   void evaluate() {
-    if (_progress >= goal) {
-      onWin();
-    }else if (_movesUsed >= maxMoves) {
-      onFail(); 
-    }
+    // if (_progress >= goal) {
+    //   onWin();
+    // } else if (_movesUsed >= maxMoves) {
+    //   onFail();
+    // }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:game_levels_scrolling_map/game_levels_scrolling_map.dart';
 import 'package:game_levels_scrolling_map/model/point_model.dart';
+import 'package:mojingo/features/game/logic/levels.dart';
 import 'package:mojingo/features/map/widgets/level_node.dart';
 import 'package:mojingo/features/map/widgets/level_start_dialog.dart';
 
@@ -23,7 +24,7 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
     super.initState();
 
     _points = List.generate(
-      3,
+      gameLevels.length,
       (index) => PointModel(100, LevelNode(level: index + 1)),
     );
 

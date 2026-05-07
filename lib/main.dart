@@ -12,10 +12,10 @@ import 'package:provider/provider.dart';
 
 import 'package:mojingo/config/app_theme.dart';
 import 'package:mojingo/utils/responsive.dart';
+import 'package:mojingo/features/map/level_data_controller.dart';
 
 import 'config/app_lifecycle.dart';
 import 'config/audio/audio_controller.dart';
-import 'features/inventory/player_progress.dart';
 import 'features/settings/controller.dart';
 import 'config/palette.dart';
 
@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
         providers: [
           Provider(create: (context) => SettingsController()),
           Provider(create: (context) => Palette()),
-          ChangeNotifierProvider(create: (context) => PlayerProgress()),
+          ChangeNotifierProvider(create: (context) => LevelDataController()),
           // Set up audio.
           ProxyProvider2<
             AppLifecycleStateNotifier,
