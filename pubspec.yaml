@@ -19,6 +19,10 @@ dependencies:
   provider: ^6.1.2
   shared_preferences: ^2.2.3
   google_fonts: ^8.1.0
+  game_levels_scrolling_map: ^0.0.7
+
+dependency_overrides:
+  xml: ^6.6.1
 
 dev_dependencies:
   flutter_lints: ^6.0.0
