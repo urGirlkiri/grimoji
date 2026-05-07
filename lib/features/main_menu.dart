@@ -20,52 +20,62 @@ class MainMenuScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: palette.midnight,
-      body: ResponsiveScreen(
-        squarishMainArea: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset('assets/icons/icon.png'),
-            Transform.rotate(
-              angle: -0.1,
-              child: Text(
-                'Mojingo!',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.displayLarge
-              ),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/emo.png',
+              fit: BoxFit.cover,
             ),
-          ],
-        ),
-        rectangularMenuArea: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            CustomButton(
-              onPressed: () {
-                audioController.playSfx(SfxType.buttonTap);
-                GoRouter.of(context).go('/play');
-              },
-              child: const Text('Play'),
+          ),
+          ResponsiveScreen(
+            squarishMainArea: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('assets/icons/icon.png'),
+                Transform.rotate(
+                  angle: -0.1,
+                  child: Text(
+                    'Mojingo!',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.displayLarge
+                  ),
+                ),
+              ],
             ),
-            _gap,
-            CustomButton(
-              onPressed: () => GoRouter.of(context).push('/settings'),
-              child: const Text('Settings'),
+            rectangularMenuArea: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                CustomButton(
+                  onPressed: () {
+                    audioController.playSfx(SfxType.buttonTap);
+                    GoRouter.of(context).go('/play');
+                  },
+                  child: const Text('Play'),
+                ),
+                _gap,
+                CustomButton(
+                  onPressed: () => GoRouter.of(context).push('/settings'),
+                  child: const Text('Settings'),
+                ),
+                _gap,
+                Padding(
+                  padding: const EdgeInsets.only(top: 32),
+                  child: ValueListenableBuilder<bool>(
+                    valueListenable: settingsController.audioOn,
+                    builder: (context, audioOn, child) {
+                      return IconButton(
+                        onPressed: settingsController.toggleAudioOn,
+                        icon: Icon(audioOn ? Icons.volume_up : Icons.volume_off),
+                      );
+                    },
+                  ),
+                ),
+                _gap,
+              ],
             ),
-            _gap,
-            Padding(
-              padding: const EdgeInsets.only(top: 32),
-              child: ValueListenableBuilder<bool>(
-                valueListenable: settingsController.audioOn,
-                builder: (context, audioOn, child) {
-                  return IconButton(
-                    onPressed: settingsController.toggleAudioOn,
-                    icon: Icon(audioOn ? Icons.volume_up : Icons.volume_off),
-                  );
-                },
-              ),
-            ),
-            _gap,
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

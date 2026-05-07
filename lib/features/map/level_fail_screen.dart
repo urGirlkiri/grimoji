@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mojingo/config/palette.dart';
 import 'package:mojingo/features/map/widgets/level_fail_dialog.dart';
-import 'package:mojingo/utils/responsive.dart';
 import 'package:provider/provider.dart';
 
 class LevelFailScreen extends StatefulWidget {
@@ -39,7 +38,6 @@ class _LevelFailScreenState extends State<LevelFailScreen> {
   @override
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
-    final isLarge = context.isLargeScreen;
 
     return Scaffold(
       backgroundColor: palette.midnight,
@@ -52,7 +50,7 @@ class _LevelFailScreenState extends State<LevelFailScreen> {
             ),
             child: Center(
               child: Image.asset(
-                'assets/images/emo_bg.png',
+                'assets/images/emo_3.png',
                 fit: BoxFit.cover,
                 width: double.infinity,
                 height: double.infinity,
