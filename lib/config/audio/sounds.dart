@@ -3,40 +3,24 @@
 // BSD-style license that can be found in the LICENSE file.
 
 List<String> soundTypeToFilename(SfxType type) => switch (type) {
-  SfxType.huhsh => const [
-    
-  ],
-  SfxType.wssh => const [
-
-  ],
   SfxType.buttonTap => const [
     'whirl_test_tube.mp3'
-    
   ],
   SfxType.congrats => const [
-    
+    'congrats.mp3' 
   ],
-  SfxType.erase => const [
-    
-  ],
-  SfxType.swishSwish => const [
-    
-  ],
+  SfxType.fail => const [
+    'fail.mp3'
+  ]
 };
 
-/// Allows control over loudness of different SFX types.
 double soundTypeToVolume(SfxType type) {
   switch (type) {
-    case SfxType.huhsh:
-      return 0.4;
-    case SfxType.wssh:
-      return 0.2;
     case SfxType.buttonTap:
     case SfxType.congrats:
-    case SfxType.erase:
-    case SfxType.swishSwish:
+    case SfxType.fail:
       return 1.0;
   }
 }
 
-enum SfxType { huhsh, wssh, buttonTap, congrats, erase, swishSwish }
+enum SfxType { buttonTap, congrats, fail }
