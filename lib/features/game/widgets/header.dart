@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:drop_shadow/drop_shadow.dart';
 import 'package:mojingo/config/palette.dart';
+import 'package:mojingo/features/game/logic/levels.dart';
 
 class Header extends StatelessWidget {
   static const double progress = 0.65;
-  final int level;
+  final GameLevel level;
 
   final Palette palette = Palette();
 
@@ -33,7 +34,7 @@ class Header extends StatelessWidget {
               _buildInfoBox('Moves', '10'),
               const SizedBox(width: 16),
               Expanded(
-                child: _buildInfoBox('Target', 'assets/emojis/svg/2601.svg', isEmoji: true),
+                child: _buildInfoBox('Target', level.targetEmoji.svg, isEmoji: true),
               ),
               const SizedBox(width: 16),
               Container(
@@ -63,7 +64,7 @@ class Header extends StatelessWidget {
     return Row(
       children: [
         Text(
-          'Level $level',
+          'Level ${level.number}',
           style: TextStyle(
             color: palette.trueWhite,
             fontSize: 20,

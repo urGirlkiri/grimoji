@@ -34,10 +34,11 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
         final stars = levelData.getStars(levelNum);
         
         final isUnlocked = levelNum == 1 || levelData.isLevelCompleted(levelNum - 1);
+        final level = gameLevels[index];
 
         return PointModel(100,
         isUnlocked ? LevelNode(
-          level: levelNum, 
+          level: level, 
           stars: stars, 
         ) : null);
       }
@@ -45,17 +46,19 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
      if (widget.autoOpenLevel != null) {
-        _autoShowLevelDialog(widget.autoOpenLevel!);
+        final levelNum = widget.autoOpenLevel!;
+        final level = gameLevels[levelNum - 1];
+        _autoShowLevelDialog(level);
       }
     });
   }
 
-  void _autoShowLevelDialog(int levelNumber) {
+  void _autoShowLevelDialog(GameLevel level) {
     showDialog(
       context: context,
       barrierColor: Colors.black.withValues(alpha: .7),
       builder: (BuildContext context) {
-        return LevelStartDialog(level: levelNumber, targetEmoji: "☁️");
+        return LevelStartDialog(level: level);
       },
     );
   }

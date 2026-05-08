@@ -16,10 +16,8 @@ class _LevelHintScreenState extends State<LevelHintScreen> {
   @override
   void initState() {
     super.initState();
-    // Auto-navigate to the actual game session after 2.5 seconds
-    Future.delayed(const Duration(milliseconds: 2500), () {
+    Future.delayed(const Duration(milliseconds: 1500), () {
       if (mounted) {
-        // Replace current route so the player can't use the Android "Back" button to return to the hint
         GoRouter.of(context).replace('/play/session/${widget.level}');
       }
     });

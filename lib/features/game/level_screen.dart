@@ -14,8 +14,8 @@ class LevelScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ResponsiveScreen(
-        topMessageArea: Header(level: level.number),
-        squarishMainArea: const GameBoard(),
+        topMessageArea: Header(level: level),
+        squarishMainArea:  GameBoard(),
         rectangularMenuArea: PowerUps(),
         mobileBackgroundImage: const AssetImage('assets/images/level/game.png'),
         desktopBackgroundImage: const AssetImage(

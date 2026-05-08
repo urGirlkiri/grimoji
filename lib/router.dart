@@ -103,8 +103,8 @@ final router = GoRouter(
       path: Routes.levelWon,
       builder: (context, state) {
         final map = state.extra as Map<String, dynamic>?;
-        final stars = map?['stars'] as int; 
-        final level = map?['level'] as int;
+       final stars = map?['stars'] as int; 
+        final level = map?['level'] as int; 
         return WinGameScreen(stars: stars, level: level);
       },
     ),

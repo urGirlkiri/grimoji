@@ -1,9 +1,12 @@
 import 'package:drop_shadow/drop_shadow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mojingo/config/palette.dart';
 
 class GameBoard extends StatelessWidget {
-  const GameBoard({super.key});
+  final Palette palette = Palette();
+
+  GameBoard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +16,7 @@ class GameBoard extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(8), 
           decoration: ShapeDecoration(
-            color: const Color(0xFFA6A6BF),
+            color: palette.mist, 
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           ),
           child: LayoutBuilder(
@@ -37,15 +40,15 @@ class GameBoard extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return Container(
                     decoration: BoxDecoration(
-                      color: const Color(0x60333346),
-                      border: Border.all(color: const Color(0xFF535373), width: 1),
+                      color: palette.twilight.withValues(alpha: 0.38), 
+                      border: Border.all(color: palette.dusk, width: 1), 
                       borderRadius: BorderRadius.circular(4), 
                     ),
                     child: Center(
                       child: DropShadow(
                         blurRadius: 4,
                         offset: const Offset(0, 4),
-                        color: const Color(0x660E0E12), 
+                        color: palette.voidBlack.withValues(alpha: 0.4), 
                         child: SvgPicture.asset(
                           'assets/emojis/svg/1f331.svg',
                           width: 48,
@@ -63,4 +66,3 @@ class GameBoard extends StatelessWidget {
     );
   }
 }
-

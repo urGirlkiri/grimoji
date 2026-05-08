@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mojingo/config/audio/audio_controller.dart';
 import 'package:mojingo/config/audio/sounds.dart';
+import 'package:mojingo/features/game/logic/levels.dart';
 import 'package:mojingo/features/map/widgets/level_start_dialog.dart';
 import 'package:mojingo/utils/responsive.dart';
 import 'package:provider/provider.dart';
 
 class LevelNode extends StatelessWidget {
-  final int level;
+  final GameLevel level;
   final int stars; 
 
   const LevelNode({
@@ -55,7 +56,7 @@ class LevelNode extends StatelessWidget {
               top: stars > 0 ? (isLarge ? 18 : 30) : null,
 
               child: Text(
-                "$level",
+                level.number.toString(),
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontSize: fontSize,
                       fontWeight: FontWeight.w900,
@@ -76,10 +77,7 @@ void _showLevelDialog(BuildContext context) {
       context: context,
       barrierColor: Colors.black.withValues(alpha: .7), 
       builder: (BuildContext context) {
-        return LevelStartDialog(
-          level: level, 
-          targetEmoji: "☁️", 
-        );
+        return LevelStartDialog(level: level,);
       },
     );
   }
