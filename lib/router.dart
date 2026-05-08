@@ -9,7 +9,7 @@ import 'package:mojingo/features/map/widgets/level_hint.dart';
 import 'package:mojingo/features/settings/screen.dart';
 import 'package:mojingo/widgets/layout_scaffold.dart';
 
-import 'package:mojingo/features/game/play_screen.dart';
+import 'package:mojingo/features/game/level_screen.dart';
 import 'package:mojingo/features/game/win_screen.dart';
 import 'package:mojingo/features/game/logic/levels.dart'; 
 
@@ -94,7 +94,7 @@ final router = GoRouter(
       builder: (context, state) {
         final levelNumber = int.parse(state.pathParameters['level']!);
         final level = gameLevels.singleWhere((e) => e.number == levelNumber);
-        return LevelScreen(level);
+        return LevelScreen(level: level);
       },
     ),
     

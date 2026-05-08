@@ -18,10 +18,16 @@ class ResponsiveScreen extends StatelessWidget {
   /// An area reserved for some static text close to the top of the screen.
   final Widget topMessageArea;
 
+  final ImageProvider? mobileBackgroundImage;
+
+  final ImageProvider? desktopBackgroundImage;
+
   const ResponsiveScreen({
     required this.squarishMainArea,
     required this.rectangularMenuArea,
     this.topMessageArea = const SizedBox.shrink(),
+    this.mobileBackgroundImage,
+    this.desktopBackgroundImage,
     super.key,
   });
 
@@ -33,9 +39,15 @@ class ResponsiveScreen extends StatelessWidget {
         final size = constraints.biggest;
         final padding = EdgeInsets.all(size.shortestSide / 30);
 
-        if (size.height >= size.width) {
+        final isMobile = size.height >= size.width;
+        
+        final currentBgImage = isMobile ? mobileBackgroundImage : desktopBackgroundImage;
+
+        Widget layout;
+
+        if (isMobile) {
           // "Portrait" / "mobile" mode.
-          return Column(
+          layout = Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SafeArea(
@@ -64,7 +76,7 @@ class ResponsiveScreen extends StatelessWidget {
           // "Landscape" / "tablet" mode.
           final isLarge = size.width > 900;
 
-          return Row(
+          layout = Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Expanded(
@@ -106,6 +118,18 @@ class ResponsiveScreen extends StatelessWidget {
             ],
           );
         }
+
+        return Container(
+          decoration: currentBgImage != null
+              ? BoxDecoration(
+                  image: DecorationImage(
+                    image: currentBgImage,
+                    fit: BoxFit.cover, 
+                  ),
+                )
+              : null,
+          child: layout,
+        );
       },
     );
   }
