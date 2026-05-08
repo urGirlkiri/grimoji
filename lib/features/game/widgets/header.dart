@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:mojingo/config/palette.dart';
 import 'package:mojingo/features/game/logic/levels.dart';
-import 'package:mojingo/widgets/lottie_emoji_widget.dart';
+import 'package:mojingo/widgets/emoji_widget.dart';
 
 class Header extends StatelessWidget {
   static const double progress = 0.65;
   final GameLevel level;
 
-  final Palette palette = Palette();
+  Palette get palette => Palette();
 
-  Header({
-    super.key,
-    required this.level,
-  });
+  const Header({super.key, required this.level});
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +29,7 @@ class Header extends StatelessWidget {
             children: [
               _buildInfoBox('Moves', '10'),
               const SizedBox(width: 16),
-              Expanded(
-                child: _buildTargetBox(),
-              ),
+              Expanded(child: _buildTargetBox()),
               const SizedBox(width: 16),
               Container(
                 width: 60,
@@ -136,7 +131,7 @@ class Header extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          
+
           Text(
             value,
             style: TextStyle(
@@ -173,8 +168,9 @@ class Header extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          LottieEmojiWidget.lottie(
+          EmojiWidget.lottie(
             path: level.targetEmoji.lottie,
+            useDropShadow: true,
             size: 40,
             blurRadius: 4,
             shadowOffset: const Offset(0, 4),

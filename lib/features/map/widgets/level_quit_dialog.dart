@@ -5,7 +5,7 @@ import 'package:mojingo/config/audio/audio_controller.dart';
 import 'package:mojingo/config/audio/sounds.dart';
 import 'package:mojingo/config/emojis.dart';
 import 'package:mojingo/config/palette.dart';
-import 'package:mojingo/widgets/lottie_emoji_widget.dart';
+import 'package:mojingo/widgets/emoji_widget.dart';
 import 'package:mojingo/widgets/scroll_dialog.dart';
 import 'package:provider/provider.dart';
 
@@ -45,8 +45,9 @@ class LevelQuitDialog extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            LottieEmojiWidget.lottie(
+            EmojiWidget.lottie(
               path: Emojis.cryingCat.lottie,
+              useDropShadow: true,
               size: 80,
             ),
             const SizedBox(height: 16),

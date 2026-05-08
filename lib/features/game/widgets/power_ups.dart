@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mojingo/config/palette.dart'; 
+import 'package:mojingo/config/palette.dart';
+import 'package:mojingo/widgets/emoji_widget.dart'; 
 
 class PowerUps extends StatelessWidget {
-  final Palette palette = Palette();
+  const PowerUps({super.key});
 
-  PowerUps({super.key});
+  Palette get palette => Palette();
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class PowerUps extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _buildPowerUpBtn("assets/icons/app/pause.png", isSmall: true),
+            _buildPowerUpBtn("assets/icons/app/settings_gear.png", isSmall: true),
             const SizedBox(width: 12),
             _buildPowerUpBtn("assets/emojis/svg/1f52e.svg"),
             const SizedBox(width: 12),
@@ -57,10 +57,9 @@ class PowerUps extends StatelessWidget {
       ),
       child: Center(
         child: assetPath.endsWith('.svg')
-            ? SvgPicture.asset(
-                assetPath,
-                width: iconSize,
-                height: iconSize,
+            ? EmojiWidget.svg(
+                path: assetPath,
+                size: iconSize,
               )
             : Image.asset(
                 assetPath,
