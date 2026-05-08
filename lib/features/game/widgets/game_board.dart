@@ -75,7 +75,7 @@ class GameBoard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        child: const Center(
+                        child: Center(
                           child: EmojiWidget(
                             assetPath: Emojis.seedling.svg, 
                             size: 48,
