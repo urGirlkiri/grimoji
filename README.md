@@ -3,8 +3,45 @@
 
 A game where you mix emojis to create new emojis!!
 
+## Screenshots
 
-## How To Play
+<table>
+  <tr>
+    <td align="center">
+      <img src="assets/screenshots/small.png" alt="Mobile Screenshot" width="250"/>
+      <br/>
+      <sub>Mobile</sub>
+    </td>
+    <td align="center">
+      <img src="assets/screenshots/large.png" alt="Desktop Screenshot" width="400"/>
+      <br/>
+      <sub>Desktop</sub>
+    </td>
+  </tr>
+</table>
+
+## Setup
+
+### Install Flutter
+
+```bash
+flutter doctor
+```
+
+### Install Dependencies
+
+```bash
+flutter pub get
+```
+
+### Sanity Check
+
+```bash
+flutter analyze
+```
+
+
+## How To Run
 
 
 ### Web
@@ -20,12 +57,43 @@ flutter run -d chrome
 flutter run -d android
 ```
 
+### iOS
+
+```bash
+flutter run -d ios
+```
+
+## Windows
+
+```bash
+flutter run -d windows
+```
+
+## Linux
+
+```bash
+flutter run -d linux
+```
+
+## macOS
+
+```bash
+flutter run -d macos
+```
+
+## Credits
+
+- [Animated Emoji 💖](https://googlefonts.github.io/noto-emoji-animation/) for the emoji animations and SVG icons
+
+- [Pixabay](https://pixabay.com/) for the sfx
+
+- [Gemini](https://gemini.google.com/) for the music
+
+- [Vecteezy](https://vecteezy.com/) for the background and pattern images
 
 ## Logging
 
-The template uses the [`logging`](https://pub.dev/packages/logging) package
-to log messages to the console. This makes it very easy to log messages
-from anywhere with something like the following:
+
 
 ```dart
 import 'package:logging/logging.dart';
