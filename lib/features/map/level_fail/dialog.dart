@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mojingo/config/emojis.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:mojingo/config/audio/audio_controller.dart';
 import 'package:mojingo/config/audio/sounds.dart';
 import 'package:mojingo/config/palette.dart';
+import 'package:mojingo/widgets/lottie_emoji_widget.dart';
 import 'package:mojingo/widgets/scroll_dialog.dart';
 
 class LevelFailDialog extends StatelessWidget {
@@ -55,7 +57,10 @@ class LevelFailDialog extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const Text("💥", style: TextStyle(fontSize: 60)),
+                  LottieEmojiWidget.lottie(
+                    path: Emojis.fireBurst.lottie,
+                    size: 120,
+                  ),
                   const SizedBox(height: 12),
                   Text(
                     'The mixture exploded!',

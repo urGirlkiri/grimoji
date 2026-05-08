@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:drop_shadow/drop_shadow.dart';
 import 'package:mojingo/config/palette.dart';
 import 'package:mojingo/features/game/logic/levels.dart';
+import 'package:mojingo/widgets/lottie_emoji_widget.dart';
 
 class Header extends StatelessWidget {
   static const double progress = 0.65;
@@ -34,7 +33,7 @@ class Header extends StatelessWidget {
               _buildInfoBox('Moves', '10'),
               const SizedBox(width: 16),
               Expanded(
-                child: _buildInfoBox('Target', level.targetEmoji.svg, isEmoji: true),
+                child: _buildTargetBox(),
               ),
               const SizedBox(width: 16),
               Container(
@@ -114,7 +113,7 @@ class Header extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoBox(String label, String value, {bool isEmoji = false}) {
+  Widget _buildInfoBox(String label, String value) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
       decoration: ShapeDecoration(
@@ -138,25 +137,49 @@ class Header extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           
-          isEmoji
-              ? DropShadow(
-                  blurRadius: 4,
-                  offset: const Offset(0, 4),
-                  color: palette.midnight,
-                  child: SvgPicture.asset(
-                    value, 
-                    width: 32,
-                    height: 32,
-                  ),
-                )
-              : Text(
-                  value,
-                  style: TextStyle(
-                    color: palette.trueWhite,
-                    fontSize: 28, 
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+          Text(
+            value,
+            style: TextStyle(
+              color: palette.trueWhite,
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTargetBox() {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+      decoration: ShapeDecoration(
+        color: palette.dusk,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      ),
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+            decoration: ShapeDecoration(
+              color: palette.slate,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            child: Text(
+              'Target',
+              style: TextStyle(color: palette.trueWhite, fontSize: 14),
+            ),
+          ),
+          const SizedBox(height: 8),
+          LottieEmojiWidget.lottie(
+            path: level.targetEmoji.lottie,
+            size: 40,
+            blurRadius: 4,
+            shadowOffset: const Offset(0, 4),
+            shadowColor: palette.midnight,
+          ),
         ],
       ),
     );
