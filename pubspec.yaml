@@ -61,8 +61,7 @@ flutter_launcher_icons:
 
   web:
       generate: true
-      image_path: "assets/icons/icon.png" 
-      background_color: "#1a1a24"   
+      image_path: "assets/icons/icon-web.png" 
       theme_color: "#1a1a24"
 
 flutter_native_splash:
