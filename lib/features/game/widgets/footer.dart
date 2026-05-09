@@ -8,9 +8,9 @@ import 'package:grimoji/widgets/emoji_widget.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 
-class PowerUps extends StatelessWidget {
-  final Logger _log = Logger('PowerUps');
-  PowerUps({super.key});
+class Foooter extends StatelessWidget {
+  final Logger _log = Logger('Foooter');
+  Foooter({super.key});
 
   Palette get palette => Palette();
 

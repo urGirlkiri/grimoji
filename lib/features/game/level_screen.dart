@@ -8,7 +8,7 @@ import 'package:grimoji/features/game/logic/levels.dart';
 import 'package:grimoji/features/game/widgets/confetti.dart';
 import 'package:grimoji/features/game/widgets/game_board.dart';
 import 'package:grimoji/features/game/widgets/header.dart';
-import 'package:grimoji/features/game/widgets/power_ups.dart';
+import 'package:grimoji/features/game/widgets/footer.dart';
 import 'package:grimoji/features/map/level_data_controller.dart';
 import 'package:grimoji/features/game/widgets/quit_dialog.dart';
 import 'package:grimoji/widgets/responsive_screen.dart';
@@ -137,7 +137,7 @@ class _LevelScreenState extends State<LevelScreen> {
                     ResponsiveScreen(
                       topMessageArea: Header(level: widget.level),
                       squarishMainArea: const GameBoard(),
-                      rectangularMenuArea:  PowerUps(),
+                      rectangularMenuArea:  Foooter(),
                       mobileBackgroundImage: const AssetImage(
                         'assets/images/level/game.png',
                       ),
