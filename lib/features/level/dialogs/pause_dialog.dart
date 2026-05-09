@@ -5,6 +5,7 @@ import 'package:grimoji/config/audio/audio_controller.dart';
 import 'package:grimoji/config/audio/sounds.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/palette.dart';
+import 'package:grimoji/features/level/dialogs/settings_dialog.dart';
 import 'package:grimoji/widgets/emoji_widget.dart';
 import 'package:grimoji/widgets/scroll_dialog.dart';
 import 'package:provider/provider.dart';
@@ -27,22 +28,26 @@ class PauseDialog extends StatelessWidget {
             context.read<AudioController>().playSfx(SfxType.buttonTap);
             Navigator.of(context).pop();
           },
-          child:Image.asset(
-              'assets/icons/app/close.png',
-              width: 80,
-              height: 80,
-            ),
+          child: Image.asset(
+            'assets/icons/app/close.png',
+            width: 80,
+            height: 80,
+          ),
         ),
         rightButton: GestureDetector(
           onTap: () {
             context.read<AudioController>().playSfx(SfxType.buttonTap);
-            Navigator.of(context).pop();
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => SettingsDialog(level: level),
+            );
           },
-          child:Image.asset(
-              'assets/icons/app/settings.png',
-              width: 80,
-              height: 80,
-            ),
+          child: Image.asset(
+            'assets/icons/app/settings.png',
+            width: 80,
+            height: 80,
+          ),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

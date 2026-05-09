@@ -101,9 +101,12 @@ class AudioController {
     _log.fine(() => '- Chosen filename: $filename');
 
     final currentPlayer = _sfxPlayers[_currentSfxPlayer];
+    
+    final double finalVolume = soundTypeToVolume(type) * (_settings?.sfxVolume.value ?? 1.0);
+
     currentPlayer.play(
       AssetSource('sfx/$filename'),
-      volume: soundTypeToVolume(type),
+      volume: finalVolume,
     );
     _currentSfxPlayer = (_currentSfxPlayer + 1) % _sfxPlayers.length;
   }
@@ -134,6 +137,8 @@ class AudioController {
       oldSettings.audioOn.removeListener(_audioOnHandler);
       oldSettings.musicOn.removeListener(_musicOnHandler);
       oldSettings.soundsOn.removeListener(_soundsOnHandler);
+      oldSettings.sfxVolume.removeListener(_volumeHandler);
+      oldSettings.musicVolume.removeListener(_volumeHandler);
     }
 
     _settings = settingsController;
@@ -142,6 +147,8 @@ class AudioController {
     settingsController.audioOn.addListener(_audioOnHandler);
     settingsController.musicOn.addListener(_musicOnHandler);
     settingsController.soundsOn.addListener(_soundsOnHandler);
+    settingsController.sfxVolume.addListener(_volumeHandler);
+    settingsController.musicVolume.addListener(_volumeHandler);
 
     if (settingsController.audioOn.value && settingsController.musicOn.value) {
       if (kIsWeb) {
@@ -230,6 +237,10 @@ class AudioController {
         player.stop();
       }
     }
+  }
+
+  void _volumeHandler() {
+    _musicPlayer.setVolume(_settings!.musicVolume.value);
   }
 
   void _startOrResumeMusic() async {

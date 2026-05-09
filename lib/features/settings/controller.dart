@@ -22,6 +22,10 @@ class SettingsController {
 
   ValueNotifier<bool> musicOn = ValueNotifier(true);
 
+  ValueNotifier<double> sfxVolume = ValueNotifier(1.0);
+
+  ValueNotifier<double> musicVolume = ValueNotifier(1.0);
+
   /// Creates a new instance of [SettingsController] backed by [store].
   ///
   /// By default, settings are persisted using [LocalStorageSettingsPersistence]
@@ -52,6 +56,16 @@ class SettingsController {
     _store.saveSoundsOn(soundsOn.value);
   }
 
+  void setSfxVolume(double value) {
+    sfxVolume.value = value;
+    _store.saveSfxVolume(value);
+  }
+
+  void setMusicVolume(double value) {
+    musicVolume.value = value;
+    _store.saveMusicVolume(value);
+  }
+
   /// Asynchronously loads values from the injected persistence store.
   Future<void> _loadStateFromPersistence() async {
     final loadedValues = await Future.wait([
@@ -71,6 +85,8 @@ class SettingsController {
           .getMusicOn(defaultValue: true)
           .then((value) => musicOn.value = value),
       _store.getPlayerName().then((value) => playerName.value = value),
+      _store.getSfxVolume(defaultValue: 1.0).then((value) => sfxVolume.value = value),
+      _store.getMusicVolume(defaultValue: 1.0).then((value) => musicVolume.value = value),
     ]);
 
     _log.fine(() => 'Loaded settings: $loadedValues');

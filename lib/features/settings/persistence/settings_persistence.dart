@@ -15,6 +15,10 @@ abstract class SettingsPersistence {
 
   Future<bool> getSoundsOn({required bool defaultValue});
 
+  Future<double> getSfxVolume({required double defaultValue});
+
+  Future<double> getMusicVolume({required double defaultValue});
+
   Future<void> saveAudioOn(bool value);
 
   Future<void> saveMusicOn(bool value);
@@ -22,4 +26,8 @@ abstract class SettingsPersistence {
   Future<void> savePlayerName(String value);
 
   Future<void> saveSoundsOn(bool value);
+
+  Future<void> saveSfxVolume(double value);
+
+  Future<void> saveMusicVolume(double value);
 }

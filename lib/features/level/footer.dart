@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/config/audio/audio_controller.dart';
+import 'package:grimoji/config/audio/sounds.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/features/level/logic/level_state.dart';
@@ -15,6 +17,8 @@ class Foooter extends StatelessWidget {
   Palette get palette => Palette();
 
   void _handlePauseTap(BuildContext context) {
+    context.read<AudioController>().playSfx(SfxType.buttonTap);
+
     _log.info('Pause btn tapped. Toggling pause state.');
 
     final levelState = context.read<LevelState>();
@@ -27,12 +31,7 @@ class Foooter extends StatelessWidget {
       barrierDismissible: true,
       barrierColor: palette.voidBlack.withValues(alpha: 0.7),
       builder: (dialogContext) => PauseDialog(level: levelNumber),
-    ).then((_) {
-      if (context.mounted) {
-        _log.info('Pause dialog closed. Toggling pause state again.');
-        levelState.togglePause();
-      }
-    });
+    );
   }
 
   @override
@@ -50,7 +49,9 @@ class Foooter extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             _buildPowerUpBtn(
-              isPaused ? 'assets/icons/app/resume.png' : 'assets/icons/app/pause.png',
+              isPaused
+                  ? 'assets/icons/app/resume.png'
+                  : 'assets/icons/app/pause.png',
               isSmall: true,
               onTap: () => _handlePauseTap(context),
             ),

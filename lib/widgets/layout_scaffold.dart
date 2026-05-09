@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grimoji/config/audio/audio_controller.dart';
+import 'package:grimoji/config/audio/sounds.dart';
 import 'package:provider/provider.dart';
 
 import 'package:grimoji/config/routes.dart';
-import 'package:grimoji/config/palette.dart'; 
-import 'package:grimoji/utils/responsive.dart'; 
+import 'package:grimoji/config/palette.dart';
+import 'package:grimoji/utils/responsive.dart';
 
 class LayoutScaffold extends StatelessWidget {
   const LayoutScaffold({required this.navigationShell, super.key});
@@ -18,7 +20,7 @@ class LayoutScaffold extends StatelessWidget {
     final isLarge = context.isLargeScreen;
 
     final double navHeight = isLarge ? 120.0 : 85.0;
-    
+
     final double iconBaseSize = isLarge ? 100.0 : 60.0;
     final double iconSelectedSize = isLarge ? 120.0 : 80.0;
 
@@ -26,7 +28,7 @@ class LayoutScaffold extends StatelessWidget {
       backgroundColor: palette.voidBlack,
       body: navigationShell,
       bottomNavigationBar: Container(
-        height: navHeight, 
+        height: navHeight,
         decoration: BoxDecoration(
           color: palette.midnight,
           border: Border(
@@ -42,18 +44,20 @@ class LayoutScaffold extends StatelessWidget {
 
             return Expanded(
               child: GestureDetector(
-                behavior: HitTestBehavior.opaque, 
-                onTap: () => navigationShell.goBranch(index),
+                behavior: HitTestBehavior.opaque,
+                onTap: () => () {
+                  context.read<AudioController>().playSfx(SfxType.buttonTap);
+                  navigationShell.goBranch(index);
+                },
                 child: SizedBox(
                   height: navHeight,
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      
                       AnimatedPositioned(
                         duration: const Duration(milliseconds: 350),
-                        curve: Curves.easeOutBack, 
-                        top: isSelected ? -15.0 : 20.0, 
+                        curve: Curves.easeOutBack,
+                        top: isSelected ? -15.0 : 20.0,
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 350),
                           curve: Curves.easeOutBack,
@@ -68,7 +72,7 @@ class LayoutScaffold extends StatelessWidget {
                       AnimatedPositioned(
                         duration: const Duration(milliseconds: 300),
                         curve: Curves.easeOut,
-                        bottom: isSelected ? 5.0 : -20.0, 
+                        bottom: isSelected ? 5.0 : -20.0,
                         child: AnimatedOpacity(
                           duration: const Duration(milliseconds: 200),
                           opacity: isSelected ? 1.0 : 0.0,
@@ -81,7 +85,6 @@ class LayoutScaffold extends StatelessWidget {
                           ),
                         ),
                       ),
-                      
                     ],
                   ),
                 ),
