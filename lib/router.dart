@@ -5,13 +5,13 @@ import 'package:grimoji/config/routes.dart';
 import 'package:grimoji/features/main_menu.dart';
 import 'package:grimoji/features/map/screen.dart';
 import 'package:grimoji/features/map/level_fail/screen.dart';
-import 'package:grimoji/features/map/level_hint_screen.dart';
+import 'package:grimoji/features/map/level_hint/screen.dart';
 import 'package:grimoji/features/settings/screen.dart';
 import 'package:grimoji/widgets/layout_scaffold.dart';
 
-import 'package:grimoji/features/game/level_screen.dart';
-import 'package:grimoji/features/game/win_screen.dart';
-import 'package:grimoji/features/game/logic/levels.dart'; 
+import 'package:grimoji/features/level/level_screen.dart';
+import 'package:grimoji/features/level/win_screen.dart';
+import 'package:grimoji/features/level/logic/levels.dart'; 
 
 final _routerNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 

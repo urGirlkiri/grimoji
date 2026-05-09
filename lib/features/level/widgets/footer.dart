@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/emojis.dart';
-import 'package:grimoji/features/game/logic/level_state.dart';
-import 'package:grimoji/features/game/logic/levels.dart';
-import 'package:grimoji/features/game/widgets/pause_dialog.dart';
+import 'package:grimoji/features/level/logic/level_state.dart';
+import 'package:grimoji/features/level/logic/levels.dart';
+import 'package:grimoji/features/level/widgets/pause_dialog.dart';
 import 'package:grimoji/widgets/emoji_widget.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
