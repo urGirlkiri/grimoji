@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/palette.dart';
+import 'package:grimoji/features/game/logic/level_state.dart';
 import 'package:grimoji/features/game/logic/levels.dart';
 import 'package:grimoji/widgets/emoji_widget.dart';
+import 'package:provider/provider.dart';
 
 class Header extends StatelessWidget {
   static const double progress = 0.65;
@@ -29,7 +31,7 @@ class Header extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildInfoBox('Moves', '10'),
+                _buildInfoBox('Time', context.watch<LevelState>().secondsRemaining.toString()),
                 const SizedBox(width: 16),
                 _buildTargetBox(),
                 const SizedBox(width: 16),

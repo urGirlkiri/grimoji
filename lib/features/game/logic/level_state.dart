@@ -1,52 +1,62 @@
-// Copyright 2022, the Flutter project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:logging/logging.dart';
 
-/// An extremely silly example of a game state.
-///
-/// Tracks only a single variable, [progress], and calls [onWin] when
-/// the value of [progress] reaches [goal].
 class LevelState extends ChangeNotifier {
-final void Function(int stars) onWin;
+  final void Function(int stars) onWin;
   final VoidCallback onFail;
-
-  final int goal;
-  final int maxMoves;
+  final Logger _log = Logger('LevelState');
 
   LevelState({
     required this.onWin,
     required this.onFail,
-    required this.goal,
-    required this.maxMoves,
   });
 
-  int _progress = 0;
-  int _movesUsed = 0;
+  final Stopwatch _stopwatch = Stopwatch();
+  Timer? _ticker;
 
-  int get progress => _progress;
+  int _secondsRemaining = 60; 
 
-  void setProgress(int value) {
-    _progress = value;
-    _movesUsed++;
-    notifyListeners();
-    evaluate();
+  int get secondsRemaining => _secondsRemaining;
+  bool get isPaused => !_stopwatch.isRunning;
+
+  void startLevel() {
+    _stopwatch.start();
+    _ticker = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_stopwatch.isRunning) {
+        _secondsRemaining--;
+        if (_secondsRemaining <= 0) {
+          _secondsRemaining = 0;
+          stopLevel();
+          onFail();
+        }
+        notifyListeners();
+      }
+    });
   }
 
-  int _calculateStars() {
-    final int movesLeft = maxMoves - _movesUsed;
-    
-    if (movesLeft >= (maxMoves * 0.5)) return 3;
-    if (movesLeft >= (maxMoves * 0.2)) return 2;
-    return 1; 
+  void togglePause() {
+    _log.info('Toggling pause. Currently paused: $isPaused');
+    if (_stopwatch.isRunning) {
+      _stopwatch.stop();
+    } else {
+      _stopwatch.start();
+    }
+    notifyListeners();
+  }
+
+  void stopLevel() {
+    _stopwatch.stop();
+    _ticker?.cancel();
+  }
+
+  @override
+  void dispose() {
+    _ticker?.cancel();
+    super.dispose();
   }
 
   void evaluate() {
-    if (_progress >= goal) {
-      onWin(_calculateStars());
-    } else if (_movesUsed >= maxMoves) {
-      onFail();
-    }
   }
 }

@@ -9,10 +9,10 @@ import 'package:grimoji/widgets/emoji_widget.dart';
 import 'package:grimoji/widgets/scroll_dialog.dart';
 import 'package:provider/provider.dart';
 
-class LevelQuitDialog extends StatelessWidget {
+class PauseDialog extends StatelessWidget {
   final int level;
 
-  const LevelQuitDialog({super.key, required this.level});
+  const PauseDialog({super.key, required this.level});
 
   @override
   Widget build(BuildContext context) {
@@ -46,13 +46,13 @@ class LevelQuitDialog extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             EmojiWidget.lottie(
-              path: Emojis.cryingCatFace.lottie,
+              path: Emojis.alienMonster.lottie,
               useDropShadow: true,
               size: 80,
             ),
             const SizedBox(height: 16),
             Text(
-              "Quit Level?",
+              "The Game is Paused",
               style: GoogleFonts.eagleLake(
                 color: palette.midnight,
                 fontSize: 36,
@@ -61,7 +61,7 @@ class LevelQuitDialog extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Text(
-              "Progress will be lost!",
+              "Take a break, then get back to it!",
               style: GoogleFonts.eagleLake(
                 color: palette.twilight,
                 fontSize: 18,
@@ -125,7 +125,7 @@ class LevelQuitDialog extends StatelessWidget {
                       ],
                     ),
                     child: Text(
-                      "Stay",
+                      "Resume",
                       style: GoogleFonts.eagleLake(
                         fontSize: 20,
                         color: palette.mist,

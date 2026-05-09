@@ -1,12 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/emojis.dart';
-import 'package:grimoji/widgets/emoji_widget.dart'; 
+import 'package:grimoji/features/game/logic/level_state.dart';
+import 'package:grimoji/features/game/logic/levels.dart';
+import 'package:grimoji/features/game/widgets/pause_dialog.dart';
+import 'package:grimoji/widgets/emoji_widget.dart';
+import 'package:logging/logging.dart';
+import 'package:provider/provider.dart';
 
 class PowerUps extends StatelessWidget {
-  const PowerUps({super.key});
+  final Logger _log = Logger('PowerUps');
+  PowerUps({super.key});
 
   Palette get palette => Palette();
+
+  void _handlePauseTap(BuildContext context) {
+    _log.info('Pause btn tapped. Toggling pause state.');
+
+    final levelState = context.read<LevelState>();
+    levelState.togglePause();
+
+    final levelNumber = context.read<GameLevel>().number;
+
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierColor: palette.voidBlack.withValues(alpha: 0.7),
+      builder: (dialogContext) => PauseDialog(level: levelNumber),
+    ).then((_) {
+      if (context.mounted) {
+        _log.info('Pause dialog closed. Toggling pause state again.');
+        levelState.togglePause();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +48,11 @@ class PowerUps extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _buildPowerUpBtn("assets/icons/app/pause.png", isSmall: true),
+            _buildPowerUpBtn(
+              "assets/icons/app/pause.png",
+              isSmall: true,
+              onTap: () => _handlePauseTap(context),
+            ),
             const SizedBox(width: 12),
             _buildPowerUpBtn(Emojis.crystalBall.svg),
             const SizedBox(width: 12),
@@ -36,37 +67,35 @@ class PowerUps extends StatelessWidget {
     );
   }
 
-  Widget _buildPowerUpBtn(String assetPath, {bool isSmall = false}) {
+  Widget _buildPowerUpBtn(
+    String assetPath, {
+    bool isSmall = false,
+    VoidCallback? onTap,
+  }) {
     double size = isSmall ? 60 : 70;
     double iconSize = isSmall ? 60 : 50;
-    
-    return Container(
-      width: size,
-      height: size,
-      decoration: ShapeDecoration(
-        color: palette.mist,
-        shape: CircleBorder(
-          side: BorderSide(width: 3, color: palette.dusk),
+
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: size,
+        height: size,
+        decoration: ShapeDecoration(
+          color: palette.mist,
+          shape: CircleBorder(side: BorderSide(width: 3, color: palette.dusk)),
+          shadows: [
+            BoxShadow(
+              color: palette.midnight,
+              blurRadius: 4,
+              offset: Offset(0, 4),
+            ),
+          ],
         ),
-        shadows:  [
-          BoxShadow(
-            color: palette.midnight, 
-            blurRadius: 4,
-            offset: Offset(0, 4),
-          )
-        ],
-      ),
-      child: Center(
-        child: assetPath.endsWith('.svg')
-            ? EmojiWidget.svg(
-                path: assetPath,
-                size: iconSize,
-              )
-            : Image.asset(
-                assetPath,
-                width: iconSize,
-                height: iconSize,
-              ),
+        child: Center(
+          child: assetPath.endsWith('.svg')
+              ? EmojiWidget.svg(path: assetPath, size: iconSize)
+              : Image.asset(assetPath, width: iconSize, height: iconSize),
+        ),
       ),
     );
   }
