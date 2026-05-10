@@ -3768,557 +3768,557 @@ class Emojis {
   static const GameEmoji smirkCat = GameEmoji(
     'assets/emojis/svg/smirk_cat.svg',
     'assets/emojis/lottie/smirk_cat.json',
-  );
+    '😼',  );
   static const GameEmoji snail = GameEmoji(
     'assets/emojis/svg/snail.svg',
     'assets/emojis/lottie/snail.json',
-  );
+    '🐌',  );
   static const GameEmoji snake = GameEmoji(
     'assets/emojis/svg/snake.svg',
     'assets/emojis/lottie/snake.json',
-  );
+    '🐍',  );
   static const GameEmoji sneeze = GameEmoji(
     'assets/emojis/svg/sneeze.svg',
     'assets/emojis/lottie/sneeze.json',
-  );
+    '🤧',  );
   static const GameEmoji snowflake = GameEmoji(
     'assets/emojis/svg/snowflake.svg',
     'assets/emojis/lottie/snowflake.json',
-  );
+    '❄️',  );
   static const GameEmoji snowman = GameEmoji(
     'assets/emojis/svg/snowman.svg',
     'assets/emojis/lottie/snowman.json',
-  );
+    '☃️',  );
   static const GameEmoji snowmanWithSnow = GameEmoji(
     'assets/emojis/svg/snowman_with_snow.svg',
     'assets/emojis/lottie/snowman_with_snow.json',
-  );
+    '☃️',  );
   static const GameEmoji soccerBall = GameEmoji(
     'assets/emojis/svg/soccer_ball.svg',
     'assets/emojis/lottie/soccer_ball.json',
-  );
+    '⚽',  );
   static const GameEmoji socks = GameEmoji(
     'assets/emojis/svg/socks.svg',
     'assets/emojis/lottie/socks.json',
-  );
+    '🧦',  );
   static const GameEmoji softIceCream = GameEmoji(
     'assets/emojis/svg/soft_ice_cream.svg',
     'assets/emojis/lottie/soft_ice_cream.json',
-  );
+    '🍦',  );
   static const GameEmoji softball = GameEmoji(
     'assets/emojis/svg/softball.svg',
     'assets/emojis/lottie/softball.json',
-  );
+    '🥎',  );
   static const GameEmoji sos = GameEmoji(
     'assets/emojis/svg/sos.svg',
     'assets/emojis/lottie/sos.json',
-  );
+    '🆘',  );
   static const GameEmoji spade = GameEmoji(
     'assets/emojis/svg/spade.svg',
     'assets/emojis/lottie/spade.json',
-  );
+    '♠️',  );
   static const GameEmoji spadeTwo = GameEmoji(
     'assets/emojis/svg/spade_2.svg',
     'assets/emojis/lottie/spade_2.json',
-  );
+    '♠️🏽',  );
   static const GameEmoji spaghetti = GameEmoji(
     'assets/emojis/svg/spaghetti.svg',
     'assets/emojis/lottie/spaghetti.json',
-  );
+    '🍝',  );
   static const GameEmoji sparkles = GameEmoji(
     'assets/emojis/svg/sparkles.svg',
     'assets/emojis/lottie/sparkles.json',
-  );
+    '✨',  );
   static const GameEmoji sparklingHeart = GameEmoji(
     'assets/emojis/svg/sparkling_heart.svg',
     'assets/emojis/lottie/sparkling_heart.json',
-  );
+    '💖',  );
   static const GameEmoji speakNoEvilMonkey = GameEmoji(
     'assets/emojis/svg/speak_no_evil_monkey.svg',
     'assets/emojis/lottie/speak_no_evil_monkey.json',
-  );
+    '🙊',  );
   static const GameEmoji speakingHead = GameEmoji(
     'assets/emojis/svg/speaking_head.svg',
     'assets/emojis/lottie/speaking_head.json',
-  );
+    '🗣️',  );
   static const GameEmoji speechBubble = GameEmoji(
     'assets/emojis/svg/speech_bubble.svg',
     'assets/emojis/lottie/speech_bubble.json',
-  );
+    '💬',  );
   static const GameEmoji spider = GameEmoji(
     'assets/emojis/svg/spider.svg',
     'assets/emojis/lottie/spider.json',
-  );
+    '🕷️',  );
   static const GameEmoji splatter = GameEmoji(
     'assets/emojis/svg/splatter.svg',
     'assets/emojis/lottie/splatter.json',
-  );
+    '💦',  );
   static const GameEmoji squintingTongue = GameEmoji(
     'assets/emojis/svg/squinting_tongue.svg',
     'assets/emojis/lottie/squinting_tongue.json',
-  );
+    '😜',  );
   static const GameEmoji star = GameEmoji(
     'assets/emojis/svg/star.svg',
     'assets/emojis/lottie/star.json',
-  );
+    '⭐',  );
   static const GameEmoji starStruck = GameEmoji(
     'assets/emojis/svg/star_struck.svg',
     'assets/emojis/lottie/star_struck.json',
-  );
+    '🤩',  );
   static const GameEmoji steamingBowl = GameEmoji(
     'assets/emojis/svg/steaming_bowl.svg',
     'assets/emojis/lottie/steaming_bowl.json',
-  );
+    '🍜',  );
   static const GameEmoji stethoscope = GameEmoji(
     'assets/emojis/svg/stethoscope.svg',
     'assets/emojis/lottie/stethoscope.json',
-  );
+    '🩺',  );
   static const GameEmoji stopSign = GameEmoji(
     'assets/emojis/svg/stop_sign.svg',
     'assets/emojis/lottie/stop_sign.json',
-  );
+    '🛑',  );
   static const GameEmoji stopSignTwo = GameEmoji(
     'assets/emojis/svg/stop_sign_2.svg',
     'assets/emojis/lottie/stop_sign_2.json',
-  );
+    '🛑🏽',  );
   static const GameEmoji strawberry = GameEmoji(
     'assets/emojis/svg/strawberry.svg',
     'assets/emojis/lottie/strawberry.json',
-  );
+    '🍓',  );
   static const GameEmoji strawberryTwo = GameEmoji(
     'assets/emojis/svg/strawberry_2.svg',
     'assets/emojis/lottie/strawberry_2.json',
-  );
+    '🍓🏽',  );
   static const GameEmoji stuckOutTongue = GameEmoji(
     'assets/emojis/svg/stuck_out_tongue.svg',
     'assets/emojis/lottie/stuck_out_tongue.json',
-  );
+    '😜',  );
   static const GameEmoji sunWithFace = GameEmoji(
     'assets/emojis/svg/sun_with_face.svg',
     'assets/emojis/lottie/sun_with_face.json',
-  );
+    '🌞',  );
   static const GameEmoji sunglassesFace = GameEmoji(
     'assets/emojis/svg/sunglasses_face.svg',
     'assets/emojis/lottie/sunglasses_face.json',
-  );
+    '😎',  );
   static const GameEmoji sunrise = GameEmoji(
     'assets/emojis/svg/sunrise.svg',
     'assets/emojis/lottie/sunrise.json',
-  );
+    '🌅',  );
   static const GameEmoji sunriseOverMountains = GameEmoji(
     'assets/emojis/svg/sunrise_over_mountains.svg',
     'assets/emojis/lottie/sunrise_over_mountains.json',
-  );
+    '🌄',  );
   static const GameEmoji sunset = GameEmoji(
     'assets/emojis/svg/sunset.svg',
     'assets/emojis/lottie/sunset.json',
-  );
+    '🌇',  );
   static const GameEmoji surprised = GameEmoji(
     'assets/emojis/svg/surprised.svg',
     'assets/emojis/lottie/surprised.json',
-  );
+    '😲',  );
   static const GameEmoji sweat = GameEmoji(
     'assets/emojis/svg/sweat.svg',
     'assets/emojis/lottie/sweat.json',
-  );
+    '💦',  );
   static const GameEmoji tRex = GameEmoji(
     'assets/emojis/svg/t_rex.svg',
     'assets/emojis/lottie/t_rex.json',
-  );
+    '🦖',  );
   static const GameEmoji taco = GameEmoji(
     'assets/emojis/svg/taco.svg',
     'assets/emojis/lottie/taco.json',
-  );
+    '🌮',  );
   static const GameEmoji tangerine = GameEmoji(
     'assets/emojis/svg/tangerine.svg',
     'assets/emojis/lottie/tangerine.json',
-  );
+    '🍊',  );
   static const GameEmoji taurus = GameEmoji(
     'assets/emojis/svg/taurus.svg',
     'assets/emojis/lottie/taurus.json',
-  );
+    '♉',  );
   static const GameEmoji taxi = GameEmoji(
     'assets/emojis/svg/taxi.svg',
     'assets/emojis/lottie/taxi.json',
-  );
+    '🚖',  );
   static const GameEmoji teacupWithoutHandle = GameEmoji(
     'assets/emojis/svg/teacup_without_handle.svg',
     'assets/emojis/lottie/teacup_without_handle.json',
-  );
+    '☕',  );
   static const GameEmoji teapot = GameEmoji(
     'assets/emojis/svg/teapot.svg',
     'assets/emojis/lottie/teapot.json',
-  );
+    '🫖',  );
   static const GameEmoji television = GameEmoji(
     'assets/emojis/svg/television.svg',
     'assets/emojis/lottie/television.json',
-  );
+    '📺',  );
   static const GameEmoji tennis = GameEmoji(
     'assets/emojis/svg/tennis.svg',
     'assets/emojis/lottie/tennis.json',
-  );
+    '🎾',  );
   static const GameEmoji thermometer = GameEmoji(
     'assets/emojis/svg/thermometer.svg',
     'assets/emojis/lottie/thermometer.json',
-  );
+    '🌡️',  );
   static const GameEmoji thermometerFace = GameEmoji(
     'assets/emojis/svg/thermometer_face.svg',
     'assets/emojis/lottie/thermometer_face.json',
-  );
+    '🤒',  );
   static const GameEmoji thinkingFace = GameEmoji(
     'assets/emojis/svg/thinking_face.svg',
     'assets/emojis/lottie/thinking_face.json',
-  );
+    '🤔',  );
   static const GameEmoji thumbsDown = GameEmoji(
     'assets/emojis/svg/thumbs_down.svg',
     'assets/emojis/lottie/thumbs_down.json',
-  );
+    '👎',  );
   static const GameEmoji thumbsDownTwo = GameEmoji(
     'assets/emojis/svg/thumbs_down_2.svg',
     'assets/emojis/lottie/thumbs_down_2.json',
-  );
+    '👎🏽',  );
   static const GameEmoji thumbsDownThree = GameEmoji(
     'assets/emojis/svg/thumbs_down_3.svg',
     'assets/emojis/lottie/thumbs_down_3.json',
-  );
+    '👎🏽',  );
   static const GameEmoji thumbsDownFour = GameEmoji(
     'assets/emojis/svg/thumbs_down_4.svg',
     'assets/emojis/lottie/thumbs_down_4.json',
-  );
+    '👎🏿',  );
   static const GameEmoji thumbsDownFive = GameEmoji(
     'assets/emojis/svg/thumbs_down_5.svg',
     'assets/emojis/lottie/thumbs_down_5.json',
-  );
+    '👎🏿',  );
   static const GameEmoji thumbsDownSix = GameEmoji(
     'assets/emojis/svg/thumbs_down_6.svg',
     'assets/emojis/lottie/thumbs_down_6.json',
-  );
+    '👎🏿',  );
   static const GameEmoji thumbsUp = GameEmoji(
     'assets/emojis/svg/thumbs_up.svg',
     'assets/emojis/lottie/thumbs_up.json',
-  );
+    '👍',  );
   static const GameEmoji thumbsUpTwo = GameEmoji(
     'assets/emojis/svg/thumbs_up_2.svg',
     'assets/emojis/lottie/thumbs_up_2.json',
-  );
+    '👍🏽',  );
   static const GameEmoji thumbsUpThree = GameEmoji(
     'assets/emojis/svg/thumbs_up_3.svg',
     'assets/emojis/lottie/thumbs_up_3.json',
-  );
+    '👍🏽',  );
   static const GameEmoji thumbsUpFour = GameEmoji(
     'assets/emojis/svg/thumbs_up_4.svg',
     'assets/emojis/lottie/thumbs_up_4.json',
-  );
+    '👍🏾',  );
   static const GameEmoji thumbsUpFive = GameEmoji(
     'assets/emojis/svg/thumbs_up_5.svg',
     'assets/emojis/lottie/thumbs_up_5.json',
-  );
+    '👍🏽',  );
   static const GameEmoji thumbsUpSix = GameEmoji(
     'assets/emojis/svg/thumbs_up_6.svg',
     'assets/emojis/lottie/thumbs_up_6.json',
-  );
+    '👍🏽',  );
   static const GameEmoji tiger = GameEmoji(
     'assets/emojis/svg/tiger.svg',
     'assets/emojis/lottie/tiger.json',
-  );
+    '🐅',  );
   static const GameEmoji tired = GameEmoji(
     'assets/emojis/svg/tired.svg',
     'assets/emojis/lottie/tired.json',
-  );
+    '😩',  );
   static const GameEmoji tomato = GameEmoji(
     'assets/emojis/svg/tomato.svg',
     'assets/emojis/lottie/tomato.json',
-  );
+    '🍅',  );
   static const GameEmoji tornado = GameEmoji(
     'assets/emojis/svg/tornado.svg',
     'assets/emojis/lottie/tornado.json',
-  );
+    '🌪️',  );
   static const GameEmoji tractor = GameEmoji(
     'assets/emojis/svg/tractor.svg',
     'assets/emojis/lottie/tractor.json',
-  );
+    '🚜',  );
   static const GameEmoji tradeMark = GameEmoji(
     'assets/emojis/svg/trade_mark.svg',
     'assets/emojis/lottie/trade_mark.json',
-  );
+    '™️',  );
   static const GameEmoji treasure = GameEmoji(
     'assets/emojis/svg/treasure.svg',
     'assets/emojis/lottie/treasure.json',
-  );
+    '🪙',  );
   static const GameEmoji triangularFlag = GameEmoji(
     'assets/emojis/svg/triangular_flag.svg',
     'assets/emojis/lottie/triangular_flag.json',
-  );
+    '🚩',  );
   static const GameEmoji triumph = GameEmoji(
     'assets/emojis/svg/triumph.svg',
     'assets/emojis/lottie/triumph.json',
-  );
+    '🏆',  );
   static const GameEmoji trombone = GameEmoji(
     'assets/emojis/svg/trombone.svg',
     'assets/emojis/lottie/trombone.json',
-  );
+    '🎺',  );
   static const GameEmoji trophy = GameEmoji(
     'assets/emojis/svg/trophy.svg',
     'assets/emojis/lottie/trophy.json',
-  );
+    '🏆',  );
   static const GameEmoji tropicalDrink = GameEmoji(
     'assets/emojis/svg/tropical_drink.svg',
     'assets/emojis/lottie/tropical_drink.json',
-  );
+    '🍹',  );
   static const GameEmoji trumpet = GameEmoji(
     'assets/emojis/svg/trumpet.svg',
     'assets/emojis/lottie/trumpet.json',
-  );
+    '🎺',  );
   static const GameEmoji tulip = GameEmoji(
     'assets/emojis/svg/tulip.svg',
     'assets/emojis/lottie/tulip.json',
-  );
+    '🌷',  );
   static const GameEmoji turtle = GameEmoji(
     'assets/emojis/svg/turtle.svg',
     'assets/emojis/lottie/turtle.json',
-  );
+    '🐢',  );
   static const GameEmoji twoHearts = GameEmoji(
     'assets/emojis/svg/two_hearts.svg',
     'assets/emojis/lottie/two_hearts.json',
-  );
+    '💖',  );
   static const GameEmoji umbrella = GameEmoji(
     'assets/emojis/svg/umbrella.svg',
     'assets/emojis/lottie/umbrella.json',
-  );
+    '☂️',  );
   static const GameEmoji unamused = GameEmoji(
     'assets/emojis/svg/unamused.svg',
     'assets/emojis/lottie/unamused.json',
-  );
+    '😒',  );
   static const GameEmoji unicorn = GameEmoji(
     'assets/emojis/svg/unicorn.svg',
     'assets/emojis/lottie/unicorn.json',
-  );
+    '🦄',  );
   static const GameEmoji up = GameEmoji(
     'assets/emojis/svg/up.svg',
     'assets/emojis/lottie/up.json',
-  );
+    '⬆️',  );
   static const GameEmoji upsideDownFace = GameEmoji(
     'assets/emojis/svg/upside_down_face.svg',
     'assets/emojis/lottie/upside_down_face.json',
-  );
+    '🙃',  );
   static const GameEmoji verticalTrafficLight = GameEmoji(
     'assets/emojis/svg/vertical_traffic_light.svg',
     'assets/emojis/lottie/vertical_traffic_light.json',
-  );
+    '🚦',  );
   static const GameEmoji victory = GameEmoji(
     'assets/emojis/svg/victory.svg',
     'assets/emojis/lottie/victory.json',
-  );
+    '✌️',  );
   static const GameEmoji victoryTwo = GameEmoji(
     'assets/emojis/svg/victory_2.svg',
     'assets/emojis/lottie/victory_2.json',
-  );
+    '✌🏽',  );
   static const GameEmoji victoryThree = GameEmoji(
     'assets/emojis/svg/victory_3.svg',
     'assets/emojis/lottie/victory_3.json',
-  );
+    '✌🏽',  );
   static const GameEmoji victoryFour = GameEmoji(
     'assets/emojis/svg/victory_4.svg',
     'assets/emojis/lottie/victory_4.json',
-  );
+    '✌️🏽',  );
   static const GameEmoji victoryFive = GameEmoji(
     'assets/emojis/svg/victory_5.svg',
     'assets/emojis/lottie/victory_5.json',
-  );
+    '✌️🏽',  );
   static const GameEmoji victorySix = GameEmoji(
     'assets/emojis/svg/victory_6.svg',
     'assets/emojis/lottie/victory_6.json',
-  );
+    '✌️🏽',  );
   static const GameEmoji violin = GameEmoji(
     'assets/emojis/svg/violin.svg',
     'assets/emojis/lottie/violin.json',
-  );
+    '🎻',  );
   static const GameEmoji virgo = GameEmoji(
     'assets/emojis/svg/virgo.svg',
     'assets/emojis/lottie/virgo.json',
-  );
+    '♍',  );
   static const GameEmoji volcano = GameEmoji(
     'assets/emojis/svg/volcano.svg',
     'assets/emojis/lottie/volcano.json',
-  );
+    '🌋',  );
   static const GameEmoji vomit = GameEmoji(
     'assets/emojis/svg/vomit.svg',
     'assets/emojis/lottie/vomit.json',
-  );
+    '🤮',  );
   static const GameEmoji vulcan = GameEmoji(
     'assets/emojis/svg/vulcan.svg',
     'assets/emojis/lottie/vulcan.json',
-  );
+    '🖖',  );
   static const GameEmoji vulcanTwo = GameEmoji(
     'assets/emojis/svg/vulcan_2.svg',
     'assets/emojis/lottie/vulcan_2.json',
-  );
+    '🖖🏽',  );
   static const GameEmoji vulcanThree = GameEmoji(
     'assets/emojis/svg/vulcan_3.svg',
     'assets/emojis/lottie/vulcan_3.json',
-  );
+    '🖖🏽',  );
   static const GameEmoji vulcanFour = GameEmoji(
     'assets/emojis/svg/vulcan_4.svg',
     'assets/emojis/lottie/vulcan_4.json',
-  );
+    '🖖🏽',  );
   static const GameEmoji vulcanFive = GameEmoji(
     'assets/emojis/svg/vulcan_5.svg',
     'assets/emojis/lottie/vulcan_5.json',
-  );
+    '🖖🏽',  );
   static const GameEmoji vulcanSix = GameEmoji(
     'assets/emojis/svg/vulcan_6.svg',
     'assets/emojis/lottie/vulcan_6.json',
-  );
+    '🖖🏽',  );
   static const GameEmoji wand = GameEmoji(
     'assets/emojis/svg/wand.svg',
     'assets/emojis/lottie/wand.json',
-  );
+    '🪄',  );
   static const GameEmoji warmSmile = GameEmoji(
     'assets/emojis/svg/warm_smile.svg',
     'assets/emojis/lottie/warm_smile.json',
-  );
+    '😄',  );
   static const GameEmoji warning = GameEmoji(
     'assets/emojis/svg/warning.svg',
     'assets/emojis/lottie/warning.json',
-  );
+    '⚠️',  );
   static const GameEmoji wastebasket = GameEmoji(
     'assets/emojis/svg/wastebasket.svg',
     'assets/emojis/lottie/wastebasket.json',
-  );
+    '🗑️',  );
   static const GameEmoji watermelon = GameEmoji(
     'assets/emojis/svg/watermelon.svg',
     'assets/emojis/lottie/watermelon.json',
-  );
+    '🍉',  );
   static const GameEmoji wave = GameEmoji(
     'assets/emojis/svg/wave.svg',
     'assets/emojis/lottie/wave.json',
-  );
+    '👋',  );
   static const GameEmoji waveTwo = GameEmoji(
     'assets/emojis/svg/wave_2.svg',
     'assets/emojis/lottie/wave_2.json',
-  );
+    '👋🏽',  );
   static const GameEmoji waveThree = GameEmoji(
     'assets/emojis/svg/wave_3.svg',
     'assets/emojis/lottie/wave_3.json',
-  );
+    '👋🏽',  );
   static const GameEmoji waveFour = GameEmoji(
     'assets/emojis/svg/wave_4.svg',
     'assets/emojis/lottie/wave_4.json',
-  );
+    '👋🏽',  );
   static const GameEmoji waveFive = GameEmoji(
     'assets/emojis/svg/wave_5.svg',
     'assets/emojis/lottie/wave_5.json',
-  );
+    '👋🏽',  );
   static const GameEmoji waveSix = GameEmoji(
     'assets/emojis/svg/wave_6.svg',
     'assets/emojis/lottie/wave_6.json',
-  );
+    '👋🏽',  );
   static const GameEmoji weary = GameEmoji(
     'assets/emojis/svg/weary.svg',
     'assets/emojis/lottie/weary.json',
-  );
+    '😩',  );
   static const GameEmoji whale = GameEmoji(
     'assets/emojis/svg/whale.svg',
     'assets/emojis/lottie/whale.json',
-  );
+    '🐋',  );
   static const GameEmoji whiteFlag = GameEmoji(
     'assets/emojis/svg/white_flag.svg',
     'assets/emojis/lottie/white_flag.json',
-  );
+    '🏳️',  );
   static const GameEmoji whiteHeart = GameEmoji(
     'assets/emojis/svg/white_heart.svg',
     'assets/emojis/lottie/white_heart.json',
-  );
+    '🤍',  );
   static const GameEmoji wiltedFlower = GameEmoji(
     'assets/emojis/svg/wilted_flower.svg',
     'assets/emojis/lottie/wilted_flower.json',
-  );
+    '🌷',  );
   static const GameEmoji windFace = GameEmoji(
     'assets/emojis/svg/wind_face.svg',
     'assets/emojis/lottie/wind_face.json',
-  );
+    '🌬️',  );
   static const GameEmoji wineGlass = GameEmoji(
     'assets/emojis/svg/wine_glass.svg',
     'assets/emojis/lottie/wine_glass.json',
-  );
+    '🍷',  );
   static const GameEmoji wink = GameEmoji(
     'assets/emojis/svg/wink.svg',
     'assets/emojis/lottie/wink.json',
-  );
+    '😉',  );
   static const GameEmoji winkyTongue = GameEmoji(
     'assets/emojis/svg/winky_tongue.svg',
     'assets/emojis/lottie/winky_tongue.json',
-  );
+    '😜',  );
   static const GameEmoji wolf = GameEmoji(
     'assets/emojis/svg/wolf.svg',
     'assets/emojis/lottie/wolf.json',
-  );
+    '🐺',  );
   static const GameEmoji woozy = GameEmoji(
     'assets/emojis/svg/woozy.svg',
     'assets/emojis/lottie/woozy.json',
-  );
+    '😵‍💫',  );
   static const GameEmoji worm = GameEmoji(
     'assets/emojis/svg/worm.svg',
     'assets/emojis/lottie/worm.json',
-  );
+    '🐛',  );
   static const GameEmoji worried = GameEmoji(
     'assets/emojis/svg/worried.svg',
     'assets/emojis/lottie/worried.json',
-  );
+    '😟',  );
   static const GameEmoji wrappedGift = GameEmoji(
     'assets/emojis/svg/wrapped_gift.svg',
     'assets/emojis/lottie/wrapped_gift.json',
-  );
+    '🎁',  );
   static const GameEmoji writingHand = GameEmoji(
     'assets/emojis/svg/writing_hand.svg',
     'assets/emojis/lottie/writing_hand.json',
-  );
+    '✍️',  );
   static const GameEmoji writingHandTwo = GameEmoji(
     'assets/emojis/svg/writing_hand_2.svg',
     'assets/emojis/lottie/writing_hand_2.json',
-  );
+    '✍🏽',  );
   static const GameEmoji writingHandThree = GameEmoji(
     'assets/emojis/svg/writing_hand_3.svg',
     'assets/emojis/lottie/writing_hand_3.json',
-  );
+    '✍🏽',  );
   static const GameEmoji writingHandFour = GameEmoji(
     'assets/emojis/svg/writing_hand_4.svg',
     'assets/emojis/lottie/writing_hand_4.json',
-  );
+    '✍🏾',  );
   static const GameEmoji writingHandFive = GameEmoji(
     'assets/emojis/svg/writing_hand_5.svg',
     'assets/emojis/lottie/writing_hand_5.json',
-  );
+    '🖊️',  );
   static const GameEmoji writingHandSix = GameEmoji(
     'assets/emojis/svg/writing_hand_6.svg',
     'assets/emojis/lottie/writing_hand_6.json',
-  );
+    '✍🏿',  );
   static const GameEmoji xEyes = GameEmoji(
     'assets/emojis/svg/x_eyes.svg',
     'assets/emojis/lottie/x_eyes.json',
-  );
+    '👀',  );
   static const GameEmoji yawn = GameEmoji(
     'assets/emojis/svg/yawn.svg',
     'assets/emojis/lottie/yawn.json',
-  );
+    '😮‍💨',  );
   static const GameEmoji yellowHeart = GameEmoji(
     'assets/emojis/svg/yellow_heart.svg',
     'assets/emojis/lottie/yellow_heart.json',
-  );
+    '💛',  );
   static const GameEmoji yinYang = GameEmoji(
     'assets/emojis/svg/yin_yang.svg',
     'assets/emojis/lottie/yin_yang.json',
-  );
+    '☯️',  );
   static const GameEmoji yum = GameEmoji(
     'assets/emojis/svg/yum.svg',
     'assets/emojis/lottie/yum.json',
-  );
+    '😋',  );
   static const GameEmoji zanyFace = GameEmoji(
     'assets/emojis/svg/zany_face.svg',
     'assets/emojis/lottie/zany_face.json',
-  );
+    '🤪',  );
   static const GameEmoji zipperFace = GameEmoji(
     'assets/emojis/svg/zipper_face.svg',
     'assets/emojis/lottie/zipper_face.json',
-  );
+    '👤',  );
 }
