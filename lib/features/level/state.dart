@@ -9,21 +9,24 @@ class LevelState extends ChangeNotifier {
   final void Function(int stars) onWin;
   final VoidCallback onFail;
   final GameLevel level;
+
+  final Stopwatch _stopwatch = Stopwatch();
   final Logger _log = Logger('LevelState');
+
   late final GameController gameController;
+  late int _secondsRemaining = level.timeLimit;
 
   LevelState({required this.onWin, required this.onFail, required this.level}) {
     gameController = GameController(level);
     gameController.initialize();
   }
 
-  final Stopwatch _stopwatch = Stopwatch();
   Timer? _ticker;
 
-  late int _secondsRemaining = level.timeLimit;
+  bool isProcessing = false;
+  bool isPaused = false;
 
   int get secondsRemaining => _secondsRemaining;
-  bool get isPaused => !_stopwatch.isRunning;
 
   void startLevel() {
     _stopwatch.start();
@@ -48,6 +51,7 @@ class LevelState extends ChangeNotifier {
   }
 
   void togglePause() {
+    isPaused = !isPaused;
     _log.info('Toggling pause. Currently paused: $isPaused');
     if (_stopwatch.isRunning) {
       _stopwatch.stop();

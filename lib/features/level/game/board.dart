@@ -165,7 +165,7 @@ void onPanUpdate(DragUpdateDetails details, LevelState levelState) {
                       calculatedSingleTileWidth / calculatedSingleTileHeight;
 
                   return GestureDetector(
-                    onPanStart: (details) => onPanStart(details, context),
+                    onPanStart: (details) => levelstate.isProcessing ? null : onPanStart(details, context),
                     onPanUpdate: (details) => onPanUpdate(details, levelstate),
                     child: Stack(
                       key: _boardKey,
