@@ -3,7 +3,7 @@ import 'package:grimoji/config/audio/audio_controller.dart';
 import 'package:grimoji/config/audio/sounds.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/emojis.dart';
-import 'package:grimoji/features/level/logic/level_state.dart';
+import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/config/levels.dart';
 import 'package:grimoji/features/level/dialogs/pause_dialog.dart';
 import 'package:grimoji/widgets/emoji_widget.dart';
