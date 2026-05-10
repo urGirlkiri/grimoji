@@ -31,7 +31,12 @@ class Foooter extends StatelessWidget {
       barrierDismissible: true,
       barrierColor: palette.voidBlack.withValues(alpha: 0.7),
       builder: (dialogContext) => PauseDialog(level: levelNumber),
-    );
+    ).then((_) {
+      if (context.mounted) {
+        _log.info('Pause dialog closed. Toggling pause state again.');
+        levelState.togglePause();
+      }
+    });
   }
 
   @override
