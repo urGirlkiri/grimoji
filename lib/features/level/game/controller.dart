@@ -62,15 +62,17 @@ class GameController {
     }
   }
 
-void swapTiles(TileCoordinate A, TileCoordinate B) {
-    _log.info(' Swapping ${grid[A.row][A.col]}, ${A.col}) with  ${grid[B.row][B.col]}');
+  void swapTiles(TileCoordinate A, TileCoordinate B) {
+    _log.info(
+      ' Swapping ${grid[A.row][A.col]}, ${A.col}) with  ${grid[B.row][B.col]}',
+    );
 
     Tile tileA = grid[A.row][A.col];
     Tile tileB = grid[B.row][B.col];
 
     int originalARow = A.row;
     int originalACol = A.col;
-    
+
     int originalBRow = B.row;
     int originalBCol = B.col;
 
@@ -79,14 +81,48 @@ void swapTiles(TileCoordinate A, TileCoordinate B) {
 
     tileA.coordinate.row = originalBRow;
     tileA.coordinate.col = originalBCol;
-    
+
     tileB.coordinate.row = originalARow;
     tileB.coordinate.col = originalACol;
 
-    _log.info('${grid[tileA.coordinate.row][tileA.coordinate.col]} is now at (${tileA.coordinate.row}, ${tileA.coordinate.col})');
-    _log.info('${grid[tileB.coordinate.row][tileB.coordinate.col]} is now at (${tileB.coordinate.row}, ${tileB.coordinate.col})');
+    _log.info(
+      '${grid[tileA.coordinate.row][tileA.coordinate.col]} is now at (${tileA.coordinate.row}, ${tileA.coordinate.col})',
+    );
+    _log.info(
+      '${grid[tileB.coordinate.row][tileB.coordinate.col]} is now at (${tileB.coordinate.row}, ${tileB.coordinate.col})',
+    );
   }
 
+  void spawnTiles(Set<TileCoordinate> matches) {
+    for (int c = 0; c < cols; c++) {
+      List<Tile> remainingTiles = [];
+      int destroyedCount = 0;
+
+      for (int r = 0; r < rows; r++) {
+        if (matches.any((m) => m.row == r && m.col == c)) {
+          destroyedCount++;
+        } else {
+          remainingTiles.add(grid[r][c]);
+        }
+      }
+
+      if (destroyedCount == 0) continue;
+
+      List<Tile> skyTiles = [];
+      for (int i = 0; i < destroyedCount; i++) {
+        skyTiles.add(Tile(
+          coordinate: TileCoordinate(row: -destroyedCount + i, col: c),
+          emoji: level.availableEmojis[_random.nextInt(level.availableEmojis.length)],
+        ));
+      }
+
+      List<Tile> newColumn = [...skyTiles, ...remainingTiles];
+
+      for (int r = 0; r < rows; r++) {
+        grid[r][c] = newColumn[r];
+      }
+    }
+  }
   GameEmoji _getRandomSafeEmoji(int row, int col) {
     GameEmoji candidate = level.availableEmojis[0];
     bool isSafe = false;

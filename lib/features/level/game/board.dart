@@ -97,8 +97,8 @@ void onPanUpdate(DragUpdateDetails details, LevelState levelState) {
           targetCol >= 0 &&
           targetCol < gameController.getColCount()) {
           
-        _log.info('Target valid. Initiating the swap...');
-        gameController.swapTiles(
+      _log.info('Target valid. Initiating match sequence...');
+      levelState.resolveSwipe(
           _draggedTile!.coordinate,
           TileCoordinate(row: targetRow, col: targetCol),
         );

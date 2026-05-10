@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:grimoji/config/levels.dart';
 import 'package:grimoji/features/level/game/controller.dart';
+import 'package:grimoji/features/level/game/model/coordinate.dart';
+import 'package:grimoji/features/level/game/model/match_detector.dart';
 import 'package:logging/logging.dart';
 
 class LevelState extends ChangeNotifier {
@@ -65,6 +67,52 @@ class LevelState extends ChangeNotifier {
     notifyListeners();
   }
 
+
+  Future<void> resolveSwipe(TileCoordinate a, TileCoordinate b) async {
+    isProcessing = true; 
+    notifyListeners();
+
+    gameController.swapTiles(a, b);
+    notifyListeners();
+    await Future.delayed(const Duration(milliseconds: 300)); 
+
+    Set<TileCoordinate> matches = MatchDetector.findMatches(gameController.grid);
+
+    if (matches.isEmpty) {
+      _log.info('Invalid Move! Reverting swap.');
+      gameController.swapTiles(b, a);
+      notifyListeners();
+      await Future.delayed(const Duration(milliseconds: 300));
+      
+      isProcessing = false; 
+      notifyListeners();
+      return;
+    }
+
+    bool hasCombos = true;
+    while (hasCombos) {
+      _log.info('Found ${matches.length} matches! Triggering Avalanche...');
+      
+      gameController.spawnTiles(matches);
+      notifyListeners();
+
+      await Future.delayed(const Duration(milliseconds: 50));
+      gameController.triggerInitialFall();
+      notifyListeners();
+      
+      await Future.delayed(const Duration(milliseconds: 800)); 
+
+      matches = MatchDetector.findMatches(gameController.grid);
+      if (matches.isEmpty) {
+        hasCombos = false; 
+      } else {
+        _log.info('COMBO DETECTED! Looping again...');
+      }
+    }
+
+    isProcessing = false;
+    notifyListeners();
+  }
   void stopLevel() {
     _stopwatch.stop();
     _ticker?.cancel();
@@ -76,5 +124,4 @@ class LevelState extends ChangeNotifier {
     super.dispose();
   }
 
-  void evaluate() {}
 }
