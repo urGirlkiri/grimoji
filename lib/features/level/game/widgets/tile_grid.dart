@@ -18,8 +18,9 @@ class TileGrid extends StatelessWidget {
     }
 
     Future.microtask(() {
-      if (levelState.gameController.grid[0][0].coordinate.row < 0) {
-        levelState.startInitialDrop();
+      if (levelState.gameState.gameController.grid[0][0].coordinate.row < 0) {
+        levelState.gameState.startInitialDrop();
+        levelState.startLevel();
       }
     });
     final double tWidth = metrics.tileWidth!;
@@ -27,12 +28,12 @@ class TileGrid extends StatelessWidget {
 
     List<Widget> tileWidgets = [];
 
-    int nRow = levelState.gameController.getRowCount();
-    int nCol = levelState.gameController.getColCount();
+    int nRow = levelState.gameState.gameController.getRowCount();
+    int nCol = levelState.gameState.gameController.getColCount();
 
     for (int r = 0; r < nRow; r++) {
       for (int c = 0; c < nCol; c++) {
-        final tile = levelState.gameController.grid[r][c];
+        final tile = levelState.gameState.gameController.grid[r][c];
 
         final double leftPixel = (tile.coordinate.col * tWidth) + (tile.coordinate.col * tileSpacingGap);
         final double topPixel = (tile.coordinate.row * tHeight) + (tile.coordinate.row * tileSpacingGap);

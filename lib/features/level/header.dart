@@ -6,7 +6,6 @@ import 'package:grimoji/widgets/emoji_widget.dart';
 import 'package:provider/provider.dart';
 
 class Header extends StatelessWidget {
-  static const double progress = 0.65;
 
   Palette get palette => Palette();
 
@@ -14,6 +13,8 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -59,7 +60,7 @@ class Header extends StatelessWidget {
         _buildProgressbar(
           context.watch<LevelState>().level.number.toString(),
           context.watch<LevelState>().progress,
-          context.watch<LevelState>().hasTargetCombo,
+          context.watch<LevelState>().gameState.hasTargetCombo,
         ),
       ],
     );

@@ -1,11 +1,9 @@
 import 'dart:async';
-
+import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/levels.dart';
-import 'package:grimoji/features/level/game/controller.dart';
-import 'package:grimoji/features/level/game/model/coordinate.dart';
-import 'package:grimoji/features/level/game/model/match_detector.dart';
+import 'package:grimoji/features/level/game/model/game_state.dart';
 import 'package:logging/logging.dart';
 
 class LevelState extends ChangeNotifier {
@@ -15,193 +13,91 @@ class LevelState extends ChangeNotifier {
 
   final Stopwatch _stopwatch = Stopwatch();
   final Logger _log = Logger('LevelState');
-
-  late final GameController gameController;
-  late int _secondsRemaining = level.timeLimit;
-
-  LevelState({required this.onWin, required this.onLose, required this.level}) {
-    gameController = GameController(level);
-    gameController.initialize();
-  }
-
   Timer? _ticker;
 
-  bool isProcessing = false;
-  bool hasTargetCombo = false;
   bool isPaused = false;
-  bool isDisposed = false;
-  bool isGameOver = false;
-
+  bool _isDisposed = false;
+  bool _isGameOver = false;
   int collectedAmount = 0;
 
-  int get secondsRemaining => _secondsRemaining;
-  double get progress => (collectedAmount / level.targetAmount).clamp(0.0, 1.0);
+  late final GameState gameState;
 
-  int calculateStars() {
-    if (progress >= 1.00) return 3;
-    if (progress >= 0.66) return 2;
-    if (progress >= 0.30) return 1;
-    return 0;
+  LevelState({required this.onWin, required this.onLose, required this.level}) {
+    gameState = GameState(
+      level: level,
+      onEmojiDestroyed: _onEmojiDestroyed,
+      onComboFinished: _evaluateGameEnd,
+    );
+
+    gameState.addListener(notifyListeners);
   }
 
-  void evaluateGameEnd() {
-    if (isGameOver) return;
-    _ticker?.cancel();
+  int get secondsRemaining =>
+      max(0, level.timeLimit - _stopwatch.elapsed.inSeconds);
+  double get progress => (collectedAmount / level.targetAmount).clamp(0.0, 1.0);
 
-    int earnedStars = calculateStars();
-        _log.info('earned $earnedStars');
-
-
-    if (earnedStars >= 1) {
-      onWin.call(earnedStars);
-    } else {
-      onLose.call();
-    }
+  int _calculateStars() {
+    if (progress >= 1.00) return 3;
+    if (progress >= 0.66) return 2;
+    if (progress >= 0.33) return 1;
+    return 0;
   }
 
   void startLevel() {
     _stopwatch.start();
     _ticker = Timer.periodic(const Duration(seconds: 1), (_) => _onTimerTick());
+    gameState.startInitialDrop();
   }
 
-  void _onTimerTick() {
-    if (isDisposed) return;
-    if (!_stopwatch.isRunning) return;
+void _onTimerTick() {
+    if (_isDisposed || !_stopwatch.isRunning) return; 
 
-    if (_secondsRemaining > 0) {
-      _secondsRemaining--;
+    // Always notify the UI so the clock face updates every second
+    notifyListeners();
+
+    // Only check for "Game Over" when the board isn't mid-explosion
+    if (secondsRemaining <= 0 && !gameState.isProcessing) {
+      _evaluateGameEnd(); 
+    }
+  }
+  void _onEmojiDestroyed(GameEmoji emoji, int count) {
+    if (emoji == level.targetEmoji) {
+      collectedAmount += count;
       notifyListeners();
-    } else {
-      if (!isProcessing) {
-        evaluateGameEnd();
-      }
     }
   }
 
-  void startInitialDrop() async {
-    _log.info('Starting to drop emojis');
-    startLevel();
-    gameController.triggerInitialFall();
-    notifyListeners();
+  void _evaluateGameEnd() {
+    if (_isGameOver) return;
+
+    if (progress >= 1.0 || (secondsRemaining <= 0 && !gameState.isProcessing)) {
+      _isGameOver = true;
+      _ticker?.cancel();
+      _stopwatch.stop();
+
+      int earnedStars = _calculateStars();
+      if (earnedStars >= 1) {
+        _log.info("GAME OVER! Earned $earnedStars stars. YOU WIN!");
+        onWin.call(earnedStars);
+      } else {
+        _log.info("OUT OF TIME! 0 Stars. YOU LOSE!");
+        onLose.call();
+      }
+    }
   }
 
   void togglePause() {
     isPaused = !isPaused;
-    _log.info('Toggling pause. Currently paused: $isPaused');
-    if (_stopwatch.isRunning) {
-      _stopwatch.stop();
-    } else {
-      _stopwatch.start();
-    }
+    isPaused ? _stopwatch.stop() : _stopwatch.start();
     notifyListeners();
-  }
-
-  void onBoardUpdated() {
-    notifyListeners();
-  }
-
-  Future<void> resolveSwipe(
-    TileCoordinate draggedCoordinate,
-    TileCoordinate targetCoordinate,
-  ) async {
-    isProcessing = true;
-    notifyListeners();
-
-    final TileCoordinate originalDCoordinate = TileCoordinate(
-      row: draggedCoordinate.row,
-      col: draggedCoordinate.col,
-    );
-    final TileCoordinate originalTCoordinate = TileCoordinate(
-      row: targetCoordinate.row,
-      col: targetCoordinate.col,
-    );
-
-    gameController.swapTiles(originalDCoordinate, originalTCoordinate);
-    notifyListeners();
-    await Future.delayed(const Duration(milliseconds: 300));
-    if (isDisposed) return;
-
-    Set<TileCoordinate> matches = MatchDetector.findMatches(
-      gameController.grid,
-    );
-
-    if (matches.isEmpty) {
-      _log.info('Invalid Move! Reverting swap.');
-      gameController.swapTiles(originalTCoordinate, originalDCoordinate);
-      notifyListeners();
-      await Future.delayed(const Duration(milliseconds: 300));
-      if (isDisposed) return;
-
-      isProcessing = false;
-      notifyListeners();
-      return;
-    }
-
-    bool hasCombos = true;
-    bool isFirstMatch = true;
-
-    while (hasCombos) {
-      _log.info('Found ${matches.length} matches! Triggering Avalanche...');
-
-      gameController.spawnTiles(
-        matches,
-        this,
-        mergePoint: isFirstMatch ? targetCoordinate : null,
-      );
-
-      notifyListeners();
-      await Future.delayed(const Duration(milliseconds: 50));
-      if (isDisposed) return;
-
-      gameController.triggerInitialFall();
-      notifyListeners();
-      await Future.delayed(const Duration(milliseconds: 800));
-      if (isDisposed) return;
-
-      matches = MatchDetector.findMatches(gameController.grid);
-      if (matches.isEmpty) {
-        hasCombos = false;
-      } else {
-        _log.info('COMBO DETECTED! Looping again...');
-        isFirstMatch = false;
-      }
-    }
-
-    hasTargetCombo = false;
-    isProcessing = false;
-    if (isDisposed) return;
-
-    if (progress >= 1.0) {
-      evaluateGameEnd();
-      return;
-    }
-
-    if (_secondsRemaining <= 0) {
-      evaluateGameEnd();
-      return;
-    }
-
-    notifyListeners();
-  }
-
-  void stopLevel() {
-    _stopwatch.stop();
-    _ticker?.cancel();
-  }
-
-  void resolveEmoji(GameEmoji destroyedEmoji, int count) {
-    if (destroyedEmoji == level.targetEmoji) {
-      collectedAmount += count;
-      hasTargetCombo = true;
-      notifyListeners();
-    }
   }
 
   @override
   void dispose() {
-    isDisposed = true;
+    _isDisposed = true;
     _ticker?.cancel();
-    _stopwatch.stop(); 
+    _stopwatch.stop();
+    gameState.dispose();
     super.dispose();
   }
 }

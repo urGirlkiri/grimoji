@@ -55,7 +55,7 @@ class _GameBoardState extends State<GameBoard> {
   void onPanStart(DragStartDetails details, BuildContext context) {
     _log.info('Touch Detected');
     final metrics = context.read<BoardMetrics>();
-    final gameController = context.read<LevelState>().gameController;
+    final gameController = context.read<LevelState>().gameState.gameController;
 
     if (!metrics.isReady) return;
 
@@ -78,7 +78,7 @@ void onPanUpdate(DragUpdateDetails details, LevelState levelState) {
 
     final dx = details.localPosition.dx - _dragStartPosition!.dx;
     final dy = details.localPosition.dy - _dragStartPosition!.dy;
-    final gameController = levelState.gameController;
+    final gameController = levelState.gameState.gameController;
 
     if (dx.abs() > 20 || dy.abs() > 20) {
       int targetRow = _draggedTile!.coordinate.row;
@@ -98,11 +98,10 @@ void onPanUpdate(DragUpdateDetails details, LevelState levelState) {
           targetCol < gameController.getColCount()) {
           
       _log.info('Target valid. Initiating match sequence...');
-      levelState.resolveSwipe(
+      levelState.gameState.resolveSwipe(
           _draggedTile!.coordinate,
           TileCoordinate(row: targetRow, col: targetCol),
         );
-        levelState.onBoardUpdated();
       } else {
         _log.info('Swipe hit the boarder! Ignored.');
       }
@@ -116,7 +115,7 @@ void onPanUpdate(DragUpdateDetails details, LevelState levelState) {
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
     final levelstate = context.watch<LevelState>();
-    final gameController = levelstate.gameController;
+    final gameController = levelstate.gameState.gameController;
 
     final int gridColumns = gameController.getColCount();
     final int gridRows = gameController.getRowCount();
@@ -165,7 +164,7 @@ void onPanUpdate(DragUpdateDetails details, LevelState levelState) {
                       calculatedSingleTileWidth / calculatedSingleTileHeight;
 
                   return GestureDetector(
-                    onPanStart: (details) => levelstate.isProcessing ? null : onPanStart(details, context),
+                    onPanStart: (details) => levelstate.gameState.isProcessing ? null : onPanStart(details, context),
                     onPanUpdate: (details) => onPanUpdate(details, levelstate),
                     child: Stack(
                       key: _boardKey,

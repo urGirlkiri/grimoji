@@ -3,8 +3,8 @@ import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/levels.dart';
 import 'package:grimoji/features/level/game/model/alchemy/book.dart';
 import 'package:grimoji/features/level/game/model/coordinate.dart';
+import 'package:grimoji/features/level/game/model/game_state.dart';
 import 'package:grimoji/features/level/game/model/tile.dart';
-import 'package:grimoji/features/level/state.dart';
 import 'package:logging/logging.dart';
 
 class GameController {
@@ -91,7 +91,7 @@ class GameController {
     );
   }
 
-  void spawnTiles(Set<TileCoordinate> matches, LevelState state, {TileCoordinate? mergePoint}) {
+  void spawnTiles(Set<TileCoordinate> matches, GameState state, {TileCoordinate? mergePoint}) {
     Map<GameEmoji, Set<TileCoordinate>> groupedMatches = {};
     for (var match in matches) {
       GameEmoji emoji = grid[match.row][match.col].emoji;
