@@ -18,6 +18,6 @@ class BoardMetrics extends ChangeNotifier {
     _logger.info(
       'Updated BoardMetrics: tileWidth=$tileWidth, tileHeight=$tileHeight, boardRect=$boardRect',
     );
-    Future.delayed(Duration(seconds: 1), () => notifyListeners());
+    notifyListeners();
   }
 }

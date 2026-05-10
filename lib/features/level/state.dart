@@ -12,11 +12,7 @@ class LevelState extends ChangeNotifier {
   final Logger _log = Logger('LevelState');
   late final GameController gameController;
 
-  LevelState({
-    required this.onWin,
-    required this.onFail,
-    required this.level,
-  }){
+  LevelState({required this.onWin, required this.onFail, required this.level}) {
     gameController = GameController(level);
     gameController.initialize();
   }
@@ -24,7 +20,7 @@ class LevelState extends ChangeNotifier {
   final Stopwatch _stopwatch = Stopwatch();
   Timer? _ticker;
 
-  late int _secondsRemaining = level.timeLimit; 
+  late int _secondsRemaining = level.timeLimit;
 
   int get secondsRemaining => _secondsRemaining;
   bool get isPaused => !_stopwatch.isRunning;
@@ -42,6 +38,13 @@ class LevelState extends ChangeNotifier {
         notifyListeners();
       }
     });
+  }
+
+  void startInitialDrop() async {
+    _log.info('Starting to drop emojis');
+    startLevel();
+    gameController.triggerInitialFall();
+    notifyListeners();
   }
 
   void togglePause() {
@@ -65,6 +68,5 @@ class LevelState extends ChangeNotifier {
     super.dispose();
   }
 
-  void evaluate() {
-  }
+  void evaluate() {}
 }

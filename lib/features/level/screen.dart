@@ -100,25 +100,15 @@ class _LevelScreenState extends State<LevelScreen> {
     return MultiProvider(
       providers: [
         Provider.value(value: widget.level),
-        
+
         ChangeNotifierProvider(
-          create: (_) {
-            final state = LevelState(
-              onWin: _playerWon,
-              onFail: _playerFailed,
-              level: widget.level,
-            );
-            
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              state.startLevel();
-            });
-            
-            return state;
-          },
+          create: (_) => LevelState(
+            onWin: _playerWon,
+            onFail: _playerFailed,
+            level: widget.level,
+          ),
         ),
-        ChangeNotifierProvider(
-          create: (_) => BoardMetrics(),
-        ),
+        ChangeNotifierProvider(create: (_) => BoardMetrics()),
       ],
 
       child: Builder(
@@ -142,7 +132,7 @@ class _LevelScreenState extends State<LevelScreen> {
                     ResponsiveScreen(
                       topMessageArea: const Header(),
                       squarishMainArea: const GameBoard(),
-                      rectangularMenuArea:  Foooter(),
+                      rectangularMenuArea: Foooter(),
                       mobileBackgroundImage: const AssetImage(
                         'assets/images/level/game.png',
                       ),

@@ -74,6 +74,7 @@ class _GameBoardState extends State<GameBoard> {
             height: proportionalBoardHeight,
             child: Container(
               padding: const EdgeInsets.all(8.0),
+              clipBehavior: Clip.hardEdge,
               decoration: ShapeDecoration(
                 color: palette.mist,
                 shape: RoundedRectangleBorder(

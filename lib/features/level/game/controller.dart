@@ -8,7 +8,7 @@ import 'package:logging/logging.dart';
 class GameController {
   static const int rows = 8;
   static const int cols = 5;
-  
+
   late List<List<Tile>> grid;
   late GameLevel level;
 
@@ -17,19 +17,25 @@ class GameController {
 
   GameController(this.level);
 
+  int getRowCount() => rows;
+  int getColCount() => cols;
+
   void initialize() {
     _log.info('Initializing GameController');
-    
-    _log.info('Available Emojis: ${level.availableEmojis.length}, Emojis: ${level.availableEmojis.map((e) => e.visual).join(', ')}');
+
+    _log.info(
+      'Available Emojis: ${level.availableEmojis.length}, Emojis: ${level.availableEmojis.map((e) => e.visual).join(', ')}',
+    );
 
     grid = List.generate(
-      rows, 
+      rows,
       (r) => List.generate(
-        cols, 
+        cols,
         (c) => Tile(
-          coordinate: TileCoordinate(row: r, col: c), 
-          emoji: level.availableEmojis[0])
-      )
+          coordinate: TileCoordinate(row: r - rows, col: c),
+          emoji: level.availableEmojis[0],
+        ),
+      ),
     );
 
     for (int r = 0; r < rows; r++) {
@@ -43,30 +49,46 @@ class GameController {
     }
   }
 
-  int getRowCount() => rows;
-  int getColCount() => cols;
-  
+  void triggerInitialFall() {
+    _log.info('Dropping emojis');
+    for (int r = 0; r < rows; r++) {
+      for (int c = 0; c < cols; c++) {
+        Tile tile = grid[r][c];
+        _log.info(
+          "Emoji: ${tile.emoji.visual}, Dropped From, ${tile.coordinate.row} to $r",
+        );
+        tile.coordinate.row = r;
+      }
+    }
+  }
+
   GameEmoji _getRandomSafeEmoji(int row, int col) {
-    
     GameEmoji candidate = level.availableEmojis[0];
     bool isSafe = false;
 
     while (!isSafe) {
-      candidate = level.availableEmojis[_random.nextInt(level.availableEmojis.length)];
+      candidate =
+          level.availableEmojis[_random.nextInt(level.availableEmojis.length)];
       isSafe = true;
 
       if (col <= 1) {
-        _log.info('At The Col $col, No Two Emojis To The Left, skipping horizontal check');
+        _log.info(
+          'At The Col $col, No Two Emojis To The Left, skipping horizontal check',
+        );
       } else {
-        if (grid[row][col - 1].emoji == candidate && grid[row][col - 2].emoji == candidate) {
+        if (grid[row][col - 1].emoji == candidate &&
+            grid[row][col - 2].emoji == candidate) {
           isSafe = false;
         }
       }
 
       if (row <= 1) {
-        _log.info('At The Row $row, No Two Emojis Above, skipping vertical check');
+        _log.info(
+          'At The Row $row, No Two Emojis Above, skipping vertical check',
+        );
       } else {
-        if (grid[row - 1][col].emoji == candidate && grid[row - 2][col].emoji == candidate) {
+        if (grid[row - 1][col].emoji == candidate &&
+            grid[row - 2][col].emoji == candidate) {
           isSafe = false;
         }
       }
