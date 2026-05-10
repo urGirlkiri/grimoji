@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'palette.dart';
+import '../palette.dart';
 
 class AppTheme {
   static ThemeData buildTheme(Palette palette, bool isLargeScreen ){

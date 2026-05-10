@@ -10,11 +10,11 @@ import 'package:logging/logging.dart';
 import 'package:grimoji/router.dart';
 import 'package:provider/provider.dart';
 
-import 'package:grimoji/config/app_theme.dart';
+import 'package:grimoji/config/app/app_theme.dart';
 import 'package:grimoji/utils/responsive.dart';
 import 'package:grimoji/features/map/level_data_controller.dart';
 
-import 'config/app_lifecycle.dart';
+import 'config/app/app_lifecycle.dart';
 import 'config/audio/audio_controller.dart';
 import 'features/settings/controller.dart';
 import 'config/palette.dart';
