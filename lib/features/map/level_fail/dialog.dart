@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:grimoji/config/emojis.dart';
-import 'package:grimoji/widgets/emoji_widget.dart';
-import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:grimoji/config/audio/audio_controller.dart';
 import 'package:grimoji/config/audio/sounds.dart';
+import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/palette.dart';
+import 'package:grimoji/widgets/emoji_widget.dart';
+import 'package:grimoji/widgets/pill_button.dart';
 import 'package:grimoji/widgets/scroll_dialog.dart';
+import 'package:provider/provider.dart';
 
 class LevelFailDialog extends StatelessWidget {
   final int level;
@@ -57,12 +57,19 @@ class LevelFailDialog extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: GoogleFonts.eagleLake(
                       color: palette.twilight,
-                      fontSize: 28,
                     ),
                   ),
                   const SizedBox(height: 30),
 
-                  GestureDetector(
+                  PillButton(
+                    text: 'Retry Level $level',
+                    color: palette.crimson,
+                    textColor: palette.trueWhite,
+                    fullWidth: false,
+                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                    borderRadius: 20,
+                    borderColor: palette.midnight,
+                    borderWidth: 3,
                     onTap: () {
                       context.read<AudioController>().playSfx(
                         SfxType.buttonTap,
@@ -70,30 +77,6 @@ class LevelFailDialog extends StatelessWidget {
                       Navigator.of(context).pop();
                       GoRouter.of(context).go('/play?autoOpen=$level');
                     },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 32,
-                        vertical: 12,
-                      ),
-                      decoration: BoxDecoration(
-                        color: palette.crimson,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: palette.midnight, width: 3),
-                        boxShadow: [
-                          BoxShadow(
-                            color: palette.voidBlack.withValues(alpha: 0.6),
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Text(
-                        'Retry Level $level',
-                        style: GoogleFonts.eagleLake(
-                          fontSize: 20,
-                          color: palette.trueWhite,
-                        ),
-                      ),
-                    ),
                   ),
                 ],
               ),

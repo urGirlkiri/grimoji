@@ -5,8 +5,9 @@ import 'package:grimoji/config/audio/audio_controller.dart';
 import 'package:grimoji/config/audio/sounds.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/palette.dart';
-import 'package:grimoji/features/settings/settings_dialog.dart';
+import 'package:grimoji/features/settings/dialog.dart';
 import 'package:grimoji/widgets/emoji_widget.dart';
+import 'package:grimoji/widgets/pill_button.dart';
 import 'package:grimoji/widgets/scroll_dialog.dart';
 import 'package:provider/provider.dart';
 
@@ -78,67 +79,35 @@ class PauseDialog extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                GestureDetector(
+                PillButton(
+                  text: "Quit",
+                  color: palette.crimson,
+                  textColor: palette.trueWhite,
+                  fullWidth: false,
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  borderRadius: 20,
+                  borderColor: palette.voidBlack,
+                  borderWidth: 3,
                   onTap: () {
                     context.read<AudioController>().playSfx(SfxType.buttonTap);
                     Navigator.of(context).pop();
                     GoRouter.of(context).go('/play/fail/$level');
                   },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      color: palette.crimson,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: palette.voidBlack, width: 3),
-                      boxShadow: [
-                        BoxShadow(
-                          color: palette.voidBlack.withValues(alpha: 0.5),
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: Text(
-                      "Quit",
-                      style: GoogleFonts.eagleLake(
-                        fontSize: 20,
-                        color: palette.trueWhite,
-                      ),
-                    ),
-                  ),
                 ),
                 const SizedBox(width: 16),
-                GestureDetector(
+                PillButton(
+                  text: "Resume",
+                  color: palette.twilight,
+                  textColor: palette.mist,
+                  fullWidth: false,
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  borderRadius: 20,
+                  borderColor: palette.voidBlack,
+                  borderWidth: 3,
                   onTap: () {
                     context.read<AudioController>().playSfx(SfxType.buttonTap);
                     Navigator.of(context).pop();
                   },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      color: palette.twilight,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: palette.voidBlack, width: 3),
-                      boxShadow: [
-                        BoxShadow(
-                          color: palette.voidBlack.withValues(alpha: 0.5),
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: Text(
-                      "Resume",
-                      style: GoogleFonts.eagleLake(
-                        fontSize: 20,
-                        color: palette.mist,
-                      ),
-                    ),
-                  ),
                 ),
               ],
             ),

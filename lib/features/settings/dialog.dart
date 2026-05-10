@@ -6,8 +6,8 @@ import 'package:grimoji/config/audio/sounds.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/features/settings/controller.dart';
 import 'package:grimoji/features/settings/widgets/icon_toggle.dart';
-import 'package:grimoji/features/settings/widgets/pill_button.dart';
 import 'package:grimoji/features/settings/widgets/volume_slider.dart';
+import 'package:grimoji/widgets/pill_button.dart';
 import 'package:grimoji/widgets/scroll_dialog.dart';
 import 'package:provider/provider.dart';
 
@@ -129,7 +129,6 @@ class SettingsDialog extends StatelessWidget {
               PillButton(
                 text: "Quit level",
                 color: palette.crimson,
-                palette: palette,
                 onTap: () {
                   context.read<AudioController>().playSfx(SfxType.buttonTap);
                   Navigator.of(context).pop();

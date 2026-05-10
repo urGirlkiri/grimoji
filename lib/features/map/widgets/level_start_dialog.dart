@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grimoji/config/levels.dart';
-import 'package:grimoji/widgets/emoji_widget.dart';
-import 'package:grimoji/widgets/scroll_dialog.dart';
-import 'package:provider/provider.dart';
-
 import 'package:grimoji/config/audio/audio_controller.dart';
 import 'package:grimoji/config/audio/sounds.dart';
+import 'package:grimoji/config/levels.dart';
 import 'package:grimoji/config/palette.dart';
+import 'package:grimoji/widgets/emoji_widget.dart';
+import 'package:grimoji/widgets/pill_button.dart';
+import 'package:grimoji/widgets/scroll_dialog.dart';
+import 'package:provider/provider.dart';
 
 class LevelStartDialog extends StatelessWidget {
   final GameLevel level;
@@ -53,36 +53,20 @@ class LevelStartDialog extends StatelessWidget {
               size: 120,
             ),
 
-            GestureDetector(
+            PillButton(
+              text: "MIX IT",
+              color: palette.twilight,
+              textColor: palette.mist,
+              fullWidth: false,
+              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+              borderRadius: 20,
+              borderColor: palette.voidBlack,
+              borderWidth: 3,
               onTap: () {
                 context.read<AudioController>().playSfx(SfxType.buttonTap);
                 Navigator.of(context).pop();
                 GoRouter.of(context).replace('/play/hint/${level.number}');
               },
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 40,
-                  vertical: 12,
-                ),
-                decoration: BoxDecoration(
-                  color: palette.twilight,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: palette.voidBlack, width: 3),
-                  boxShadow: [
-                    BoxShadow(
-                      color: palette.voidBlack.withValues(alpha: 0.5),
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Text(
-                  "MIX IT",
-                  style: GoogleFonts.eagleLake(
-                    fontSize: 24,
-                    color: palette.mist,
-                  ),
-                ),
-              ),
             ),
           ],
         ),

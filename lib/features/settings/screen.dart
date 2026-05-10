@@ -3,16 +3,15 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'package:grimoji/features/settings/widgets/icon_toggle.dart';
-import 'package:grimoji/features/settings/widgets/pill_button.dart';
-import 'package:grimoji/features/settings/widgets/volume_slider.dart';
-import 'package:grimoji/features/map/level_data_controller.dart';
 import 'package:grimoji/config/audio/audio_controller.dart';
 import 'package:grimoji/config/audio/sounds.dart';
+import 'package:grimoji/config/palette.dart';
+import 'package:grimoji/features/map/level_data_controller.dart';
+import 'package:grimoji/features/settings/controller.dart';
+import 'package:grimoji/features/settings/widgets/icon_toggle.dart';
+import 'package:grimoji/features/settings/widgets/volume_slider.dart';
 import 'package:grimoji/utils/responsive.dart';
-
-import '../../config/palette.dart';
-import 'controller.dart';
+import 'package:grimoji/widgets/pill_button.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -169,16 +168,17 @@ class SettingsScreen extends StatelessWidget {
                         PillButton(
                           text: "Reset Progress",
                           color: palette.crimson,
-                          palette: palette,
                           onTap: () {
                             context.read<AudioController>().playSfx(SfxType.buttonTap);
                             context.read<LevelDataController>().reset();
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 backgroundColor: palette.midnight,
-                                content: Text(
-                                  'Player progress has been reset.',
-                                  style: GoogleFonts.eagleLake(color: palette.trueWhite),
+                                content: Center(
+                                  child: Text(
+                                    'Player progress has been reset.',
+                                    style: GoogleFonts.eagleLake(color: palette.trueWhite),
+                                  ),
                                 ),
                               ),
                             );

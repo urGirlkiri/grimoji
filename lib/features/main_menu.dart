@@ -4,10 +4,10 @@ import 'package:provider/provider.dart';
 
 import '../config/audio/audio_controller.dart';
 import '../config/audio/sounds.dart';
-import 'settings/controller.dart';
-import '../widgets/custom_button.dart';
 import '../config/palette.dart';
+import '../widgets/pill_button.dart';
 import '../widgets/responsive_screen.dart';
+import 'settings/controller.dart';
 
 class MainMenuScreen extends StatelessWidget {
   const MainMenuScreen({super.key});
@@ -51,17 +51,31 @@ class MainMenuScreen extends StatelessWidget {
             rectangularMenuArea: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                CustomButton(
-                  onPressed: () {
+                PillButton(
+                  text: 'Play',
+                  color: palette.twilight,
+                  textColor: palette.mist,
+                  fullWidth: false,
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  borderRadius: 20,
+                  borderColor: palette.voidBlack,
+                  borderWidth: 3,
+                  onTap: () {
                     audioController.playSfx(SfxType.buttonTap);
                     GoRouter.of(context).go('/play');
                   },
-                  child: const Text('Play'),
                 ),
                 _gap,
-                CustomButton(
-                  onPressed: () => GoRouter.of(context).push('/settings'),
-                  child: const Text('Settings'),
+                PillButton(
+                  text: 'Settings',
+                  color: palette.twilight,
+                  textColor: palette.mist,
+                  fullWidth: false,
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  borderRadius: 20,
+                  borderColor: palette.voidBlack,
+                  borderWidth: 3,
+                  onTap: () => GoRouter.of(context).push('/settings'),
                 ),
                 _gap,
                 Padding(
