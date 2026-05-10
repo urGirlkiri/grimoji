@@ -5,12 +5,14 @@ class ScrollDialog extends StatelessWidget {
   final Widget child;
   final Widget? rightButton;
   final Widget? leftButton;
+  final EdgeInsets? padding;
 
   const ScrollDialog({
     super.key,
     required this.child,
     this.rightButton,
     this.leftButton,
+    this.padding,
   });
 
   @override
@@ -19,20 +21,20 @@ class ScrollDialog extends StatelessWidget {
 
     return SizedBox(
       width: 677,
-      height: isLarge ? 818 : 400,
+      height: isLarge ? 1000 : 818,
       child: Stack(
         clipBehavior: Clip.none,
         alignment: Alignment.center,
         children: [
           Image.asset(
-            'assets/images/level/scroll.png',
+            'assets/images/scroll.png',
             fit: BoxFit.fitWidth,
             width: 677,
-            height: 818,
+            height: 1000,
           ),
 
           Padding(
-            padding: const EdgeInsets.symmetric(
+            padding: padding ?? const EdgeInsets.symmetric(
               horizontal: 50.0,
               vertical: 40.0,
             ),

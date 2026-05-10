@@ -25,6 +25,7 @@ class SettingsDialog extends StatelessWidget {
       backgroundColor: Colors.transparent,
       elevation: 0,
       child: ScrollDialog(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
         rightButton: GestureDetector(
           onTap: () {
             context.read<AudioController>().playSfx(SfxType.buttonTap);
@@ -36,21 +37,21 @@ class SettingsDialog extends StatelessWidget {
             height: 60,
           ),
         ),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                "Settings",
-                style: GoogleFonts.eagleLake(
-                  color: palette.midnight,
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Settings",
+                  style: GoogleFonts.eagleLake(
+                    color: palette.midnight,
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 32),
-              ListenableBuilder(
+                const SizedBox(height: 32),
+                ListenableBuilder(
                 listenable: Listenable.merge([
                   settings.audioOn,
                   settings.soundsOn,
@@ -125,7 +126,6 @@ class SettingsDialog extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 32),
-              const SizedBox(height: 40),
               PillButton(
                 text: "Quit level",
                 color: palette.crimson,
@@ -137,9 +137,9 @@ class SettingsDialog extends StatelessWidget {
               ),
               const SizedBox(height: 8),
             ],
-          ),
         ),
       ),
-    );
+    ),
+  );
   }
 }

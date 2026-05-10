@@ -35,16 +35,16 @@ class SettingsScreen extends StatelessWidget {
           child: Center(
             child: SizedBox(
               width: 677,
-              height: isLarge ? 818 : 500,
+              height: isLarge ? 677 : null,
               child: Stack(
                 clipBehavior: Clip.none,
                 alignment: Alignment.center,
                 children: [
                   Image.asset(
-                    'assets/images/level/scroll.png',
-                    fit: BoxFit.fitWidth,
+                    'assets/images/scroll.png',
+                    fit: isLarge ? BoxFit.fill : BoxFit.fitWidth,
                     width: 677,
-                    height: 818,
+                    height: isLarge ? 677 : null,
                   ),
 
                   Positioned(

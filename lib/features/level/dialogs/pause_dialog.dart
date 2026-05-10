@@ -66,6 +66,7 @@ class PauseDialog extends StatelessWidget {
                 fontSize: 36,
                 fontWeight: FontWeight.bold,
               ),
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 12),
             Text(
@@ -74,6 +75,7 @@ class PauseDialog extends StatelessWidget {
                 color: palette.twilight,
                 fontSize: 18,
               ),
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 32),
             Row(
@@ -84,7 +86,7 @@ class PauseDialog extends StatelessWidget {
                   color: palette.crimson,
                   textColor: palette.trueWhite,
                   fullWidth: false,
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
                   borderRadius: 20,
                   borderColor: palette.voidBlack,
                   borderWidth: 3,
@@ -100,7 +102,7 @@ class PauseDialog extends StatelessWidget {
                   color: palette.twilight,
                   textColor: palette.mist,
                   fullWidth: false,
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
                   borderRadius: 20,
                   borderColor: palette.voidBlack,
                   borderWidth: 3,
