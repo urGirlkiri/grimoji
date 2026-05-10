@@ -21,7 +21,7 @@ class Routes{
   static const settings = '/settings';
 
   static const levelHint = '/play/hint/:level';
-  static const levelPlay = '/play/session/:level';
+  static const levelPlay = '/play/level/:level';
   static const levelWon = '/play/won';
   static const levelFail = '/play/fail/:level';
 

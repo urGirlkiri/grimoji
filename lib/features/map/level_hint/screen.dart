@@ -20,7 +20,7 @@ class _LevelHintScreenState extends State<LevelHintScreen> {
     super.initState();
     Future.delayed(const Duration(milliseconds: 1500), () {
       if (mounted) {
-        GoRouter.of(context).replace('/play/session/${widget.level}');
+        GoRouter.of(context).replace('/play/level/${widget.level}');
       }
     });
   }

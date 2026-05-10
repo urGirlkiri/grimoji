@@ -1,8 +1,8 @@
 class TileCoordinate {
-  final int row;
-  final int col;
+  int row;
+  int col;
 
-  const TileCoordinate({required this.row, required this.col});
+  TileCoordinate({required this.row, required this.col});
 
   @override
   bool operator ==(Object other) =>

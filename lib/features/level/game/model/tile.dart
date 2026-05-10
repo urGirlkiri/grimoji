@@ -4,7 +4,7 @@ import 'package:uuid/uuid.dart';
 
 class Tile {
   final String id;
-  final TileCoordinate coordinate;
+  TileCoordinate coordinate;
   GameEmoji emoji;
 
   Tile({required this.coordinate, required this.emoji, String? id})

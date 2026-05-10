@@ -18,6 +18,9 @@ final _routerNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final router = GoRouter(
   navigatorKey: _routerNavigatorKey,
   initialLocation: Routes.home,
+  // redirect: (BuildContext context, GoRouterState state) {
+  //   return '/play/level/1';
+  // },
   routes: [
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) =>
