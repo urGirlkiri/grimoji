@@ -33,7 +33,7 @@ class MainMenuScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  'assets/icons/icon-adaptive-foreground.png',
+                  'assets/icons/splash.png',
                   fit: BoxFit.cover,
                   width: 512,
                   height: 512,

@@ -19,7 +19,7 @@ A game where you mix emojis to create new emojis!!
 
 > Then enter your own values
 
-### Install Flutter
+### [Install Flutter](https://docs.flutter.dev/install)
 
 ```bash
 flutter doctor
@@ -37,12 +37,7 @@ flutter pub get
 flutter analyze
 ```
 
-
-## How To Run
-
-### Install Flutter
-
-> Clone repo And run `flutter pub get`
+## How To Run Locally
 
 ### Web
 
@@ -50,6 +45,8 @@ flutter analyze
 ```bash
 flutter run -d chrome
 ```
+
+> Images DOn't Load try: `flutter run -d chrome --web-browser-flag="--ignore-gpu-blocklist" --web-browser-flag="--enable-webgl"`
 
 ### Android
 
@@ -63,23 +60,69 @@ flutter run -d android
 flutter run -d ios
 ```
 
-## Windows
+### Windows
 
 ```bash
 flutter run -d windows
 ```
 
-## Linux
+### Linux
 
 ```bash
 flutter run -d linux
 ```
 
-## macOS
+### macOS
 
 ```bash
 flutter run -d macos
 ```
+
+## How to build locally
+
+### Android
+
+```bash
+flutter build apk --release
+```
+
+### iOS
+
+```bash
+flutter build ipa --release
+```
+
+### Windows
+
+```bash
+flutter build windows --release
+```
+
+### Linux
+
+```bash
+flutter build linux --release
+```
+
+```bash
+chmod +x ./tools/build_deb.sh
+```
+
+```bash
+./tools/build_deb.sh
+```
+
+```bash
+sudo dpkg -i grimoji-local.deb
+```
+
+
+### macOS
+
+```bash
+flutter build macos
+```
+
 
 ## Credits
 
@@ -90,12 +133,6 @@ flutter run -d macos
 - [Gemini](https://gemini.google.com/) for the music
 
 - [Vecteezy](https://vecteezy.com/) for the background and pattern images
-
-## Tools
-
-### Generating Emoji Visuals
-
-> Run : `dart run tool/generate_emoji_icons.dart`
 
 ## Logging
 

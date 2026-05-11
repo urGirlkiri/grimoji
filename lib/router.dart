@@ -19,7 +19,7 @@ final router = GoRouter(
   navigatorKey: _routerNavigatorKey,
   initialLocation: Routes.home,
   // redirect: (BuildContext context, GoRouterState state) {
-  //   return '/play/level/1';
+  //   return '/bounties';
   // },
   routes: [
     StatefulShellRoute.indexedStack(
