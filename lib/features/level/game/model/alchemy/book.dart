@@ -44,12 +44,12 @@ class RecipeBook {
       type: RecipeType.merge,
     ),
 
-    Recipe(
-      ingredient: Emojis.fire,
-      requiredAmount: 3,
-      yields: null,
-      type: RecipeType.volatile,
-    ),
+    // Recipe(
+    //   ingredient: Emojis.fire,
+    //   requiredAmount: 3,
+    //   yields: null,
+    //   type: RecipeType.volatile,
+    // ),
     Recipe(
       ingredient: Emojis.fire,
       requiredAmount: 4,
