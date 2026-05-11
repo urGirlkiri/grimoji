@@ -132,7 +132,7 @@ class _LevelScreenState extends State<LevelScreen> {
                 body: Stack(
                   children: [
                     ResponsiveScreen(
-                      topMessageArea: const Header(),
+                      topMessageArea: Header(),
                       squarishMainArea: const GameBoard(),
                       rectangularMenuArea: Foooter(),
                       mobileBackgroundImage: const AssetImage(

@@ -3,16 +3,18 @@ import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/widgets/emoji_widget.dart';
+import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 
 class Header extends StatelessWidget {
   Palette get palette => Palette();
-
-  const Header({super.key});
+  final Logger _log = Logger('Header');
+  Header({super.key});
 
   @override
   Widget build(BuildContext context) {
     final levelState = context.watch<LevelState>();
+    _log.info("Target Global Key: ${levelState.targetIconKey}");
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -32,7 +34,10 @@ class Header extends StatelessWidget {
               children: [
                 _buildInfoBox('Time', levelState.secondsRemaining.toString()),
                 const SizedBox(width: 16),
-                _buildTargetBox(levelState.level.targetEmoji),
+                _buildTargetBox(
+                  levelState.level.targetEmoji,
+                  levelState.targetIconKey,
+                ),
                 const SizedBox(width: 16),
                 Container(
                   width: 60,
@@ -78,63 +83,61 @@ class Header extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 12),
-        Expanded(
-          child: _buildProgressBar(progress, hasTargetCombo),
-        ),
+        Expanded(child: _buildProgressBar(progress, hasTargetCombo)),
       ],
     );
   }
 
   Widget _buildProgressBar(double progress, bool hasTargetCombo) {
     return Stack(
-          alignment: Alignment.centerLeft,
+      alignment: Alignment.centerLeft,
+      children: [
+        Container(
+          width: double.infinity,
+          height: 14,
+          decoration: ShapeDecoration(
+            color: palette.twilight,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(60),
+            ),
+          ),
+        ),
+
+        AnimatedFractionallySizedBox(
+          duration: const Duration(milliseconds: 600),
+          curve: Curves.easeOutBack,
+          widthFactor: progress.clamp(0.0, 1.0),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 400),
+            height: 14,
+            decoration: ShapeDecoration(
+              color: hasTargetCombo ? palette.moonlight : palette.mist,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(60),
+              ),
+              shadows: hasTargetCombo
+                  ? [
+                      BoxShadow(
+                        color: palette.moonlight.withValues(alpha: .8),
+                        blurRadius: 12,
+                        spreadRadius: 2,
+                      ),
+                    ]
+                  : [],
+            ),
+          ),
+        ),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Container(
-              width: double.infinity,
-              height: 14,
-              decoration: ShapeDecoration(
-                color: palette.twilight,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(60),
-                ),
-              ),
-            ),
-
-            AnimatedFractionallySizedBox(
-              duration: const Duration(milliseconds: 600),
-              curve: Curves.easeOutBack,
-              widthFactor: progress.clamp(0.0, 1.0),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 400),
-                height: 14,
-                decoration: ShapeDecoration(
-                  color: hasTargetCombo ? palette.moonlight : palette.mist,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(60),
-                  ),
-                  shadows: hasTargetCombo
-                      ? [
-                          BoxShadow(
-                            color: palette.moonlight.withValues(alpha: .8),
-                            blurRadius: 12,
-                            spreadRadius: 2,
-                          ),
-                        ]
-                      : [],
-                ),
-              ),
-            ),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildStar(isActive: progress >= 0.33),
-                _buildStar(isActive: progress >= 0.66),
-                _buildStar(isActive: progress >= 1.00),
-              ],
-            ),
+            _buildStar(isActive: progress >= 0.33),
+            _buildStar(isActive: progress >= 0.66),
+            _buildStar(isActive: progress >= 1.00),
           ],
-        );
+        ),
+      ],
+    );
   }
 
   Widget _buildInfoBox(String label, String value) {
@@ -173,7 +176,7 @@ class Header extends StatelessWidget {
     );
   }
 
-  Widget _buildTargetBox(GameEmoji targetEmoji) {
+  Widget _buildTargetBox(GameEmoji targetEmoji, GlobalKey targetIconKey) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
       decoration: ShapeDecoration(
@@ -197,6 +200,7 @@ class Header extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           EmojiWidget.lottie(
+            key: targetIconKey,
             path: targetEmoji.lottie,
             useDropShadow: true,
             size: 40,

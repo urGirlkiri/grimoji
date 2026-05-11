@@ -9,6 +9,8 @@ class Tile {
 
   bool isExploding = false; 
   bool isMerging = false;
+  bool hasFlown = false;
+  bool isFlying = false; 
 
   Tile({required this.coordinate, required this.emoji, String? id})
     : id = id ?? const Uuid().v4();
@@ -16,8 +18,10 @@ class Tile {
   void reset() {
     isExploding = false;
     isMerging = false;
+    hasFlown = false; 
+    isFlying = false; 
   }
 
-  @override
+@override
   String toString() => 'Tile(${coordinate.row}, ${coordinate.col}: ${emoji.visual})';
 }

@@ -36,111 +36,132 @@ class GameState extends ChangeNotifier {
     notifyListeners();
   }
 
-Future<void> resolveSwipe(
+  Future<void> resolveSwipe(
     TileCoordinate draggedCoordinate,
     TileCoordinate targetCoordinate,
   ) async {
     isProcessing = true;
     notifyListeners();
 
-    final TileCoordinate originalD = TileCoordinate(
-      row: draggedCoordinate.row,
-      col: draggedCoordinate.col,
-    );
-    final TileCoordinate originalT = TileCoordinate(
-      row: targetCoordinate.row,
-      col: targetCoordinate.col,
-    );
+    List<MatchGroup> matchGroups = await _attemptSwap(draggedCoordinate, targetCoordinate);
+
+    if (matchGroups.isEmpty) {
+      isProcessing = false;
+      if (!_isDisposed) notifyListeners();
+      return;
+    }
+
+    bool isFirstMatch = true;
+
+    while (matchGroups.isNotEmpty) {
+      _log.info('Processing ${matchGroups.length} groups...');
+
+      _categorizeAnimations(matchGroups, isFirstMatch, targetCoordinate);
+      notifyListeners();
+      await Future.delayed(clearAnimationTime);
+      if (_isDisposed) return;
+
+      final Set<TileCoordinate> allMatchedCoords = matchGroups.expand((g) => g.coordinates).toSet();
+      gameController.spawnTiles(allMatchedCoords, this, mergePoint: isFirstMatch ? targetCoordinate : null);
+      
+      await Future.delayed(const Duration(milliseconds: 100));
+      if (_isDisposed) return;
+
+      bool collected = gameController.collectFlyingTiles();
+      if (collected) {
+        notifyListeners(); 
+      }
+      gameController.triggerInitialFall();
+      notifyListeners();
+
+      await Future.delayed(gravityAnimationTime);
+      if (_isDisposed) return;
+
+      matchGroups = MatchDetector.findMatchGroups(gameController.grid);
+      isFirstMatch = false;
+    }
+
+    if (!gameController.hasPossibleMoves()) {
+      _log.info('NO MOVES LEFT!  Shuffling...');
+      shuffleBoard();
+    }
+
+    bool isGameOver = onComboFinished();
+    if (!isGameOver) hasTargetCombo = false;
+
+    isProcessing = false;
+    if (!_isDisposed) notifyListeners();
+  }
+
+  void shuffleBoard() {
+    bool validBoard = false;
+    
+    while (!validBoard) {
+      List<GameEmoji> allEmojis = gameController.grid
+          .expand((row) => row.map((tile) => tile.emoji))
+          .toList();
+      allEmojis.shuffle();
+
+      int index = 0;
+      for (int r = 0; r < gameController.getRowCount(); r++) {
+        for (int c = 0; c < gameController.getColCount(); c++) {
+          gameController.grid[r][c].emoji = allEmojis[index++];
+          gameController.grid[r][c].reset(); 
+        }
+      }
+
+      validBoard = gameController.hasPossibleMoves();
+      
+      if (MatchDetector.findMatchGroups(gameController.grid).isNotEmpty) {
+        validBoard = false; 
+      }
+    }
+    notifyListeners(); 
+  }
+
+  Future<List<MatchGroup>> _attemptSwap(TileCoordinate dCoord, TileCoordinate tCoord) async {
+    final originalD = TileCoordinate(row: dCoord.row, col: dCoord.col);
+    final originalT = TileCoordinate(row: tCoord.row, col: tCoord.col);
 
     gameController.swapTiles(originalD, originalT);
     notifyListeners();
-    await Future.delayed(const Duration(milliseconds: 300));
-    if (_isDisposed) return;
+    await Future.delayed(swapAnimationTime);
+    if (_isDisposed) return [];
 
-    List<MatchGroup> matchGroups = MatchDetector.findMatchGroups(
-      gameController.grid,
-    );
+    List<MatchGroup> matchGroups = MatchDetector.findMatchGroups(gameController.grid);
 
     if (matchGroups.isEmpty) {
       _log.info('Invalid Move! Reverting swap.');
       gameController.swapTiles(originalT, originalD);
       notifyListeners();
-      await Future.delayed(const Duration(milliseconds: 300));
-
-      isProcessing = false;
-      notifyListeners();
-      return;
+      await Future.delayed(swapAnimationTime);
+      return [];
     }
 
-    bool hasCombos = true;
-    bool isFirstMatch = true;
+    return matchGroups;
+  }
 
-    while (hasCombos) {
-      _log.info('Processing ${matchGroups.length} groups...');
+  void _categorizeAnimations(List<MatchGroup> matchGroups, bool isFirstMatch, TileCoordinate targetCoord) {
+    for (var group in matchGroups) {
+      final recipe = RecipeBook.getRecipeFor(group.emoji);
 
-      for (var group in matchGroups) {
-        final recipe = RecipeBook.getRecipeFor(group.emoji);
+      if (recipe != null && recipe.type == RecipeType.merge) {
+        TileCoordinate catalyst = (isFirstMatch && group.coordinates.contains(targetCoord))
+            ? targetCoord
+            : group.coordinates.first;
 
-        if (recipe != null && recipe.type == RecipeType.merge) {
-          TileCoordinate catalyst =
-              (isFirstMatch && group.coordinates.contains(targetCoordinate))
-                  ? targetCoordinate
-                  : group.coordinates.first;
-
-          for (var coord in group.coordinates) {
-            final tile = gameController.grid[coord.row][coord.col];
-            if (coord == catalyst) {
-              tile.isMerging = true;
-            } else {
-              tile.isExploding = true;
-            }
-          }
-        } else {
-          for (var coord in group.coordinates) {
-            gameController.grid[coord.row][coord.col].isExploding = true;
-          }
+        for (var coord in group.coordinates) {
+          final tile = gameController.grid[coord.row][coord.col];
+          coord == catalyst ? tile.isMerging = true : tile.isExploding = true;
+        }
+      } else {
+        for (var coord in group.coordinates) {
+          gameController.grid[coord.row][coord.col].isExploding = true;
         }
       }
-
-      notifyListeners();
-      await Future.delayed(clearAnimationTime);
-      if (_isDisposed) return;
-
-      final Set<TileCoordinate> allMatchedCoords = 
-          matchGroups.expand((g) => g.coordinates).toSet();
-
-      gameController.spawnTiles(
-        allMatchedCoords,
-        this,
-        mergePoint: isFirstMatch ? targetCoordinate : null,
-      );
-      notifyListeners();
-
-      gameController.triggerInitialFall();
-      notifyListeners();
-
-      await Future.delayed(const Duration(milliseconds: 800));
-      if (_isDisposed) return;
-
-      matchGroups = MatchDetector.findMatchGroups(gameController.grid);
-      if (matchGroups.isEmpty) {
-        hasCombos = false;
-      } else {
-        isFirstMatch = false;
-      }
     }
-
-    bool isGameOver = onComboFinished();
-
-    if (!isGameOver) {
-      hasTargetCombo = false;
-    }
-
-    isProcessing = false;
-    if (_isDisposed) return;
-
-    notifyListeners();
   }
+
   void resolveEmoji(GameEmoji emoji, int count) {
     if (emoji == level.targetEmoji) {
       hasTargetCombo = true;

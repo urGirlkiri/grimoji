@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/levels.dart';
 import 'package:grimoji/features/level/game/model/game_state.dart';
@@ -13,6 +14,7 @@ class LevelState extends ChangeNotifier {
 
   final Stopwatch _stopwatch = Stopwatch();
   final Logger _log = Logger('LevelState');
+  final GlobalKey targetIconKey = GlobalKey();
   Timer? _ticker;
 
   bool isPaused = false;
@@ -49,15 +51,16 @@ class LevelState extends ChangeNotifier {
     gameState.startInitialDrop();
   }
 
-void _onTimerTick() {
-    if (_isDisposed || !_stopwatch.isRunning) return; 
+  void _onTimerTick() {
+    if (_isDisposed || !_stopwatch.isRunning) return;
 
     notifyListeners();
 
     if (secondsRemaining <= 0 && !gameState.isProcessing) {
-      _evaluateGameEnd(); 
+      _evaluateGameEnd();
     }
   }
+
   void _onEmojiDestroyed(GameEmoji emoji, int count) {
     if (emoji == level.targetEmoji) {
       collectedAmount += count;
@@ -83,7 +86,7 @@ void _onTimerTick() {
       }
     }
 
-    return true; 
+    return true;
   }
 
   void togglePause() {
