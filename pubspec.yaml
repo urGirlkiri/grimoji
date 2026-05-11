@@ -1,5 +1,5 @@
 name: grimoji
-description: A game about mixing and collecting Emoji's 
+description:  A gothic alchemy game for mixing and collecting emojis.
 
 # Prevent accidental publishing to pub.dev.
 publish_to: 'none'

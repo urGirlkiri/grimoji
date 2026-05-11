@@ -1,8 +1,8 @@
 # Grimoji
 
 
-A game where you mix emojis to create new emojis!!
-
+ A gothic alchemy game for mixing and collecting emojis.
+ 
 <img 
   src="assets/screenshots/mockup.png" 
   alt="Desktop Screenshot"
