@@ -57,12 +57,12 @@ jobs:
       - name: Package Linux into .deb
         run: |
           # Create Debian file structure
-          mkdir -p debian_build/usr/share/mojingo
-          cp -r build/linux/x64/release/bundle/* debian_build/usr/share/mojingo/
+          mkdir -p debian_build/usr/share/grimoji
+          cp -r build/linux/x64/release/bundle/* debian_build/usr/share/grimoji/
 
-          # Create a symlink so users can type "mojingo" in their terminal to launch it
+          # Create a symlink so users can type "grimoji" in their terminal to launch it
           mkdir -p debian_build/usr/bin
-          ln -s /usr/share/mojingo/mojingo debian_build/usr/bin/mojingo
+          ln -s /usr/share/grimoji/grimoji debian_build/usr/bin/grimoji
 
           # Strip the "v" from the GitHub tag (e.g., "v1.0.0" becomes "1.0.0")
           VERSION=$(echo ${{ github.ref_name }} | sed 's/^v//')
@@ -78,14 +78,14 @@ jobs:
           EOF
 
           # Compile the .deb package
-          dpkg-deb --build debian_build grimoji-linux-amd64.deb
+          dpkg-deb --build debian_build linux-amd64.deb
 
       - name: Upload to GitHub Releases
         uses: softprops/action-gh-release@v2
         with:
           files: |
             build/app/outputs/flutter-apk/app-release.apk
-            grimoji-linux-amd64.deb
+            linux-amd64.deb
           name: Release ${{ github.ref_name }}
           generate_release_notes: true
         env:
