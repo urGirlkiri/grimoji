@@ -5,7 +5,7 @@ import 'package:grimoji/features/level/game/widgets/board_grid.dart';
 import 'package:grimoji/features/level/game/metrics.dart';
 import 'package:grimoji/features/level/game/widgets/tile_grid.dart';
 import 'package:grimoji/features/level/game/model/tile.dart';
-import 'package:grimoji/features/level/game/model/coordinate.dart'; // Added for TileCoordinate
+import 'package:grimoji/features/level/game/model/coordinate.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
@@ -126,10 +126,15 @@ void onPanUpdate(DragUpdateDetails details, LevelState levelState) {
 
     return LayoutBuilder(
       builder: (context, screenConstraints) {
-        final double constrainedBoardWidth =
-            screenConstraints.maxWidth > maxAllowedBoardWidth
-            ? maxAllowedBoardWidth
-            : screenConstraints.maxWidth;
+        final double screenWidth = screenConstraints.maxWidth;
+        final double screenHeight = screenConstraints.maxHeight;
+        final bool isSmallScreen = screenWidth < 360 || screenHeight < 600;
+
+        final double constrainedBoardWidth = isSmallScreen
+            ? screenWidth * 0.95
+            : (screenWidth > maxAllowedBoardWidth
+                ? maxAllowedBoardWidth
+                : screenWidth * 0.9);
 
         final double proportionalBoardHeight =
             (constrainedBoardWidth * gridRows) / gridColumns;
@@ -139,7 +144,7 @@ void onPanUpdate(DragUpdateDetails details, LevelState levelState) {
             width: constrainedBoardWidth,
             height: proportionalBoardHeight,
             child: Container(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(isSmallScreen ? 4.0 : 8.0),
               clipBehavior: Clip.hardEdge,
               decoration: ShapeDecoration(
                 color: palette.mist,
