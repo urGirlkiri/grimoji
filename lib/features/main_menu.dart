@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimoji/config/palette.dart';
+import 'package:grimoji/widgets/neon_logo.dart';
 import 'package:provider/provider.dart';
 
 import '../config/audio/audio_controller.dart';
 import '../config/audio/sounds.dart';
-import '../config/palette.dart';
 import '../widgets/pill_button.dart';
 import '../widgets/responsive_screen.dart';
 import 'settings/controller.dart';
@@ -23,7 +24,7 @@ class MainMenuScreen extends StatelessWidget {
       body: Stack(
         children: [
           Positioned.fill(
-            child: Image.asset('assets/images/emo.png', fit: BoxFit.cover),
+            child: Image.asset('assets/images/emo_2.png', fit: BoxFit.cover),
           ),
           ResponsiveScreen(
             squarishMainArea: LayoutBuilder(
@@ -50,17 +51,8 @@ class MainMenuScreen extends StatelessWidget {
                               width: imageSize,
                               height: imageSize * 1.1,
                             ),
-                            const SizedBox(height: 64),
-                            Transform.rotate(
-                              angle: -0.1,
-                              child: Text(
-                                'Grimoji',
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                                  fontSize: (imageSize * 0.8).clamp(28.0, 56.0),
-                                ),
-                              ),
-                            ),
+                            const SizedBox(height: 16),
+                            NeonLogo(imageSize: imageSize),
                           ],
                         ),
                       ],
@@ -83,7 +75,7 @@ class MainMenuScreen extends StatelessWidget {
                       vertical: 10,
                     ),
                     borderRadius: 20,
-                    borderColor: palette.voidBlack,
+                    borderColor: palette.mist,
                     borderWidth: 3,
                     onTap: () {
                       audioController.playSfx(SfxType.buttonTap);
@@ -101,7 +93,7 @@ class MainMenuScreen extends StatelessWidget {
                       vertical: 10,
                     ),
                     borderRadius: 20,
-                    borderColor: palette.voidBlack,
+                    borderColor: palette.mist,
                     borderWidth: 3,
                     onTap: () => GoRouter.of(context).push('/settings'),
                   ),
