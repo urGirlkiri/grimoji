@@ -78,3 +78,11 @@ flutter_native_splash:
   android_12:
     color: "#1a1a24"
     image: "assets/icons/splash.png"
+
+msix_config:
+  display_name: Grimoji
+  publisher_display_name: Ghetto Coders
+  identity_name: GhettoCoders.Grimoji
+  publisher: CN=9AD0141A-3599-4A6C-BC62-AFB18E2AF8EC
+  logo_path: assets/icons/512x512.png
+  capabilities: "internetClient"
