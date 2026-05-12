@@ -29,5 +29,4 @@ modules:
       - type: file
         path: io.grimoji.game.desktop
       - type: file
-        path: assets/icons/512x512.png
-        dest-filename: grimoji.png
+        path: grimoji.png

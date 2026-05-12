@@ -193,7 +193,10 @@ jobs:
         with:
           name: linux-bundle
           path: flatpak/build/linux/x64/release/bundle/
-          
+      
+      - name: Copy Icon File
+        run: cp assets/icons/512x512.png flatpak/grimoji.png
+      
       - name: Build Flatpak
         uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
