@@ -45,19 +45,19 @@ class MainMenuScreen extends StatelessWidget {
                           children: [
                             SizedBox(height: imageSize * 0.1),
                             Image.asset(
-                              'assets/icons/splash.png',
+                              'assets/icons/512x512.png',
                               fit: BoxFit.contain,
                               width: imageSize,
                               height: imageSize * 1.1,
                             ),
-                            const SizedBox(height: 24),
+                            const SizedBox(height: 64),
                             Transform.rotate(
                               angle: -0.1,
                               child: Text(
                                 'Grimoji',
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                                  fontSize: (imageSize * 0.22).clamp(28.0, 56.0),
+                                  fontSize: (imageSize * 0.8).clamp(28.0, 56.0),
                                 ),
                               ),
                             ),

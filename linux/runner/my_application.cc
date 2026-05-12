@@ -30,7 +30,7 @@ static void my_application_activate(GApplication* application) {
   GtkWindow* window =
       GTK_WINDOW(gtk_application_window_new(GTK_APPLICATION(application)));
 
-  const string iconFilename = "assets/icons/icon-web.png";
+  const string iconFilename = "assets/icons/512x512.png";
   path execDir = canonical(read_symlink("/proc/self/exe")).parent_path();
   path iconPath = execDir / "data/flutter_assets" / iconFilename;
   gtk_window_set_icon_from_file(GTK_WINDOW(window), iconPath.c_str(), NULL);

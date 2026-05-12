@@ -28,6 +28,7 @@ class _LevelFailScreenState extends State<LevelFailScreen> {
   void _showFailDialog() {
     showDialog(
       context: context,
+      barrierDismissible: false,
       barrierColor: Colors.black.withValues(alpha: .7),
       builder: (BuildContext context) {
         return LevelFailDialog(level: widget.level);
