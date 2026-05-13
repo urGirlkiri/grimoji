@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.grimoji.game</id>
+  <name>Grimoji</name>
+  <summary>Gothic alchemy puzzle game</summary>
+  <description>
+    <p>Step into the shoes of a magical apprentice and learn to brew, mix, and transmute emojis.</p>
+  </description>
+  <launchable type="desktop-id">io.grimoji.game.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Gameplay combining merge and match-3 mechanics.</caption>
+      <image>https://raw.githubusercontent.com/urGirlkiri/mojingo/main/assets/screenshots/screen1.png</image>
+    </screenshot>
+  </screenshots>
+</component>

@@ -20,7 +20,7 @@ modules:
       - chmod +x /app/bin/grimoji
     sources:
       - type: dir
-        path: build/linux/x64/release/bundle/
+        path: flatpak/build/linux/x64/release/bundle/
   
   - name: metadata
     buildsystem: simple
@@ -32,3 +32,10 @@ modules:
         path: io.grimoji.game.desktop
       - type: file
         path: grimoji.png
+  - name: metainfo
+    buildsystem: simple
+    build-commands:
+      - install -Dm644 io.grimoji.game.metainfo.xml /app/share/metainfo/io.grimoji.game.metainfo.xml
+    sources:
+      - type: file
+        path: io.grimoji.game.metainfo.xml
