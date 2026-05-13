@@ -11,7 +11,6 @@ import 'package:grimoji/features/game/model/tile.dart';
 import 'package:logging/logging.dart';
 
 class GameState extends ChangeNotifier {
-  final GameLevel level;
   final void Function(GameEmoji, int) onEmojiDestroyed;
   final bool Function() onComboFinished;
 
@@ -42,7 +41,7 @@ class GameState extends ChangeNotifier {
   }
 
   GameState({
-    required this.level,
+    required GameLevel level,
     required this.onEmojiDestroyed,
     required this.onComboFinished,
   }) {
@@ -248,7 +247,7 @@ class GameState extends ChangeNotifier {
   }
 
   void resolveEmoji(GameEmoji emoji, int count) {
-    if (emoji == level.targetEmoji) {
+    if (emoji == gameController.level.targetEmoji) {
       hasTargetCombo = true;
     }
     onEmojiDestroyed(emoji, count);

@@ -13,7 +13,7 @@ class GameController {
   static const int cols = 5;
 
   late List<List<Tile>> grid;
-  late GameLevel level;
+  final GameLevel level;
 
   final Random _random = Random();
   final Logger _log = Logger('GameController');
@@ -50,14 +50,16 @@ class GameController {
       for (int c = 0; c < cols; c++) {
         if (c < cols - 1) {
           _simulateSwap(r, c, r, c + 1);
-          bool hasMatch = MatchDetector.findMatchGroups(grid).isNotEmpty;
+          bool hasMatch = MatchDetector.hasMatchAt(grid, r, c) ||
+              MatchDetector.hasMatchAt(grid, r, c + 1);
           _simulateSwap(r, c, r, c + 1);
           if (hasMatch) return true;
         }
 
         if (r < rows - 1) {
           _simulateSwap(r, c, r + 1, c);
-          bool hasMatch = MatchDetector.findMatchGroups(grid).isNotEmpty;
+          bool hasMatch = MatchDetector.hasMatchAt(grid, r, c) ||
+              MatchDetector.hasMatchAt(grid, r + 1, c);
           _simulateSwap(r, c, r + 1, c);
           if (hasMatch) return true;
         }
@@ -153,7 +155,7 @@ class GameController {
     targetTile.emoji = recipe.yields!;
     targetTile.reset();
 
-    if (recipe.yields == state.level.targetEmoji) {
+    if (recipe.yields == level.targetEmoji) {
       state.resolveEmoji(recipe.yields!, 1);
       targetTile.isFlying = true;
     }
@@ -211,7 +213,8 @@ class GameController {
       for (int c = 0; c < cols; c++) {
         if (c < cols - 1) {
           _simulateSwap(r, c, r, c + 1);
-          bool hasMatch = MatchDetector.findMatchGroups(grid).isNotEmpty;
+          bool hasMatch = MatchDetector.hasMatchAt(grid, r, c) ||
+              MatchDetector.hasMatchAt(grid, r, c + 1);
           _simulateSwap(r, c, r, c + 1);
           if (hasMatch) {
             return [
@@ -223,7 +226,8 @@ class GameController {
 
         if (r < rows - 1) {
           _simulateSwap(r, c, r + 1, c);
-          bool hasMatch = MatchDetector.findMatchGroups(grid).isNotEmpty;
+          bool hasMatch = MatchDetector.hasMatchAt(grid, r, c) ||
+              MatchDetector.hasMatchAt(grid, r + 1, c);
           _simulateSwap(r, c, r + 1, c);
           if (hasMatch) {
             return [
