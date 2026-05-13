@@ -3,10 +3,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/config/palette.dart';
-import 'package:grimoji/features/level/game/model/coordinate.dart';
+import 'package:grimoji/features/game/model/coordinate.dart';
 import 'package:provider/provider.dart';
 
-class HintNudge extends StatefulWidget {
+class HintSwipeNudge extends StatefulWidget {
   final bool isHinting;
   final TileCoordinate current;
   final TileCoordinate? partner;
@@ -14,7 +14,7 @@ class HintNudge extends StatefulWidget {
   final double tileHeight;
   final Widget child;
 
-  const HintNudge({
+  const HintSwipeNudge({
     super.key,
     required this.isHinting,
     required this.current,
@@ -25,10 +25,10 @@ class HintNudge extends StatefulWidget {
   });
 
   @override
-  State<HintNudge> createState() => _HintNudgeState();
+  State<HintSwipeNudge> createState() => _HintSwipeNudgeState();
 }
 
-class _HintNudgeState extends State<HintNudge>
+class _HintSwipeNudgeState extends State<HintSwipeNudge>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -49,7 +49,7 @@ class _HintNudgeState extends State<HintNudge>
   }
 
   @override
-  void didUpdateWidget(HintNudge oldWidget) {
+  void didUpdateWidget(HintSwipeNudge oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.isHinting && !oldWidget.isHinting) {
       _controller.repeat();

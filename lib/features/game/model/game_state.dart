@@ -3,11 +3,11 @@ import 'package:flutter/foundation.dart';
 import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/levels.dart';
-import 'package:grimoji/features/level/game/controller.dart';
-import 'package:grimoji/features/level/game/model/alchemy/book.dart';
-import 'package:grimoji/features/level/game/model/coordinate.dart';
-import 'package:grimoji/features/level/game/model/match_detector.dart';
-import 'package:grimoji/features/level/game/model/tile.dart';
+import 'package:grimoji/features/game/controller.dart';
+import 'package:grimoji/features/game/model/alchemy/book.dart';
+import 'package:grimoji/features/game/model/coordinate.dart';
+import 'package:grimoji/features/game/model/match_detector.dart';
+import 'package:grimoji/features/game/model/tile.dart';
 import 'package:logging/logging.dart';
 
 class GameState extends ChangeNotifier {

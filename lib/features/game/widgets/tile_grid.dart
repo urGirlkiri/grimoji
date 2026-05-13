@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/palette.dart';
-import 'package:grimoji/features/level/game/metrics.dart';
-import 'package:grimoji/features/level/game/widgets/flight_animation.dart';
-import 'package:grimoji/features/level/game/widgets/hit_nudge.dart';
+import 'package:grimoji/features/game/metrics.dart';
+import 'package:grimoji/features/game/widgets/flight_animation.dart';
+import 'package:grimoji/features/game/widgets/hit_nudge.dart';
 import 'package:grimoji/features/level/state.dart';
-import 'package:grimoji/features/level/game/model/tile.dart';
+import 'package:grimoji/features/game/model/tile.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:grimoji/widgets/emoji_widget.dart';
@@ -220,7 +220,7 @@ class TileGrid extends StatelessWidget {
         size: tWidth * 0.8,
       );
 
-      return HintNudge(
+      return HintSwipeNudge(
         isHinting: tile.isHinting,
         current: tile.coordinate,
         partner: tile.hintPartner,

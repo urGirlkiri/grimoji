@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/levels.dart';
-import 'package:grimoji/features/level/game/model/game_state.dart';
+import 'package:grimoji/features/game/model/game_state.dart';
 import 'package:logging/logging.dart';
 
 class LevelState extends ChangeNotifier {
@@ -15,11 +15,6 @@ class LevelState extends ChangeNotifier {
   final Logger _log = Logger('LevelState');
   final GlobalKey targetIconKey = GlobalKey();
   Timer? _ticker;
-
-  bool isPaused = false;
-  bool _isDisposed = false;
-  bool _isGameOver = false;
-  int collectedAmount = 0;
 
   late final GameState gameState;
 
@@ -33,16 +28,13 @@ class LevelState extends ChangeNotifier {
     gameState.addListener(notifyListeners);
   }
 
-  int get secondsRemaining =>
-      max(0, level.timeLimit - _stopwatch.elapsed.inSeconds);
-  double get progress => (collectedAmount / level.targetAmount).clamp(0.0, 1.0);
+  bool isPaused = false;
+  bool _isDisposed = false;
+  bool _isGameOver = false;
+  int collectedAmount = 0;
 
-  int _calculateStars() {
-    if (progress >= 1.00) return 3;
-    if (progress >= 0.66) return 2;
-    if (progress >= 0.33) return 1;
-    return 0;
-  }
+  int get secondsRemaining => max(0, level.timeLimit - _stopwatch.elapsed.inSeconds);
+  double get progress => (collectedAmount / level.targetAmount).clamp(0.0, 1.0);
 
   void startLevel() {
     _stopwatch.start();
@@ -75,7 +67,12 @@ class LevelState extends ChangeNotifier {
       _ticker?.cancel();
       _stopwatch.stop();
 
-      int earnedStars = _calculateStars();
+      int earnedStars = 0;
+
+    if (progress >= 1.00) earnedStars = 3;
+    if (progress >= 0.66) earnedStars = 2;
+    if (progress >= 0.33) earnedStars = 1;
+      
       if (earnedStars >= 1) {
         _log.info("GAME OVER! Earned $earnedStars stars. YOU WIN!");
         onWin.call(earnedStars);
