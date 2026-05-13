@@ -239,8 +239,18 @@ jobs:
       
       - name: Copy Desktop and Icon Files
         run: |
-          cp assets/icons/512x512.png flatpak/grimoji.png
-          cp snap/gui/grimoji.desktop flatpak/io.grimoji.game.desktop
+          cp assets/icons/512x512.png flatpak/io.grimoji.game.png
+          cat <<EOF > flatpak/io.grimoji.game.desktop
+          [Desktop Entry]
+          Name=Grimoji
+          Comment=Gothic alchemy puzzle game
+          Exec=grimoji
+          Icon=io.grimoji.game
+          Terminal=false
+          Type=Application
+          Categories=Game;Puzzle;
+          Keywords=alchemy;emoji;2048;
+          EOF
       
       - name: Build Flatpak
         uses: flatpak/flatpak-github-actions/flatpak-builder@v6
