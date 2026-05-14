@@ -87,10 +87,8 @@ void onPanUpdate(DragUpdateDetails details, LevelState levelState) {
 
       if (dx.abs() > dy.abs()) {
         targetCol += dx > 0 ? 1 : -1;
-        _log.info(dx > 0 ? 'Swiped RIGHT' : 'Swiped LEFT');
       } else {
         targetRow += dy > 0 ? 1 : -1;
-        _log.info(dy > 0 ? 'Swiped DOWN' : 'Swiped UP');
       }
 
       if (targetRow >= 0 &&
@@ -98,7 +96,6 @@ void onPanUpdate(DragUpdateDetails details, LevelState levelState) {
           targetCol >= 0 &&
           targetCol < gameController.getColCount()) {
           
-      _log.info('Target valid. Initiating match sequence...');
       levelState.gameState.resolveSwipe(
           _draggedTile!.coordinate,
           TileCoordinate(row: targetRow, col: targetCol),

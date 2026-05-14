@@ -3,18 +3,15 @@ import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/widgets/emoji_widget.dart';
-import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 
 class Header extends StatelessWidget {
   Palette get palette => Palette();
-  final Logger _log = Logger('Header');
-  Header({super.key});
+  const Header({super.key});
 
   @override
   Widget build(BuildContext context) {
     final levelState = context.watch<LevelState>();
-    _log.info("Target Global Key: ${levelState.targetIconKey}");
 
     return Column(
       mainAxisSize: MainAxisSize.min,
