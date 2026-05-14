@@ -1,5 +1,5 @@
 import 'package:grimoji/config/emojis.dart';
-import 'package:grimoji/features/game/model/alchemy/recipe_type.dart';
+import 'package:grimoji/features/alchemy/recipe_type.dart';
 
 class Recipe {
   final GameEmoji ingredient;

@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/levels.dart';
-import 'package:grimoji/features/game/model/alchemy/book.dart';
+import 'package:grimoji/features/alchemy/book.dart';
 import 'package:grimoji/features/game/model/coordinate.dart';
 import 'package:grimoji/features/game/state.dart';
 import 'package:grimoji/features/game/model/match_detector.dart';
