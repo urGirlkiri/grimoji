@@ -1,6 +1,6 @@
 import 'package:grimoji/config/emojis.dart';
+import 'package:grimoji/features/alchemy/recipe_type.dart';
 
-enum RecipeType { merge, volatile }
 
 class Recipe {
   final GameEmoji ingredient;

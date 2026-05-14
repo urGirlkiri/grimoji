@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/levels.dart';
+import 'package:grimoji/features/alchemy/recipe_type.dart';
 import 'package:grimoji/features/game/controller.dart';
 import 'package:grimoji/features/alchemy/book.dart';
 import 'package:grimoji/features/game/model/coordinate.dart';
