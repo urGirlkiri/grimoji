@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/config/levels.dart';
 import 'package:grimoji/config/palette.dart';
+import 'package:grimoji/config/routes.dart';
 import 'package:grimoji/features/level/widgets/confetti.dart';
 import 'package:grimoji/features/level/win/flying_star.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +26,14 @@ class _WinGameScreenState extends State<WinGameScreen> {
       if (mounted) {
         final nextLevelNumber = widget.level + 1;
         final hasNextLevel = gameLevels.any((l) => l.number == nextLevelNumber);
-        GoRouter.of(context).go(hasNextLevel ? '/play?autoOpen=$nextLevelNumber' : '/play');
+        if (hasNextLevel) {
+          GoRouter.of(context).goNamed(
+            Routes.map,
+            queryParameters: {'autoOpen': nextLevelNumber.toString()},
+          );
+        } else {
+          GoRouter.of(context).goNamed(Routes.map);
+        }
       }
     });
   }

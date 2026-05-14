@@ -8,13 +8,9 @@ import 'package:provider/provider.dart';
 
 class LevelNode extends StatelessWidget {
   final GameLevel level;
-  final int stars; 
+  final int stars;
 
-  const LevelNode({
-    super.key,
-    required this.level,
-    required this.stars,
-  });
+  const LevelNode({super.key, required this.level, required this.stars});
 
   @override
   Widget build(BuildContext context) {
@@ -40,23 +36,26 @@ class LevelNode extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(100),
       onTap: () => _showLevelDialog(context),
-      child: SizedBox.square(
-        dimension: nodeSize,
+      child: SizedBox(
+        width: 100,
+        height: 100,
         child: Stack(
           alignment: Alignment.center,
           children: [
             Image.asset(
               imagePath,
               fit: BoxFit.contain,
+              width: nodeSize,
+              height: nodeSize,
             ),
-            Transform.translate(
-              offset: Offset(0, stars > 0 ? -2 : 0),
+            Positioned(
+              top: stars > 0 ? (isLarge ? 18 : 30) : null,
               child: Text(
                 level.number.toString(),
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontSize: fontSize,
-                      fontWeight: FontWeight.w900,
-                    ),
+                  fontSize: fontSize,
+                  fontWeight: FontWeight.w900,
+                ),
               ),
             ),
           ],
@@ -65,17 +64,16 @@ class LevelNode extends StatelessWidget {
     );
   }
 
-void _showLevelDialog(BuildContext context) {
+  void _showLevelDialog(BuildContext context) {
     final audioController = context.read<AudioController>();
-    audioController.playSfx(SfxType.buttonTap); 
+    audioController.playSfx(SfxType.buttonTap);
 
     showDialog(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: .7), 
+      barrierColor: Colors.black.withValues(alpha: .7),
       builder: (BuildContext context) {
-        return LevelStartDialog(level: level,);
+        return LevelStartDialog(level: level);
       },
     );
   }
-
 }

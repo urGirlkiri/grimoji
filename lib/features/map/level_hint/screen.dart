@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grimoji/widgets/emoji_widget.dart';
-import 'package:provider/provider.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/palette.dart';
+import 'package:grimoji/config/routes.dart';
+import 'package:grimoji/widgets/emoji_widget.dart';
+import 'package:provider/provider.dart';
 
 class LevelHintScreen extends StatefulWidget {
   final int level;
@@ -20,7 +21,10 @@ class _LevelHintScreenState extends State<LevelHintScreen> {
     super.initState();
     Future.delayed(const Duration(milliseconds: 1500), () {
       if (mounted) {
-        GoRouter.of(context).replace('/play/level/${widget.level}');
+        GoRouter.of(context).replaceNamed(
+          Routes.levelPlay,
+          pathParameters: {'level': widget.level.toString()},
+        );
       }
     });
   }

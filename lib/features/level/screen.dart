@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/audio/audio_controller.dart';
 import 'package:grimoji/config/audio/sounds.dart';
 import 'package:grimoji/config/palette.dart';
+import 'package:grimoji/config/routes.dart';
 import 'package:grimoji/features/game/metrics.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/config/levels.dart';
@@ -80,8 +81,8 @@ class _LevelScreenState extends State<LevelScreen> {
     await Future<void>.delayed(_celebrationDuration);
     if (!mounted) return;
 
-    GoRouter.of(context).go(
-      '/play/won',
+    GoRouter.of(context).goNamed(
+      Routes.levelWon,
       extra: {'level': widget.level.number, 'stars': starsEarned},
     );
   }
@@ -94,7 +95,10 @@ class _LevelScreenState extends State<LevelScreen> {
 
     if (!mounted) return;
 
-    GoRouter.of(context).go('/play/lose/${widget.level.number}');
+    GoRouter.of(context).goNamed(
+      Routes.levelFail,
+      pathParameters: {'level': widget.level.number.toString()},
+    );
   }
 
   @override

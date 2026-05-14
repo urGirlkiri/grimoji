@@ -5,6 +5,7 @@ import 'package:grimoji/config/audio/audio_controller.dart';
 import 'package:grimoji/config/audio/sounds.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/palette.dart';
+import 'package:grimoji/config/routes.dart';
 import 'package:grimoji/widgets/emoji_widget.dart';
 import 'package:grimoji/widgets/pill_button.dart';
 import 'package:grimoji/widgets/scroll_dialog.dart';
@@ -83,7 +84,10 @@ class QuitDialog extends StatelessWidget {
                     onTap: () {
                       context.read<AudioController>().playSfx(SfxType.buttonTap);
                       Navigator.of(context).pop();
-                      GoRouter.of(context).go('/play/lose/$level');
+                      GoRouter.of(context).goNamed(
+                        Routes.levelFail,
+                        pathParameters: {'level': level.toString()},
+                      );
                     },
                   ),
                   PillButton(

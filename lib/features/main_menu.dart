@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/palette.dart';
+import 'package:grimoji/config/routes.dart';
 import 'package:grimoji/widgets/neon_logo.dart';
 import 'package:provider/provider.dart';
 
@@ -72,7 +73,7 @@ class MainMenuScreen extends StatelessWidget {
                     borderWidth: 3,
                     onTap: () {
                       audioController.playSfx(SfxType.buttonTap);
-                      GoRouter.of(context).go('/play');
+                      GoRouter.of(context).goNamed(Routes.map);
                     },
                   ),
                   _gap,
@@ -88,7 +89,7 @@ class MainMenuScreen extends StatelessWidget {
                     borderRadius: 20,
                     borderColor: palette.magicCyan.withValues(alpha: .2),
                     borderWidth: 3,
-                    onTap: () => GoRouter.of(context).push('/settings'),
+                    onTap: () => GoRouter.of(context).pushNamed(Routes.settings),
                   ),
                   _gap,
                   Padding(

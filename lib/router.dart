@@ -17,7 +17,7 @@ final _routerNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
 final router = GoRouter(
   navigatorKey: _routerNavigatorKey,
-  initialLocation: Routes.home,
+  initialLocation: Routes.homeRoute,
   // redirect: (BuildContext context, GoRouterState state) {
   //   return '/bounties';
   // },
@@ -29,7 +29,8 @@ final router = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: Routes.levelsMap,
+              path: Routes.mapRoute,
+              name: Routes.map,
               builder: (context, state) {
                 final autoOpenStr = state.uri.queryParameters['autoOpen'];
                 final autoOpenInt = autoOpenStr != null
@@ -43,7 +44,8 @@ final router = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: Routes.bounties,
+              path: Routes.marketRoute,
+              name: Routes.bounties,
               builder: (context, state) =>
                   const Scaffold(body: Center(child: Text("Recipes"))),
             ),
@@ -52,18 +54,30 @@ final router = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: Routes.friends,
+              path: Routes.grimoireRoute,
+              name: Routes.grimoire,
               builder: (context, state) =>
-                  const Scaffold(body: Center(child: Text("Friends"))),
+                  const Scaffold(body: Center(child: Text("Grimoire"))),
             ),
           ],
         ),
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: Routes.market,
+              path: Routes.cauldronRoute,
+              name: Routes.cauldron,
               builder: (context, state) =>
-                  const Scaffold(body: Center(child: Text("Market"))),
+                  const Scaffold(body: Center(child: Text("Cauldron"))),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: Routes.covenRoute,
+              name: Routes.coven,
+              builder: (context, state) =>
+                  const Scaffold(body: Center(child: Text("Coven"))),
             ),
           ],
         ),
@@ -72,19 +86,22 @@ final router = GoRouter(
 
     GoRoute(
       parentNavigatorKey: _routerNavigatorKey,
-      path: Routes.home,
+      path: Routes.homeRoute,
+      name: Routes.home,
       builder: (context, state) => const MainMenuScreen(),
     ),
     
     GoRoute(
       parentNavigatorKey: _routerNavigatorKey,
-      path: Routes.settings,
+      path: Routes.settingsRoute,
+      name: Routes.settings,
       builder: (context, state) => const SettingsScreen(),
     ),
     
     GoRoute(
       parentNavigatorKey: _routerNavigatorKey,
-      path: Routes.levelHint ,
+      path: Routes.levelHintRoute,
+      name: Routes.levelHint,
       builder: (context, state) {
         final level = int.parse(state.pathParameters['level']!);
         return LevelHintScreen(level: level);
@@ -93,7 +110,8 @@ final router = GoRouter(
     
     GoRoute(
       parentNavigatorKey: _routerNavigatorKey,
-      path: Routes.levelPlay,
+      path: Routes.levelPlayRoute,
+      name: Routes.levelPlay,
       builder: (context, state) {
         final levelNumber = int.parse(state.pathParameters['level']!);
         final level = gameLevels.singleWhere((e) => e.number == levelNumber);
@@ -103,7 +121,8 @@ final router = GoRouter(
     
     GoRoute(
       parentNavigatorKey: _routerNavigatorKey,
-      path: Routes.levelWon,
+      path: Routes.levelWonRoute,
+      name: Routes.levelWon,
       builder: (context, state) {
         final map = state.extra as Map<String, dynamic>?;
        final stars = map?['stars'] as int; 
@@ -114,7 +133,8 @@ final router = GoRouter(
     
     GoRoute(
       parentNavigatorKey: _routerNavigatorKey,
-      path: Routes.levelFail,
+      path: Routes.levelFailRoute,
+      name: Routes.levelFail,
       builder: (context, state) {
         final level = int.parse(state.pathParameters['level']!);
         return LevelFailScreen(level: level);

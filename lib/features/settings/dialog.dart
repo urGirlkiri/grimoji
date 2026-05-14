@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/config/audio/audio_controller.dart';
 import 'package:grimoji/config/audio/sounds.dart';
 import 'package:grimoji/config/palette.dart';
+import 'package:grimoji/config/routes.dart';
 import 'package:grimoji/features/settings/controller.dart';
 import 'package:grimoji/features/settings/widgets/icon_toggle.dart';
 import 'package:grimoji/features/settings/widgets/volume_slider.dart';
@@ -144,7 +145,10 @@ class SettingsDialog extends StatelessWidget {
                     onTap: () {
                       context.read<AudioController>().playSfx(SfxType.buttonTap);
                       Navigator.of(context).pop();
-                      GoRouter.of(context).go('/play/lose/$level');
+                      GoRouter.of(context).goNamed(
+                        Routes.levelFail,
+                        pathParameters: {'level': level.toString()},
+                      );
                     },
                   ),
                 ),

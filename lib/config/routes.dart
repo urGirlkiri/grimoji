@@ -6,23 +6,44 @@ class Destination {
 }
 
 const destinations = [
-Destination(label: 'Map', imagePath: 'assets/images/tab/map.png'),
-Destination(label: 'Recipes', imagePath: 'assets/images/tab/recipes.png'), 
-Destination(label: 'Friends', imagePath: 'assets/images/tab/friends.png'),
-Destination(label: 'Market', imagePath: 'assets/images/tab/market.png'),
+  Destination(label: 'Map',      imagePath: 'assets/images/tab/map.png'),
+  Destination(label: 'Grimoire', imagePath: 'assets/images/tab/grimoire.png'), 
+  Destination(label: 'Cauldron', imagePath: 'assets/images/tab/cauldron.png'), 
+  Destination(label: 'Coven',    imagePath: 'assets/images/tab/coven.png'), 
+  Destination(label: 'Market',   imagePath: 'assets/images/tab/market.png'),
 ];
 
-class Routes{
-  static const home = '/';
-  static const levelsMap = '/play';
-  static const friends = '/friends';
-  static const market = '/market';
-  static const bounties = '/bounties';
-  static const settings = '/settings';
+class Routes {
+  static const String homeRoute = '/';
 
-  static const levelHint = '/play/hint/:level';
-  static const levelPlay = '/play/level/:level';
-  static const levelWon = '/play/won';
-  static const levelFail = '/play/lose/:level';
+  static const String mapRoute      = '/map';
+  static const String grimoireRoute = '/grimoire'; 
+  static const String cauldronRoute = '/cauldron';
+  static const String covenRoute    = '/coven';    
+  static const String marketRoute   = '/market';
 
+  static const String levelHintRoute = '/map/hint/:level';
+  static const String levelPlayRoute = '/map/play/:level';
+  static const String levelWonRoute  = '/map/won';
+  static const String levelFailRoute = '/map/lose/:level';
+
+  static const String bountiesRoute  = '/market/bounties'; 
+  static const String settingsRoute  = '/settings';
+
+
+  static const String home = 'home';
+
+  static const String map      = 'map';
+  static const String grimoire = 'grimoire';
+  static const String cauldron = 'cauldron';
+  static const String coven    = 'coven';
+  static const String market   = 'market';
+
+  static const String levelHint = 'levelHint';
+  static const String levelPlay = 'levelPlay';
+  static const String levelWon  = 'levelWon';
+  static const String levelFail = 'levelFail';
+
+  static const String bounties = 'bounties';
+  static const String settings = 'settings';
 }
