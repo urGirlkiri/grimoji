@@ -26,18 +26,18 @@ void main() {
       expect(noEntryRecipe, isNull, reason: 'NoEntry doesn\'t have a special recipe, so it should return null to let the engine handle them normally');
     });
 
-    test('getReactionsForType should return the correct reaction maps', () {
-      final explosiveReactions = RecipeBook.getReactionsForType(ReactionType.explosive);
+    test('getTransformationsForType should return the correct reaction maps', () {
+      final explosiveTransformations = RecipeBook.getTransformationsForType(ReactionType.explosive);
       
-      expect(explosiveReactions, isNotNull);
-      expect(explosiveReactions, isA<Map<GameEmoji, GameEmoji>>());
+      expect(explosiveTransformations, isNotNull);
+      expect(explosiveTransformations, isA<Map<GameEmoji, GameEmoji>>());
       
-      expect(explosiveReactions.containsKey(Emojis.ocean), isTrue);
-      expect(explosiveReactions[Emojis.ocean], equals(Emojis.salt));
+      expect(explosiveTransformations.containsKey(Emojis.ocean), isTrue);
+      expect(explosiveTransformations[Emojis.ocean], equals(Emojis.salt));
     });
     
-    test('getReactionsForType should throw StateError if an unregistered ReactionType is requested', () {
-      expect(() => RecipeBook.getReactionsForType(ReactionType.freezing), throwsStateError);
+    test('getTransformationsForType should throw StateError if an unregistered ReactionType is requested', () {
+      expect(() => RecipeBook.getTransformationsForType(ReactionType.freezing), throwsStateError);
     });
 
     test('All recipes must have strictly valid data according to their RecipeType', () {
@@ -45,16 +45,6 @@ void main() {
         if (recipe.type == RecipeType.merge) {
           expect(recipe.yields, isNotNull, 
             reason: '${recipe.ingredient.visual} is a Merge recipe but yields nothing');
-            
-          expect(recipe.blastType, isNull,
-            reason: '${recipe.ingredient.visual} is a Merge recipe and should not have a "blastType"!');
-            
-        } else if (recipe.type == RecipeType.volatile) {
-          expect(recipe.blastType, isNotNull, 
-            reason: '${recipe.ingredient.visual} is a Volatile recipe but has no "blastType" defined!');
-            
-          expect(recipe.yields, isNull,
-            reason: '${recipe.ingredient.visual} is a Volatile recipe and should not have any yields!');
         }
       }
     });
@@ -71,13 +61,13 @@ void main() {
       }
     });
 
-    test('Reactions MUST NOT transmute an emoji into itself ', () {
-      for (final reactionGroup in RecipeBook.allReactions) {
-        reactionGroup.reactions.forEach((inputEmoji, outputEmoji) {
+    test('Reactions MUST NOT transform an emoji into itself ', () {
+      for (final reaction in RecipeBook.allReactions) {
+        reaction.transformations.forEach((inputEmoji, outputEmoji) {
           expect(
             inputEmoji, 
             isNot(equals(outputEmoji)),
-            reason: '${reactionGroup.type.name} reaction turns ${inputEmoji.visual} into itself. This is redundant data!'
+            reason: '${reaction.type.name} reaction turns ${inputEmoji.visual} into itself. This is redundant data!'
           );
         });
       }

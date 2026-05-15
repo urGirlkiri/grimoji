@@ -24,8 +24,8 @@ class VirusBehavior extends EmojiBehavior {
   }
 
   @override
-  List<BehaviorAction> onBlastNearby(int x, int y, ReactionType blastType) {
-    if (blastType == ReactionType.freezing) {
+  List<BehaviorAction> onBlastNearby(int x, int y, ReactionType reactionType) {
+    if (reactionType == ReactionType.freezing) {
       turnsSinceLastMultiplication = -5; 
     }
     return [];

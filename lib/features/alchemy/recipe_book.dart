@@ -13,22 +13,36 @@ class RecipeBook {
   ];
 
   static final List<Reaction> allReactions = [
-    NatureExplosions(),
-    ElementalExplosions(),
+    NatureReactions(),
+    ElementalReactions(),
   ];
 
   static final Map<GameEmoji, Recipe> _recipeCache = {
     for (var recipe in allRecipes) recipe.ingredient: recipe
   };
 
+  static final Map<GameEmoji, Reaction> _triggerCache = {};
+
   static Recipe? getRecipeFor(GameEmoji emoji) {
     return _recipeCache[emoji]; 
   }
 
-  static Map<GameEmoji, GameEmoji> getReactionsForType(ReactionType type) {
+  static Reaction? getReactionFor(GameEmoji emoji) {
+    return _triggerCache[emoji];
+  }
+
+  static Map<GameEmoji, GameEmoji> getTransformationsForType(ReactionType type) {
     final reaction = allReactions.firstWhere(
-      (recipe) => recipe.type == type,
+      (r) => r.type == type,
     );
-    return reaction.reactions ;
+    return reaction.transformations;
+  }
+
+  static void initialize() {
+    for (final reaction in allReactions) {
+      for (final trigger in reaction.triggers) {
+        _triggerCache[trigger] = reaction;
+      }
+    }
   }
 }

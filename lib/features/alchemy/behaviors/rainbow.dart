@@ -6,7 +6,7 @@ class RainbowBehavior extends EmojiBehavior {
   List<BehaviorAction> onSwipedWith(int x, int y, GameEmoji targetEmoji) {
     return [
       BehaviorAction(
-        type: ActionType.transmuteEmoji,
+        type: ActionType.reactEmoji,
         x: x,
         y: y,
         emoji: Emojis.droplet,

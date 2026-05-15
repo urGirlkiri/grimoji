@@ -38,18 +38,22 @@ void main() {
           if (emoji == Emojis.droplet) {
             return const Recipe(ingredient: Emojis.droplet, requiredAmount: 3, yields: Emojis.ocean, type: RecipeType.merge);
           }
-          if (emoji == Emojis.bomb) {
-            return const Recipe(ingredient: Emojis.bomb, requiredAmount: 3, type: RecipeType.volatile, blastType: ReactionType.explosive);
-          }
           if (emoji == Emojis.fire) {
             return const Recipe(ingredient: Emojis.fire, requiredAmount: 3, yields: Emojis.bomb, type: RecipeType.merge);
           }
-          if (emoji == Emojis.volcano) {
-            return const Recipe(ingredient: Emojis.volcano, requiredAmount: 3, type: RecipeType.volatile, blastType: null);
-          }
           return null; 
         },
-        getReactions: (type) {
+        getReactionFor: (emoji) {
+          if (emoji == Emojis.bomb) {
+            return Reaction(
+              type: ReactionType.explosive,
+              triggers: [Emojis.bomb],
+              transformations: {Emojis.ocean: Emojis.salt},
+            );
+          }
+          return null;
+        },
+        getTransformationsForType: (type) {
           if (type == ReactionType.explosive) {
             return {Emojis.ocean: Emojis.salt};
           }
@@ -77,7 +81,7 @@ void main() {
       expect(gridManager.gridTiles[0][1].isFlying, isTrue);
     });
 
-    test('Should execute a Volatile Explosion in a 3x3 radius', () {
+    test('Should execute a Transmutation Explosion in a 3x3 radius', () {
       for (int r = 0; r < GridManager.rows; r++) {
         for (int c = 0; c < GridManager.cols; c++) {
           gridManager.gridTiles[r][c].emoji = Emojis.rock;
@@ -139,7 +143,7 @@ void main() {
         reason: 'Tile should have been destroyed and replaced by the rock above it');
     });
 
-      test('Should merge automatically find merge point when merge occurs in a falling combo', () {
+    test('Should merge automatically find merge point when merge occurs in a falling combo', () {
       gridManager.gridTiles[0][0].emoji = Emojis.fire;
       gridManager.gridTiles[0][1].emoji = Emojis.fire;
       gridManager.gridTiles[0][2].emoji = Emojis.fire;
@@ -159,8 +163,8 @@ void main() {
         reason: 'Bomb is not the target emoji, should not fly');
     });
 
-    test('Should default to explosive ReactionType if blastType is null', () {
-      gridManager.gridTiles[1][1].emoji = Emojis.volcano;
+    test('Should default to explosive ReactionType if no mapping exists', () {
+      gridManager.gridTiles[1][1].emoji = Emojis.bomb;
       
       gridManager.gridTiles[1][2].emoji = Emojis.rock;
 

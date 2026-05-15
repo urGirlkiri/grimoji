@@ -28,7 +28,7 @@ class SpyBehavior extends EmojiBehavior {
   }
 
   @override
-  List<BehaviorAction> onBlastNearby(int x, int y, ReactionType blastType) {
+  List<BehaviorAction> onBlastNearby(int x, int y, ReactionType reactionType) {
     blastCalled = true;
     return [];
   }
@@ -152,7 +152,7 @@ void main() {
         expect(neighbors.contains(Emojis.bug), isTrue, reason: 'Engine should place a new Bug');
       });
 
-      test('ActionType.transmuteEmoji should overwrite a filled neighbor and clear its behavior', () {
+      test('ActionType.reactEmoji should overwrite a filled neighbor and clear its behavior', () {
         gridManager.gridTiles[1][1].emoji = Emojis.bug;
         
         gridManager.gridTiles[0][1].emoji = Emojis.rock;
@@ -162,7 +162,7 @@ void main() {
         
         gridManager.gridTiles[0][1].behavior = SpyBehavior();
         
-        final transmuteAction = [const BehaviorAction(type: ActionType.transmuteEmoji, x: 1, y: 1, emoji: Emojis.cloud)];
+        final transmuteAction = [const BehaviorAction(type: ActionType.reactEmoji, x: 1, y: 1, emoji: Emojis.cloud)];
         behaviorEngine.executeBehaviorActions(transmuteAction, 1, 1);
 
         final neighbors = [
@@ -198,7 +198,7 @@ void main() {
             gridManager.gridTiles[r][c].emoji = emptyEmoji;
           }
         }
-        final transmuteAction = [const BehaviorAction(type: ActionType.transmuteEmoji, x: 1, y: 1, emoji: Emojis.cloud)];
+        final transmuteAction = [const BehaviorAction(type: ActionType.reactEmoji, x: 1, y: 1, emoji: Emojis.cloud)];
         expect(() => behaviorEngine.executeBehaviorActions(transmuteAction, 1, 1), returnsNormally, 
           reason: 'Engine should safely ignore transmute actions with no available targets without error');
       });

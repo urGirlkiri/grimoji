@@ -1,11 +1,16 @@
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 
-class ElementalExplosions extends Reaction {
-  ElementalExplosions() : super(ReactionType.explosive, _reactions);
+class ElementalReactions extends Reaction {
+  ElementalReactions() : super(
+    type: ReactionType.explosive,
+    triggers: [Emojis.bomb],
+    transformations: _transformations,
+  );
 
-  static const Map<GameEmoji, GameEmoji> _reactions = {
+  static const Map<GameEmoji, GameEmoji> _transformations = {
     Emojis.ocean: Emojis.salt,
-    Emojis.volcano: Emojis.rock,
+    Emojis.rock: Emojis.volcano,
+    Emojis.cloud: Emojis.rainbow,
   };
 }

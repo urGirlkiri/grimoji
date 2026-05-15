@@ -3,7 +3,7 @@ import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 
 enum ActionType {
   placeEmoji,
-  transmuteEmoji,
+  reactEmoji,
   doNothing,
 }
 
@@ -27,7 +27,7 @@ abstract class EmojiBehavior {
 
   List<BehaviorAction> onMatched(int x, int y) => [];
 
-  List<BehaviorAction> onBlastNearby(int x, int y, ReactionType blastType) => [];
+  List<BehaviorAction> onBlastNearby(int x, int y, ReactionType reactionType) => [];
 
   List<BehaviorAction> onSwipedWith(int x, int y, GameEmoji targetEmoji) => [];
 }

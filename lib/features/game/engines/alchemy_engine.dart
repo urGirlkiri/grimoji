@@ -11,14 +11,16 @@ class AlchemyEngine {
   final GridManager gridManager;
   
   final Recipe? Function(GameEmoji) getRecipe;
-  final Map<GameEmoji, GameEmoji> Function(ReactionType) getReactions;
+  final Reaction? Function(GameEmoji) getReactionFor;
+  final Map<GameEmoji, GameEmoji> Function(ReactionType) getTransformationsForType;
   
   final Logger _log = Logger('AlchemyEngine');
 
   AlchemyEngine({
     required this.gridManager,
     required this.getRecipe,     
-    required this.getReactions,
+    required this.getReactionFor,
+    required this.getTransformationsForType,
   });
 
   void processMatches(
@@ -57,17 +59,20 @@ class AlchemyEngine {
 
     groupedMatches.forEach((emoji, coords) {
       state.resolveEmoji(emoji, coords.length);
-      Recipe? recipe = getRecipe(emoji);
 
-      if (recipe != null &&
-          recipe.type == RecipeType.merge &&
-          recipe.yields != null) {
+      final recipe = getRecipe(emoji);
+      if (recipe != null && recipe.type == RecipeType.merge && recipe.yields != null) {
         _executeMerge(recipe, coords, state, tilesToDestroy, mergePoint);
-      } else if (recipe != null && recipe.type == RecipeType.volatile) {
-        _executClear(coords, tilesToDestroy, transmutedTiles, recipe.blastType);
-      } else {
-        tilesToDestroy.addAll(coords);
+        return;
       }
+
+      final reaction = getReactionFor(emoji);
+      if (reaction != null) {
+        _executeReaction(coords, tilesToDestroy, transmutedTiles, reaction.type);
+        return;
+      }
+
+      tilesToDestroy.addAll(coords);
     });
   }
 
@@ -94,32 +99,40 @@ class AlchemyEngine {
     tilesToDestroy.addAll(coords.where((c) => c != spawnPoint));
   }
 
-  void _executClear(
+  /// Handles data-driven reaction of emojis in an area based on trigger emojis.
+  void _executeReaction(
     Set<TileCoordinate> coords,
     Set<TileCoordinate> tilesToDestroy,
     Set<TileCoordinate> transmutedTiles,
-    ReactionType? blastType,
+    ReactionType type,
   ) {
-    final reactionType = blastType ?? ReactionType.explosive;
-    _log.info('$reactionType DETONATED!');
+    _log.info('Reaction Initiated: $type');
+    
+    // The trigger matches themselves are always destroyed
     tilesToDestroy.addAll(coords);
 
-    final reactions = getReactions(reactionType);
+    // Get the transformations for this specific reaction type from our data book
+    final transformations = getTransformationsForType(type);
 
     for (var centerCoord in coords) {
+      // Check 3x3 area around the trigger/catalyst
       for (int r = centerCoord.row - 1; r <= centerCoord.row + 1; r++) {
         for (int c = centerCoord.col - 1; c <= centerCoord.col + 1; c++) {
           if (r >= 0 && r < GridManager.rows && c >= 0 && c < GridManager.cols) {
             Tile targetTile = gridManager.gridTiles[r][c];
             TileCoordinate targetCoord = TileCoordinate(row: r, col: c);
 
-            GameEmoji? resultingEmoji = reactions[targetTile.emoji];
+            // DATA-DRIVEN CHECK: Does this emoji have a specific reaction result?
+            GameEmoji? resultingEmoji = transformations[targetTile.emoji];
 
             if (resultingEmoji != null) {
+              // React the tile into the new form
               targetTile.emoji = resultingEmoji;
               targetTile.reset();
               transmutedTiles.add(targetCoord);
+              _log.fine('Reacted ${targetTile.emoji.visual} at $targetCoord');
             } else if (!coords.contains(targetCoord)) {
+              // Default behavior: if no transformation exists, the "blast" destroys the tile
               tilesToDestroy.add(targetCoord);
             }
           }

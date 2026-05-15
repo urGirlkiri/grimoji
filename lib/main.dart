@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:grimoji/config/app/app_theme.dart';
 import 'package:grimoji/utils/responsive.dart';
 import 'package:grimoji/features/map/level_data_controller.dart';
+import 'package:grimoji/features/alchemy/recipe_book.dart';
 
 import 'config/app/app_lifecycle.dart';
 import 'config/audio/audio_controller.dart';
@@ -39,6 +40,8 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
+  RecipeBook.initialize();
 
   runApp(MyApp());
 }

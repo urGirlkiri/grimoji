@@ -26,7 +26,8 @@ class GameController {
     alchemy = AlchemyEngine(
       gridManager: _gridManager,
       getRecipe: RecipeBook.getRecipeFor,
-      getReactions: RecipeBook.getReactionsForType,
+      getReactionFor: RecipeBook.getReactionFor,
+      getTransformationsForType: RecipeBook.getTransformationsForType,
     );
     
     behaviors = BehaviorEngine(
@@ -167,8 +168,8 @@ class GameController {
     behaviors.processMatchedBehavior(tile, x, y);
   }
 
-  void processBlastBehavior(Tile tile, int x, int y, ReactionType blastType) {
-    behaviors.processBlastBehavior(tile, x, y, blastType);
+  void processBlastBehavior(Tile tile, int x, int y, ReactionType reactionType) {
+    behaviors.processBlastBehavior(tile, x, y, reactionType);
   }
 
   List<BehaviorAction> processSwipedWithBehavior(Tile tile, int x, int y, GameEmoji targetEmoji) {

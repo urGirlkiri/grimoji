@@ -10,7 +10,7 @@ class GhostBehavior extends EmojiBehavior {
     if (Random().nextDouble() < randomChance) {
       return [
         BehaviorAction(
-          type: ActionType.transmuteEmoji,
+          type: ActionType.reactEmoji,
           x: x,
           y: y,
           emoji: Emojis.bone,

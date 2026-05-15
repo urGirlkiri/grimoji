@@ -6,10 +6,16 @@ enum ReactionType {
   burning,
 }
 
-class Reaction{
+class Reaction {
   final ReactionType type;
-  // when reaction type happens,emoji X transforms into emoji Y
-  final Map<GameEmoji, GameEmoji> reactions;
+  
+  final List<GameEmoji> triggers;
+  
+  final Map<GameEmoji, GameEmoji> transformations;
 
-  Reaction(this.type, this.reactions);
+  Reaction({
+    required this.type,
+    required this.triggers,
+    required this.transformations,
+  });
 }

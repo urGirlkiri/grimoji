@@ -43,7 +43,7 @@ class BehaviorEngine {
             initializeBehavior(gridManager.gridTiles[target.x][target.y]);
           }
           break;
-        case ActionType.transmuteEmoji:
+        case ActionType.reactEmoji:
           final target = gridManager.findAdjacentFilledTile(centerX, centerY);
           if (target != null && action.emoji != null) {
             gridManager.gridTiles[target.x][target.y].emoji = action.emoji!;
@@ -66,9 +66,9 @@ class BehaviorEngine {
     }
   }
 
-  void processBlastBehavior(Tile tile, int x, int y, ReactionType blastType) {
+  void processBlastBehavior(Tile tile, int x, int y, ReactionType reactionType) {
     if (tile.behavior != null) {
-      tile.behavior!.onBlastNearby(x, y, blastType);
+      tile.behavior!.onBlastNearby(x, y, reactionType);
     }
   }
 
