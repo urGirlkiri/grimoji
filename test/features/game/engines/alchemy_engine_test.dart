@@ -41,7 +41,13 @@ void main() {
           if (emoji == Emojis.bomb) {
             return const Recipe(ingredient: Emojis.bomb, requiredAmount: 3, type: RecipeType.volatile, blastType: ReactionType.explosive);
           }
-          return null;
+          if (emoji == Emojis.fire) {
+            return const Recipe(ingredient: Emojis.fire, requiredAmount: 3, yields: Emojis.bomb, type: RecipeType.merge);
+          }
+          if (emoji == Emojis.volcano) {
+            return const Recipe(ingredient: Emojis.volcano, requiredAmount: 3, type: RecipeType.volatile, blastType: null);
+          }
+          return null; 
         },
         getReactions: (type) {
           if (type == ReactionType.explosive) {
@@ -71,7 +77,7 @@ void main() {
       expect(gridManager.gridTiles[0][1].isFlying, isTrue);
     });
 
-    test('Should destroy matched tiles when no recipe exists', () {
+    test('Should execute a Volatile Explosion in a 3x3 radius', () {
       for (int r = 0; r < GridManager.rows; r++) {
         for (int c = 0; c < GridManager.cols; c++) {
           gridManager.gridTiles[r][c].emoji = Emojis.rock;
@@ -101,7 +107,6 @@ void main() {
       }
 
       gridManager.gridTiles[7][1].emoji = Emojis.bomb;
-      
       gridManager.gridTiles[7][2].emoji = Emojis.ocean; 
 
       alchemyEngine.processMatches({TileCoordinate(row: 7, col: 1)}, mockState);
@@ -111,6 +116,58 @@ void main() {
       
       expect(gridManager.gridTiles[7][1].emoji, equals(Emojis.rock),
         reason: 'The bomb should be destroyed, and a rock from above should fall into its place');
+    });
+
+    test('Should destroy tiles normally when no recipe exists, Basic Match-3', () {
+      gridManager.gridTiles[0][0].emoji = Emojis.rock;
+      gridManager.gridTiles[0][1].emoji = Emojis.rock;
+      gridManager.gridTiles[0][2].emoji = Emojis.rock;
+
+      final matchCoords = {
+        TileCoordinate(row: 0, col: 0),
+        TileCoordinate(row: 0, col: 1),
+        TileCoordinate(row: 0, col: 2),
+      };
+
+      alchemyEngine.processMatches(matchCoords, mockState);
+
+      expect(gridManager.gridTiles[0][0].emoji, isNot(equals(Emojis.rock)), 
+        reason: 'Tile should have been destroyed and replaced by the rock above it');
+      expect(gridManager.gridTiles[0][1].emoji, isNot(equals(Emojis.rock)), 
+        reason: 'Tile should have been destroyed and replaced by the rock above it');
+      expect(gridManager.gridTiles[0][2].emoji, isNot(equals(Emojis.rock)), 
+        reason: 'Tile should have been destroyed and replaced by the rock above it');
+    });
+
+      test('Should merge automatically find merge point when merge occurs in a falling combo', () {
+      gridManager.gridTiles[0][0].emoji = Emojis.fire;
+      gridManager.gridTiles[0][1].emoji = Emojis.fire;
+      gridManager.gridTiles[0][2].emoji = Emojis.fire;
+
+      final matchCoords = {
+        TileCoordinate(row: 0, col: 0),
+        TileCoordinate(row: 0, col: 1),
+        TileCoordinate(row: 0, col: 2),
+      };
+
+      alchemyEngine.processMatches(matchCoords, mockState, mergePoint: null);
+
+      final expectedSpawn = matchCoords.first;
+      expect(gridManager.gridTiles[expectedSpawn.row][expectedSpawn.col].emoji, equals(Emojis.bomb), 
+        reason: 'Should merge into the first coordinate in the set when mergePoint is null');
+      expect(gridManager.gridTiles[expectedSpawn.row][expectedSpawn.col].isFlying, isFalse, 
+        reason: 'Bomb is not the target emoji, should not fly');
+    });
+
+    test('Should default to explosive ReactionType if blastType is null', () {
+      gridManager.gridTiles[1][1].emoji = Emojis.volcano;
+      
+      gridManager.gridTiles[1][2].emoji = Emojis.rock;
+
+      alchemyEngine.processMatches({TileCoordinate(row: 1, col: 1)}, mockState);
+
+      expect(gridManager.gridTiles[1][2].emoji, isNot(equals(Emojis.rock)), 
+        reason: 'Tile should have been destroyed by the explosive reaction');
     });
   });
 }
