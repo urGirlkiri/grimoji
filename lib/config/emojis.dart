@@ -21,7 +21,6 @@ class Emojis {
 
   static const GameEmoji testTube = GameEmoji(
     'assets/emojis/svg/test_tube.svg',
-    //TODO: Replace with actual Lottie animation when available.
     'assets/emojis/lottie/test_tube.json',
     '🧪',
   );
