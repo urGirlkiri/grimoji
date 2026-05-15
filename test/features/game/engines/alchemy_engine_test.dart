@@ -26,7 +26,8 @@ void main() {
         timeLimit: 60,
         targetEmoji: Emojis.ocean,
         targetAmount: 1,
-        availableEmojis: [Emojis.alien, Emojis.robot, Emojis.skull], 
+        availableEmojis: [Emojis.alien, Emojis.robot, Emojis.skull],
+        type: LevelType.puzzle,
       );
       
       gridManager = GridManager(testLevel);

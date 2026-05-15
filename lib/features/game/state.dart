@@ -157,6 +157,7 @@ class GameState extends ChangeNotifier {
     if (!_isDisposed) {
       notifyListeners();
       resetTimer();
+      onComboFinished();
     }
   }
 

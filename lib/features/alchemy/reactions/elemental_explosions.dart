@@ -11,7 +11,7 @@ class ElementalReactions extends Reaction {
 
   static const Map<GameEmoji, GameEmoji> _transformations = {
     Emojis.ocean: Emojis.salt,
-    Emojis.rock: Emojis.volcano,
     Emojis.cloud: Emojis.rainbow,
+    Emojis.rock: Emojis.volcano,
   };
 }

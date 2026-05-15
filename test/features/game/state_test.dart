@@ -18,6 +18,7 @@ void main() {
         targetEmoji: Emojis.fire,
         targetAmount: 10,
         timeLimit: 60,
+        type: LevelType.puzzle,
       );
     });
 

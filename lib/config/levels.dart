@@ -1,11 +1,13 @@
 import 'package:grimoji/config/emojis.dart';
 
+enum LevelType { puzzle, arcade }
+
 const gameLevels = [
   GameLevel(
     number: 1,
     timeLimit: 120,
-    targetEmoji: Emojis.ocean,
     targetAmount: 3,
+    targetEmoji: Emojis.ocean,
     availableEmojis: [
       Emojis.droplet,
       Emojis.leafyGreen,
@@ -13,6 +15,7 @@ const gameLevels = [
       Emojis.mushroom,
       Emojis.bug,
     ],
+    type: LevelType.puzzle,
     achievementIdIOS: 'lvl_1_ios',
     achievementIdAndroid: 'lvl_1_android',
   ),
@@ -28,13 +31,14 @@ const gameLevels = [
       Emojis.sunWithFace,
       Emojis.herb,
     ],
+    type: LevelType.puzzle,
   ),
 
   GameLevel(
     number: 3,
     timeLimit: 200,
-    targetEmoji: Emojis.bomb,
     targetAmount: 3,
+    targetEmoji: Emojis.bomb,
     availableEmojis: [
       Emojis.fire,
       Emojis.evergreenTree,
@@ -42,20 +46,21 @@ const gameLevels = [
       Emojis.droplet,
       Emojis.leafyGreen,
     ],
+    type: LevelType.puzzle,
   ),
 
   GameLevel(
     number: 4,
     timeLimit: 200,
-    targetEmoji: Emojis.gemStone,
     targetAmount: 5,
+    targetEmoji: Emojis.bomb,
     availableEmojis: [
       Emojis.fire,
       Emojis.rock,
-      Emojis.bomb,
       Emojis.evergreenTree,
       Emojis.droplet,
     ],
+    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -80,6 +85,7 @@ const gameLevels = [
       Emojis.octopus,
       Emojis.crab,
     ],
+    type: LevelType.puzzle,
     achievementIdIOS: 'finished',
     achievementIdAndroid: 'CdfIhE96aspNWLGSQg',
   ),
@@ -91,6 +97,7 @@ class GameLevel {
   final int timeLimit;
   final GameEmoji targetEmoji;
   final List<GameEmoji> availableEmojis;
+  final LevelType type;
 
   final String? achievementIdIOS;
   final String? achievementIdAndroid;
@@ -103,6 +110,7 @@ class GameLevel {
     required this.timeLimit,
     required this.targetEmoji,
     required this.availableEmojis,
+    required this.type,
     this.achievementIdIOS,
     this.achievementIdAndroid,
   }) : assert(

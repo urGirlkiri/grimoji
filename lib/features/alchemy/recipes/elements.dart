@@ -7,6 +7,7 @@ const List<Recipe> elementalRecipes = [
     requiredAmount: 3,
     yields: Emojis.ocean,
   ),
+  Recipe(ingredient: Emojis.ocean, requiredAmount: 3, yields: Emojis.cloud),
   Recipe(
     ingredient: Emojis.fire,
     requiredAmount: 4,

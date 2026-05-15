@@ -53,6 +53,7 @@ void main() {
         targetEmoji: Emojis.ocean,
         targetAmount: 1,
         availableEmojis: [Emojis.rock, Emojis.bug, Emojis.alien],
+        type: LevelType.puzzle,
       );
       
       gridManager = GridManager(testLevel);
