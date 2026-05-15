@@ -81,7 +81,70 @@ class GameController {
   }
 
   bool hasPossibleMoves() {
-    return _gridManager.hasPossibleMoves();
+    for (int r = 0; r < getRowCount(); r++) {
+      for (int c = 0; c < getColCount(); c++) {
+        if (c < getColCount() - 1) {
+          final d = SwipeDetector.evaluate(
+            grid: grid,
+            dCoord: TileCoordinate(row: r, col: c),
+            tCoord: TileCoordinate(row: r, col: c + 1),
+            getSwipeBehaviors: behaviors.processSwipedWithBehavior,
+            quickCheckOnly: true,
+          );
+          if (d.type != SwipeResultType.invalid) return true;
+        }
+
+        if (r < getRowCount() - 1) {
+          final d = SwipeDetector.evaluate(
+            grid: grid,
+            dCoord: TileCoordinate(row: r, col: c),
+            tCoord: TileCoordinate(row: r + 1, col: c),
+            getSwipeBehaviors: behaviors.processSwipedWithBehavior,
+            quickCheckOnly: true,
+          );
+          if (d.type != SwipeResultType.invalid) return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  List<TileCoordinate>? getHintMove() {
+    for (int r = 0; r < getRowCount(); r++) {
+      for (int c = 0; c < getColCount(); c++) {
+        if (c < getColCount() - 1) {
+          final d = SwipeDetector.evaluate(
+            grid: grid,
+            dCoord: TileCoordinate(row: r, col: c),
+            tCoord: TileCoordinate(row: r, col: c + 1),
+            getSwipeBehaviors: behaviors.processSwipedWithBehavior,
+            quickCheckOnly: true,
+          );
+          if (d.type != SwipeResultType.invalid) {
+            return [
+              TileCoordinate(row: r, col: c),
+              TileCoordinate(row: r, col: c + 1),
+            ];
+          }
+        }
+        if (r < getRowCount() - 1) {
+          final d = SwipeDetector.evaluate(
+            grid: grid,
+            dCoord: TileCoordinate(row: r, col: c),
+            tCoord: TileCoordinate(row: r + 1, col: c),
+            getSwipeBehaviors: behaviors.processSwipedWithBehavior,
+            quickCheckOnly: true,
+          );
+          if (d.type != SwipeResultType.invalid) {
+            return [
+              TileCoordinate(row: r, col: c),
+              TileCoordinate(row: r + 1, col: c),
+            ];
+          }
+        }
+      }
+    }
+    return null;
   }
 
   void triggerInitialFall() {
@@ -90,10 +153,6 @@ class GameController {
 
   bool collectFlyingTiles() {
     return _gridManager.collectFlyingTiles();
-  }
-
-  List<TileCoordinate>? getHintMove() {
-    return _gridManager.getHintMove();
   }
 
   void spawnTiles(Set<TileCoordinate> matches, GameState state, {TileCoordinate? mergePoint}) {
