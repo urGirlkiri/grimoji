@@ -6,6 +6,7 @@ class NatureReactions extends Reaction {
     type: ReactionType.burning,
     triggers: [Emojis.fire],
     transformations: _transformations,
+    aoeRadius: 1,
   );
 
   static const Map<GameEmoji, GameEmoji> _transformations = {

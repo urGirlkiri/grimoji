@@ -38,6 +38,13 @@ class RecipeBook {
     return reaction.transformations;
   }
 
+  static int getAoERadiusForType(ReactionType type) {
+    final reaction = allReactions.firstWhere(
+      (r) => r.type == type,
+    );
+    return reaction.aoeRadius;
+  }
+
   static void initialize() {
     for (final reaction in allReactions) {
       for (final trigger in reaction.triggers) {

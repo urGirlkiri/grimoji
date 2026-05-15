@@ -12,10 +12,13 @@ class Reaction {
   final List<GameEmoji> triggers;
   
   final Map<GameEmoji, GameEmoji> transformations;
+  
+  final int aoeRadius;
 
   Reaction({
     required this.type,
     required this.triggers,
     required this.transformations,
+    this.aoeRadius = 1,
   });
 }

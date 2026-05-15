@@ -28,6 +28,7 @@ class GameController {
       getRecipe: RecipeBook.getRecipeFor,
       getReactionFor: RecipeBook.getReactionFor,
       getTransformationsForType: RecipeBook.getTransformationsForType,
+      getAoERadiusForType: RecipeBook.getAoERadiusForType,
     );
     
     behaviors = BehaviorEngine(

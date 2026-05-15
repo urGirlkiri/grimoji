@@ -13,6 +13,7 @@ class AlchemyEngine {
   final Recipe? Function(GameEmoji) getRecipe;
   final Reaction? Function(GameEmoji) getReactionFor;
   final Map<GameEmoji, GameEmoji> Function(ReactionType) getTransformationsForType;
+  final int Function(ReactionType) getAoERadiusForType;
   
   final Logger _log = Logger('AlchemyEngine');
 
@@ -21,6 +22,7 @@ class AlchemyEngine {
     required this.getRecipe,     
     required this.getReactionFor,
     required this.getTransformationsForType,
+    required this.getAoERadiusForType,
   });
 
   void processMatches(
@@ -68,7 +70,7 @@ class AlchemyEngine {
 
       final reaction = getReactionFor(emoji);
       if (reaction != null) {
-        _executeReaction(coords, tilesToDestroy, transmutedTiles, reaction.type);
+        _executeReaction(coords, tilesToDestroy, transmutedTiles, reaction);
         return;
       }
 
@@ -104,20 +106,21 @@ class AlchemyEngine {
     Set<TileCoordinate> coords,
     Set<TileCoordinate> tilesToDestroy,
     Set<TileCoordinate> transmutedTiles,
-    ReactionType type,
+    Reaction reaction,
   ) {
-    _log.info('Reaction Initiated: $type');
+    _log.info('Reaction Initiated: ${reaction.type}');
     
     // The trigger matches themselves are always destroyed
     tilesToDestroy.addAll(coords);
 
     // Get the transformations for this specific reaction type from our data book
-    final transformations = getTransformationsForType(type);
+    final transformations = getTransformationsForType(reaction.type);
+    final aoeRadius = reaction.aoeRadius;
 
     for (var centerCoord in coords) {
-      // Check 3x3 area around the trigger/catalyst
-      for (int r = centerCoord.row - 1; r <= centerCoord.row + 1; r++) {
-        for (int c = centerCoord.col - 1; c <= centerCoord.col + 1; c++) {
+      // Check area around the trigger/catalyst based on AoE radius
+      for (int r = centerCoord.row - aoeRadius; r <= centerCoord.row + aoeRadius; r++) {
+        for (int c = centerCoord.col - aoeRadius; c <= centerCoord.col + aoeRadius; c++) {
           if (r >= 0 && r < GridManager.rows && c >= 0 && c < GridManager.cols) {
             Tile targetTile = gridManager.gridTiles[r][c];
             TileCoordinate targetCoord = TileCoordinate(row: r, col: c);

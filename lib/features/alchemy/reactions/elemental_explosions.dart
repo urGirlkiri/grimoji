@@ -6,6 +6,7 @@ class ElementalReactions extends Reaction {
     type: ReactionType.explosive,
     triggers: [Emojis.bomb],
     transformations: _transformations,
+    aoeRadius: 1, 
   );
 
   static const Map<GameEmoji, GameEmoji> _transformations = {

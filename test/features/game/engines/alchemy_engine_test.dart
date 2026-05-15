@@ -49,6 +49,7 @@ void main() {
               type: ReactionType.explosive,
               triggers: [Emojis.bomb],
               transformations: {Emojis.ocean: Emojis.salt},
+              aoeRadius: 1,
             );
           }
           return null;
@@ -58,6 +59,12 @@ void main() {
             return {Emojis.ocean: Emojis.salt};
           }
           return {};
+        },
+        getAoERadiusForType: (type) {
+          if (type == ReactionType.explosive) {
+            return 1;
+          }
+          return 1;
         },
       );
       
