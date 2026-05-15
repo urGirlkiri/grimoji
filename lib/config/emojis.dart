@@ -13,6 +13,12 @@ class GameEmoji {
 class Emojis {
   Emojis._();
 
+  static const GameEmoji noEntry = GameEmoji(
+    'assets/emojis/svg/no_entry.svg',
+    'assets/emojis/lottie/no_entry.json',
+    '⛔',
+  );
+
   static const GameEmoji testTube = GameEmoji(
     'assets/emojis/svg/test_tube.svg',
     //TODO: Replace with actual Lottie animation when available.

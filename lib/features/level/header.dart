@@ -34,6 +34,7 @@ class Header extends StatelessWidget {
                 _buildTargetBox(
                   levelState.level.targetEmoji,
                   levelState.targetIconKey,
+                  levelState.gameState.hasTargetCombo,
                 ),
                 const SizedBox(width: 16),
                 Container(
@@ -173,7 +174,7 @@ class Header extends StatelessWidget {
     );
   }
 
-  Widget _buildTargetBox(GameEmoji targetEmoji, GlobalKey targetIconKey) {
+  Widget _buildTargetBox(GameEmoji targetEmoji, GlobalKey targetIconKey, bool hasCombo) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
       decoration: ShapeDecoration(
@@ -196,6 +197,8 @@ class Header extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
+
+          hasCombo?
           EmojiWidget.lottie(
             key: targetIconKey,
             path: targetEmoji.lottie,
@@ -204,6 +207,10 @@ class Header extends StatelessWidget {
             blurRadius: 4,
             shadowOffset: const Offset(0, 4),
             shadowColor: palette.midnight,
+          ): EmojiWidget.svg(
+            key: targetIconKey,
+            path: targetEmoji.svg,
+            size: 40,
           ),
         ],
       ),

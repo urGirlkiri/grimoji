@@ -57,23 +57,30 @@ class GridManager {
   }
 
   void swapTiles(TileCoordinate A, TileCoordinate B) {
+    final targetRowA = B.row;
+    final targetColA = B.col;
+    final targetRowB = A.row;
+    final targetColB = A.col;
+
     Tile tileA = gridTiles[A.row][A.col];
     Tile tileB = gridTiles[B.row][B.col];
 
-    gridTiles[A.row][A.col] = tileB;
-    gridTiles[B.row][B.col] = tileA;
+    gridTiles[targetRowA][targetColA] = tileA; 
+    gridTiles[targetRowB][targetColB] = tileB; 
 
-    tileA.coordinate.row = B.row;
-    tileA.coordinate.col = B.col;
+    
+    tileA.coordinate.row = targetRowA;
+    tileA.coordinate.col = targetColA;
 
-    tileB.coordinate.row = A.row;
-    tileB.coordinate.col = A.col;
+    tileB.coordinate.row = targetRowB;
+    tileB.coordinate.col = targetColB;
   }
 
   void triggerInitialFall() {
     for (int r = 0; r < rows; r++) {
       for (int c = 0; c < cols; c++) {
         gridTiles[r][c].coordinate.row = r;
+        gridTiles[r][c].coordinate.col = c;
       }
     }
   }
@@ -129,36 +136,36 @@ class GridManager {
 
   ({int x, int y})? findAdjacentEmptyTile(int centerX, int centerY) {
     final List<({int x, int y})> candidates = [];
-    
+
     for (final (dx, dy) in [(-1, 0), (1, 0), (0, -1), (0, 1)]) {
       final nx = centerX + dx;
       final ny = centerY + dy;
-      
+
       if (nx >= 0 && nx < rows && ny >= 0 && ny < cols) {
         if (gridTiles[nx][ny].emoji.visual.isEmpty) {
           candidates.add((x: nx, y: ny));
         }
       }
     }
-    
+
     if (candidates.isEmpty) return null;
     return candidates[_random.nextInt(candidates.length)];
   }
 
   ({int x, int y})? findAdjacentFilledTile(int centerX, int centerY) {
     final List<({int x, int y})> candidates = [];
-    
+
     for (final (dx, dy) in [(-1, 0), (1, 0), (0, -1), (0, 1)]) {
       final nx = centerX + dx;
       final ny = centerY + dy;
-      
+
       if (nx >= 0 && nx < rows && ny >= 0 && ny < cols) {
         if (gridTiles[nx][ny].emoji.visual.isNotEmpty) {
           candidates.add((x: nx, y: ny));
         }
       }
     }
-    
+
     if (candidates.isEmpty) return null;
     return candidates[_random.nextInt(candidates.length)];
   }

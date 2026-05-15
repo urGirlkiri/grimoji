@@ -22,8 +22,8 @@ void main() {
     });
 
     test('getRecipeFor should return null for normal emojis', () {
-      final rockRecipe = RecipeBook.getRecipeFor(Emojis.rock);
-      expect(rockRecipe, isNull, reason: 'Rocks don\'t have a special recipe, so it should return null to let the engine handle them normally');
+      final noEntryRecipe = RecipeBook.getRecipeFor(Emojis.noEntry);
+      expect(noEntryRecipe, isNull, reason: 'NoEntry doesn\'t have a special recipe, so it should return null to let the engine handle them normally');
     });
 
     test('getReactionsForType should return the correct reaction maps', () {
