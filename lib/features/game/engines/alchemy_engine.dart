@@ -101,7 +101,11 @@ class AlchemyEngine {
         
         final reaction = getReactionFor(neighbor.emoji);
         
-        if (!matches.contains(neighbor.coordinate) && 
+        bool isPartOfMatch = matches.any((m) => 
+          m.row == neighbor.coordinate.row && m.col == neighbor.coordinate.col
+        );
+        
+        if (!isPartOfMatch && 
             reaction != null && 
             reaction.type == ReactionType.explosive && 
             !neighbor.isTriggered) {
@@ -132,7 +136,9 @@ class AlchemyEngine {
       targetTile.isFlying = true;
     }
 
-    tilesToDestroy.addAll(coords.where((c) => c != spawnPoint));
+    tilesToDestroy.addAll(coords.where((c) => 
+      c.row != spawnPoint.row || c.col != spawnPoint.col
+    ));
   }
 
   void _executeReaction(
@@ -173,8 +179,17 @@ class AlchemyEngine {
               targetTile.reset();
               transmutedTiles.add(targetCoord);
               _log.fine('Reacted ${targetTile.emoji.visual} at $targetCoord');
-            } else if (!coords.contains(targetCoord)) {
-              tilesToDestroy.add(targetCoord);
+              
+            } else if (!coords.any((m) => m.row == targetCoord.row && m.col == targetCoord.col)) {
+              
+              final targetReaction = getReactionFor(targetTile.emoji);
+              if (targetReaction != null && targetReaction.type == ReactionType.explosive) {
+                targetTile.isTriggered = true;
+              } else {
+                targetTile.isExploding = true; 
+                tilesToDestroy.add(targetCoord);
+              }
+              
             }
           }
         }

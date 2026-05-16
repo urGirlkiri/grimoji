@@ -361,6 +361,8 @@ void main() {
 
   group('GridManager Blast Radius Tests', () {
     late GridManager gridManager;
+    late AlchemyEngine alchemy;
+    late MockGameState mockState;
 
     setUp(() {
       final testLevel = const GameLevel(
@@ -382,6 +384,16 @@ void main() {
       gridManager = GridManager(testLevel);
       gridManager.initialize();
       RecipeBook.initialize();
+
+      alchemy = AlchemyEngine(
+        gridManager: gridManager,
+        getRecipe: RecipeBook.getRecipeFor,
+        getReactionFor: RecipeBook.getReactionFor,
+        getTransformationsForType: RecipeBook.getTransformationsForType,
+        getAoERadiusForType: RecipeBook.getAoERadiusForType,
+      );
+
+      mockState = MockGameState();
     });
 
     test('Blast radius destroys normal tiles but PRIMES caught explosives', () {
@@ -422,7 +434,7 @@ void main() {
     });
 
     test(
-      'Blast radius correctly handles center tile (should not be triggered)',
+      'Blast radius correctly handles center tile (center bomb is destroyed, caught bombs are triggered)',
       () {
         gridManager.triggerInitialFall();
 
@@ -430,12 +442,22 @@ void main() {
         gridManager.gridTiles[4][2].emoji = Emojis.bomb;
         gridManager.gridTiles[4][3].emoji = Emojis.rock;
 
-        gridManager.executeBlastRadius(center, radius: 1);
+        Set<TileCoordinate> destroyed = gridManager.executeBlastRadius(
+          center,
+          radius: 1,
+        );
 
         expect(
           gridManager.gridTiles[4][2].isTriggered,
           isFalse,
-          reason: 'Center bomb should not be triggered',
+          reason:
+              'Center bomb should not be triggered (it is destroyed instead)',
+        );
+        expect(
+          destroyed.contains(center),
+          isTrue,
+          reason:
+              'Center bomb SHOULD be in destroyed set so gravity removes it',
         );
         expect(
           gridManager.gridTiles[4][3].isExploding,
@@ -444,5 +466,29 @@ void main() {
         );
       },
     );
+
+    test('AoE blast from Elemental reaction ignites caught explosives', () {
+      for (int r = 0; r < GridManager.rows; r++) {
+        for (int c = 0; c < GridManager.cols; c++) {
+          gridManager.gridTiles[r][c].emoji = Emojis.rock;
+        }
+      }
+
+      gridManager.gridTiles[3][3].emoji = Emojis.rock;
+      gridManager.gridTiles[3][4].emoji = Emojis.bomb;
+
+      alchemy.processMatches({TileCoordinate(row: 3, col: 3)}, mockState);
+
+      expect(
+        gridManager.gridTiles[3][4].isTriggered,
+        isTrue,
+        reason: 'Caught bomb should be ignited by Elemental AoE blast',
+      );
+      expect(
+        gridManager.gridTiles[3][4].isExploding,
+        isFalse,
+        reason: 'Caught bomb should NOT be marked for explosion',
+      );
+    });
   });
 }

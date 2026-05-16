@@ -106,6 +106,13 @@ class GameState extends ChangeNotifier {
       while (hasMatches) {
         List<MatchGroup> matchedGroups = MatchDetector.findMatchedGroups(gameController.grid);
         
+        matchedGroups.removeWhere((group) {
+          return group.coordinates.any((c) {
+            final tile = gameController.grid[c.row][c.col];
+            return tile.isTriggered || tile.isExploding || tile.isMerging;
+          });
+        });
+
         if (matchedGroups.isEmpty) {
           hasMatches = false;
           break; 

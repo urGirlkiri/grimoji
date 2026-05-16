@@ -189,20 +189,24 @@ class GridManager {
     return bombs;
   }
 
-  Set<TileCoordinate> executeBlastRadius(TileCoordinate center, {int radius = 2}) {
+  Set<TileCoordinate> executeBlastRadius(
+    TileCoordinate center, {
+    int radius = 2,
+  }) {
     Set<TileCoordinate> destroyedTiles = {};
-    
+
     for (int r = 0; r < rows; r++) {
       for (int c = 0; c < cols; c++) {
         final distance = (r - center.row).abs() + (c - center.col).abs();
-        
+
         if (distance <= radius) {
           final tile = gridTiles[r][c];
-          
+
           final reaction = RecipeBook.getReactionFor(tile.emoji);
-          final isExplosive = reaction != null && reaction.type == ReactionType.explosive;
-          
-          if (isExplosive && tile.coordinate != center) {
+          final isExplosive =
+              reaction != null && reaction.type == ReactionType.explosive;
+
+          if (isExplosive && (r != center.row || c != center.col)) {
             tile.isTriggered = true;
           } else {
             tile.isExploding = true;
