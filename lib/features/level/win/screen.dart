@@ -6,6 +6,7 @@ import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/routes.dart';
 import 'package:grimoji/features/level/widgets/confetti.dart';
 import 'package:grimoji/features/level/win/flying_star.dart';
+import 'package:lottie/lottie.dart'; 
 import 'package:provider/provider.dart';
 
 class WinGameScreen extends StatefulWidget {
@@ -22,7 +23,8 @@ class _WinGameScreenState extends State<WinGameScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(milliseconds: 1500), () {
+    
+    Future.delayed(const Duration(milliseconds: 3500), () {
       if (mounted) {
         final nextLevelNumber = widget.level + 1;
         final hasNextLevel = gameLevels.any((l) => l.number == nextLevelNumber);
@@ -73,7 +75,9 @@ class _WinGameScreenState extends State<WinGameScreen> {
                     );
                   },
                 ),
-                const SizedBox(height: 100),
+                
+                
+                const SizedBox(height: 40), 
                 
                 SizedBox(
                   height: 200,
@@ -85,6 +89,13 @@ class _WinGameScreenState extends State<WinGameScreen> {
                         FlyingStar(index: i, total: widget.stars),
                     ],
                   ),
+                ),
+                
+                Lottie.asset(
+                  'assets/lottie/star-witch.json', 
+                  height: 250, 
+                  fit: BoxFit.contain,
+                  animate: true,
                 ),
               ],
             ),
