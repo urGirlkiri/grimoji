@@ -3,6 +3,8 @@ import 'package:grimoji/config/levels.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/features/game/model/tile.dart';
 import 'package:grimoji/features/game/model/coordinate.dart';
+import 'package:grimoji/features/alchemy/recipe_book.dart';
+import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 
 class GridManager {
   static const int rows = 8;
@@ -161,5 +163,54 @@ class GridManager {
 
     if (candidates.isEmpty) return null;
     return candidates[_random.nextInt(candidates.length)];
+  }
+
+  List<Tile> getAdjacentTiles(int row, int col) {
+    final List<Tile> adjacent = [];
+    for (final (dx, dy) in [(-1, 0), (1, 0), (0, -1), (0, 1)]) {
+      final nx = row + dx;
+      final ny = col + dy;
+      if (nx >= 0 && nx < rows && ny >= 0 && ny < cols) {
+        adjacent.add(gridTiles[nx][ny]);
+      }
+    }
+    return adjacent;
+  }
+
+  List<Tile> getTriggeredBombs() {
+    final List<Tile> bombs = [];
+    for (int r = 0; r < rows; r++) {
+      for (int c = 0; c < cols; c++) {
+        if (gridTiles[r][c].isTriggered) {
+          bombs.add(gridTiles[r][c]);
+        }
+      }
+    }
+    return bombs;
+  }
+
+  Set<TileCoordinate> executeBlastRadius(TileCoordinate center, {int radius = 2}) {
+    Set<TileCoordinate> destroyedTiles = {};
+    
+    for (int r = 0; r < rows; r++) {
+      for (int c = 0; c < cols; c++) {
+        final distance = (r - center.row).abs() + (c - center.col).abs();
+        
+        if (distance <= radius) {
+          final tile = gridTiles[r][c];
+          
+          final reaction = RecipeBook.getReactionFor(tile.emoji);
+          final isExplosive = reaction != null && reaction.type == ReactionType.explosive;
+          
+          if (isExplosive && tile.coordinate != center) {
+            tile.isTriggered = true;
+          } else {
+            tile.isExploding = true;
+            destroyedTiles.add(TileCoordinate(row: r, col: c));
+          }
+        }
+      }
+    }
+    return destroyedTiles;
   }
 }

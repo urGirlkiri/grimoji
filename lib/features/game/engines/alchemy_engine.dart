@@ -72,12 +72,39 @@ class AlchemyEngine {
 
       final reaction = getReactionFor(emoji);
       if (reaction != null) {
-        _executeReaction(coords, tilesToDestroy, transmutedTiles, reaction);
+        if (reaction.type == ReactionType.explosive) {
+          for (var coord in coords) {
+            gridManager.gridTiles[coord.row][coord.col].isTriggered = true;
+          }
+          _log.info('Matched explosives primed at $coords');
+        } else {
+          _executeReaction(coords, tilesToDestroy, transmutedTiles, reaction);
+        }
         return;
       }
 
       tilesToDestroy.addAll(coords);
     });
+
+    _triggerAdjacentBombs(matches);
+  }
+
+  void _triggerAdjacentBombs(Set<TileCoordinate> matches) {
+    for (var match in matches) {
+      final neighbors = gridManager.getAdjacentTiles(match.row, match.col);
+      for (var neighbor in neighbors) {
+        
+        final reaction = getReactionFor(neighbor.emoji);
+        
+        if (!matches.contains(neighbor.coordinate) && 
+            reaction != null && 
+            reaction.type == ReactionType.explosive && 
+            !neighbor.isTriggered) {
+          _log.info('Explosive ignited at ${neighbor.coordinate}!');
+          neighbor.isTriggered = true;
+        }
+      }
+    }
   }
 
   void _executeMerge(

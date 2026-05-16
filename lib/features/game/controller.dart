@@ -39,6 +39,8 @@ class GameController {
 
   List<List<Tile>> get grid => _gridManager.gridTiles;
 
+  GridManager get gridManager => _gridManager;
+
   int getRowCount() => GridManager.rows;
   int getColCount() => GridManager.cols;
 
@@ -194,5 +196,11 @@ class GameController {
     }
 
     return decision;
+  }
+
+  List<Tile> getTriggeredBombs() => _gridManager.getTriggeredBombs();
+  
+  Set<TileCoordinate> executeBlastRadius(TileCoordinate center, {int radius = 2}) {
+    return _gridManager.executeBlastRadius(center, radius: radius);
   }
 }

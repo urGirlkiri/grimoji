@@ -14,6 +14,8 @@ class Tile {
   bool isExploding = false; 
   bool isMerging = false;
   bool isMergePoint = false;
+  
+  bool isTriggered = false;
 
   bool hasFlown = false;
   bool isFlying = false; 
@@ -37,6 +39,7 @@ class Tile {
     
     newTile.isExploding = isExploding;
     newTile.isMerging = isMerging;
+    newTile.isTriggered = isTriggered;
     newTile.hasFlown = hasFlown;
     newTile.isFlying = isFlying;
     newTile.isHinting = isHinting;
@@ -51,6 +54,7 @@ class Tile {
     isExploding = false;
     isMerging = false;
     isMergePoint = false;
+    isTriggered = false;
     hasFlown = false; 
     isFlying = false; 
     isHinting = false;   
