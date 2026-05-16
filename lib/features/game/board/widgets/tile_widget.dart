@@ -35,10 +35,7 @@ class TileWidget extends StatelessWidget {
       top: topPixel,
       width: tWidth,
       height: tHeight,
-      child: Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: Center(child: _buildTileContent(context)),
-      ),
+      child: Center(child: _buildTileContent(context)),
     );
   }
 
@@ -89,21 +86,18 @@ class TileWidget extends StatelessWidget {
       child: emojiUI,
     );
 
-    if (!tile.isExploding && !tile.isMergePoint) {
-      return scaledEmoji;
-    }
-
     return Stack(
       alignment: Alignment.center,
       clipBehavior: Clip.none,
+      
       children: [
         scaledEmoji,
         
         if (tile.isExploding)
           Lottie.asset(
             "assets/lottie/puff.json",
-            width: tWidth * 1.5,
-            height: tHeight * 1.5,
+            width: tWidth,
+            height: tHeight,
             fit: BoxFit.cover,
             animate: true,
             repeat: false, 
