@@ -72,6 +72,15 @@ class _GameBoardState extends State<GameBoard> {
     });
   }
 
+  void _clearDrag() {
+    if (_draggedTile != null || _dragStartPosition != null) {
+      setState(() {
+        _draggedTile = null;
+        _dragStartPosition = null;
+      });
+    }
+  }
+
   void onPanStart(DragStartDetails details, BuildContext contex,) {
     _log.info('Touch Detected');
     final metrics = context.read<BoardMetrics>();
@@ -92,8 +101,10 @@ class _GameBoardState extends State<GameBoard> {
         col >= 0 &&
         col < levelstate.gameState.gameController.getColCount()) {
       levelstate.gameState.resetTimer();
-      _draggedTile = levelstate.gameState.gameController.grid[row][col];
-      _dragStartPosition = details.localPosition;
+      setState(() {
+        _draggedTile = levelstate.gameState.gameController.grid[row][col];
+        _dragStartPosition = details.localPosition;
+      });
     }
   }
 
@@ -127,8 +138,7 @@ class _GameBoardState extends State<GameBoard> {
         _triggerSparkle(details.localPosition);
       }
 
-      _draggedTile = null;
-      _dragStartPosition = null;
+      _clearDrag(); 
     }
   }
 
@@ -192,6 +202,8 @@ class _GameBoardState extends State<GameBoard> {
                   return GestureDetector(
                     onPanStart: (details) => onPanStart(details, context),
                     onPanUpdate: (details) => onPanUpdate(details, levelstate),
+                    onPanEnd: (details) => _clearDrag(), 
+                    onPanCancel: () => _clearDrag(),     
                     child: Stack(
                       key: _boardKey,
                       clipBehavior: Clip.none,
@@ -203,7 +215,7 @@ class _GameBoardState extends State<GameBoard> {
                           firstTileKey: _tileKey,
                           palette: palette,
                         ),
-                        TileGrid(),
+                        TileGrid(activeTileId: _draggedTile?.id),
                         
                         ..._sparkles.map((sparkle) {
                           return Positioned(

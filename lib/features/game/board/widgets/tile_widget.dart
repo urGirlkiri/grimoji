@@ -17,6 +17,7 @@ class TileWidget extends StatelessWidget {
     required this.tWidth,
     required this.tHeight,
     required this.emoji,
+    this.isTouched = false,
   });
 
   final Tile tile;
@@ -25,6 +26,7 @@ class TileWidget extends StatelessWidget {
   final double tWidth;
   final double tHeight;
   final GameEmoji? emoji;
+  final bool isTouched;
 
   @override
   Widget build(BuildContext context) {
@@ -77,12 +79,14 @@ class TileWidget extends StatelessWidget {
       targetScale = 0.0; 
     } else if (tile.isMergePoint) {
       targetScale = 1.3; 
+    } else if (isTouched) {
+      targetScale = 1.15;
     }
 
     Widget scaledEmoji = AnimatedScale(
       scale: targetScale,
-      duration: const Duration(milliseconds: 200),
-      curve: tile.isMergePoint ? Curves.elasticOut : Curves.easeInBack,
+      duration: Duration(milliseconds: isTouched ? 100 : 200), // Pop instantly, explode normally
+      curve: tile.isMergePoint ? Curves.elasticOut : Curves.easeOutBack, // Bouncy feel
       child: emojiUI,
     );
 

@@ -13,7 +13,9 @@ import 'package:provider/provider.dart';
 class TileGrid extends StatelessWidget {
   static const shuffleDuration = Duration(milliseconds: 600);
 
-  const TileGrid({super.key});
+  final String? activeTileId;
+
+  const TileGrid({super.key, this.activeTileId});
 
   void _initialFall(BuildContext context, LevelState levelState) {
     if (levelState.gameState.gameController.grid[0][0].coordinate.row < 0) {
@@ -107,6 +109,7 @@ class TileGrid extends StatelessWidget {
             tWidth: tWidth,
             tHeight: tHeight,
             emoji: tile.emoji,
+            isTouched: tile.id == activeTileId,
           ),
         );
       }
