@@ -62,8 +62,6 @@ class _GameBoardState extends State<GameBoard> {
     int col = (details.localPosition.dx / metrics.tileWidth!).floor();
     int row = (details.localPosition.dy / metrics.tileHeight!).floor();
 
-    _log.info('Touch Coordinates -> row: $row, col: $col');
-
     if (row >= 0 &&
         row < levelstate.gameState.gameController.getRowCount() &&
         col >= 0 &&

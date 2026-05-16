@@ -94,19 +94,22 @@ class TileWidget extends StatelessWidget {
         scaledEmoji,
         
         if (tile.isExploding)
-          Lottie.asset(
-            "assets/lottie/puff.json",
-            width: tWidth,
-            height: tHeight,
-            fit: BoxFit.cover,
-            animate: true,
-            repeat: false, 
-            delegates: LottieDelegates(
-              values: [
-                ValueDelegate.colorFilter([
-                  '**',
-                ], value: ColorFilter.mode(palette.trueWhite, BlendMode.srcATop)),
-              ],
+          Transform.translate(
+            offset: const Offset(-25.0, 0.0), 
+            child: Lottie.asset(
+              "assets/lottie/puff.json",
+              width: tWidth,
+              height: tHeight,
+              fit: BoxFit.cover,
+              animate: true,
+              repeat: false, 
+              delegates: LottieDelegates(
+                values: [
+                  ValueDelegate.colorFilter([
+                    '**',
+                  ], value: ColorFilter.mode(palette.trueWhite, BlendMode.srcATop)),
+                ],
+              ),
             ),
           ),
       ],
