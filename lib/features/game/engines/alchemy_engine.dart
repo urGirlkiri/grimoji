@@ -64,15 +64,9 @@ class AlchemyEngine {
       state.resolveEmoji(emoji, coords.length);
 
       final recipe = getRecipe(emoji);
-      if (recipe != null) {
-        if (coords.length >= recipe.requiredAmount) {
-          _executeMerge(recipe, coords, state, tilesToDestroy, mergePoint);
-        } else {
-          _log.info(
-            'Matched ${coords.length} ${emoji.visual}, but need ${recipe.requiredAmount} to craft ${recipe.yields.visual}!',
-          );
-          tilesToDestroy.addAll(coords);
-        }
+      
+      if (recipe != null && coords.length >= recipe.requiredAmount) {
+        _executeMerge(recipe, coords, state, tilesToDestroy, mergePoint);
         return;
       }
 

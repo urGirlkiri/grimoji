@@ -270,7 +270,7 @@ class GameState extends ChangeNotifier {
     for (var groupMatch in matchedGroups) {
       final recipe = RecipeBook.getRecipeFor(groupMatch.emoji);
 
-      if (recipe != null) {
+      if (recipe != null && groupMatch.coordinates.length >= recipe.requiredAmount) {
         TileCoordinate catalyst =
             (isFirstMatch && groupMatch.coordinates.contains(targetCoord))
             ? targetCoord
