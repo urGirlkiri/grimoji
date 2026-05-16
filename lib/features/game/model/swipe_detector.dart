@@ -47,9 +47,9 @@ class SwipeDetector {
           ? SwipeDecision(type: SwipeResult.match)
           : SwipeDecision(type: SwipeResult.invalid);
     } else {
-      final matchGroups = MatchDetector.findMatchGroups(grid);
-      decision = matchGroups.isNotEmpty
-          ? SwipeDecision(type: SwipeResult.match, matches: matchGroups)
+      final matchedGroups = MatchDetector.findMatchedGroups(grid);
+      decision = matchedGroups.isNotEmpty
+          ? SwipeDecision(type: SwipeResult.match, matches: matchedGroups)
           : SwipeDecision(type: SwipeResult.invalid);
     }
 

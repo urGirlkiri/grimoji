@@ -66,7 +66,7 @@ class GameController {
       }
 
       validBoard = hasPossibleMoves();
-      if (MatchDetector.findMatchGroups(grid).isNotEmpty) {
+      if (MatchDetector.findMatchedGroups(grid).isNotEmpty) {
         validBoard = false;
       }
     }

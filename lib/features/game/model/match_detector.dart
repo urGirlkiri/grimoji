@@ -10,7 +10,7 @@ class MatchGroup {
 }
 
 class MatchDetector {
-  static List<MatchGroup> findMatchGroups(List<List<Tile>> grid) {
+  static List<MatchGroup> findMatchedGroups(List<List<Tile>> grid) {
     List<MatchGroup> groups = [];
     
     groups.addAll(_scanGrid(grid, isHorizontal: true));

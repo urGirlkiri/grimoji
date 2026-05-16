@@ -25,7 +25,7 @@ void main() {
 
     test('Should initialize an 8x5 board with NO immediate matches', () {
       expect(gridManager.gridTiles.length, 8);
-      final initialMatches = MatchDetector.findMatchGroups(gridManager.gridTiles);
+      final initialMatches = MatchDetector.findMatchedGroups(gridManager.gridTiles);
       expect(initialMatches.isEmpty, isTrue);
     });
 

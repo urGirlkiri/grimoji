@@ -22,7 +22,7 @@ void main() {
         final grid = [
           buildRow(0, [Emojis.rock, Emojis.fire, Emojis.fire, Emojis.fire]), 
         ];
-        final matches = MatchDetector.findMatchGroups(grid);
+        final matches = MatchDetector.findMatchedGroups(grid);
         expect(matches.length, 1);
         expect(matches.first.coordinates.length, 3);
       });
@@ -31,7 +31,7 @@ void main() {
         final grid = [
           buildRow(0, [Emojis.fire, Emojis.fire, Emojis.fire, Emojis.rock]), 
         ];
-        final matches = MatchDetector.findMatchGroups(grid);
+        final matches = MatchDetector.findMatchedGroups(grid);
         expect(matches.length, 1);
       });
 
@@ -39,7 +39,7 @@ void main() {
         final grid = [
           buildRow(0, [Emojis.rock, Emojis.fire, Emojis.fire, Emojis.fire]), 
         ];
-        final matches = MatchDetector.findMatchGroups(grid);
+        final matches = MatchDetector.findMatchedGroups(grid);
         expect(matches.length, 1);
       });
 
@@ -47,7 +47,7 @@ void main() {
         final grid = [
           buildRow(0, [Emojis.fire, Emojis.fire, Emojis.fire, Emojis.rock, Emojis.droplet, Emojis.droplet, Emojis.droplet]), 
         ];
-        final matches = MatchDetector.findMatchGroups(grid);
+        final matches = MatchDetector.findMatchedGroups(grid);
         expect(matches.length, 2);
         expect(matches[0].emoji, Emojis.fire);
         expect(matches[1].emoji, Emojis.droplet);
@@ -60,7 +60,7 @@ void main() {
           buildRow(2, [Emojis.fire]),
           buildRow(3, [Emojis.fire]), 
         ];
-        final matches = MatchDetector.findMatchGroups(grid);
+        final matches = MatchDetector.findMatchedGroups(grid);
         expect(matches.length, 1);
         expect(matches.first.coordinates.length, 3);
       });
@@ -72,7 +72,7 @@ void main() {
           buildRow(1, [Emojis.fire]),
           buildRow(2, [Emojis.fire]),
         ];
-        final matches = MatchDetector.findMatchGroups(grid);
+        final matches = MatchDetector.findMatchedGroups(grid);
         expect(matches.length, 1);
       });
 
@@ -81,8 +81,8 @@ void main() {
           buildRow(0, [Emojis.fire, Emojis.fire, Emojis.fire, Emojis.rock]),
           buildRow(1, [Emojis.droplet, Emojis.rock, Emojis.bug, Emojis.alien]),
         ];
-        expect(() => MatchDetector.findMatchGroups(grid), returnsNormally);
-        final matches = MatchDetector.findMatchGroups(grid);
+        expect(() => MatchDetector.findMatchedGroups(grid), returnsNormally);
+        final matches = MatchDetector.findMatchedGroups(grid);
         expect(matches.length, 1);
       });
     });
@@ -143,7 +143,7 @@ void main() {
         final grid = [
           buildRow(0, [Emojis.droplet, Emojis.droplet, Emojis.droplet, Emojis.droplet]),
         ];
-        final matches = MatchDetector.findMatchGroups(grid);
+        final matches = MatchDetector.findMatchedGroups(grid);
         expect(matches.length, 1);
         expect(matches.first.coordinates.length, 4);
       });
@@ -156,7 +156,7 @@ void main() {
           buildRow(3, [Emojis.droplet]),
           buildRow(4, [Emojis.droplet]),
         ];
-        final matches = MatchDetector.findMatchGroups(grid);
+        final matches = MatchDetector.findMatchedGroups(grid);
         expect(matches.length, 1);
         expect(matches.first.coordinates.length, 5);
       });
@@ -165,7 +165,7 @@ void main() {
         final grid = [
           buildRow(0, [Emojis.leafyGreen, Emojis.leafyGreen, Emojis.leafyGreen, Emojis.leafyGreen, Emojis.leafyGreen, Emojis.leafyGreen]),
         ];
-        final matches = MatchDetector.findMatchGroups(grid);
+        final matches = MatchDetector.findMatchedGroups(grid);
         expect(matches.length, 1);
         expect(matches.first.coordinates.length, 6);
       });
@@ -174,7 +174,7 @@ void main() {
         final grid = [
           buildRow(0, [Emojis.leafyGreen, Emojis.leafyGreen, Emojis.leafyGreen, Emojis.leafyGreen, Emojis.leafyGreen, Emojis.leafyGreen, Emojis.leafyGreen]),
         ];
-        final matches = MatchDetector.findMatchGroups(grid);
+        final matches = MatchDetector.findMatchedGroups(grid);
         expect(matches.length, 1);
         expect(matches.first.coordinates.length, 7);
       });

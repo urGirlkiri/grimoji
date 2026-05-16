@@ -87,12 +87,12 @@ class GameState extends ChangeNotifier {
     resetTimer();
     notifyListeners();
 
-    List<MatchGroup> matchGroups = await _attemptSwap(
+    List<MatchGroup> matchedGroups = await _attemptSwap(
       draggedCoordinate,
       targetCoordinate,
     );
 
-    if (matchGroups.isEmpty) {
+    if (matchedGroups.isEmpty) {
       hasTargetCombo = false;
 
       isProcessing = false;
@@ -105,15 +105,15 @@ class GameState extends ChangeNotifier {
 
     bool isFirstMatch = true;
 
-    while (matchGroups.isNotEmpty) {
-      _log.info('Processing ${matchGroups.length} groups...');
+    while (matchedGroups.isNotEmpty) {
+      _log.info('Processing ${matchedGroups.length} groups...');
 
-      _categorizeAnimations(matchGroups, isFirstMatch, targetCoordinate);
+      _categorizeAnimations(matchedGroups, isFirstMatch, targetCoordinate);
       notifyListeners();
       await Future.delayed(clearAnimationTime);
       if (_isDisposed) return;
 
-      final Set<TileCoordinate> allMatchedCoords = matchGroups
+      final Set<TileCoordinate> allMatchedCoords = matchedGroups
           .expand((g) => g.coordinates)
           .toSet();
       gameController.spawnTiles(
@@ -135,7 +135,7 @@ class GameState extends ChangeNotifier {
       await Future.delayed(gravityAnimationTime);
       if (_isDisposed) return;
 
-      matchGroups = MatchDetector.findMatchGroups(gameController.grid);
+      matchedGroups = MatchDetector.findMatchedGroups(gameController.grid);
       isFirstMatch = false;
     }
 
@@ -274,25 +274,25 @@ class GameState extends ChangeNotifier {
   }
 
   void _categorizeAnimations(
-    List<MatchGroup> matchGroups,
+    List<MatchGroup> matchedGroups,
     bool isFirstMatch,
     TileCoordinate targetCoord,
   ) {
-    for (var group in matchGroups) {
-      final recipe = RecipeBook.getRecipeFor(group.emoji);
+    for (var groupMatch in matchedGroups) {
+      final recipe = RecipeBook.getRecipeFor(groupMatch.emoji);
 
       if (recipe != null) {
         TileCoordinate catalyst =
-            (isFirstMatch && group.coordinates.contains(targetCoord))
+            (isFirstMatch && groupMatch.coordinates.contains(targetCoord))
             ? targetCoord
-            : group.coordinates.first;
+            : groupMatch.coordinates.first;
 
         for (var coord in group.coordinates) {
           final tile = gameController.grid[coord.row][coord.col];
           coord == catalyst ? tile.isMerging = true : tile.isExploding = true;
         }
       } else {
-        for (var coord in group.coordinates) {
+        for (var coord in groupMatch.coordinates) {
           gameController.grid[coord.row][coord.col].isExploding = true;
         }
       }
