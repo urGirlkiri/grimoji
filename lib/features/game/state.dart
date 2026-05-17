@@ -175,48 +175,83 @@ class GameState extends ChangeNotifier {
 
       List<Tile> primedBombs = gameController.getTriggeredBombs();
 
-      if (primedBombs.isEmpty) {
+      if (primedBombs.isNotEmpty) {
+        Set<TileCoordinate> allBlastedCoords = {};
+        Set<TileCoordinate> allTransformedCoords = {};
+
+        final detonatedBombs = <Tile>{};
+
+        bool chainReaction = true;
+        while (chainReaction) {
+          chainReaction = false;
+          final currentBombs = List<Tile>.from(primedBombs);
+
+          for (Tile activeBomb in currentBombs) {
+            if (!activeBomb.isTriggered) continue;
+
+            detonatedBombs.add(activeBomb);
+
+            if (activeBomb.emoji == gameController.level.targetEmoji) {
+              resolveEmoji(activeBomb.emoji, 1);
+            }
+
+            activeBomb.isTriggered = false;
+            activeBomb.isExploding = true;
+
+            final blastResult = gameController.executeBlastRadius(
+              activeBomb.coordinate,
+            );
+            allBlastedCoords.addAll(blastResult.destroyed);
+            allTransformedCoords.addAll(blastResult.transformed);
+          }
+
+          primedBombs = gameController.getTriggeredBombs();
+          if (primedBombs.isNotEmpty) {
+            chainReaction = true;
+          }
+        }
+
+        for (Tile bomb in primedBombs) {
+          if (!detonatedBombs.contains(bomb) &&
+              bomb.emoji == gameController.level.targetEmoji) {
+            resolveEmoji(bomb.emoji, 1);
+          }
+        }
+
+        notifyListeners();
+
+        await Future.delayed(clearAnimationTime);
+        if (_isDisposed) return;
+
+        for (var coord in allTransformedCoords) {
+          final tile = gameController.grid[coord.row][coord.col];
+          resolveEmoji(tile.emoji, 1);
+          if (tile.emoji == gameController.level.targetEmoji) {
+            tile.isFlying = true;
+          }
+        }
+
+        for (int r = 0; r < gameController.getRowCount(); r++) {
+          for (int c = 0; c < gameController.getColCount(); c++) {
+            gameController.grid[r][c].isTransmuting = false;
+          }
+        }
+
+        gameController.gridManager.applyGravity(allBlastedCoords);
+        gameController.collectFlyingTiles();
+
+        notifyListeners();
+        await Future.delayed(const Duration(milliseconds: 50));
+        if (_isDisposed) return;
+
+        gameController.triggerInitialFall();
+        notifyListeners();
+
+        await Future.delayed(gravityAnimationTime);
+        if (_isDisposed) return;
+      } else {
         break;
       }
-
-      Tile activeBomb = primedBombs.first;
-
-      activeBomb.isTriggered = false;
-      activeBomb.isExploding = true;
-      notifyListeners();
-
-      await Future.delayed(const Duration(milliseconds: 200));
-
-      final blastResult = gameController.executeBlastRadius(
-        activeBomb.coordinate,
-      );
-
-      Set<TileCoordinate> blastedCoords = blastResult.destroyed;
-
-      for (var coord in blastResult.transformed) {
-        final tile = gameController.grid[coord.row][coord.col];
-        resolveEmoji(tile.emoji, 1);
-        if (tile.emoji == gameController.level.targetEmoji) {
-          tile.isFlying = true;
-        }
-      }
-      notifyListeners();
-
-      await Future.delayed(clearAnimationTime);
-      if (_isDisposed) return;
-
-      gameController.gridManager.applyGravity(blastedCoords);
-      gameController.collectFlyingTiles();
-
-      notifyListeners();
-      await Future.delayed(const Duration(milliseconds: 50));
-      if (_isDisposed) return;
-
-      gameController.triggerInitialFall();
-      notifyListeners();
-
-      await Future.delayed(gravityAnimationTime);
-      if (_isDisposed) return;
     }
 
     if (!gameController.hasPossibleMoves()) {
@@ -329,7 +364,7 @@ class GameState extends ChangeNotifier {
       return [];
     } else {
       notifyListeners();
-      await Future.delayed(Duration(milliseconds: 100) );
+      await Future.delayed(Duration(milliseconds: 100));
       if (_isDisposed) return [];
 
       if (decision.type == SwipeResult.specialBehavior) {

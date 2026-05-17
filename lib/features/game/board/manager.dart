@@ -209,7 +209,9 @@ class GridManager {
               reaction != null && reaction.type == ReactionType.explosive;
 
           if (isExplosive && (r != center.row || c != center.col)) {
-            tile.isTriggered = true;
+            if (!tile.isExploding) {
+              tile.isTriggered = true;
+            }
           } else {
             final resultingEmoji = transformations[tile.emoji];
             if (resultingEmoji != null) {

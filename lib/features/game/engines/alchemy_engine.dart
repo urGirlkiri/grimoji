@@ -10,7 +10,7 @@ import '../board/manager.dart';
 class AlchemyEngine {
   final GridManager gridManager;
 
-  final Recipe? Function(GameEmoji) getRecipe;
+  final List<Recipe>? Function(GameEmoji) getRecipes;
   final Reaction? Function(GameEmoji) getReactionFor;
   final Map<GameEmoji, GameEmoji> Function(ReactionType)
   getTransformationsForType;
@@ -20,7 +20,7 @@ class AlchemyEngine {
 
   AlchemyEngine({
     required this.gridManager,
-    required this.getRecipe,
+    required this.getRecipes,
     required this.getReactionFor,
     required this.getTransformationsForType,
     required this.getAoERadiusForType,
@@ -67,12 +67,20 @@ class AlchemyEngine {
     groupedMatches.forEach((emoji, coords) {
       state.resolveEmoji(emoji, coords.length);
 
-      final recipe = getRecipe(emoji);
-      
-      if (recipe != null && coords.length >= recipe.requiredAmount) {
-        _executeMerge(recipe, coords, state, tilesToDestroy, mergePoint);
-        mergeHappened = true;
-        return;
+      bool isAlreadyTriggered = coords.any((c) => gridManager.gridTiles[c.row][c.col].isTriggered);
+
+      if (!isAlreadyTriggered) {
+        final recipes = getRecipes(emoji);
+        if (recipes != null) {
+          for (var recipe in recipes) {
+            if (coords.length >= recipe.requiredAmount) {
+              _executeMerge(recipe, coords, state, tilesToDestroy, mergePoint);
+              mergeHappened = true;
+              break; 
+            }
+          }
+          if (mergeHappened) return;
+        }
       }
 
       final reaction = getReactionFor(emoji);
