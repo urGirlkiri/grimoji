@@ -146,6 +146,13 @@ class GameState extends ChangeNotifier {
           mergePoint: isFirstMatch ? targetCoordinate : null,
         );
 
+        for (var coord in reactionDestroyed) {
+          final tile = gameController.grid[coord.row][coord.col];
+          if (tile.emoji == gameController.level.targetEmoji) {
+            tile.isFlying = true;
+          }
+        }
+
         notifyListeners();
 
         bool hasAoE = reactionDestroyed.any(
@@ -166,6 +173,9 @@ class GameState extends ChangeNotifier {
               gameController.grid[r][c].isTransmuting = false;
             }
           }
+        } else {
+          await Future.delayed(const Duration(milliseconds: 100));
+          if (_isDisposed) return;
         }
 
         gameController.gridManager.applyGravity(reactionDestroyed);
@@ -238,6 +248,13 @@ class GameState extends ChangeNotifier {
               bomb.emoji == gameController.level.targetEmoji) {
             _log.info('MEGA BLAST: Counting bomb that never detonated');
             resolveEmoji(bomb.emoji, 1);
+          }
+        }
+
+        for (var coord in allBlastedCoords) {
+          final tile = gameController.grid[coord.row][coord.col];
+          if (tile.emoji == gameController.level.targetEmoji) {
+            tile.isFlying = true;
           }
         }
 

@@ -127,7 +127,7 @@ void main() {
 
         final blastResult = gridManager.executeBlastRadius(
           TileCoordinate(row: 3, col: 2),
-          radius: 1,
+          
         );
 
         expect(
@@ -425,32 +425,32 @@ void main() {
       TileCoordinate center = TileCoordinate(row: 4, col: 2);
       gridManager.gridTiles[4][2].emoji = Emojis.bomb;
 
-      gridManager.gridTiles[4][3].emoji = Emojis.droplet;
-      gridManager.gridTiles[4][4].emoji = Emojis.bomb;
+      gridManager.gridTiles[4][3].emoji = Emojis.bomb;
+      gridManager.gridTiles[4][1].emoji = Emojis.droplet;
 
       final blastResult = gridManager.executeBlastRadius(
         center,
-        radius: 2,
+        
       );
 
       expect(
-        blastResult.destroyed.contains(TileCoordinate(row: 4, col: 3)),
+        blastResult.destroyed.contains(TileCoordinate(row: 4, col: 1)),
         isTrue,
         reason: 'Droplet should be in the destroyed set',
       );
       expect(
-        gridManager.gridTiles[4][3].isExploding,
+        gridManager.gridTiles[4][1].isExploding,
         isTrue,
         reason: 'Droplet should be marked for explosion',
       );
 
       expect(
-        blastResult.destroyed.contains(TileCoordinate(row: 4, col: 4)),
+        blastResult.destroyed.contains(TileCoordinate(row: 4, col: 3)),
         isFalse,
         reason: 'Caught Bomb should NOT be in the destroyed set',
       );
       expect(
-        gridManager.gridTiles[4][4].isTriggered,
+        gridManager.gridTiles[4][3].isTriggered,
         isTrue,
         reason: 'Caught Bomb should be ignited for the chain reaction!',
       );
@@ -467,7 +467,7 @@ void main() {
 
         final blastResult = gridManager.executeBlastRadius(
           center,
-          radius: 1,
+          
         );
 
         expect(
@@ -482,7 +482,6 @@ void main() {
           reason:
               'Center bomb SHOULD be in destroyed set so gravity removes it',
         );
-        // Rock should transform to volcano when hit by explosive!
         expect(
           gridManager.gridTiles[4][3].emoji,
           equals(Emojis.volcano),
