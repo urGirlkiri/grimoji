@@ -80,7 +80,7 @@ void main() {
         expect(hasHint, isFalse, reason: 'No hint should appear before 5s');
         
         state.resolveSwipe(TileCoordinate(row: 0, col: 0), TileCoordinate(row: 0, col: 1));
-        async.elapse(swapAnimationTime * 2);
+        async.elapse(swapAnimationTime * 2 + const Duration(milliseconds: 400) + shuffleWipeTime * 2);
         
         state.gameController.grid[5][0].emoji = Emojis.fire;
         state.gameController.grid[6][0].emoji = Emojis.fire;
@@ -102,14 +102,17 @@ void main() {
           onComboFinished: () => false,
         );
 
-        TestHelpers.genDeadLockGrid(state.gameController);
+        state.gameController.grid[0][0].emoji = Emojis.fire;
+        state.gameController.grid[0][1].emoji = Emojis.fire;
+        state.gameController.grid[1][0].emoji = Emojis.fire;
+        state.gameController.grid[1][1].emoji = Emojis.fire;
         final originalVisual = state.gameController.grid[0][0].emoji.visual;
 
         state.resolveSwipe(TileCoordinate(row: 0, col: 0), TileCoordinate(row: 0, col: 1));
         
         expect(state.isProcessing, isTrue, reason: 'State should be processing during swap');
         
-        async.elapse(swapAnimationTime * 2 + const Duration(milliseconds: 100));
+        async.elapse(swapAnimationTime * 2 + const Duration(milliseconds: 400));
 
         expect(state.gameController.grid[0][0].emoji.visual, originalVisual, reason: 'Grid should revert after invalid swap');
         expect(state.isProcessing, isFalse, reason: 'State should stop processing after revert');

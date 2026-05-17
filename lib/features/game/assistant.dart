@@ -102,7 +102,6 @@ class BoardAssistant {
 
       if (!_state.isDisposed) {
         clearHint();
-        startHintTimer();
       }
       return [];
     } else {

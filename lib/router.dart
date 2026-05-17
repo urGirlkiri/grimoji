@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/routes.dart';
+import 'package:grimoji/features/grimoire/screen.dart';
 
 import 'package:grimoji/features/main_menu.dart';
 import 'package:grimoji/features/map/screen.dart';
@@ -11,7 +12,7 @@ import 'package:grimoji/widgets/layout_scaffold.dart';
 
 import 'package:grimoji/features/level/screen.dart';
 import 'package:grimoji/features/level/win/screen.dart';
-import 'package:grimoji/config/levels.dart'; 
+import 'package:grimoji/config/levels.dart';
 
 final _routerNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
@@ -19,7 +20,7 @@ final router = GoRouter(
   navigatorKey: _routerNavigatorKey,
   initialLocation: Routes.homeRoute,
   // redirect: (BuildContext context, GoRouterState state) {
-  //   return '/bounties';
+  //   return '/map/play/3';
   // },
   routes: [
     StatefulShellRoute.indexedStack(
@@ -36,28 +37,18 @@ final router = GoRouter(
                 final autoOpenInt = autoOpenStr != null
                     ? int.tryParse(autoOpenStr)
                     : null;
-                return LevelsMapScreen(autoOpenLevel: autoOpenInt,);
+                return LevelsMapScreen(autoOpenLevel: autoOpenInt);
               },
             ),
           ],
         ),
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: Routes.marketRoute,
-              name: Routes.bounties,
-              builder: (context, state) =>
-                  const Scaffold(body: Center(child: Text("Recipes"))),
-            ),
-          ],
-        ),
+
         StatefulShellBranch(
           routes: [
             GoRoute(
               path: Routes.grimoireRoute,
               name: Routes.grimoire,
-              builder: (context, state) =>
-                  const Scaffold(body: Center(child: Text("Grimoire"))),
+              builder: (context, state) => GrimoireScreen(),
             ),
           ],
         ),
@@ -86,9 +77,9 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: Routes.marketRoute,
-              name: Routes.bounties,
+              name: Routes.market,
               builder: (context, state) =>
-                  const Scaffold(body: Center(child: Text("Recipes"))),
+                  const Scaffold(body: Center(child: Text("Market"))),
             ),
           ],
         ),
@@ -101,14 +92,14 @@ final router = GoRouter(
       name: Routes.home,
       builder: (context, state) => const MainMenuScreen(),
     ),
-    
+
     GoRoute(
       parentNavigatorKey: _routerNavigatorKey,
       path: Routes.settingsRoute,
       name: Routes.settings,
       builder: (context, state) => const SettingsScreen(),
     ),
-    
+
     GoRoute(
       parentNavigatorKey: _routerNavigatorKey,
       path: Routes.levelHintRoute,
@@ -118,7 +109,7 @@ final router = GoRouter(
         return LevelHintScreen(level: level);
       },
     ),
-    
+
     GoRoute(
       parentNavigatorKey: _routerNavigatorKey,
       path: Routes.levelPlayRoute,
@@ -129,19 +120,19 @@ final router = GoRouter(
         return LevelScreen(level: level);
       },
     ),
-    
+
     GoRoute(
       parentNavigatorKey: _routerNavigatorKey,
       path: Routes.levelWonRoute,
       name: Routes.levelWon,
       builder: (context, state) {
         final map = state.extra as Map<String, dynamic>?;
-       final stars = map?['stars'] as int; 
-        final level = map?['level'] as int; 
+        final stars = map?['stars'] as int;
+        final level = map?['level'] as int;
         return WinGameScreen(stars: stars, level: level);
       },
     ),
-    
+
     GoRoute(
       parentNavigatorKey: _routerNavigatorKey,
       path: Routes.levelFailRoute,
@@ -151,6 +142,5 @@ final router = GoRouter(
         return LevelFailScreen(level: level);
       },
     ),
-    
   ],
 );
