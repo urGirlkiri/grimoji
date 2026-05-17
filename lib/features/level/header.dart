@@ -35,6 +35,7 @@ class Header extends StatelessWidget {
                   levelState.level.targetEmoji,
                   levelState.targetIconKey,
                   levelState.gameState.hasTargetCombo,
+                  levelState.isPaused,
                 ),
                 const SizedBox(width: 16),
                 Container(
@@ -60,6 +61,7 @@ class Header extends StatelessWidget {
           levelState.level.number.toString(),
           levelState.progress,
           levelState.gameState.hasTargetCombo,
+          levelState.isPaused,
         ),
       ],
     );
@@ -69,6 +71,7 @@ class Header extends StatelessWidget {
     String level,
     double progress,
     bool hasTargetCombo,
+    bool isPaused,
   ) {
     return Row(
       children: [
@@ -81,12 +84,12 @@ class Header extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 12),
-        Expanded(child: _buildProgressBar(progress, hasTargetCombo)),
+        Expanded(child: _buildProgressBar(progress, hasTargetCombo, isPaused)),
       ],
     );
   }
 
-  Widget _buildProgressBar(double progress, bool hasTargetCombo) {
+  Widget _buildProgressBar(double progress, bool hasTargetCombo, bool isPaused) {
     return Stack(
       alignment: Alignment.centerLeft,
       children: [
@@ -106,14 +109,14 @@ class Header extends StatelessWidget {
           curve: Curves.easeOutBack,
           widthFactor: progress.clamp(0.0, 1.0),
           child: AnimatedContainer(
-            duration: const Duration(milliseconds: 400),
+            duration: isPaused ? Duration.zero : const Duration(milliseconds: 400),
             height: 14,
             decoration: ShapeDecoration(
               color: hasTargetCombo ? palette.moonlight : palette.mist,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(60),
               ),
-              shadows: hasTargetCombo
+              shadows: hasTargetCombo && !isPaused
                   ? [
                       BoxShadow(
                         color: palette.moonlight.withValues(alpha: .8),
@@ -174,7 +177,7 @@ class Header extends StatelessWidget {
     );
   }
 
-  Widget _buildTargetBox(GameEmoji targetEmoji, GlobalKey targetIconKey, bool hasCombo) {
+  Widget _buildTargetBox(GameEmoji targetEmoji, GlobalKey targetIconKey, bool hasCombo, bool isPaused) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
       decoration: ShapeDecoration(
@@ -198,8 +201,8 @@ class Header extends StatelessWidget {
           ),
           const SizedBox(height: 8),
 
-          hasCombo?
-          EmojiWidget.lottie(
+          hasCombo && !isPaused
+          ? EmojiWidget.lottie(
             key: targetIconKey,
             path: targetEmoji.lottie,
             useDropShadow: true,
@@ -207,7 +210,8 @@ class Header extends StatelessWidget {
             blurRadius: 4,
             shadowOffset: const Offset(0, 4),
             shadowColor: palette.midnight,
-          ): EmojiWidget.svg(
+          )
+          : EmojiWidget.svg(
             key: targetIconKey,
             path: targetEmoji.svg,
             size: 40,

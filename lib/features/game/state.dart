@@ -26,7 +26,15 @@ class GameState extends ChangeNotifier {
   bool isShuffling = false;
   bool _isGameOver = false;
 
+  bool isPaused = false;
+
   List<TileCoordinate>? _currentHints;
+
+  Future<void> _waitIfPaused() async {
+    while (isPaused) {
+      await Future.delayed(const Duration(milliseconds: 100));
+    }
+  }
 
   void _startHintTimer() {
     _hintTimer?.cancel();
@@ -74,7 +82,7 @@ class GameState extends ChangeNotifier {
     TileCoordinate draggedCoordinate,
     TileCoordinate targetCoordinate,
   ) async {
-    if (_isGameOver) {
+    if (_isGameOver || isPaused) {
       return;
     }
 
@@ -101,8 +109,12 @@ class GameState extends ChangeNotifier {
     bool isFirstMatch = true;
 
     while (true) {
+      await _waitIfPaused();
+
       bool hasMatches = true;
       while (hasMatches) {
+        await _waitIfPaused();
+
         List<MatchGroup> matchedGroups = MatchDetector.findMatchedGroups(
           gameController.grid,
         );
@@ -176,6 +188,8 @@ class GameState extends ChangeNotifier {
       List<Tile> primedBombs = gameController.getTriggeredBombs();
 
       if (primedBombs.isNotEmpty) {
+        await _waitIfPaused();
+
         Set<TileCoordinate> allBlastedCoords = {};
         Set<TileCoordinate> allTransformedCoords = {};
 
@@ -183,6 +197,8 @@ class GameState extends ChangeNotifier {
 
         bool chainReaction = true;
         while (chainReaction) {
+          await _waitIfPaused();
+
           chainReaction = false;
           final currentBombs = List<Tile>.from(primedBombs);
 
@@ -211,9 +227,16 @@ class GameState extends ChangeNotifier {
           }
         }
 
+        _log.info(
+          'MEGA BLAST: Checking ${primedBombs.length} triggered bombs, ${detonatedBombs.length} detonated',
+        );
         for (Tile bomb in primedBombs) {
+          _log.info(
+            'MEGA BLAST: Checking bomb at (${bomb.coordinate.row}, ${bomb.coordinate.col}), isTriggered=${bomb.isTriggered}, isExploding=${bomb.isExploding}',
+          );
           if (!detonatedBombs.contains(bomb) &&
               bomb.emoji == gameController.level.targetEmoji) {
+            _log.info('MEGA BLAST: Counting bomb that never detonated');
             resolveEmoji(bomb.emoji, 1);
           }
         }
@@ -424,6 +447,11 @@ class GameState extends ChangeNotifier {
       hasTargetCombo = true;
     }
     onEmojiDestroyed(emoji, count);
+    notifyListeners();
+  }
+
+  void togglePause() {
+    isPaused = !isPaused;
     notifyListeners();
   }
 

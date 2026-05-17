@@ -102,7 +102,8 @@ class LevelState extends ChangeNotifier {
   }
 
   void togglePause() {
-    isPaused = !isPaused;
+    gameState.togglePause();
+    isPaused = gameState.isPaused;
     isPaused ? _stopwatch.stop() : _stopwatch.start();
     notifyListeners();
   }
