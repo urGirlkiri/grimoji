@@ -102,11 +102,10 @@ void main() {
           onComboFinished: () => false,
         );
 
-        state.gameController.grid[0][0].emoji = Emojis.fire;
-        state.gameController.grid[0][1].emoji = Emojis.fire;
+        state.gameController.grid[0][0].emoji = Emojis.droplet;
+        state.gameController.grid[0][1].emoji = Emojis.droplet;
         state.gameController.grid[1][0].emoji = Emojis.fire;
         state.gameController.grid[1][1].emoji = Emojis.fire;
-        final originalVisual = state.gameController.grid[0][0].emoji.visual;
 
         state.resolveSwipe(TileCoordinate(row: 0, col: 0), TileCoordinate(row: 0, col: 1));
         
@@ -114,7 +113,7 @@ void main() {
         
         async.elapse(swapAnimationTime * 2 + const Duration(milliseconds: 400));
 
-        expect(state.gameController.grid[0][0].emoji.visual, originalVisual, reason: 'Grid should revert after invalid swap');
+        expect(state.gameController.grid[0][0].emoji, Emojis.droplet, reason: 'Grid should revert after invalid swap');
         expect(state.isProcessing, isFalse, reason: 'State should stop processing after revert');
       });
     });
