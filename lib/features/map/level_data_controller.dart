@@ -11,6 +11,8 @@ class LevelDataController extends ChangeNotifier {
   final LevelDataPersistence _store;
   final Map<int, LevelData> _levelData = {};
 
+  bool isInitialized = false;
+
   LevelDataController({LevelDataPersistence? store})
     : _store = store ?? HiveLevelDataPersistence(
         box: Hive.box<LevelData>('level_data'),
@@ -36,9 +38,11 @@ class LevelDataController extends ChangeNotifier {
       final data = await _store.getLevelData();
       _levelData.clear();
       _levelData.addAll(data);
-      notifyListeners();
     } catch (e) {
       if (kDebugMode) print('Error loading game data: $e');
+    } finally {
+      isInitialized = true;
+      notifyListeners();
     }
   }
 

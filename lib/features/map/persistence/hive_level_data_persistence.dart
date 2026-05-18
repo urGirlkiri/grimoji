@@ -8,19 +8,22 @@ class HiveLevelDataPersistence extends LevelDataPersistence {
 
   HiveLevelDataPersistence({required Box<LevelData> box}) : _box = box;
 
-  Map<int, LevelData> get _currentData {
+  @override
+  Future<Map<int, LevelData>> getLevelData() async {
     final result = <int, LevelData>{};
-    for (final key in _box.keys) {
-      final value = _box.get(key);
-      if (value != null) {
-        result[key as int] = value;
+    
+    for (final entry in _box.toMap().entries) {
+      if (entry.key is int) {
+        result[entry.key as int] = entry.value;
+      } else if (entry.key is String) {
+        final parsedKey = int.tryParse(entry.key as String);
+        if (parsedKey != null) {
+          result[parsedKey] = entry.value;
+        }
       }
     }
     return result;
   }
-
-  @override
-  Future<Map<int, LevelData>> getLevelData() async => _currentData;
 
   @override
   Future<void> saveLevelData(Map<int, LevelData> data) async {
@@ -29,7 +32,8 @@ class HiveLevelDataPersistence extends LevelDataPersistence {
 
   @override
   Future<int> getLevelStars(int level) async {
-    return _currentData[level]?.stars ?? 0;
+    final data = _box.get(level);
+    return data?.stars ?? 0;
   }
 
   @override
