@@ -13,9 +13,14 @@ import 'package:grimoji/features/settings/widgets/volume_slider.dart';
 import 'package:grimoji/utils/responsive.dart';
 import 'package:grimoji/widgets/pill_button.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final settings = context.watch<SettingsController>();
@@ -168,9 +173,10 @@ class SettingsScreen extends StatelessWidget {
                         PillButton(
                           text: "Reset Progress",
                           color: palette.crimson,
-                          onTap: () {
+                          onTap: () async {
                             context.read<AudioController>().playSfx(SfxType.buttonTap);
-                            context.read<LevelDataController>().reset();
+                            await context.read<LevelDataController>().reset();
+                            if (!context.mounted) return;
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 backgroundColor: palette.midnight,
@@ -193,9 +199,6 @@ class SettingsScreen extends StatelessWidget {
           ),
         ),
       ),
-    )
-    );
-
-    
+    ));
   }
 }

@@ -2,9 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 import 'package:flutter/foundation.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logging/logging.dart';
 
-import 'persistence/local_storage_settings_persistence.dart';
+import 'persistence/hive_settings_persistence.dart';
+import 'persistence/settings_data.dart';
 import 'persistence/settings_persistence.dart';
 
 /// An class that holds settings like [musicOn],
@@ -26,28 +28,26 @@ class SettingsController {
 
   /// Creates a new instance of [SettingsController] backed by [store].
   ///
-  /// By default, settings are persisted using [LocalStorageSettingsPersistence]
-  /// (i.e. NSUserDefaults on iOS, SharedPreferences on Android or
-  /// local storage on the web).
+  /// By default, settings are persisted using [HiveSettingsPersistence].
   SettingsController({SettingsPersistence? store})
-    : _store = store ?? LocalStorageSettingsPersistence() {
+    : _store = store ?? HiveSettingsPersistence(
+        box: Hive.box<SettingsData>('settings'),
+      ) {
     _loadStateFromPersistence();
   }
 
   void toggleAudioOn() {
     final newValue = !audioOn.value;
     audioOn.value = newValue;
-    _store.saveAudioOn(newValue);
     
     if (!newValue) {
+      soundsOn.value = false;
       musicOn.value = false;
-      _store.saveSoundsOn(false);
-      _store.saveMusicOn(false);
+      _store.saveAllSettings(audioOn: newValue, soundsOn: false, musicOn: false);
     } else {
       soundsOn.value = true;
       musicOn.value = true;
-      _store.saveSoundsOn(true);
-      _store.saveMusicOn(true);
+      _store.saveAllSettings(audioOn: newValue, soundsOn: true, musicOn: true);
     }
   }
 

@@ -6,13 +6,16 @@ import 'dart:developer' as dev;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logging/logging.dart';
 import 'package:grimoji/router.dart';
 import 'package:provider/provider.dart';
 
 import 'package:grimoji/config/app/app_theme.dart';
 import 'package:grimoji/utils/responsive.dart';
+import 'package:grimoji/features/map/level_data.dart';
 import 'package:grimoji/features/map/level_data_controller.dart';
+import 'package:grimoji/features/settings/persistence/settings_data.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 
 import 'config/app/app_lifecycle.dart';
@@ -33,6 +36,15 @@ void main() async {
   });
 
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Hive.initFlutter();
+
+  Hive.registerAdapter(SettingsDataAdapter());
+  Hive.registerAdapter(LevelDataAdapter());
+
+  await Hive.openBox<SettingsData>('settings');
+  await Hive.openBox<LevelData>('level_data');
+
   // Put game into full screen mode on mobile devices.
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   // Lock the game to portrait mode on mobile devices.
@@ -76,8 +88,7 @@ class MyApp extends StatelessWidget {
         child: Builder(
           builder: (context) {
             final palette = context.watch<Palette>();
-               final isLarge = context.isLargeScreen;
-
+            final isLarge = context.isLargeScreen;
 
             return MaterialApp.router(
               title: 'Grimoji',

@@ -1,6 +1,12 @@
-/// Model to store level completion data including stars
+import 'package:hive/hive.dart';
+
+part 'level_data.g.dart';
+
+@HiveType(typeId: 0)
 class LevelData {
+  @HiveField(0)
   final int level;
+  @HiveField(1)
   final int stars;
 
   const LevelData({

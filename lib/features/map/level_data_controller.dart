@@ -1,18 +1,20 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'level_data.dart';
 import 'persistence/level_data_persistence.dart';
-import 'persistence/local_storage_level_data_persistence.dart';
+import 'persistence/hive_level_data_persistence.dart';
 
-/// Manages game level data including stars and persistence.
 class LevelDataController extends ChangeNotifier {
   final LevelDataPersistence _store;
   final Map<int, LevelData> _levelData = {};
 
   LevelDataController({LevelDataPersistence? store})
-    : _store = store ?? LocalStorageLevelDataPersistence() {
+    : _store = store ?? HiveLevelDataPersistence(
+        box: Hive.box<LevelData>('level_data'),
+      ) {
     _getLatestFromStore();
   }
 
@@ -41,8 +43,8 @@ class LevelDataController extends ChangeNotifier {
   }
 
   Future<void> reset() async {
+    await _store.clearAllData();
     _levelData.clear();
     notifyListeners();
-    await _store.clearAllData();
   }
 }

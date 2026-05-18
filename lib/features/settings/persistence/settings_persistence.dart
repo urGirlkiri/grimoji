@@ -3,9 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// An interface of persistence stores for settings.
-///
-/// Implementations can range from simple in-memory storage through
-/// local preferences to cloud-based solutions.
 abstract class SettingsPersistence {
   Future<bool> getAudioOn({required bool defaultValue});
 
@@ -26,4 +23,12 @@ abstract class SettingsPersistence {
   Future<void> saveSfxVolume(double value);
 
   Future<void> saveMusicVolume(double value);
+
+  Future<void> saveAllSettings({
+    bool? audioOn,
+    bool? soundsOn,
+    bool? musicOn,
+    double? sfxVolume,
+    double? musicVolume,
+  });
 }
