@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds.dart';
 import 'package:grimoji/config/palette.dart';
-import 'package:grimoji/features/map/level_data_controller.dart';
+import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/settings/controller.dart';
 import 'package:grimoji/features/settings/widgets/icon_toggle.dart';
 import 'package:grimoji/features/settings/widgets/volume_slider.dart';

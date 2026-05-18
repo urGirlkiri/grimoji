@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
-import 'package:grimoji/features/map/level_data.dart';
-import 'package:grimoji/features/map/persistence/hive_level_data_persistence.dart';
+import 'package:grimoji/features/level/models/level_data.dart';
+import 'package:grimoji/features/level/models/hive_data_persistence.dart';
 
 void main() {
   group('HiveLevelDataPersistence Tests', () {

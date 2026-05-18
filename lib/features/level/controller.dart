@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:grimoji/features/level/models/level_data.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import 'level_data.dart';
-import 'persistence/level_data_persistence.dart';
-import 'persistence/hive_level_data_persistence.dart';
+import 'models/data_persistence.dart';
+import 'models/hive_data_persistence.dart';
 
 class LevelDataController extends ChangeNotifier {
   final LevelDataPersistence _store;

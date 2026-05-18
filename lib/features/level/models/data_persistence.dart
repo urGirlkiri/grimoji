@@ -1,4 +1,4 @@
-import '../level_data.dart';
+import 'package:grimoji/features/level/models/level_data.dart';
 
 abstract class LevelDataPersistence {
   Future<Map<int, LevelData>> getLevelData();

@@ -5,7 +5,7 @@ import 'package:grimoji/config/levels.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/routes.dart';
 import 'package:grimoji/features/level/widgets/confetti.dart';
-import 'package:grimoji/features/level/win/flying_star.dart';
+import 'package:grimoji/features/level/win_screen/flying_star.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 

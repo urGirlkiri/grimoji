@@ -13,8 +13,8 @@ import 'package:provider/provider.dart';
 
 import 'package:grimoji/config/app/app_theme.dart';
 import 'package:grimoji/utils/responsive.dart';
-import 'package:grimoji/features/map/level_data.dart';
-import 'package:grimoji/features/map/level_data_controller.dart';
+import 'package:grimoji/features/level/models/level_data.dart';
+import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/settings/persistence/settings_data.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 

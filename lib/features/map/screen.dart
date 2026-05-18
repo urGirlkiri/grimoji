@@ -3,9 +3,9 @@ import 'package:game_levels_scrolling_map/game_levels_scrolling_map.dart';
 import 'package:game_levels_scrolling_map/model/point_model.dart';
 import 'package:grimoji/config/levels.dart';
 import 'package:grimoji/config/palette.dart';
-import 'package:grimoji/features/map/level_data_controller.dart';
+import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/map/widgets/level_node.dart';
-import 'package:grimoji/features/map/widgets/level_start_dialog.dart';
+import 'package:grimoji/features/level/dialogs/start_dialog.dart';
 
 import 'package:grimoji/utils/responsive.dart';
 import 'package:provider/provider.dart';
