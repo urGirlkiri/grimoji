@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/levels/game_level.dart';
-import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 import 'package:grimoji/features/game/board/manager.dart';
@@ -36,6 +35,8 @@ void main() {
           Emojis.volcano,
         ],
         type: LevelType.puzzle,
+        goal: 'Test goal',
+        description: 'Test description',
       );
 
       gridManager = GridManager(testLevel);
@@ -300,6 +301,8 @@ void main() {
           Emojis.fire,
         ],
         type: LevelType.puzzle,
+        goal: 'Test goal',
+        description: 'Test description',
       );
 
       gridManager = GridManager(testLevel);
@@ -403,6 +406,8 @@ void main() {
           Emojis.volcano,
         ],
         type: LevelType.puzzle,
+        goal: 'Test goal',
+        description: 'Test description',
       );
 
       gridManager = GridManager(testLevel);

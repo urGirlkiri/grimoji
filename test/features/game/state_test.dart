@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fake_async/fake_async.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/levels/game_level.dart';
-import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/features/game/state.dart';
 import 'package:grimoji/features/game/model/coordinate.dart';
@@ -20,6 +19,8 @@ void main() {
         targetAmount: 10,
         timeLimit: 60,
         type: LevelType.puzzle,
+        goal: 'Test goal',
+        description: 'Test description',
       );
     });
 

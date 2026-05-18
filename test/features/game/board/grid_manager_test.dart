@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/levels/game_level.dart';
-import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/features/game/board/manager.dart';
 import 'package:grimoji/features/game/model/coordinate.dart';
 import 'package:grimoji/features/game/model/match_detector.dart';
@@ -19,6 +18,8 @@ void main() {
         targetAmount: 1,
         availableEmojis: [Emojis.droplet, Emojis.fire, Emojis.rock],
         type: LevelType.puzzle,
+        goal: 'Test goal',
+        description: 'Test description',
       );
       gridManager = GridManager(testLevel);
       gridManager.initialize();

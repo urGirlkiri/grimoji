@@ -1,17 +1,22 @@
 import 'package:grimoji/config/emojis.dart';
-import 'package:grimoji/config/levels/index.dart';
+
+enum LevelType { puzzle, arcade }
 
 class GameLevel {
   final int number;
+  final LevelType type;
   final int targetAmount;
   final int timeLimit;
+  
   final GameEmoji targetEmoji;
   final List<GameEmoji> availableEmojis;
-  final LevelType type;
-  final bool skipAutoPlayer;
+
+  final String description;
+  final String goal;
 
   final String? achievementIdIOS;
   final String? achievementIdAndroid;
+  final bool skipAutoPlayer;
 
   bool get awardsAchievement => achievementIdAndroid != null;
 
@@ -22,6 +27,8 @@ class GameLevel {
     required this.targetEmoji,
     required this.availableEmojis,
     required this.type,
+    required this.goal,
+    required this.description,
     this.skipAutoPlayer = false,
     this.achievementIdIOS,
     this.achievementIdAndroid,
