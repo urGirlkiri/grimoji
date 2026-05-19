@@ -32,6 +32,7 @@ const List<GameLevel> chapter3Levels = [
       Emojis.fire,
     ],
     type: LevelType.puzzle,
+    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -48,6 +49,7 @@ const List<GameLevel> chapter3Levels = [
       Emojis.fire,
     ],
     type: LevelType.puzzle,
+    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -64,6 +66,7 @@ const List<GameLevel> chapter3Levels = [
       Emojis.droplet,
     ],
     type: LevelType.puzzle,
+    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -96,6 +99,7 @@ const List<GameLevel> chapter3Levels = [
       Emojis.chains,
     ],
     type: LevelType.puzzle,
+    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -179,6 +183,7 @@ const List<GameLevel> chapter3Levels = [
       Emojis.rock,
     ],
     type: LevelType.puzzle,
+    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -195,6 +200,7 @@ const List<GameLevel> chapter3Levels = [
       Emojis.fire,
     ],
     type: LevelType.puzzle,
+    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -211,6 +217,7 @@ const List<GameLevel> chapter3Levels = [
       Emojis.skull,
     ],
     type: LevelType.puzzle,
+    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -227,6 +234,7 @@ const List<GameLevel> chapter3Levels = [
       Emojis.fire,
     ],
     type: LevelType.puzzle,
+    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -237,12 +245,14 @@ const List<GameLevel> chapter3Levels = [
     goal: 'Destroy the abandoned guard tower',
     description: 'The Derelict House - Ruins within ruins',
     availableEmojis: [
+      Emojis.derelictHouse,
       Emojis.rock,
       Emojis.chains,
       Emojis.bone,
       Emojis.spider,
     ],
     type: LevelType.puzzle,
+    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -259,6 +269,7 @@ const List<GameLevel> chapter3Levels = [
       Emojis.cloud,
     ],
     type: LevelType.puzzle,
+    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -291,6 +302,7 @@ const List<GameLevel> chapter3Levels = [
       Emojis.droplet,
     ],
     type: LevelType.puzzle,
+    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -308,6 +320,7 @@ const List<GameLevel> chapter3Levels = [
       Emojis.chains,
     ],
     type: LevelType.puzzle,
+    skipAutoPlayer: true,
   ),
 
   GameLevel(

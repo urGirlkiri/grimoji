@@ -30,8 +30,10 @@ const List<GameLevel> chapter5Levels = [
       Emojis.star,
       Emojis.cloud,
       Emojis.droplet,
+      Emojis.glowingStar,
     ],
     type: LevelType.puzzle,
+    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -80,6 +82,7 @@ const List<GameLevel> chapter5Levels = [
       Emojis.droplet,
     ],
     type: LevelType.puzzle,
+    skipAutoPlayer: true,
   ),
 
   GameLevel(

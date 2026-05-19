@@ -1,6 +1,5 @@
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
-import 'package:grimoji/features/alchemy/reactions/elemental_explosions.dart';
 import 'package:grimoji/features/alchemy/reactions/nature_explosions.dart';
 import 'package:grimoji/features/alchemy/reactions/chapter1_reactions.dart';
 import 'package:grimoji/features/alchemy/reactions/chapter2_reactions.dart';
@@ -30,7 +29,6 @@ class RecipeBook {
     ...Chapter4Reactions.all,
     ...Chapter5Reactions.all,
     ...NatureReactions.all,
-    ...ElementalReactions.all,
   ];
 
   static final Map<GameEmoji, List<Recipe>> _recipeCache = {};

@@ -7,16 +7,22 @@ const List<Recipe> chapter4Recipes = [
     requiredAmount: 4,
     yields: Emojis.cloudWithLightning,
   ),
-  
-  Recipe(
-    ingredient: Emojis.cloudWithLightning,
-    requiredAmount: 4,
-    yields: Emojis.tornado,
-  ),
 
   Recipe(
     ingredient: Emojis.blackBird,
     requiredAmount: 4,
     yields: Emojis.eagle,
+  ),
+
+  Recipe(
+    ingredient: Emojis.eagle,
+    requiredAmount: 5,
+    yields: Emojis.phoenix,
+  ),
+
+  Recipe(
+    ingredient: Emojis.cloudWithLightning,
+    requiredAmount: 5,
+    yields: Emojis.electricity,
   ),
 ];

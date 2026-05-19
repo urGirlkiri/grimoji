@@ -9,6 +9,12 @@ const List<Recipe> chapter5Recipes = [
   ),
   
   Recipe(
+    ingredient: Emojis.droplet,
+    requiredAmount: 4,
+    yields: Emojis.testTube,
+  ),
+
+  Recipe(
     ingredient: Emojis.star,
     requiredAmount: 3,
     yields: Emojis.glowingStar,
@@ -27,8 +33,8 @@ const List<Recipe> chapter5Recipes = [
   ),
 
   Recipe(
-    ingredient: Emojis.eagle,
-    requiredAmount: 5,
-    yields: Emojis.phoenix,
+    ingredient: Emojis.alienMonster, 
+    requiredAmount: 4,
+    yields: Emojis.flyingSaucer, 
   ),
 ];

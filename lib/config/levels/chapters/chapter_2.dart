@@ -48,6 +48,7 @@ const List<GameLevel> chapter2Levels = [
       Emojis.bone,
     ],
     type: LevelType.puzzle,
+    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -113,6 +114,7 @@ const List<GameLevel> chapter2Levels = [
       Emojis.fire,
     ],
     type: LevelType.puzzle,
+    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -179,6 +181,7 @@ const List<GameLevel> chapter2Levels = [
       Emojis.fire,
     ],
     type: LevelType.puzzle,
+    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -227,6 +230,7 @@ const List<GameLevel> chapter2Levels = [
       Emojis.fire,
     ],
     type: LevelType.puzzle,
+    skipAutoPlayer: true,
   ),
 
   GameLevel(

@@ -112,6 +112,7 @@ const List<GameLevel> chapter4Levels = [
       Emojis.fire,
     ],
     type: LevelType.puzzle,
+    skipAutoPlayer: true,
   ),
   
   GameLevel(
@@ -162,6 +163,7 @@ const List<GameLevel> chapter4Levels = [
       Emojis.mountain,
     ],
     type: LevelType.puzzle,
+    skipAutoPlayer: true,
   ),
 
   
@@ -179,6 +181,7 @@ const List<GameLevel> chapter4Levels = [
       Emojis.robot,
     ],
     type: LevelType.puzzle,
+    skipAutoPlayer: true,
   ),
 
   
@@ -333,5 +336,6 @@ const List<GameLevel> chapter4Levels = [
       Emojis.rock,
     ],
     type: LevelType.puzzle,
+    skipAutoPlayer: true
   ),
 ];
