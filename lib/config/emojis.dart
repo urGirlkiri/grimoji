@@ -13,6 +13,23 @@ class GameEmoji {
 class Emojis {
   Emojis._();
 
+  static const GameEmoji mountain = GameEmoji(
+    'assets/emojis/svg/mountain.svg', 
+    'assets/emojis/lottie/mountain.json',
+    '⛰️'
+  );
+
+  static const GameEmoji shield = GameEmoji(
+    'assets/emojis/svg/shield.svg', 
+    'assets/emojis/lottie/shield.json',
+    '🛡️'
+  );
+  static const GameEmoji openLock = GameEmoji(
+    'assets/emojis/svg/open_lock.svg', 
+    'assets/emojis/lottie/open_lock.json',
+    '🔓'
+  );
+
   static const GameEmoji noEntry = GameEmoji(
     'assets/emojis/svg/no_entry.svg',
     'assets/emojis/lottie/no_entry.json',
