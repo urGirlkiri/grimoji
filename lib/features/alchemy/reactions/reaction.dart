@@ -2,8 +2,13 @@ import 'package:grimoji/config/emojis.dart';
 
 enum ReactionType { 
   explosive,
-  freezing,
-  burning,
+  freezing, 
+  burning,  
+  corrosive,
+  seismic,  
+  electric, 
+  gale,
+  cosmic,
 }
 
 class Reaction {

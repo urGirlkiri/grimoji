@@ -1,17 +1,17 @@
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 
-class ElementalReactions {
+class Chapter1Reactions {
   static final Reaction explosive = Reaction(
     type: ReactionType.explosive,
     triggers: [Emojis.bomb],
     transformations: {
-      Emojis.ocean: Emojis.salt,
-      Emojis.cloud: Emojis.rainbow,
-      Emojis.rock: Emojis.volcano,
+      Emojis.skull: Emojis.bone,
+      Emojis.bone: Emojis.ghost,
+      Emojis.spider: Emojis.cloud,
     },
     aoeRadius: 1,
   );
 
   static List<Reaction> get all => [explosive];
-}
+} 

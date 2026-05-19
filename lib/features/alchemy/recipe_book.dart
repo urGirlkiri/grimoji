@@ -2,19 +2,35 @@ import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:grimoji/features/alchemy/reactions/elemental_explosions.dart';
 import 'package:grimoji/features/alchemy/reactions/nature_explosions.dart';
+import 'package:grimoji/features/alchemy/reactions/chapter1_reactions.dart';
+import 'package:grimoji/features/alchemy/reactions/chapter2_reactions.dart';
+import 'package:grimoji/features/alchemy/reactions/chapter3_reactions.dart';
+import 'package:grimoji/features/alchemy/reactions/chapter4_reactions.dart';
+import 'package:grimoji/features/alchemy/reactions/chapter5_reactions.dart';
+import 'package:grimoji/features/alchemy/recipes/chapter1.dart';
+import 'package:grimoji/features/alchemy/recipes/chapter2.dart';
+import 'package:grimoji/features/alchemy/recipes/chapter3.dart';
+import 'package:grimoji/features/alchemy/recipes/chapter4.dart';
+import 'package:grimoji/features/alchemy/recipes/chapter5.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
-import 'package:grimoji/features/alchemy/recipes/elements.dart';
-import 'package:grimoji/features/alchemy/recipes/nature.dart';
 
 class RecipeBook {
   static const List<Recipe> allRecipes = [
-    ...elementalRecipes,
-    ...natureRecipes,
+    ...chapter1Recipes,
+    ...chapter2Recipes,
+    ...chapter3Recipes,
+    ...chapter4Recipes,
+    ...chapter5Recipes,
   ];
 
   static final List<Reaction> allReactions = [
-    NatureReactions(),
-    ElementalReactions(),
+    ...Chapter1Reactions.all,
+    ...Chapter2Reactions.all,
+    ...Chapter3Reactions.all,
+    ...Chapter4Reactions.all,
+    ...Chapter5Reactions.all,
+    ...NatureReactions.all,
+    ...ElementalReactions.all,
   ];
 
   static final Map<GameEmoji, List<Recipe>> _recipeCache = {};
@@ -51,15 +67,29 @@ class RecipeBook {
   }
 
   static Map<GameEmoji, GameEmoji> getTransformationsForType(ReactionType type) {
+    _ensureInitialized();
     final reaction = allReactions.firstWhere(
       (r) => r.type == type,
+      orElse: () => Reaction(
+        type: type,
+        triggers: [],
+        transformations: {},
+        aoeRadius: 1,
+      ),
     );
     return reaction.transformations;
   }
 
   static int getAoERadiusForType(ReactionType type) {
+    _ensureInitialized();
     final reaction = allReactions.firstWhere(
       (r) => r.type == type,
+      orElse: () => Reaction(
+        type: type,
+        triggers: [],
+        transformations: {},
+        aoeRadius: 1,
+      ),
     );
     return reaction.aoeRadius;
   }

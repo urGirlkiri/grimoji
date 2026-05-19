@@ -1,16 +1,16 @@
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 
-class NatureReactions extends Reaction {
-  NatureReactions() : super(
+class NatureReactions {
+  static final Reaction burning = Reaction(
     type: ReactionType.burning,
     triggers: [Emojis.fire],
-    transformations: _transformations,
+    transformations: {
+      Emojis.evergreenTree: Emojis.fire,
+      Emojis.rock: Emojis.gemStone,
+    },
     aoeRadius: 1,
   );
 
-  static const Map<GameEmoji, GameEmoji> _transformations = {
-    Emojis.evergreenTree: Emojis.fire,
-    Emojis.rock: Emojis.gemStone,
-  };
+  static List<Reaction> get all => [burning];
 }

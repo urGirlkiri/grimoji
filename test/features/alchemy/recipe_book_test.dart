@@ -14,9 +14,9 @@ void main() {
     });
 
     test('getRecipeFor should successfully return mapped recipes', () {
-      final dropletRecipe = RecipeBook.getRecipeFor(Emojis.droplet);
-      expect(dropletRecipe, isNotNull);
-      expect(dropletRecipe!.yields, equals(Emojis.ocean));
+      final fireRecipe = RecipeBook.getRecipeFor(Emojis.fire);
+      expect(fireRecipe, isNotNull);
+      expect(fireRecipe!.yields, equals(Emojis.bomb));
     });
 
     test('getRecipeFor should return null for normal emojis', () {
@@ -30,12 +30,18 @@ void main() {
       expect(explosiveTransformations, isNotNull);
       expect(explosiveTransformations, isA<Map<GameEmoji, GameEmoji>>());
       
-      expect(explosiveTransformations.containsKey(Emojis.ocean), isTrue);
-      expect(explosiveTransformations[Emojis.ocean], equals(Emojis.salt));
+      expect(explosiveTransformations.containsKey(Emojis.bone), isTrue);
+      expect(explosiveTransformations[Emojis.bone], equals(Emojis.ghost));
     });
     
-    test('getTransformationsForType should throw StateError if an unregistered ReactionType is requested', () {
-      expect(() => RecipeBook.getTransformationsForType(ReactionType.freezing), throwsStateError);
+    test('getTransformationsForType should return freezing transformations when registered', () {
+      final freezingTransformations = RecipeBook.getTransformationsForType(ReactionType.freezing);
+      
+      expect(freezingTransformations, isNotNull);
+      expect(freezingTransformations, isA<Map<GameEmoji, GameEmoji>>());
+      
+      expect(freezingTransformations.containsKey(Emojis.droplet), isTrue);
+      expect(freezingTransformations[Emojis.droplet], equals(Emojis.melting));
     });
 
     test('All recipes must have strictly valid data', () {
