@@ -10,7 +10,7 @@ const List<Recipe> chapter5Recipes = [
   
   Recipe(
     ingredient: Emojis.droplet,
-    requiredAmount: 4,
+    requiredAmount: 5,
     yields: Emojis.testTube,
   ),
 

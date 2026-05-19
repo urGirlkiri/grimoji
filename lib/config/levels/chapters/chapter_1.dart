@@ -6,7 +6,7 @@ const List<GameLevel> chapter1Levels = [
     number: 1,
     timeLimit: 120,
     targetAmount: 5,
-    targetEmoji: Emojis.droplet,
+    targetEmoji: Emojis.ocean,
     goal: 'Collect water',
     description: 'The Awakening - Super easy, introducing basic matches',
     availableEmojis: [

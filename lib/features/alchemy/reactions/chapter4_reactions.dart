@@ -24,6 +24,7 @@ class Chapter4Reactions {
       Emojis.derelictHouse: Emojis.debris, 
       Emojis.droplet: Emojis.cloud, 
       Emojis.fire: Emojis.fireworks, 
+      Emojis.cloudWithLightning: Emojis.tornado,
     },
     aoeRadius: 2, 
   );

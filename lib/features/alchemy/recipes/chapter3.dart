@@ -28,7 +28,7 @@ const List<Recipe> chapter3Recipes = [
 
   Recipe(
     ingredient: Emojis.snake,
-    requiredAmount: 4,
+    requiredAmount: 5,
     yields: Emojis.crocodile,
   ),
 

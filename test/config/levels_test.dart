@@ -10,10 +10,15 @@ import 'package:logging/logging.dart';
 const maxMoves = 10000;
 
 void main() {
+  setUpAll(() {
+    RecipeBook.initialize();
+  });
+
   Logger.root.level = Level.WARNING;
 
   group('Levels Test', () {
     for (var level in gameLevels) {
+      
       test('Level ${level.number} target is mathematically craftable', () {
         Set<GameEmoji> craftableEmojis = Set.from(level.availableEmojis);
         bool discoveredNewEmoji = true;
@@ -47,13 +52,17 @@ void main() {
           }
         }
 
+        final availableNames = level.availableEmojis.map((e) => e.visual).join(', ');
+        final craftableNames = craftableEmojis.map((e) => e.visual).join(', ');
+
         expect(
           craftableEmojis.contains(level.targetEmoji),
           isTrue,
           reason:
-              'Level ${level.number} is IMPOSSIBLE! '
-              'Target ${level.targetEmoji.visual} cannot be crafted from base emojis: '
-              '${level.availableEmojis.map((e) => e.visual).join(', ')}',
+              '\n🚨 LEVEL ${level.number} IS IMPOSSIBLE!\n'
+              'Target: ${level.targetEmoji.visual}\n'
+              'Base Emojis: [$availableNames]\n'
+              'Max Craftable: [$craftableNames]\n',
         );
       });
 
@@ -118,8 +127,22 @@ void main() {
             );
           });
         },
-        skip: level.skipAutoPlayer ? 'Too complex skip' : false,
+        skip: level.skipAutoPlayer ? 'Too complex for AutoPlayer algorithm, skipping.' : false,
       );
     }
+  });
+
+  group('Levels should be unique', () {
+    test('No two levels should have the same number', () {
+      final numbers = gameLevels.map((e) => e.number).toList();
+      final duplicates = numbers.fold<Map<int, int>>({}, (prev, n) => prev..[n] = (prev[n] ?? 0) + 1);
+      final duplicateNumbers = duplicates.entries.where((e) => e.value > 1).map((e) => e.key).toList();
+      
+      expect(
+        duplicateNumbers,
+        isEmpty,
+        reason: 'Duplicate level numbers found: $duplicateNumbers',
+      );
+    });
   });
 }

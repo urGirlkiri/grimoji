@@ -13,6 +13,14 @@ void main() {
         reason: 'There are duplicate recipes for the same ingredient in your data files!');
     });
 
+    test('allRecipes should not contain duplicate ingredient+amount combinations', () {
+      final recipeKeys = RecipeBook.allRecipes.map((r) => '${r.ingredient.visual}-${r.requiredAmount}').toList();
+      final duplicates = recipeKeys.where((key) => recipeKeys.indexOf(key) != recipeKeys.lastIndexOf(key)).toList();
+      
+      expect(recipeKeys.length, equals(recipeKeys.toSet().length), 
+        reason: 'There are duplicate recipes with the same ingredient and required amount: ${duplicates.toSet().join(', ')}');
+    });
+
     test('getRecipeFor should successfully return mapped recipes', () {
       final fireRecipe = RecipeBook.getRecipeFor(Emojis.fire);
       expect(fireRecipe, isNotNull);
