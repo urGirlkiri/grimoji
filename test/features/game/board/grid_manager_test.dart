@@ -17,7 +17,6 @@ void main() {
         targetEmoji: Emojis.ocean,
         targetAmount: 1,
         availableEmojis: [Emojis.droplet, Emojis.fire, Emojis.rock],
-        type: LevelType.puzzle,
         goal: 'Test goal',
         description: 'Test description',
       );

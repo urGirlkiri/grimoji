@@ -15,7 +15,6 @@ const List<GameLevel> chapter2Levels = [
       Emojis.bug,
       Emojis.mushroom,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -31,7 +30,6 @@ const List<GameLevel> chapter2Levels = [
       Emojis.rock,
       Emojis.skull,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -47,7 +45,6 @@ const List<GameLevel> chapter2Levels = [
       Emojis.leafyGreen,
       Emojis.bone,
     ],
-    type: LevelType.puzzle,
     skipAutoPlayer: true,
   ),
 
@@ -64,7 +61,6 @@ const List<GameLevel> chapter2Levels = [
       Emojis.mushroom,
       Emojis.droplet,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -80,7 +76,6 @@ const List<GameLevel> chapter2Levels = [
       Emojis.rock,
       Emojis.ghost,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -97,7 +92,6 @@ const List<GameLevel> chapter2Levels = [
       Emojis.fire,
       Emojis.skull,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -113,7 +107,6 @@ const List<GameLevel> chapter2Levels = [
       Emojis.rock,
       Emojis.fire,
     ],
-    type: LevelType.puzzle,
     skipAutoPlayer: true,
   ),
 
@@ -131,7 +124,6 @@ const List<GameLevel> chapter2Levels = [
       Emojis.droplet,
       Emojis.herb,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -148,7 +140,6 @@ const List<GameLevel> chapter2Levels = [
       Emojis.testTube,
       Emojis.skull,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -164,7 +155,6 @@ const List<GameLevel> chapter2Levels = [
       Emojis.droplet,
       Emojis.rock,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -180,7 +170,6 @@ const List<GameLevel> chapter2Levels = [
       Emojis.bug,
       Emojis.fire,
     ],
-    type: LevelType.puzzle,
     skipAutoPlayer: true,
   ),
 
@@ -197,7 +186,6 @@ const List<GameLevel> chapter2Levels = [
       Emojis.leafyGreen,
       Emojis.skull,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -213,7 +201,6 @@ const List<GameLevel> chapter2Levels = [
       Emojis.droplet,
       Emojis.bone,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -229,7 +216,6 @@ const List<GameLevel> chapter2Levels = [
       Emojis.bug,
       Emojis.fire,
     ],
-    type: LevelType.puzzle,
     skipAutoPlayer: true,
   ),
 
@@ -246,7 +232,6 @@ const List<GameLevel> chapter2Levels = [
       Emojis.cloud,
       Emojis.ghost,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -263,7 +248,6 @@ const List<GameLevel> chapter2Levels = [
       Emojis.rock,
       Emojis.leafyGreen,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -279,7 +263,6 @@ const List<GameLevel> chapter2Levels = [
       Emojis.droplet,
       Emojis.rock,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -296,7 +279,6 @@ const List<GameLevel> chapter2Levels = [
       Emojis.droplet,
       Emojis.bug,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -314,6 +296,5 @@ const List<GameLevel> chapter2Levels = [
       Emojis.droplet,
       Emojis.skull,
     ],
-    type: LevelType.puzzle,
   ),
 ];

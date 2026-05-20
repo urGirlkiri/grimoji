@@ -15,7 +15,6 @@ const List<GameLevel> chapter1Levels = [
       Emojis.fire,
       Emojis.rock,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -31,7 +30,6 @@ const List<GameLevel> chapter1Levels = [
       Emojis.fire,
       Emojis.rock,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -48,7 +46,6 @@ const List<GameLevel> chapter1Levels = [
       Emojis.rock,
       Emojis.spider,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -65,7 +62,6 @@ const List<GameLevel> chapter1Levels = [
       Emojis.skull,
       Emojis.spider,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -82,7 +78,6 @@ const List<GameLevel> chapter1Levels = [
       Emojis.fire,
       Emojis.droplet,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -99,7 +94,6 @@ const List<GameLevel> chapter1Levels = [
       Emojis.droplet,
       Emojis.rock,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -116,7 +110,6 @@ const List<GameLevel> chapter1Levels = [
       Emojis.droplet,
       Emojis.leafyGreen,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -134,7 +127,6 @@ const List<GameLevel> chapter1Levels = [
       Emojis.leafyGreen,
       Emojis.skull,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -152,6 +144,5 @@ const List<GameLevel> chapter1Levels = [
       Emojis.leafyGreen,
       Emojis.spider,
     ],
-    type: LevelType.puzzle,
   ),
 ];

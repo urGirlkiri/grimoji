@@ -15,7 +15,6 @@ const List<GameLevel> chapter5Levels = [
       Emojis.glowingStar,
       Emojis.cloud,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -32,7 +31,6 @@ const List<GameLevel> chapter5Levels = [
       Emojis.droplet,
       Emojis.glowingStar,
     ],
-    type: LevelType.puzzle,
     skipAutoPlayer: true,
   ),
 
@@ -49,7 +47,6 @@ const List<GameLevel> chapter5Levels = [
       Emojis.cloud,
       Emojis.fire,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -65,7 +62,6 @@ const List<GameLevel> chapter5Levels = [
       Emojis.droplet,
       Emojis.rock,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -81,7 +77,6 @@ const List<GameLevel> chapter5Levels = [
       Emojis.cloud,
       Emojis.droplet,
     ],
-    type: LevelType.puzzle,
     skipAutoPlayer: true,
   ),
 
@@ -98,7 +93,6 @@ const List<GameLevel> chapter5Levels = [
       Emojis.fire,
       Emojis.rock,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -114,7 +108,6 @@ const List<GameLevel> chapter5Levels = [
       Emojis.alien,
       Emojis.rock,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -130,7 +123,6 @@ const List<GameLevel> chapter5Levels = [
       Emojis.cloud,
       Emojis.fire,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -146,7 +138,6 @@ const List<GameLevel> chapter5Levels = [
       Emojis.sparkles,
       Emojis.rock,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -162,7 +153,6 @@ const List<GameLevel> chapter5Levels = [
       Emojis.comet,
       Emojis.sparkles,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -178,7 +168,6 @@ const List<GameLevel> chapter5Levels = [
       Emojis.glowingStar,
       Emojis.cloud,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -194,7 +183,6 @@ const List<GameLevel> chapter5Levels = [
       Emojis.sparkles,
       Emojis.fire,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -210,7 +198,6 @@ const List<GameLevel> chapter5Levels = [
       Emojis.crystalBall,
       Emojis.sparkles,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -226,7 +213,6 @@ const List<GameLevel> chapter5Levels = [
       Emojis.alienMonster,
       Emojis.fire,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -242,7 +228,6 @@ const List<GameLevel> chapter5Levels = [
       Emojis.sparkles,
       Emojis.cloud,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -258,7 +243,6 @@ const List<GameLevel> chapter5Levels = [
       Emojis.sparkles,
       Emojis.fire,
     ],
-    type: LevelType.puzzle,
   ),
 
   GameLevel(
@@ -276,6 +260,5 @@ const List<GameLevel> chapter5Levels = [
       Emojis.alienMonster,
       Emojis.sparkles,
     ],
-    type: LevelType.puzzle,
   ),
 ];

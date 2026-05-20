@@ -47,7 +47,7 @@ class LevelState extends ChangeNotifier {
 
     notifyListeners();
 
-    if (level.type == LevelType.arcade && secondsRemaining <= 0 && !gameState.isProcessing) {
+    if (secondsRemaining <= 0) {
       _evaluateGameEnd();
     }
   }
@@ -62,12 +62,8 @@ class LevelState extends ChangeNotifier {
   bool _evaluateGameEnd() {
     if (_isGameOver) return true;
 
-    bool shouldEnd = false;
-    if (level.type == LevelType.puzzle) {
-      shouldEnd = progress >= 1.0;
-    } else {
-      shouldEnd = secondsRemaining <= 0 && !gameState.isProcessing;
-    }
+    bool shouldEnd = progress >= 1.0 || secondsRemaining <= 0;
+    _log.info("Level check: progress=${progress.toStringAsFixed(2)}, time=${secondsRemaining}s, shouldEnd=$shouldEnd");
 
     if (shouldEnd) {
       _isGameOver = true;
@@ -77,7 +73,7 @@ class LevelState extends ChangeNotifier {
 
       int earnedStars = 0;
 
-      if (level.type == LevelType.puzzle) {
+      if (progress >= 1.0) {
         if (progress >= 1.00) earnedStars = 3;
         if (progress >= 0.66) earnedStars = 2;
         if (progress >= 0.33) earnedStars = 1;
@@ -89,11 +85,9 @@ class LevelState extends ChangeNotifier {
           gameState.hasTargetCombo = true;
           onWin.call(earnedStars);
         } else {
-          _log.info("FAILED! 0 Stars. YOU LOSE!");
           onLose.call();
         }
       } else {
-        _log.info("ARCADE TIME'S UP! Score: $collectedAmount. Target: ${level.targetAmount}. ${collectedAmount >= level.targetAmount ? "YOU WIN!" : "YOU LOSE!"}");
         onLose.call();
       }
     }

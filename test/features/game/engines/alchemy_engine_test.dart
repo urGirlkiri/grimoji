@@ -34,7 +34,6 @@ void main() {
           Emojis.rock,
           Emojis.volcano,
         ],
-        type: LevelType.puzzle,
         goal: 'Test goal',
         description: 'Test description',
       );
@@ -300,7 +299,6 @@ void main() {
           Emojis.volcano,
           Emojis.fire,
         ],
-        type: LevelType.puzzle,
         goal: 'Test goal',
         description: 'Test description',
       );
@@ -405,7 +403,6 @@ void main() {
           Emojis.rock,
           Emojis.volcano,
         ],
-        type: LevelType.puzzle,
         goal: 'Test goal',
         description: 'Test description',
       );

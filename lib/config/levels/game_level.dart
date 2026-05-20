@@ -1,10 +1,7 @@
 import 'package:grimoji/config/emojis.dart';
 
-enum LevelType { puzzle, arcade }
-
 class GameLevel {
   final int number;
-  final LevelType type;
   final int targetAmount;
   final int timeLimit;
   
@@ -26,7 +23,6 @@ class GameLevel {
     required this.timeLimit,
     required this.targetEmoji,
     required this.availableEmojis,
-    required this.type,
     required this.goal,
     required this.description,
     this.skipAutoPlayer = false,
