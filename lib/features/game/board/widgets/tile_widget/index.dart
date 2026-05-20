@@ -64,14 +64,14 @@ class _TileWidgetState extends State<TileWidget>
 
   @override
   Widget build(BuildContext context) {
-    return RepaintBoundary(
-      child: AnimatedPositioned(
-        duration: swapAnimationTime,
-        curve: Curves.easeOutCubic,
-        left: widget.leftPixel,
-        top: widget.topPixel,
-        width: widget.tWidth,
-        height: widget.tHeight,
+    return AnimatedPositioned(
+      duration: swapAnimationTime,
+      curve: Curves.easeOutCubic,
+      left: widget.leftPixel,
+      top: widget.topPixel,
+      width: widget.tWidth,
+      height: widget.tHeight,
+      child: RepaintBoundary(
         child: Center(child: _buildTileContent(context)),
       ),
     );
@@ -82,93 +82,111 @@ class _TileWidgetState extends State<TileWidget>
       return const SizedBox.shrink();
     }
 
-    final palette = context.read<Palette>();
-
     final displayEmoji = widget.tile.morphTarget ?? widget.tile.emoji;
+    final emojiUI = _buildEmoji(displayEmoji);
+    final scaledEmoji = _buildScaledEmoji(emojiUI);
+    final fadingEmoji = _buildFadingEmoji(scaledEmoji);
+    final shakingEmoji = _buildShakingEmoji(fadingEmoji);
 
-    Widget emojiUI = AnimatedSwitcher(
-      duration: const Duration(milliseconds: 400),
-      transitionBuilder: (Widget child, Animation<double> animation) {
-        if (widget.tile.isTransmuting) {
-          return RotationTransition(
-            turns: Tween<double>(begin: -0.5, end: 0.0).animate(animation),
-            child: FadeTransition(
-              opacity: animation,
-              child: ScaleTransition(scale: animation, child: child),
-            ),
-          );
-        }
-        return FadeTransition(
-          opacity: animation,
-          child: ScaleTransition(scale: animation, child: child),
-        );
-      },
-      child: EmojiWidget.svg(
-        key: ValueKey(displayEmoji.visual),
-        path: displayEmoji.svg,
-        size: widget.tWidth * 0.8,
-      ),
-    );
+    return _buildOverlayEffects(context, shakingEmoji, displayEmoji);
+  }
 
-    emojiUI = HintNudge(
+  Widget _buildEmoji(GameEmoji displayEmoji) {
+    return HintNudge(
       isHinting: widget.tile.isHinting,
       current: widget.tile.coordinate,
       partner: widget.tile.hintPartner,
       tileWidth: widget.tWidth,
       tileHeight: widget.tHeight,
-      child: emojiUI,
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 400),
+        transitionBuilder: (Widget child, Animation<double> animation) {
+          if (widget.tile.isTransmuting) {
+            return RotationTransition(
+              turns: Tween<double>(begin: -0.5, end: 0.0).animate(animation),
+              child: FadeTransition(
+                opacity: animation,
+                child: ScaleTransition(scale: animation, child: child),
+              ),
+            );
+          }
+          return FadeTransition(
+            opacity: animation,
+            child: ScaleTransition(scale: animation, child: child),
+          );
+        },
+        child: EmojiWidget.svg(
+          key: ValueKey(displayEmoji.visual),
+          path: displayEmoji.svg,
+          size: widget.tWidth * 0.8,
+        ),
+      ),
     );
+  }
 
-    final reaction = RecipeBook.getReactionFor(displayEmoji);
-    final isExplosive =
-        reaction != null && reaction.type == ReactionType.explosive;
-
-    double targetScale = 1.0;
-    double targetOpacity = 1.0;
-
-    if (widget.tile.isExploding) {
-      targetScale = 0.0;
-      if (isExplosive) targetOpacity = 0.0;
-    } else if (widget.tile.isMerging) {
-      targetScale = 0.0;
-    } else if (widget.tile.isMergePoint) {
-      targetScale = 1.3;
-    } else if (widget.tile.isTriggered) {
-      targetScale = 1.1;
-    } else if (widget.isTouched) {
-      targetScale = 1.15;
-    }
-
-    Widget scaledEmoji = AnimatedScale(
+  Widget _buildScaledEmoji(Widget emojiUI) {
+    final targetScale = _calculateTargetScale();
+    return AnimatedScale(
       scale: targetScale,
       duration: Duration(milliseconds: widget.isTouched ? 100 : 200),
       curve: widget.tile.isMergePoint ? Curves.elasticOut : Curves.easeOutBack,
       child: emojiUI,
     );
+  }
 
-    Widget fadingEmoji = AnimatedOpacity(
+  double _calculateTargetScale() {
+    if (widget.tile.isExploding) return 0.0;
+    if (widget.tile.isMerging) return 0.0;
+    if (widget.tile.isMergePoint) return 1.3;
+    if (widget.tile.isTriggered) return 1.1;
+    if (widget.isTouched) return 1.15;
+    return 1.0;
+  }
+
+  Widget _buildFadingEmoji(Widget scaledEmoji) {
+    final displayEmoji = widget.tile.morphTarget ?? widget.tile.emoji;
+    final reaction = RecipeBook.getReactionFor(displayEmoji);
+    final isExplosive =
+        reaction != null && reaction.type == ReactionType.explosive;
+
+    final targetOpacity = widget.tile.isExploding && isExplosive ? 0.0 : 1.0;
+
+    return AnimatedOpacity(
       opacity: targetOpacity,
       duration: const Duration(milliseconds: 50),
       child: scaledEmoji,
     );
+  }
 
-    if (widget.tile.isTriggered) {
-      fadingEmoji = AnimatedBuilder(
-        animation: _shakeController,
-        builder: (context, child) {
-          final shakeValue = _shakeController.value;
-          final angle = (shakeValue * 0.2) - 0.1;
-          return Transform.rotate(angle: angle, child: child);
-        },
-        child: fadingEmoji,
-      );
-    }
+  Widget _buildShakingEmoji(Widget fadingEmoji) {
+    if (!widget.tile.isTriggered) return fadingEmoji;
+
+    return AnimatedBuilder(
+      animation: _shakeController,
+      builder: (context, child) {
+        final shakeValue = _shakeController.value;
+        final angle = (shakeValue * 0.2) - 0.1;
+        return Transform.rotate(angle: angle, child: child);
+      },
+      child: fadingEmoji,
+    );
+  }
+
+  Widget _buildOverlayEffects(
+    BuildContext context,
+    Widget shakingEmoji,
+    GameEmoji displayEmoji,
+  ) {
+    final palette = context.read<Palette>();
+    final reaction = RecipeBook.getReactionFor(displayEmoji);
+    final isExplosive =
+        reaction != null && reaction.type == ReactionType.explosive;
 
     return Stack(
       alignment: Alignment.center,
       clipBehavior: Clip.none,
       children: [
-        fadingEmoji,
+        shakingEmoji,
         if (widget.tile.isExploding)
           isExplosive
               ? TileExplosion(size: widget.tWidth)
@@ -182,5 +200,3 @@ class _TileWidgetState extends State<TileWidget>
     );
   }
 }
-
-
