@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/game/board/manager.dart';
@@ -140,11 +141,7 @@ void main() {
     });
 
     test('Should destroy tiles normally when NO recipe exists (Basic Match-3)', () {
-      final basicEmoji = RecipeBook.allRecipes.first.ingredient;
-      final nonRecipeEmoji = level.availableEmojis.firstWhere(
-        (emoji) => RecipeBook.getRecipesFor(emoji) == null || RecipeBook.getRecipesFor(emoji)!.isEmpty,
-        orElse: () => basicEmoji, 
-      );
+      final nonRecipeEmoji = Emojis.noEntry;
 
       gridManager.gridTiles[0][0].emoji = nonRecipeEmoji;
       gridManager.gridTiles[0][1].emoji = nonRecipeEmoji;
@@ -165,8 +162,7 @@ void main() {
 
     test('Should NOT merge when match size is LESS than requiredAmount', () {
       final largeRecipe = RecipeBook.allRecipes.firstWhere(
-        (r) => r.requiredAmount > 3,
-        orElse: () => throw Exception('No recipes requiring > 3 items found'),
+        (r) => r.requiredAmount >= 3,
       );
 
       final matchSize = largeRecipe.requiredAmount - 1;
