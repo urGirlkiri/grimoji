@@ -74,5 +74,16 @@ void main() {
         });
       }
     });
+
+    test('All recipes MUST require at least 3 ingredients to prevent accidental auto-merges', () {
+      for (final recipe in RecipeBook.allRecipes) {
+        expect(
+          recipe.requiredAmount,
+          greaterThanOrEqualTo(3),
+          reason: 'Recipe for ${recipe.yields.visual} requires only ${recipe.requiredAmount} ${recipe.ingredient.visual}. '
+                  'Minimum requirement is 3 ingredients.'
+        );
+      }
+    });
   });
 }

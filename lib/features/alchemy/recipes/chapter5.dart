@@ -22,13 +22,19 @@ const List<Recipe> chapter5Recipes = [
 
   Recipe(
     ingredient: Emojis.glowingStar,
-    requiredAmount: 2,
+    requiredAmount: 3,
     yields: Emojis.comet,
   ),
 
   Recipe(
+    ingredient: Emojis.sparkles,
+    requiredAmount: 5,
+    yields: Emojis.crystalBall,
+  ),
+
+  Recipe(
     ingredient: Emojis.crystalBall,
-    requiredAmount: 1,
+    requiredAmount: 3,
     yields: Emojis.die,
   ),
 

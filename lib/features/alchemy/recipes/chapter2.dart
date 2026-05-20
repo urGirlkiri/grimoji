@@ -25,4 +25,10 @@ const List<Recipe> chapter2Recipes = [
     requiredAmount: 4,
     yields: Emojis.rock,
   ),
+
+  Recipe(
+    ingredient: Emojis.leafyGreen,
+    requiredAmount: 3,
+    yields: Emojis.herb,
+  ),
 ];
