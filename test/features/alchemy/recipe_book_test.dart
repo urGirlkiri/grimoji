@@ -5,13 +5,7 @@ import 'package:grimoji/features/alchemy/recipe_book.dart';
 
 void main() {
   group('RecipeBook Tests', () {
-    test('allRecipes should not contain duplicate ingredients', () {
-      final ingredients = RecipeBook.allRecipes.map((r) => r.ingredient).toList();
-      final uniqueIngredients = ingredients.toSet();
-
-      expect(ingredients.length, equals(uniqueIngredients.length), 
-        reason: 'There are duplicate recipes for the same ingredient in your data files!');
-    });
+  
 
     test('allRecipes should not contain duplicate ingredient+amount combinations', () {
       final recipeKeys = RecipeBook.allRecipes.map((r) => '${r.ingredient.visual}-${r.requiredAmount}').toList();

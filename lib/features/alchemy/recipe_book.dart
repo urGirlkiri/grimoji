@@ -66,16 +66,13 @@ class RecipeBook {
 
   static Map<GameEmoji, GameEmoji> getTransformationsForType(ReactionType type) {
     _ensureInitialized();
-    final reaction = allReactions.firstWhere(
-      (r) => r.type == type,
-      orElse: () => Reaction(
-        type: type,
-        triggers: [],
-        transformations: {},
-        aoeRadius: 1,
-      ),
-    );
-    return reaction.transformations;
+    final Map<GameEmoji, GameEmoji> allTransformations = {};
+    for (final reaction in allReactions) {
+      if (reaction.type == type) {
+        allTransformations.addAll(reaction.transformations);
+      }
+    }
+    return allTransformations;
   }
 
   static int getAoERadiusForType(ReactionType type) {
