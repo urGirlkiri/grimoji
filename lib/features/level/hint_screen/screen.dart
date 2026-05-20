@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -48,7 +50,7 @@ class _LevelHintScreenState extends State<LevelHintScreen> {
       });
     }
 
-    final delay = _showTutorial ? 4000 : 1500;
+    final delay = _showTutorial ? 2500 : 1500;
 
     await Future.delayed(Duration(milliseconds: delay));
     if (!mounted) return;
@@ -97,61 +99,66 @@ class _LevelHintScreenState extends State<LevelHintScreen> {
           ),
         ),
         const SizedBox(height: 100),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Transform.rotate(
-              angle: 10,
-              child: Column(
-                children: List.generate(
-                  recipe.requiredAmount,
-                  (index) => Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: palette.twilight.withValues(alpha: .8),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: palette.magicCyan.withValues(alpha: .5),
-                              width: 2,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: palette.magicCyan.withValues(alpha: .2),
-                                blurRadius: 20,
-                                spreadRadius: 2,
+        Padding(
+          padding: const EdgeInsets.only(left: 40.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Transform.rotate(
+                angle: -15 * (math.pi / 180),
+                child: Column(
+                  children: List.generate(
+                    recipe.requiredAmount,
+                    (index) => Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: palette.twilight.withValues(alpha: .8),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: palette.magicCyan.withValues(alpha: .5),
+                                width: 2,
                               ),
-                            ],
-                          ),
-                          child: EmojiWidget.svg(
-                            path: recipe.ingredient.svg,
-                            size: 40,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: palette.magicCyan.withValues(
+                                    alpha: .2,
+                                  ),
+                                  blurRadius: 20,
+                                  spreadRadius: 2,
+                                ),
+                              ],
+                            ),
+                            child: EmojiWidget.svg(
+                              path: recipe.ingredient.svg,
+                              size: 40,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 12),
-                    ],
+                        const SizedBox(height: 12),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(width: 16),
-            Icon(
-              Icons.double_arrow_rounded,
-              color: palette.magicCyan,
-              size: 32,
-            ),
-            const SizedBox(width: 16),
-            EmojiWidget.lottie(
-              path: recipe.yields.lottie,
-              useDropShadow: true,
-              size: 80,
-            ),
-          ],
+              const SizedBox(width: 16),
+              Icon(
+                Icons.double_arrow_rounded,
+                color: palette.magicCyan,
+                size: 32,
+              ),
+              const SizedBox(width: 16),
+              EmojiWidget.lottie(
+                path: recipe.yields.lottie,
+                useDropShadow: true,
+                size: 80,
+              ),
+            ],
+          ),
         ),
         const SizedBox(height: 40),
       ],
@@ -164,7 +171,7 @@ class _LevelHintScreenState extends State<LevelHintScreen> {
       children: [
         EmojiWidget.lottie(
           path: Emojis.package.lottie,
-          useDropShadow: true,
+          useDropShadow: false,
           size: 120,
         ),
         const SizedBox(height: 20),
