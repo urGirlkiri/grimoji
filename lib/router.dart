@@ -20,7 +20,7 @@ final router = GoRouter(
   navigatorKey: _routerNavigatorKey,
   initialLocation: Routes.homeRoute,
   // redirect: (BuildContext context, GoRouterState state) {
-  //   return '/map/play/2';
+  //   return Routes.grimoireRoute;
   // },
   routes: [
     StatefulShellRoute.indexedStack(
@@ -116,7 +116,10 @@ final router = GoRouter(
       name: Routes.levelPlay,
       builder: (context, state) {
         final levelNumber = int.parse(state.pathParameters['level']!);
-        final level = gameLevels.singleWhere((e) => e.number == levelNumber);
+        final level = gameLevels.firstWhere(
+          (e) => e.number == levelNumber,
+          orElse: () => throw Exception('Level not found: $levelNumber'),
+        );
         return LevelScreen(level: level);
       },
     ),

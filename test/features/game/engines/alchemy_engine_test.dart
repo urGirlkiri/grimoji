@@ -141,7 +141,7 @@ void main() {
     });
 
     test('Should destroy tiles normally when NO recipe exists (Basic Match-3)', () {
-      final nonRecipeEmoji = Emojis.noEntry;
+      final nonRecipeEmoji = Emojis.avocado; 
 
       gridManager.gridTiles[0][0].emoji = nonRecipeEmoji;
       gridManager.gridTiles[0][1].emoji = nonRecipeEmoji;
@@ -162,7 +162,10 @@ void main() {
 
     test('Should NOT merge when match size is LESS than requiredAmount', () {
       final largeRecipe = RecipeBook.allRecipes.firstWhere(
-        (r) => r.requiredAmount >= 3,
+        (r) => r.requiredAmount > 3 && 
+               !(RecipeBook.getRecipesFor(r.ingredient)!.any((other) => other.requiredAmount <= 3)) &&
+               RecipeBook.getReactionFor(r.ingredient) == null,
+        orElse: () => throw Exception('No recipes requiring > 3 items found with no smaller alternatives and no reaction'),
       );
 
       final matchSize = largeRecipe.requiredAmount - 1;

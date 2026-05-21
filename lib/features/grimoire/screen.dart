@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:grimoji/features/grimoire/widgets/locked_card.dart';
+import 'package:grimoji/features/alchemy/recipes/chapter2.dart';
+import 'package:grimoji/features/grimoire/widgets/recipe_card.dart';
 import 'package:provider/provider.dart';
 import 'package:grimoji/config/palette.dart';
 
@@ -9,6 +10,7 @@ class GrimoireScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.read<Palette>();
+
 
     return Scaffold(
       backgroundColor: palette.voidBlack,
@@ -23,7 +25,11 @@ class GrimoireScreen extends StatelessWidget {
             childAspectRatio: 0.72,
           ),
           itemBuilder: (context, index) {
-            return const LockedCard();
+
+            return RecipeCard(
+              isUnlocked: true, 
+              recipe: chapter2Recipes[0],
+              );
           },
         ),
       ),
