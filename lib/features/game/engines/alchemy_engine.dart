@@ -8,7 +8,7 @@ import 'package:logging/logging.dart';
 import '../board/utils/manager.dart';
 
 class AlchemyEngine {
-  final GridManager gridManager;
+  final BoardManager boardManager;
 
   final List<Recipe>? Function(GameEmoji) getRecipes;
   final Reaction? Function(GameEmoji) getReactionFor;
@@ -19,7 +19,7 @@ class AlchemyEngine {
   final Logger _log = Logger('AlchemyEngine');
 
   AlchemyEngine({
-    required this.gridManager,
+    required this.boardManager,
     required this.getRecipes,
     required this.getReactionFor,
     required this.getTransformationsForType,
@@ -58,7 +58,7 @@ class AlchemyEngine {
   ) {
     Map<GameEmoji, Set<TileCoordinate>> groupedMatches = {};
     for (var match in matches) {
-      GameEmoji emoji = gridManager.gridTiles[match.row][match.col].emoji;
+      GameEmoji emoji = boardManager.gridTiles[match.row][match.col].emoji;
       groupedMatches.putIfAbsent(emoji, () => {}).add(match);
     }
 
@@ -67,7 +67,7 @@ class AlchemyEngine {
     groupedMatches.forEach((emoji, coords) {
       state.resolveEmoji(emoji, coords.length);
 
-      bool isAlreadyTriggered = coords.any((c) => gridManager.gridTiles[c.row][c.col].isTriggered);
+      bool isAlreadyTriggered = coords.any((c) => boardManager.gridTiles[c.row][c.col].isTriggered);
 
       if (!isAlreadyTriggered) {
         final recipes = getRecipes(emoji);
@@ -87,7 +87,7 @@ class AlchemyEngine {
       if (reaction != null) {
         if (reaction.type == ReactionType.explosive) {
           for (var coord in coords) {
-            gridManager.gridTiles[coord.row][coord.col].isTriggered = true;
+            boardManager.gridTiles[coord.row][coord.col].isTriggered = true;
           }
           _log.info('Matched explosives primed at $coords');
         } else {
@@ -106,7 +106,7 @@ class AlchemyEngine {
 
   void _triggerAdjacentBombs(Set<TileCoordinate> matches) {
     for (var match in matches) {
-      final neighbors = gridManager.getAdjacentTiles(match.row, match.col);
+      final neighbors = boardManager.getAdjacentTiles(match.row, match.col);
       for (var neighbor in neighbors) {
         
         final reaction = getReactionFor(neighbor.emoji);
@@ -136,12 +136,12 @@ class AlchemyEngine {
     TileCoordinate spawnPoint = coords.contains(mergePoint)
         ? mergePoint!
         : coords.first;
-    Tile targetTile = gridManager.gridTiles[spawnPoint.row][spawnPoint.col];
+    Tile targetTile = boardManager.gridTiles[spawnPoint.row][spawnPoint.col];
 
     targetTile.emoji = recipe.yields;
     targetTile.reset();
 
-    if (recipe.yields == gridManager.level.targetEmoji) {
+    if (recipe.yields == boardManager.level.targetEmoji) {
       state.resolveEmoji(recipe.yields, 1);
       targetTile.isFlying = true;
     }
@@ -176,10 +176,10 @@ class AlchemyEngine {
           c++
         ) {
           if (r >= 0 &&
-              r < GridManager.rows &&
+              r < BoardManager.rows &&
               c >= 0 &&
-              c < GridManager.cols) {
-            Tile targetTile = gridManager.gridTiles[r][c];
+              c < BoardManager.cols) {
+            Tile targetTile = boardManager.gridTiles[r][c];
             TileCoordinate targetCoord = TileCoordinate(row: r, col: c);
 
             GameEmoji? resultingEmoji = transformations[targetTile.emoji];

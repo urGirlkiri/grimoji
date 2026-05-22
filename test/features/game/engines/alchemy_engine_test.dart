@@ -16,7 +16,7 @@ class MockGameState extends Mock implements GameState {
 
 void main() {
   group('AlchemyEngine Tests', () {
-    late GridManager gridManager;
+    late BoardManager boardManager;
     late AlchemyEngine alchemyEngine;
     late MockGameState mockState;
     late GameLevel level;
@@ -36,11 +36,11 @@ void main() {
         description: 'Test description',
       );
 
-      gridManager = GridManager(level);
-      gridManager.initialize();
+      boardManager = BoardManager(level);
+      boardManager.initialize();
 
       alchemyEngine = AlchemyEngine(
-        gridManager: gridManager,
+        boardManager: boardManager,
         getRecipes: RecipeBook.getRecipesFor,
         getReactionFor: RecipeBook.getReactionFor,
         getTransformationsForType: RecipeBook.getTransformationsForType,
@@ -55,7 +55,7 @@ void main() {
 
       final matchCoords = <TileCoordinate>{};
       for (int i = 0; i < mergeRecipe.requiredAmount; i++) {
-        gridManager.gridTiles[0][i].emoji = mergeRecipe.ingredient;
+        boardManager.gridTiles[0][i].emoji = mergeRecipe.ingredient;
         matchCoords.add(TileCoordinate(row: 0, col: i));
       }
 
@@ -63,7 +63,7 @@ void main() {
 
       alchemyEngine.processMatches(matchCoords, mockState, mergePoint: mergePoint);
 
-       expect(gridManager.gridTiles[0][1].emoji.visual, equals(mergeRecipe.yields.visual));
+       expect(boardManager.gridTiles[0][1].emoji.visual, equals(mergeRecipe.yields.visual));
     });
 
     test('Should execute a Transmutation Explosion dynamically', () {
@@ -81,25 +81,25 @@ void main() {
       final targetEmoji = transmutationMap[sourceEmoji]!;
 
       final genericEmoji = RecipeBook.allRecipes.first.ingredient;
-      for (int r = 0; r < GridManager.rows; r++) {
-        for (int c = 0; c < GridManager.cols; c++) {
-          gridManager.gridTiles[r][c].emoji = genericEmoji;
+      for (int r = 0; r < BoardManager.rows; r++) {
+        for (int c = 0; c < BoardManager.cols; c++) {
+          boardManager.gridTiles[r][c].emoji = genericEmoji;
         }
       }
 
-      gridManager.gridTiles[3][2].emoji = explosiveEmoji;
-      gridManager.gridTiles[3][3].emoji = sourceEmoji;
-      gridManager.triggerInitialFall();
+      boardManager.gridTiles[3][2].emoji = explosiveEmoji;
+      boardManager.gridTiles[3][3].emoji = sourceEmoji;
+      boardManager.triggerInitialFall();
 
       alchemyEngine.processMatches({TileCoordinate(row: 3, col: 2)}, mockState);
       
-      expect(gridManager.gridTiles[3][2].isTriggered, isTrue, reason: 'Explosive should be primed');
+      expect(boardManager.gridTiles[3][2].isTriggered, isTrue, reason: 'Explosive should be primed');
 
-      final blastResult = gridManager.executeBlastRadius(TileCoordinate(row: 3, col: 2));
+      final blastResult = boardManager.executeBlastRadius(TileCoordinate(row: 3, col: 2));
 
       expect(blastResult.destroyed.contains(TileCoordinate(row: 3, col: 3)), isFalse, reason: 'Transmuted tile should NOT be destroyed');
       expect(blastResult.transformed.contains(TileCoordinate(row: 3, col: 3)), isTrue, reason: 'Tile should be in transformed set');
-      expect(gridManager.gridTiles[3][3].emoji.visual, equals(targetEmoji.visual), reason: 'Tile should transform into the target mapped emoji');
+      expect(boardManager.gridTiles[3][3].emoji.visual, equals(targetEmoji.visual), reason: 'Tile should transform into the target mapped emoji');
     });
 
     test('Crafting an Explosive should NOT self-ignite dynamically', () {
@@ -109,7 +109,7 @@ void main() {
 
       final matchCoords = <TileCoordinate>{};
       for (int i = 0; i < explosiveRecipe.requiredAmount; i++) {
-        gridManager.gridTiles[0][i].emoji = explosiveRecipe.ingredient;
+        boardManager.gridTiles[0][i].emoji = explosiveRecipe.ingredient;
         matchCoords.add(TileCoordinate(row: 0, col: i));
       }
 
@@ -117,7 +117,7 @@ void main() {
 
       alchemyEngine.processMatches(matchCoords, mockState, mergePoint: mergePoint);
 
-      final craftedTile = gridManager.gridTiles[0][1];
+      final craftedTile = boardManager.gridTiles[0][1];
       expect(craftedTile.emoji.visual, equals(explosiveRecipe.yields.visual));
       expect(craftedTile.isTriggered, isFalse, reason: 'Newly crafted explosive MUST NOT self-ignite');
     });
@@ -127,25 +127,25 @@ void main() {
         (r) => RecipeBook.getReactionFor(r.yields)?.type == ReactionType.explosive,
       ).yields;
 
-      gridManager.triggerInitialFall();
+      boardManager.triggerInitialFall();
       TileCoordinate center = TileCoordinate(row: 4, col: 2);
       TileCoordinate adjacent = TileCoordinate(row: 4, col: 3);
       
-      gridManager.gridTiles[center.row][center.col].emoji = explosiveEmoji;
-      gridManager.gridTiles[adjacent.row][adjacent.col].emoji = explosiveEmoji;
+      boardManager.gridTiles[center.row][center.col].emoji = explosiveEmoji;
+      boardManager.gridTiles[adjacent.row][adjacent.col].emoji = explosiveEmoji;
 
-      final blastResult = gridManager.executeBlastRadius(center);
+      final blastResult = boardManager.executeBlastRadius(center);
 
       expect(blastResult.destroyed.contains(adjacent), isFalse, reason: 'Caught explosive should NOT be destroyed');
-      expect(gridManager.gridTiles[adjacent.row][adjacent.col].isTriggered, isTrue, reason: 'Caught explosive should be primed for chain reaction');
+      expect(boardManager.gridTiles[adjacent.row][adjacent.col].isTriggered, isTrue, reason: 'Caught explosive should be primed for chain reaction');
     });
 
     test('Should destroy tiles normally when NO recipe exists (Basic Match-3)', () {
       final nonRecipeEmoji = Emojis.avocado; 
 
-      gridManager.gridTiles[0][0].emoji = nonRecipeEmoji;
-      gridManager.gridTiles[0][1].emoji = nonRecipeEmoji;
-      gridManager.gridTiles[0][2].emoji = nonRecipeEmoji;
+      boardManager.gridTiles[0][0].emoji = nonRecipeEmoji;
+      boardManager.gridTiles[0][1].emoji = nonRecipeEmoji;
+      boardManager.gridTiles[0][2].emoji = nonRecipeEmoji;
 
       final matchCoords = {
         TileCoordinate(row: 0, col: 0),
@@ -156,8 +156,8 @@ void main() {
       final destroyedTiles = alchemyEngine.processMatches(matchCoords, mockState);
 
       expect(destroyedTiles.length, equals(3), reason: 'Basic match should return all tiles for destruction');
-      expect(gridManager.gridTiles[0][0].isTriggered, isFalse);
-      expect(gridManager.gridTiles[0][0].isTransmuting, isFalse);
+      expect(boardManager.gridTiles[0][0].isTriggered, isFalse);
+      expect(boardManager.gridTiles[0][0].isTransmuting, isFalse);
     });
 
     test('Should NOT merge when match size is LESS than requiredAmount', () {
@@ -172,14 +172,14 @@ void main() {
       final matchCoords = <TileCoordinate>{};
       
       for (int i = 0; i < matchSize; i++) {
-        gridManager.gridTiles[0][i].emoji = largeRecipe.ingredient;
+        boardManager.gridTiles[0][i].emoji = largeRecipe.ingredient;
         matchCoords.add(TileCoordinate(row: 0, col: i));
       }
 
       final destroyedTiles = alchemyEngine.processMatches(matchCoords, mockState);
 
       expect(destroyedTiles.length, equals(matchSize), reason: 'Insufficient recipe match should default to destruction');
-      expect(gridManager.gridTiles[0][0].emoji.visual, equals(largeRecipe.ingredient.visual), reason: 'Tile should NOT have transformed');
+      expect(boardManager.gridTiles[0][0].emoji.visual, equals(largeRecipe.ingredient.visual), reason: 'Tile should NOT have transformed');
     });
 
     test('Should execute explosion strictly within its AoE radius', () {
@@ -191,17 +191,17 @@ void main() {
       final radius = RecipeBook.getAoERadiusForType(reaction.type);
 
       final genericEmoji = RecipeBook.allRecipes.first.ingredient;
-      for (int r = 0; r < GridManager.rows; r++) {
-        for (int c = 0; c < GridManager.cols; c++) {
-          gridManager.gridTiles[r][c].emoji = genericEmoji;
+      for (int r = 0; r < BoardManager.rows; r++) {
+        for (int c = 0; c < BoardManager.cols; c++) {
+          boardManager.gridTiles[r][c].emoji = genericEmoji;
         }
       }
 
       final centerRow = 4;
       final centerCol = 2;
-      gridManager.gridTiles[centerRow][centerCol].emoji = explosiveEmoji;
+      boardManager.gridTiles[centerRow][centerCol].emoji = explosiveEmoji;
       
-      final blastResult = gridManager.executeBlastRadius(TileCoordinate(row: centerRow, col: centerCol));
+      final blastResult = boardManager.executeBlastRadius(TileCoordinate(row: centerRow, col: centerCol));
 
       final safeRow = centerRow + radius + 1;
       final safeCol = centerCol;

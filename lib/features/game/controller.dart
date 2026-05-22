@@ -16,15 +16,15 @@ import 'engines/behavior_engine.dart';
 class GameController {
   final GameLevel level;
 
-  late final GridManager _gridManager;
+  late final BoardManager _boardManager;
   late final AlchemyEngine alchemy;
   late final BehaviorEngine behaviors;
 
   GameController(this.level) {
-    _gridManager = GridManager(level);
+    _boardManager = BoardManager(level);
     
     alchemy = AlchemyEngine(
-      gridManager: _gridManager,
+      boardManager: _boardManager,
       getRecipes: RecipeBook.getRecipesFor,
       getReactionFor: RecipeBook.getReactionFor,
       getTransformationsForType: RecipeBook.getTransformationsForType,
@@ -32,21 +32,21 @@ class GameController {
     );
     
     behaviors = BehaviorEngine(
-      gridManager: _gridManager,
+      boardManager: _boardManager,
       getBehavior: BehaviorRegister.getBehaviorFor,
     );
   }
 
-  List<List<Tile>> get grid => _gridManager.gridTiles;
+  List<List<Tile>> get grid => _boardManager.gridTiles;
 
-  GridManager get gridManager => _gridManager;
+  BoardManager get boardManager => _boardManager;
 
-  int getRowCount() => GridManager.rows;
-  int getColCount() => GridManager.cols;
+  int getRowCount() => BoardManager.rows;
+  int getColCount() => BoardManager.cols;
 
   void initialize() {
     RecipeBook.initialize();
-    _gridManager.initialize();
+    _boardManager.initialize();
   }
 
   void shuffleGrid() {
@@ -82,7 +82,7 @@ class GameController {
   }
 
   void swapTiles(TileCoordinate A, TileCoordinate B) {
-    _gridManager.swapTiles(A, B);
+    _boardManager.swapTiles(A, B);
   }
 
   bool hasPossibleMoves() {
@@ -190,11 +190,11 @@ List<TileCoordinate>? getHintMove() {
     return false;
   }
   void triggerInitialFall() {
-    _gridManager.triggerInitialFall();
+    _boardManager.triggerInitialFall();
   }
 
   bool collectFlyingTiles() {
-    return _gridManager.collectFlyingTiles();
+    return _boardManager.collectFlyingTiles();
   }
 
   Set<TileCoordinate> spawnTiles(Set<TileCoordinate> matches, GameState state, {TileCoordinate? mergePoint}) {
@@ -230,15 +230,15 @@ List<TileCoordinate>? getHintMove() {
     );
 
     if (decision.type != SwipeResult.invalid) {
-      _gridManager.swapTiles(dCoord, tCoord);
+      _boardManager.swapTiles(dCoord, tCoord);
     }
 
     return decision;
   }
 
-  List<Tile> getTriggeredBombs() => _gridManager.getTriggeredBombs();
+  List<Tile> getTriggeredBombs() => _boardManager.getTriggeredBombs();
 
   ({Set<TileCoordinate> destroyed, Set<TileCoordinate> transformed}) executeBlastRadius(TileCoordinate center) {
-    return _gridManager.executeBlastRadius(center);
+    return _boardManager.executeBlastRadius(center);
   }
 }

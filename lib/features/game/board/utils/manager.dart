@@ -6,7 +6,8 @@ import 'package:grimoji/features/game/board/models/coordinate.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 
-class GridManager {
+// h
+class BoardManager {
   static const int rows = 8;
   static const int cols = 5;
 
@@ -14,7 +15,7 @@ class GridManager {
   final GameLevel level;
   final Random _random = Random();
 
-  GridManager(this.level);
+  BoardManager(this.level);
 
   void initialize() {
     gridTiles = List.generate(

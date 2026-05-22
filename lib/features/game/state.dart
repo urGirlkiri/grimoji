@@ -227,7 +227,7 @@ class GameState extends ChangeNotifier {
 
       reactionDestroyed.addAll(mergedFlyingTargets);
 
-      gameController.gridManager.applyGravity(reactionDestroyed);
+      gameController.boardManager.applyGravity(reactionDestroyed);
 
       for (int r = 0; r < gameController.getRowCount(); r++) {
         for (int c = 0; c < gameController.getColCount(); c++) {
@@ -306,7 +306,7 @@ class GameState extends ChangeNotifier {
       allBlastedCoords.addAll(targetFlyingTransforms);
 
       _clearTransmutingMatrices();
-      gameController.gridManager.applyGravity(allBlastedCoords);
+      gameController.boardManager.applyGravity(allBlastedCoords);
 
       for (int r = 0; r < gameController.getRowCount(); r++) {
         for (int c = 0; c < gameController.getColCount(); c++) {

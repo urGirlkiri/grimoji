@@ -11,7 +11,7 @@ class LevelState extends ChangeNotifier {
   final VoidCallback onLose;
   final GameLevel level;
 
-  final Stopwatch _stopwatch = Stopwatch();
+  final Stopwatch _timeLimitStopwatch = Stopwatch();
   final Logger _log = Logger('LevelState');
   final GlobalKey targetIconKey = GlobalKey();
   Timer? _ticker;
@@ -34,17 +34,17 @@ class LevelState extends ChangeNotifier {
   int collectedAmount = 0;
 
   int get secondsRemaining =>
-      max(0, level.timeLimit - _stopwatch.elapsed.inSeconds);
+      max(0, level.timeLimit - _timeLimitStopwatch.elapsed.inSeconds);
   double get progress => (collectedAmount / level.targetAmount).clamp(0.0, 1.0);
 
   void startLevel() {
-    _stopwatch.start();
+    _timeLimitStopwatch.start();
     _ticker = Timer.periodic(const Duration(seconds: 1), (_) => _onTimerTick());
     gameState.startInitialDrop();
   }
 
   void _onTimerTick() {
-    if (_isDisposed || !_stopwatch.isRunning) return;
+    if (_isDisposed || !_timeLimitStopwatch.isRunning) return;
 
     notifyListeners();
 
@@ -72,7 +72,7 @@ class LevelState extends ChangeNotifier {
       _isGameOver = true;
       gameState.setGameOver();
       _ticker?.cancel();
-      _stopwatch.stop();
+      _timeLimitStopwatch.stop();
 
       int earnedStars = progress >= 1.0
           ? 3
@@ -98,7 +98,7 @@ class LevelState extends ChangeNotifier {
   void togglePause() {
     gameState.togglePause();
     isPaused = gameState.isPaused;
-    isPaused ? _stopwatch.stop() : _stopwatch.start();
+    isPaused ? _timeLimitStopwatch.stop() : _timeLimitStopwatch.start();
     notifyListeners();
   }
 
@@ -106,7 +106,7 @@ class LevelState extends ChangeNotifier {
   void dispose() {
     _isDisposed = true;
     _ticker?.cancel();
-    _stopwatch.stop();
+    _timeLimitStopwatch.stop();
     gameState.removeListener(notifyListeners);
     gameState.dispose();
     super.dispose();

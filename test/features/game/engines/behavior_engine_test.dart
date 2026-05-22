@@ -42,7 +42,7 @@ class SpyBehavior extends EmojiBehavior {
 
 void main() {
   group('BehaviorEngine Tests', () {
-    late GridManager gridManager;
+    late BoardManager boardManager;
     late BehaviorEngine behaviorEngine;
     late SpyBehavior spyBehavior;
 
@@ -57,13 +57,13 @@ void main() {
         description: 'Test description',
       );
       
-      gridManager = GridManager(testLevel);
-      gridManager.initialize();
+      boardManager = BoardManager(testLevel);
+      boardManager.initialize();
       
       spyBehavior = SpyBehavior();
 
       behaviorEngine = BehaviorEngine(
-        gridManager: gridManager,
+        boardManager: boardManager,
         getBehavior: (emoji) {
           if (emoji == Emojis.bug) {
             return spyBehavior; 
@@ -131,13 +131,13 @@ void main() {
     group('Action Execution Logic', () {
       test('ActionType.placeEmoji should clone the emoji into an adjacent empty tile', () {
         const emptyEmoji = GameEmoji('svg/empty.svg', 'lottie/empty.json', '');
-        gridManager.gridTiles[1][1].emoji = Emojis.bug;
-        behaviorEngine.initializeBehavior(gridManager.gridTiles[1][1]);
+        boardManager.gridTiles[1][1].emoji = Emojis.bug;
+        behaviorEngine.initializeBehavior(boardManager.gridTiles[1][1]);
         
-        gridManager.gridTiles[0][1].emoji = emptyEmoji;
-        gridManager.gridTiles[2][1].emoji = emptyEmoji;
-        gridManager.gridTiles[1][0].emoji = emptyEmoji;
-        gridManager.gridTiles[1][2].emoji = emptyEmoji;
+        boardManager.gridTiles[0][1].emoji = emptyEmoji;
+        boardManager.gridTiles[2][1].emoji = emptyEmoji;
+        boardManager.gridTiles[1][0].emoji = emptyEmoji;
+        boardManager.gridTiles[1][2].emoji = emptyEmoji;
 
         spyBehavior.turnEndActionsToReturn = [
           const BehaviorAction(type: ActionType.placeEmoji, x: 1, y: 1, emoji: Emojis.bug)
@@ -146,32 +146,32 @@ void main() {
         behaviorEngine.processTurnEndBehaviors();
 
         final neighbors = [
-          gridManager.gridTiles[0][1].emoji,
-          gridManager.gridTiles[2][1].emoji,
-          gridManager.gridTiles[1][0].emoji,
-          gridManager.gridTiles[1][2].emoji,
+          boardManager.gridTiles[0][1].emoji,
+          boardManager.gridTiles[2][1].emoji,
+          boardManager.gridTiles[1][0].emoji,
+          boardManager.gridTiles[1][2].emoji,
         ];
         expect(neighbors.contains(Emojis.bug), isTrue, reason: 'Engine should place a new Bug');
       });
 
       test('ActionType.reactEmoji should overwrite a filled neighbor and clear its behavior', () {
-        gridManager.gridTiles[1][1].emoji = Emojis.bug;
+        boardManager.gridTiles[1][1].emoji = Emojis.bug;
         
-        gridManager.gridTiles[0][1].emoji = Emojis.rock;
-        gridManager.gridTiles[2][1].emoji = Emojis.rock;
-        gridManager.gridTiles[1][0].emoji = Emojis.rock;
-        gridManager.gridTiles[1][2].emoji = Emojis.rock;
+        boardManager.gridTiles[0][1].emoji = Emojis.rock;
+        boardManager.gridTiles[2][1].emoji = Emojis.rock;
+        boardManager.gridTiles[1][0].emoji = Emojis.rock;
+        boardManager.gridTiles[1][2].emoji = Emojis.rock;
         
-        gridManager.gridTiles[0][1].behavior = SpyBehavior();
+        boardManager.gridTiles[0][1].behavior = SpyBehavior();
         
         final transmuteAction = [const BehaviorAction(type: ActionType.reactEmoji, x: 1, y: 1, emoji: Emojis.cloud)];
         behaviorEngine.executeBehaviorActions(transmuteAction, 1, 1);
 
         final neighbors = [
-          gridManager.gridTiles[0][1],
-          gridManager.gridTiles[2][1],
-          gridManager.gridTiles[1][0],
-          gridManager.gridTiles[1][2],
+          boardManager.gridTiles[0][1],
+          boardManager.gridTiles[2][1],
+          boardManager.gridTiles[1][0],
+          boardManager.gridTiles[1][2],
         ];
         
         final transmutedTiles = neighbors.where((n) => n.emoji == Emojis.cloud).toList();
@@ -195,9 +195,9 @@ void main() {
           reason: 'Engine should safely execute valid placeEmoji actions without error');
 
         const emptyEmoji = GameEmoji('svg/empty.svg', 'lottie/empty.json', '');
-        for (int r = 0; r < GridManager.rows; r++) {
-          for (int c = 0; c < GridManager.cols; c++) {
-            gridManager.gridTiles[r][c].emoji = emptyEmoji;
+        for (int r = 0; r < BoardManager.rows; r++) {
+          for (int c = 0; c < BoardManager.cols; c++) {
+            boardManager.gridTiles[r][c].emoji = emptyEmoji;
           }
         }
         final transmuteAction = [const BehaviorAction(type: ActionType.reactEmoji, x: 1, y: 1, emoji: Emojis.cloud)];

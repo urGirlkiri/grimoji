@@ -5,12 +5,12 @@ import 'package:grimoji/features/game/board/utils/manager.dart';
 import 'package:grimoji/features/game/board/models/tile.dart';
 
 class BehaviorEngine {
-  final GridManager gridManager;
+  final BoardManager boardManager;
   
   final EmojiBehavior? Function(GameEmoji) getBehavior;
 
   BehaviorEngine({
-    required this.gridManager,
+    required this.boardManager,
     required this.getBehavior, 
   });
 
@@ -22,9 +22,9 @@ class BehaviorEngine {
   }
 
   void processTurnEndBehaviors() {
-    for (int r = 0; r < GridManager.rows; r++) {
-      for (int c = 0; c < GridManager.cols; c++) {
-        final tile = gridManager.gridTiles[r][c];
+    for (int r = 0; r < BoardManager.rows; r++) {
+      for (int c = 0; c < BoardManager.cols; c++) {
+        final tile = boardManager.gridTiles[r][c];
         if (tile.behavior != null) {
           final actions = tile.behavior!.onTurnEnd(r, c);
           _executeBehaviorActions(actions, r, c);
@@ -37,17 +37,17 @@ class BehaviorEngine {
     for (final action in actions) {
       switch (action.type) {
         case ActionType.placeEmoji:
-          final target = gridManager.findAdjacentEmptyTile(centerX, centerY);
+          final target = boardManager.findAdjacentEmptyTile(centerX, centerY);
           if (target != null && action.emoji != null) {
-            gridManager.gridTiles[target.x][target.y].emoji = action.emoji!;
-            initializeBehavior(gridManager.gridTiles[target.x][target.y]);
+            boardManager.gridTiles[target.x][target.y].emoji = action.emoji!;
+            initializeBehavior(boardManager.gridTiles[target.x][target.y]);
           }
           break;
         case ActionType.reactEmoji:
-          final target = gridManager.findAdjacentFilledTile(centerX, centerY);
+          final target = boardManager.findAdjacentFilledTile(centerX, centerY);
           if (target != null && action.emoji != null) {
-            gridManager.gridTiles[target.x][target.y].emoji = action.emoji!;
-            gridManager.gridTiles[target.x][target.y].clearBehavior();
+            boardManager.gridTiles[target.x][target.y].emoji = action.emoji!;
+            boardManager.gridTiles[target.x][target.y].clearBehavior();
           }
           break;
         case ActionType.doNothing:
