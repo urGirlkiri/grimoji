@@ -104,7 +104,7 @@ class RecipeCard extends StatelessWidget {
             Center(
               child: isUnlocked
                   ? EmojiWidget.svg(
-                      path: recipe.ingredient.svg,
+                      path: recipe.yields.svg,
                       size: size.width > 900 ? 80 : 48,
                     )
                   : Image.asset('assets/images/grimoire/queston_mark.png'),

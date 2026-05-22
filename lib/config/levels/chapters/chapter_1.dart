@@ -11,7 +11,6 @@ const List<GameLevel> chapter1Levels = [
     description: 'The Awakening - Super easy, introducing basic matches',
     availableEmojis: [
       Emojis.droplet,
-      Emojis.leafyGreen,
       Emojis.fire,
       Emojis.rock,
     ],
@@ -40,7 +39,7 @@ const List<GameLevel> chapter1Levels = [
     goal: 'Matches the graveyard theme',
     description: 'Unearthing the Dead - Introducing Skulls',
     availableEmojis: [
-      Emojis.skull,
+      Emojis.bone,
       Emojis.fire,
       Emojis.droplet,
       Emojis.rock,
@@ -73,7 +72,6 @@ const List<GameLevel> chapter1Levels = [
     description: 'Graveyard Shift',
     availableEmojis: [
       Emojis.skull,
-      Emojis.bone,
       Emojis.rock,
       Emojis.fire,
       Emojis.droplet,
@@ -88,8 +86,8 @@ const List<GameLevel> chapter1Levels = [
     goal: 'Collect bugs',
     description: 'Toxic Soils',
     availableEmojis: [
+      Emojis.worm,
       Emojis.leafyGreen,
-      Emojis.bug,
       Emojis.spider,
       Emojis.droplet,
       Emojis.rock,
@@ -104,8 +102,7 @@ const List<GameLevel> chapter1Levels = [
     goal: 'Collect fire',
     description: 'Will-o\'-the-Wisp',
     availableEmojis: [
-      Emojis.fire,
-      Emojis.ghost,
+      Emojis.leaflessTree,
       Emojis.skull,
       Emojis.droplet,
       Emojis.leafyGreen,
@@ -120,11 +117,10 @@ const List<GameLevel> chapter1Levels = [
     goal: 'Collect crystal balls',
     description: 'The Ritual Begins',
     availableEmojis: [
-      Emojis.crystalBall,
       Emojis.fire,
       Emojis.rock,
       Emojis.droplet,
-      Emojis.leafyGreen,
+      Emojis.sparkles,
       Emojis.skull,
     ],
   ),

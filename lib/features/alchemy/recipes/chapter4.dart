@@ -25,4 +25,29 @@ const List<Recipe> chapter4Recipes = [
     requiredAmount: 5,
     yields: Emojis.electricity,
   ),
+  Recipe(
+    ingredient: Emojis.fireworks,
+    requiredAmount: 4,
+    yields: Emojis.collision,
+  ),
+  Recipe(
+    ingredient: Emojis.fireworks,
+    requiredAmount: 3,
+    yields: Emojis.bomb,
+  ),
+  Recipe(
+    ingredient: Emojis.babyChick,
+    requiredAmount: 3,
+    yields: Emojis.blackBird,
+  ),
+  Recipe(
+    ingredient: Emojis.windFace,
+    requiredAmount: 3,
+    yields: Emojis.coldFace,
+  ),
+  Recipe(
+    ingredient: Emojis.windFace,
+    requiredAmount: 4,
+    yields: Emojis.cloud,
+  ),
 ];

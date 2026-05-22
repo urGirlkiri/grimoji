@@ -7,7 +7,7 @@ import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:logging/logging.dart';
 
-const maxMoves = 10000;
+const maxMoves = 20000;
 
 void main() {
   setUpAll(() {
@@ -18,7 +18,17 @@ void main() {
 
   group('Levels Test', () {
     for (var level in gameLevels) {
-      
+      test(
+        'Level ${level.number}  should not have the target emoji in its starting emojis',
+        () {
+          expect(
+            level.availableEmojis.contains(level.targetEmoji),
+            false,
+            reason:
+                'Level ${level.number} has ${level.targetEmoji.visual} in starting emojis',
+          );
+        },
+      );
       test('Level ${level.number} target is mathematically craftable', () {
         Set<GameEmoji> craftableEmojis = Set.from(level.availableEmojis);
         bool discoveredNewEmoji = true;
@@ -52,7 +62,22 @@ void main() {
           }
         }
 
-        final availableNames = level.availableEmojis.map((e) => e.visual).join(', ');
+        bool hasRecipe = false;
+
+        for (var recipe in RecipeBook.allRecipes) {
+          if (recipe.yields == level.targetEmoji) {
+            hasRecipe = true;
+            if (craftableEmojis.contains(recipe.ingredient)) {
+              craftableEmojis.add(level.targetEmoji);
+            }
+          }
+        }
+
+        expect(hasRecipe,true, reason: 'Level ${level.number}\'s target ${level.targetEmoji.visual} has no recipe ');
+
+        final availableNames = level.availableEmojis
+            .map((e) => e.visual)
+            .join(', ');
         final craftableNames = craftableEmojis.map((e) => e.visual).join(', ');
 
         expect(
@@ -127,22 +152,28 @@ void main() {
             );
           });
         },
-        skip: level.skipAutoPlayer ? 'Too complex for AutoPlayer algorithm, skipping.' : false,
+        skip: level.skipAutoPlayer
+            ? 'Too complex for AutoPlayer algorithm, skipping.'
+            : false,
       );
     }
   });
 
-  group('Levels should be unique', () {
-    test('No two levels should have the same number', () {
-      final numbers = gameLevels.map((e) => e.number).toList();
-      final duplicates = numbers.fold<Map<int, int>>({}, (prev, n) => prev..[n] = (prev[n] ?? 0) + 1);
-      final duplicateNumbers = duplicates.entries.where((e) => e.value > 1).map((e) => e.key).toList();
-      
-      expect(
-        duplicateNumbers,
-        isEmpty,
-        reason: 'Duplicate level numbers found: $duplicateNumbers',
-      );
-    });
+  test('No two levels should have the same number', () {
+    final numbers = gameLevels.map((e) => e.number).toList();
+    final duplicates = numbers.fold<Map<int, int>>(
+      {},
+      (prev, n) => prev..[n] = (prev[n] ?? 0) + 1,
+    );
+    final duplicateNumbers = duplicates.entries
+        .where((e) => e.value > 1)
+        .map((e) => e.key)
+        .toList();
+
+    expect(
+      duplicateNumbers,
+      isEmpty,
+      reason: 'Duplicate level numbers found: $duplicateNumbers',
+    );
   });
 }

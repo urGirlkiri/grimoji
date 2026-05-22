@@ -39,6 +39,11 @@ const List<Recipe> chapter5Recipes = [
   ),
 
   Recipe(
+    ingredient: Emojis.alien, 
+    requiredAmount: 3,
+    yields: Emojis.alienMonster, 
+  ),
+  Recipe(
     ingredient: Emojis.alienMonster, 
     requiredAmount: 4,
     yields: Emojis.flyingSaucer, 

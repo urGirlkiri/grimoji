@@ -29,7 +29,6 @@ const List<GameLevel> chapter5Levels = [
       Emojis.star,
       Emojis.cloud,
       Emojis.droplet,
-      Emojis.glowingStar,
     ],
     skipAutoPlayer: true,
   ),
@@ -133,7 +132,6 @@ const List<GameLevel> chapter5Levels = [
     goal: 'Hurl cosmic comets at the fortress',
     description: 'The Cosmic Siege - From the depths of space',
     availableEmojis: [
-      Emojis.comet,
       Emojis.glowingStar,
       Emojis.sparkles,
       Emojis.rock,
@@ -148,7 +146,6 @@ const List<GameLevel> chapter5Levels = [
     goal: 'Master the ultimate divination',
     description: 'The Grand Oracle - Seeing all futures',
     availableEmojis: [
-      Emojis.crystalBall,
       Emojis.glowingStar,
       Emojis.comet,
       Emojis.sparkles,
@@ -164,7 +161,6 @@ const List<GameLevel> chapter5Levels = [
     description: 'The Galactic Field - Infinite possibilities',
     availableEmojis: [
       Emojis.sparkles,
-      Emojis.star,
       Emojis.glowingStar,
       Emojis.cloud,
     ],
@@ -178,7 +174,6 @@ const List<GameLevel> chapter5Levels = [
     goal: 'Command the alien legions',
     description: 'The Cosmic Army - Forces unseen',
     availableEmojis: [
-      Emojis.alienMonster,
       Emojis.alien,
       Emojis.sparkles,
       Emojis.fire,
@@ -193,7 +188,6 @@ const List<GameLevel> chapter5Levels = [
     goal: 'Summon the ultimate cosmic weapon',
     description: 'The Stellar Cannon - Destruction incarnate',
     availableEmojis: [
-      Emojis.comet,
       Emojis.glowingStar,
       Emojis.crystalBall,
       Emojis.sparkles,
@@ -223,7 +217,6 @@ const List<GameLevel> chapter5Levels = [
     goal: 'Launch a fleet of UFOs',
     description: 'The Interstellar Fleet - Conquest begins',
     availableEmojis: [
-      Emojis.flyingSaucer,
       Emojis.alienMonster,
       Emojis.sparkles,
       Emojis.cloud,
@@ -238,7 +231,6 @@ const List<GameLevel> chapter5Levels = [
     goal: 'Create a supernova of light',
     description: 'The Stellar Explosion - The galaxy shines',
     availableEmojis: [
-      Emojis.glowingStar,
       Emojis.comet,
       Emojis.sparkles,
       Emojis.fire,
@@ -253,7 +245,6 @@ const List<GameLevel> chapter5Levels = [
     goal: 'Master all cosmic magic',
     description: 'The Cosmic Ascension - Become a god of the stars',
     availableEmojis: [
-      Emojis.crystalBall,
       Emojis.glowingStar,
       Emojis.comet,
       Emojis.flyingSaucer,

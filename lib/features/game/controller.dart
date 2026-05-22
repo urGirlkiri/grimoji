@@ -114,44 +114,81 @@ class GameController {
     return false;
   }
 
-  List<TileCoordinate>? getHintMove() {
+List<TileCoordinate>? getHintMove() {
+    List<({List<TileCoordinate> coords, int score})> validMoves = [];
+
     for (int r = 0; r < getRowCount(); r++) {
       for (int c = 0; c < getColCount(); c++) {
         if (c < getColCount() - 1) {
+          final t1 = TileCoordinate(row: r, col: c);
+          final t2 = TileCoordinate(row: r, col: c + 1);
           final d = SwipeDetector.evaluate(
             grid: grid,
-            dCoord: TileCoordinate(row: r, col: c),
-            tCoord: TileCoordinate(row: r, col: c + 1),
+            dCoord: t1,
+            tCoord: t2,
             getSwipeBehaviors: behaviors.processSwipedWithBehavior,
             quickCheckOnly: true,
           );
           if (d.type != SwipeResult.invalid) {
-            return [
-              TileCoordinate(row: r, col: c),
-              TileCoordinate(row: r, col: c + 1),
-            ];
+            validMoves.add((coords: [t1, t2], score: _scoreMove(t1, t2, d)));
           }
         }
+
         if (r < getRowCount() - 1) {
+          final t1 = TileCoordinate(row: r, col: c);
+          final t2 = TileCoordinate(row: r + 1, col: c);
           final d = SwipeDetector.evaluate(
             grid: grid,
-            dCoord: TileCoordinate(row: r, col: c),
-            tCoord: TileCoordinate(row: r + 1, col: c),
+            dCoord: t1,
+            tCoord: t2,
             getSwipeBehaviors: behaviors.processSwipedWithBehavior,
             quickCheckOnly: true,
           );
           if (d.type != SwipeResult.invalid) {
-            return [
-              TileCoordinate(row: r, col: c),
-              TileCoordinate(row: r + 1, col: c),
-            ];
+            validMoves.add((coords: [t1, t2], score: _scoreMove(t1, t2, d)));
           }
         }
       }
     }
-    return null;
+
+    if (validMoves.isEmpty) return null;
+
+    validMoves.sort((a, b) => b.score.compareTo(a.score));
+
+    final topScore = validMoves.first.score;
+    final bestMoves = validMoves.where((m) => m.score == topScore).toList();
+
+    bestMoves.shuffle();
+
+    return bestMoves.first.coords;
   }
 
+  int _scoreMove(TileCoordinate t1, TileCoordinate t2, SwipeDecision decision) {
+    int score = 0;
+
+    if (decision.type == SwipeResult.match) {
+      score += 100;
+    }
+
+    final emoji1 = grid[t1.row][t1.col].emoji;
+    final emoji2 = grid[t2.row][t2.col].emoji;
+    
+    if (_isTargetIngredient(emoji1) || _isTargetIngredient(emoji2)) {
+      score += 50;
+    }
+    score += (t1.row > t2.row ? t1.row : t2.row);
+
+    return score;
+  }
+
+  bool _isTargetIngredient(GameEmoji emoji) {
+    for (var recipe in RecipeBook.allRecipes) {
+      if (recipe.yields == level.targetEmoji && recipe.ingredient == emoji) {
+        return true;
+      }
+    }
+    return false;
+  }
   void triggerInitialFall() {
     _gridManager.triggerInitialFall();
   }

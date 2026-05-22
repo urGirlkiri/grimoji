@@ -12,7 +12,7 @@ const List<GameLevel> chapter2Levels = [
     availableEmojis: [
       Emojis.droplet,
       Emojis.leafyGreen,
-      Emojis.bug,
+      Emojis.worm,
       Emojis.mushroom,
     ],
   ),
@@ -86,7 +86,7 @@ const List<GameLevel> chapter2Levels = [
     goal: 'Introduce the Cat emoji for lore',
     description: 'The Witch\'s Familiar - A feline companion',
     availableEmojis: [
-      Emojis.heartEyesCat,
+      Emojis.kissingCat,
       Emojis.bat,
       Emojis.testTube,
       Emojis.fire,
@@ -118,11 +118,10 @@ const List<GameLevel> chapter2Levels = [
     goal: 'Collect bubbling potions',
     description: 'Cauldron Bubble - The brew reaches a boil',
     availableEmojis: [
-      Emojis.bubbles,
       Emojis.testTube,
       Emojis.fire,
       Emojis.droplet,
-      Emojis.herb,
+      Emojis.clinkingBeerMugs,
     ],
   ),
 
@@ -134,11 +133,10 @@ const List<GameLevel> chapter2Levels = [
     goal: 'A rare item to collect amidst chaos',
     description: 'The Poisoned Apple - The final test of the swamp',
     availableEmojis: [
-      Emojis.redApple,
       Emojis.bug,
       Emojis.spider,
       Emojis.testTube,
-      Emojis.skull,
+      Emojis.plant,
     ],
   ),
 
@@ -167,7 +165,7 @@ const List<GameLevel> chapter2Levels = [
     availableEmojis: [
       Emojis.cloud,
       Emojis.droplet,
-      Emojis.bug,
+      Emojis.hotFace,
       Emojis.fire,
     ],
     skipAutoPlayer: true,
@@ -242,7 +240,7 @@ const List<GameLevel> chapter2Levels = [
     goal: 'A new toxic familiar to manage',
     description: 'Cold Blooded - The serpent moves in frozen shadows',
     availableEmojis: [
-      Emojis.snake,
+      Emojis.bug,
       Emojis.spider,
       Emojis.cloud,
       Emojis.rock,
@@ -273,11 +271,10 @@ const List<GameLevel> chapter2Levels = [
     goal: 'Manage the bubbling brew',
     description: 'The Cauldron Bubbles - The final simmer',
     availableEmojis: [
-      Emojis.bubbles,
       Emojis.testTube,
       Emojis.fire,
       Emojis.droplet,
-      Emojis.bug,
+      Emojis.clinkingBeerMugs,
     ],
   ),
 
@@ -289,8 +286,7 @@ const List<GameLevel> chapter2Levels = [
     goal: 'Hard to craft amidst chaos',
     description: 'The Swamp Witch - The final trial of Chapter 2',
     availableEmojis: [
-      Emojis.crystalBall,
-      Emojis.bug,
+      Emojis.sparkles,
       Emojis.cloud,
       Emojis.fire,
       Emojis.droplet,

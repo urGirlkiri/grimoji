@@ -25,7 +25,7 @@ const List<GameLevel> chapter4Levels = [
     goal: 'Collect a murder of crows',
     description: 'A Murder of Crows - The flock grows',
     availableEmojis: [
-      Emojis.blackBird,
+      Emojis.babyChick,
       Emojis.windFace,
       Emojis.cloud,
       Emojis.leafyGreen,
@@ -43,7 +43,7 @@ const List<GameLevel> chapter4Levels = [
       Emojis.blackBird,
       Emojis.cloudWithLightning,
       Emojis.windFace,
-      Emojis.droplet,
+      Emojis.bone,
     ],
   ),
 
@@ -73,7 +73,7 @@ const List<GameLevel> chapter4Levels = [
       Emojis.cloudWithLightning,
       Emojis.windFace,
       Emojis.derelictHouse,
-      Emojis.droplet,
+      Emojis.cyclone,
     ],
   ),
 
@@ -88,7 +88,7 @@ const List<GameLevel> chapter4Levels = [
       Emojis.tornado,
       Emojis.droplet,
       Emojis.rock,
-      Emojis.blackBird,
+      Emojis.windFace,
     ],
   ),
 
@@ -135,7 +135,7 @@ const List<GameLevel> chapter4Levels = [
       Emojis.robot,
       Emojis.cloudWithLightning,
       Emojis.windFace,
-      Emojis.chains,
+      Emojis.fireworks,
     ],
   ),
 
@@ -151,7 +151,7 @@ const List<GameLevel> chapter4Levels = [
       Emojis.cloud,
       Emojis.windFace,
       Emojis.rock,
-      Emojis.mountain,
+      Emojis.cyclone,
     ],
     skipAutoPlayer: true,
   ),
@@ -217,7 +217,7 @@ const List<GameLevel> chapter4Levels = [
       Emojis.blackBird,
       Emojis.eagle,
       Emojis.cloudWithLightning,
-      Emojis.fire,
+      Emojis.bone,
     ],
   ),
 
@@ -233,7 +233,7 @@ const List<GameLevel> chapter4Levels = [
       Emojis.cloudWithLightning,
       Emojis.windFace,
       Emojis.derelictHouse,
-      Emojis.rock,
+      Emojis.cyclone,
     ],
   ),
 
@@ -264,7 +264,7 @@ const List<GameLevel> chapter4Levels = [
     availableEmojis: [
       Emojis.robot,
       Emojis.cloudWithLightning,
-      Emojis.chains,
+      Emojis.fireworks,
       Emojis.metal,
     ],
   ),

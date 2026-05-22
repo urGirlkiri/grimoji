@@ -8,7 +8,9 @@ class Chapter4Reactions {
     triggers: [Emojis.electricity, Emojis.cloudWithLightning],
     transformations: {
       Emojis.blackBird: Emojis.poultryLeg, 
+      Emojis.bird: Emojis.poultryLeg,
       Emojis.eagle: Emojis.poultryLeg,
+       Emojis.poultryLeg: Emojis.bone,
       Emojis.robot: Emojis.collision, 
       Emojis.droplet: Emojis.bubbles, 
     },
