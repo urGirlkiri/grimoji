@@ -6,7 +6,7 @@ import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/game/board/widgets/hit_nudge.dart';
 import 'package:grimoji/features/game/board/widgets/tile_widget/explosion.dart';
 import 'package:grimoji/features/game/board/widgets/tile_widget/match.dart';
-import 'package:grimoji/features/game/model/tile.dart';
+import 'package:grimoji/features/game/board/models/tile.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:grimoji/widgets/emoji_widget.dart';
 import 'package:provider/provider.dart';

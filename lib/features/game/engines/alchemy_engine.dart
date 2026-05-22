@@ -1,7 +1,7 @@
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/features/game/state.dart';
-import 'package:grimoji/features/game/model/tile.dart';
-import 'package:grimoji/features/game/model/coordinate.dart';
+import 'package:grimoji/features/game/board/models/tile.dart';
+import 'package:grimoji/features/game/board/models/coordinate.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:logging/logging.dart';

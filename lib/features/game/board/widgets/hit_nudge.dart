@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/config/palette.dart';
-import 'package:grimoji/features/game/model/coordinate.dart';
+import 'package:grimoji/features/game/board/models/coordinate.dart';
 import 'package:provider/provider.dart';
 
 class HintNudge extends StatefulWidget {

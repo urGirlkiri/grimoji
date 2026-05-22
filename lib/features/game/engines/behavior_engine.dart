@@ -2,7 +2,7 @@ import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/features/alchemy/behaviors/behavior.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:grimoji/features/game/board/manager.dart';
-import 'package:grimoji/features/game/model/tile.dart';
+import 'package:grimoji/features/game/board/models/tile.dart';
 
 class BehaviorEngine {
   final GridManager gridManager;

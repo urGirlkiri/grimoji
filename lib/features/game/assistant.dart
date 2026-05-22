@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:grimoji/config/constants.dart';
-import 'package:grimoji/features/game/model/coordinate.dart';
+import 'package:grimoji/features/game/board/models/coordinate.dart';
 import 'package:grimoji/features/game/model/match_detector.dart';
 import 'package:grimoji/features/game/model/swipe_detector.dart';
-import 'package:grimoji/features/game/model/tile.dart';
+import 'package:grimoji/features/game/board/models/tile.dart';
 import 'package:grimoji/features/game/state.dart';
 
 class BoardAssistant {

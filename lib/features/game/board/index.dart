@@ -7,8 +7,8 @@ import 'package:grimoji/features/game/board/widgets/announcer.dart';
 import 'package:grimoji/features/game/board/widgets/board_grid.dart';
 import 'package:grimoji/features/game/board/metrics.dart';
 import 'package:grimoji/features/game/board/widgets/tile_grid.dart';
-import 'package:grimoji/features/game/model/tile.dart';
-import 'package:grimoji/features/game/model/coordinate.dart';
+import 'package:grimoji/features/game/board/models/tile.dart';
+import 'package:grimoji/features/game/board/models/coordinate.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:lottie/lottie.dart';
 import 'package:logging/logging.dart';
@@ -64,7 +64,7 @@ class _GameBoardState extends State<GameBoard> {
       _sparkles.add(sparkle);
     });
 
-    Future.delayed(const Duration(milliseconds: 800), () {
+    Future.delayed(boardSparksTime, () {
       if (mounted) {
         setState(() {
           _sparkles.removeWhere((s) => s.id == sparkle.id);
@@ -134,7 +134,6 @@ class _GameBoardState extends State<GameBoard> {
           TileCoordinate(row: targetRow, col: targetCol),
         );
       } else {
-        _log.info('Swipe hit the boarder! Ignored.');
         _triggerSparkle(details.localPosition);
       }
 
