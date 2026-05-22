@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
-import 'package:grimoji/features/game/board/manager.dart';
+import 'package:grimoji/features/game/board/utils/manager.dart';
 import 'package:grimoji/features/game/engines/alchemy_engine.dart';
 import 'package:grimoji/features/game/board/models/coordinate.dart';
 import 'package:grimoji/features/game/state.dart';

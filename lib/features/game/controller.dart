@@ -9,7 +9,7 @@ import 'package:grimoji/features/game/model/swipe_detector.dart';
 import 'package:grimoji/features/game/state.dart';
 import 'package:grimoji/features/game/board/models/coordinate.dart';
 import 'package:grimoji/features/game/board/models/tile.dart';
-import 'board/manager.dart';
+import 'board/utils/manager.dart';
 import 'engines/alchemy_engine.dart';
 import 'engines/behavior_engine.dart';
 

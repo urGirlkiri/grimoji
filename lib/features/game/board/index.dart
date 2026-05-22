@@ -5,7 +5,7 @@ import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/features/game/board/models/sparkle_effect.dart';
 import 'package:grimoji/features/game/board/widgets/announcer.dart';
 import 'package:grimoji/features/game/board/widgets/board_grid.dart';
-import 'package:grimoji/features/game/board/metrics.dart';
+import 'package:grimoji/features/game/board/utils/metrics.dart';
 import 'package:grimoji/features/game/board/widgets/tile_grid/index.dart';
 import 'package:grimoji/features/game/board/models/tile.dart';
 import 'package:grimoji/features/game/board/models/coordinate.dart';

@@ -5,7 +5,7 @@ import 'package:grimoji/features/game/board/models/coordinate.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:logging/logging.dart';
-import '../board/manager.dart';
+import '../board/utils/manager.dart';
 
 class AlchemyEngine {
   final GridManager gridManager;
