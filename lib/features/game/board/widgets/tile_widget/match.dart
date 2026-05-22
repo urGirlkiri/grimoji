@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-class TileTransmutation extends StatelessWidget {
-  const TileTransmutation({super.key, required this.size, required this.color});
+class TileMatch extends StatelessWidget {
+  const TileMatch({super.key, required this.size, required this.color});
 
   final double size;
   final Color color;

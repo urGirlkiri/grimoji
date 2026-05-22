@@ -2275,7 +2275,7 @@ class Emojis {
   static const GameEmoji metal = GameEmoji(
     'assets/emojis/svg/metal.svg',
     'assets/emojis/lottie/metal.json',
-    '🪨',
+    '🤟️',
   );
   static const GameEmoji metalTwo = GameEmoji(
     'assets/emojis/svg/metal_2.svg',

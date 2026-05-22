@@ -5,7 +5,7 @@ import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/game/board/widgets/hit_nudge.dart';
 import 'package:grimoji/features/game/board/widgets/tile_widget/explosion.dart';
-import 'package:grimoji/features/game/board/widgets/tile_widget/transmutation.dart';
+import 'package:grimoji/features/game/board/widgets/tile_widget/match.dart';
 import 'package:grimoji/features/game/model/tile.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:grimoji/widgets/emoji_widget.dart';
@@ -71,9 +71,7 @@ class _TileWidgetState extends State<TileWidget>
       top: widget.topPixel,
       width: widget.tWidth,
       height: widget.tHeight,
-      child: RepaintBoundary(
-        child: Center(child: _buildTileContent(context)),
-      ),
+      child: RepaintBoundary(child: Center(child: _buildTileContent(context))),
     );
   }
 
@@ -187,15 +185,17 @@ class _TileWidgetState extends State<TileWidget>
       clipBehavior: Clip.none,
       children: [
         shakingEmoji,
-        if (widget.tile.isExploding)
-          isExplosive
-              ? TileExplosion(size: widget.tWidth)
-              : EmojiWidget.lottie(
-                  path: widget.tile.emoji.lottie,
-                  size: widget.tWidth * 0.8,
-                ),
+        widget.tile.isExploding
+            ? isExplosive
+                  ? TileExplosion(size: widget.tWidth)
+                  : TileMatch(size: widget.tWidth, color: palette.mist)
+            : SizedBox(),
+
         if (widget.tile.isTransmuting)
-          TileTransmutation(size: widget.tWidth, color: palette.trueWhite),
+          EmojiWidget.lottie(
+            path: widget.tile.emoji.lottie,
+            size: widget.tWidth * 0.8,
+          ),
       ],
     );
   }

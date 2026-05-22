@@ -10,7 +10,7 @@ const List<GameLevel> chapter4Levels = [
     goal: 'Craft storm clouds from wind currents',
     description: 'High Altitudes - The sky calls',
     availableEmojis: [
-      Emojis.windFace,
+      Emojis.rainCloud,
       Emojis.cloud,
       Emojis.droplet,
       Emojis.rock,

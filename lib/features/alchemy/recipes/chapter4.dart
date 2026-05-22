@@ -3,7 +3,7 @@ import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 
 const List<Recipe> chapter4Recipes = [
   Recipe(
-    ingredient: Emojis.windFace,
+    ingredient: Emojis.rainCloud,
     requiredAmount: 4,
     yields: Emojis.cloudWithLightning,
   ),

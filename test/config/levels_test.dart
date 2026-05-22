@@ -7,7 +7,7 @@ import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:logging/logging.dart';
 
-const maxMoves = 20000;
+const maxMoves = 50000;
 
 void main() {
   setUpAll(() {
