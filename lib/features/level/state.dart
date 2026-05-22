@@ -33,7 +33,8 @@ class LevelState extends ChangeNotifier {
   bool _isGameOver = false;
   int collectedAmount = 0;
 
-  int get secondsRemaining => max(0, level.timeLimit - _stopwatch.elapsed.inSeconds);
+  int get secondsRemaining =>
+      max(0, level.timeLimit - _stopwatch.elapsed.inSeconds);
   double get progress => (collectedAmount / level.targetAmount).clamp(0.0, 1.0);
 
   void startLevel() {
@@ -63,7 +64,9 @@ class LevelState extends ChangeNotifier {
     if (_isGameOver) return true;
 
     bool shouldEnd = progress >= 1.0 || secondsRemaining <= 0;
-    _log.info("Level check: progress=${progress.toStringAsFixed(2)}, time=${secondsRemaining}s, shouldEnd=$shouldEnd");
+    _log.info(
+      "Level check: progress=${progress.toStringAsFixed(2)}, time=${secondsRemaining}s, shouldEnd=$shouldEnd",
+    );
 
     if (shouldEnd) {
       _isGameOver = true;
@@ -71,28 +74,25 @@ class LevelState extends ChangeNotifier {
       _ticker?.cancel();
       _stopwatch.stop();
 
-      int earnedStars = 0;
+      int earnedStars = progress >= 1.0
+          ? 3
+          : progress >= 0.66
+          ? 2
+          : progress >= 0.33
+          ? 1
+          : 0;
 
-      if (progress >= 1.0) {
-        if (progress >= 1.00) earnedStars = 3;
-        if (progress >= 0.66) earnedStars = 2;
-        if (progress >= 0.33) earnedStars = 1;
-        
-        int timeBonus = secondsRemaining * 10;
-        _log.info("GAME OVER! Earned $earnedStars stars. Time Bonus: $timeBonus. YOU WIN!");
-        
-        if (earnedStars >= 1) {
-          gameState.hasTargetCombo = true;
-          onWin.call(earnedStars);
-        } else {
-          onLose.call();
-        }
+      int timeBonus = (secondsRemaining / 10).round();
+
+      if (earnedStars > 0) {
+        gameState.hasTargetCombo = true;
+        onWin.call(earnedStars);
       } else {
         onLose.call();
       }
-    }
-
-    return true;
+    } 
+    
+    return false;
   }
 
   void togglePause() {
