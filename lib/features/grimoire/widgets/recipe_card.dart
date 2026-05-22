@@ -7,52 +7,70 @@ import 'package:provider/provider.dart';
 class RecipeCard extends StatelessWidget {
   final bool isUnlocked;
   final Recipe recipe;
+  
   const RecipeCard({super.key, required this.isUnlocked, required this.recipe});
 
   void _dialog(BuildContext context, Palette palette) {
     showDialog(
       context: context,
-      barrierColor: palette.midnight.withValues(alpha: .89),
-
       builder: (BuildContext context) {
-        return Dialog(
-          child: Container(
-            decoration: BoxDecoration(
-              color: palette.midnight,
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        recipe.requiredAmount.toString(),
-                        style: Theme.of(context).textTheme.displayLarge
-                            ?.copyWith(
-                              fontSize: 128,
-                              fontWeight: FontWeight.bold,
+        return Dialog.fullscreen(
+          child: Stack(
+            children: [
+              Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: palette.midnight,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              recipe.requiredAmount.toString(),
+                              style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                                fontSize: 128,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                      ),
-                      SizedBox(width: 2),
-                      EmojiWidget.svg(path: recipe.ingredient.svg, size: 128),
-                    ],
+                            const SizedBox(width: 2),
+                            EmojiWidget.lottie(path: recipe.ingredient.lottie, size: 128),
+                          ],
+                        ),
+                        const SizedBox(height: 24),
+                        Image.asset(
+                          'assets/images/grimoire/down-arrow.png',
+                          width: 200,
+                          height: 300,
+                        ),
+                        const SizedBox(height: 32),
+                        EmojiWidget.lottie(path: recipe.yields.lottie, size: 128),
+                      ],
+                    ),
                   ),
-                  SizedBox(height: 24),
-                  Image.asset(
-                    'assets/images/grimoire/down-arrow.png',
-                    width: 200,
-                    height: 300,
-                  ),
-                  SizedBox(height: 24),
-                  EmojiWidget.svg(path: recipe.yields.svg, size: 128),
-                ],
+                ),
               ),
-            ),
+
+              Positioned(
+                top: 16.0,
+                right: 16.0,
+                child: GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.asset('assets/icons/app/close.png'),
+                  ),
+                ),
+              ),
+            ],
           ),
         );
       },
@@ -66,7 +84,7 @@ class RecipeCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        isUnlocked ? _dialog(context, palette) : null;
+        if (isUnlocked) _dialog(context, palette);
       },
       child: Container(
         decoration: BoxDecoration(
@@ -83,7 +101,6 @@ class RecipeCard extends StatelessWidget {
                 fit: BoxFit.fill,
               ),
             ),
-
             Center(
               child: isUnlocked
                   ? EmojiWidget.svg(

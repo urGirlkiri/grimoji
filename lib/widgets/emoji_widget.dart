@@ -79,14 +79,16 @@ class EmojiWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (assetPath.endsWith('.json')) {
-      final child = Lottie.asset(
-        assetPath,
-        width: size,
-        height: size,
-        fit: BoxFit.contain,
-        animate: true,
-        repeat: true,
-        frameRate: FrameRate(30),
+      final child = RepaintBoundary(
+        child: Lottie.asset(
+          assetPath,
+          width: size,
+          height: size,
+          fit: BoxFit.contain,
+          animate: true,
+          repeat: true,
+          frameRate: FrameRate(30),
+        ),
       );
       if (useDropShadow) {
         return ds.DropShadow(
