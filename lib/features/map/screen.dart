@@ -6,7 +6,7 @@ import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/map/widgets/level_node.dart';
-import 'package:grimoji/features/level/dialogs/start_dialog.dart';
+import 'package:grimoji/features/level/widgets/dialogs/start_dialog.dart';
 
 import 'package:grimoji/utils/responsive.dart';
 import 'package:provider/provider.dart';

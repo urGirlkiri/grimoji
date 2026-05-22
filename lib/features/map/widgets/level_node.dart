@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds.dart';
-import 'package:grimoji/features/level/dialogs/start_dialog.dart';
+import 'package:grimoji/features/level/widgets/dialogs/start_dialog.dart';
 import 'package:grimoji/utils/responsive.dart';
 import 'package:provider/provider.dart';
 

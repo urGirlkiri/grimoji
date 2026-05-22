@@ -12,7 +12,7 @@ import 'package:grimoji/features/game/board/index.dart';
 import 'package:grimoji/features/level/widgets/header.dart';
 import 'package:grimoji/features/level/widgets/footer.dart';
 import 'package:grimoji/features/level/controller.dart';
-import 'package:grimoji/features/level/dialogs/quit_dialog.dart';
+import 'package:grimoji/features/level/widgets/dialogs/quit_dialog.dart';
 import 'package:grimoji/widgets/responsive_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:logging/logging.dart' hide Level;
