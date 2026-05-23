@@ -3,10 +3,7 @@ import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/features/game/board/models/tile.dart';
 import 'package:grimoji/features/game/board/models/coordinate.dart';
-import 'package:grimoji/features/alchemy/recipe_book.dart';
-import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 
-// h
 class BoardManager {
   static const int rows = 8;
   static const int cols = 5;
@@ -31,12 +28,12 @@ class BoardManager {
 
     for (int r = 0; r < rows; r++) {
       for (int c = 0; c < cols; c++) {
-        gridTiles[r][c].emoji = _getRandomSafeEmoji(r, c);
+        gridTiles[r][c].emoji = getRandomSafeEmoji(r, c);
       }
     }
   }
 
-  GameEmoji _getRandomSafeEmoji(int row, int col) {
+  GameEmoji getRandomSafeEmoji(int row, int col) {
     GameEmoji candidate = level.availableEmojis[0];
     bool isSafe = false;
 
@@ -179,60 +176,44 @@ class BoardManager {
     return adjacent;
   }
 
-  List<Tile> getTriggeredBombs() {
-    final List<Tile> bombs = [];
-    for (int r = 0; r < rows; r++) {
-      for (int c = 0; c < cols; c++) {
-        if (gridTiles[r][c].isTriggered) {
-          bombs.add(gridTiles[r][c]);
-        }
+  void flagFlyingTargetEmojis(Set<TileCoordinate> coordinates) {
+    for (var coord in coordinates) {
+      if (gridTiles[coord.row][coord.col].emoji == level.targetEmoji) {
+        gridTiles[coord.row][coord.col].isFlying = true;
       }
     }
-    return bombs;
   }
 
-  ({Set<TileCoordinate> destroyed, Set<TileCoordinate> transformed}) executeBlastRadius(
-    TileCoordinate center,
-  ) {
-    Set<TileCoordinate> destroyedTiles = {};
-    Set<TileCoordinate> transformedTiles = {};
-    final transformations = RecipeBook.getTransformationsForType(ReactionType.explosive);
-
-    final centerTile = gridTiles[center.row][center.col];
-    final centerReaction = RecipeBook.getReactionFor(centerTile.emoji);
-    final radius = centerReaction?.aoeRadius ?? 1;
-
+  void clearTransmutingFlags() {
     for (int r = 0; r < rows; r++) {
       for (int c = 0; c < cols; c++) {
-        final rowDist = (r - center.row).abs();
-        final colDist = (c - center.col).abs();
-
-        if (rowDist <= radius && colDist <= radius) {
-          final tile = gridTiles[r][c];
-
-          final reaction = RecipeBook.getReactionFor(tile.emoji);
-          final isExplosive =
-              reaction != null && reaction.type == ReactionType.explosive;
-
-          if (isExplosive && (r != center.row || c != center.col)) {
-            if (!tile.isExploding) {
-              tile.isTriggered = true;
-            }
-          } else {
-            final resultingEmoji = transformations[tile.emoji];
-            if (resultingEmoji != null) {
-              tile.emoji = resultingEmoji;
-              tile.reset(); 
-              tile.isTransmuting = true;
-              transformedTiles.add(TileCoordinate(row: r, col: c));
-            } else {
-              tile.isExploding = true;
-              destroyedTiles.add(TileCoordinate(row: r, col: c));
-            }
-          }
-        }
+        gridTiles[r][c].isTransmuting = false;
       }
     }
-    return (destroyed: destroyedTiles, transformed: transformedTiles);
+  }
+
+  void clearAllFlyingFlags() {
+    for (int r = 0; r < rows; r++) {
+      for (int c = 0; c < cols; c++) {
+        gridTiles[r][c].isFlying = false;
+      }
+    }
+  }
+
+  void shuffleGrid(){
+    List<GameEmoji> allEmojis = gridTiles
+          .expand((row) => row.map((tile) => tile.emoji))
+          .toList();
+      allEmojis.shuffle();
+
+      int index = 0;
+      for (int r = 0; r < BoardManager.rows; r++) {
+        for (int c = 0; c < BoardManager.cols; c++) {
+          final tile = gridTiles[r][c];
+          tile.emoji = allEmojis[index++];
+          tile.reset();
+          tile.clearBehavior();
+        }
+      }
   }
 }

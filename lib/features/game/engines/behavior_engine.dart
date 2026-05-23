@@ -6,7 +6,6 @@ import 'package:grimoji/features/game/board/models/tile.dart';
 
 class BehaviorEngine {
   final BoardManager boardManager;
-  
   final EmojiBehavior? Function(GameEmoji) getBehavior;
 
   BehaviorEngine({
@@ -27,13 +26,13 @@ class BehaviorEngine {
         final tile = boardManager.gridTiles[r][c];
         if (tile.behavior != null) {
           final actions = tile.behavior!.onTurnEnd(r, c);
-          _executeBehaviorActions(actions, r, c);
+          executeBehaviorActions(actions, r, c);
         }
       }
     }
   }
 
-  void _executeBehaviorActions(List<BehaviorAction> actions, int centerX, int centerY) {
+  void executeBehaviorActions(List<BehaviorAction> actions, int centerX, int centerY) {
     for (final action in actions) {
       switch (action.type) {
         case ActionType.placeEmoji:
@@ -56,10 +55,6 @@ class BehaviorEngine {
     }
   }
 
-  void executeBehaviorActions(List<BehaviorAction> actions, int centerX, int centerY) {
-    _executeBehaviorActions(actions, centerX, centerY);
-  }
-
   void processMatchedBehavior(Tile tile, int x, int y) {
     if (tile.behavior != null) {
       tile.behavior!.onMatched(x, y);
@@ -72,12 +67,7 @@ class BehaviorEngine {
     }
   }
 
-  List<BehaviorAction> processSwipedWithBehavior(
-    Tile tile,
-    int x,
-    int y,
-    GameEmoji targetEmoji,
-  ) {
+  List<BehaviorAction> processSwipedWithBehavior(Tile tile, int x, int y, GameEmoji targetEmoji) {
     if (tile.behavior != null) {
       return tile.behavior!.onSwipedWith(x, y, targetEmoji);
     }

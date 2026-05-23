@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/levels/game_level.dart';
+import 'package:grimoji/features/game/board/utils/manager.dart';
+import 'package:grimoji/features/game/engines/game_engine.dart';
+import 'package:grimoji/features/game/coordinator.dart';
 import 'package:grimoji/features/game/state.dart';
 import 'package:logging/logging.dart';
 
@@ -11,17 +13,29 @@ class LevelState extends ChangeNotifier {
   final VoidCallback onLose;
   final GameLevel level;
 
+  final GlobalKey targetIconKey = GlobalKey();
+
   final Stopwatch _timeLimitStopwatch = Stopwatch();
   final Logger _log = Logger('LevelState');
-  final GlobalKey targetIconKey = GlobalKey();
   Timer? _ticker;
 
+  late final BoardManager boardManager;
+  late final GameEngine engine;
   late final GameState gameState;
+  late final GameCoordinator coordinator;
 
   LevelState({required this.onWin, required this.onLose, required this.level}) {
-    gameState = GameState(
-      level: level,
-      onEmojiDestroyed: _onEmojiDestroyed,
+    boardManager = BoardManager(level);
+    engine = GameEngine(level: level, boardManager: boardManager);
+    engine.initialize();
+
+    gameState = GameState();
+
+    coordinator = GameCoordinator(
+      engine: engine,
+      state: gameState,
+      boardManager: boardManager,
+      onTargetAcquired: _incrementCollectedAmnt,
       onComboFinished: _evaluateGameEnd,
     );
 
@@ -35,29 +49,27 @@ class LevelState extends ChangeNotifier {
 
   int get secondsRemaining =>
       max(0, level.timeLimit - _timeLimitStopwatch.elapsed.inSeconds);
+
   double get progress => (collectedAmount / level.targetAmount).clamp(0.0, 1.0);
 
   void startLevel() {
     _timeLimitStopwatch.start();
-    _ticker = Timer.periodic(const Duration(seconds: 1), (_) => _onTimerTick());
-    gameState.startInitialDrop();
-  }
+    _ticker = Timer.periodic(const Duration(seconds: 1), ((timer) {
+      if (_isDisposed || !_timeLimitStopwatch.isRunning) return;
 
-  void _onTimerTick() {
-    if (_isDisposed || !_timeLimitStopwatch.isRunning) return;
-
-    notifyListeners();
-
-    if (secondsRemaining <= 0) {
-      _evaluateGameEnd();
-    }
-  }
-
-  void _onEmojiDestroyed(GameEmoji emoji, int count) {
-    if (emoji == level.targetEmoji) {
-      collectedAmount += count;
       notifyListeners();
-    }
+
+      if (secondsRemaining <= 0) {
+        _evaluateGameEnd();
+      }
+    }));
+
+    coordinator.startInitialDrop();
+  }
+
+  void _incrementCollectedAmnt(int count) {
+    collectedAmount += count;
+    notifyListeners();
   }
 
   bool _evaluateGameEnd() {
@@ -71,6 +83,7 @@ class LevelState extends ChangeNotifier {
     if (shouldEnd) {
       _isGameOver = true;
       gameState.setGameOver();
+      coordinator.cancelHintTimer();
       _ticker?.cancel();
       _timeLimitStopwatch.stop();
 
@@ -86,18 +99,18 @@ class LevelState extends ChangeNotifier {
       int timeBonus = (secondsRemaining / 10).round();
 
       if (earnedStars > 0) {
-        gameState.hasTargetCombo = true;
+        gameState.setHasTargetCombo(true);
         onWin.call(earnedStars);
       } else {
         onLose.call();
       }
-    } 
-    
+    }
+
     return false;
   }
 
   void togglePause() {
-    gameState.togglePause();
+    coordinator.togglePause();
     isPaused = gameState.isPaused;
     isPaused ? _timeLimitStopwatch.stop() : _timeLimitStopwatch.start();
     notifyListeners();
@@ -109,7 +122,7 @@ class LevelState extends ChangeNotifier {
     _ticker?.cancel();
     _timeLimitStopwatch.stop();
     gameState.removeListener(notifyListeners);
-    gameState.dispose();
+    coordinator.dispose();
     super.dispose();
   }
 }

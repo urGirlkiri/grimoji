@@ -1,20 +1,24 @@
 import 'package:grimoji/config/emojis.dart';
-import 'package:grimoji/features/game/state.dart';
 import 'package:grimoji/features/game/board/models/tile.dart';
 import 'package:grimoji/features/game/board/models/coordinate.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
+import 'package:grimoji/features/game/board/utils/manager.dart';
+import 'package:grimoji/features/game/model/cascade_step_result.dart';
+import 'package:grimoji/features/game/model/collected_emoji.dart';
+import 'package:grimoji/features/game/model/detonation_step_result.dart';
+import 'package:grimoji/features/game/utils/match_detector.dart';
 import 'package:logging/logging.dart';
-import '../board/utils/manager.dart';
+
+typedef BehaviorInitCallback = void Function(Tile tile);
 
 class AlchemyEngine {
   final BoardManager boardManager;
-
   final List<Recipe>? Function(GameEmoji) getRecipes;
   final Reaction? Function(GameEmoji) getReactionFor;
-  final Map<GameEmoji, GameEmoji> Function(ReactionType)
-  getTransformationsForType;
+  final Map<GameEmoji, GameEmoji> Function(ReactionType) getTransformationsForType;
   final int Function(ReactionType) getAoERadiusForType;
+  final BehaviorInitCallback? initializeBehavior;
 
   final Logger _log = Logger('AlchemyEngine');
 
@@ -24,187 +28,221 @@ class AlchemyEngine {
     required this.getReactionFor,
     required this.getTransformationsForType,
     required this.getAoERadiusForType,
+    this.initializeBehavior,
   });
 
-  Set<TileCoordinate> processMatches(
-    Set<TileCoordinate> matches,
-    GameState state, {
-    TileCoordinate? mergePoint,
+  CascadeStepResult processCascadeStep({
+    required List<MatchGroup> matchedGroups,
+    required TileCoordinate targetCoordinate,
+    required bool isFirstMatch,
   }) {
-    Set<TileCoordinate> tilesToDestroy = {};
-    Set<TileCoordinate> transmutedTiles = {};
+    final List<CollectedEmoji> collectedEmojis = [];
+    final Set<TileCoordinate> tilesToDestroy = {};
+    final Set<TileCoordinate> transmutedTiles = {};
+    
+    int mergedEmojis = 0;
 
-    _processMatches(
-      matches,
-      state,
-      tilesToDestroy,
-      transmutedTiles,
-      mergePoint,
-    );
+    for (var group in matchedGroups) {
+      final emoji = group.emoji;
+      final coords = group.coordinates;
 
-    tilesToDestroy.removeWhere((coord) => 
-      transmutedTiles.any((t) => t.row == coord.row && t.col == coord.col)
-    );
-
-    return tilesToDestroy; 
-  }
-
-  void _processMatches(
-    Set<TileCoordinate> matches,
-    GameState state,
-    Set<TileCoordinate> tilesToDestroy,
-    Set<TileCoordinate> transmutedTiles,
-    TileCoordinate? mergePoint,
-  ) {
-    Map<GameEmoji, Set<TileCoordinate>> groupedMatches = {};
-    for (var match in matches) {
-      GameEmoji emoji = boardManager.gridTiles[match.row][match.col].emoji;
-      groupedMatches.putIfAbsent(emoji, () => {}).add(match);
-    }
-
-    bool mergeHappened = false;
-
-    groupedMatches.forEach((emoji, coords) {
-      state.resolveEmoji(emoji, coords.length);
+      collectedEmojis.add(CollectedEmoji(emoji: emoji, count: coords.length));
 
       bool isAlreadyTriggered = coords.any((c) => boardManager.gridTiles[c.row][c.col].isTriggered);
+      bool mergeHappened = false;
 
       if (!isAlreadyTriggered) {
         final recipes = getRecipes(emoji);
         if (recipes != null) {
+          recipes.sort((a, b) => b.requiredAmount.compareTo(a.requiredAmount));
+          
           for (var recipe in recipes) {
             if (coords.length >= recipe.requiredAmount) {
-              _executeMerge(recipe, coords, state, tilesToDestroy, mergePoint);
-              mergeHappened = true;
-              break; 
-            }
-          }
-          if (mergeHappened) return;
-        }
-      }
+              final TileCoordinate spawnPoint = coords.contains(targetCoordinate) && isFirstMatch
+                  ? targetCoordinate
+                  : coords.first;
 
-      final reaction = getReactionFor(emoji);
-      if (reaction != null) {
-        if (reaction.type == ReactionType.explosive) {
-          for (var coord in coords) {
-            boardManager.gridTiles[coord.row][coord.col].isTriggered = true;
-          }
-          _log.info('Matched explosives primed at $coords');
-        } else {
-          _executeReaction(coords, tilesToDestroy, transmutedTiles, reaction);
-        }
-        return;
-      }
+              final Tile targetTile = boardManager.gridTiles[spawnPoint.row][spawnPoint.col];
+              targetTile.emoji = recipe.yields;
+              targetTile.reset();
 
-      tilesToDestroy.addAll(coords);
-    });
-
-    if (!mergeHappened) {
-      _triggerAdjacentBombs(matches);
-    }
-  }
-
-  void _triggerAdjacentBombs(Set<TileCoordinate> matches) {
-    for (var match in matches) {
-      final neighbors = boardManager.getAdjacentTiles(match.row, match.col);
-      for (var neighbor in neighbors) {
-        
-        final reaction = getReactionFor(neighbor.emoji);
-        
-        bool isPartOfMatch = matches.any((m) => 
-          m.row == neighbor.coordinate.row && m.col == neighbor.coordinate.col
-        );
-        
-        if (!isPartOfMatch && 
-            reaction != null && 
-            reaction.type == ReactionType.explosive && 
-            !neighbor.isTriggered) {
-          _log.info('Explosive ignited at ${neighbor.coordinate}!');
-          neighbor.isTriggered = true;
-        }
-      }
-    }
-  }
-
-  void _executeMerge(
-    Recipe recipe,
-    Set<TileCoordinate> coords,
-    GameState state,
-    Set<TileCoordinate> tilesToDestroy,
-    TileCoordinate? mergePoint,
-  ) {
-    TileCoordinate spawnPoint = coords.contains(mergePoint)
-        ? mergePoint!
-        : coords.first;
-    Tile targetTile = boardManager.gridTiles[spawnPoint.row][spawnPoint.col];
-
-    targetTile.emoji = recipe.yields;
-    targetTile.reset();
-
-    if (recipe.yields == boardManager.level.targetEmoji) {
-      state.resolveEmoji(recipe.yields, 1);
-      targetTile.isFlying = true;
-    }
-
-    tilesToDestroy.addAll(coords.where((c) => 
-      c.row != spawnPoint.row || c.col != spawnPoint.col
-    ));
-  }
-
-  void _executeReaction(
-    Set<TileCoordinate> coords,
-    Set<TileCoordinate> tilesToDestroy,
-    Set<TileCoordinate> transmutedTiles,
-    Reaction reaction,
-  ) {
-    _log.info('Reaction Initiated: ${reaction.type}');
-
-    tilesToDestroy.addAll(coords);
-
-    final transformations = getTransformationsForType(reaction.type);
-    final aoeRadius = reaction.aoeRadius;
-
-    for (var centerCoord in coords) {
-      for (
-        int r = centerCoord.row - aoeRadius;
-        r <= centerCoord.row + aoeRadius;
-        r++
-      ) {
-        for (
-          int c = centerCoord.col - aoeRadius;
-          c <= centerCoord.col + aoeRadius;
-          c++
-        ) {
-          if (r >= 0 &&
-              r < BoardManager.rows &&
-              c >= 0 &&
-              c < BoardManager.cols) {
-            Tile targetTile = boardManager.gridTiles[r][c];
-            TileCoordinate targetCoord = TileCoordinate(row: r, col: c);
-
-            GameEmoji? resultingEmoji = transformations[targetTile.emoji];
-
-            if (resultingEmoji != null) {
-              targetTile.emoji = resultingEmoji;
-              targetTile.reset(); 
-              targetTile.isTransmuting = true; 
-              transmutedTiles.add(targetCoord);
-              _log.fine('Reacted ${targetTile.emoji.visual} at $targetCoord');
-              
-            } else if (!coords.any((m) => m.row == targetCoord.row && m.col == targetCoord.col) &&
-                       !transmutedTiles.any((t) => t.row == targetCoord.row && t.col == targetCoord.col)) {
-              final targetReaction = getReactionFor(targetTile.emoji);
-              if (targetReaction != null && targetReaction.type == ReactionType.explosive) {
-                targetTile.isTriggered = true;
-              } else {
-                targetTile.isExploding = true; 
-                tilesToDestroy.add(targetCoord);
+              if (recipe.yields == boardManager.level.targetEmoji) {
+                collectedEmojis.add(CollectedEmoji(emoji: recipe.yields, count: 1));
+                targetTile.isFlying = true;
               }
-              
+
+              final Set<TileCoordinate> sources = coords.where((c) => c != spawnPoint).toSet();
+              tilesToDestroy.addAll(sources);
+
+             mergedEmojis++;
+
+              if (initializeBehavior != null) {
+                initializeBehavior!(targetTile);
+              }
+
+              mergeHappened = true;
+            }
+          }
+        }
+      }
+
+      if (!mergeHappened) {
+        final reaction = getReactionFor(emoji);
+        if (reaction != null) {
+          if (reaction.type == ReactionType.explosive) {
+            for (var coord in coords) {
+              boardManager.gridTiles[coord.row][coord.col].isTriggered = true;
+            }
+            _log.info('Matched explosives primed at $coords');
+          } else {
+            tilesToDestroy.addAll(coords);
+            final transformations = getTransformationsForType(reaction.type);
+            final aoeRadius = reaction.aoeRadius;
+
+            for (var centerCoord in coords) {
+              for (int r = centerCoord.row - aoeRadius; r <= centerCoord.row + aoeRadius; r++) {
+                for (int c = centerCoord.col - aoeRadius; c <= centerCoord.col + aoeRadius; c++) {
+                  if (r >= 0 && r < BoardManager.rows && c >= 0 && c < BoardManager.cols) {
+                    final Tile targetTile = boardManager.gridTiles[r][c];
+                    final TileCoordinate targetCoord = TileCoordinate(row: r, col: c);
+                    
+                    final GameEmoji? resultingEmoji = transformations[targetTile.emoji];
+
+                    if (resultingEmoji != null) {
+                      targetTile.emoji = resultingEmoji;
+                      targetTile.reset();
+                      targetTile.isTransmuting = true;
+                      transmutedTiles.add(targetCoord);
+                      if (initializeBehavior != null) {
+                        initializeBehavior!(targetTile);
+                      }
+                    } else if (!coords.contains(targetCoord) && !transmutedTiles.contains(targetCoord)) {
+                      final targetReaction = getReactionFor(targetTile.emoji);
+                      if (targetReaction != null && targetReaction.type == ReactionType.explosive) {
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        } else {
+        }
+      }
+    }
+
+    final bool anyMerge = mergedEmojis > 0;
+    if (!anyMerge) {
+      final Set<TileCoordinate> allMatchedCoords = matchedGroups.expand((g) => g.coordinates).toSet();
+      for (var match in allMatchedCoords) {
+        final neighbors = boardManager.getAdjacentTiles(match.row, match.col);
+        for (var neighbor in neighbors) {
+          final reaction = getReactionFor(neighbor.emoji);
+          final bool isPartOfMatch = allMatchedCoords.contains(neighbor.coordinate);
+
+          if (!isPartOfMatch && reaction != null && reaction.type == ReactionType.explosive && !neighbor.isTriggered) {
+            neighbor.isTriggered = true;
+          }
+        }
+      }
+    }
+
+    tilesToDestroy.removeWhere((coord) => transmutedTiles.contains(coord));
+    final bool hasTriggeredBombs = getTriggeredBombs().isNotEmpty;
+
+    return CascadeStepResult(
+      matchedGroups: matchedGroups,
+      tilesToDestroy: tilesToDestroy,
+      transmutedTiles: transmutedTiles,
+      collectedEmojis: collectedEmojis,
+      hasTriggeredBombs: hasTriggeredBombs,
+    );
+  }
+  
+  DetonationStepResult processDetonationStep() {
+    final List<CollectedEmoji> collectedEmojis = [];
+    final Set<TileCoordinate> allBlastedCoords = {};
+    final Set<TileCoordinate> allTransformedCoords = {};
+
+    List<Tile> primedBombs = getTriggeredBombs();
+    bool chainReaction = primedBombs.isNotEmpty;
+
+    while (primedBombs.isNotEmpty) {
+      final currentBombs = List<Tile>.from(primedBombs);
+
+      for (Tile activeBomb in currentBombs) {
+        if (!activeBomb.isTriggered) continue;
+        if (activeBomb.emoji == boardManager.level.targetEmoji) {
+          collectedEmojis.add(CollectedEmoji(emoji: activeBomb.emoji, count: 1));
+        }
+
+        activeBomb.isTriggered = false;
+        final blastResult = _executeBlastRadius(activeBomb.coordinate);
+        allBlastedCoords.addAll(blastResult.destroyed);
+        allTransformedCoords.addAll(blastResult.transformed);
+      }
+
+      primedBombs = getTriggeredBombs();
+    }
+
+    return DetonationStepResult(
+      destroyed: allBlastedCoords,
+      transformed: allTransformedCoords,
+      collectedEmojis: collectedEmojis,
+      hasChainReaction: chainReaction,
+    );
+  }
+
+  List<Tile> getTriggeredBombs() {
+    final List<Tile> bombs = [];
+    for (int r = 0; r < BoardManager.rows; r++) {
+      for (int c = 0; c < BoardManager.cols; c++) {
+        if (boardManager.gridTiles[r][c].isTriggered) {
+          bombs.add(boardManager.gridTiles[r][c]);
+        }
+      }
+    }
+    return bombs;
+  }
+
+  ({Set<TileCoordinate> destroyed, Set<TileCoordinate> transformed}) _executeBlastRadius(TileCoordinate center) {
+    final Set<TileCoordinate> destroyedTiles = {};
+    final Set<TileCoordinate> transformedTiles = {};
+    final transformations = getTransformationsForType(ReactionType.explosive);
+
+    final centerTile = boardManager.gridTiles[center.row][center.col];
+    final centerReaction = getReactionFor(centerTile.emoji);
+    final radius = centerReaction?.aoeRadius ?? 1;
+
+    for (int r = 0; r < BoardManager.rows; r++) {
+      for (int c = 0; c < BoardManager.cols; c++) {
+        final rowDist = (r - center.row).abs();
+        final colDist = (c - center.col).abs();
+
+        if (rowDist <= radius && colDist <= radius) {
+          final tile = boardManager.gridTiles[r][c];
+          final reaction = getReactionFor(tile.emoji);
+          final isExplosive = reaction != null && reaction.type == ReactionType.explosive;
+
+          if (isExplosive && (r != center.row || c != center.col)) {
+            if (!tile.isExploding) {
+              tile.isTriggered = true;
+            }
+          } else {
+            final resultingEmoji = transformations[tile.emoji];
+            if (resultingEmoji != null) {
+              tile.emoji = resultingEmoji;
+              tile.reset();
+              tile.isTransmuting = true;
+              transformedTiles.add(TileCoordinate(row: r, col: c));
+            } else {
+              tile.isExploding = true;
+              destroyedTiles.add(TileCoordinate(row: r, col: c));
             }
           }
         }
       }
     }
+    return (destroyed: destroyedTiles, transformed: transformedTiles);
   }
 }

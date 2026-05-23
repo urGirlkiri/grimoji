@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:grimoji/features/game/state.dart';
 
 class BoardAnnouncer {
-  final GameState _state;
+  late final GameState _state;
 
   String? activeAnnouncement;
   int announcementToken = 0;
@@ -12,7 +12,9 @@ class BoardAnnouncer {
   bool _isLoopActive = false;
   Timer? _displayTimer;
 
-  BoardAnnouncer(this._state);
+  BoardAnnouncer();
+
+  set gameState(GameState state) => _state = state;
 
   int _getPhrasePriority(String phrase) {
     if (phrase.contains("MAGICAL") || phrase.contains("MASTERPIECE") || phrase.contains("Masterful")) return 5;
