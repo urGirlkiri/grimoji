@@ -18,6 +18,11 @@ class Emojis {
     'assets/emojis/lottie/mountain.json',
     '⛰️'
   );
+  static const GameEmoji tooth = GameEmoji(
+    'assets/emojis/svg/tooth.svg', 
+    'assets/emojis/lottie/tooth.json',
+    '🦷'
+  );
 
   static const GameEmoji shield = GameEmoji(
     'assets/emojis/svg/shield.svg', 
