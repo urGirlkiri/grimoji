@@ -95,12 +95,12 @@ class _GameBoardState extends State<GameBoard> {
     int row = (details.localPosition.dy / metrics.tileHeight!).floor();
 
     if (row >= 0 &&
-        row < levelstate.gameState.gameController.getRowCount() &&
+        row < levelstate.boardManager.gridTiles.length &&
         col >= 0 &&
-        col < levelstate.gameState.gameController.getColCount()) {
-      levelstate.gameState.resetTimer();
+        col < levelstate.boardManager.gridTiles[0].length) {
+      levelstate.coordinator.resetHintTimer();
       setState(() {
-        _draggedTile = levelstate.gameState.gameController.grid[row][col];
+        _draggedTile = levelstate.boardManager.gridTiles[row][col];
         _dragStartPosition = details.localPosition;
       });
     }
@@ -111,7 +111,6 @@ class _GameBoardState extends State<GameBoard> {
 
     final dx = details.localPosition.dx - _dragStartPosition!.dx;
     final dy = details.localPosition.dy - _dragStartPosition!.dy;
-    final gameController = levelState.gameState.gameController;
 
     if (dx.abs() > 20 || dy.abs() > 20) {
       int targetRow = _draggedTile!.coordinate.row;
@@ -124,10 +123,10 @@ class _GameBoardState extends State<GameBoard> {
       }
 
       if (targetRow >= 0 &&
-          targetRow < gameController.getRowCount() &&
+          targetRow < levelState.boardManager.gridTiles.length &&
           targetCol >= 0 &&
-          targetCol < gameController.getColCount()) {
-        levelState.gameState.resolveSwipe(
+          targetCol < levelState.boardManager.gridTiles[0].length) {
+        levelState.coordinator.resolveSwipe(
           _draggedTile!.coordinate,
           TileCoordinate(row: targetRow, col: targetCol),
         );
@@ -143,10 +142,9 @@ class _GameBoardState extends State<GameBoard> {
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
     final levelstate = context.watch<LevelState>();
-    final gameController = levelstate.gameState.gameController;
 
-    final int gridColumns = gameController.getColCount();
-    final int gridRows = gameController.getRowCount();
+    final int gridColumns = levelstate.boardManager.gridTiles[0].length;
+    final int gridRows = levelstate.boardManager.gridTiles.length;
 
     const double maxAllowedBoardWidth = 350.0;
     final int totalTiles = gridColumns * gridRows;

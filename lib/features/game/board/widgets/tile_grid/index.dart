@@ -18,10 +18,10 @@ class TileGrid extends StatelessWidget {
   const TileGrid({super.key, this.activeTileId});
 
   void _initialFall(BuildContext context, LevelState levelState) {
-    if (levelState.gameState.gameController.grid[0][0].coordinate.row < 0) {
+    if (levelState.boardManager.gridTiles[0][0].coordinate.row < 0) {
       Future.microtask(() {
         if (!context.mounted) return;
-        levelState.gameState.startInitialDrop();
+        levelState.coordinator.startInitialDrop();
         levelState.startLevel();
       });
     }
@@ -76,7 +76,7 @@ class TileGrid extends StatelessWidget {
 
     final double tWidth = metrics.tileWidth!;
     final double tHeight = metrics.tileHeight!;
-    final grid = levelState.gameState.gameController.grid;
+    final grid = levelState.boardManager.gridTiles;
 
     List<Widget> tileWidgets = [];
     int nRol = grid.length;
