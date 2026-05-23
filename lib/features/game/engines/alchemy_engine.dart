@@ -148,7 +148,7 @@ class AlchemyEngine {
     }
 
     tilesToDestroy.removeWhere((coord) => transmutedTiles.contains(coord));
-    final bool hasTriggeredBombs = getTriggeredBombs().isNotEmpty;
+    final bool hasTriggeredBombs = boardManager.getTriggeredEmojis().isNotEmpty;
 
     return CascadeStepResult(
       matchedGroups: matchedGroups,
@@ -164,7 +164,7 @@ class AlchemyEngine {
     final Set<TileCoordinate> allBlastedCoords = {};
     final Set<TileCoordinate> allTransformedCoords = {};
 
-    List<Tile> primedBombs = getTriggeredBombs();
+    List<Tile> primedBombs = boardManager.getTriggeredEmojis();
     bool chainReaction = primedBombs.isNotEmpty;
 
     while (primedBombs.isNotEmpty) {
@@ -182,7 +182,7 @@ class AlchemyEngine {
         allTransformedCoords.addAll(blastResult.transformed);
       }
 
-      primedBombs = getTriggeredBombs();
+      primedBombs = boardManager.getTriggeredEmojis();
     }
 
     return DetonationStepResult(
@@ -193,17 +193,6 @@ class AlchemyEngine {
     );
   }
 
-  List<Tile> getTriggeredBombs() {
-    final List<Tile> bombs = [];
-    for (int r = 0; r < BoardManager.rows; r++) {
-      for (int c = 0; c < BoardManager.cols; c++) {
-        if (boardManager.gridTiles[r][c].isTriggered) {
-          bombs.add(boardManager.gridTiles[r][c]);
-        }
-      }
-    }
-    return bombs;
-  }
 
   ({Set<TileCoordinate> destroyed, Set<TileCoordinate> transformed}) _executeBlastRadius(TileCoordinate center) {
     final Set<TileCoordinate> destroyedTiles = {};

@@ -254,6 +254,4 @@ class GameEngine {
     return _behavior.processSwipedWithBehavior(tile, x, y, targetEmoji);
   }
 
-  List<Tile> getTriggeredBombs() => _alchemy.getTriggeredBombs();
-
 }

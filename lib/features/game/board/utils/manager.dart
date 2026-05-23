@@ -216,4 +216,16 @@ class BoardManager {
         }
       }
   }
+
+    List<Tile> getTriggeredEmojis() {
+    final List<Tile> emojis = [];
+    for (int r = 0; r < BoardManager.rows; r++) {
+      for (int c = 0; c < BoardManager.cols; c++) {
+        if (gridTiles[r][c].isTriggered) {
+          emojis.add(gridTiles[r][c]);
+        }
+      }
+    }
+    return emojis;
+  }
 }

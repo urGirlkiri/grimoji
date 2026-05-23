@@ -95,7 +95,7 @@ class GameCoordinator {
         turnHadAlchemy = true;
       }
 
-      List<Tile> primedBombs = engine.getTriggeredBombs();
+      List<Tile> primedBombs = boardManager.getTriggeredEmojis();
       if (primedBombs.isNotEmpty) {
         if (state.currentComboMultiplier > 0) {
           triggerComboAnnouncement(state.currentComboMultiplier);
@@ -212,7 +212,7 @@ class GameCoordinator {
     bool executionOccurred = false;
 
     while (true) {
-      List<Tile> primedBombs = engine.getTriggeredBombs();
+      List<Tile> primedBombs = boardManager.getTriggeredEmojis();
       if (primedBombs.isEmpty) break;
 
       executionOccurred = true;
