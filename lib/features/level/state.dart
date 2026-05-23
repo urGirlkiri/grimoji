@@ -82,6 +82,7 @@ class LevelState extends ChangeNotifier {
           ? 1
           : 0;
 
+      // ignore: unused_local_variable
       int timeBonus = (secondsRemaining / 10).round();
 
       if (earnedStars > 0) {
