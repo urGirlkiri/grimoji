@@ -11,7 +11,6 @@ import 'package:grimoji/features/game/board/models/tile.dart';
 import 'package:grimoji/features/game/board/models/coordinate.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:lottie/lottie.dart';
-import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 
 class GameBoard extends StatefulWidget {
@@ -24,7 +23,6 @@ class GameBoard extends StatefulWidget {
 class _GameBoardState extends State<GameBoard> {
   final GlobalKey _boardKey = GlobalKey();
   final GlobalKey _tileKey = GlobalKey();
-  final Logger _log = Logger('Game Board');
 
   Tile? _draggedTile;
   Offset? _dragStartPosition;
