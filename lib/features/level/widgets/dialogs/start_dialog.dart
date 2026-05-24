@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/config/levels/game_level.dart';
-import 'package:grimoji/features/audio/audio_controller.dart';
-import 'package:grimoji/features/audio/sounds.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/routes.dart';
+import 'package:grimoji/widgets/app_icon.dart';
 import 'package:grimoji/widgets/emoji_widget.dart';
 import 'package:grimoji/widgets/pill_button.dart';
 import 'package:grimoji/widgets/scroll_dialog.dart';
@@ -25,16 +24,10 @@ class LevelStartDialog extends StatelessWidget {
       elevation: 0,
       insetPadding: EdgeInsets.all(0),
       child: ScrollDialog(
-        rightButton: GestureDetector(
-          onTap: () {
-            context.read<AudioController>().playSfx(SfxType.buttonTap);
-            Navigator.of(context).pop();
-          },
-          child: Image.asset(
-            'assets/icons/app/close.png',
-            width: 80,
-            height: 80,
-          ),
+        rightButton: AppIcon(
+          fileName: 'close.png',
+          size: 80,
+          onTap: () => Navigator.of(context).pop(),
         ),
         child: ScrollConfiguration(
           behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
@@ -68,7 +61,6 @@ class LevelStartDialog extends StatelessWidget {
               borderColor: palette.voidBlack,
               borderWidth: 3,
               onTap: () {
-                context.read<AudioController>().playSfx(SfxType.buttonTap);
                 Navigator.of(context).pop();
                 GoRouter.of(context).replaceNamed(
                   Routes.levelHint,

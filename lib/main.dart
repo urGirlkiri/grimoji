@@ -24,7 +24,6 @@ import 'features/settings/controller.dart';
 import 'config/palette.dart';
 
 void main() async {
-  // Basic logging setup.
   Logger.root.level = kDebugMode ? Level.FINE : Level.INFO;
   Logger.root.onRecord.listen((record) {
     dev.log(

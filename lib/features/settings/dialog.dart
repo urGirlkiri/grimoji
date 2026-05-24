@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grimoji/features/audio/audio_controller.dart';
-import 'package:grimoji/features/audio/sounds.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/routes.dart';
 import 'package:grimoji/features/settings/controller.dart';
 import 'package:grimoji/features/settings/widgets/icon_toggle.dart';
 import 'package:grimoji/features/settings/widgets/volume_slider.dart';
+import 'package:grimoji/widgets/app_icon.dart';
 import 'package:grimoji/widgets/pill_button.dart';
 import 'package:grimoji/widgets/scroll_dialog.dart';
 import 'package:provider/provider.dart';
@@ -27,16 +26,10 @@ class SettingsDialog extends StatelessWidget {
       elevation: 0,
       child: ScrollDialog(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
-        rightButton: GestureDetector(
-          onTap: () {
-            context.read<AudioController>().playSfx(SfxType.buttonTap);
-            Navigator.of(context).pop();
-          },
-          child: Image.asset(
-            'assets/icons/app/close.png',
-            width: 60,
-            height: 60,
-          ),
+        rightButton: AppIcon(
+          fileName: 'close.png',
+          size: 60,
+          onTap: () => Navigator.of(context).pop(),
         ),
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
@@ -80,36 +73,21 @@ class SettingsDialog extends StatelessWidget {
                                     ? 'assets/icons/app/vibration_on.png'
                                     : 'assets/icons/app/vibration_off.png',
                                 isActive: settings.soundsOn.value && settings.audioOn.value,
-                                onTap: () {
-                                  context.read<AudioController>().playSfx(
-                                    SfxType.buttonTap,
-                                  );
-                                  settings.toggleSoundsOn();
-                                },
+                                onTap: settings.toggleSoundsOn,
                               ),
                               IconToggle(
                                 imagePath: settings.musicOn.value
                                     ? 'assets/icons/app/sfx_on.png'
                                     : 'assets/icons/app/sfx_off.png',
                                 isActive: settings.musicOn.value && settings.audioOn.value,
-                                onTap: () {
-                                  context.read<AudioController>().playSfx(
-                                    SfxType.buttonTap,
-                                  );
-                                  settings.toggleMusicOn();
-                                },
+                                onTap: settings.toggleMusicOn,
                               ),
                               IconToggle(
                                 imagePath: settings.audioOn.value
                                     ? 'assets/icons/app/music_on.png'
                                     : 'assets/icons/app/music_off.png',
                                 isActive: settings.audioOn.value,
-                                onTap: () {
-                                  context.read<AudioController>().playSfx(
-                                    SfxType.buttonTap,
-                                  );
-                                  settings.toggleAudioOn();
-                                },
+                                onTap: settings.toggleAudioOn,
                               ),
                             ],
                           ),
@@ -141,9 +119,7 @@ class SettingsDialog extends StatelessWidget {
                   child: PillButton(
                     text: "Quit level",
                     color: palette.crimson,
-                    
                     onTap: () {
-                      context.read<AudioController>().playSfx(SfxType.buttonTap);
                       Navigator.of(context).pop();
                       GoRouter.of(context).goNamed(
                         Routes.levelFail,

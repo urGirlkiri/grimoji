@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grimoji/features/audio/audio_controller.dart';
-import 'package:grimoji/features/audio/sounds.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/routes.dart';
+import 'package:grimoji/widgets/app_icon.dart';
 import 'package:grimoji/widgets/emoji_widget.dart';
 import 'package:grimoji/widgets/pill_button.dart';
 import 'package:grimoji/widgets/scroll_dialog.dart';
@@ -24,16 +23,10 @@ class QuitDialog extends StatelessWidget {
       backgroundColor: Colors.transparent,
       elevation: 0,
       child: ScrollDialog(
-        rightButton: GestureDetector(
-          onTap: () {
-            context.read<AudioController>().playSfx(SfxType.buttonTap);
-            Navigator.of(context).pop();
-          },
-          child: Image.asset(
-              'assets/icons/app/close.png',
-              width: 80,
-              height: 80,
-            ),
+        rightButton: AppIcon(
+          fileName: 'close.png',
+          size: 80,
+          onTap: () => Navigator.of(context).pop(),
         ),
         child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -79,7 +72,6 @@ class QuitDialog extends StatelessWidget {
                 borderColor: palette.voidBlack,
                 borderWidth: 3,
                 onTap: () {
-                  context.read<AudioController>().playSfx(SfxType.buttonTap);
                   Navigator.of(context).pop();
                   GoRouter.of(context).goNamed(
                     Routes.levelFail,
@@ -96,10 +88,7 @@ class QuitDialog extends StatelessWidget {
                 borderRadius: 20,
                 borderColor: palette.voidBlack,
                 borderWidth: 3,
-                onTap: () {
-                  context.read<AudioController>().playSfx(SfxType.buttonTap);
-                  Navigator.of(context).pop();
-                },
+                onTap: () => Navigator.of(context).pop(),
               ),
             ],
           ),

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grimoji/features/audio/audio_controller.dart';
-import 'package:grimoji/features/audio/sounds.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/routes.dart';
 import 'package:grimoji/features/settings/dialog.dart';
+import 'package:grimoji/widgets/app_icon.dart';
 import 'package:grimoji/widgets/emoji_widget.dart';
 import 'package:grimoji/widgets/pill_button.dart';
 import 'package:grimoji/widgets/scroll_dialog.dart';
@@ -28,31 +27,21 @@ class PauseDialog extends StatelessWidget {
       backgroundColor: Colors.transparent,
       elevation: 0,
       child: ScrollDialog(
-        leftButton: GestureDetector(
-          onTap: () {
-            context.read<AudioController>().playSfx(SfxType.buttonTap);
-            Navigator.of(context).pop();
-          },
-          child: Image.asset(
-            'assets/icons/app/close.png',
-            width: 80,
-            height: 80,
-          ),
+        leftButton: AppIcon(
+          fileName: 'close.png',
+          size: 80,
+          onTap: () => Navigator.of(context).pop(),
         ),
-        rightButton: GestureDetector(
+        rightButton: AppIcon(
+          fileName: 'settings.png',
+          size: 80,
           onTap: () {
-            context.read<AudioController>().playSfx(SfxType.buttonTap);
             showDialog(
               context: context,
               barrierDismissible: false,
               builder: (context) => SettingsDialog(level: level),
             );
           },
-          child: Image.asset(
-            'assets/icons/app/settings.png',
-            width: 80,
-            height: 80,
-          ),
         ),
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -99,7 +88,6 @@ class PauseDialog extends StatelessWidget {
                   borderColor: palette.voidBlack,
                   borderWidth: 3,
                   onTap: () {
-                    context.read<AudioController>().playSfx(SfxType.buttonTap);
                     Navigator.of(context).pop();
                     GoRouter.of(context).goNamed(
                       Routes.levelFail,
@@ -116,10 +104,7 @@ class PauseDialog extends StatelessWidget {
                   borderRadius: 20,
                   borderColor: palette.voidBlack,
                   borderWidth: 3,
-                  onTap: () {
-                    context.read<AudioController>().playSfx(SfxType.buttonTap);
-                    Navigator.of(context).pop();
-                  },
+                  onTap: () => Navigator.of(context).pop(),
                 ),
               ],
             ),

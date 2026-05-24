@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/levels/game_level.dart';
-import 'package:grimoji/features/audio/audio_controller.dart';
-import 'package:grimoji/features/audio/sounds.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/level/widgets/dialogs/pause_dialog.dart';
+import 'package:grimoji/widgets/app_icon.dart';
 import 'package:grimoji/widgets/emoji_widget.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
@@ -17,8 +16,6 @@ class Foooter extends StatelessWidget {
   Palette get palette => Palette();
 
   void _handlePauseTap(BuildContext context) {
-    context.read<AudioController>().playSfx(SfxType.buttonTap);
-
     _log.info('Pause btn tapped. Toggling pause state.');
 
     final levelState = context.read<LevelState>();
@@ -81,6 +78,15 @@ class Foooter extends StatelessWidget {
   }) {
     double size = isSmall ? 60 : 70;
     double iconSize = isSmall ? 60 : 50;
+
+    if (assetPath.startsWith('assets/icons/app/')) {
+      final fileName = assetPath.split('/').last;
+      return AppIcon(
+        fileName: fileName,
+        size: iconSize,
+        onTap: onTap,
+      );
+    }
 
     return GestureDetector(
       onTap: onTap,

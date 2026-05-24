@@ -3,14 +3,13 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'package:grimoji/features/audio/audio_controller.dart';
-import 'package:grimoji/features/audio/sounds.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/settings/controller.dart';
 import 'package:grimoji/features/settings/widgets/icon_toggle.dart';
 import 'package:grimoji/features/settings/widgets/volume_slider.dart';
 import 'package:grimoji/utils/responsive.dart';
+import 'package:grimoji/widgets/app_icon.dart';
 import 'package:grimoji/widgets/pill_button.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -54,16 +53,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Positioned(
                   top: isLarge ? -1 : -1,
                   right: isLarge ? -1 : -1,
-                  child: GestureDetector(
-                    onTap: () {
-                      context.read<AudioController>().playSfx(SfxType.buttonTap);
-                      GoRouter.of(context).pop();
-                    },
-                    child: Image.asset(
-                      'assets/icons/app/close.png',
-                      width: 60,
-                      height: 60,
-                    ),
+                  child: AppIcon(
+                    fileName: 'close.png',
+                    size: 60,
+                    onTap: () => GoRouter.of(context).pop(),
                   ),
                 ),
       
@@ -102,30 +95,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     ? 'assets/icons/app/vibration_on.png'
                                     : 'assets/icons/app/vibration_off.png',
                                 isActive: settings.soundsOn.value && settings.audioOn.value,
-                                onTap: () {
-                                  context.read<AudioController>().playSfx(SfxType.buttonTap);
-                                  settings.toggleSoundsOn();
-                                },
+                                onTap: settings.toggleSoundsOn,
                               ),
                               IconToggle(
                                 imagePath: settings.musicOn.value
                                     ? 'assets/icons/app/sfx_on.png'
                                     : 'assets/icons/app/sfx_off.png',
                                 isActive: settings.musicOn.value && settings.audioOn.value,
-                                onTap: () {
-                                  context.read<AudioController>().playSfx(SfxType.buttonTap);
-                                  settings.toggleMusicOn();
-                                },
+                                onTap: settings.toggleMusicOn,
                               ),
                               IconToggle(
                                 imagePath: settings.audioOn.value
                                     ? 'assets/icons/app/music_on.png'
                                     : 'assets/icons/app/music_off.png',
                                 isActive: settings.audioOn.value,
-                                onTap: () {
-                                  context.read<AudioController>().playSfx(SfxType.buttonTap);
-                                  settings.toggleAudioOn();
-                                },
+                                onTap: settings.toggleAudioOn,
                               ),
                             ],
                           );
@@ -173,7 +157,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         text: "Reset Progress",
                         color: palette.crimson,
                         onTap: () async {
-                          context.read<AudioController>().playSfx(SfxType.buttonTap);
                           await context.read<LevelDataController>().reset();
                           if (!context.mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(

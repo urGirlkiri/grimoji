@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
+import 'package:grimoji/widgets/app_icon.dart';
 import 'package:grimoji/widgets/emoji_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -62,11 +63,12 @@ class RecipeCard extends StatelessWidget {
               Positioned(
                 top: 16.0,
                 right: 16.0,
-                child: GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset('assets/icons/app/close.png'),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: AppIcon(
+                    fileName: 'close.png',
+                    size: 40,
+                    onTap: () => Navigator.pop(context),
                   ),
                 ),
               ),
