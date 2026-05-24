@@ -249,7 +249,6 @@ void main() {
 
     test('Should track collected amount correctly', () {
       fakeAsync((async) {
-        int collected = 0;
         final state = LevelState(
           level: level,
           onWin: (_) {},

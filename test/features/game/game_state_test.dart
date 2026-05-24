@@ -80,6 +80,7 @@ void main() {
     });
 
     test('Should increment combo multiplier correctly', () {
+      // ignore: unused_local_variable
       bool notified = false;
       gameState.addListener(() => notified = true);
 
