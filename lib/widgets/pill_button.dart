@@ -2,6 +2,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/config/palette.dart';
+import 'package:grimoji/features/audio/audio_controller.dart';
+import 'package:grimoji/features/audio/sounds.dart';
 import 'package:provider/provider.dart';
 
 class PillButton extends StatefulWidget {
@@ -63,7 +65,10 @@ class _PillButtonState extends State<PillButton>
 
     if (widget.fullWidth) {
       button = GestureDetector(
-        onTap: widget.onTap,
+        onTap: () {
+          context.read<AudioController>().playSfx(SfxType.buttonTap);
+          widget.onTap();
+        },
         child: Container(
           width: double.infinity,
           padding: effectivePadding,
@@ -98,7 +103,10 @@ class _PillButtonState extends State<PillButton>
       );
     } else {
       button = FilledButton(
-        onPressed: widget.onTap,
+        onPressed: () {
+          context.read<AudioController>().playSfx(SfxType.buttonTap);
+          widget.onTap();
+        },
         style: FilledButton.styleFrom(
           backgroundColor: widget.color,
           foregroundColor: effectiveTextColor,

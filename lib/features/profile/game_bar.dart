@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/routes.dart';
+import 'package:grimoji/features/audio/audio_controller.dart';
+import 'package:grimoji/features/audio/sounds.dart';
 import 'package:provider/provider.dart';
 
 class GameBar extends StatelessWidget implements PreferredSizeWidget {
@@ -19,17 +21,22 @@ class GameBar extends StatelessWidget implements PreferredSizeWidget {
   void onCauldronTap() {}
   
   Widget _buildAppIcon({
+    required BuildContext context,
     required String iconPath,
     required Palette palette,
     required VoidCallback onTap,
   }) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () {
+        context.read<AudioController>().playSfx(SfxType.buttonTap);
+        onTap();
+      },
       child: Image.asset(iconPath, width: 45, height: 45),
     );
   }
 
   Widget _buildResourcePill({
+    required BuildContext context,
     required String iconPath,
     required String value,
     required Palette palette,
@@ -37,7 +44,10 @@ class GameBar extends StatelessWidget implements PreferredSizeWidget {
   }) {
     return Expanded(
       child: GestureDetector(
-        onTap: onTap,
+        onTap: () {
+          context.read<AudioController>().playSfx(SfxType.buttonTap);
+          onTap();
+        },
         child: SizedBox(
           height: 55, 
           child: Stack(
@@ -136,12 +146,14 @@ class GameBar extends StatelessWidget implements PreferredSizeWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 _buildAppIcon(
+                  context: context,
                   iconPath: 'assets/icons/app/mail_inbox.png',
                   palette: palette,
                   onTap: onNotifTap,
                 ),
                 const SizedBox(width: 8),
                 _buildResourcePill(
+                  context: context,
                   iconPath: 'assets/images/cauldron.png',
                   value: cauldronCount == 5 ? "Full" : cauldronCount.toString(),
                   palette: palette,
@@ -150,7 +162,10 @@ class GameBar extends StatelessWidget implements PreferredSizeWidget {
                 Transform.translate(
                   offset: const Offset(0, -10), 
                   child: GestureDetector(
-                    onTap: onProfileTap,
+                    onTap: () {
+                      context.read<AudioController>().playSfx(SfxType.buttonTap);
+                      onProfileTap();
+                    },
                     child: Container(
                       width: 75,
                       height: 80, 
@@ -179,6 +194,7 @@ class GameBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 ),
                 _buildResourcePill(
+                  context: context,
                   iconPath: 'assets/images/dice.png',
                   value: currencyCount.toString(),
                   palette: palette,
@@ -186,6 +202,7 @@ class GameBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 const SizedBox(width: 8),
                 _buildAppIcon(
+                  context: context,
                   iconPath: 'assets/icons/app/settings.png',
                   palette: palette,
                   onTap: onNotifTap,

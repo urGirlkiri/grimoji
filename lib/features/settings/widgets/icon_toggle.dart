@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/features/audio/audio_controller.dart';
+import 'package:grimoji/features/audio/sounds.dart';
+import 'package:provider/provider.dart';
 
 class IconToggle extends StatelessWidget {
   final String imagePath;
@@ -15,7 +18,10 @@ class IconToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () {
+        context.read<AudioController>().playSfx(SfxType.buttonTap);
+        onTap();
+      },
       child: AnimatedOpacity(
         duration: const Duration(milliseconds: 200),
         opacity: isActive ? 1.0 : 0.4,

@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/routes.dart';
+import 'package:grimoji/features/audio/audio_controller.dart';
+import 'package:grimoji/features/audio/sounds.dart';
 import 'package:grimoji/features/level/widgets/confetti.dart';
 import 'package:grimoji/features/level/win_screen/flying_star.dart';
 import 'package:lottie/lottie.dart';
@@ -43,6 +45,9 @@ class _WinGameScreenState extends State<WinGameScreen> {
   @override
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
+    final audioController = context.read<AudioController>();
+    
+    audioController.playSfx(SfxType.celebration);
 
     return Scaffold(
       backgroundColor: palette.twilight,
