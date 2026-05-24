@@ -3,7 +3,7 @@ import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/game/board/utils/manager.dart';
 import 'package:grimoji/features/game/board/models/coordinate.dart';
-import 'package:grimoji/features/game/model/match_detector.dart';
+import 'package:grimoji/features/game/utils/match_detector.dart';
 
 void main() {
   group('BoardManager Tests', () {

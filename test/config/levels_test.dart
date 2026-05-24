@@ -114,27 +114,26 @@ void main() {
             async.elapse(gravityAnimationTime);
 
             int moveCount = 0;
-            final state = levelState.gameState;
 
             while (moveCount < maxMoves && !gameEnded) {
-              final hint = state.gameController.getHintMove();
+              final hint = levelState.engine.getHintMove();
 
               if (hint != null) {
-                state.resolveSwipe(hint[0], hint[1]);
+                levelState.coordinator.resolveSwipe(hint[0], hint[1]);
 
-                while (state.isProcessing) {
+                while (levelState.gameState.isProcessing) {
                   async.elapse(const Duration(milliseconds: 100));
                 }
 
                 moveCount++;
               } else {
-                state.shuffleBoard();
+                levelState.coordinator.shuffleBoard();
 
-                while (state.isShuffling) {
+                while (levelState.gameState.isShuffling) {
                   async.elapse(const Duration(milliseconds: 100));
                 }
 
-                state.resetTimer();
+                levelState.coordinator.resetHintTimer();
                 moveCount++;
               }
 
