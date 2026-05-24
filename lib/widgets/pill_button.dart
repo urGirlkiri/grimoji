@@ -1,9 +1,9 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds.dart';
+import 'package:grimoji/widgets/breathing_widget.dart';
 import 'package:provider/provider.dart';
 
 class PillButton extends StatefulWidget {
@@ -38,14 +38,14 @@ class PillButton extends StatefulWidget {
 
 class _PillButtonState extends State<PillButton>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(milliseconds: 300),
+  late final AnimationController _tapController = AnimationController(
+    duration: const Duration(milliseconds: 100),
     vsync: this,
   );
 
   @override
   void dispose() {
-    _controller.dispose();
+    _tapController.dispose();
     super.dispose();
   }
 
@@ -56,95 +56,84 @@ class _PillButtonState extends State<PillButton>
     final effectiveTextColor = widget.textColor ?? palette.trueWhite;
     final effectiveBorderColor = widget.borderColor ?? palette.twilight;
     final effectiveBorderWidth = widget.borderWidth ?? 2;
-    final effectivePadding = widget.padding ??
+
+    final effectivePadding =
+        widget.padding ??
         (widget.fullWidth
             ? const EdgeInsets.symmetric(vertical: 14)
-            : null);
+            : const EdgeInsets.symmetric(horizontal: 24, vertical: 12));
 
-    Widget button;
+    Widget innerText = Text(
+      widget.text,
+      style: GoogleFonts.eagleLake(
+        color: effectiveTextColor,
+        fontWeight: FontWeight.bold,
+        shadows: [
+          Shadow(
+            color: palette.voidBlack.withValues(alpha: 0.5),
+            offset: const Offset(1, 2),
+            blurRadius: 2,
+          ),
+        ],
+      ),
+    );
 
-    if (widget.fullWidth) {
-      button = GestureDetector(
-        onTap: () {
-          context.read<AudioController>().playSfx(SfxType.buttonTap);
-          widget.onTap();
-        },
-        child: Container(
-          width: double.infinity,
-          padding: effectivePadding,
-          decoration: BoxDecoration(
-            color: widget.color,
-            borderRadius: BorderRadius.circular(widget.borderRadius),
-            border: Border.all(color: effectiveBorderColor, width: effectiveBorderWidth),
-            boxShadow: [
-              BoxShadow(
-                color: palette.voidBlack.withValues(alpha: 0.4),
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Center(
-            child: Text(
-              widget.text,
-              style: GoogleFonts.eagleLake(
-                color: effectiveTextColor,
-                fontWeight: FontWeight.bold,
-                shadows: [
-                  Shadow(
-                    color: palette.voidBlack.withValues(alpha: 0.5),
-                    offset: const Offset(1, 2),
-                    blurRadius: 2,
-                  ),
-                ],
-              ),
-            ),
-          ),
+    Widget buttonContainer = Container(
+      width: widget.fullWidth ? double.infinity : null,
+      padding: effectivePadding,
+      decoration: BoxDecoration(
+        color: widget.color,
+        borderRadius: BorderRadius.circular(widget.borderRadius),
+        border: Border.all(
+          color: effectiveBorderColor,
+          width: effectiveBorderWidth,
         ),
-      );
-    } else {
-      button = FilledButton(
-        onPressed: () {
-          context.read<AudioController>().playSfx(SfxType.buttonTap);
-          widget.onTap();
-        },
-        style: FilledButton.styleFrom(
-          backgroundColor: widget.color,
-          foregroundColor: effectiveTextColor,
-          padding: effectivePadding,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(widget.borderRadius),
-            side: BorderSide(color: effectiveBorderColor, width: effectiveBorderWidth),
-          ),
+
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            widget.color.withValues(alpha: 0.8),
+            widget.color.withValues(alpha: 0.2),
+          ],
         ),
-        child: Text(
-          widget.text,
-          style: GoogleFonts.eagleLake(
-            fontWeight: FontWeight.bold,
+        boxShadow: [
+          BoxShadow(
+            color: palette.voidBlack.withValues(alpha: 0.6),
+            offset: const Offset(0, 4),
+            blurRadius: 0,
           ),
+          BoxShadow(
+            color: palette.twilight.withValues(alpha: 0.2),
+            offset: const Offset(0, -2),
+            blurRadius: 2,
+          ),
+        ],
+      ),
+
+      child: widget.fullWidth ? Center(child: innerText) : innerText,
+    );
+
+    Widget touchableButton = GestureDetector(
+      onTapDown: (_) => _tapController.forward(),
+      onTapUp: (_) => _tapController.reverse(),
+      onTapCancel: () => _tapController.reverse(),
+      onTap: () {
+        context.read<AudioController>().playSfx(SfxType.buttonTap);
+        widget.onTap();
+      },
+      child: ScaleTransition(
+        scale: Tween<double>(begin: 1.0, end: 0.95).animate(
+          CurvedAnimation(parent: _tapController, curve: Curves.easeOut),
         ),
-      );
-    }
+        child: buttonContainer,
+      ),
+    );
 
     if (widget.enableAnimation) {
-      button = MouseRegion(
-        onEnter: (event) => _controller.repeat(),
-        onExit: (event) => _controller.stop(canceled: false),
-        child: RotationTransition(
-          turns: _controller.drive(const _SineTween(0.005)),
-          child: button,
-        ),
-      );
+      return BreathingWidget(child: touchableButton);
     }
 
-    return button;
+    return touchableButton;
   }
-}
-
-class _SineTween extends Animatable<double> {
-  final double maxExtent;
-
-  const _SineTween(this.maxExtent);
-
-  @override
-  double transform(double t) => sin(t * 2 * pi) * maxExtent;
 }

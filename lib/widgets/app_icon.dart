@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds.dart';
+import 'package:grimoji/widgets/breathing_widget.dart';
 import 'package:provider/provider.dart';
 
 class AppIcon extends StatefulWidget {
@@ -9,6 +10,7 @@ class AppIcon extends StatefulWidget {
   final VoidCallback? onTap;
   final bool isActive;
   final bool enableSound;
+  final bool enableAnimation;
 
   const AppIcon({
     super.key,
@@ -17,6 +19,7 @@ class AppIcon extends StatefulWidget {
     this.onTap,
     this.isActive = true,
     this.enableSound = true,
+    this.enableAnimation = true,
   });
 
   static const String _basePath = 'assets/icons/app/';
@@ -27,8 +30,7 @@ class AppIcon extends StatefulWidget {
   State<AppIcon> createState() => _AppIconState();
 }
 
-class _AppIconState extends State<AppIcon>
-    with SingleTickerProviderStateMixin {
+class _AppIconState extends State<AppIcon> with TickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
     duration: const Duration(milliseconds: 150),
     vsync: this,
@@ -56,7 +58,7 @@ class _AppIconState extends State<AppIcon>
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    Widget icon = GestureDetector(
       onTapDown: (_) => _controller.forward(),
       onTapUp: (_) => _controller.reverse(),
       onTapCancel: () => _controller.reverse(),
@@ -66,10 +68,7 @@ class _AppIconState extends State<AppIcon>
         builder: (context, child) {
           return Transform.scale(
             scale: 1.0 - (_scaleAnimation.value * 0.1),
-            child: Opacity(
-              opacity: widget.isActive ? 1.0 : 0.4,
-              child: child,
-            ),
+            child: Opacity(opacity: widget.isActive ? 1.0 : 0.4, child: child),
           );
         },
         child: Image.asset(
@@ -80,5 +79,15 @@ class _AppIconState extends State<AppIcon>
         ),
       ),
     );
+
+    if (widget.enableAnimation) {
+      return BreathingWidget(
+        duration: const Duration(milliseconds: 1200),
+        minScale: 1.0,
+        maxScale: 1.061,
+        child: icon,
+      );
+    }
+    return icon;
   }
 }
