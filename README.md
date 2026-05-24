@@ -216,3 +216,5 @@ chmod +X ./tool/deploy.sh
 - [Gemini](https://gemini.google.com/) for the music
 
 - [Vecteezy](https://vecteezy.com/) for the background and pattern images
+
+- [Audjust](https://www.audjust.com/studio) for sfx variations 

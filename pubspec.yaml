@@ -65,6 +65,7 @@ flutter:
     - assets/emojis/svg/
     - assets/lottie/
     - assets/mascot/
+    - assets/avatars/
     - assets/icons/
     - assets/icons/app/
     - assets/music/

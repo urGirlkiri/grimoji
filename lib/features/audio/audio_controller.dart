@@ -225,12 +225,16 @@ class AudioController {
     // This assumes there is only a limited number of sound effects in the game.
     // If there are hundreds of long sound effect files, it's better
     // to be more selective when preloading.
-    await AudioCache.instance.loadAll(
-      SfxType.values
-          .expand(soundTypeToFilename)
-          .map((path) => 'sfx/$path')
-          .toList(),
-    );
+    try {
+      await AudioCache.instance.loadAll(
+        SfxType.values
+            .expand(soundTypeToFilename)
+            .map((path) => 'sfx/$path')
+            .toList(),
+      );
+    } catch (e, stack) {
+      _log.warning('Failed to preload some sound effects: $e', e, stack);
+    }
   }
 
   void _soundsOnHandler() {
