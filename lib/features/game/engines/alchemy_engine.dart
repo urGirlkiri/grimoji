@@ -127,6 +127,7 @@ class AlchemyEngine {
             }
           }
         } else {
+          tilesToDestroy.addAll(group.coordinates);
         }
       }
     }
