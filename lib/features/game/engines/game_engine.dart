@@ -96,12 +96,12 @@ class GameEngine {
 
         for (var recipe in recipes) {
           if (groupMatch.coordinates.length >= recipe.requiredAmount) {
+            mergeHappened = true;
             TileCoordinate catalyst =
                 (isFirstMatch && groupMatch.coordinates.contains(targetCoord))
                 ? targetCoord
                 : groupMatch.coordinates.first;
 
-            final Set<TileCoordinate> sources = {};
             for (var coord in groupMatch.coordinates) {
               final tile = grid[coord.row][coord.col];
               tile.isMergePoint = coord == catalyst;
@@ -110,20 +110,18 @@ class GameEngine {
                 tile.isMerging = true;
                 tile.coordinate.col = catalyst.col;
                 tile.coordinate.row = catalyst.row;
-                sources.add(coord);
               } else {
                 tile.morphTarget = recipe.yields;
               }
             }
           
-            mergeHappened = true;
             break;
           }
         }
       }
 
       if (!mergeHappened) {
-        if (reaction != null && reaction.type == ReactionType.explosive) {
+        if (reaction?.type == ReactionType.explosive) {
           continue; 
         } else {
           for (var coord in groupMatch.coordinates) {

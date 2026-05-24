@@ -183,7 +183,24 @@ class GameCoordinator {
       }
       state.updateUI();
 
-      await evaluateAlchemicalJuice(matchedGroups, stepResult.tilesToDestroy);
+      final Set<TileCoordinate> matches = matchedGroups
+          .expand((g) => g.coordinates)
+          .toSet();
+
+      bool hasAoE = stepResult.tilesToDestroy.any(
+        (coord) =>
+            !matches.any((c) => c.row == coord.row && c.col == coord.col),
+      );
+      bool hasTransmutations = engine.grid.any(
+        (row) => row.any((t) => t.isTransmuting),
+      );
+
+      if (hasAoE || hasTransmutations) {
+        await Future.delayed(clearAnimationTime);
+        boardManager.clearTransmutingFlags();
+      } else {
+        await Future.delayed(const Duration(milliseconds: 100));
+      }
 
       final Set<TileCoordinate> allDestroyed = {
         ...stepResult.tilesToDestroy,
@@ -300,28 +317,6 @@ class GameCoordinator {
       state.announcer.announce("Sorcery!");
     } else if (comboMultiplier >= 4) {
       state.announcer.announce("MAGICAL!!");
-    }
-  }
-
-  Future<void> evaluateAlchemicalJuice(
-    List<MatchGroup> groups,
-    Set<TileCoordinate> destroyed,
-  ) async {
-    final Set<TileCoordinate> matches = groups
-        .expand((g) => g.coordinates)
-        .toSet();
-    bool hasAoE = destroyed.any(
-      (coord) => !matches.any((c) => c.row == coord.row && c.col == coord.col),
-    );
-    bool hasTransmutations = engine.grid.any(
-      (row) => row.any((t) => t.isTransmuting),
-    );
-
-    if (hasAoE || hasTransmutations) {
-      await Future.delayed(clearAnimationTime);
-      boardManager.clearTransmutingFlags();
-    } else {
-      await Future.delayed(const Duration(milliseconds: 100));
     }
   }
 

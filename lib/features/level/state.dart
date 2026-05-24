@@ -6,7 +6,6 @@ import 'package:grimoji/features/game/board/utils/manager.dart';
 import 'package:grimoji/features/game/engines/game_engine.dart';
 import 'package:grimoji/features/game/coordinator.dart';
 import 'package:grimoji/features/game/state.dart';
-import 'package:logging/logging.dart';
 
 class LevelState extends ChangeNotifier {
   final void Function(int stars) onWin;
@@ -16,7 +15,6 @@ class LevelState extends ChangeNotifier {
   final GlobalKey targetIconKey = GlobalKey();
 
   final Stopwatch _timeLimitStopwatch = Stopwatch();
-  final Logger _log = Logger('LevelState');
   Timer? _ticker;
 
   late final BoardManager boardManager;
@@ -76,9 +74,6 @@ class LevelState extends ChangeNotifier {
     if (_isGameOver) return true;
 
     bool shouldEnd = progress >= 1.0 || secondsRemaining <= 0;
-    _log.info(
-      "Level check: progress=${progress.toStringAsFixed(2)}, time=${secondsRemaining}s, shouldEnd=$shouldEnd",
-    );
 
     if (shouldEnd) {
       _isGameOver = true;
