@@ -152,5 +152,92 @@ void main() {
       });
     });
 
+    group('Flag Management', () {
+      test('flagFlyingTargetEmojis should flag target emoji tiles', () {
+        boardManager.gridTiles[0][0].emoji = testLevel.targetEmoji;
+        boardManager.gridTiles[1][1].emoji = Emojis.fire;
+
+        boardManager.flagFlyingTargetEmojis({
+          TileCoordinate(row: 0, col: 0),
+          TileCoordinate(row: 1, col: 1),
+        });
+
+        expect(boardManager.gridTiles[0][0].isFlying, isTrue, reason: 'Target emoji should be flagged as flying');
+        expect(boardManager.gridTiles[1][1].isFlying, isFalse, reason: 'Non-target emoji should not be flagged');
+      });
+
+      test('clearTransmutingFlags should clear all transmuting flags', () {
+        boardManager.gridTiles[0][0].isTransmuting = true;
+        boardManager.gridTiles[1][1].isTransmuting = true;
+
+        boardManager.clearTransmutingFlags();
+
+        expect(boardManager.gridTiles[0][0].isTransmuting, isFalse);
+        expect(boardManager.gridTiles[1][1].isTransmuting, isFalse);
+      });
+
+      test('clearAllFlyingFlags should clear all flying flags', () {
+        boardManager.gridTiles[0][0].isFlying = true;
+        boardManager.gridTiles[1][1].isFlying = true;
+
+        boardManager.clearAllFlyingFlags();
+
+        expect(boardManager.gridTiles[0][0].isFlying, isFalse);
+        expect(boardManager.gridTiles[1][1].isFlying, isFalse);
+      });
+    });
+
+    group('Shuffle and Triggered', () {
+      test('shuffleGrid should randomize the board', () {
+        final originalGrid = boardManager.gridTiles
+            .expand((row) => row.map((tile) => tile.emoji))
+            .toList();
+
+        boardManager.shuffleGrid();
+
+        final shuffledGrid = boardManager.gridTiles
+            .expand((row) => row.map((tile) => tile.emoji))
+            .toList();
+
+        expect(shuffledGrid, isNot(equals(originalGrid)));
+      });
+
+      test('getTriggeredEmojis should return only triggered tiles', () {
+        boardManager.gridTiles[0][0].isTriggered = true;
+        boardManager.gridTiles[1][1].isTriggered = true;
+        boardManager.gridTiles[2][2].isTriggered = false;
+
+        final triggered = boardManager.getTriggeredEmojis();
+
+        expect(triggered.length, 2);
+        expect(triggered.any((t) => t.emoji == boardManager.gridTiles[0][0].emoji), isTrue);
+        expect(triggered.any((t) => t.emoji == boardManager.gridTiles[1][1].emoji), isTrue);
+      });
+
+      test('getTriggeredEmojis should return empty list when no tiles are triggered', () {
+        final triggered = boardManager.getTriggeredEmojis();
+        expect(triggered.isEmpty, isTrue);
+      });
+    });
+
+    group('Get Adjacent Tiles', () {
+      test('getAdjacentTiles should return correct neighbors', () {
+        final adjacent = boardManager.getAdjacentTiles(4, 2);
+
+        expect(adjacent.length, 4, reason: 'Center tile should have 4 neighbors');
+        
+        final positions = adjacent.map((t) => (t.coordinate.row, t.coordinate.col)).toSet();
+        expect(positions.contains((-5, 2)), isTrue);
+        expect(positions.contains((-3, 2)), isTrue);
+        expect(positions.contains((-4, 1)), isTrue);
+        expect(positions.contains((-4, 3)), isTrue);
+      });
+
+      test('getAdjacentTiles should handle edge cases', () {
+        final adjacent = boardManager.getAdjacentTiles(0, 0);
+        expect(adjacent.length, 2, reason: 'Corner tile should have 2 neighbors');
+      });
+    });
+
   });
 }

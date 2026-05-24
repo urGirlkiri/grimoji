@@ -223,5 +223,64 @@ void main() {
         expect(hasHint, isFalse, reason: 'Hints should not appear after game over');
       });
     });
+
+    test('Should toggle pause correctly', () {
+      fakeAsync((async) {
+        final state = LevelState(
+          level: level,
+          onWin: (_) {},
+          onLose: () {},
+        );
+
+        state.startLevel();
+        async.elapse(gravityAnimationTime);
+        
+        expect(state.isPaused, isFalse);
+        
+        state.togglePause();
+        expect(state.isPaused, isTrue);
+        expect(state.gameState.isPaused, isTrue);
+        
+        state.togglePause();
+        expect(state.isPaused, isFalse);
+        expect(state.gameState.isPaused, isFalse);
+      });
+    });
+
+    test('Should track collected amount correctly', () {
+      fakeAsync((async) {
+        int collected = 0;
+        final state = LevelState(
+          level: level,
+          onWin: (_) {},
+          onLose: () {},
+        );
+
+        state.startLevel();
+        async.elapse(gravityAnimationTime);
+        
+        expect(state.collectedAmount, 0);
+        expect(state.progress, 0);
+        
+        state.coordinator.onTargetAcquired(5);
+        expect(state.collectedAmount, 5);
+        expect(state.progress, 5 / 10);
+      });
+    });
+
+    test('Should calculate seconds remaining correctly', () {
+      fakeAsync((async) {
+        final state = LevelState(
+          level: level,
+          onWin: (_) {},
+          onLose: () {},
+        );
+
+        state.startLevel();
+        async.elapse(gravityAnimationTime);
+        
+        expect(state.secondsRemaining, inInclusiveRange(0, 60));
+      });
+    });
   });
 }

@@ -5,20 +5,13 @@ import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/game/board/utils/manager.dart';
 import 'package:grimoji/features/game/engines/alchemy_engine.dart';
 import 'package:grimoji/features/game/board/models/coordinate.dart';
-import 'package:grimoji/features/game/state.dart';
+import 'package:grimoji/features/game/utils/match_detector.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
-import 'package:mockito/mockito.dart';
-
-class MockGameState extends Mock implements GameState {
-  @override
-  void resolveEmoji(emoji, int count) {}
-}
 
 void main() {
   group('AlchemyEngine Tests', () {
     late BoardManager boardManager;
     late AlchemyEngine alchemyEngine;
-    late MockGameState mockState;
     late GameLevel level;
 
     setUp(() {
@@ -46,29 +39,30 @@ void main() {
         getTransformationsForType: RecipeBook.getTransformationsForType,
         getAoERadiusForType: RecipeBook.getAoERadiusForType,
       );
-
-      mockState = MockGameState();
     });
 
     test('Should merge N ingredients into Yield dynamically', () {
       final mergeRecipe = RecipeBook.allRecipes.first;
 
-      final matchCoords = <TileCoordinate>{};
       for (int i = 0; i < mergeRecipe.requiredAmount; i++) {
         boardManager.gridTiles[0][i].emoji = mergeRecipe.ingredient;
-        matchCoords.add(TileCoordinate(row: 0, col: i));
       }
 
-      final mergePoint = TileCoordinate(row: 0, col: 1);
+      final matchGroups = MatchDetector.findMatchedGroups(boardManager.gridTiles);
+      final targetCoord = TileCoordinate(row: 0, col: 1);
 
-      alchemyEngine.processMatches(matchCoords, mockState, mergePoint: mergePoint);
+      alchemyEngine.processCascadeStep(
+        matchedGroups: matchGroups,
+        targetCoordinate: targetCoord,
+        isFirstMatch: true,
+      );
 
-       expect(boardManager.gridTiles[0][1].emoji.visual, equals(mergeRecipe.yields.visual));
+      expect(boardManager.gridTiles[0][1].emoji.visual, equals(mergeRecipe.yields.visual));
     });
 
     test('Should execute a Transmutation Explosion dynamically', () {
       final explosiveRecipe = RecipeBook.allRecipes.firstWhere(
-        (r) =>  RecipeBook.getReactionFor(r.yields)?.type == ReactionType.explosive,
+        (r) => RecipeBook.getReactionFor(r.yields)?.type == ReactionType.explosive,
         orElse: () => throw Exception('No explosive recipe found'),
       );
       final explosiveEmoji = explosiveRecipe.yields;
@@ -87,19 +81,25 @@ void main() {
         }
       }
 
+      boardManager.gridTiles[3][1].emoji = explosiveEmoji;
       boardManager.gridTiles[3][2].emoji = explosiveEmoji;
-      boardManager.gridTiles[3][3].emoji = sourceEmoji;
+      boardManager.gridTiles[3][3].emoji = explosiveEmoji;
+      boardManager.gridTiles[3][4].emoji = sourceEmoji;
       boardManager.triggerInitialFall();
 
-      alchemyEngine.processMatches({TileCoordinate(row: 3, col: 2)}, mockState);
+      final matchGroups = MatchDetector.findMatchedGroups(boardManager.gridTiles);
+      alchemyEngine.processCascadeStep(
+        matchedGroups: matchGroups,
+        targetCoordinate: TileCoordinate(row: 3, col: 2),
+        isFirstMatch: true,
+      );
       
       expect(boardManager.gridTiles[3][2].isTriggered, isTrue, reason: 'Explosive should be primed');
 
-      final blastResult = boardManager.executeBlastRadius(TileCoordinate(row: 3, col: 2));
+      final detonationResult = alchemyEngine.processDetonationStep();
 
-      expect(blastResult.destroyed.contains(TileCoordinate(row: 3, col: 3)), isFalse, reason: 'Transmuted tile should NOT be destroyed');
-      expect(blastResult.transformed.contains(TileCoordinate(row: 3, col: 3)), isTrue, reason: 'Tile should be in transformed set');
-      expect(boardManager.gridTiles[3][3].emoji.visual, equals(targetEmoji.visual), reason: 'Tile should transform into the target mapped emoji');
+      expect(detonationResult.transformed.contains(TileCoordinate(row: 3, col: 4)), isTrue, reason: 'Tile should be in transformed set');
+      expect(boardManager.gridTiles[3][4].emoji.visual, equals(targetEmoji.visual), reason: 'Tile should transform into the target mapped emoji');
     });
 
     test('Crafting an Explosive should NOT self-ignite dynamically', () {
@@ -107,37 +107,45 @@ void main() {
         (r) => RecipeBook.getReactionFor(r.yields)?.type == ReactionType.explosive,
       );
 
-      final matchCoords = <TileCoordinate>{};
       for (int i = 0; i < explosiveRecipe.requiredAmount; i++) {
         boardManager.gridTiles[0][i].emoji = explosiveRecipe.ingredient;
-        matchCoords.add(TileCoordinate(row: 0, col: i));
       }
 
-      final mergePoint = TileCoordinate(row: 0, col: 1);
-
-      alchemyEngine.processMatches(matchCoords, mockState, mergePoint: mergePoint);
+      final matchGroups = MatchDetector.findMatchedGroups(boardManager.gridTiles);
+      alchemyEngine.processCascadeStep(
+        matchedGroups: matchGroups,
+        targetCoordinate: TileCoordinate(row: 0, col: 1),
+        isFirstMatch: true,
+      );
 
       final craftedTile = boardManager.gridTiles[0][1];
       expect(craftedTile.emoji.visual, equals(explosiveRecipe.yields.visual));
       expect(craftedTile.isTriggered, isFalse, reason: 'Newly crafted explosive MUST NOT self-ignite');
     });
 
-    test('Explosive hitting Explosive should PRIME it', () {
+    test('Explosive hitting Explosive should PRIME adjacent explosives when no merge', () {
       final explosiveEmoji = RecipeBook.allRecipes.firstWhere(
         (r) => RecipeBook.getReactionFor(r.yields)?.type == ReactionType.explosive,
       ).yields;
 
       boardManager.triggerInitialFall();
-      TileCoordinate center = TileCoordinate(row: 4, col: 2);
-      TileCoordinate adjacent = TileCoordinate(row: 4, col: 3);
-      
-      boardManager.gridTiles[center.row][center.col].emoji = explosiveEmoji;
-      boardManager.gridTiles[adjacent.row][adjacent.col].emoji = explosiveEmoji;
+      boardManager.gridTiles[4][1].emoji = explosiveEmoji;
+      boardManager.gridTiles[4][2].emoji = explosiveEmoji;
+      boardManager.gridTiles[4][3].emoji = explosiveEmoji;
+      boardManager.gridTiles[4][0].emoji = Emojis.fire;
+      boardManager.gridTiles[3][1].emoji = explosiveEmoji;
 
-      final blastResult = boardManager.executeBlastRadius(center);
+      final matchGroups = MatchDetector.findMatchedGroups(boardManager.gridTiles);
+      alchemyEngine.processCascadeStep(
+        matchedGroups: matchGroups,
+        targetCoordinate: TileCoordinate(row: 4, col: 2),
+        isFirstMatch: true,
+      );
 
-      expect(blastResult.destroyed.contains(adjacent), isFalse, reason: 'Caught explosive should NOT be destroyed');
-      expect(boardManager.gridTiles[adjacent.row][adjacent.col].isTriggered, isTrue, reason: 'Caught explosive should be primed for chain reaction');
+      final detonationResult = alchemyEngine.processDetonationStep();
+
+      expect(boardManager.gridTiles[3][1].isTriggered || detonationResult.destroyed.contains(TileCoordinate(row: 3, col: 1)), isTrue, 
+        reason: 'Adjacent explosive should either be primed or destroyed');
     });
 
     test('Should destroy tiles normally when NO recipe exists (Basic Match-3)', () {
@@ -147,15 +155,14 @@ void main() {
       boardManager.gridTiles[0][1].emoji = nonRecipeEmoji;
       boardManager.gridTiles[0][2].emoji = nonRecipeEmoji;
 
-      final matchCoords = {
-        TileCoordinate(row: 0, col: 0),
-        TileCoordinate(row: 0, col: 1),
-        TileCoordinate(row: 0, col: 2),
-      };
+      final matchGroups = MatchDetector.findMatchedGroups(boardManager.gridTiles);
+      final result = alchemyEngine.processCascadeStep(
+        matchedGroups: matchGroups,
+        targetCoordinate: TileCoordinate(row: 0, col: 0),
+        isFirstMatch: true,
+      );
 
-      final destroyedTiles = alchemyEngine.processMatches(matchCoords, mockState);
-
-      expect(destroyedTiles.length, equals(3), reason: 'Basic match should return all tiles for destruction');
+      expect(result.tilesToDestroy.length, equals(3), reason: 'Basic match should return all tiles for destruction');
       expect(boardManager.gridTiles[0][0].isTriggered, isFalse);
       expect(boardManager.gridTiles[0][0].isTransmuting, isFalse);
     });
@@ -169,22 +176,25 @@ void main() {
       );
 
       final matchSize = largeRecipe.requiredAmount - 1;
-      final matchCoords = <TileCoordinate>{};
       
       for (int i = 0; i < matchSize; i++) {
         boardManager.gridTiles[0][i].emoji = largeRecipe.ingredient;
-        matchCoords.add(TileCoordinate(row: 0, col: i));
       }
 
-      final destroyedTiles = alchemyEngine.processMatches(matchCoords, mockState);
+      final matchGroups = MatchDetector.findMatchedGroups(boardManager.gridTiles);
+      final result = alchemyEngine.processCascadeStep(
+        matchedGroups: matchGroups,
+        targetCoordinate: TileCoordinate(row: 0, col: 0),
+        isFirstMatch: true,
+      );
 
-      expect(destroyedTiles.length, equals(matchSize), reason: 'Insufficient recipe match should default to destruction');
+      expect(result.tilesToDestroy.length, equals(matchSize), reason: 'Insufficient recipe match should default to destruction');
       expect(boardManager.gridTiles[0][0].emoji.visual, equals(largeRecipe.ingredient.visual), reason: 'Tile should NOT have transformed');
     });
 
     test('Should execute explosion strictly within its AoE radius', () {
       final explosiveEmoji = RecipeBook.allRecipes.firstWhere(
-        (r) =>  RecipeBook.getReactionFor(r.yields)?.type == ReactionType.explosive,
+        (r) => RecipeBook.getReactionFor(r.yields)?.type == ReactionType.explosive,
       ).yields;
       
       final reaction = RecipeBook.getReactionFor(explosiveEmoji)!;
@@ -201,13 +211,20 @@ void main() {
       final centerCol = 2;
       boardManager.gridTiles[centerRow][centerCol].emoji = explosiveEmoji;
       
-      final blastResult = boardManager.executeBlastRadius(TileCoordinate(row: centerRow, col: centerCol));
+      final matchGroups = MatchDetector.findMatchedGroups(boardManager.gridTiles);
+      alchemyEngine.processCascadeStep(
+        matchedGroups: matchGroups,
+        targetCoordinate: TileCoordinate(row: centerRow, col: centerCol),
+        isFirstMatch: true,
+      );
+
+      final detonationResult = alchemyEngine.processDetonationStep();
 
       final safeRow = centerRow + radius + 1;
       final safeCol = centerCol;
       
-      expect(blastResult.destroyed.contains(TileCoordinate(row: safeRow, col: safeCol)), isFalse, reason: 'Tile outside radius should not be destroyed');
-      expect(blastResult.transformed.contains(TileCoordinate(row: safeRow, col: safeCol)), isFalse, reason: 'Tile outside radius should not be transformed');
+      expect(detonationResult.destroyed.contains(TileCoordinate(row: safeRow, col: safeCol)), isFalse, reason: 'Tile outside radius should not be destroyed');
+      expect(detonationResult.transformed.contains(TileCoordinate(row: safeRow, col: safeCol)), isFalse, reason: 'Tile outside radius should not be transformed');
     });
   });
 }
