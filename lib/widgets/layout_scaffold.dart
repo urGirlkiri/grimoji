@@ -25,14 +25,25 @@ class LayoutScaffold extends StatelessWidget {
     final double iconSelectedSize = isLarge ? 120.0 : 80.0;
 
     return Scaffold(
-      backgroundColor: palette.voidBlack,
       body: navigationShell,
       bottomNavigationBar: Container(
         height: navHeight,
         decoration: BoxDecoration(
-          color: palette.midnight,
           border: Border(
-            top: BorderSide(color: palette.twilight, width: isLarge ? 10 : 3),
+            top: BorderSide(
+              color: palette.twilight.withValues(alpha: 0.25),
+              width: 2.0,
+            ),
+          ),
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              palette.voidBlack.withValues(alpha: 0.8),
+              palette.midnight,
+              palette.midnight,
+            ],
+            stops: const [0.0, 0.2, 1.0],
           ),
         ),
         child: RepaintBoundary(
@@ -42,7 +53,7 @@ class LayoutScaffold extends StatelessWidget {
               final int index = entry.key;
               final Destination dest = entry.value;
               final bool isSelected = navigationShell.currentIndex == index;
-          
+
               return Expanded(
                 child: GestureDetector(
                   behavior: HitTestBehavior.opaque,
@@ -69,7 +80,7 @@ class LayoutScaffold extends StatelessWidget {
                             ),
                           ),
                         ),
-          
+
                         AnimatedPositioned(
                           duration: const Duration(milliseconds: 300),
                           curve: Curves.easeOut,

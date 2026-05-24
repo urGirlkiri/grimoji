@@ -9,7 +9,7 @@ class AppTheme {
 
     return ThemeData(
       useMaterial3: true,
-      scaffoldBackgroundColor: palette.voidBlack, 
+      scaffoldBackgroundColor: palette.midnight, 
       
       colorScheme: ColorScheme.dark(
         primary: palette.slate,

@@ -7,6 +7,7 @@ import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/map/widgets/level_node.dart';
 import 'package:grimoji/features/level/widgets/dialogs/start_dialog.dart';
+import 'package:grimoji/features/profile/game_bar.dart';
 
 import 'package:grimoji/utils/responsive.dart';
 import 'package:provider/provider.dart';
@@ -78,6 +79,8 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
     );
 
     return Scaffold(
+      appBar: const GameBar(),
+      backgroundColor: Color(0xFF48484f),
       body: GameLevelsScrollingMap.scrollable(
         imageUrl: "assets/images/map/map_visual.png",
         imageWidth: 755,
