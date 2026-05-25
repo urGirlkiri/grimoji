@@ -1,36 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:grimoji/features/audio/audio_controller.dart';
-import 'package:grimoji/features/audio/sounds.dart';
-import 'package:provider/provider.dart';
+import 'package:grimoji/widgets/app_icon.dart';
 
 class IconToggle extends StatelessWidget {
-  final String imagePath;
+  final String fileName;
   final bool isActive;
   final VoidCallback onTap;
+  final String? label;
 
   const IconToggle({
     super.key,
-    required this.imagePath,
+    required this.fileName,
     required this.isActive,
     required this.onTap,
+    this.label,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        context.read<AudioController>().playSfx(SfxType.buttonTap);
-        onTap();
-      },
-      child: AnimatedOpacity(
-        duration: const Duration(milliseconds: 200),
-        opacity: isActive ? 1.0 : 0.4,
-        child: Image.asset(
-          imagePath,
-          fit: BoxFit.contain,
-          width: 80,
-          height: 80,
-        ),
+    return SizedBox(
+      width: 100,
+      height: 125,
+      child: Column(
+        children: [
+          AppIcon(
+            fileName: fileName,
+            size: 80,
+            isActive: isActive,
+            enableSound: false,
+            enableAnimation: false,
+            onTap: onTap,
+          ),
+          if (label != null) SizedBox(height: 12),
+          if (label != null)
+            Text(
+              label!,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Theme.of(context).colorScheme.surfaceContainer,
+                fontWeight: FontWeight.w600
+              ),
+            ),
+        ],
       ),
     );
   }

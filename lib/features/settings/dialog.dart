@@ -69,23 +69,23 @@ class SettingsDialog extends StatelessWidget {
                             runSpacing: 12,
                             children: [
                               IconToggle(
-                                imagePath: settings.soundsOn.value
-                                    ? 'assets/icons/app/vibration_on.png'
-                                    : 'assets/icons/app/vibration_off.png',
+                                fileName: settings.soundsOn.value
+                                    ? 'vibration_on.png'
+                                    : 'vibration_off.png',
                                 isActive: settings.soundsOn.value && settings.audioOn.value,
                                 onTap: settings.toggleSoundsOn,
                               ),
                               IconToggle(
-                                imagePath: settings.musicOn.value
-                                    ? 'assets/icons/app/sfx_on.png'
-                                    : 'assets/icons/app/sfx_off.png',
+                                fileName: settings.musicOn.value
+                                    ? 'sfx_on.png'
+                                    : 'sfx_off.png',
                                 isActive: settings.musicOn.value && settings.audioOn.value,
                                 onTap: settings.toggleMusicOn,
                               ),
                               IconToggle(
-                                imagePath: settings.audioOn.value
-                                    ? 'assets/icons/app/music_on.png'
-                                    : 'assets/icons/app/music_off.png',
+                                fileName: settings.audioOn.value
+                                    ? 'music_on.png'
+                                    : 'music_off.png',
                                 isActive: settings.audioOn.value,
                                 onTap: settings.toggleAudioOn,
                               ),

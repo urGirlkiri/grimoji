@@ -51,7 +51,7 @@ class AudioController {
         polyphony,
         (i) => AudioPlayer(playerId: 'sfxPlayer#$i'),
       ).toList(growable: false),
-      _playlist = Queue.of(List<Song>.of(songs)..shuffle()) {
+      _playlist = Queue.of(List<Song>.of(backgroundSongs)..shuffle()) {
     _musicPlayer.onPlayerComplete.listen(_handleSongFinished);
     unawaited(_preloadSfx());
   }
