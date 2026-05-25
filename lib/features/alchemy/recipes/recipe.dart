@@ -10,4 +10,6 @@ class Recipe {
     required this.requiredAmount,
     required this.yields,
   });
+
+  String get id => '${ingredient.visual}_${requiredAmount}_${yields.visual}';
 }
