@@ -21,7 +21,12 @@ void main() {
         timeLimit: 60,
         targetEmoji: Emojis.fire,
         targetAmount: 10,
-        availableEmojis: [Emojis.fire, Emojis.rock, Emojis.droplet, Emojis.alien],
+        availableEmojis: [
+          Emojis.fire,
+          Emojis.rock,
+          Emojis.droplet,
+          Emojis.alien,
+        ],
         goal: 'Test goal',
         description: 'Test description',
       );
@@ -34,14 +39,24 @@ void main() {
 
     test('Should initialize and provide grid access', () {
       gameEngine.initialize();
-      
+
       expect(gameEngine.grid.length, 8);
       expect(gameEngine.grid[0].length, 5);
     });
 
     test('Should evaluate swipe and return decision', () {
       gameEngine.initialize();
-      
+
+      for (int r = 0; r < BoardManager.rows; r++) {
+        for (int c = 0; c < BoardManager.cols; c++) {
+          boardManager.gridTiles[r][c].emoji = [
+            Emojis.fire,
+            Emojis.rock,
+            Emojis.droplet,
+            Emojis.alien,
+          ][(r * 2 + c * 3) % 4];
+        }
+      }
       boardManager.gridTiles[0][0].emoji = Emojis.fire;
       boardManager.gridTiles[0][1].emoji = Emojis.fire;
       boardManager.gridTiles[0][2].emoji = Emojis.fire;
@@ -56,11 +71,17 @@ void main() {
 
     test('Should return invalid for non-matching swipe', () {
       gameEngine.initialize();
-      
-      boardManager.gridTiles[0][0].emoji = Emojis.fire;
-      boardManager.gridTiles[0][1].emoji = Emojis.rock;
-      boardManager.gridTiles[1][0].emoji = Emojis.droplet;
-      boardManager.gridTiles[1][1].emoji = Emojis.alien;
+
+      for (int r = 0; r < BoardManager.rows; r++) {
+        for (int c = 0; c < BoardManager.cols; c++) {
+          boardManager.gridTiles[r][c].emoji = [
+            Emojis.fire,
+            Emojis.rock,
+            Emojis.droplet,
+            Emojis.alien,
+          ][(r * 2 + c * 3) % 4];
+        }
+      }
 
       final decision = gameEngine.evaluateSwipe(
         TileCoordinate(row: 0, col: 0),
@@ -72,7 +93,17 @@ void main() {
 
     test('Should detect possible moves', () {
       gameEngine.initialize();
-      
+
+      for (int r = 0; r < BoardManager.rows; r++) {
+        for (int c = 0; c < BoardManager.cols; c++) {
+          boardManager.gridTiles[r][c].emoji = [
+            Emojis.fire,
+            Emojis.rock,
+            Emojis.droplet,
+            Emojis.alien,
+          ][(r * 2 + c * 3) % 4];
+        }
+      }
       boardManager.gridTiles[0][0].emoji = Emojis.fire;
       boardManager.gridTiles[0][1].emoji = Emojis.fire;
       boardManager.gridTiles[0][2].emoji = Emojis.fire;
@@ -82,7 +113,17 @@ void main() {
 
     test('Should get hint move when moves available', () {
       gameEngine.initialize();
-      
+
+      for (int r = 0; r < BoardManager.rows; r++) {
+        for (int c = 0; c < BoardManager.cols; c++) {
+          boardManager.gridTiles[r][c].emoji = [
+            Emojis.fire,
+            Emojis.rock,
+            Emojis.droplet,
+            Emojis.alien,
+          ][(r * 2 + c * 3) % 4];
+        }
+      }
       boardManager.gridTiles[0][0].emoji = Emojis.fire;
       boardManager.gridTiles[0][1].emoji = Emojis.fire;
       boardManager.gridTiles[0][2].emoji = Emojis.fire;
@@ -94,7 +135,7 @@ void main() {
 
     test('Should return null hint when no moves available', () {
       gameEngine.initialize();
-      
+
       for (int r = 0; r < BoardManager.rows; r++) {
         for (int c = 0; c < BoardManager.cols; c++) {
           boardManager.gridTiles[r][c].emoji = [
@@ -112,7 +153,7 @@ void main() {
 
     test('Should shuffle grid', () {
       gameEngine.initialize();
-      
+
       final originalEmojis = boardManager.gridTiles
           .expand((row) => row.map((tile) => tile.emoji))
           .toList();
@@ -128,7 +169,7 @@ void main() {
 
     test('Should provide grid getter', () {
       gameEngine.initialize();
-      
+
       expect(gameEngine.grid, equals(boardManager.gridTiles));
     });
   });

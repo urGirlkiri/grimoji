@@ -79,7 +79,9 @@ final router = GoRouter(
               path: Routes.marketRoute,
               name: Routes.market,
               builder: (context, state) =>
-                  const Scaffold(body: Center(child: Text("Market"))),
+                  Scaffold(
+                    appBar: GameBar(),
+                    body: Center(child: Text("Market"))),
             ),
           ],
         ),
