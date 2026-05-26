@@ -54,10 +54,10 @@ class NeonLogo extends StatelessWidget {
                       foreground: Paint()
                         ..style = PaintingStyle.stroke
                         ..strokeWidth = 10 * scale 
-                        ..color = palette.magicCyan,
+                        ..color = palette.twilight,
                       shadows: [
-                        Shadow(blurRadius: 15 * scale, color: palette.magicCyan),
-                        Shadow(blurRadius: 30 * scale, color: palette.magicCyanDeep),
+                        Shadow(blurRadius: 15 * scale, color: palette.twilight),
+                        Shadow(blurRadius: 30 * scale, color: palette.slate),
                       ],
                     ),
                   ),
@@ -101,9 +101,10 @@ class NeonLogo extends StatelessWidget {
                       colors: [
                         palette.trueWhite, 
                         palette.moonlightSoft,
-                        palette.midnight, 
+                        palette.magicCyan,
+                        palette.twilight, 
                       ],
-                      stops: const [0.0, 0.4, 1.0], 
+                      stops: const [0.0, 0.4, 0.6, 1.0], 
                     ).createShader(bounds);
                   },
                   child: Padding(
@@ -133,7 +134,7 @@ class NeonLogo extends StatelessWidget {
                   Shadow(
                     offset: const Offset(0, 0),
                     blurRadius: 10.0 * scale,
-                    color: palette.magicCyan.withValues(alpha: 0.3),
+                    color: palette.mist.withValues(alpha: 0.3),
                   ),
                 ],
               ),

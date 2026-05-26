@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/routes.dart';
+import 'package:grimoji/widgets/app_icon.dart';
 import 'package:grimoji/widgets/neon_logo.dart';
 import 'package:provider/provider.dart';
 
@@ -38,7 +39,7 @@ class MainMenuScreen extends StatelessWidget {
                 return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min, 
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Flexible(
                         child: Image.asset(
@@ -100,11 +101,10 @@ class MainMenuScreen extends StatelessWidget {
                     child: ValueListenableBuilder<bool>(
                       valueListenable: settingsController.audioOn,
                       builder: (context, audioOn, child) {
-                        return IconButton(
-                          onPressed: settingsController.toggleAudioOn,
-                          icon: Icon(
-                            audioOn ? Icons.volume_up : Icons.volume_off,
-                          ),
+                        return AppIcon(
+                          fileName: audioOn ? 'sound_on' : 'sound_off',
+                          onTap: settingsController.toggleAudioOn,
+                          size: 24,
                         );
                       },
                     ),
