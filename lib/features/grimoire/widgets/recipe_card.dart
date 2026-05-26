@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
-import 'package:grimoji/widgets/app_icon.dart';
+import 'package:grimoji/widgets/corkscrew_close_btn.dart';
 import 'package:grimoji/widgets/emoji_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -72,11 +72,7 @@ class RecipeCard extends StatelessWidget {
                 right: 16.0,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: AppIcon(
-                    fileName: 'close',
-                    size: 40,
-                    onTap: () => Navigator.pop(context),
-                  ),
+                  child: CorkScrewCloseButton(),
                 ),
               ),
             ],

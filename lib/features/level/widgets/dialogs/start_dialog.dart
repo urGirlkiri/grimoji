@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/routes.dart';
-import 'package:grimoji/widgets/app_icon.dart';
+import 'package:grimoji/widgets/corkscrew_close_btn.dart';
 import 'package:grimoji/widgets/emoji_widget.dart';
 import 'package:grimoji/widgets/pill_button.dart';
 import 'package:grimoji/widgets/scroll_dialog.dart';
@@ -24,11 +24,7 @@ class LevelStartDialog extends StatelessWidget {
       elevation: 0,
       insetPadding: EdgeInsets.all(0),
       child: ScrollDialog(
-        rightButton: AppIcon(
-          fileName: 'close',
-          size: 80,
-          onTap: () => Navigator.of(context).pop(),
-        ),
+        rightButton: CorkScrewCloseButton(),
         child: ScrollConfiguration(
           behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
           child: Column(

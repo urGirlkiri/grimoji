@@ -6,7 +6,7 @@ import 'package:grimoji/config/routes.dart';
 import 'package:grimoji/features/settings/controller.dart';
 import 'package:grimoji/features/settings/widgets/icon_toggle.dart';
 import 'package:grimoji/features/settings/widgets/volume_slider.dart';
-import 'package:grimoji/widgets/app_icon.dart';
+import 'package:grimoji/widgets/corkscrew_close_btn.dart';
 import 'package:grimoji/widgets/pill_button.dart';
 import 'package:grimoji/widgets/scroll_dialog.dart';
 import 'package:provider/provider.dart';
@@ -26,11 +26,7 @@ class SettingsDialog extends StatelessWidget {
       elevation: 0,
       child: ScrollDialog(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
-        rightButton: AppIcon(
-          fileName: 'close',
-          size: 60,
-          onTap: () => Navigator.of(context).pop(),
-        ),
+        rightButton:  CorkScrewCloseButton(),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
           child: ScrollConfiguration(

@@ -1,8 +1,6 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grimoji/widgets/corkscrew_close_btn.dart';
 import 'package:provider/provider.dart';
 
 import 'package:grimoji/config/palette.dart';
@@ -11,7 +9,6 @@ import 'package:grimoji/features/settings/controller.dart';
 import 'package:grimoji/features/settings/widgets/icon_toggle.dart';
 import 'package:grimoji/features/settings/widgets/volume_slider.dart';
 import 'package:grimoji/utils/responsive.dart';
-import 'package:grimoji/widgets/app_icon.dart';
 import 'package:grimoji/widgets/pill_button.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -21,42 +18,7 @@ class SettingsScreen extends StatefulWidget {
   State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _buttonController = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 300),
-  );
-
-  late final Animation<double> _scaleAnimation;
-  late final Animation<double> _rotationAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _scaleAnimation = Tween<double>(begin: 0.1, end: 1.0).animate(
-      CurvedAnimation(parent: _buttonController, curve: Curves.easeOutCubic),
-    );
-
-    _rotationAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _buttonController, curve: Curves.easeInOutBack),
-    );
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ModalRoute.of(context)?.animation?.addStatusListener((status) {
-        if (mounted && status == AnimationStatus.completed) {
-          _buttonController.forward();
-        }
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _buttonController.dispose();
-    super.dispose();
-  }
-
+class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final settings = context.watch<SettingsController>();
@@ -88,33 +50,9 @@ class _SettingsScreenState extends State<SettingsScreen>
                 ),
 
                 Positioned(
-                  top: isLarge ? -20 : -10,
-                  right: isLarge ? -20 : -10,
-                  child: FadeTransition(
-                    opacity: _buttonController,
-                    child: AnimatedBuilder(
-                      animation: _buttonController,
-                      builder: (context, child) {
-                        return Transform.scale(
-                          scale: _scaleAnimation.value,
-                          child: Transform.rotate(
-                            angle: _rotationAnimation.value * 2 * math.pi,
-                            child: child,
-                          ),
-                        );
-                      },
-                      child: AppIcon(
-                        fileName: 'close',
-                        size: 60,
-                        enableAnimation: false,
-                        onTap: () {
-                          _buttonController.reverse().then((value) {
-                            if (mounted) GoRouter.of(context).pop();
-                          });
-                        },
-                      ),
-                    ),
-                  ),
+                  top: isLarge ? -1 : -10,
+                  right: isLarge ? -1 : -1,
+                  child: CorkScrewCloseButton(),
                 ),
 
                 Padding(

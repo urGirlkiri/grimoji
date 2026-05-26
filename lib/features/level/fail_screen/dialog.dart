@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/routes.dart';
-import 'package:grimoji/widgets/app_icon.dart';
+import 'package:grimoji/widgets/corkscrew_close_btn.dart';
 import 'package:grimoji/widgets/emoji_widget.dart';
 import 'package:grimoji/widgets/pill_button.dart';
 import 'package:grimoji/widgets/scroll_dialog.dart';
@@ -27,14 +27,7 @@ class LevelFailDialog extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           ScrollDialog(
-            rightButton: AppIcon(
-              fileName: 'close',
-              size: 80,
-              onTap: () {
-                Navigator.of(context).pop();
-                GoRouter.of(context).goNamed(Routes.map);
-              },
-            ),
+            rightButton: CorkScrewCloseButton(),
             child: Padding(
               padding: const EdgeInsets.all(24.0),
               child: Column(

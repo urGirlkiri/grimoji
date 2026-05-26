@@ -6,6 +6,7 @@ import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/routes.dart';
 import 'package:grimoji/features/settings/dialog.dart';
 import 'package:grimoji/widgets/app_icon.dart';
+import 'package:grimoji/widgets/corkscrew_close_btn.dart';
 import 'package:grimoji/widgets/emoji_widget.dart';
 import 'package:grimoji/widgets/pill_button.dart';
 import 'package:grimoji/widgets/scroll_dialog.dart';
@@ -26,11 +27,7 @@ class PauseDialog extends StatelessWidget {
       backgroundColor: Colors.transparent,
       elevation: 0,
       child: ScrollDialog(
-        leftButton: AppIcon(
-          fileName: 'close',
-          size: 80,
-          onTap: () => Navigator.of(context).pop(),
-        ),
+        leftButton:  CorkScrewCloseButton(),
         rightButton: AppIcon(
           fileName: 'settings',
           size: 80,
