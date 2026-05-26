@@ -1,11 +1,11 @@
-// Copyright 2022, the Flutter project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
 import 'dart:developer' as dev;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:grimoji/features/profile/controller.dart';
+import 'package:grimoji/features/profile/models/profile_data.dart';
+import 'package:grimoji/features/profile/persistance/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logging/logging.dart';
 import 'package:grimoji/router.dart';
@@ -40,13 +40,19 @@ void main() async {
 
   Hive.registerAdapter(SettingsDataAdapter());
   Hive.registerAdapter(LevelDataAdapter());
+  Hive.registerAdapter(ProfileDataAdapter());
 
   await Hive.openBox<SettingsData>('settings');
   await Hive.openBox<LevelData>('level_data');
+  await Hive.openBox<ProfileData>('player_profile');
+
+  final persistence = HiveProfilePersistence();
+  final profileController = ProfileController(persistence: persistence);
+
+  await profileController.load();
 
   // Put game into full screen mode on mobile devices.
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-  // Lock the game to portrait mode on mobile devices.
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -54,17 +60,19 @@ void main() async {
 
   RecipeBook.initialize();
 
-  runApp(MyApp());
+  runApp(MyGame(profileController: profileController));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyGame extends StatelessWidget {
+  final ProfileController profileController;
+  const MyGame({super.key, required this.profileController});
 
   @override
   Widget build(BuildContext context) {
     return AppLifecycleObserver(
       child: MultiProvider(
         providers: [
+          ChangeNotifierProvider.value(value: profileController),
           Provider(create: (context) => SettingsController()),
           Provider(create: (context) => Palette()),
           ChangeNotifierProvider(create: (context) => LevelDataController()),

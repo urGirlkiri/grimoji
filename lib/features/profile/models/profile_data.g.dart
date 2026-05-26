@@ -18,30 +18,36 @@ class ProfileDataAdapter extends TypeAdapter<ProfileData> {
     };
     return ProfileData(
       isFirstTime: fields[0] as bool,
-      unlockedRecipeIds: (fields[1] as List).cast<String>(),
-      unreadRecipeIds: (fields[2] as List).cast<String>(),
-      cauldrons: fields[3] as int,
-      lastCauldronRegenTime: fields[4] as int,
-      inventory: (fields[5] as Map).cast<String, int>(),
+      avatar: fields[1] as String,
+      unlockedRecipeIds: (fields[2] as List).cast<String>(),
+      unreadRecipeIds: (fields[3] as List).cast<String>(),
+      cauldrons: fields[4] as int,
+      lastCauldronRegenTime: fields[5] as int,
+      dices: fields[7] as int,
+      inventory: (fields[6] as Map).cast<String, int>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, ProfileData obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.isFirstTime)
       ..writeByte(1)
-      ..write(obj.unlockedRecipeIds)
+      ..write(obj.avatar)
       ..writeByte(2)
-      ..write(obj.unreadRecipeIds)
+      ..write(obj.unlockedRecipeIds)
       ..writeByte(3)
-      ..write(obj.cauldrons)
+      ..write(obj.unreadRecipeIds)
       ..writeByte(4)
-      ..write(obj.lastCauldronRegenTime)
+      ..write(obj.cauldrons)
       ..writeByte(5)
-      ..write(obj.inventory);
+      ..write(obj.lastCauldronRegenTime)
+      ..writeByte(6)
+      ..write(obj.inventory)
+      ..writeByte(7)
+      ..write(obj.dices);
   }
 
   @override

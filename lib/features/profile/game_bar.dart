@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/routes.dart';
+import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/widgets/app_icon.dart';
 import 'package:provider/provider.dart';
 
 class GameBar extends StatelessWidget implements PreferredSizeWidget {
-  final int cauldronCount = 5;
-  final int currencyCount = 0;
-
   const GameBar({super.key});
 
   void onNotifTap() {}
@@ -90,6 +88,7 @@ class GameBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
+    final profile = context.watch<ProfileController>();
 
     return SizedBox(
       height: preferredSize.height,
@@ -131,7 +130,7 @@ class GameBar extends StatelessWidget implements PreferredSizeWidget {
                 _buildResourcePill(
                   context: context,
                   iconPath: 'assets/images/cauldron.png',
-                  value: cauldronCount == 5 ? "Full" : cauldronCount.toString(),
+                  value: profile.cauldrons == 5 ? "Full" : profile.cauldrons.toString(),
                   palette: palette,
                   onTap: onCauldronTap,
                 ),
@@ -158,8 +157,8 @@ class GameBar extends StatelessWidget implements PreferredSizeWidget {
                             blurRadius: 0,
                           ),
                         ],
-                        image: const DecorationImage(
-                          image: AssetImage('assets/avatars/cyber_goth.png'),
+                        image: DecorationImage(
+                          image: AssetImage('assets/avatars/${profile.avatar}.png'),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -169,7 +168,7 @@ class GameBar extends StatelessWidget implements PreferredSizeWidget {
                 _buildResourcePill(
                   context: context,
                   iconPath: 'assets/images/dice.png',
-                  value: currencyCount.toString(),
+                  value: profile.dices.toString(),
                   palette: palette,
                   onTap: () => GoRouter.of(context).goNamed(Routes.market),
                 ),

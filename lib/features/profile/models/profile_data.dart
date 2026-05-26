@@ -25,14 +25,29 @@ class ProfileData extends HiveObject {
   @HiveField(6)
   Map<String, int> inventory;
 
+  @HiveField(7)
+  int dices;
+
   ProfileData({
     this.isFirstTime = true,
-    this.avatar = '',
+    this.avatar = 'cyber_goth',
     this.unlockedRecipeIds = const [],
     this.unreadRecipeIds = const [],
     this.cauldrons = 5,
     this.lastCauldronRegenTime = 0,
+    this.dices = 0,
     this.inventory = const {},
   });
 
+  @override
+  String toString() {
+    return '''
+    Avatar: $avatar
+    ${isFirstTime ? "First Time Player" : "Recurring Player"}
+    $cauldrons Cauldrons
+    $dices Dices
+    ${unlockedRecipeIds.length} Unlocked Recipes
+    ${unreadRecipeIds.length} Unread Recipes
+    ''';
+  }
 }
