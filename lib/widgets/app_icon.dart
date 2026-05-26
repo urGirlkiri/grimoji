@@ -23,8 +23,9 @@ class AppIcon extends StatefulWidget {
   });
 
   static const String _basePath = 'assets/icons/app/';
+  static const String _iconExt = 'png';
 
-  String get imagePath => '$_basePath$fileName';
+  String get imagePath => '$_basePath$fileName.$_iconExt';
 
   @override
   State<AppIcon> createState() => _AppIconState();

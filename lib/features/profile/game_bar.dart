@@ -30,16 +30,16 @@ class GameBar extends StatelessWidget implements PreferredSizeWidget {
       child: GestureDetector(
         onTap: onTap,
         child: SizedBox(
-          height: 55, 
+          height: 55,
           child: Stack(
             alignment: Alignment.centerLeft,
-            clipBehavior: Clip.none, 
+            clipBehavior: Clip.none,
             children: [
               Positioned(
-                left: 20, 
+                left: 20,
                 right: 0,
                 child: Container(
-                  height: 28, 
+                  height: 28,
                   decoration: BoxDecoration(
                     color: palette.slate,
                     borderRadius: BorderRadius.circular(14),
@@ -56,7 +56,7 @@ class GameBar extends StatelessWidget implements PreferredSizeWidget {
                     ],
                   ),
                   alignment: Alignment.center,
-                  padding: const EdgeInsets.only(left: 20, right: 8), 
+                  padding: const EdgeInsets.only(left: 20, right: 8),
                   child: Text(
                     value,
                     style: TextStyle(
@@ -72,10 +72,10 @@ class GameBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
               Positioned(
-                left: 2, 
+                left: 2,
                 child: Image.asset(
                   iconPath,
-                  width: 45, 
+                  width: 45,
                   height: 45,
                   fit: BoxFit.contain,
                 ),
@@ -97,7 +97,7 @@ class GameBar extends StatelessWidget implements PreferredSizeWidget {
         clipBehavior: Clip.none,
         children: [
           Container(
-            height: 80.0, 
+            height: 80.0,
             decoration: BoxDecoration(
               color: palette.midnight,
               borderRadius: const BorderRadius.vertical(
@@ -119,33 +119,29 @@ class GameBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
           Positioned(
-            top: 15, 
+            top: 15,
             left: 12,
             right: 12,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                AppIcon(
-                  fileName: 'mail_inbox.png',
-                  size: 45,
-                  onTap: onNotifTap,
-                ),
+                AppIcon(fileName: 'mail_inbox', size: 45, onTap: onNotifTap),
                 const SizedBox(width: 8),
                 _buildResourcePill(
                   context: context,
                   iconPath: 'assets/images/cauldron.png',
                   value: cauldronCount == 5 ? "Full" : cauldronCount.toString(),
                   palette: palette,
-                  onTap: onCauldronTap
+                  onTap: onCauldronTap,
                 ),
                 Transform.translate(
-                  offset: const Offset(0, -10), 
+                  offset: const Offset(0, -10),
                   child: GestureDetector(
                     onTap: onProfileTap,
                     child: Container(
                       width: 75,
-                      height: 80, 
+                      height: 80,
                       margin: const EdgeInsets.only(left: 10, right: 10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
@@ -175,14 +171,10 @@ class GameBar extends StatelessWidget implements PreferredSizeWidget {
                   iconPath: 'assets/images/dice.png',
                   value: currencyCount.toString(),
                   palette: palette,
-                  onTap: () => GoRouter.of(context).goNamed(Routes.market)
+                  onTap: () => GoRouter.of(context).goNamed(Routes.market),
                 ),
                 const SizedBox(width: 8),
-                AppIcon(
-                  fileName: 'settings.png',
-                  size: 45,
-                  onTap: onNotifTap,
-                ),
+                AppIcon(fileName: 'settings', size: 45, onTap: onNotifTap),
               ],
             ),
           ),
@@ -192,5 +184,5 @@ class GameBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(105.0); 
+  Size get preferredSize => const Size.fromHeight(105.0);
 }

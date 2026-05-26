@@ -25,51 +25,54 @@ class LevelStartDialog extends StatelessWidget {
       insetPadding: EdgeInsets.all(0),
       child: ScrollDialog(
         rightButton: AppIcon(
-          fileName: 'close.png',
+          fileName: 'close',
           size: 80,
           onTap: () => Navigator.of(context).pop(),
         ),
         child: ScrollConfiguration(
           behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
           child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          
-          children: [
-            Text(
-              "Level ${level.number}",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.eagleLake(
-                color: palette.midnight,
-                fontSize: 40,
-                fontWeight: FontWeight.bold,
+            mainAxisAlignment: MainAxisAlignment.center,
+
+            children: [
+              Text(
+                "Level ${level.number}",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.eagleLake(
+                  color: palette.midnight,
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            EmojiWidget.lottie(
-              path: level.targetEmoji.lottie,
-              useDropShadow: true,
-              size: 100,
-            ),
-            const SizedBox(height: 24),
-            PillButton(
-              text: "MIX IT",
-              color: palette.twilight,
-              textColor: palette.mist,
-              fullWidth: false,
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-              borderRadius: 20,
-              borderColor: palette.voidBlack,
-              borderWidth: 3,
-              onTap: () {
-                Navigator.of(context).pop();
-                GoRouter.of(context).replaceNamed(
-                  Routes.levelHint,
-                  pathParameters: {'level': level.number.toString()},
-                );
-              },
-            ),
-          ],
-                    ),
+              const SizedBox(height: 16),
+              EmojiWidget.lottie(
+                path: level.targetEmoji.lottie,
+                useDropShadow: true,
+                size: 100,
+              ),
+              const SizedBox(height: 24),
+              PillButton(
+                text: "MIX IT",
+                color: palette.twilight,
+                textColor: palette.mist,
+                fullWidth: false,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 12,
+                ),
+                borderRadius: 20,
+                borderColor: palette.voidBlack,
+                borderWidth: 3,
+                onTap: () {
+                  Navigator.of(context).pop();
+                  GoRouter.of(context).replaceNamed(
+                    Routes.levelHint,
+                    pathParameters: {'level': level.number.toString()},
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

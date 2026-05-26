@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:grimoji/features/audio/audio_controller.dart';
-import 'package:grimoji/features/audio/sounds.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/routes.dart';
+import 'package:grimoji/widgets/app_icon.dart';
 import 'package:grimoji/widgets/emoji_widget.dart';
 import 'package:grimoji/widgets/pill_button.dart';
 import 'package:grimoji/widgets/scroll_dialog.dart';
@@ -28,17 +27,13 @@ class LevelFailDialog extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           ScrollDialog(
-            rightButton: GestureDetector(
+            rightButton: AppIcon(
+              fileName: 'close',
+              size: 80,
               onTap: () {
-                context.read<AudioController>().playSfx(SfxType.buttonTap);
                 Navigator.of(context).pop();
                 GoRouter.of(context).goNamed(Routes.map);
               },
-              child: Image.asset(
-                'assets/icons/app/close.png',
-                width: 80,
-                height: 80,
-              ),
             ),
             child: Padding(
               padding: const EdgeInsets.all(24.0),
@@ -61,20 +56,20 @@ class LevelFailDialog extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 30),
-              
+
                   PillButton(
                     text: 'Retry Level $level',
                     color: palette.crimson,
                     textColor: palette.trueWhite,
                     fullWidth: false,
-                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 32,
+                      vertical: 12,
+                    ),
                     borderRadius: 20,
                     borderColor: palette.midnight,
                     borderWidth: 3,
                     onTap: () {
-                      context.read<AudioController>().playSfx(
-                        SfxType.buttonTap,
-                      );
                       Navigator.of(context).pop();
                       GoRouter.of(context).goNamed(
                         Routes.map,

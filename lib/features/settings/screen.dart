@@ -49,17 +49,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   width: 677,
                   height: isLarge ? 677 : null,
                 ),
-      
+
                 Positioned(
                   top: isLarge ? -1 : -1,
                   right: isLarge ? -1 : -1,
                   child: AppIcon(
-                    fileName: 'close.png',
+                    fileName: 'close',
                     size: 60,
                     onTap: () => GoRouter.of(context).pop(),
                   ),
                 ),
-      
+
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 60.0,
@@ -79,111 +79,121 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ),
                         ),
                         const SizedBox(height: 32),
-      
-                        ListenableBuilder(
-                        listenable: Listenable.merge([
-                          settings.audioOn,
-                          settings.soundsOn,
-                          settings.musicOn,
-                        ]),
-                        builder: (context, child) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              IconToggle(
-                                fileName: settings.soundsOn.value
-                                    ? 'vibration_on.png'
-                                    : 'vibration_off.png',
-                                isActive: settings.soundsOn.value && settings.audioOn.value,
-                                onTap: settings.toggleSoundsOn,
-                                label: 'SFX',
-                              ),
-                              IconToggle(
-                                fileName: settings.musicOn.value
-                                    ? 'sfx_on.png'
-                                    : 'sfx_off.png',
-                                isActive: settings.musicOn.value && settings.audioOn.value,
-                                onTap: settings.toggleMusicOn,
-                                label: 'Music',
-                              ),
-                              IconToggle(
-                                fileName: settings.audioOn.value
-                                    ? 'music_on.png'
-                                    : 'music_off.png',
-                                isActive: settings.audioOn.value,
-                                onTap: settings.toggleAudioOn,
-                                label: 'Audio',
 
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-      
-                      const SizedBox(height: 24),
-      
-                      ListenableBuilder(
-                        listenable: Listenable.merge([
-                          settings.soundsOn,
-                          settings.musicOn,
-                          settings.audioOn,
-                          settings.sfxVolume,
-                          settings.musicVolume,
-                        ]),
-                        builder: (context, child) {
-                          return Column(
-                            children: [
-                              VolumeSlider(
-                                label: "SFX Volume",
-                                value: settings.sfxVolume.value,
-                                palette: palette,
-                                onChanged: (settings.soundsOn.value && settings.audioOn.value)
-                                  ? (val) => settings.setSfxVolume(val)
-                                  : null,
-                              ),
-                              const SizedBox(height: 16),
-                              VolumeSlider(
-                                label: "Music Volume",
-                                value: settings.musicVolume.value,
-                                palette: palette,
-                                onChanged: (settings.musicOn.value && settings.audioOn.value)
-                                  ? (val) => settings.setMusicVolume(val)
-                                  : null,
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-      
-                      const SizedBox(height: 24),
-      
-                      PillButton(
-                        text: "Reset Progress",
-                        color: palette.crimson,
-                        onTap: () async {
-                          await context.read<LevelDataController>().reset();
-                          if (!context.mounted) return;
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              backgroundColor: palette.midnight,
-                              content: Center(
-                                child: Text(
-                                  'Player progress has been reset.',
-                                  style: GoogleFonts.eagleLake(color: palette.trueWhite),
+                        ListenableBuilder(
+                          listenable: Listenable.merge([
+                            settings.audioOn,
+                            settings.soundsOn,
+                            settings.musicOn,
+                          ]),
+                          builder: (context, child) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                IconToggle(
+                                  fileName: settings.soundsOn.value
+                                      ? 'vibration_on'
+                                      : 'vibration_off',
+                                  isActive:
+                                      settings.soundsOn.value &&
+                                      settings.audioOn.value,
+                                  onTap: settings.toggleSoundsOn,
+                                  label: 'SFX',
+                                ),
+                                IconToggle(
+                                  fileName: settings.musicOn.value
+                                      ? 'sfx_on'
+                                      : 'sfx_off',
+                                  isActive:
+                                      settings.musicOn.value &&
+                                      settings.audioOn.value,
+                                  onTap: settings.toggleMusicOn,
+                                  label: 'Music',
+                                ),
+                                IconToggle(
+                                  fileName: settings.audioOn.value
+                                      ? 'music_on'
+                                      : 'music_off',
+                                  isActive: settings.audioOn.value,
+                                  onTap: settings.toggleAudioOn,
+                                  label: 'Audio',
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+
+                        const SizedBox(height: 24),
+
+                        ListenableBuilder(
+                          listenable: Listenable.merge([
+                            settings.soundsOn,
+                            settings.musicOn,
+                            settings.audioOn,
+                            settings.sfxVolume,
+                            settings.musicVolume,
+                          ]),
+                          builder: (context, child) {
+                            return Column(
+                              children: [
+                                VolumeSlider(
+                                  label: "SFX Volume",
+                                  value: settings.sfxVolume.value,
+                                  palette: palette,
+                                  onChanged:
+                                      (settings.soundsOn.value &&
+                                          settings.audioOn.value)
+                                      ? (val) => settings.setSfxVolume(val)
+                                      : null,
+                                ),
+                                const SizedBox(height: 16),
+                                VolumeSlider(
+                                  label: "Music Volume",
+                                  value: settings.musicVolume.value,
+                                  palette: palette,
+                                  onChanged:
+                                      (settings.musicOn.value &&
+                                          settings.audioOn.value)
+                                      ? (val) => settings.setMusicVolume(val)
+                                      : null,
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+
+                        const SizedBox(height: 24),
+
+                        PillButton(
+                          text: "Reset Progress",
+                          color: palette.crimson,
+                          onTap: () async {
+                            await context.read<LevelDataController>().reset();
+                            if (!context.mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: palette.midnight,
+                                content: Center(
+                                  child: Text(
+                                    'Player progress has been reset.',
+                                    style: GoogleFonts.eagleLake(
+                                      color: palette.trueWhite,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
-            ));
+    );
   }
 }

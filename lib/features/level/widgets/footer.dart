@@ -80,12 +80,8 @@ class Foooter extends StatelessWidget {
     double iconSize = isSmall ? 60 : 50;
 
     if (assetPath.startsWith('assets/icons/app/')) {
-      final fileName = assetPath.split('/').last;
-      return AppIcon(
-        fileName: fileName,
-        size: iconSize,
-        onTap: onTap,
-      );
+      final fileName = assetPath.split('/').last.replaceAll('.png', '');
+      return AppIcon(fileName: fileName, size: iconSize, onTap: onTap);
     }
 
     return GestureDetector(

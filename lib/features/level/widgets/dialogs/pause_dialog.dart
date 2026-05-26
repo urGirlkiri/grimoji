@@ -22,18 +22,17 @@ class PauseDialog extends StatelessWidget {
     final screenSize = MediaQuery.sizeOf(context);
     final isLarge = screenSize.width > 400;
 
-
     return Dialog(
       backgroundColor: Colors.transparent,
       elevation: 0,
       child: ScrollDialog(
         leftButton: AppIcon(
-          fileName: 'close.png',
+          fileName: 'close',
           size: 80,
           onTap: () => Navigator.of(context).pop(),
         ),
         rightButton: AppIcon(
-          fileName: 'settings.png',
+          fileName: 'settings',
           size: 80,
           onTap: () {
             showDialog(
@@ -46,70 +45,76 @@ class PauseDialog extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            EmojiWidget.lottie(
-              path: Emojis.alienMonster.lottie,
-              useDropShadow: true,
-              size: isLarge?  100 : 70,
-            ),
-            Text(
-              "The Game is Paused",
-              style: GoogleFonts.eagleLake(
-                color: palette.midnight,
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              EmojiWidget.lottie(
+                path: Emojis.alienMonster.lottie,
+                useDropShadow: true,
+                size: isLarge ? 100 : 70,
               ),
-              textAlign: TextAlign.center,
-            ),
+              Text(
+                "The Game is Paused",
+                style: GoogleFonts.eagleLake(
+                  color: palette.midnight,
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
               const SizedBox(height: 12),
-            Text(
-              "Take a break, then get back to it!",
-              style: GoogleFonts.eagleLake(
-                color: palette.twilight,
-                fontSize: 16,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: isLarge ? 32 : 12),
-            Wrap(
-              alignment: WrapAlignment.center,
-              spacing: 12,
-              runSpacing: 12,
-              children: [
-                PillButton(
-                  text: "Quit",
-                  color: palette.crimson,
-                  textColor: palette.trueWhite,
-                  fullWidth: false,
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                  borderRadius: 20,
-                  borderColor: palette.voidBlack,
-                  borderWidth: 3,
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    GoRouter.of(context).goNamed(
-                      Routes.levelFail,
-                      pathParameters: {'level': level.toString()},
-                    );
-                  },
-                ),
-                PillButton(
-                  text: "Resume",
+              Text(
+                "Take a break, then get back to it!",
+                style: GoogleFonts.eagleLake(
                   color: palette.twilight,
-                  textColor: palette.mist,
-                  fullWidth: false,
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                  borderRadius: 20,
-                  borderColor: palette.voidBlack,
-                  borderWidth: 3,
-                  onTap: () => Navigator.of(context).pop(),
+                  fontSize: 16,
                 ),
-              ],
-            ),
-          ],
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: isLarge ? 32 : 12),
+              Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 12,
+                runSpacing: 12,
+                children: [
+                  PillButton(
+                    text: "Quit",
+                    color: palette.crimson,
+                    textColor: palette.trueWhite,
+                    fullWidth: false,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 16,
+                    ),
+                    borderRadius: 20,
+                    borderColor: palette.voidBlack,
+                    borderWidth: 3,
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      GoRouter.of(context).goNamed(
+                        Routes.levelFail,
+                        pathParameters: {'level': level.toString()},
+                      );
+                    },
                   ),
+                  PillButton(
+                    text: "Resume",
+                    color: palette.twilight,
+                    textColor: palette.mist,
+                    fullWidth: false,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 16,
+                    ),
+                    borderRadius: 20,
+                    borderColor: palette.voidBlack,
+                    borderWidth: 3,
+                    onTap: () => Navigator.of(context).pop(),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

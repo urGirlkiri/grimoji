@@ -24,76 +24,82 @@ class QuitDialog extends StatelessWidget {
       elevation: 0,
       child: ScrollDialog(
         rightButton: AppIcon(
-          fileName: 'close.png',
+          fileName: 'close',
           size: 80,
           onTap: () => Navigator.of(context).pop(),
         ),
         child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          EmojiWidget.lottie(
-            path: Emojis.cryingCatFace.lottie,
-            useDropShadow: true,
-            size: 70,
-          ),
-          const SizedBox(height: 16),
-          Text(
-            "Quit Level?",
-            textAlign: TextAlign.center,
-            style: GoogleFonts.eagleLake(
-              color: palette.midnight,
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            EmojiWidget.lottie(
+              path: Emojis.cryingCatFace.lottie,
+              useDropShadow: true,
+              size: 70,
             ),
-          ),
-          const SizedBox(height: 12),
-          Text(
-            "Progress will be lost!",
-            textAlign: TextAlign.center,
-            style: GoogleFonts.eagleLake(
-              color: palette.twilight,
-              fontSize: 16,
-            ),
-          ),
-          const SizedBox(height: 32),
-          Wrap(
-            alignment: WrapAlignment.center,
-            spacing: 12,
-            runSpacing: 12,
-            children: [
-              PillButton(
-                text: "Quit",
-                color: palette.crimson,
-                textColor: palette.trueWhite,
-                fullWidth: false,
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                borderRadius: 20,
-                borderColor: palette.voidBlack,
-                borderWidth: 3,
-                onTap: () {
-                  Navigator.of(context).pop();
-                  GoRouter.of(context).goNamed(
-                    Routes.levelFail,
-                    pathParameters: {'level': level.toString()},
-                  );
-                },
+            const SizedBox(height: 16),
+            Text(
+              "Quit Level?",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.eagleLake(
+                color: palette.midnight,
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
               ),
-              PillButton(
-                text: "Stay",
+            ),
+            const SizedBox(height: 12),
+            Text(
+              "Progress will be lost!",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.eagleLake(
                 color: palette.twilight,
-                textColor: palette.mist,
-                fullWidth: false,
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                borderRadius: 20,
-                borderColor: palette.voidBlack,
-                borderWidth: 3,
-                onTap: () => Navigator.of(context).pop(),
+                fontSize: 16,
               ),
-            ],
-          ),
-        ],
+            ),
+            const SizedBox(height: 32),
+            Wrap(
+              alignment: WrapAlignment.center,
+              spacing: 12,
+              runSpacing: 12,
+              children: [
+                PillButton(
+                  text: "Quit",
+                  color: palette.crimson,
+                  textColor: palette.trueWhite,
+                  fullWidth: false,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 12,
+                  ),
+                  borderRadius: 20,
+                  borderColor: palette.voidBlack,
+                  borderWidth: 3,
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    GoRouter.of(context).goNamed(
+                      Routes.levelFail,
+                      pathParameters: {'level': level.toString()},
+                    );
+                  },
                 ),
+                PillButton(
+                  text: "Stay",
+                  color: palette.twilight,
+                  textColor: palette.mist,
+                  fullWidth: false,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 12,
+                  ),
+                  borderRadius: 20,
+                  borderColor: palette.voidBlack,
+                  borderWidth: 3,
+                  onTap: () => Navigator.of(context).pop(),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
