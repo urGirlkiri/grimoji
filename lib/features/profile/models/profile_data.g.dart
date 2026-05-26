@@ -23,6 +23,7 @@ class ProfileDataAdapter extends TypeAdapter<ProfileData> {
       unreadRecipeIds: (fields[3] as List).cast<String>(),
       cauldrons: fields[4] as int,
       lastCauldronRegenTime: fields[5] as int,
+      lastPlayedGameTime: fields[8] as int,
       dices: fields[7] as int,
       inventory: (fields[6] as Map).cast<String, int>(),
     );
@@ -31,7 +32,7 @@ class ProfileDataAdapter extends TypeAdapter<ProfileData> {
   @override
   void write(BinaryWriter writer, ProfileData obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.isFirstTime)
       ..writeByte(1)
@@ -47,7 +48,9 @@ class ProfileDataAdapter extends TypeAdapter<ProfileData> {
       ..writeByte(6)
       ..write(obj.inventory)
       ..writeByte(7)
-      ..write(obj.dices);
+      ..write(obj.dices)
+      ..writeByte(8)
+      ..write(obj.lastPlayedGameTime);
   }
 
   @override

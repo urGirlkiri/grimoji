@@ -28,6 +28,9 @@ class ProfileData extends HiveObject {
   @HiveField(7)
   int dices;
 
+  @HiveField(8)
+  int lastPlayedGameTime;
+
   ProfileData({
     this.isFirstTime = true,
     this.avatar = 'cyber_goth',
@@ -35,6 +38,7 @@ class ProfileData extends HiveObject {
     this.unreadRecipeIds = const [],
     this.cauldrons = 5,
     this.lastCauldronRegenTime = 0,
+    this.lastPlayedGameTime = 0,
     this.dices = 0,
     this.inventory = const {},
   });

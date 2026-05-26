@@ -7,6 +7,7 @@ import 'package:grimoji/features/main_menu.dart';
 import 'package:grimoji/features/map/screen.dart';
 import 'package:grimoji/features/level/fail_screen/screen.dart';
 import 'package:grimoji/features/level/hint_screen/screen.dart';
+import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/features/profile/game_bar.dart';
 import 'package:grimoji/features/settings/screen.dart';
 import 'package:grimoji/config/router/layout_scaffold.dart';
@@ -14,18 +15,32 @@ import 'package:grimoji/config/router/layout_scaffold.dart';
 import 'package:grimoji/features/level/screen.dart';
 import 'package:grimoji/features/level/win_screen/screen.dart';
 import 'package:grimoji/config/levels/index.dart';
+import 'package:provider/provider.dart';
 
 final _routerNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
 final router = GoRouter(
   navigatorKey: _routerNavigatorKey,
   initialLocation: Routes.homeRoute,
-  // redirect: (BuildContext context, GoRouterState state) {
-  //   return '/map/play/1';
-  // },
-  // redirect: (BuildContext context, GoRouterState state) {
-  //   return Routes.settingsRoute;
-  // },
+  redirect: (BuildContext context, GoRouterState state) {
+    final profile = context.read<ProfileController>();
+
+    final targetPath = state.matchedLocation;
+
+    if (targetPath == Routes.homeRoute) {
+      if (profile.isFirstTime) {
+        return Routes.levelHintRoute.replaceAll(':level', '1');
+      }
+
+      if(!profile.hasRecentlyPlayedGame()){
+        return Routes.homeRoute;
+      }
+
+      return Routes.mapRoute;
+    }
+
+    return null;
+  },
   routes: [
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) =>

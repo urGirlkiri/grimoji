@@ -22,6 +22,7 @@ class Routes {
   static const String covenRoute    = '/coven';    
   static const String marketRoute   = '/market';
 
+  static const String levelOneRoute = '/map/hint/1';
   static const String levelHintRoute = '/map/hint/:level';
   static const String levelPlayRoute = '/map/play/:level';
   static const String levelWonRoute  = '/map/won';

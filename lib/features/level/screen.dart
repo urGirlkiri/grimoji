@@ -13,6 +13,7 @@ import 'package:grimoji/features/level/widgets/header.dart';
 import 'package:grimoji/features/level/widgets/footer.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/level/widgets/dialogs/quit_dialog.dart';
+import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/widgets/responsive_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:logging/logging.dart' hide Level;
@@ -99,6 +100,15 @@ class _LevelScreenState extends State<LevelScreen> {
       Routes.levelFail,
       pathParameters: {'level': widget.level.number.toString()},
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ProfileController>().markGamePlayed();
+    });
   }
 
   @override

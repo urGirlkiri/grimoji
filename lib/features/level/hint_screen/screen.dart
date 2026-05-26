@@ -88,14 +88,17 @@ class _LevelHintScreenState extends State<LevelHintScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          "Match ${recipe.requiredAmount} to craft",
-          textAlign: TextAlign.center,
-          style: GoogleFonts.eagleLake(
-            color: palette.moonlight,
-            fontSize: 32,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 2.0,
+        Padding(
+          padding: const EdgeInsets.only(left: 4, right: 4),
+          child: Text(
+            "Match ${recipe.requiredAmount} to craft",
+            textAlign: TextAlign.center,
+            style: GoogleFonts.eagleLake(
+              color: palette.moonlight,
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 2.0,
+            ),
           ),
         ),
         const SizedBox(height: 100),

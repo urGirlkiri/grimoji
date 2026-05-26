@@ -31,6 +31,27 @@ class ProfileController extends ChangeNotifier {
   bool isRecipeUnlocked(String id) => _profile?.unlockedRecipeIds.contains(id) ?? false;
   bool isRecipeUnread(String id) => _profile?.unreadRecipeIds.contains(id) ?? false;
 
+
+  bool hasRecentlyPlayedGame() {
+    if (_profile == null || _profile!.lastPlayedGameTime == 0) {
+      return false;
+    }
+
+    final lastPlayedDate = DateTime.fromMillisecondsSinceEpoch(_profile!.lastPlayedGameTime);
+    final now = DateTime.now();
+
+    final differenceInHours = now.difference(lastPlayedDate).inHours;
+
+    return differenceInHours < 24; 
+  }
+
+  void markGamePlayed() {
+    if (_profile != null) {
+      _profile!.lastPlayedGameTime = DateTime.now().millisecondsSinceEpoch;
+      _save();
+    }
+  }
+
   void markTutorialComplete() {
     _profile?.isFirstTime = false;
     _save();
