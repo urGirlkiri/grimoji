@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds.dart';
-import 'package:grimoji/widgets/breathing_widget.dart';
+import 'package:grimoji/widgets/animated/breathing_widget.dart';
 import 'package:provider/provider.dart';
 
 class PillButton extends StatefulWidget {

@@ -8,7 +8,7 @@ import 'package:grimoji/features/game/board/widgets/tile_grid/tile/explosion.dar
 import 'package:grimoji/features/game/board/widgets/tile_grid/tile/match.dart';
 import 'package:grimoji/features/game/board/models/tile.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
-import 'package:grimoji/widgets/emoji_widget.dart';
+import 'package:grimoji/widgets/custom/emoji_widget.dart';
 import 'package:provider/provider.dart';
 
 class TileWidget extends StatefulWidget {

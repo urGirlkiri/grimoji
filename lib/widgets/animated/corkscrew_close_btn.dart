@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:grimoji/widgets/app_icon.dart'; 
+import 'package:grimoji/widgets/custom/app_icon.dart'; 
 
 class CorkScrewCloseButton extends StatefulWidget {
   final double size;

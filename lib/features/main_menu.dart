@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/router/routes.dart';
-import 'package:grimoji/widgets/app_icon.dart';
+import 'package:grimoji/widgets/custom/app_icon.dart';
 import 'package:grimoji/widgets/neon_logo.dart';
 import 'package:provider/provider.dart';
 
 import 'audio/audio_controller.dart';
 import 'audio/sounds.dart';
-import '../widgets/pill_button.dart';
+import '../widgets/custom/pill_button.dart';
 import '../widgets/responsive_screen.dart';
 import 'settings/controller.dart';
 

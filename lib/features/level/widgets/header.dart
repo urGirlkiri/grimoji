@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/features/level/state.dart';
-import 'package:grimoji/widgets/emoji_widget.dart';
+import 'package:grimoji/widgets/custom/emoji_widget.dart';
 import 'package:provider/provider.dart';
 
 class Header extends StatelessWidget {

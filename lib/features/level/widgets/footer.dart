@@ -4,8 +4,8 @@ import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/level/widgets/dialogs/pause_dialog.dart';
-import 'package:grimoji/widgets/app_icon.dart';
-import 'package:grimoji/widgets/emoji_widget.dart';
+import 'package:grimoji/widgets/custom/app_icon.dart';
+import 'package:grimoji/widgets/custom/emoji_widget.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 

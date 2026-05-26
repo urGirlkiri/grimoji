@@ -3,10 +3,10 @@ import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/router/routes.dart';
-import 'package:grimoji/widgets/corkscrew_close_btn.dart';
-import 'package:grimoji/widgets/emoji_widget.dart';
-import 'package:grimoji/widgets/pill_button.dart';
-import 'package:grimoji/widgets/scroll_dialog.dart';
+import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
+import 'package:grimoji/widgets/custom/emoji_widget.dart';
+import 'package:grimoji/widgets/custom/pill_button.dart';
+import 'package:grimoji/widgets/custom/scroll_dialog.dart';
 import 'package:provider/provider.dart';
 
 class LevelFailDialog extends StatelessWidget {

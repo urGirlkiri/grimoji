@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/profile/controller.dart';
-import 'package:grimoji/widgets/app_icon.dart';
+import 'package:grimoji/widgets/custom/app_icon.dart';
 import 'package:provider/provider.dart';
 
 class GameBar extends StatelessWidget implements PreferredSizeWidget {

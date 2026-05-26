@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grimoji/widgets/app_icon.dart';
+import 'package:grimoji/widgets/custom/app_icon.dart';
 
 class IconToggle extends StatelessWidget {
   final String fileName;

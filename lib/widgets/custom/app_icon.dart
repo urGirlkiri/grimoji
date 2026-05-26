@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds.dart';
-import 'package:grimoji/widgets/breathing_widget.dart';
+import 'package:grimoji/widgets/animated/breathing_widget.dart';
 import 'package:provider/provider.dart';
 
 class AppIcon extends StatefulWidget {

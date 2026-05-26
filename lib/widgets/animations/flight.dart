@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/emojis.dart';
-import 'package:grimoji/widgets/emoji_widget.dart';
+import 'package:grimoji/widgets/custom/emoji_widget.dart';
 
 class TargetFlightAnimator {
   static void launch({

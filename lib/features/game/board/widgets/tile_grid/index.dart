@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/features/game/board/utils/metrics.dart';
-import 'package:grimoji/animations/flight.dart';
+import 'package:grimoji/widgets/animations/flight.dart';
 import 'package:grimoji/features/game/board/widgets/tile_grid/tile/index.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/game/board/models/tile.dart';

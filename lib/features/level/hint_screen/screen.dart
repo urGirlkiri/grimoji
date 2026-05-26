@@ -10,7 +10,7 @@ import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 import 'package:grimoji/features/level/controller.dart';
-import 'package:grimoji/widgets/emoji_widget.dart';
+import 'package:grimoji/widgets/custom/emoji_widget.dart';
 import 'package:provider/provider.dart';
 
 class LevelHintScreen extends StatefulWidget {

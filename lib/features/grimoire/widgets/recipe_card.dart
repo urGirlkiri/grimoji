@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
-import 'package:grimoji/widgets/corkscrew_close_btn.dart';
-import 'package:grimoji/widgets/emoji_widget.dart';
+import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
+import 'package:grimoji/widgets/custom/emoji_widget.dart';
 import 'package:provider/provider.dart';
 
 class RecipeCard extends StatelessWidget {

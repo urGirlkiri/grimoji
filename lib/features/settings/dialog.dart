@@ -6,9 +6,9 @@ import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/settings/controller.dart';
 import 'package:grimoji/features/settings/widgets/icon_toggle.dart';
 import 'package:grimoji/features/settings/widgets/volume_slider.dart';
-import 'package:grimoji/widgets/corkscrew_close_btn.dart';
-import 'package:grimoji/widgets/pill_button.dart';
-import 'package:grimoji/widgets/scroll_dialog.dart';
+import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
+import 'package:grimoji/widgets/custom/pill_button.dart';
+import 'package:grimoji/widgets/custom/scroll_dialog.dart';
 import 'package:provider/provider.dart';
 
 class SettingsDialog extends StatelessWidget {
