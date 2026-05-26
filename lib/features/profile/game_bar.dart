@@ -130,7 +130,9 @@ class GameBar extends StatelessWidget implements PreferredSizeWidget {
                 _buildResourcePill(
                   context: context,
                   iconPath: 'assets/images/cauldron.png',
-                  value: profile.cauldrons == 5 ? "Full" : profile.cauldrons.toString(),
+                  value: profile.cauldrons == 5
+                      ? "Full"
+                      : profile.cauldrons.toString(),
                   palette: palette,
                   onTap: onCauldronTap,
                 ),
@@ -158,7 +160,9 @@ class GameBar extends StatelessWidget implements PreferredSizeWidget {
                           ),
                         ],
                         image: DecorationImage(
-                          image: AssetImage('assets/avatars/${profile.avatar}.png'),
+                          image: AssetImage(
+                            'assets/avatars/${profile.avatar}.png',
+                          ),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -173,7 +177,11 @@ class GameBar extends StatelessWidget implements PreferredSizeWidget {
                   onTap: () => GoRouter.of(context).goNamed(Routes.market),
                 ),
                 const SizedBox(width: 8),
-                AppIcon(fileName: 'settings', size: 45, onTap: onNotifTap),
+                AppIcon(
+                  fileName: 'settings',
+                  size: 45,
+                  onTap: () => GoRouter.of(context).pushNamed(Routes.settings),
+                ),
               ],
             ),
           ),

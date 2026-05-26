@@ -83,10 +83,10 @@ final router = GoRouter(
             GoRoute(
               path: Routes.marketRoute,
               name: Routes.market,
-              builder: (context, state) =>
-                  Scaffold(
+              builder: (context, state) => Scaffold(
                     appBar: GameBar(),
-                    body: Center(child: Text("Market"))),
+                body: Center(child: Text("Market")),
+              ),
             ),
           ],
         ),
@@ -104,7 +104,32 @@ final router = GoRouter(
       parentNavigatorKey: _routerNavigatorKey,
       path: Routes.settingsRoute,
       name: Routes.settings,
-      builder: (context, state) => const SettingsScreen(),
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        fullscreenDialog: true,
+
+        transitionDuration: const Duration(milliseconds: 250),
+        reverseTransitionDuration: const Duration(milliseconds: 350),
+
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: CurvedAnimation(
+              parent: animation,
+              curve: const Interval(0.0, 0.7, curve: Curves.easeInOutCubic),
+            ),
+            child: ScaleTransition(
+              scale: Tween<double>(begin: 0.6, end: 1.0).animate(
+                CurvedAnimation(
+                  parent: animation,
+                  curve: Curves.easeInOutCubic,
+                ),
+              ),
+              child: child,
+            ),
+          );
+        },
+        child: const SettingsScreen(),
+      ),
     ),
 
     GoRoute(
