@@ -8,7 +8,7 @@ import 'package:grimoji/features/profile/models/profile_data.dart';
 import 'package:grimoji/features/profile/persistance/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logging/logging.dart';
-import 'package:grimoji/router.dart';
+import 'package:grimoji/config/router/index.dart';
 import 'package:provider/provider.dart';
 
 import 'package:grimoji/config/app/theme.dart';

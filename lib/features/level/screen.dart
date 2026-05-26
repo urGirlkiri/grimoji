@@ -4,7 +4,7 @@ import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds.dart';
 import 'package:grimoji/config/palette.dart';
-import 'package:grimoji/config/routes.dart';
+import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/game/board/utils/metrics.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/level/widgets/confetti.dart';

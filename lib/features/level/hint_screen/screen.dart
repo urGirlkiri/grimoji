@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/config/palette.dart';
-import 'package:grimoji/config/routes.dart';
+import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 import 'package:grimoji/features/level/controller.dart';

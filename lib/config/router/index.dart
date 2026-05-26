@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:grimoji/config/routes.dart';
+import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/grimoire/screen.dart';
 
 import 'package:grimoji/features/main_menu.dart';
@@ -9,7 +9,7 @@ import 'package:grimoji/features/level/fail_screen/screen.dart';
 import 'package:grimoji/features/level/hint_screen/screen.dart';
 import 'package:grimoji/features/profile/game_bar.dart';
 import 'package:grimoji/features/settings/screen.dart';
-import 'package:grimoji/widgets/layout_scaffold.dart';
+import 'package:grimoji/config/router/layout_scaffold.dart';
 
 import 'package:grimoji/features/level/screen.dart';
 import 'package:grimoji/features/level/win_screen/screen.dart';
@@ -21,7 +21,10 @@ final router = GoRouter(
   navigatorKey: _routerNavigatorKey,
   initialLocation: Routes.homeRoute,
   // redirect: (BuildContext context, GoRouterState state) {
-  //   return Routes.grimoireRoute;
+  //   return '/map/play/1';
+  // },
+  // redirect: (BuildContext context, GoRouterState state) {
+  //   return Routes.settingsRoute;
   // },
   routes: [
     StatefulShellRoute.indexedStack(
@@ -84,7 +87,7 @@ final router = GoRouter(
               path: Routes.marketRoute,
               name: Routes.market,
               builder: (context, state) => Scaffold(
-                    appBar: GameBar(),
+                appBar: GameBar(),
                 body: Center(child: Text("Market")),
               ),
             ),

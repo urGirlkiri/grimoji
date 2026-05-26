@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/palette.dart';
-import 'package:grimoji/config/routes.dart';
+import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/settings/dialog.dart';
 import 'package:grimoji/widgets/app_icon.dart';
 import 'package:grimoji/widgets/corkscrew_close_btn.dart';

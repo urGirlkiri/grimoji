@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/config/palette.dart';
-import 'package:grimoji/config/routes.dart';
+import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds.dart';
 import 'package:grimoji/features/level/widgets/confetti.dart';
