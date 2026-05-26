@@ -8,6 +8,8 @@ import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds.dart';
 import 'package:grimoji/features/level/widgets/confetti.dart';
 import 'package:grimoji/features/level/win_screen/flying_star.dart';
+import 'package:grimoji/features/profile/controller.dart';
+import 'package:grimoji/widgets/custom/pill_button.dart'; // Add your button!
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
@@ -26,28 +28,33 @@ class _WinGameScreenState extends State<WinGameScreen> {
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(milliseconds: 3500), () {
-      if (mounted) {
-        final nextLevelNumber = widget.level + 1;
-        final hasNextLevel = gameLevels.any((l) => l.number == nextLevelNumber);
-        if (hasNextLevel) {
-          GoRouter.of(context).goNamed(
-            Routes.map,
-            queryParameters: {'autoOpen': nextLevelNumber.toString()},
-          );
-        } else {
-          GoRouter.of(context).goNamed(Routes.map);
-        }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<AudioController>().playSfx(SfxType.celebration);
+      context.read<ProfileController>().markGamePlayed();
+
+      if (widget.level == 1) {
+        context.read<ProfileController>().markTutorialComplete();
       }
     });
+  }
+
+  void _onContinuePressed() {
+    final nextLevelNumber = widget.level + 1;
+    final hasNextLevel = gameLevels.any((l) => l.number == nextLevelNumber);
+
+    if (hasNextLevel) {
+      GoRouter.of(context).goNamed(
+        Routes.map,
+        queryParameters: {'autoOpen': nextLevelNumber.toString()},
+      );
+    } else {
+      GoRouter.of(context).goNamed(Routes.map);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
-    final audioController = context.read<AudioController>();
-    
-    audioController.playSfx(SfxType.celebration);
 
     return Scaffold(
       backgroundColor: palette.twilight,
@@ -104,8 +111,22 @@ class _WinGameScreenState extends State<WinGameScreen> {
                     'assets/lottie/star-witch.json',
                     fit: BoxFit.contain,
                     animate: true,
+                    repeat: false,
                   ),
                 ),
+
+                const SizedBox(height: 32),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                  child: PillButton(
+                    text: "Continue",
+                    color: palette.magicCyan,
+                    onTap: _onContinuePressed,
+                  ),
+                ),
+
+                const SizedBox(height: 32),
               ],
             ),
           ),

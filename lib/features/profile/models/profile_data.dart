@@ -48,6 +48,7 @@ class ProfileData extends HiveObject {
     return '''
     Avatar: $avatar
     ${isFirstTime ? "First Time Player" : "Recurring Player"}
+    Last Played: ${DateTime.fromMillisecondsSinceEpoch(lastPlayedGameTime).toString()}
     $cauldrons Cauldrons
     $dices Dices
     ${unlockedRecipeIds.length} Unlocked Recipes

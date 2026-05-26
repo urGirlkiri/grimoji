@@ -81,7 +81,12 @@ class Foooter extends StatelessWidget {
 
     if (assetPath.startsWith('assets/icons/app/')) {
       final fileName = assetPath.split('/').last.replaceAll('.png', '');
-      return AppIcon(fileName: fileName, size: iconSize, onTap: onTap);
+      return AppIcon(
+        fileName: fileName, 
+        size: iconSize + 8,
+         onTap: onTap,
+         enableAnimation: false,
+        );
     }
 
     return GestureDetector(
@@ -94,16 +99,14 @@ class Foooter extends StatelessWidget {
           shape: CircleBorder(side: BorderSide(width: 3, color: palette.dusk)),
           shadows: [
             BoxShadow(
-              color: palette.midnight,
-              blurRadius: 4,
-              offset: Offset(0, 4),
+              color: palette.voidBlack,
+              blurRadius: 1,
+              offset: Offset(1, 6),
             ),
           ],
         ),
         child: Center(
-          child: assetPath.endsWith('.svg')
-              ? EmojiWidget.svg(path: assetPath, size: iconSize)
-              : Image.asset(assetPath, width: iconSize, height: iconSize),
+          child: EmojiWidget.svg(path: assetPath, size: iconSize,)
         ),
       ),
     );
