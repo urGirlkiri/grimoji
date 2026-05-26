@@ -1,11 +1,12 @@
-// Copyright 2022, the Flutter project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
-const Set<Song> songs = {
-  // Filenames with whitespace break package:audioplayers on iOS
-  // (as of February 2022), so we use no whitespace.
+const Set<Song> backgroundSongs = {
   Song('goth_piano.mp3', 'Piano', artist: 'Gemmini'),
+  Song('midnight_study.mp3', 'Midnight Study', artist: 'Gemmini'),
+  Song('the_mercury_key.mp3', 'The Mercury Key', artist: 'Gemmini'),
+  Song('seven_drops_of_mercury.mp3', 'Seven Drops Of Mercury', artist: 'Gemmini'),
+};
+
+const Set<Song> levelSongs = {
+
 };
 
 class Song {
