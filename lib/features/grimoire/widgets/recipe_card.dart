@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 class RecipeCard extends StatelessWidget {
   final bool isUnlocked;
   final Recipe recipe;
-  
+
   const RecipeCard({super.key, required this.isUnlocked, required this.recipe});
 
   void _dialog(BuildContext context, Palette palette) {
@@ -37,13 +37,17 @@ class RecipeCard extends StatelessWidget {
                           children: [
                             Text(
                               recipe.requiredAmount.toString(),
-                              style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                                fontSize: 128,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: Theme.of(context).textTheme.displayLarge
+                                  ?.copyWith(
+                                    fontSize: 128,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                             ),
                             const SizedBox(width: 2),
-                            EmojiWidget.lottie(path: recipe.ingredient.lottie, size: 128),
+                            EmojiWidget.lottie(
+                              path: recipe.ingredient.lottie,
+                              size: 128,
+                            ),
                           ],
                         ),
                         const SizedBox(height: 24),
@@ -53,7 +57,10 @@ class RecipeCard extends StatelessWidget {
                           height: 300,
                         ),
                         const SizedBox(height: 32),
-                        EmojiWidget.lottie(path: recipe.yields.lottie, size: 128),
+                        EmojiWidget.lottie(
+                          path: recipe.yields.lottie,
+                          size: 128,
+                        ),
                       ],
                     ),
                   ),
@@ -66,7 +73,7 @@ class RecipeCard extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: AppIcon(
-                    fileName: 'close.png',
+                    fileName: 'close',
                     size: 40,
                     onTap: () => Navigator.pop(context),
                   ),
