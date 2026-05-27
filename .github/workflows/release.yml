@@ -39,6 +39,13 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
+      - name: Create .env file
+        run: |
+          cat << EOF > .env
+          HACKAI_API_KEY=${{ secrets.HACKAI_API_KEY }}
+          MAP_BUILDER_MODE=${{ secrets.MAP_BUILDER_MODE }}
+          EOF
+
       - name: Run Tests
         run: flutter test
 
