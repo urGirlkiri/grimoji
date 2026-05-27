@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds.dart';
+import 'package:grimoji/features/profile/game_bar.dart';
 import 'package:provider/provider.dart';
 
 import 'package:grimoji/config/router/routes.dart';
@@ -25,7 +26,12 @@ class LayoutScaffold extends StatelessWidget {
     final double iconSelectedSize = isLarge ? 120.0 : 80.0;
 
     return Scaffold(
-      body: navigationShell,
+      body: Column(
+        children: [
+           GameBar( backgroundColor: navigationShell.currentIndex == 0 ?  Color(0xFF48484f) : palette.midnight,), 
+          Expanded(child: navigationShell),
+        ],
+      ),
       bottomNavigationBar: Container(
         height: navHeight,
         decoration: BoxDecoration(

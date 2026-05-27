@@ -6,8 +6,9 @@ import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/widgets/custom/app_icon.dart';
 import 'package:provider/provider.dart';
 
-class GameBar extends StatelessWidget implements PreferredSizeWidget {
-  const GameBar({super.key});
+class GameBar extends StatelessWidget {
+  final Color backgroundColor;
+ const GameBar({super.key, this.backgroundColor = Colors.transparent});
 
   void onNotifTap() {}
 
@@ -16,6 +17,122 @@ class GameBar extends StatelessWidget implements PreferredSizeWidget {
   void onSettingsTap() {}
 
   void onCauldronTap() {}
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.watch<Palette>();
+    final profile = context.watch<ProfileController>();
+
+    return SafeArea(
+      bottom: false,
+      child: SizedBox(
+        height: 105.0,
+        child: Container(
+          color: backgroundColor,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Container(
+                height: 90.0,
+                decoration: BoxDecoration(
+                  color: palette.midnight,
+                  borderRadius: const BorderRadius.vertical(
+                    bottom: Radius.circular(24.0),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: palette.voidBlack,
+                      offset: const Offset(0, 6),
+                      blurRadius: 0,
+                    ),
+                    BoxShadow(
+                      color: palette.voidBlack.withValues(alpha: 0.3),
+                      offset: const Offset(0, 10),
+                      blurRadius: 10,
+                      spreadRadius: 1,
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                top: 20,
+                left: 12,
+                right: 12,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    AppIcon(fileName: 'mail_inbox', size: 45, onTap: onNotifTap),
+                    const SizedBox(width: 8),
+                    _buildResourcePill(
+                      context: context,
+                      iconPath: 'assets/images/cauldron.png',
+                      value: profile.cauldrons == 5
+                          ? "Full"
+                          : profile.cauldrons.toString(),
+                      palette: palette,
+                      onTap: onCauldronTap,
+                    ),
+                   _buildProfileAvatar(palette, profile.avatar),
+                    _buildResourcePill(
+                      context: context,
+                      iconPath: 'assets/images/dice.png',
+                      value: profile.dices.toString(),
+                      palette: palette,
+                      onTap: () => GoRouter.of(context).goNamed(Routes.market),
+                    ),
+                    const SizedBox(width: 8),
+                    AppIcon(
+                      fileName: 'settings',
+                      size: 45,
+                      onTap: () =>
+                          GoRouter.of(context).pushNamed(Routes.settings),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+
+  Widget _buildProfileAvatar(Palette palette, String avatar) {
+    return Transform.translate(
+      offset: const Offset(0, -10),
+      child: GestureDetector(
+        onTap: onProfileTap,
+        child: Container(
+          width: 75,
+          height: 80,
+          margin: const EdgeInsets.only(left: 10, right: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: palette.twilight, width: 2.5),
+            boxShadow: [
+              BoxShadow(
+                color: palette.slate.withValues(alpha: 0.3),
+                blurRadius: 4,
+                spreadRadius: 1,
+                offset: const Offset(0, 5),
+              ),
+              BoxShadow(
+                color: palette.midnight,
+                offset: const Offset(0, 4),
+                blurRadius: 0,
+              ),
+            ],
+            image: DecorationImage(
+              image: AssetImage('assets/avatars/$avatar.png'),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   Widget _buildResourcePill({
     required BuildContext context,
@@ -84,112 +201,4 @@ class GameBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
-
-  @override
-  Widget build(BuildContext context) {
-    final palette = context.watch<Palette>();
-    final profile = context.watch<ProfileController>();
-
-    return SizedBox(
-      height: preferredSize.height,
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Container(
-            height: 80.0,
-            decoration: BoxDecoration(
-              color: palette.midnight,
-              borderRadius: const BorderRadius.vertical(
-                bottom: Radius.circular(24.0),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: palette.voidBlack,
-                  offset: const Offset(0, 6),
-                  blurRadius: 0,
-                ),
-                BoxShadow(
-                  color: palette.voidBlack.withValues(alpha: 0.3),
-                  offset: const Offset(0, 10),
-                  blurRadius: 10,
-                  spreadRadius: 1,
-                ),
-              ],
-            ),
-          ),
-          Positioned(
-            top: 15,
-            left: 12,
-            right: 12,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                AppIcon(fileName: 'mail_inbox', size: 45, onTap: onNotifTap),
-                const SizedBox(width: 8),
-                _buildResourcePill(
-                  context: context,
-                  iconPath: 'assets/images/cauldron.png',
-                  value: profile.cauldrons == 5
-                      ? "Full"
-                      : profile.cauldrons.toString(),
-                  palette: palette,
-                  onTap: onCauldronTap,
-                ),
-                Transform.translate(
-                  offset: const Offset(0, -10),
-                  child: GestureDetector(
-                    onTap: onProfileTap,
-                    child: Container(
-                      width: 75,
-                      height: 80,
-                      margin: const EdgeInsets.only(left: 10, right: 10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: palette.twilight, width: 2.5),
-                        boxShadow: [
-                          BoxShadow(
-                            color: palette.slate.withValues(alpha: 0.3),
-                            blurRadius: 10,
-                            spreadRadius: 1,
-                          ),
-                          BoxShadow(
-                            color: palette.midnight,
-                            offset: const Offset(0, 4),
-                            blurRadius: 0,
-                          ),
-                        ],
-                        image: DecorationImage(
-                          image: AssetImage(
-                            'assets/avatars/${profile.avatar}.png',
-                          ),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                _buildResourcePill(
-                  context: context,
-                  iconPath: 'assets/images/dice.png',
-                  value: profile.dices.toString(),
-                  palette: palette,
-                  onTap: () => GoRouter.of(context).goNamed(Routes.market),
-                ),
-                const SizedBox(width: 8),
-                AppIcon(
-                  fileName: 'settings',
-                  size: 45,
-                  onTap: () => GoRouter.of(context).pushNamed(Routes.settings),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(105.0);
 }

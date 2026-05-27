@@ -8,7 +8,6 @@ import 'package:grimoji/features/map/screen.dart';
 import 'package:grimoji/features/level/fail_screen/screen.dart';
 import 'package:grimoji/features/level/hint_screen/screen.dart';
 import 'package:grimoji/features/profile/controller.dart';
-import 'package:grimoji/features/profile/game_bar.dart';
 import 'package:grimoji/features/settings/screen.dart';
 import 'package:grimoji/config/router/layout_scaffold.dart';
 
@@ -76,8 +75,7 @@ final router = GoRouter(
             GoRoute(
               path: Routes.cauldronRoute,
               name: Routes.cauldron,
-              builder: (context, state) => Scaffold(
-                appBar: GameBar(),
+              builder: (context, state) => const Scaffold(
                 body: Center(child: Text("Cauldron")),
               ),
             ),
@@ -88,8 +86,7 @@ final router = GoRouter(
             GoRoute(
               path: Routes.covenRoute,
               name: Routes.coven,
-              builder: (context, state) => Scaffold(
-                appBar: GameBar(),
+              builder: (context, state) => const Scaffold(
                 body: Center(child: Text("Coven")),
               ),
             ),
@@ -101,8 +98,7 @@ final router = GoRouter(
             GoRoute(
               path: Routes.marketRoute,
               name: Routes.market,
-              builder: (context, state) => Scaffold(
-                appBar: GameBar(),
+              builder: (context, state) => const Scaffold(
                 body: Center(child: Text("Market")),
               ),
             ),

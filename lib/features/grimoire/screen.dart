@@ -3,7 +3,6 @@ import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 import 'package:grimoji/features/grimoire/widgets/recipe_card.dart';
 import 'package:grimoji/features/profile/controller.dart';
-import 'package:grimoji/features/profile/game_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:grimoji/config/palette.dart';
 
@@ -27,7 +26,6 @@ class GrimoireScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: palette.midnight,
-      appBar: GameBar(),
       body: GridView.builder(
         itemCount: recipes.length,
         padding: EdgeInsets.only(
