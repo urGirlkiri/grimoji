@@ -23,13 +23,15 @@ class GrimoireScreen extends StatelessWidget {
       );
     }
 
+    final screenWidth = MediaQuery.sizeOf(context).width;
+
     return Scaffold(
       backgroundColor: palette.midnight,
       appBar: GameBar(),
       body: GridView.builder(
         itemCount: recipes.length,
-        padding: const EdgeInsets.only(
-          right: 16.0,
+        padding: EdgeInsets.only(
+          right: screenWidth > 900 ? 16.0 : 8.0,
           left: 8.0,
           bottom: 24.0,
           top: 12.0,
