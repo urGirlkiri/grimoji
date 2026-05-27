@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/grimoire/screen.dart';
@@ -7,6 +8,7 @@ import 'package:grimoji/features/main_menu.dart';
 import 'package:grimoji/features/map/screen.dart';
 import 'package:grimoji/features/level/fail_screen/screen.dart';
 import 'package:grimoji/features/level/hint_screen/screen.dart';
+import 'package:grimoji/features/map/widgets/builder.dart';
 import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/features/settings/screen.dart';
 import 'package:grimoji/config/router/layout_scaffold.dart';
@@ -23,15 +25,20 @@ final router = GoRouter(
   initialLocation: Routes.homeRoute,
   redirect: (BuildContext context, GoRouterState state) {
     final profile = context.read<ProfileController>();
-
     final targetPath = state.matchedLocation;
 
+    final isDevMode = dotenv.env['MAP_BUILDER_MODE'] == 'true';
+
     if (targetPath == Routes.homeRoute) {
+      if (isDevMode) {
+        return Routes.mapRoute;
+      }
+
       if (profile.isFirstTime) {
         return Routes.levelHintRoute.replaceAll(':level', '1');
       }
 
-      if(!profile.hasRecentlyPlayedGame()){
+      if (!profile.hasRecentlyPlayedGame()) {
         return Routes.homeRoute;
       }
 
@@ -51,6 +58,11 @@ final router = GoRouter(
               path: Routes.mapRoute,
               name: Routes.map,
               builder: (context, state) {
+                final isDevMode = dotenv.env['MAP_BUILDER_MODE'] == 'true';
+
+                if (isDevMode) {
+                  return const MapBuilderScreen();
+                }
                 final autoOpenStr = state.uri.queryParameters['autoOpen'];
                 final autoOpenInt = autoOpenStr != null
                     ? int.tryParse(autoOpenStr)
@@ -75,9 +87,8 @@ final router = GoRouter(
             GoRoute(
               path: Routes.cauldronRoute,
               name: Routes.cauldron,
-              builder: (context, state) => const Scaffold(
-                body: Center(child: Text("Cauldron")),
-              ),
+              builder: (context, state) =>
+                  const Scaffold(body: Center(child: Text("Cauldron"))),
             ),
           ],
         ),
@@ -86,9 +97,8 @@ final router = GoRouter(
             GoRoute(
               path: Routes.covenRoute,
               name: Routes.coven,
-              builder: (context, state) => const Scaffold(
-                body: Center(child: Text("Coven")),
-              ),
+              builder: (context, state) =>
+                  const Scaffold(body: Center(child: Text("Coven"))),
             ),
           ],
         ),
@@ -98,9 +108,8 @@ final router = GoRouter(
             GoRoute(
               path: Routes.marketRoute,
               name: Routes.market,
-              builder: (context, state) => const Scaffold(
-                body: Center(child: Text("Market")),
-              ),
+              builder: (context, state) =>
+                  const Scaffold(body: Center(child: Text("Market"))),
             ),
           ],
         ),

@@ -31,6 +31,7 @@ class Routes {
   static const String bountiesRoute  = '/market/bounties'; 
   static const String settingsRoute  = '/settings';
 
+  static const String mapBuilderRoute = '/dev/map_builder';
 
   static const String home = 'home';
 
@@ -47,4 +48,5 @@ class Routes {
 
   static const String bounties = 'bounties';
   static const String settings = 'settings';
+  static const String mapBuilder = 'mapBuilder';
 }
