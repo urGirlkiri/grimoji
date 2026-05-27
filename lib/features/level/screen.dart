@@ -148,7 +148,7 @@ class _LevelScreenState extends State<LevelScreen> {
                     ResponsiveScreen(
                       topMessageArea: Header(),
                       squarishMainArea: const GameBoard(),
-                      rectangularMenuArea: Foooter(),
+                      rectangularMenuArea: const Foooter(),
                       mobileBackgroundImage: const AssetImage(
                         'assets/images/level/game.png',
                       ),

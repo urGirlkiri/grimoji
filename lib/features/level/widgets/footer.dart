@@ -6,17 +6,14 @@ import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/level/widgets/dialogs/pause_dialog.dart';
 import 'package:grimoji/widgets/custom/app_icon.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
-import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 
 class Foooter extends StatelessWidget {
-  final Logger _log = Logger('Foooter');
-  Foooter({super.key});
+  const Foooter({super.key});
 
   Palette get palette => Palette();
 
   void _handlePauseTap(BuildContext context) {
-    _log.info('Pause btn tapped. Toggling pause state.');
 
     final levelState = context.read<LevelState>();
     levelState.togglePause();
@@ -30,7 +27,6 @@ class Foooter extends StatelessWidget {
       builder: (dialogContext) => PauseDialog(level: levelNumber),
     ).then((_) {
       if (context.mounted) {
-        _log.info('Pause dialog closed. Toggling pause state again.');
         levelState.togglePause();
       }
     });

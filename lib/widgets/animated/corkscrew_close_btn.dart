@@ -6,11 +6,13 @@ import 'package:grimoji/widgets/custom/app_icon.dart';
 class CorkScrewCloseButton extends StatefulWidget {
   final double size;
   final String fileName;
+  final VoidCallback ?onTap;
 
   const CorkScrewCloseButton({
     super.key,
     this.size = 60.0,
     this.fileName = 'close',
+    this.onTap ,
   });
 
   @override
@@ -92,7 +94,7 @@ class _CorkScrewCloseButtonState extends State<CorkScrewCloseButton>
           fileName: widget.fileName,
           size: widget.size,
           enableAnimation: false, 
-          onTap: () => _handleTap(GoRouter.of(context).pop),
+          onTap: () => _handleTap(widget.onTap ?? GoRouter.of(context).pop),
         ),
       ),
     );
