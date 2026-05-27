@@ -3,7 +3,6 @@ import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds.dart';
 import 'package:grimoji/features/level/widgets/dialogs/start_dialog.dart';
-import 'package:grimoji/utils/responsive.dart';
 import 'package:provider/provider.dart';
 
 class LevelNode extends StatelessWidget {
@@ -14,10 +13,8 @@ class LevelNode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLarge = context.isLargeScreen;
-
-    final double nodeSize = isLarge ? 85.0 : 45.0;
-    final double fontSize = isLarge ? 28.0 : 16.0;
+    const double nodeSize = 85.0;
+    const double fontSize = 28.0;
 
     var imagePath = "assets/images/map/level.png";
 
@@ -49,7 +46,7 @@ class LevelNode extends StatelessWidget {
               height: nodeSize,
             ),
             Positioned(
-              top: stars > 0 ? (isLarge ? 18 : 30) : null,
+              top: stars > 0 ? 18 : null,
               child: Text(
                 level.number.toString(),
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(

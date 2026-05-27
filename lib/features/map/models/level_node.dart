@@ -1,12 +1,12 @@
-class MapNode {
+class LevelNde {
   final int level;
   final double x; 
   final double y; 
 
-  MapNode({required this.level, required this.x, required this.y});
+  LevelNde({required this.level, required this.x, required this.y});
 
-  factory MapNode.fromJson(Map<String, dynamic> json) {
-    return MapNode(
+  factory LevelNde.fromJson(Map<String, dynamic> json) {
+    return LevelNde(
       level: json['level'] as int,
       x: json['x'].toDouble() as double,
       y: json['y'].toDouble() as double,

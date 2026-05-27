@@ -5,8 +5,8 @@ import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/features/level/controller.dart';
-import 'package:grimoji/features/map/models/node.dart';
-import 'package:grimoji/features/map/widgets/level_node.dart';
+import 'package:grimoji/features/map/models/level_node.dart';
+import 'package:grimoji/features/map/widgets/engine.dart';
 import 'package:grimoji/features/level/widgets/dialogs/start_dialog.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +21,7 @@ class LevelsMapScreen extends StatefulWidget {
 }
 
 class _LevelsMapScreenState extends State<LevelsMapScreen> {
-  List<MapNode> _nodes = [];
+  List<LevelNde> _nodes = [];
   bool _isLoadingMap = true;
 
   final Logger _logger = Logger('LevelsMapScreen');
@@ -50,7 +50,7 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
       if (mounted) {
         setState(() {
           _nodes = data
-              .map((json) => MapNode.fromJson(json as Map<String, dynamic>))
+              .map((json) => LevelNde.fromJson(json as Map<String, dynamic>))
               .toList();
           _isLoadingMap = false;
         });
@@ -76,8 +76,6 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
     final palette = context.watch<Palette>();
     final levelData = context.watch<LevelDataController>();
 
-    final double screenWidth = MediaQuery.sizeOf(context).width;
-
     if (!levelData.isInitialized || _isLoadingMap) {
       return Scaffold(
         backgroundColor: palette.voidBlack,
@@ -85,45 +83,34 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
       );
     }
 
+    final Map<int, int> levelStars = {};
+
+    final Set<int> unlockedLevels = {};
+
+    for (final node in _nodes) {
+      levelStars[node.level] = levelData.getStars(node.level);
+      unlockedLevels.add(node.level);
+    }
+
     return Scaffold(
       backgroundColor: const Color(0xFF48484f),
-      body: SingleChildScrollView(
-        reverse: true,
-        child: SizedBox(
-          width: screenWidth,
-          child: Stack(
-            children: [
-              Image.asset(
-                "assets/images/map/map_visual.png",
-                fit: BoxFit.fitWidth,
-              ),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final double mapWidth = constraints.maxWidth;
+          final double nodeScale = mapWidth / mapImgWidth;
 
-            ..._nodes.map((node) {
-              if (node.level > gameLevels.length) {
-                return const SizedBox.shrink();
-              }
-
-              final int levelNum = node.level;
-              final int stars = levelData.getStars(levelNum);
-              final bool isUnlocked =
-                  levelNum == 1 || levelData.isLevelCompleted(levelNum - 1);
-              final GameLevel levelDefinition = gameLevels[levelNum - 1];
-
-              final double alignX = (node.x * 2) - 1;
-              final double alignY = (node.y * 2) - 1;
-
-              return Positioned.fill(
-                child: Align(
-                  alignment: Alignment(alignX, alignY),
-                  child: isUnlocked
-                      ? LevelNode(level: levelDefinition, stars: stars)
-                      : const SizedBox.shrink(),
-                ),
-              );
-            }),
-          ],
-        ),
+          return SingleChildScrollView(
+            reverse: true,
+            child: MapEngine(
+              mapWidth: mapWidth,
+              nodes: _nodes,
+              nodeScale: nodeScale,
+              levelStars: levelStars,
+              unlockedLevels: unlockedLevels,
+            ),
+          );
+        },
       ),
-    ));
+    );
   }
 }
