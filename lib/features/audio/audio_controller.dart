@@ -53,6 +53,22 @@ class AudioController {
       ).toList(growable: false),
       _playlist = Queue.of(List<Song>.of(backgroundSongs)..shuffle()) {
     _musicPlayer.onPlayerComplete.listen(_handleSongFinished);
+
+    final audioContext = AudioContext(
+      android: AudioContextAndroid(
+        isSpeakerphoneOn: false,
+        stayAwake: false,
+        contentType: AndroidContentType.sonification,
+        usageType: AndroidUsageType.game,
+        audioFocus: AndroidAudioFocus.none,
+      ),
+      iOS: AudioContextIOS(
+        category: AVAudioSessionCategory.playback,
+        options: const {AVAudioSessionOptions.mixWithOthers},
+      ),
+    );
+    AudioPlayer.global.setAudioContext(audioContext);
+
     unawaited(_preloadSfx());
   }
 
@@ -101,13 +117,11 @@ class AudioController {
     _log.fine(() => '- Chosen filename: $filename');
 
     final currentPlayer = _sfxPlayers[_currentSfxPlayer];
-    
-    final double finalVolume = soundTypeToVolume(type) * (_settings?.sfxVolume.value ?? 1.0);
 
-    currentPlayer.play(
-      AssetSource('sfx/$filename'),
-      volume: finalVolume,
-    );
+    final double finalVolume =
+        soundTypeToVolume(type) * (_settings?.sfxVolume.value ?? 1.0);
+
+    currentPlayer.play(AssetSource('sfx/$filename'), volume: finalVolume);
     _currentSfxPlayer = (_currentSfxPlayer + 1) % _sfxPlayers.length;
   }
 
@@ -151,7 +165,8 @@ class AudioController {
     settingsController.musicVolume.addListener(_volumeHandler);
 
     settingsController.initialized.then((_) {
-      if (settingsController.audioOn.value && settingsController.musicOn.value) {
+      if (settingsController.audioOn.value &&
+          settingsController.musicOn.value) {
         if (kIsWeb) {
           _log.info('On the web, music can only start after user interaction.');
         } else {
