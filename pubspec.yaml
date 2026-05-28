@@ -1,10 +1,9 @@
 name: grimoji
 description:  A gothic alchemy game for mixing and collecting emojis.
 
-# Prevent accidental publishing to pub.dev.
 publish_to: 'none'
 
-version: 0.0.9+9
+version: 0.1.0+10
 
 environment:
   sdk: ^3.8.0
