@@ -110,6 +110,7 @@ const List<GameLevel> chapter1Levels = [
   ),
 
   GameLevel(
+    skipAutoPlayer: true,
     number: 8,
     timeLimit: 240,
     targetAmount: 4,
