@@ -62,6 +62,28 @@ flutter test
 flutter pub run build_runner build --delete-conflicting-outputs
 ```
 
+## Map Builder
+
+Set the `MAP_BUILDER_MODE` env to either true / false to toggle dev and prod
+
+
+When `MAP_BUILDER_MODE=true`you have access to the builder
+
+
+### Controls 
+Press `C` to toggle placement and delete mode
+
+`Ctr-Z` to Undo
+
+`Ctr-Y` to Redu Changes
+
+
+You Can also use the floatings buttons.
+
+<p align="center">
+  <img src="assets/screenshots/image.png" alt="Map Builder" width="45%" style="margin-right: 5%;" />
+  <img src="assets/screenshots/image-1.png" alt="Map Builder" width="45%" />
+</p>
 
 ## Logging
 
