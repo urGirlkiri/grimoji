@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:grimoji/features/map/models/level_node.dart';
@@ -38,10 +39,14 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
 
   Future<void> _loadExistingMap() async {
     try {
-      final String response = await rootBundle.loadString('assets/data/map.json');
+      final String response = await rootBundle.loadString(
+        'assets/data/map.json',
+      );
       final List<dynamic> data = json.decode(response) as List<dynamic>;
       setState(() {
-        _nodes = data.map((json) => LevelNde.fromJson(json as Map<String, dynamic>)).toList();
+        _nodes = data
+            .map((json) => LevelNde.fromJson(json as Map<String, dynamic>))
+            .toList();
         _isLoading = false;
       });
     } catch (e) {
@@ -51,12 +56,14 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
   }
 
   void _handleMapTap(Offset localPosition, double mapWidth, double mapHeight) {
-    if (!_isPlacementMode) return; 
+    if (!_isPlacementMode) return;
 
     final double percentX = localPosition.dx / mapWidth;
     final double percentY = localPosition.dy / mapHeight;
 
-    final int nextLevel = _nodes.isEmpty ? 1 : _nodes.map((n) => n.level).reduce((a, b) => a > b ? a : b) + 1;
+    final int nextLevel = _nodes.isEmpty
+        ? 1
+        : _nodes.map((n) => n.level).reduce((a, b) => a > b ? a : b) + 1;
 
     setState(() {
       _nodes.add(LevelNde(level: nextLevel, x: percentX, y: percentY));
@@ -65,7 +72,7 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
   }
 
   void _deleteNode(LevelNde node) {
-    if (_isPlacementMode) return; 
+    if (_isPlacementMode) return;
 
     setState(() {
       _nodes.remove(node);
@@ -85,17 +92,55 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
     });
   }
 
-  Future<void> _copyJsonToClipboard() async {
-    final jsonOutput = jsonEncode(_nodes.map((n) => n.toJson()).toList());
-    await Clipboard.setData(ClipboardData(text: jsonOutput));
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Map JSON copied!"), backgroundColor: Colors.green));
+  Future<void> _saveMapData() async {
+    try {
+      final jsonOutput = jsonEncode(_nodes.map((n) => n.toJson()).toList());
+      Directory current = Directory.current;
+      final filePath = '${current.path}/assets/data/map.json';
+      final file = File(filePath);
+
+      await file.parent.create(recursive: true);
+      await file.writeAsString(jsonOutput);
+
+      await Clipboard.setData(ClipboardData(text: jsonOutput));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Updated!"),
+            backgroundColor: Colors.green,
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.only(
+              bottom: MediaQuery.of(context).size.height -200,
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      _logger.severe("Error saving map data: $e");
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+           SnackBar(
+            content: Text("Failed to save map data."),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.only(
+              bottom: MediaQuery.of(context).size.height -200,
+            ),
+          ),
+        );
+      }
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) return const Scaffold(backgroundColor: Colors.black, body: Center(child: CircularProgressIndicator()));
+    if (_isLoading) {
+      return const Scaffold(
+        backgroundColor: Colors.black,
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
 
     return Focus(
       autofocus: true,
@@ -103,17 +148,13 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
       onKeyEvent: (FocusNode node, KeyEvent event) {
         if (event is KeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey.keyC) {
-            if (_isPlacementMode) _toggleMode(); 
+          _toggleMode();
             return KeyEventResult.handled;
-          } else if (event.logicalKey == LogicalKeyboardKey.keyP) {
-            if (!_isPlacementMode) _toggleMode(); 
-            return KeyEventResult.handled;
-          }
+          } 
         }
         return KeyEventResult.ignored;
       },
       child: Scaffold(
-        backgroundColor: Colors.black,
         body: LayoutBuilder(
           builder: (context, constraints) {
             final double mapWidth = constraints.maxWidth;
@@ -124,15 +165,19 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
               reverse: true,
               child: MouseRegion(
                 onHover: (event) {
-                  if (!_isPlacementMode) return; 
+                  if (!_isPlacementMode) return;
                   setState(() {
                     _hoverPercentX = event.localPosition.dx / mapWidth;
                     _hoverPercentY = event.localPosition.dy / mapHeight;
                   });
                 },
-                onExit: (_) => setState(() { _hoverPercentX = null; _hoverPercentY = null; }),
+                onExit: (_) => setState(() {
+                  _hoverPercentX = null;
+                  _hoverPercentY = null;
+                }),
                 child: GestureDetector(
-                  onTapDown: (details) => _handleMapTap(details.localPosition, mapWidth, mapHeight),
+                  onTapDown: (details) =>
+                      _handleMapTap(details.localPosition, mapWidth, mapHeight),
                   child: MapEngine(
                     mapWidth: mapWidth,
                     nodes: _nodes,
@@ -152,14 +197,28 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
           children: [
             FloatingActionButton(
               heroTag: "mode_toggle",
-              backgroundColor: _isPlacementMode ? Colors.blueAccent : Colors.redAccent,
+              backgroundColor: _isPlacementMode
+                  ? Colors.blue[300]
+                  : Colors.red[300],
               onPressed: _toggleMode,
-              child: Icon(_isPlacementMode ? Icons.add_location_alt : Icons.ads_click),
+              child: Icon(
+                _isPlacementMode ? Icons.add_location_alt : Icons.ads_click,
+              ),
             ),
             const SizedBox(height: 16),
-            FloatingActionButton(heroTag: "copy", backgroundColor: Colors.blue, onPressed: _copyJsonToClipboard, child: const Icon(Icons.copy)),
+            FloatingActionButton(
+              heroTag: "copy",
+              backgroundColor: Colors.green[400],
+              onPressed: _saveMapData,
+              child: const Icon(Icons.save),
+            ),
             const SizedBox(height: 16),
-            FloatingActionButton(heroTag: "clear", backgroundColor: Colors.red, onPressed: () => setState(() => _nodes.clear()), child: const Icon(Icons.delete_sweep)),
+            FloatingActionButton(
+              heroTag: "clear",
+              backgroundColor: Colors.red,
+              onPressed: () => setState(() => _nodes.clear()),
+              child: const Icon(Icons.delete_sweep),
+            ),
           ],
         ),
       ),
