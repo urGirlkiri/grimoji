@@ -18,6 +18,9 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
   List<LevelNde> _nodes = [];
   bool _isLoading = true;
 
+  bool _isPlacementMode = true;
+  final FocusNode _focusNode = FocusNode();
+
   double? _hoverPercentX;
   double? _hoverPercentY;
 
@@ -25,6 +28,12 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
   void initState() {
     super.initState();
     _loadExistingMap();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
   }
 
   Future<void> _loadExistingMap() async {
@@ -42,6 +51,8 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
   }
 
   void _handleMapTap(Offset localPosition, double mapWidth, double mapHeight) {
+    if (!_isPlacementMode) return; 
+
     final double percentX = localPosition.dx / mapWidth;
     final double percentY = localPosition.dy / mapHeight;
 
@@ -54,10 +65,22 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
   }
 
   void _deleteNode(LevelNde node) {
+    if (_isPlacementMode) return; 
+
     setState(() {
       _nodes.remove(node);
       for (int i = 0; i < _nodes.length; i++) {
         _nodes[i] = LevelNde(level: i + 1, x: _nodes[i].x, y: _nodes[i].y);
+      }
+    });
+  }
+
+  void _toggleMode() {
+    setState(() {
+      _isPlacementMode = !_isPlacementMode;
+      if (!_isPlacementMode) {
+        _hoverPercentX = null;
+        _hoverPercentY = null;
       }
     });
   }
@@ -74,46 +97,71 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
   Widget build(BuildContext context) {
     if (_isLoading) return const Scaffold(backgroundColor: Colors.black, body: Center(child: CircularProgressIndicator()));
 
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          final double mapWidth = constraints.maxWidth;
-          final double mapHeight = mapWidth * (mapImgHeight / mapImgWidth);
-          final double nodeScale = mapWidth / mapImgWidth;
+    return Focus(
+      autofocus: true,
+      focusNode: _focusNode,
+      onKeyEvent: (FocusNode node, KeyEvent event) {
+        if (event is KeyDownEvent) {
+          if (event.logicalKey == LogicalKeyboardKey.keyC) {
+            if (_isPlacementMode) _toggleMode(); 
+            return KeyEventResult.handled;
+          } else if (event.logicalKey == LogicalKeyboardKey.keyP) {
+            if (!_isPlacementMode) _toggleMode(); 
+            return KeyEventResult.handled;
+          }
+        }
+        return KeyEventResult.ignored;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            final double mapWidth = constraints.maxWidth;
+            final double mapHeight = mapWidth * (mapImgHeight / mapImgWidth);
+            final double nodeScale = mapWidth / mapImgWidth;
 
-          return SingleChildScrollView(
-            reverse: true,
-            child: MouseRegion(
-              onHover: (event) {
-                setState(() {
-                  _hoverPercentX = event.localPosition.dx / mapWidth;
-                  _hoverPercentY = event.localPosition.dy / mapHeight;
-                });
-              },
-              onExit: (_) => setState(() { _hoverPercentX = null; _hoverPercentY = null; }),
-              child: GestureDetector(
-                onTapDown: (details) => _handleMapTap(details.localPosition, mapWidth, mapHeight),
-                child: MapEngine(
-                  mapWidth: mapWidth,
-                  nodes: _nodes,
-                  nodeScale: nodeScale,
-                  onDeleteNode: _deleteNode,
-                  hoverPercentX: _hoverPercentX,
-                  hoverPercentY: _hoverPercentY,
+            return SingleChildScrollView(
+              reverse: true,
+              child: MouseRegion(
+                onHover: (event) {
+                  if (!_isPlacementMode) return; 
+                  setState(() {
+                    _hoverPercentX = event.localPosition.dx / mapWidth;
+                    _hoverPercentY = event.localPosition.dy / mapHeight;
+                  });
+                },
+                onExit: (_) => setState(() { _hoverPercentX = null; _hoverPercentY = null; }),
+                child: GestureDetector(
+                  onTapDown: (details) => _handleMapTap(details.localPosition, mapWidth, mapHeight),
+                  child: MapEngine(
+                    mapWidth: mapWidth,
+                    nodes: _nodes,
+                    nodeScale: nodeScale,
+                    onDeleteNode: _deleteNode,
+                    hoverPercentX: _isPlacementMode ? _hoverPercentX : null,
+                    hoverPercentY: _isPlacementMode ? _hoverPercentY : null,
+                    isPlacementMode: _isPlacementMode,
+                  ),
                 ),
               ),
+            );
+          },
+        ),
+        floatingActionButton: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            FloatingActionButton(
+              heroTag: "mode_toggle",
+              backgroundColor: _isPlacementMode ? Colors.blueAccent : Colors.redAccent,
+              onPressed: _toggleMode,
+              child: Icon(_isPlacementMode ? Icons.add_location_alt : Icons.ads_click),
             ),
-          );
-        },
-      ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(heroTag: "copy", backgroundColor: Colors.blue, onPressed: _copyJsonToClipboard, child: const Icon(Icons.copy)),
-          const SizedBox(height: 16),
-          FloatingActionButton(heroTag: "clear", backgroundColor: Colors.red, onPressed: () => setState(() => _nodes.clear()), child: const Icon(Icons.delete_sweep)),
-        ],
+            const SizedBox(height: 16),
+            FloatingActionButton(heroTag: "copy", backgroundColor: Colors.blue, onPressed: _copyJsonToClipboard, child: const Icon(Icons.copy)),
+            const SizedBox(height: 16),
+            FloatingActionButton(heroTag: "clear", backgroundColor: Colors.red, onPressed: () => setState(() => _nodes.clear()), child: const Icon(Icons.delete_sweep)),
+          ],
+        ),
       ),
     );
   }

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/levels/index.dart';
-import 'package:grimoji/features/map/models/level_node.dart';
 import 'package:grimoji/features/map/widgets/level_node.dart';
+import 'package:grimoji/features/map/widgets/temp_node.dart';
+
+import 'package:grimoji/features/map/models/level_node.dart';
 
 const double mapImgWidth = 755.0;
 const double mapImgHeight = 1967.0;
@@ -17,6 +19,8 @@ class MapEngine extends StatelessWidget {
   final double? hoverPercentY;
   final Map<int, int> levelStars;
   final Set<int> unlockedLevels;
+  
+  final bool isPlacementMode;
 
   const MapEngine({
     super.key,
@@ -28,11 +32,15 @@ class MapEngine extends StatelessWidget {
     this.hoverPercentY,
     this.levelStars = const {},
     this.unlockedLevels = const {},
+    this.isPlacementMode = false, 
   });
 
   @override
   Widget build(BuildContext context) {
     final double mapHeight = mapWidth * (mapImgHeight / mapImgWidth);
+    
+    final bool isBuilderMode = onDeleteNode != null;
+    final bool isCursorMode = isBuilderMode && !isPlacementMode;
 
     return SizedBox(
       width: mapWidth,
@@ -47,12 +55,14 @@ class MapEngine extends StatelessWidget {
           ),
 
           ...nodes.map((node) {
-            if (node.level > gameLevels.length) return const SizedBox.shrink();
+            if (node.level > gameLevels.length && !isBuilderMode) return const SizedBox.shrink();
 
             final int levelNum = node.level;
             final int stars = levelStars[levelNum] ?? 0;
             final bool isUnlocked = unlockedLevels.contains(levelNum);
-            final GameLevel level = gameLevels[levelNum - 1];
+            final GameLevel levelDefinition = levelNum <= gameLevels.length 
+                ? gameLevels[levelNum - 1] 
+                : _previewLevel(levelNum);
 
             return Positioned(
               left: node.x * mapWidth,
@@ -61,25 +71,21 @@ class MapEngine extends StatelessWidget {
                 translation: const Offset(-0.5, -0.5),
                 child: Transform.scale(
                   scale: nodeScale,
-                  child: onDeleteNode != null
-                      ? GestureDetector(
+                  child: isBuilderMode
+                      ? TempNode(
+                          isCursorMode: isCursorMode,
                           onTap: () => onDeleteNode!(node),
-                          child: IgnorePointer(
-                            child: Opacity(
-                              opacity: 0.8,
-                              child: LevelNode(level: level, stars: 3),
-                            ),
-                          ),
+                          child: LevelNode(level: levelDefinition, stars: 3),
                         )
                       : (isUnlocked
-                          ? LevelNode(level: level, stars: stars)
+                          ? LevelNode(level: levelDefinition, stars: stars)
                           : const SizedBox.shrink()),
                 ),
               ),
             );
           }),
 
-          if (hoverPercentX != null && hoverPercentY != null && onDeleteNode != null)
+          if (isPlacementMode && hoverPercentX != null && hoverPercentY != null && isBuilderMode)
             Positioned(
               left: hoverPercentX! * mapWidth,
               top: hoverPercentY! * mapHeight,
