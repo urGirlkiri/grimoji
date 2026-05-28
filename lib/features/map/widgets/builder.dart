@@ -17,6 +17,10 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
   final Logger _logger = Logger('MapBuilderScreen');
 
   List<LevelNde> _nodes = [];
+  
+  final List<LevelNde> _deletedNodes = [];
+  final List<LevelNde> _placementHistory = []; 
+  
   bool _isLoading = true;
 
   bool _isPlacementMode = true;
@@ -24,6 +28,7 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
 
   double? _hoverPercentX;
   double? _hoverPercentY;
+  int? _previewLevel;
 
   @override
   void initState() {
@@ -61,13 +66,28 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
     final double percentX = localPosition.dx / mapWidth;
     final double percentY = localPosition.dy / mapHeight;
 
-    final int nextLevel = _nodes.isEmpty
-        ? 1
-        : _nodes.map((n) => n.level).reduce((a, b) => a > b ? a : b) + 1;
-
     setState(() {
-      _nodes.add(LevelNde(level: nextLevel, x: percentX, y: percentY));
+      int nextLevel;
+
+      if (_deletedNodes.isNotEmpty) {
+        nextLevel = _deletedNodes.removeLast().level;
+      } else {
+        nextLevel = _nodes.isEmpty
+            ? 1
+            : _nodes.map((n) => n.level).reduce((a, b) => a > b ? a : b) + 1;
+      }
+
+      final newNode = LevelNde(level: nextLevel, x: percentX, y: percentY);
+      
+      _nodes.add(newNode);
+      _placementHistory.add(newNode); 
       _nodes.sort((a, b) => a.level.compareTo(b.level));
+
+      _previewLevel = _deletedNodes.isNotEmpty
+          ? _deletedNodes.last.level
+          : (_nodes.isEmpty
+              ? 1
+              : _nodes.map((n) => n.level).reduce((a, b) => a > b ? a : b) + 1);
     });
   }
 
@@ -76,9 +96,8 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
 
     setState(() {
       _nodes.remove(node);
-      for (int i = 0; i < _nodes.length; i++) {
-        _nodes[i] = LevelNde(level: i + 1, x: _nodes[i].x, y: _nodes[i].y);
-      }
+      _placementHistory.remove(node); 
+      _deletedNodes.add(node);
     });
   }
 
@@ -88,6 +107,28 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
       if (!_isPlacementMode) {
         _hoverPercentX = null;
         _hoverPercentY = null;
+      }
+    });
+  }
+
+  void _undo() {
+    setState(() {
+      if (_isPlacementMode) {
+        if (_placementHistory.isEmpty) return;
+        
+        final LevelNde lastPlaced = _placementHistory.removeLast();
+        _nodes.remove(lastPlaced);
+        _deletedNodes.add(lastPlaced); 
+        
+        _previewLevel = lastPlaced.level; 
+        
+      } else {
+        if (_deletedNodes.isEmpty) return;
+
+        final LevelNde lastDeleted = _deletedNodes.removeLast();
+        _nodes.add(lastDeleted);
+        _placementHistory.add(lastDeleted); 
+        _nodes.sort((a, b) => a.level.compareTo(b.level));
       }
     });
   }
@@ -119,7 +160,7 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
       _logger.severe("Error saving map data: $e");
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-           SnackBar(
+          SnackBar(
             content: Text("Failed to save map data."),
             backgroundColor: Colors.red,
             behavior: SnackBarBehavior.floating,
@@ -148,9 +189,20 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
       onKeyEvent: (FocusNode node, KeyEvent event) {
         if (event is KeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey.keyC) {
-          _toggleMode();
+            if (_isPlacementMode) _toggleMode();
             return KeyEventResult.handled;
-          } 
+          }
+          if (event.logicalKey == LogicalKeyboardKey.keyP) {
+            if (!_isPlacementMode) _toggleMode();
+            return KeyEventResult.handled;
+          }
+          if (event.logicalKey == LogicalKeyboardKey.keyZ) {
+            final bool isModifierPressed = HardwareKeyboard.instance.isControlPressed || HardwareKeyboard.instance.isMetaPressed;
+            if (isModifierPressed) {
+              _undo();
+              return KeyEventResult.handled;
+            }
+          }
         }
         return KeyEventResult.ignored;
       },
@@ -166,14 +218,21 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
               child: MouseRegion(
                 onHover: (event) {
                   if (!_isPlacementMode) return;
+                  final int level = _deletedNodes.isNotEmpty
+                      ? _deletedNodes.last.level
+                      : (_nodes.isEmpty
+                          ? 1
+                          : _nodes.map((n) => n.level).reduce((a, b) => a > b ? a : b) + 1);
                   setState(() {
                     _hoverPercentX = event.localPosition.dx / mapWidth;
                     _hoverPercentY = event.localPosition.dy / mapHeight;
+                    _previewLevel = level;
                   });
                 },
                 onExit: (_) => setState(() {
                   _hoverPercentX = null;
                   _hoverPercentY = null;
+                  _previewLevel = null;
                 }),
                 child: GestureDetector(
                   onTapDown: (details) =>
@@ -185,6 +244,7 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
                     onDeleteNode: _deleteNode,
                     hoverPercentX: _isPlacementMode ? _hoverPercentX : null,
                     hoverPercentY: _isPlacementMode ? _hoverPercentY : null,
+                    previewLevel: _previewLevel,
                     isPlacementMode: _isPlacementMode,
                   ),
                 ),
@@ -216,7 +276,11 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
             FloatingActionButton(
               heroTag: "clear",
               backgroundColor: Colors.red,
-              onPressed: () => setState(() => _nodes.clear()),
+              onPressed: () => setState(() {
+                _nodes.clear();
+                _placementHistory.clear();
+                _deletedNodes.clear();
+              }),
               child: const Icon(Icons.delete_sweep),
             ),
           ],

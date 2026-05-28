@@ -3,7 +3,6 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'dart:convert';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/levels/index.dart';
-import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/map/models/level_node.dart';
 import 'package:grimoji/features/map/widgets/engine.dart';
@@ -73,12 +72,11 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.watch<Palette>();
     final levelData = context.watch<LevelDataController>();
 
     if (!levelData.isInitialized || _isLoadingMap) {
       return Scaffold(
-        backgroundColor: palette.voidBlack,
+        backgroundColor:  const Color(0xFF48484f) ,
         body: const Center(child: CircularProgressIndicator()),
       );
     }

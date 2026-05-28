@@ -19,6 +19,7 @@ class MapEngine extends StatelessWidget {
   final double? hoverPercentY;
   final Map<int, int> levelStars;
   final Set<int> unlockedLevels;
+  final int? previewLevel;
   
   final bool isPlacementMode;
 
@@ -32,6 +33,7 @@ class MapEngine extends StatelessWidget {
     this.hoverPercentY,
     this.levelStars = const {},
     this.unlockedLevels = const {},
+    this.previewLevel,
     this.isPlacementMode = false, 
   });
 
@@ -97,9 +99,11 @@ class MapEngine extends StatelessWidget {
                     child: Opacity(
                       opacity: 0.5,
                       child: LevelNode(
-                        level: gameLevels.isNotEmpty
-                            ? gameLevels[(nodes.length) % gameLevels.length]
-                            : _previewLevel(nodes.length + 1),
+                        level: previewLevel != null
+                            ? _previewLevel(previewLevel!)
+                            : (gameLevels.isNotEmpty
+                                ? gameLevels[(nodes.length) % gameLevels.length]
+                                : _previewLevel(nodes.length + 1)),
                         stars: 0,
                       ),
                     ),
