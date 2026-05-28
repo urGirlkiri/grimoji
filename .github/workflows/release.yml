@@ -70,6 +70,13 @@ jobs:
       - name: Build Web
         run: flutter build web --base-href "/"
 
+      - name: Create .env file for Web
+        run: |
+          cat << EOF > build/web/assets/.env
+          HACKAI_API_KEY=hehehe_no_chance
+          MAP_BUILDER_MODE=${{ secrets.MAP_BUILDER_MODE }}
+          EOF
+
       - name: Build Android (AAB & APK)
         run: |
           flutter build appbundle --release
@@ -160,6 +167,14 @@ jobs:
     continue-on-error: true 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Create .env file for Snap
+        run: |
+          cat << EOF > .env
+          HACKAI_API_KEY=${{ secrets.HACKAI_API_KEY }}
+          MAP_BUILDER_MODE=${{ secrets.MAP_BUILDER_MODE }}
+          EOF
+
       - name: Prepare Snap Metadata
         run: |
           rm -rf snap/gui
@@ -218,6 +233,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
+
+      - name: Create .env file for Windows
+        run: |
+          echo HACKAI_API_KEY=${{ secrets.HACKAI_API_KEY }} > .env
+          echo MAP_BUILDER_MODE=${{ secrets.MAP_BUILDER_MODE }} >> .env
+
       - name: Build MSIX
         run: |
           flutter config --enable-windows-desktop
