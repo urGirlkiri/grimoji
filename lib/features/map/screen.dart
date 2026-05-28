@@ -86,8 +86,11 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
     final Set<int> unlockedLevels = {};
 
     for (final node in _nodes) {
-      levelStars[node.level] = levelData.getStars(node.level);
-      unlockedLevels.add(node.level);
+      final int stars = levelData.getStars(node.level);
+      levelStars[node.level] = stars;
+      if(levelData.isLevelCompleted(node.level) || node.level == 1 || levelData.isLevelCompleted(node.level - 1)) {
+        unlockedLevels.add(node.level);
+      }
     }
 
     return Scaffold(
@@ -103,8 +106,8 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
               mapWidth: mapWidth,
               nodes: _nodes,
               nodeScale: nodeScale,
-              levelStars: levelStars,
               unlockedLevels: unlockedLevels,
+              levelStars: levelStars,
             ),
           );
         },

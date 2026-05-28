@@ -62,7 +62,7 @@ class MapEngine extends StatelessWidget {
             final int levelNum = node.level;
             final int stars = levelStars[levelNum] ?? 0;
             final bool isUnlocked = unlockedLevels.contains(levelNum);
-            final GameLevel levelDefinition = levelNum <= gameLevels.length 
+            final GameLevel levelDef = levelNum <= gameLevels.length 
                 ? gameLevels[levelNum - 1] 
                 : _previewLevel(levelNum);
 
@@ -77,10 +77,10 @@ class MapEngine extends StatelessWidget {
                       ? TempNode(
                           isCursorMode: isCursorMode,
                           onTap: () => onDeleteNode!(node),
-                          child: LevelNode(level: levelDefinition, stars: 3),
+                          child: LevelNode(level: levelDef, stars: 3),
                         )
                       : (isUnlocked
-                          ? LevelNode(level: levelDefinition, stars: stars)
+                          ? LevelNode(level: levelDef, stars: stars)
                           : const SizedBox.shrink()),
                 ),
               ),

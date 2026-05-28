@@ -28,11 +28,13 @@
 
 [See the example file](.env.example)
 
-> Copy that fil and rename it to `.env` 
+> Copy that file and rename it to `.env` 
 
 > Then enter your own values
 
 ### [Install Flutter](https://docs.flutter.dev/install)
+
+and run 
 
 ```bash
 flutter doctor
@@ -64,11 +66,10 @@ flutter pub run build_runner build --delete-conflicting-outputs
 
 ## Map Builder
 
-Set the `MAP_BUILDER_MODE` env to either true / false to toggle dev and prod
+Set the `MAP_BUILDER_MODE` env to either true / false to toggle dev or prod
 
 
-When `MAP_BUILDER_MODE=true`you have access to the builder
-
+When `MAP_BUILDER_MODE=true`you have access to the map builder interface but won't be able to play levels.
 
 ### Controls 
 Press `C` to toggle placement and delete mode
