@@ -56,8 +56,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 40.0,
+                  padding:  EdgeInsets.symmetric(
+                    horizontal: isLarge ? 60.0 : 40.0,
                     vertical: 50.0,
                   ),
                   child: Column(
