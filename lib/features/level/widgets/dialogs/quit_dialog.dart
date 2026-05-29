@@ -22,6 +22,7 @@ class QuitDialog extends StatelessWidget {
     return Dialog(
       backgroundColor: Colors.transparent,
       elevation: 0,
+      insetPadding: EdgeInsets.all(0),
       child: ScrollDialog(
         rightButton: CorkScrewCloseButton(),
         child: Column(

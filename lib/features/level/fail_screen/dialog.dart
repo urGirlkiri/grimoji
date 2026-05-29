@@ -21,7 +21,7 @@ class LevelFailDialog extends StatelessWidget {
     return Dialog(
       backgroundColor: Colors.transparent,
       elevation: 0,
-      insetPadding: const EdgeInsets.all(20),
+      insetPadding: const EdgeInsets.all(0),
       child: Stack(
         clipBehavior: Clip.none,
         alignment: Alignment.center,
