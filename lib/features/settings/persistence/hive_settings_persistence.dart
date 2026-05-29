@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'settings_data.dart';
+import '../models/settings_data.dart';
 import 'settings_persistence.dart';
 
 /// An implementation of [SettingsPersistence] that uses Hive.

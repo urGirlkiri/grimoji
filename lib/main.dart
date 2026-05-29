@@ -12,7 +12,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logging/logging.dart';
 
 import 'package:grimoji/features/level/models/level_data.dart';
-import 'package:grimoji/features/settings/persistence/settings_data.dart';
+import 'package:grimoji/features/settings/models/settings_data.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 
 

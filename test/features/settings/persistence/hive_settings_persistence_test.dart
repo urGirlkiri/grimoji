@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
 import 'package:grimoji/features/settings/persistence/hive_settings_persistence.dart';
-import 'package:grimoji/features/settings/persistence/settings_data.dart';
+import 'package:grimoji/features/settings/models/settings_data.dart';
 
 void main() {
   group('HiveSettingsPersistence Tests', () {

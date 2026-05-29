@@ -6,7 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logging/logging.dart';
 
 import 'persistence/hive_settings_persistence.dart';
-import 'persistence/settings_data.dart';
+import 'models/settings_data.dart';
 import 'persistence/settings_persistence.dart';
 
 /// An class that holds settings like [musicOn],
