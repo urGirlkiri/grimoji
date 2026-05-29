@@ -1,7 +1,8 @@
+<div align="center">
+
 # Grimoji
 
-
- A gothic alchemy game for mixing and collecting emojis.
+A gothic alchemy game for mixing and collecting emojis.
  
 <img 
   src="assets/screenshots/mockup.png" 
@@ -9,245 +10,32 @@
   style="max-width: 800px; max-height: 800px; object-fit: contain; border-radius: 12px;"
 />
 
-<div align="center">
- Available on
-</div>
 
-<div align="center">
-
-[![Google Play](https://img.shields.io/badge/Google_Play-414141?style=for-the-badge&logo=google-play&logoColor=white)](https://play.google.com/store/apps/details?id=io.grimoji.game)
-[![Microsoft Store](https://img.shields.io/badge/Microsoft_Store-0078D4?style=for-the-badge&logo=windows&logoColor=white)](https://apps.microsoft.com/detail/9PFZ6M6XMQ2P)
+[![Playstore](https://img.shields.io/badge/Google_Play-414141?style=for-the-badge&logo=googleplay&logoColor=white)](https://play.google.com/store/apps/details?id=io.grimoji.game)
+[![Microsoft Store](https://img.shields.io/badge/Microsoft_Store-0078D4?style=for-the-badge&logo=data:image/svg%2Bxml;base64,PHN2ZyBmaWxsPSIjRkZGRkZGIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciICB2aWV3Qm94PSIwIDAgNTAgNTAiIHdpZHRoPSI1MHB4IiBoZWlnaHQ9IjUwcHgiPjxwYXRoIGQ9Ik00IDRIMjRWMjRINHpNMjYgNEg0NlYyNEgyNnpNNCAyNkgyNFY0Nkg0ek0yNiAyNkg0NlY0NkgyNnoiLz48L3N2Zz4=&logoColor=white)](https://apps.microsoft.com/detail/9PFZ6M6XMQ2P)
 [![Flathub](https://img.shields.io/badge/Flathub-4A86CF?style=for-the-badge&logo=flathub&logoColor=white)](https://flathub.org/apps/io.grimoji.game)
-[![Snap Store](https://img.shields.io/badge/Snap_Store-E95420?style=for-the-badge&logo=snapcraft&logoColor=white)](https://snapcraft.io/grimoji)
+[![Snapcraft](https://img.shields.io/badge/Snap_Store-E95420?style=for-the-badge&logo=snapcraft&logoColor=white)](https://snapcraft.io/grimoji)
+
+### Documentation
+
+<div align="center">
+
+[![Setup](https://img.shields.io/badge/Setup-a6a6bf?style=for-the-badge&logo=bookstack&logoColor=white)](./docs/SETUP.md)
+[![Development](https://img.shields.io/badge/Development-8080a4?style=for-the-badge&logo=dart&logoColor=white)](./docs/LOCAL_DEV.md)
+[![Running](https://img.shields.io/badge/Running-535373?style=for-the-badge&logo=gnubash&logoColor=white)](./docs/RUNNING.md)
+[![Building](https://img.shields.io/badge/Building-333346?style=for-the-badge&logo=flatpak&logoColor=white)](./docs/BUILDING.md)
+[![Deploying](https://img.shields.io/badge/Deploying-1a1a24?style=for-the-badge&logo=githubactions&logoColor=white)](./docs/DEPLOYING.md)
 
 </div>
 
-## Setup
-
-### Env Var
-
-[See the example file](.env.example)
-
-> Copy that file and rename it to `.env` 
-
-> Then enter your own values
-
-### [Install Flutter](https://docs.flutter.dev/install)
-
-and run 
-
-```bash
-flutter doctor
-```
-
-### Install Dependencies
-
-```bash
-flutter pub get
-```
-
-### Sanity Check
-
-```bash
-flutter analyze
-```
-
-### Run Tests
-
-```bash
-flutter test
-```
-
-## Hive
-
-```bash
-flutter pub run build_runner build --delete-conflicting-outputs
-```
-
-## Map Builder
-
-Set the `MAP_BUILDER_MODE` env to either true / false to toggle dev or prod
-
-
-When `MAP_BUILDER_MODE=true`you have access to the map builder interface but won't be able to play levels.
-
-### Controls 
-Press `C` to toggle placement and delete mode
-
-`Ctr-Z` to Undo
-
-`Ctr-Y` to Redu Changes
-
-
-You Can also use the floatings buttons.
-
-<p align="center">
-  <img src="assets/screenshots/image.png" alt="Map Builder" width="45%" style="margin-right: 5%;" />
-  <img src="assets/screenshots/image-1.png" alt="Map Builder" width="45%" />
-</p>
-
-## Logging
-
-
-```dart
-import 'package:logging/logging.dart';
-
-final _log = Logger('Foo');
-
-void foo() {
-  _log.info('Hello, world!');
-}
-```
-
-This will show up in the console as:
-
-```text
-[Foo] Hello, world!
-```
-
-When using Flutter DevTools, all the metadata of the log message is preserved, 
-so you can filter by logger name, log level, and so on.
-
-## How To Run Locally
-
-### Web
-
-
-```bash
-flutter run -d chrome
-```
-
-> Images DOn't Load try: `flutter run -d chrome --web-browser-flag="--ignore-gpu-blocklist" --web-browser-flag="--enable-webgl"`
-
-### Android
-
-```bash
-flutter run -d android
-```
-
-### iOS
-
-```bash
-flutter run -d ios
-```
-
-### Windows
-
-```bash
-flutter run -d windows
-```
-
-### Linux
-
-```bash
-flutter run -d linux
-```
-
-### macOS
-
-```bash
-flutter run -d macos
-```
-
-## How to build locally
-
-### Android
-
-```bash
-flutter build apk --release
-```
-
-### iOS
-
-```bash
-flutter build ipa --release
-```
-
-### Windows
-
-```bash
-flutter build windows --release
-```
-
-### Linux
-
-```bash
-flutter build linux --release
-```
-
-```bash
-chmod +x ./tools/build_deb.sh
-```
-
-```bash
-./tools/build_deb.sh
-```
-
-```bash
-sudo dpkg -i grimoji-local.deb
-```
-### macOS
-
-```bash
-flutter build macos
-```
-
-### Flatpak
-
-Build a Flatpak package locally:
-
-```bash
-flatpak install -y flathub org.flatpak.Builder
-flatpak run --command=flatpak-builder org.flatpak.Builder --install . io.grimoji.game.yml
-```
-
-Or build without installing:
-
-```bash
-flatpak-builder --force-clean build-dir io.grimoji.game.yml
-flatpak-builder --export=repo build-dir io.grimoji.game.yml
-flatpak build-bundle repo grimoji.flatpak io.grimoji.game
-```
-
-
-## How to Deploy
-
-### Commit and Push To Main
-
-```bash
-git push origin main
-```
-
-### Setup Script
-
-```bash
-chmod +X ./tool/deploy.sh
-```
-
-### To Release
-
-```bash
-./tool/deploy.sh v0.0.1
-```
-
-### To Update A Release
-
-```bash
-./tool/deploy.sh v0.0.1 --replace
-```
-
-## Credits
-
-- [Animated Emoji 💖](https://googlefonts.github.io/noto-emoji-animation/) for the emoji animations and SVG icons
-
-- [Pixabay](https://pixabay.com/) for the sfx
-
-- [Gemini](https://gemini.google.com/) for the music
-
-- [Vecteezy](https://vecteezy.com/) for the background and pattern images
-
-- [Audjust](https://www.audjust.com/studio) for sfx variations 
-
-- [Didier Boelens](https://medium.com/flutter-community/flutter-crush-debee5f389c3) for  his amazing article on approaching match-3 in flutter
-
-- [Mohamed Nasr](https://github.com/mohamedhaloka/Game-Levels-Scrolling-Map) for inspiring me with his game level scrolling map
+### Credits
+
+[Animated Emoji 💖](https://googlefonts.github.io/noto-emoji-animation/) for the emoji animations and SVG icons<br>
+[Pixabay](https://pixabay.com/) for the sfx<br>
+[Gemini](https://gemini.google.com/) for the music<br>
+[Vecteezy](https://vecteezy.com/) for the background and pattern images<br>
+[Audjust](https://www.audjust.com/studio) for sfx variations<br>
+[Didier Boelens](https://medium.com/flutter-community/flutter-crush-debee5f389c3) for his amazing article on approaching match-3 in flutter<br>
+[Mohamed Nasr](https://github.com/mohamedhaloka/Game-Levels-Scrolling-Map) for inspiring me with his game level scrolling map
+
+</div>
