@@ -11,10 +11,17 @@ A gothic alchemy game for mixing and collecting emojis.
 />
 
 
-[![Playstore](https://img.shields.io/badge/Google_Play-414141?style=for-the-badge&logo=googleplay&logoColor=white)](https://play.google.com/store/apps/details?id=io.grimoji.game)
+[![Web](https://img.shields.io/badge/Web-414141?style=for-the-badge&logo=googlechrome&logoColor=white)](https://play.grimoji.io)
+[![Playstore](https://img.shields.io/badge/Google_Play-0F9D58?style=for-the-badge&logo=googleplay&logoColor=white)](https://play.google.com/store/apps/details?id=io.grimoji.game)
 [![Microsoft Store](https://img.shields.io/badge/Microsoft_Store-0078D4?style=for-the-badge&logo=data:image/svg%2Bxml;base64,PHN2ZyBmaWxsPSIjRkZGRkZGIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciICB2aWV3Qm94PSIwIDAgNTAgNTAiIHdpZHRoPSI1MHB4IiBoZWlnaHQ9IjUwcHgiPjxwYXRoIGQ9Ik00IDRIMjRWMjRINHpNMjYgNEg0NlYyNEgyNnpNNCAyNkgyNFY0Nkg0ek0yNiAyNkg0NlY0NkgyNnoiLz48L3N2Zz4=&logoColor=white)](https://apps.microsoft.com/detail/9PFZ6M6XMQ2P)
-[![Flathub](https://img.shields.io/badge/Flathub-4A86CF?style=for-the-badge&logo=flathub&logoColor=white)](https://flathub.org/apps/io.grimoji.game)
 [![Snapcraft](https://img.shields.io/badge/Snap_Store-E95420?style=for-the-badge&logo=snapcraft&logoColor=white)](https://snapcraft.io/grimoji)
+
+
+### Demo
+
+<div align="center">
+  <video src="assets/screenshots/demo.mp4" width="800" autoplay loop muted playsinline></video>
+</div>
 
 ### Documentation
 
