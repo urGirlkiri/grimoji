@@ -17,11 +17,7 @@ A gothic alchemy game for mixing and collecting emojis.
 [![Snapcraft](https://img.shields.io/badge/Snap_Store-E95420?style=for-the-badge&logo=snapcraft&logoColor=white)](https://snapcraft.io/grimoji)
 
 
-### Demo
-
-<div align="center">
-  <video src="assets/screenshots/demo.mp4" width="800" autoplay loop muted playsinline></video>
-</div>
+<img src="assets/screenshots/demo.gif" width="800" alt="Gameplay Demo Video"/>
 
 ### Documentation
 
