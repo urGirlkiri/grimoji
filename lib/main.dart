@@ -14,7 +14,7 @@ import 'package:logging/logging.dart';
 import 'package:grimoji/features/level/models/level_data.dart';
 import 'package:grimoji/features/settings/models/settings_data.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
-
+import 'package:path_provider/path_provider.dart';
 
 void main() async {
   Logger.root.level = kDebugMode ? Level.FINE : Level.INFO;
@@ -31,7 +31,12 @@ void main() async {
 
   await dotenv.load();
 
-  await Hive.initFlutter();
+  if (kIsWeb) {
+    await Hive.initFlutter();
+  } else {
+    final appDir = await getApplicationSupportDirectory();
+    await Hive.initFlutter(appDir.path);
+  }
 
   Hive.registerAdapter(SettingsDataAdapter());
   Hive.registerAdapter(LevelDataAdapter());

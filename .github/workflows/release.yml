@@ -268,7 +268,14 @@ jobs:
         with:
           name: linux-bundle
           path: flatpak/app-dir/
-      
+
+      - name: Create .env file for Windows
+        run: |
+          cat << EOF > flatpak/app-dir/data/flutter_assets/.env
+          HACKAI_API_KEY=${{ secrets.HACKAI_API_KEY }}
+          MAP_BUILDER_MODE=${{ secrets.MAP_BUILDER_MODE }}
+          EOF
+          
       - name: Copy Desktop and Icon Files
         run: |
           cp assets/icons/512x512.png flatpak/io.grimoji.game.png
