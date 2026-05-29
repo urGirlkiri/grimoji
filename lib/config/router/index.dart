@@ -88,7 +88,7 @@ final router = GoRouter(
               path: Routes.cauldronRoute,
               name: Routes.cauldron,
               builder: (context, state) =>
-                  const Scaffold(body: Center(child: Text("Cauldron"))),
+                  const Scaffold(body: Center(child: Text("Coming Soon"))),
             ),
           ],
         ),
@@ -98,7 +98,7 @@ final router = GoRouter(
               path: Routes.covenRoute,
               name: Routes.coven,
               builder: (context, state) =>
-                  const Scaffold(body: Center(child: Text("Coven"))),
+                  const Scaffold(body: Center(child: Text("Coming Soon"))),
             ),
           ],
         ),
