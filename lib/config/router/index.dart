@@ -27,6 +27,8 @@ final router = GoRouter(
     final profile = context.read<ProfileController>();
     final targetPath = state.matchedLocation;
 
+    // return Routes.levelFailRoute.replaceAll(":level", '1');
+
     final isDevMode = dotenv.env['MAP_BUILDER_MODE'] == 'true';
 
     if (targetPath == Routes.homeRoute) {

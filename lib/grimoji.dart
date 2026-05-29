@@ -7,7 +7,7 @@ import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/features/settings/controller.dart';
-import 'package:grimoji/utils/responsive.dart';
+import 'package:grimoji/utils/context_data.dart';
 import 'package:provider/provider.dart';
 
 class Grimoji extends StatelessWidget {

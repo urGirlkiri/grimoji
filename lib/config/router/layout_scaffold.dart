@@ -4,11 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds.dart';
 import 'package:grimoji/features/profile/widgets/game_bar.dart';
+import 'package:grimoji/utils/context_data.dart';
 import 'package:provider/provider.dart';
 
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/config/palette.dart';
-import 'package:grimoji/utils/responsive.dart';
 
 class LayoutScaffold extends StatelessWidget {
   const LayoutScaffold({required this.navigationShell, super.key});

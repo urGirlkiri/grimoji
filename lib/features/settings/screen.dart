@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
 import 'package:provider/provider.dart';
 
-import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/settings/controller.dart';
 import 'package:grimoji/features/settings/widgets/icon_toggle.dart';
 import 'package:grimoji/features/settings/widgets/volume_slider.dart';
-import 'package:grimoji/utils/responsive.dart';
 import 'package:grimoji/widgets/custom/pill_button.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -22,7 +21,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final settings = context.watch<SettingsController>();
-    final palette = context.watch<Palette>();
+    final palette = context.palette;
     final isLarge = context.isLargeScreen;
 
     return Scaffold(
