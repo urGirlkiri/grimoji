@@ -3,20 +3,41 @@ import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/profile/controller.dart';
+import 'package:grimoji/features/profile/widgets/dialogs/inv_dialog.dart';
+import 'package:grimoji/features/profile/widgets/dialogs/notif_dialog.dart';
 import 'package:grimoji/widgets/custom/app_icon.dart';
 import 'package:provider/provider.dart';
 
 class GameBar extends StatelessWidget {
   final Color backgroundColor;
- const GameBar({super.key, this.backgroundColor = Colors.transparent});
+  const GameBar({super.key, this.backgroundColor = Colors.transparent});
 
-  void onNotifTap() {}
+  void onNotifTap(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return NotifDialog();
+      },
+    );
+  }
 
-  void onProfileTap() {}
+  void onProfileTap(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return InventoryDialog();
+      },
+    );
+  }
 
-  void onSettingsTap() {}
-
-  void onCauldronTap() {}
+  void onCauldronTap(BuildContext context) {
+     showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return InventoryDialog();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +83,11 @@ class GameBar extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    AppIcon(fileName: 'mail_inbox', size: 45, onTap: onNotifTap),
+                    AppIcon(
+                      fileName: 'mail_inbox',
+                      size: 45,
+                      onTap: () => onNotifTap(context),
+                    ),
                     const SizedBox(width: 8),
                     _buildResourcePill(
                       context: context,
@@ -71,9 +96,13 @@ class GameBar extends StatelessWidget {
                           ? "Full"
                           : profile.cauldrons.toString(),
                       palette: palette,
-                      onTap: onCauldronTap,
+                      onTap: () => onCauldronTap(context),
                     ),
-                   _buildProfileAvatar(palette, profile.avatar),
+                    _buildProfileAvatar(
+                      palette,
+                      profile.avatar,
+                      () => onProfileTap(context),
+                    ),
                     _buildResourcePill(
                       context: context,
                       iconPath: 'assets/images/dice.png',
@@ -98,12 +127,15 @@ class GameBar extends StatelessWidget {
     );
   }
 
-
-  Widget _buildProfileAvatar(Palette palette, String avatar) {
+  Widget _buildProfileAvatar(
+    Palette palette,
+    String avatar,
+    VoidCallback onTap,
+  ) {
     return Transform.translate(
       offset: const Offset(0, -10),
       child: GestureDetector(
-        onTap: onProfileTap,
+        onTap: onTap,
         child: Container(
           width: 75,
           height: 80,
