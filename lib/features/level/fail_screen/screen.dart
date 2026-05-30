@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/features/level/fail_screen/dialog.dart';
 import 'package:grimoji/utils/context_data.dart';
-import 'package:grimoji/widgets/animations/dilaog.dart';
+import 'package:grimoji/widgets/animations/dialog.dart';
 
 class LevelFailScreen extends StatefulWidget {
   final int level;

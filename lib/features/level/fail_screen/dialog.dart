@@ -8,25 +8,10 @@ import 'package:grimoji/widgets/custom/pill_button.dart';
 import 'package:grimoji/widgets/custom/scroll_dialog.dart';
 import 'package:provider/provider.dart';
 
-class LevelFailDialog extends StatefulWidget {
+class LevelFailDialog extends StatelessWidget {
   final int level;
 
   const LevelFailDialog({super.key, required this.level});
-
-  @override
-  State<LevelFailDialog> createState() => _LevelFailDialogState();
-}
-
-class _LevelFailDialogState extends State<LevelFailDialog> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        context.read<LevelDataController>().triggerAutoOpenLevel(widget.level);
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +27,7 @@ class _LevelFailDialogState extends State<LevelFailDialog> {
         children: [
           ScrollDialog(
             rightButton: CorkScrewCloseButton(
-              onTap: () => {
-                Navigator.of(context).pop(),
-                GoRouter.of(context).goNamed(Routes.map),
-              },
+              onTap: () => {Navigator.of(context).pop()},
             ),
             child: Padding(
               padding: const EdgeInsets.all(24.0),
@@ -53,16 +35,15 @@ class _LevelFailDialogState extends State<LevelFailDialog> {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text('-1', 
+                  Text(
+                    '-1',
                     textAlign: TextAlign.center,
                     style: context.theme.textTheme.displayLarge?.copyWith(
                       color: palette.crimson,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                 Image.asset(
-                    'assets/images/cauldron_explosion.png',
-                  ),
+                  Image.asset('assets/images/cauldron_explosion.png'),
                   const SizedBox(height: 12),
                   Text(
                     'The Cauldron exploded!',
@@ -75,7 +56,7 @@ class _LevelFailDialogState extends State<LevelFailDialog> {
                   const SizedBox(height: 30),
 
                   PillButton(
-                    text: 'Retry Level ${widget.level}',
+                    text: 'Retry Level $level',
                     color: palette.crimson,
                     textColor: palette.trueWhite,
                     fullWidth: false,
@@ -88,6 +69,9 @@ class _LevelFailDialogState extends State<LevelFailDialog> {
                     borderWidth: 3,
                     onTap: () {
                       Navigator.of(context).pop();
+                      context.read<LevelDataController>().triggerAutoOpenLevel(
+                        level,
+                      );
                       GoRouter.of(context).replaceNamed(Routes.map);
                     },
                   ),
