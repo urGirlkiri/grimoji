@@ -8,8 +8,8 @@ class ProfileController extends ChangeNotifier {
   final Logger _log = Logger('ProfileController');
   ProfileData ?_profile;
 
-  ProfileController({required ProfilePersistence persistence}) 
-      : _persistence = persistence;
+  ProfileController({required ProfilePersistence persistence})
+    : _persistence = persistence;
 
   Future<void> load() async {
     _log.info('Loading data...');
@@ -21,10 +21,10 @@ class ProfileController extends ChangeNotifier {
   String get avatar => _profile?.avatar ?? 'cyber_goth';
   int get cauldrons => _profile?.cauldrons ?? 5;
   int get dices => _profile?.dices ?? 0;
-  int get currency => _profile?.inventory['dice'] ?? 0;
+  int get currency => _profile?.dices ?? 0;
   bool get isFirstTime => _profile?.isFirstTime ?? true;
   bool get isLoaded => _profile != null;
-  
+
   List<String> get unlockedRecipes => _profile?.unlockedRecipeIds ?? [];
   int get unreadRecipeCount => _profile?.unreadRecipeIds.length ?? 0;
 
@@ -42,7 +42,7 @@ class ProfileController extends ChangeNotifier {
 
     final differenceInHours = now.difference(lastPlayedDate).inHours;
 
-    return differenceInHours < 24; 
+    return differenceInHours < 24;
   }
 
   void markGamePlayed() {
@@ -59,49 +59,67 @@ class ProfileController extends ChangeNotifier {
 
   void unlockRecipe(String recipeId) {
     if (_profile != null) {
-    if (!_profile!.unlockedRecipeIds.contains(recipeId)) {
-      _profile?.unlockedRecipeIds.add(recipeId);
-      _profile?.unreadRecipeIds.add(recipeId); 
-      _save();
-    }
+      if (!_profile!.unlockedRecipeIds.contains(recipeId)) {
+        _profile?.unlockedRecipeIds.add(recipeId);
+        _profile?.unreadRecipeIds.add(recipeId);
+        _save();
+      }
     }
   }
 
   void markRecipeAsRead(String recipeId) {
-    if (_profile != null) { 
-    if (_profile!.unreadRecipeIds.contains(recipeId)) {
-      _profile?.unreadRecipeIds.remove(recipeId);
-      _save();
-    }
+    if (_profile != null) {
+      if (_profile!.unreadRecipeIds.contains(recipeId)) {
+        _profile?.unreadRecipeIds.remove(recipeId);
+        _save();
+      }
     }
   }
 
   bool spendCauldron() {
-    if (_profile != null) { 
+    if (_profile != null) {
 
-    if (_profile!.cauldrons > 0) {
-      _profile!.cauldrons--;
+      if (_profile!.cauldrons > 0) {
+        _profile!.cauldrons--;
 
       if(_profile!.cauldrons < 5){
       _profile!.lastCauldronRegenTime = DateTime.now().millisecondsSinceEpoch;
+        }
+        _save();
+        return true;
       }
-      _save();
-      return true;
-    }
     }
     return false;
   }
 
+  void refillCauldrons() {
+    if (_profile != null) {
+      _profile!.cauldrons = 5;
+      _profile!.lastCauldronRegenTime = 0;
+      _save();
+    }
+  }
+
   void addCurrency(int amount) {
-    int current = _profile?.inventory['dice'] ?? 0;
-    _profile?.inventory['dice'] = current + amount;
+    int current = _profile?.dices ?? 0;
+    _profile?.dices = current + amount;
     _save();
   }
 
-  void _save() {
- if (_profile != null) {
-    _persistence.saveProfile(_profile!);
-    notifyListeners();
+  bool spendDice(int amount) {
+    if (_profile == null) return false;
+    int current = _profile!.dices;
+    if (current < amount) return false;
+    _profile!.dices = current - amount;
+    _profile!.dices = current - amount;
+    _save();
+    return true;
   }
+
+  void _save() {
+    if (_profile != null) {
+      _persistence.saveProfile(_profile!);
+      notifyListeners();
+    }
   }
 }
