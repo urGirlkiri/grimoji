@@ -10,12 +10,19 @@ class CaulRegenTim extends StatefulWidget {
   State<CaulRegenTim> createState() => _CaulRegenTimState();
 }
 
-class _CaulRegenTimState extends State<CaulRegenTim> {
+class _CaulRegenTimState extends State<CaulRegenTim> with SingleTickerProviderStateMixin {
   late Timer _timer;
+  late AnimationController _spinController;
 
   @override
   void initState() {
     super.initState();
+    
+    _spinController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..repeat(); 
+
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
       if (mounted) {
         context.readProfile.checkCauldronRegen(); 
@@ -27,6 +34,7 @@ class _CaulRegenTimState extends State<CaulRegenTim> {
   @override
   void dispose() {
     _timer.cancel();
+    _spinController.dispose();
     super.dispose();
   }
 
@@ -70,9 +78,8 @@ class _CaulRegenTimState extends State<CaulRegenTim> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            AnimatedRotation(
-              turns: timeUntil.inSeconds / 2, 
-              duration: const Duration(seconds: 1),
+            RotationTransition(
+              turns: _spinController,
               child: Icon(
                 Icons.hourglass_empty_rounded,
                 color: context.palette.twilight,
@@ -81,7 +88,7 @@ class _CaulRegenTimState extends State<CaulRegenTim> {
             ),
             const SizedBox(width: 8),
             SizedBox(
-              width: 170,
+              width: 190,
               child: Text(
                 "Next in $timeString",
                 style: context.theme.textTheme.titleMedium?.copyWith(

@@ -88,7 +88,7 @@ class CauldronDialog extends StatelessWidget {
               if (!isFull) ...[
                 const CaulRegenTim(),
                 const SizedBox(height: 24),
-                
+
                 Padding(
                   padding: const EdgeInsets.only(left: 24.0, right: 24.0),
                   child: Column(
@@ -104,9 +104,9 @@ class CauldronDialog extends StatelessWidget {
                         width: double.infinity,
                         child: FilledButton.icon(
                           style: FilledButton.styleFrom(
-                            backgroundColor: context.palette.dusk,
-                            foregroundColor: context.palette.moonlight,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            backgroundColor: context.palette.twilight,
+                            foregroundColor: context.palette.mist,
+                            padding: const EdgeInsets.symmetric(vertical: 24),
                             elevation: 5,
                           ),
                           onPressed: () {
@@ -118,7 +118,11 @@ class CauldronDialog extends StatelessWidget {
                             width: 28,
                             height: 28,
                           ),
-                          label: const Text("Visit The Market"),
+                          label: Text(
+                            "Visit The Market",
+                            style: context.theme.textTheme.titleMedium
+                                ?.copyWith(color: context.palette.mist),
+                          ),
                         ),
                       ),
                     ],
