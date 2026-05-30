@@ -51,7 +51,7 @@ class ProfileData extends HiveObject {
     this.lastDailyClaimTime = 0,
   });
 
-  @override
+@override
   String toString() {
     return '''
     Avatar: $avatar
@@ -61,6 +61,7 @@ class ProfileData extends HiveObject {
     $dices Dices
     ${unlockedRecipeIds.length} Unlocked Recipes
     ${unreadRecipeIds.length} Unread Recipes
+    Daily Claimed: $hasClaimedDaily
     ''';
   }
 }

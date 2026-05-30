@@ -1,8 +1,31 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:grimoji/utils/context_data.dart';
 
-class MarketScreen extends StatelessWidget {
+class MarketScreen extends StatefulWidget {
   const MarketScreen({super.key});
+
+  @override
+  State<MarketScreen> createState() => _MarketScreenState();
+}
+
+class _MarketScreenState extends State<MarketScreen> {
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (mounted) setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +105,42 @@ class MarketScreen extends StatelessWidget {
   }
 
   Widget _buildDailyReward(BuildContext context) {
+    final profile = context.watchProfile;
+    final canClaim = profile.canClaimDaily();
+    final timeUntil = profile.timeUntilNextDailyClaim();
+
+    String buttonText;
+    VoidCallback? onPressed;
+
+    if (canClaim) {
+      buttonText = "Claim";
+      onPressed = () {
+        profile.claimDailyReward();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: context.palette.slate,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            content: Text(
+              "+15 Dices Claimed!",
+              style: context.theme.textTheme.bodyMedium?.copyWith(
+                color: context.palette.trueWhite,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        );
+      };
+    } else {
+      final hours = timeUntil.inHours;
+      final minutes = timeUntil.inMinutes % 60;
+      final seconds = timeUntil.inSeconds % 60;
+      buttonText = "$hours:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}";
+      onPressed = null;
+    }
+
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -117,7 +176,9 @@ class MarketScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  "+15 magical dices to spend in the bazaar.",
+                  canClaim
+                      ? "+15 magical dices to spend in the bazaar."
+                      : "Next claim available in $buttonText",
                   style: context.theme.textTheme.bodySmall?.copyWith(
                     color: context.palette.mist,
                   ),
@@ -133,28 +194,9 @@ class MarketScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
-            onPressed: () {
-              context.readProfile.addCurrency(15);
-
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  backgroundColor: context.palette.slate,
-                  behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  content: Text(
-                    "+15 Dices Claimed!",
-                    style: context.theme.textTheme.bodyMedium?.copyWith(
-                      color: context.palette.trueWhite,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              );
-            },
+            onPressed: onPressed,
             child: Text(
-              "Claim",
+              buttonText,
               style: context.theme.textTheme.bodyLarge?.copyWith(
                 color: context.palette.moonlight,
                 fontWeight: FontWeight.bold,
