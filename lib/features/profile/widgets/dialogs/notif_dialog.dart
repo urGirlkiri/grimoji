@@ -17,6 +17,7 @@ class NotifDialog extends StatelessWidget {
           child: Center(
             child: Text(
               "No secret messages yet",
+              textAlign: TextAlign.center,
               style: context.theme.textTheme.bodyLarge!.copyWith(
                 color: context.palette.midnight,
                 fontWeight: FontWeight.w500,

@@ -24,11 +24,17 @@ class AppTheme {
       ),
       
       textTheme: TextTheme(
+        titleSmall: GoogleFonts.eagleLake(
+          fontSize: 10 * scale, color: palette.mist, height: 1,
+        ),
         titleMedium: GoogleFonts.eagleLake(
           fontSize: 16 * scale, color: palette.mist, height: 1,
         ),
         displayLarge: GoogleFonts.eagleLake(
           fontSize: 65 * scale, color: palette.mist, height: 1,
+        ),
+        headlineMedium: GoogleFonts.eagleLake(
+          fontSize: 28 * scale, color: palette.moonlight, fontWeight: FontWeight.bold,
         ),
         headlineLarge: GoogleFonts.eagleLake(
           fontSize: 32 * scale, color: palette.moonlight, fontWeight: FontWeight.bold,

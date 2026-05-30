@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:grimoji/config/router/routes.dart';
+import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
 import 'package:grimoji/widgets/custom/scroll_dialog.dart';
 
@@ -7,18 +10,121 @@ class CauldronDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cauldrons = context.readProfile.cauldrons;
+    final isFull = cauldrons >= 5;
+
     return Dialog(
-      insetPadding: const EdgeInsets.all(0),
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       child: ScrollDialog(
-        rightButton: CorkScrewCloseButton(),
+        rightButton: const CorkScrewCloseButton(),
         child: Padding(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.all(24.0),
           child: Column(
-          children: [
-            Text("Repair"),
-            Text("Cauldrons")
-          ],
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Your Cauldrons",
+                style: context.theme.textTheme.headlineMedium?.copyWith(
+                  color: context.palette.moonlight,
+                  shadows: [
+                    Shadow(
+                      color: context.palette.voidBlack,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
                 ),
-        )));
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 30),
+
+              Stack(
+                alignment: Alignment.center,
+                clipBehavior: Clip.none,
+                children: [
+                  Image.asset(
+                    'assets/images/cauldron.png',
+                    width: 150 * context.globalScale,
+                    height: 150 * context.globalScale,
+                    fit: BoxFit.contain,
+                  ),
+                  if (isFull)
+                    Positioned(
+                      bottom: -10,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          color: context.palette.slate,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: context.palette.twilight,
+                            width: 2.5,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: context.palette.voidBlack,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Text(
+                          isFull ? "Full" : "$cauldrons/5",
+                          style: context.theme.textTheme.titleMedium?.copyWith(
+                            color: context.palette.trueWhite,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.5,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 30),
+
+              if (!isFull)
+                Padding(
+                  padding: const EdgeInsets.only(left: 24.0, right: 24.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        "Need more cauldrons?",
+                        style: context.theme.textTheme.bodyMedium?.copyWith(
+                          color: context.palette.moonlightSoft,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        width: double.infinity,
+                        child: FilledButton.icon(
+                          style: FilledButton.styleFrom(
+                            backgroundColor: context.palette.slate,
+                            foregroundColor: context.palette.trueWhite,
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            elevation: 5,
+                          ),
+                          onPressed: () {
+                            context.pop();
+                            GoRouter.of(context).pushNamed(Routes.market);
+                          },
+                          icon: Image.asset(
+                            'assets/images/dice.png',
+                            width: 28,
+                            height: 28,
+                          ),
+                          label: const Text("Visit The Market"),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
