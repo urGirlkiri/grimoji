@@ -6,6 +6,8 @@ import 'package:logging/logging.dart';
 class ProfileController extends ChangeNotifier {
   final ProfilePersistence _persistence;
   final Logger _log = Logger('ProfileController');
+  static const int _maxCauldrons = 5;
+  static const Duration _regenDuration = Duration(hours: 1);
   ProfileData? _profile;
 
   ProfileController({required ProfilePersistence persistence})
@@ -79,25 +81,49 @@ class ProfileController extends ChangeNotifier {
     }
   }
 
-  bool spendCauldron() {
-    if (_profile != null) {
-      if (_profile!.cauldrons > 0) {
-        _profile!.cauldrons--;
+  void checkCauldronRegen() {
+    if (_profile == null || _profile!.cauldrons >= _maxCauldrons) return;
+    if (_profile!.lastCauldronRegenTime == 0) return;
 
-        if (_profile!.cauldrons < 5) {
-          _profile!.lastCauldronRegenTime =
-              DateTime.now().millisecondsSinceEpoch;
-        }
-        _save();
-        return true;
+    final now = DateTime.now();
+    final lastRegen = DateTime.fromMillisecondsSinceEpoch(
+      _profile!.lastCauldronRegenTime,
+    );
+    final elapsed = now.difference(lastRegen);
+
+    if (elapsed >= _regenDuration) {
+      int earned = elapsed.inSeconds ~/ _regenDuration.inSeconds;
+
+      _profile!.cauldrons += earned;
+
+      if (_profile!.cauldrons >= _maxCauldrons) {
+        _profile!.cauldrons = _maxCauldrons;
+        _profile!.lastCauldronRegenTime = 0;
+      } else {
+        _profile!.lastCauldronRegenTime = lastRegen
+            .add(_regenDuration * earned)
+            .millisecondsSinceEpoch;
       }
+      _save();
     }
-    return false;
+  }
+
+  bool spendCauldron() {
+    checkCauldronRegen();
+    if (_profile == null || _profile!.cauldrons <= 0) return false;
+
+    if (_profile!.cauldrons == _maxCauldrons) {
+      _profile!.lastCauldronRegenTime = DateTime.now().millisecondsSinceEpoch;
+    }
+
+    _profile!.cauldrons--;
+    _save();
+    return true;
   }
 
   void refillCauldrons() {
     if (_profile != null) {
-      _profile!.cauldrons = 5;
+      _profile!.cauldrons = _maxCauldrons;
       _profile!.lastCauldronRegenTime = 0;
       _save();
     }
@@ -125,17 +151,40 @@ class ProfileController extends ChangeNotifier {
   bool canClaimDaily() {
     if (_profile == null) return true;
     if (!_profile!.hasClaimedDaily) return true;
-    final lastClaim = DateTime.fromMillisecondsSinceEpoch(_profile!.lastDailyClaimTime);
+    final lastClaim = DateTime.fromMillisecondsSinceEpoch(
+      _profile!.lastDailyClaimTime,
+    );
     final now = DateTime.now();
     return now.difference(lastClaim).inHours >= 24;
   }
 
   Duration timeUntilNextDailyClaim() {
     if (_profile == null || !_profile!.hasClaimedDaily) return Duration.zero;
-    final lastClaim = DateTime.fromMillisecondsSinceEpoch(_profile!.lastDailyClaimTime);
+    final lastClaim = DateTime.fromMillisecondsSinceEpoch(
+      _profile!.lastDailyClaimTime,
+    );
     final nextClaim = lastClaim.add(const Duration(hours: 24));
     final now = DateTime.now();
     return nextClaim.isBefore(now) ? Duration.zero : nextClaim.difference(now);
+  }
+
+  Duration timeUntilNextCauldron() {
+    checkCauldronRegen();
+
+    if (_profile == null ||
+        _profile!.cauldrons >= _maxCauldrons ||
+        _profile!.lastCauldronRegenTime == 0) {
+      return Duration.zero;
+    }
+
+    final now = DateTime.now();
+    final lastRegen = DateTime.fromMillisecondsSinceEpoch(
+      _profile!.lastCauldronRegenTime,
+    );
+    final nextCauldronTime = lastRegen.add(_regenDuration);
+
+    if (now.isAfter(nextCauldronTime)) return Duration.zero;
+    return nextCauldronTime.difference(now);
   }
 
   void claimDailyReward() {

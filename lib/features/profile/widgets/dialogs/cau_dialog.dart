@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/router/routes.dart';
+import 'package:grimoji/features/profile/widgets/caul_regen_tim.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
 import 'package:grimoji/widgets/custom/scroll_dialog.dart';
@@ -10,7 +11,7 @@ class CauldronDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cauldrons = context.readProfile.cauldrons;
+    final cauldrons = context.watchProfile.cauldrons;
     final isFull = cauldrons >= 5;
 
     return Dialog(
@@ -49,43 +50,45 @@ class CauldronDialog extends StatelessWidget {
                     height: 150 * context.globalScale,
                     fit: BoxFit.contain,
                   ),
-                  if (isFull)
-                    Positioned(
-                      bottom: -10,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 6,
+                  Positioned(
+                    bottom: -10,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: context.palette.slate,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: context.palette.twilight,
+                          width: 2.5,
                         ),
-                        decoration: BoxDecoration(
-                          color: context.palette.slate,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: context.palette.twilight,
-                            width: 2.5,
+                        boxShadow: [
+                          BoxShadow(
+                            color: context.palette.voidBlack,
+                            offset: const Offset(0, 3),
                           ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: context.palette.voidBlack,
-                              offset: const Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        child: Text(
-                          isFull ? "Full" : "$cauldrons/5",
-                          style: context.theme.textTheme.titleMedium?.copyWith(
-                            color: context.palette.trueWhite,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.5,
-                          ),
+                        ],
+                      ),
+                      child: Text(
+                        isFull ? "Full" : "$cauldrons/5",
+                        style: context.theme.textTheme.titleMedium?.copyWith(
+                          color: context.palette.trueWhite,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.5,
                         ),
                       ),
                     ),
+                  ),
                 ],
               ),
               const SizedBox(height: 30),
 
-              if (!isFull)
+              if (!isFull) ...[
+                const CaulRegenTim(),
+                const SizedBox(height: 24),
+                
                 Padding(
                   padding: const EdgeInsets.only(left: 24.0, right: 24.0),
                   child: Column(
@@ -101,8 +104,8 @@ class CauldronDialog extends StatelessWidget {
                         width: double.infinity,
                         child: FilledButton.icon(
                           style: FilledButton.styleFrom(
-                            backgroundColor: context.palette.slate,
-                            foregroundColor: context.palette.trueWhite,
+                            backgroundColor: context.palette.dusk,
+                            foregroundColor: context.palette.moonlight,
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             elevation: 5,
                           ),
@@ -121,6 +124,7 @@ class CauldronDialog extends StatelessWidget {
                     ],
                   ),
                 ),
+              ],
             ],
           ),
         ),
