@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/features/level/fail_screen/dialog.dart';
 import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/widgets/animations/dilaog.dart';
 
 class LevelFailScreen extends StatefulWidget {
   final int level;
@@ -26,13 +27,7 @@ class _LevelFailScreenState extends State<LevelFailScreen> {
   }
 
   void _showFailDialog() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      barrierColor: Colors.black.withValues(alpha: .7),
-      builder: (BuildContext context) {
-        return LevelFailDialog(level: widget.level);
-      },
+    showAnimatedDialog(context, LevelFailDialog(level: widget.level),
     );
   }
 

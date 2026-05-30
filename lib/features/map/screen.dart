@@ -4,9 +4,12 @@ import 'dart:convert';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/features/level/controller.dart';
+import 'package:grimoji/features/level/widgets/dialogs/cauldron_dialog.dart';
+import 'package:grimoji/features/level/widgets/dialogs/start_dialog.dart';
 import 'package:grimoji/features/map/models/level_node.dart';
 import 'package:grimoji/features/map/widgets/engine.dart';
-import 'package:grimoji/features/level/widgets/dialogs/start_dialog.dart';
+import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/widgets/animations/dialog.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 
@@ -51,13 +54,14 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
   }
 
   void _autoShowLevelDialog(GameLevel level) {
-    showDialog(
-      context: context,
-      barrierColor: Colors.black.withValues(alpha: .7),
-      builder: (BuildContext context) {
-        return LevelStartDialog(level: level);
-      },
-    );
+    final profile = context.readProfile;
+    profile.checkCauldronRegen();
+
+    if (profile.cauldrons <= 0) {
+      showAnimatedDialog(context, const CauldronDialog());
+    } else {
+      showAnimatedDialog(context, LevelStartDialog(level: level));
+    }
   }
 
   @override

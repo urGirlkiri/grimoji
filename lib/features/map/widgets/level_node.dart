@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/audio/sounds.dart';
+import 'package:grimoji/features/level/widgets/dialogs/cauldron_dialog.dart';
 import 'package:grimoji/features/level/widgets/dialogs/start_dialog.dart';
 import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/widgets/animations/dialog.dart';
 
 class LevelNode extends StatelessWidget {
   final GameLevel level;
@@ -63,12 +65,13 @@ class LevelNode extends StatelessWidget {
   void _showLevelDialog(BuildContext context) {
     context.readAudio.playSfx(SfxType.buttonTap);
 
-    showDialog(
-      context: context,
-      barrierColor: Colors.black.withValues(alpha: .7),
-      builder: (BuildContext context) {
-        return LevelStartDialog(level: level);
-      },
-    );
+    final profile = context.readProfile;
+    profile.checkCauldronRegen();
+
+    if (profile.cauldrons <= 0) {
+      showAnimatedDialog(context, const CauldronDialog());
+    } else {
+      showAnimatedDialog(context, LevelStartDialog(level: level));
+    }
   }
 }
