@@ -1,3 +1,4 @@
+
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/features/game/board/models/tile.dart';
 import 'package:grimoji/features/game/board/models/coordinate.dart';
@@ -86,7 +87,6 @@ class AlchemyEngine {
       }
 
       if (!mergeHappened) {
-        collectedEmojis.add(CollectedEmoji(emoji: emoji, count: coords.length));
         final reaction = getReactionFor(emoji);
         if (reaction != null) {
           if (reaction.type == ReactionType.explosive) {
@@ -95,6 +95,7 @@ class AlchemyEngine {
             }
             _log.info('Matched explosives primed at $coords');
           } else {
+            collectedEmojis.add(CollectedEmoji(emoji: emoji, count: coords.length));
             tilesToDestroy.addAll(coords);
             final transformations = getTransformationsForType(reaction.type);
             final aoeRadius = reaction.aoeRadius;
@@ -103,6 +104,10 @@ class AlchemyEngine {
               for (int r = centerCoord.row - aoeRadius; r <= centerCoord.row + aoeRadius; r++) {
                 for (int c = centerCoord.col - aoeRadius; c <= centerCoord.col + aoeRadius; c++) {
                   if (r >= 0 && r < BoardManager.rows && c >= 0 && c < BoardManager.cols) {
+                    final rowDist = (r - centerCoord.row).abs();
+                    final colDist = (c - centerCoord.col).abs();
+                    if (rowDist + colDist > aoeRadius) continue;
+
                     final Tile targetTile = boardManager.gridTiles[r][c];
                     final TileCoordinate targetCoord = TileCoordinate(row: r, col: c);
                     
@@ -127,6 +132,8 @@ class AlchemyEngine {
             }
           }
         } else {
+          // Basic match - tiles are destroyed, count as collected
+          collectedEmojis.add(CollectedEmoji(emoji: emoji, count: coords.length));
           tilesToDestroy.addAll(group.coordinates);
         }
       }
@@ -194,7 +201,6 @@ class AlchemyEngine {
     );
   }
 
-
   ({Set<TileCoordinate> destroyed, Set<TileCoordinate> transformed}) _executeBlastRadius(TileCoordinate center) {
     final Set<TileCoordinate> destroyedTiles = {};
     final Set<TileCoordinate> transformedTiles = {};
@@ -204,31 +210,29 @@ class AlchemyEngine {
     final centerReaction = getReactionFor(centerTile.emoji);
     final radius = centerReaction?.aoeRadius ?? 1;
 
-    for (int r = 0; r < BoardManager.rows; r++) {
-      for (int c = 0; c < BoardManager.cols; c++) {
-        final rowDist = (r - center.row).abs();
-        final colDist = (c - center.col).abs();
+    for (int r = center.row - radius; r <= center.row + radius; r++) {
+      if (r < 0 || r >= BoardManager.rows) continue;
+      for (int c = center.col - radius; c <= center.col + radius; c++) {
+        if (c < 0 || c >= BoardManager.cols) continue;
 
-        if (rowDist <= radius && colDist <= radius) {
-          final tile = boardManager.gridTiles[r][c];
-          final reaction = getReactionFor(tile.emoji);
-          final isExplosive = reaction != null && reaction.type == ReactionType.explosive;
+        final tile = boardManager.gridTiles[r][c];
+        final reaction = getReactionFor(tile.emoji);
+        final isExplosive = reaction != null && reaction.type == ReactionType.explosive;
 
-          if (isExplosive && (r != center.row || c != center.col)) {
-            if (!tile.isExploding) {
-              tile.isTriggered = true;
-            }
+        if (isExplosive && (r != center.row || c != center.col)) {
+          if (!tile.isExploding) {
+            tile.isTriggered = true;
+          }
+        } else {
+          final resultingEmoji = transformations[tile.emoji];
+          if (resultingEmoji != null) {
+            tile.emoji = resultingEmoji;
+            tile.reset();
+            tile.isTransmuting = true;
+            transformedTiles.add(TileCoordinate(row: r, col: c));
           } else {
-            final resultingEmoji = transformations[tile.emoji];
-            if (resultingEmoji != null) {
-              tile.emoji = resultingEmoji;
-              tile.reset();
-              tile.isTransmuting = true;
-              transformedTiles.add(TileCoordinate(row: r, col: c));
-            } else {
-              tile.isExploding = true;
-              destroyedTiles.add(TileCoordinate(row: r, col: c));
-            }
+            tile.isExploding = true;
+            destroyedTiles.add(TileCoordinate(row: r, col: c));
           }
         }
       }
