@@ -60,10 +60,10 @@ class _CaulRegenTimState extends State<CaulRegenTim> with SingleTickerProviderSt
     return Padding(
       padding: const EdgeInsets.only(left: 24, right: 24),
       child: Container(
-        height: 50,
+        height: 50 * context.globalScale, 
         decoration: BoxDecoration(
           color: context.palette.slate,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20 * context.globalScale),
           border: Border.all(
             color: context.palette.twilight,
             width: 2.5,
@@ -83,18 +83,22 @@ class _CaulRegenTimState extends State<CaulRegenTim> with SingleTickerProviderSt
               child: Icon(
                 Icons.hourglass_empty_rounded,
                 color: context.palette.twilight,
-                size: 32,
+                size: 32 * context.globalScale, 
               ),
             ),
-            const SizedBox(width: 8),
-            SizedBox(
-              width: 190,
-              child: Text(
-                "Next in $timeString",
-                style: context.theme.textTheme.titleMedium?.copyWith(
-                  color: context.palette.moonlight,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.2,
+            SizedBox(width: 8 * context.globalScale),
+            
+            Flexible(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  "Next in $timeString",
+                  maxLines: 1,
+                  style: context.theme.textTheme.titleMedium?.copyWith(
+                    color: context.palette.moonlight,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.2,
+                  ),
                 ),
               ),
             ),
