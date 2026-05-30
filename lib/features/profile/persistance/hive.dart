@@ -8,9 +8,15 @@ class HiveProfilePersistence implements ProfilePersistence {
 
   @override
   Future<ProfileData> loadProfile() async {
-    final box = await Hive.openBox<ProfileData>(_boxName);
-    
-    return box.get(_profileKey) ?? ProfileData();
+    try {
+      final box = await Hive.openBox<ProfileData>(_boxName);
+      final profile = box.get(_profileKey);
+      if (profile == null) return ProfileData();
+      return profile;
+    } catch (e) {
+      await Hive.deleteBoxFromDisk(_boxName);
+      return ProfileData();
+    }
   }
 
   @override

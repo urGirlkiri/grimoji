@@ -26,13 +26,15 @@ class ProfileDataAdapter extends TypeAdapter<ProfileData> {
       lastPlayedGameTime: fields[8] as int,
       dices: fields[7] as int,
       inventory: (fields[6] as Map).cast<String, int>(),
+      hasClaimedDaily: fields[9] == null ? false : fields[9] as bool,
+      lastDailyClaimTime: fields[10] == null ? 0 : fields[10] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, ProfileData obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.isFirstTime)
       ..writeByte(1)
@@ -50,7 +52,11 @@ class ProfileDataAdapter extends TypeAdapter<ProfileData> {
       ..writeByte(7)
       ..write(obj.dices)
       ..writeByte(8)
-      ..write(obj.lastPlayedGameTime);
+      ..write(obj.lastPlayedGameTime)
+      ..writeByte(9)
+      ..write(obj.hasClaimedDaily)
+      ..writeByte(10)
+      ..write(obj.lastDailyClaimTime);
   }
 
   @override

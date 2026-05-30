@@ -31,6 +31,12 @@ class ProfileData extends HiveObject {
   @HiveField(8)
   int lastPlayedGameTime;
 
+  @HiveField(9, defaultValue: false)
+  bool hasClaimedDaily;
+
+  @HiveField(10, defaultValue: 0)
+  int lastDailyClaimTime;
+
   ProfileData({
     this.isFirstTime = true,
     this.avatar = 'cyber_goth',
@@ -41,6 +47,8 @@ class ProfileData extends HiveObject {
     this.lastPlayedGameTime = 0,
     this.dices = 0,
     this.inventory = const {},
+    this.hasClaimedDaily = false,
+    this.lastDailyClaimTime = 0,
   });
 
   @override

@@ -6,7 +6,7 @@ import 'package:logging/logging.dart';
 class ProfileController extends ChangeNotifier {
   final ProfilePersistence _persistence;
   final Logger _log = Logger('ProfileController');
-  ProfileData ?_profile;
+  ProfileData? _profile;
 
   ProfileController({required ProfilePersistence persistence})
     : _persistence = persistence;
@@ -28,16 +28,19 @@ class ProfileController extends ChangeNotifier {
   List<String> get unlockedRecipes => _profile?.unlockedRecipeIds ?? [];
   int get unreadRecipeCount => _profile?.unreadRecipeIds.length ?? 0;
 
-  bool isRecipeUnlocked(String id) => _profile?.unlockedRecipeIds.contains(id) ?? false;
-  bool isRecipeUnread(String id) => _profile?.unreadRecipeIds.contains(id) ?? false;
-
+  bool isRecipeUnlocked(String id) =>
+      _profile?.unlockedRecipeIds.contains(id) ?? false;
+  bool isRecipeUnread(String id) =>
+      _profile?.unreadRecipeIds.contains(id) ?? false;
 
   bool hasRecentlyPlayedGame() {
     if (_profile == null || _profile!.lastPlayedGameTime == 0) {
       return false;
     }
 
-    final lastPlayedDate = DateTime.fromMillisecondsSinceEpoch(_profile!.lastPlayedGameTime);
+    final lastPlayedDate = DateTime.fromMillisecondsSinceEpoch(
+      _profile!.lastPlayedGameTime,
+    );
     final now = DateTime.now();
 
     final differenceInHours = now.difference(lastPlayedDate).inHours;
@@ -78,12 +81,12 @@ class ProfileController extends ChangeNotifier {
 
   bool spendCauldron() {
     if (_profile != null) {
-
       if (_profile!.cauldrons > 0) {
         _profile!.cauldrons--;
 
-      if(_profile!.cauldrons < 5){
-      _profile!.lastCauldronRegenTime = DateTime.now().millisecondsSinceEpoch;
+        if (_profile!.cauldrons < 5) {
+          _profile!.lastCauldronRegenTime =
+              DateTime.now().millisecondsSinceEpoch;
         }
         _save();
         return true;
@@ -111,9 +114,43 @@ class ProfileController extends ChangeNotifier {
     int current = _profile!.dices;
     if (current < amount) return false;
     _profile!.dices = current - amount;
-    _profile!.dices = current - amount;
+    _profile!.inventory['dice'] = current - amount;
     _save();
     return true;
+  }
+
+  bool get hasClaimedDaily => _profile?.hasClaimedDaily ?? false;
+  int get lastDailyClaimTime => _profile?.lastDailyClaimTime ?? 0;
+
+  bool canClaimDaily() {
+    if (_profile == null) return true;
+    if (!_profile!.hasClaimedDaily) return true;
+    final lastClaim = DateTime.fromMillisecondsSinceEpoch(_profile!.lastDailyClaimTime);
+    final now = DateTime.now();
+    return now.difference(lastClaim).inHours >= 24;
+  }
+
+  Duration timeUntilNextDailyClaim() {
+    if (_profile == null || !_profile!.hasClaimedDaily) return Duration.zero;
+    final lastClaim = DateTime.fromMillisecondsSinceEpoch(_profile!.lastDailyClaimTime);
+    final nextClaim = lastClaim.add(const Duration(hours: 24));
+    final now = DateTime.now();
+    return nextClaim.isBefore(now) ? Duration.zero : nextClaim.difference(now);
+  }
+
+  void claimDailyReward() {
+    if (_profile != null) {
+      _profile!.hasClaimedDaily = true;
+      _profile!.lastDailyClaimTime = DateTime.now().millisecondsSinceEpoch;
+      addCurrency(15);
+    }
+  }
+
+  void resetDailyClaim() {
+    if (_profile != null) {
+      _profile!.hasClaimedDaily = false;
+      _save();
+    }
   }
 
   void _save() {
