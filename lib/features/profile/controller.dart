@@ -103,7 +103,7 @@ class ProfileController extends ChangeNotifier {
     }
   }
 
-  void addCurrency(int amount) {
+  void addDice(int amount) {
     int current = _profile?.dices ?? 0;
     _profile?.dices = current + amount;
     _save();
@@ -142,7 +142,7 @@ class ProfileController extends ChangeNotifier {
     if (_profile != null) {
       _profile!.hasClaimedDaily = true;
       _profile!.lastDailyClaimTime = DateTime.now().millisecondsSinceEpoch;
-      addCurrency(15);
+      addDice(15);
     }
   }
 
