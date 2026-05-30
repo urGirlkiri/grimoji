@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/breathing_widget.dart';
-import 'package:provider/provider.dart';
 
 class PillButton extends StatefulWidget {
   final String text;
@@ -119,7 +117,7 @@ class _PillButtonState extends State<PillButton>
       onTapUp: (_) => _tapController.reverse(),
       onTapCancel: () => _tapController.reverse(),
       onTap: () {
-        context.read<AudioController>().playSfx(SfxType.buttonTap);
+        context.readAudio.playSfx(SfxType.buttonTap);
         widget.onTap();
       },
       child: ScaleTransition(

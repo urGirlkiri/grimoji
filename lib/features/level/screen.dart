@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/levels/game_level.dart';
-import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds.dart';
 import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/router/routes.dart';
@@ -13,7 +12,7 @@ import 'package:grimoji/features/level/widgets/header.dart';
 import 'package:grimoji/features/level/widgets/footer.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/level/widgets/dialogs/quit_dialog.dart';
-import 'package:grimoji/features/profile/controller.dart';
+import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/responsive_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:logging/logging.dart' hide Level;
@@ -76,8 +75,7 @@ class _LevelScreenState extends State<LevelScreen> {
       _duringCelebration = true;
     });
 
-    final audioController = context.read<AudioController>();
-    audioController.playSfx(SfxType.congrats);
+    context.readAudio.playSfx(SfxType.congrats);
 
     await Future<void>.delayed(_celebrationDuration);
     if (!mounted) return;
@@ -92,7 +90,7 @@ class _LevelScreenState extends State<LevelScreen> {
     if (!mounted) return;
     _log.info('Level ${widget.level.number} failed');
 
-    context.read<AudioController>().playSfx(SfxType.fail);
+    context.readAudio.playSfx(SfxType.fail);
 
     if (!mounted) return;
 
@@ -107,7 +105,7 @@ class _LevelScreenState extends State<LevelScreen> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ProfileController>().markGamePlayed();
+      context.readProfile.markGamePlayed();
     });
   }
 

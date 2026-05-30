@@ -4,13 +4,10 @@ import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/app_icon.dart';
 import 'package:grimoji/widgets/neon_logo.dart';
-import 'package:provider/provider.dart';
 
-import 'audio/audio_controller.dart';
 import 'audio/sounds.dart';
 import '../widgets/custom/pill_button.dart';
 import '../widgets/responsive_screen.dart';
-import 'settings/controller.dart';
 
 class MainMenuScreen extends StatelessWidget {
   const MainMenuScreen({super.key});
@@ -18,8 +15,8 @@ class MainMenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
-    final settingsController = context.watch<SettingsController>();
-    final audioController = context.watch<AudioController>();
+    final settingsController = context.watchSettings;
+    final audioController = context.watchAudio;
 
     return Scaffold(
       backgroundColor: palette.midnight,

@@ -3,15 +3,12 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/config/router/routes.dart';
-import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds.dart';
 import 'package:grimoji/features/level/widgets/confetti.dart';
 import 'package:grimoji/features/level/win_screen/flying_star.dart';
-import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/pill_button.dart'; 
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
 
 class WinGameScreen extends StatefulWidget {
   final int level;
@@ -29,11 +26,11 @@ class _WinGameScreenState extends State<WinGameScreen> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<AudioController>().playSfx(SfxType.celebration);
-      context.read<ProfileController>().markGamePlayed();
+      context.readAudio.playSfx(SfxType.celebration);
+      context.readProfile.markGamePlayed();
 
       if (widget.level == 1) {
-        context.read<ProfileController>().markTutorialComplete();
+        context.readProfile.markTutorialComplete();
       }
     });
   }

@@ -9,14 +9,13 @@ import 'package:grimoji/features/map/screen.dart';
 import 'package:grimoji/features/level/fail_screen/screen.dart';
 import 'package:grimoji/features/level/hint_screen/screen.dart';
 import 'package:grimoji/features/map/widgets/builder.dart';
-import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/features/settings/screen.dart';
 import 'package:grimoji/config/router/layout_scaffold.dart';
 
 import 'package:grimoji/features/level/screen.dart';
 import 'package:grimoji/features/level/win_screen/screen.dart';
 import 'package:grimoji/config/levels/index.dart';
-import 'package:provider/provider.dart';
+import 'package:grimoji/utils/context_data.dart';
 
 final _routerNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
@@ -24,7 +23,7 @@ final router = GoRouter(
   navigatorKey: _routerNavigatorKey,
   initialLocation: Routes.homeRoute,
   redirect: (BuildContext context, GoRouterState state) {
-    final profile = context.read<ProfileController>();
+    final profile = context.readProfile;
     final targetPath = state.matchedLocation;
 
     // return Routes.levelFailRoute.replaceAll(":level", '1');

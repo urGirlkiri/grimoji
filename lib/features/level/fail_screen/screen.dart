@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/features/level/fail_screen/dialog.dart';
-import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/utils/context_data.dart';
-import 'package:provider/provider.dart';
 
 class LevelFailScreen extends StatefulWidget {
   final int level;
@@ -20,11 +18,10 @@ class _LevelFailScreenState extends State<LevelFailScreen> {
   @override
   void initState() {
     super.initState();
-    final profile = context.read<ProfileController>();
     
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _showFailDialog();
-      profile.spendCauldron();
+      context.readProfile.spendCauldron();
     });
   }
 

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/levels/game_level.dart';
-import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds.dart';
 import 'package:grimoji/features/level/widgets/dialogs/start_dialog.dart';
 import 'package:grimoji/utils/context_data.dart';
-import 'package:provider/provider.dart';
 
 class LevelNode extends StatelessWidget {
   final GameLevel level;
@@ -63,8 +61,7 @@ class LevelNode extends StatelessWidget {
   }
 
   void _showLevelDialog(BuildContext context) {
-    final audioController = context.read<AudioController>();
-    audioController.playSfx(SfxType.buttonTap);
+    context.readAudio.playSfx(SfxType.buttonTap);
 
     showDialog(
       context: context,

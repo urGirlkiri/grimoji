@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds.dart';
+import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/breathing_widget.dart';
-import 'package:provider/provider.dart';
 
 class AppIcon extends StatefulWidget {
   final String fileName;
@@ -50,7 +49,7 @@ class _AppIconState extends State<AppIcon> with TickerProviderStateMixin {
 
   void _handleTap() {
     if (widget.enableSound && mounted) {
-      context.read<AudioController>().playSfx(SfxType.buttonTap);
+      context.readAudio.playSfx(SfxType.buttonTap);
     }
     if (widget.onTap != null) {
       widget.onTap!();

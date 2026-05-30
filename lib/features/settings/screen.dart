@@ -5,7 +5,6 @@ import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
 import 'package:provider/provider.dart';
 
 import 'package:grimoji/features/level/controller.dart';
-import 'package:grimoji/features/settings/controller.dart';
 import 'package:grimoji/features/settings/widgets/icon_toggle.dart';
 import 'package:grimoji/features/settings/widgets/volume_slider.dart';
 import 'package:grimoji/widgets/custom/pill_button.dart';
@@ -20,7 +19,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
-    final settings = context.watch<SettingsController>();
+    final settings = context.watchSettings;
     final palette = context.palette;
     final isLarge = context.isLargeScreen;
 

@@ -6,11 +6,23 @@ import 'package:grimoji/widgets/custom/emoji_widget.dart';
 
 class RecipeCard extends StatelessWidget {
   final bool isUnlocked;
+  final bool isUnread;
   final Recipe recipe;
+  final bool? autoOpen;
 
-  const RecipeCard({super.key, required this.isUnlocked, required this.recipe});
+  const RecipeCard({
+    super.key,
+    required this.isUnlocked,
+    required this.recipe,
+    required this.isUnread,
+    this.autoOpen,
+  });
 
   void _dialog(BuildContext context) {
+    if (isUnread) {
+      context.readProfile.markRecipeAsRead;
+    }
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
