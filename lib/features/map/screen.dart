@@ -11,9 +11,7 @@ import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 
 class LevelsMapScreen extends StatefulWidget {
-  final int? autoOpenLevel;
-
-  const LevelsMapScreen({super.key, this.autoOpenLevel});
+  const LevelsMapScreen({super.key});
 
   @override
   State<LevelsMapScreen> createState() => _LevelsMapScreenState();
@@ -29,14 +27,6 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
   void initState() {
     super.initState();
     _loadMapData();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (widget.autoOpenLevel != null) {
-        final levelNum = widget.autoOpenLevel!;
-        final level = gameLevels[levelNum - 1];
-        _autoShowLevelDialog(level);
-      }
-    });
   }
 
   Future<void> _loadMapData() async {
@@ -74,9 +64,22 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
   Widget build(BuildContext context) {
     final levelData = context.watch<LevelDataController>();
 
+    if (levelData.autoOpenLvl != null) {
+      final levelNum = levelData.autoOpenLvl!;
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        context.read<LevelDataController>().clearAutoOpenLevel();
+
+        if (levelNum > 0 && levelNum <= gameLevels.length) {
+          final level = gameLevels[levelNum - 1];
+          _autoShowLevelDialog(level);
+        }
+      });
+    }
+
     if (!levelData.isInitialized || _isLoadingMap) {
       return Scaffold(
-        backgroundColor:  const Color(0xFF48484f) ,
+        backgroundColor: const Color(0xFF48484f),
         body: const Center(child: CircularProgressIndicator()),
       );
     }
@@ -88,7 +91,9 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
     for (final node in _nodes) {
       final int stars = levelData.getStars(node.level);
       levelStars[node.level] = stars;
-      if(levelData.isLevelCompleted(node.level) || node.level == 1 || levelData.isLevelCompleted(node.level - 1)) {
+      if (levelData.isLevelCompleted(node.level) ||
+          node.level == 1 ||
+          levelData.isLevelCompleted(node.level - 1)) {
         unlockedLevels.add(node.level);
       }
     }

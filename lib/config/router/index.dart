@@ -65,11 +65,7 @@ final router = GoRouter(
                 if (isDevMode) {
                   return const MapBuilderScreen();
                 }
-                final autoOpenStr = state.uri.queryParameters['autoOpen'];
-                final autoOpenInt = autoOpenStr != null
-                    ? int.tryParse(autoOpenStr)
-                    : null;
-                return LevelsMapScreen(autoOpenLevel: autoOpenInt);
+                return const LevelsMapScreen();
               },
             ),
           ],

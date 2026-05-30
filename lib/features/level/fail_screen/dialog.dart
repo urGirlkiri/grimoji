@@ -2,16 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/router/routes.dart';
+import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
 import 'package:grimoji/widgets/custom/pill_button.dart';
 import 'package:grimoji/widgets/custom/scroll_dialog.dart';
+import 'package:provider/provider.dart';
 
-class LevelFailDialog extends StatelessWidget {
+class LevelFailDialog extends StatefulWidget {
   final int level;
 
   const LevelFailDialog({super.key, required this.level});
+
+  @override
+  State<LevelFailDialog> createState() => _LevelFailDialogState();
+}
+
+class _LevelFailDialogState extends State<LevelFailDialog> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<LevelDataController>().triggerAutoOpenLevel(widget.level);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +46,7 @@ class LevelFailDialog extends StatelessWidget {
             rightButton: CorkScrewCloseButton(
               onTap: () => {
                 Navigator.of(context).pop(),
-                GoRouter.of(context).goNamed(
-                  Routes.map,
-                ),
+                GoRouter.of(context).goNamed(Routes.map),
               },
             ),
             child: Padding(
@@ -57,7 +72,7 @@ class LevelFailDialog extends StatelessWidget {
                   const SizedBox(height: 30),
 
                   PillButton(
-                    text: 'Retry Level $level',
+                    text: 'Retry Level ${widget.level}',
                     color: palette.crimson,
                     textColor: palette.trueWhite,
                     fullWidth: false,
@@ -70,10 +85,7 @@ class LevelFailDialog extends StatelessWidget {
                     borderWidth: 3,
                     onTap: () {
                       Navigator.of(context).pop();
-                      GoRouter.of(context).goNamed(
-                        Routes.map,
-                        queryParameters: {'autoOpen': level.toString()},
-                      );
+                      GoRouter.of(context).replaceNamed(Routes.map);
                     },
                   ),
                 ],

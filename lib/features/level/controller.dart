@@ -15,23 +15,34 @@ class LevelDataController extends ChangeNotifier {
 
   bool isInitialized = false;
 
+  int? autoOpenLvl;
+
+  void triggerAutoOpenLevel(int level) {
+    autoOpenLvl = level;
+    notifyListeners();
+  }
+
+  void clearAutoOpenLevel() {
+    autoOpenLvl = null;
+  }
+
   LevelDataController({LevelDataPersistence? store})
-    : _store = store ?? HiveLevelDataPersistence(
-        box: Hive.box<LevelData>('level_data'),
-      ) {
+    : _store =
+          store ??
+          HiveLevelDataPersistence(box: Hive.box<LevelData>('level_data')) {
     _getLatestFromStore();
   }
 
   int getStars(int level) => _levelData[level]?.stars ?? 0;
 
-int currentLevel() {
-  _getLatestFromStore();
+  int currentLevel() {
+    _getLatestFromStore();
     if (_levelData.isEmpty) {
-      return 1; 
+      return 1;
     }
 
     final highestReached = _levelData.keys.reduce(math.max);
-    
+
     if (gameLevels.isEmpty) return highestReached + 1;
 
     final finalLv = gameLevels.map((lv) => lv.number).reduce(math.max);
