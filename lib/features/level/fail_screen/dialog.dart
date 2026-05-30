@@ -27,7 +27,10 @@ class LevelFailDialog extends StatelessWidget {
         children: [
           ScrollDialog(
             rightButton: CorkScrewCloseButton(
-              onTap: () => {Navigator.of(context).pop()},
+              onTap: () {
+                Navigator.of(context).pop();
+                GoRouter.of(context).replaceNamed(Routes.map);
+              },
             ),
             child: Padding(
               padding: const EdgeInsets.all(24.0),

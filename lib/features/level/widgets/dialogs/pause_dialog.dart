@@ -5,6 +5,7 @@ import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/settings/dialog.dart';
 import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/widgets/animations/dialog.dart';
 import 'package:grimoji/widgets/custom/app_icon.dart';
 import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
@@ -32,11 +33,7 @@ class PauseDialog extends StatelessWidget {
           fileName: 'settings',
           size: 80,
           onTap: () {
-            showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (context) => SettingsDialog(level: level),
-            );
+           showAnimatedDialog(context,  SettingsDialog(level: level));
           },
         ),
         child: Padding(

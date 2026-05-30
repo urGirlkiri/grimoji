@@ -4,6 +4,7 @@ import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/level/widgets/dialogs/pause_dialog.dart';
+import 'package:grimoji/widgets/animations/dialog.dart';
 import 'package:grimoji/widgets/custom/app_icon.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
 import 'package:provider/provider.dart';
@@ -20,12 +21,7 @@ class Foooter extends StatelessWidget {
 
     final levelNumber = context.read<GameLevel>().number;
 
-    showDialog(
-      context: context,
-      barrierDismissible: true,
-      barrierColor: palette.voidBlack.withValues(alpha: 0.7),
-      builder: (dialogContext) => PauseDialog(level: levelNumber),
-    ).then((_) {
+    showAnimatedDialog(context, PauseDialog(level: levelNumber)).then((_) {
       if (context.mounted) {
         levelState.togglePause();
       }
