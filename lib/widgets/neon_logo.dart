@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../config/palette.dart'; 
+import 'package:grimoji/utils/context_data.dart';
 
 class NeonLogo extends StatelessWidget {
   final double imageSize; 
@@ -9,19 +8,19 @@ class NeonLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.watch<Palette>();
+    final palette = context.palette;
     final screenSize = MediaQuery.sizeOf(context);
 
     final double titleFontSize = (imageSize * 0.8).clamp(32.0, 72.0);
     final double subtitleFontSize = (titleFontSize * 0.35).clamp(16.0, 28.0);
     final double scale = titleFontSize / 72.0;
 
-    final titleStyle = Theme.of(context).textTheme.displayLarge?.copyWith(
+    final titleStyle = context.theme.textTheme.displayLarge?.copyWith(
           fontSize: titleFontSize,
           height: 1.0, 
         ) ?? TextStyle(fontSize: titleFontSize, height: 1.0);
 
-    final subtitleStyle = Theme.of(context).textTheme.bodyLarge?.copyWith(
+    final subtitleStyle = context.theme.textTheme.bodyLarge?.copyWith(
           fontSize: subtitleFontSize,
           color: palette.moonlightSoft, 
         ) ?? TextStyle(fontSize: subtitleFontSize, color: palette.moonlightSoft);

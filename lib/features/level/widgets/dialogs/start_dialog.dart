@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/config/levels/game_level.dart';
-import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/router/routes.dart';
+import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
 import 'package:grimoji/widgets/custom/pill_button.dart';
 import 'package:grimoji/widgets/custom/scroll_dialog.dart';
-import 'package:provider/provider.dart';
 
 class LevelStartDialog extends StatelessWidget {
   final GameLevel level;
@@ -17,7 +16,7 @@ class LevelStartDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.watch<Palette>();
+    final palette = context.palette;
 
     return Dialog(
       backgroundColor: Colors.transparent,

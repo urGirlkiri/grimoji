@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/config/emojis.dart';
-import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/game/board/widgets/hit_nudge.dart';
 import 'package:grimoji/features/game/board/widgets/tile_grid/tile/explosion.dart';
 import 'package:grimoji/features/game/board/widgets/tile_grid/tile/match.dart';
 import 'package:grimoji/features/game/board/models/tile.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
+import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
-import 'package:provider/provider.dart';
 
 class TileWidget extends StatefulWidget {
   const TileWidget({
@@ -86,7 +85,7 @@ class _TileWidgetState extends State<TileWidget>
     final fadingEmoji = _buildFadingEmoji(scaledEmoji);
     final shakingEmoji = _buildShakingEmoji(fadingEmoji);
 
-    return _buildOverlayEffects(context, shakingEmoji, displayEmoji);
+    return _buildOverlayEffects(shakingEmoji, displayEmoji);
   }
 
   Widget _buildEmoji(GameEmoji displayEmoji) {
@@ -171,11 +170,10 @@ class _TileWidgetState extends State<TileWidget>
   }
 
   Widget _buildOverlayEffects(
-    BuildContext context,
     Widget shakingEmoji,
     GameEmoji displayEmoji,
   ) {
-    final palette = context.read<Palette>();
+    final palette = context.palette;
     final reaction = RecipeBook.getReactionFor(displayEmoji);
     final isExplosive =
         reaction != null && reaction.type == ReactionType.explosive;

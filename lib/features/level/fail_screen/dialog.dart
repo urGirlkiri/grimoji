@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/emojis.dart';
-import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/router/routes.dart';
+import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
 import 'package:grimoji/widgets/custom/pill_button.dart';
 import 'package:grimoji/widgets/custom/scroll_dialog.dart';
-import 'package:provider/provider.dart';
 
 class LevelFailDialog extends StatelessWidget {
   final int level;
@@ -16,7 +15,7 @@ class LevelFailDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.watch<Palette>();
+    final palette = context.palette;
 
     return Dialog(
       backgroundColor: Colors.transparent,
@@ -50,7 +49,7 @@ class LevelFailDialog extends StatelessWidget {
                   Text(
                     'The mixture exploded!',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    style: context.theme.textTheme.bodyLarge?.copyWith(
                       color: palette.twilight,
                       fontWeight: FontWeight.bold,
                     ),

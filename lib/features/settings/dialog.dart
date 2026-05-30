@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/settings/controller.dart';
 import 'package:grimoji/features/settings/widgets/icon_toggle.dart';
 import 'package:grimoji/features/settings/widgets/volume_slider.dart';
+import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
 import 'package:grimoji/widgets/custom/pill_button.dart';
 import 'package:grimoji/widgets/custom/scroll_dialog.dart';
@@ -18,7 +18,7 @@ class SettingsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.watch<Palette>();
+    final palette = context.palette;
     final settings = context.read<SettingsController>();
 
     return Dialog(

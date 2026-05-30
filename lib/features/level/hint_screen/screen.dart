@@ -5,11 +5,11 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/levels/index.dart';
-import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 import 'package:grimoji/features/level/controller.dart';
+import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -63,7 +63,7 @@ class _LevelHintScreenState extends State<LevelHintScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.watch<Palette>();
+    final palette = context.palette;
 
     return Scaffold(
       backgroundColor: palette.voidBlack,
@@ -74,15 +74,16 @@ class _LevelHintScreenState extends State<LevelHintScreen> {
           ),
           Center(
             child: _showTutorial
-                ? _buildRecipeTutorial(palette)
-                : _buildStandardLoading(palette),
+                ? _buildRecipeTutorial()
+                : _buildStandardLoading(),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildRecipeTutorial(Palette palette) {
+  Widget _buildRecipeTutorial() {
+    final palette = context.palette;
     final recipe = _tutorialRecipe!;
 
     return Column(
@@ -168,7 +169,8 @@ class _LevelHintScreenState extends State<LevelHintScreen> {
     );
   }
 
-  Widget _buildStandardLoading(Palette palette) {
+  Widget _buildStandardLoading() {
+    final palette = context.palette;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

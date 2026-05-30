@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/config/palette.dart';
-import 'package:provider/provider.dart';
+import 'package:grimoji/utils/context_data.dart';
 
 class AnnouncerWidget extends StatelessWidget {
   final String phrase;
@@ -59,7 +59,7 @@ class AnnouncerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.read<Palette>();
+    final palette = context.palette;
     final glowColor = _getAuraColor(phrase, palette);
 
     final double baseFontSize = phrase.length > 18 ? 32.0 : 48.0;

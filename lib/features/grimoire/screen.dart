@@ -3,8 +3,8 @@ import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 import 'package:grimoji/features/grimoire/widgets/recipe_card.dart';
 import 'package:grimoji/features/profile/controller.dart';
+import 'package:grimoji/utils/context_data.dart';
 import 'package:provider/provider.dart';
-import 'package:grimoji/config/palette.dart';
 
 class GrimoireScreen extends StatelessWidget {
   final List<Recipe> recipes = RecipeBook.allRecipes;
@@ -12,7 +12,7 @@ class GrimoireScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.read<Palette>();
+    final palette = context.palette;
     final profile = context.read<ProfileController>();
 
     if (!profile.isLoaded) {
@@ -22,7 +22,7 @@ class GrimoireScreen extends StatelessWidget {
       );
     }
 
-    final screenWidth = MediaQuery.sizeOf(context).width;
+    final screenWidth = context.screenWidth;
 
     return Scaffold(
       backgroundColor: palette.midnight,

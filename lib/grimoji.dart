@@ -39,7 +39,7 @@ class Grimoji extends StatelessWidget {
         ],
         child: Builder(
           builder: (context) {
-            final palette = context.watch<Palette>();
+            final palette = context.palette;
             final isLarge = context.isLargeScreen;
 
             return MaterialApp.router(

@@ -3,6 +3,7 @@ import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds.dart';
 import 'package:grimoji/features/level/widgets/dialogs/start_dialog.dart';
+import 'package:grimoji/utils/context_data.dart';
 import 'package:provider/provider.dart';
 
 class LevelNode extends StatelessWidget {
@@ -49,7 +50,7 @@ class LevelNode extends StatelessWidget {
               top: stars > 0 ? 18 : null,
               child: Text(
                 level.number.toString(),
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                style: context.theme.textTheme.titleLarge?.copyWith(
                   fontSize: fontSize,
                   fontWeight: FontWeight.w900,
                 ),

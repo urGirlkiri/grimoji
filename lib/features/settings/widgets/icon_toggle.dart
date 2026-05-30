@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/app_icon.dart';
 
 class IconToggle extends StatelessWidget {
@@ -34,8 +35,8 @@ class IconToggle extends StatelessWidget {
           if (label != null)
             Text(
               label!,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Theme.of(context).colorScheme.surfaceContainer,
+              style: context.theme.textTheme.bodySmall?.copyWith(
+                color: context.theme.colorScheme.surfaceContainer,
                 fontWeight: FontWeight.w600
               ),
             ),

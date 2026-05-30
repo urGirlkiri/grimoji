@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/constants.dart';
-import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/features/game/board/utils/metrics.dart';
+import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animations/flight.dart';
 import 'package:grimoji/features/game/board/widgets/tile_grid/tile/index.dart';
 import 'package:grimoji/features/level/state.dart';
@@ -139,15 +139,15 @@ class TileGrid extends StatelessWidget {
             ),
 
             if (widthFactor > 0.0 && widthFactor < 1.0)
-              _buildShuffleIndicator(edgeX, context),
+              _buildShuffleIndicator(context, edgeX),
           ],
         );
       },
     );
   }
 
-  Widget _buildShuffleIndicator(double edgeX, BuildContext context) {
-    final palette = context.read<Palette>();
+  Widget _buildShuffleIndicator(BuildContext context, double edgeX) {
+    final palette = context.palette;
     return Positioned(
       left: edgeX - 25,
       top: 0,

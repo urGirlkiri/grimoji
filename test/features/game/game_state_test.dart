@@ -118,19 +118,15 @@ void main() {
     });
 
     test('Should set isDisposed to true on dispose', () {
-      // Create a fresh instance for this test to avoid tearDown conflict
       final testState = GameState();
       testState.dispose();
       expect(testState.isDisposed, isTrue);
     });
 
     test('Should not notify after disposed', () {
-      // Create a fresh instance for this test to avoid tearDown conflict
       final testState = GameState();
       testState.dispose();
       
-      // After dispose, the ChangeNotifier prevents further operations
-      // This test verifies the isDisposed flag is set correctly
       expect(testState.isDisposed, isTrue);
     });
 

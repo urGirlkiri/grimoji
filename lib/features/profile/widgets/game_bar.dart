@@ -6,6 +6,7 @@ import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/features/profile/widgets/dialogs/cau_dialog.dart';
 import 'package:grimoji/features/profile/widgets/dialogs/prof_dialog.dart';
 import 'package:grimoji/features/profile/widgets/dialogs/notif_dialog.dart';
+import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/app_icon.dart';
 import 'package:provider/provider.dart';
 
@@ -42,7 +43,7 @@ class GameBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.watch<Palette>();
+    final palette = context.palette;
     final profile = context.watch<ProfileController>();
 
     return SafeArea(

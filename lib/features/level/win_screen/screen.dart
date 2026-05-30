@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/config/levels/index.dart';
-import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds.dart';
 import 'package:grimoji/features/level/widgets/confetti.dart';
 import 'package:grimoji/features/level/win_screen/flying_star.dart';
 import 'package:grimoji/features/profile/controller.dart';
-import 'package:grimoji/widgets/custom/pill_button.dart'; // Add your button!
+import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/widgets/custom/pill_button.dart'; 
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
@@ -54,7 +54,7 @@ class _WinGameScreenState extends State<WinGameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.watch<Palette>();
+    final palette = context.palette;
 
     return Scaffold(
       backgroundColor: palette.twilight,

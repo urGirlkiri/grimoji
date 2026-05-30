@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
+import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
-import 'package:provider/provider.dart';
 
 class RecipeCard extends StatelessWidget {
   final bool isUnlocked;
@@ -11,7 +10,7 @@ class RecipeCard extends StatelessWidget {
 
   const RecipeCard({super.key, required this.isUnlocked, required this.recipe});
 
-  void _dialog(BuildContext context, Palette palette) {
+  void _dialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -21,7 +20,7 @@ class RecipeCard extends StatelessWidget {
               Center(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: palette.midnight,
+                    color: context.palette.midnight,
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Padding(
@@ -37,7 +36,7 @@ class RecipeCard extends StatelessWidget {
                           children: [
                             Text(
                               recipe.requiredAmount.toString(),
-                              style: Theme.of(context).textTheme.displayLarge
+                              style: context.theme.textTheme.displayLarge
                                   ?.copyWith(
                                     fontSize: 128,
                                     fontWeight: FontWeight.bold,
@@ -84,12 +83,12 @@ class RecipeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.read<Palette>();
-    final size = MediaQuery.sizeOf(context);
+    final palette = context.palette;
+    final screenWidth = context.screenWidth;
 
     return GestureDetector(
       onTap: () {
-        if (isUnlocked) _dialog(context, palette);
+        if (isUnlocked) _dialog(context);
       },
       child: Container(
         decoration: BoxDecoration(
@@ -110,7 +109,7 @@ class RecipeCard extends StatelessWidget {
               child: isUnlocked
                   ? EmojiWidget.svg(
                       path: recipe.yields.svg,
-                      size: size.width > 900 ? 80 : 48,
+                      size: screenWidth > 900 ? 80 : 48,
                     )
                   : Image.asset('assets/images/grimoire/queston_mark.png'),
             ),

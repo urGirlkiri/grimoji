@@ -8,7 +8,6 @@ import 'package:grimoji/utils/context_data.dart';
 import 'package:provider/provider.dart';
 
 import 'package:grimoji/config/router/routes.dart';
-import 'package:grimoji/config/palette.dart';
 
 class LayoutScaffold extends StatelessWidget {
   const LayoutScaffold({required this.navigationShell, super.key});
@@ -17,7 +16,7 @@ class LayoutScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.watch<Palette>();
+    final palette = context.palette;
     final isLarge = context.isLargeScreen;
 
     final double navHeight = isLarge ? 120.0 : 85.0;

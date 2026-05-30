@@ -19,7 +19,8 @@ class ScrollDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final isLarge = context.isLargeScreen;
     final screenSize = MediaQuery.sizeOf(context);
-    final maxDialogWidth = screenSize.width * 0.9;
+    final screenWidth = context.screenWidth;
+    final maxDialogWidth = screenWidth * 0.9;
     final maxDialogHeight = screenSize.height * 0.8;
     final dialogWidth = isLarge ? 677.0 : maxDialogWidth.clamp(280.0, 677.0);
     final dialogHeight = isLarge ? 1000.0 : maxDialogHeight.clamp(400.0, 818.0);

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/constants.dart';
-import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/features/game/board/models/sparkle_effect.dart';
 import 'package:grimoji/features/game/board/widgets/announcer.dart';
 import 'package:grimoji/features/game/board/widgets/board_grid.dart';
@@ -10,6 +9,7 @@ import 'package:grimoji/features/game/board/widgets/tile_grid/index.dart';
 import 'package:grimoji/features/game/board/models/tile.dart';
 import 'package:grimoji/features/game/board/models/coordinate.dart';
 import 'package:grimoji/features/level/state.dart';
+import 'package:grimoji/utils/context_data.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
@@ -140,7 +140,7 @@ class _GameBoardState extends State<GameBoard> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.watch<Palette>();
+    final palette = context.palette;
     final levelstate = context.watch<LevelState>();
 
     final int gridColumns = levelstate.boardManager.gridTiles[0].length;
