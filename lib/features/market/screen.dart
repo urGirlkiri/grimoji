@@ -60,10 +60,55 @@ class _MarketScreenState extends State<MarketScreen> {
           _buildShopCard(
             context: context,
             scale: scale,
+            title: "Restore Cauldron",
+            description: "Instantly restore 1  Cauldron.",
+            cost: 30,
+            iconPath: 'assets/images/cauldron.png',
+            onTap: () {
+              final profile = context.readProfile;
+              if (profile.spendDice(30)) {
+                profile.refillCauldrons();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: context.palette.slate,
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    content: Text(
+                      "Cauldron Restored!",
+                      style: context.theme.textTheme.bodyMedium?.copyWith(
+                        color: context.palette.trueWhite,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: context.palette.crimson,
+                    content: Text(
+                      "You don't have enough magic for this yet!",
+                      style: context.theme.textTheme.bodyMedium?.copyWith(
+                        color: context.palette.trueWhite,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                );
+              }
+            },
+          ),
+       SizedBox(height: 12,),
+
+          _buildShopCard(
+            context: context,
+            scale: scale,
             title: "Cauldron Refill",
             description: "Instantly restore all 5  Cauldrons.",
             cost: 150,
-            iconPath: 'assets/images/cauldron.png',
+            iconPath: 'assets/images/cauldrons.png',
             onTap: () {
               final profile = context.readProfile;
               if (profile.spendDice(150)) {
@@ -100,6 +145,8 @@ class _MarketScreenState extends State<MarketScreen> {
               }
             },
           ),
+       
+       
         ],
       ),
     );
