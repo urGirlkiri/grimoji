@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
+import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/features/level/models/level_data.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -21,6 +23,21 @@ class LevelDataController extends ChangeNotifier {
   }
 
   int getStars(int level) => _levelData[level]?.stars ?? 0;
+
+int currentLevel() {
+  _getLatestFromStore();
+    if (_levelData.isEmpty) {
+      return 1; 
+    }
+
+    final highestReached = _levelData.keys.reduce(math.max);
+    
+    if (gameLevels.isEmpty) return highestReached + 1;
+
+    final finalLv = gameLevels.map((lv) => lv.number).reduce(math.max);
+
+    return highestReached >= finalLv ? finalLv : highestReached + 1;
+  }
 
   bool isLevelCompleted(int level) => _levelData.containsKey(level);
 
