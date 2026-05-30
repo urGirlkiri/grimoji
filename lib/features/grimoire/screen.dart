@@ -11,7 +11,7 @@ class GrimoireScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
-    final profile = context.readProfile;
+    final profile = context.watchProfile;
 
     if (!profile.isLoaded) {
       return Scaffold(
@@ -21,6 +21,10 @@ class GrimoireScreen extends StatelessWidget {
     }
 
     final screenWidth = context.screenWidth;
+
+    final String? targetAutoOpenId = profile.unreadRecipeCount > 0
+        ? profile.unreadRecipeIds.first
+        : null;
 
     return Scaffold(
       backgroundColor: palette.midnight,
@@ -43,6 +47,7 @@ class GrimoireScreen extends StatelessWidget {
           return RecipeCard(
             isUnlocked: profile.isRecipeUnlocked(recipe.id),
             isUnread: profile.isRecipeUnread(recipe.id),
+            autoOpen: recipe.id == targetAutoOpenId,
             recipe: recipe,
           );
         },

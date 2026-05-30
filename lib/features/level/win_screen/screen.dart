@@ -109,7 +109,7 @@ class _WinGameScreenState extends State<WinGameScreen> {
                       'assets/lottie/star-witch.json',
                       fit: BoxFit.contain,
                       animate: true,
-                      repeat: false,
+                      repeat: true,
                     ),
                   ),
         

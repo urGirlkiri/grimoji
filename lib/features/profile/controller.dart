@@ -28,6 +28,7 @@ class ProfileController extends ChangeNotifier {
   bool get isLoaded => _profile != null;
 
   List<String> get unlockedRecipes => _profile?.unlockedRecipeIds ?? [];
+  List<String> get unreadRecipeIds => _profile?.unreadRecipeIds ?? [];
   int get unreadRecipeCount => _profile?.unreadRecipeIds.length ?? 0;
 
   bool isRecipeUnlocked(String id) =>
