@@ -1,4 +1,3 @@
-
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/features/game/board/models/tile.dart';
 import 'package:grimoji/features/game/board/models/coordinate.dart';
@@ -51,8 +50,10 @@ class AlchemyEngine {
       bool mergeHappened = false;
 
       if (!isAlreadyTriggered) {
-        final recipes = getRecipes(emoji);
-        if (recipes != null) {
+        final rawRecipes = getRecipes(emoji);
+        if (rawRecipes != null && rawRecipes.isNotEmpty) {
+          
+          final recipes = List<Recipe>.from(rawRecipes);
           recipes.sort((a, b) => b.requiredAmount.compareTo(a.requiredAmount));
           
           for (var recipe in recipes) {
@@ -73,7 +74,7 @@ class AlchemyEngine {
               final Set<TileCoordinate> sources = coords.where((c) => c != spawnPoint).toSet();
               tilesToDestroy.addAll(sources);
 
-             mergedEmojis++;
+              mergedEmojis++;
 
               if (initializeBehavior != null) {
                 initializeBehavior!(targetTile);
@@ -106,10 +107,12 @@ class AlchemyEngine {
                   if (r >= 0 && r < BoardManager.rows && c >= 0 && c < BoardManager.cols) {
                     final rowDist = (r - centerCoord.row).abs();
                     final colDist = (c - centerCoord.col).abs();
-                    if (rowDist + colDist > aoeRadius) continue;
+                    if (rowDist + colDist > aoeRadius) continue; 
 
                     final Tile targetTile = boardManager.gridTiles[r][c];
                     final TileCoordinate targetCoord = TileCoordinate(row: r, col: c);
+                    
+                    if (coords.contains(targetCoord)) continue;
                     
                     final GameEmoji? resultingEmoji = transformations[targetTile.emoji];
 
@@ -132,7 +135,6 @@ class AlchemyEngine {
             }
           }
         } else {
-          // Basic match - tiles are destroyed, count as collected
           collectedEmojis.add(CollectedEmoji(emoji: emoji, count: coords.length));
           tilesToDestroy.addAll(group.coordinates);
         }
