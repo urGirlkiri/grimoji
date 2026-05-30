@@ -46,8 +46,6 @@ class AlchemyEngine {
       final emoji = group.emoji;
       final coords = group.coordinates;
 
-      collectedEmojis.add(CollectedEmoji(emoji: emoji, count: coords.length));
-
       bool isAlreadyTriggered = coords.any((c) => boardManager.gridTiles[c.row][c.col].isTriggered);
       bool mergeHappened = false;
 
@@ -81,12 +79,14 @@ class AlchemyEngine {
               }
 
               mergeHappened = true;
+              break;
             }
           }
         }
       }
 
       if (!mergeHappened) {
+        collectedEmojis.add(CollectedEmoji(emoji: emoji, count: coords.length));
         final reaction = getReactionFor(emoji);
         if (reaction != null) {
           if (reaction.type == ReactionType.explosive) {
