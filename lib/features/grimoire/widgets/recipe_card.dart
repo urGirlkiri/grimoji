@@ -5,6 +5,7 @@ import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 import 'package:grimoji/features/grimoire/widgets/dialogs/locked.dart';
 import 'package:grimoji/features/grimoire/widgets/dialogs/recipe.dart';
 import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/widgets/animations/dialog.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
 
 class RecipeCard extends StatefulWidget {
@@ -81,21 +82,13 @@ class _RecipeCardState extends State<RecipeCard> with TickerProviderStateMixin {
     );
   }
 
-  void _lockedDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return LockedDialog();
-      },
-    );
-  }
 
   void _handleTap() {
     if (widget.isUnlocked) {
       _unlockedDialog();
     } else {
       _shakeController.forward(from: 0.0).then((_) {
-        if (mounted) _lockedDialog();
+        if (mounted) showAnimatedDialog(context, const LockedDialog());
       });
     }
   }

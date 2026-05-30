@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/features/level/controller.dart';
@@ -24,7 +25,7 @@ class WinGameScreen extends StatefulWidget {
 }
 
 class _WinGameScreenState extends State<WinGameScreen> {
-@override
+  @override
   void initState() {
     super.initState();
 
@@ -37,7 +38,10 @@ class _WinGameScreenState extends State<WinGameScreen> {
       }
 
       final level = gameLevels.firstWhere((l) => l.number == widget.level);
-      final recipe = RecipeBook.getRecipeFor(level.targetEmoji);
+      final recipe = RecipeBook.allRecipes.cast<Recipe?>().firstWhere(
+        (r) => r!.yields == level.targetEmoji,
+        orElse: () => null,
+      );
       if (recipe != null) {
         context.readProfile.unlockRecipe(recipe.id);
       }
@@ -49,7 +53,11 @@ class _WinGameScreenState extends State<WinGameScreen> {
     final hasNextLevel = gameLevels.any((l) => l.number == nextLevelNumber);
 
     final level = gameLevels.firstWhere((l) => l.number == widget.level);
-    final recipe = RecipeBook.getRecipeFor(level.targetEmoji);
+    final recipe = RecipeBook.allRecipes.cast<Recipe?>().firstWhere(
+      (r) => r!.yields == level.targetEmoji,
+      orElse: () => null,
+    );
+
     if (recipe != null) {
       context.read<LevelDataController>().triggerAutoOpenLevel(
         nextLevelNumber,
@@ -63,6 +71,7 @@ class _WinGameScreenState extends State<WinGameScreen> {
       GoRouter.of(context).goNamed(Routes.map);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
@@ -73,7 +82,7 @@ class _WinGameScreenState extends State<WinGameScreen> {
         child: Stack(
           children: [
             const SizedBox.expand(child: Confetti(isStopped: false)),
-        
+
             Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -103,9 +112,9 @@ class _WinGameScreenState extends State<WinGameScreen> {
                       );
                     },
                   ),
-        
+
                   const SizedBox(height: 40),
-        
+
                   SizedBox(
                     height: 200,
                     width: double.infinity,
@@ -117,7 +126,7 @@ class _WinGameScreenState extends State<WinGameScreen> {
                       ],
                     ),
                   ),
-        
+
                   Flexible(
                     child: Lottie.asset(
                       'assets/lottie/star-witch.json',
@@ -126,9 +135,9 @@ class _WinGameScreenState extends State<WinGameScreen> {
                       repeat: true,
                     ),
                   ),
-        
+
                   const SizedBox(height: 32),
-        
+
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40.0),
                     child: PillButton(
@@ -137,7 +146,7 @@ class _WinGameScreenState extends State<WinGameScreen> {
                       onTap: _onContinuePressed,
                     ),
                   ),
-        
+
                   const SizedBox(height: 32),
                 ],
               ),

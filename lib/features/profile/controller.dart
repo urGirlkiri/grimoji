@@ -66,8 +66,8 @@ class ProfileController extends ChangeNotifier {
   void unlockRecipe(String recipeId) {
     if (_profile != null) {
       if (!_profile!.unlockedRecipeIds.contains(recipeId)) {
-        _profile?.unlockedRecipeIds.add(recipeId);
-        _profile?.unreadRecipeIds.add(recipeId);
+        _profile?.unlockedRecipeIds = [..._profile!.unlockedRecipeIds, recipeId];        
+        _profile?.unreadRecipeIds =  [..._profile!.unreadRecipeIds, recipeId];
         _save();
       }
     }
