@@ -21,7 +21,7 @@ const List<Recipe> chapter1Recipes = [
   ),
 
   Recipe(
-    ingredient: Emojis.poulrofietryLeg,
+    ingredient: Emojis.poultryLeg,
     requiredAmount: 3,
     yields: Emojis.bone,
   ),
