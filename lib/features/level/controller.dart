@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
+import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/features/level/models/level_data.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -16,14 +17,17 @@ class LevelDataController extends ChangeNotifier {
   bool isInitialized = false;
 
   int? autoOpenLvl;
+  GameEmoji? unlockedEmoji;
 
-  void triggerAutoOpenLevel(int level) {
+  void triggerAutoOpenLevel(int level, GameEmoji? emoji) {
     autoOpenLvl = level;
+    unlockedEmoji = emoji;
     notifyListeners();
   }
 
   void clearAutoOpenLevel() {
     autoOpenLvl = null;
+    unlockedEmoji = null;
   }
 
   LevelDataController({LevelDataPersistence? store})

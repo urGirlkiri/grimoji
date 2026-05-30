@@ -47,10 +47,13 @@ class LockedDialog extends StatelessWidget {
                 padding: const EdgeInsets.all(10.0),
                 child: PillButton(
                   onTap: () {
-                    context.read<LevelDataController>().triggerAutoOpenLevel(level);
-                    
+                    context.read<LevelDataController>().triggerAutoOpenLevel(
+                      level,
+                      null,
+                    );
+
                     Navigator.of(context).pop();
-                    
+
                     GoRouter.of(context).goNamed(Routes.map);
                   },
                   text: "Keep Exploring",

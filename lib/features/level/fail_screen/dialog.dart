@@ -74,6 +74,7 @@ class LevelFailDialog extends StatelessWidget {
                       Navigator.of(context).pop();
                       context.read<LevelDataController>().triggerAutoOpenLevel(
                         level,
+                        null,
                       );
                       GoRouter.of(context).replaceNamed(Routes.map);
                     },

@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:grimoji/features/audio/sounds.dart';
 import 'package:grimoji/features/profile/widgets/game_bar.dart';
 import 'package:grimoji/utils/context_data.dart';
-
+import 'package:grimoji/config/global_keys.dart';
 import 'package:grimoji/config/router/routes.dart';
 
 class LayoutScaffold extends StatelessWidget {
@@ -61,6 +61,12 @@ class LayoutScaffold extends StatelessWidget {
 
               return Expanded(
                 child: GestureDetector(
+                  key: index ==
+                          destinations.indexWhere(
+                            (dest) => dest.label.toLowerCase().contains('grim'),
+                          )
+                      ? AppKeys.grimoireNavKey
+                      : null,
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
                     context.readAudio.playSfx(SfxType.buttonTap);

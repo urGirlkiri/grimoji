@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/config/router/routes.dart';
+import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/audio/sounds.dart';
 import 'package:grimoji/features/level/widgets/confetti.dart';
 import 'package:grimoji/features/level/win_screen/flying_star.dart';
 import 'package:grimoji/utils/context_data.dart';
-import 'package:grimoji/widgets/custom/pill_button.dart'; 
+import 'package:grimoji/widgets/custom/pill_button.dart';
 import 'package:lottie/lottie.dart';
 
 class WinGameScreen extends StatefulWidget {
@@ -21,7 +24,7 @@ class WinGameScreen extends StatefulWidget {
 }
 
 class _WinGameScreenState extends State<WinGameScreen> {
-  @override
+@override
   void initState() {
     super.initState();
 
@@ -32,6 +35,12 @@ class _WinGameScreenState extends State<WinGameScreen> {
       if (widget.level == 1) {
         context.readProfile.markTutorialComplete();
       }
+
+      final level = gameLevels.firstWhere((l) => l.number == widget.level);
+      final recipe = RecipeBook.getRecipeFor(level.targetEmoji);
+      if (recipe != null) {
+        context.readProfile.unlockRecipe(recipe.id);
+      }
     });
   }
 
@@ -39,16 +48,21 @@ class _WinGameScreenState extends State<WinGameScreen> {
     final nextLevelNumber = widget.level + 1;
     final hasNextLevel = gameLevels.any((l) => l.number == nextLevelNumber);
 
-    if (hasNextLevel) {
-      GoRouter.of(context).goNamed(
-        Routes.map,
-        queryParameters: {'autoOpen': nextLevelNumber.toString()},
+    final level = gameLevels.firstWhere((l) => l.number == widget.level);
+    final recipe = RecipeBook.getRecipeFor(level.targetEmoji);
+    if (recipe != null) {
+      context.read<LevelDataController>().triggerAutoOpenLevel(
+        nextLevelNumber,
+        level.targetEmoji,
       );
+    }
+
+    if (hasNextLevel) {
+      GoRouter.of(context).goNamed(Routes.map);
     } else {
       GoRouter.of(context).goNamed(Routes.map);
     }
   }
-
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
