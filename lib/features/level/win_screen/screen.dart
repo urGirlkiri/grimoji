@@ -25,6 +25,8 @@ class WinGameScreen extends StatefulWidget {
 }
 
 class _WinGameScreenState extends State<WinGameScreen> {
+  bool _isNewUnlock = false;
+
   @override
   void initState() {
     super.initState();
@@ -42,28 +44,26 @@ class _WinGameScreenState extends State<WinGameScreen> {
         (r) => r!.yields == level.targetEmoji,
         orElse: () => null,
       );
+
       if (recipe != null) {
-        context.readProfile.unlockRecipe(recipe.id);
+        if (!context.readProfile.isRecipeUnlocked(recipe.id)) {
+          _isNewUnlock = true;
+          context.readProfile.unlockRecipe(recipe.id);
+        }
       }
     });
   }
 
-  void _onContinuePressed() {
+  void _onContinuePressed(BuildContext context) {
     final nextLevelNumber = widget.level + 1;
     final hasNextLevel = gameLevels.any((l) => l.number == nextLevelNumber);
 
     final level = gameLevels.firstWhere((l) => l.number == widget.level);
-    final recipe = RecipeBook.allRecipes.cast<Recipe?>().firstWhere(
-      (r) => r!.yields == level.targetEmoji,
-      orElse: () => null,
-    );
 
-    if (recipe != null) {
-      context.read<LevelDataController>().triggerAutoOpenLevel(
-        nextLevelNumber,
-        level.targetEmoji,
-      );
-    }
+    context.read<LevelDataController>().triggerAutoOpenLevel(
+      nextLevelNumber,
+      _isNewUnlock ? level.targetEmoji : null,
+    );
 
     if (hasNextLevel) {
       GoRouter.of(context).goNamed(Routes.map);
@@ -143,7 +143,7 @@ class _WinGameScreenState extends State<WinGameScreen> {
                     child: PillButton(
                       text: "Continue",
                       color: palette.magicCyan,
-                      onTap: _onContinuePressed,
+                      onTap: () => _onContinuePressed(context),
                     ),
                   ),
 

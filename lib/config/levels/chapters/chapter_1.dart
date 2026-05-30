@@ -75,7 +75,7 @@ const List<GameLevel> chapter1Levels = [
       Emojis.skull,
       Emojis.rock,
       Emojis.fire,
-      Emojis.droplet,
+      Emojis.poultryLeg,
     ],
   ),
 
