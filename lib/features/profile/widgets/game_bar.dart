@@ -6,37 +6,23 @@ import 'package:grimoji/features/profile/widgets/dialogs/cau_dialog.dart';
 import 'package:grimoji/features/profile/widgets/dialogs/prof_dialog.dart';
 import 'package:grimoji/features/profile/widgets/dialogs/notif_dialog.dart';
 import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/widgets/animations/dialog.dart';
 import 'package:grimoji/widgets/custom/app_icon.dart';
 
 class GameBar extends StatelessWidget {
   final Color backgroundColor;
   const GameBar({super.key, this.backgroundColor = Colors.transparent});
 
-  void onNotifTap(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return NotifDialog();
-      },
-    );
-  }
-
   void onProfileTap(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return ProfileDialog();
-      },
-    );
+    showAnimatedDialog(context, const ProfileDialog());
   }
 
   void onCauldronTap(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return CauldronDialog();
-      },
-    );
+    showAnimatedDialog(context, const CauldronDialog());
+  }
+
+  void onNotifTap(BuildContext context) {
+    showAnimatedDialog(context, const NotifDialog());
   }
 
   @override

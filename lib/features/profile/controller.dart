@@ -169,7 +169,6 @@ class ProfileController extends ChangeNotifier {
   }
 
   Duration timeUntilNextCauldron() {
-    checkCauldronRegen();
 
     if (_profile == null ||
         _profile!.cauldrons >= _maxCauldrons ||
