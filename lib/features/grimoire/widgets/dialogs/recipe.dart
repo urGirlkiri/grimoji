@@ -13,46 +13,55 @@ class RecipeDialog extends StatelessWidget {
     return Dialog.fullscreen(
       child: Stack(
         children: [
-          Center(
-            child: Container(
-              decoration: BoxDecoration(
-                color: context.palette.midnight,
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
+          Positioned.fill(
+            child: Hero(
+              tag: 'card-${recipe.id}',
+              child: Material(
+                type: MaterialType.transparency,
+                child: Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  decoration: BoxDecoration(color: context.palette.midnight),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
-                          recipe.requiredAmount.toString(),
-                          style: context.theme.textTheme.displayLarge?.copyWith(
-                            fontSize: 128,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              recipe.requiredAmount.toString(),
+                              style: context.theme.textTheme.displayLarge
+                                  ?.copyWith(
+                                    fontSize: 128,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                            const SizedBox(width: 2),
+                            EmojiWidget.lottie(
+                              path: recipe.ingredient.lottie,
+                              size: 128,
+                            ),
+                          ],
                         ),
-                        const SizedBox(width: 2),
+                        const SizedBox(height: 24),
+                        Image.asset(
+                          'assets/images/grimoire/down-arrow.png',
+                          width: 200,
+                          height: 300,
+                        ),
+                        const SizedBox(height: 32),
                         EmojiWidget.lottie(
-                          path: recipe.ingredient.lottie,
+                          path: recipe.yields.lottie,
                           size: 128,
                         ),
                       ],
                     ),
-                    const SizedBox(height: 24),
-                    Image.asset(
-                      'assets/images/grimoire/down-arrow.png',
-                      width: 200,
-                      height: 300,
-                    ),
-                    const SizedBox(height: 32),
-                    EmojiWidget.lottie(path: recipe.yields.lottie, size: 128),
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -61,9 +70,11 @@ class RecipeDialog extends StatelessWidget {
           Positioned(
             top: 16.0,
             right: 16.0,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CorkScrewCloseButton(),
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CorkScrewCloseButton(),
+              ),
             ),
           ),
         ],
