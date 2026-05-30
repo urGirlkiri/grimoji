@@ -9,6 +9,7 @@ import 'package:grimoji/features/map/screen.dart';
 import 'package:grimoji/features/level/fail_screen/screen.dart';
 import 'package:grimoji/features/level/hint_screen/screen.dart';
 import 'package:grimoji/features/map/widgets/builder.dart';
+import 'package:grimoji/features/market/screen.dart';
 import 'package:grimoji/features/settings/screen.dart';
 import 'package:grimoji/config/router/layout_scaffold.dart';
 
@@ -109,8 +110,7 @@ final router = GoRouter(
             GoRoute(
               path: Routes.marketRoute,
               name: Routes.market,
-              builder: (context, state) =>
-                  const Scaffold(body: Center(child: Text("Market"))),
+              builder: (context, state) => const MarketScreen(),
             ),
           ],
         ),

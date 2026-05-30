@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds.dart';
 import 'package:grimoji/features/profile/widgets/game_bar.dart';
 import 'package:grimoji/utils/context_data.dart';
-import 'package:provider/provider.dart';
 
 import 'package:grimoji/config/router/routes.dart';
 
@@ -19,6 +16,9 @@ class LayoutScaffold extends StatelessWidget {
     final palette = context.palette;
     final isLarge = context.isLargeScreen;
 
+    final currentPath = GoRouterState.of(context).uri.path;
+    final isMap = currentPath.startsWith(Routes.mapRoute);
+
     final double navHeight = isLarge ? 120.0 : 85.0;
 
     final double iconBaseSize = isLarge ? 100.0 : 60.0;
@@ -27,7 +27,7 @@ class LayoutScaffold extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-           GameBar( backgroundColor: navigationShell.currentIndex == 0 ?  Color(0xFF48484f) : palette.midnight,), 
+          GameBar(backgroundColor: isMap ? Color(0xFF48484f) : palette.midnight),
           Expanded(child: navigationShell),
         ],
       ),
@@ -63,53 +63,104 @@ class LayoutScaffold extends StatelessWidget {
                 child: GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
-                    context.read<AudioController>().playSfx(SfxType.buttonTap);
+                    context.readAudio.playSfx(SfxType.buttonTap);
                     navigationShell.goBranch(index);
                   },
-                  child: SizedBox(
-                    height: navHeight,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        AnimatedPositioned(
-                          duration: const Duration(milliseconds: 350),
-                          curve: Curves.easeOutBack,
-                          top: isSelected ? -15.0 : 20.0,
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 350),
-                            curve: Curves.easeOutBack,
-                            width: isSelected ? iconSelectedSize : iconBaseSize,
-                            child: Image.asset(
-                              dest.imagePath,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
+                  child: _buildNavItem(
+                    dest,
+                    isSelected,
+                    isSelected ? iconSelectedSize : iconBaseSize,
+                    navHeight,
+                    context,
+                   index ==
+                        destinations.indexWhere(
+                          (dest) => dest.label.toLowerCase().contains('grim'),
                         ),
-
-                        AnimatedPositioned(
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeOut,
-                          bottom: isSelected ? 5.0 : -20.0,
-                          child: AnimatedOpacity(
-                            duration: const Duration(milliseconds: 200),
-                            opacity: isSelected ? 1.0 : 0.0,
-                            child: Text(
-                              dest.label,
-                              style: GoogleFonts.eagleLake(
-                                color: palette.mist,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
                   ),
                 ),
               );
             }).toList(),
           ),
         ),
+      ),
+    );
+  }
+Widget _buildNavItem(
+    Destination dest,
+    bool isSelected,
+    double width,
+    double navHeight,
+    BuildContext context,
+    bool isGrim,
+  ) {
+    final profile = context.readProfile;
+    final hasUnread = isGrim && profile.unreadRecipeCount > 0;
+
+    final scale = hasUnread ? 1.0 : 0.0;
+
+    return SizedBox(
+      height: navHeight,
+      child: Stack(
+        alignment: Alignment.center,
+        clipBehavior: Clip.none,
+        children: [
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 350),
+            curve: Curves.easeOutBack,
+            top: isSelected ? -15.0 : 20.0,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 350),
+                  curve: Curves.easeOutBack,
+                  width: width,
+                  child: Image.asset(dest.imagePath, fit: BoxFit.contain),
+                ),
+                
+                Positioned(
+                  top: -5,
+                  right: 0,
+                  child: AnimatedScale(
+                    scale: scale,
+                    duration: const Duration(milliseconds: 200),
+                    child: Container(
+                      width: 20,
+                      height: 20,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: context.palette.crimson,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Text(
+                        profile.unreadRecipeCount.toString(),
+                        style: context.theme.textTheme.labelMedium?.copyWith(
+                          color: context.palette.trueWhite,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOut,
+            bottom: isSelected ? 5.0 : -20.0,
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 200),
+              opacity: isSelected ? 1.0 : 0.0,
+              child: Text(
+                dest.label,
+                style: context.theme.textTheme.titleSmall,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
