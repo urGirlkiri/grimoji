@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
-import 'package:grimoji/widgets/custom/emoji_widget.dart';
 import 'package:grimoji/widgets/custom/pill_button.dart';
 import 'package:grimoji/widgets/custom/scroll_dialog.dart';
 import 'package:provider/provider.dart';
@@ -55,14 +53,19 @@ class _LevelFailDialogState extends State<LevelFailDialog> {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  EmojiWidget.lottie(
-                    path: Emojis.collision.lottie,
-                    size: 90,
-                    useDropShadow: true,
+                  Text('-1', 
+                    textAlign: TextAlign.center,
+                    style: context.theme.textTheme.displayLarge?.copyWith(
+                      color: palette.crimson,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                 Image.asset(
+                    'assets/images/cauldron_explosion.png',
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'The mixture exploded!',
+                    'The Cauldron exploded!',
                     textAlign: TextAlign.center,
                     style: context.theme.textTheme.bodyLarge?.copyWith(
                       color: palette.twilight,
