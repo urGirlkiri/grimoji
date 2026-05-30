@@ -202,6 +202,19 @@ class ProfileController extends ChangeNotifier {
     }
   }
 
+  int getPowerupCount(String itemId) {
+    if (_profile == null) return 0;
+    return _profile!.inventory[itemId] ?? 0; 
+  }
+
+  void updatePowerupCount(String itemId, int change) {
+    if (_profile != null) {
+      int current = getPowerupCount(itemId);
+      _profile!.inventory[itemId] = (current + change).clamp(0, 999);
+      _save();
+    }
+  }
+
   void _save() {
     if (_profile != null) {
       _persistence.saveProfile(_profile!);
