@@ -13,6 +13,8 @@ const List<GameLevel> chapter1Levels = [
       Emojis.droplet,
       Emojis.fire,
       Emojis.rock,
+      Emojis.spider,
+
     ],
   ),
 
@@ -40,8 +42,7 @@ const List<GameLevel> chapter1Levels = [
     description: 'Unearthing the Dead - Introducing Skulls',
     availableEmojis: [
       Emojis.bone,
-      Emojis.fire,
-      Emojis.droplet,
+      // Emojis.droplet,
       Emojis.rock,
       Emojis.spider,
     ],
@@ -118,11 +119,11 @@ const List<GameLevel> chapter1Levels = [
     goal: 'Collect crystal balls',
     description: 'The Ritual Begins',
     availableEmojis: [
-      Emojis.fire,
+      // Emojis.fire,
       Emojis.rock,
       Emojis.droplet,
       Emojis.sparkles,
-      Emojis.skull,
+      // Emojis.skull,
     ],
   ),
 
@@ -136,8 +137,8 @@ const List<GameLevel> chapter1Levels = [
     availableEmojis: [
       Emojis.bone,
       Emojis.skull,
-      Emojis.fire,
-      Emojis.droplet,
+      // Emojis.fire,
+      // Emojis.droplet,
       Emojis.leafyGreen,
       Emojis.spider,
     ],
