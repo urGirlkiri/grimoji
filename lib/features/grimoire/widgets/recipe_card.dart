@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
-import 'package:grimoji/features/grimoire/dialogs/locked.dart';
-import 'package:grimoji/features/grimoire/dialogs/recipe.dart';
+import 'package:grimoji/features/grimoire/widgets/dialogs/locked.dart';
+import 'package:grimoji/features/grimoire/widgets/dialogs/recipe.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
 
