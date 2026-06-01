@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/features/audio/sounds.dart';
-import 'package:grimoji/features/profile/widgets/game_bar.dart';
+import 'package:grimoji/features/profile/widgets/game_bar/index.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/config/global_keys.dart';
 import 'package:grimoji/config/router/routes.dart';
