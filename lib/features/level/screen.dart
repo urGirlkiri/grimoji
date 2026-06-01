@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/audio/sounds.dart';
-import 'package:grimoji/config/palette.dart';
+import 'package:grimoji/config/app/palette.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/game/board/utils/metrics.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/level/widgets/confetti.dart';
 import 'package:grimoji/features/game/board/index.dart';
-import 'package:grimoji/features/level/widgets/header.dart';
-import 'package:grimoji/features/level/widgets/footer.dart';
+import 'package:grimoji/features/level/widgets/header/index.dart';
+import 'package:grimoji/features/level/widgets/footer/index.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/level/widgets/dialogs/quit_dialog.dart';
 import 'package:grimoji/utils/context_data.dart';
@@ -144,9 +144,9 @@ class _LevelScreenState extends State<LevelScreen> {
                 body: Stack(
                   children: [
                     ResponsiveScreen(
-                      topMessageArea: Header(),
+                      topMessageArea: const Header(),
                       squarishMainArea: const GameBoard(),
-                      rectangularMenuArea: const Foooter(),
+                      rectangularMenuArea: const Footer(),
                       mobileBackgroundImage: const AssetImage(
                         'assets/images/level/game.png',
                       ),

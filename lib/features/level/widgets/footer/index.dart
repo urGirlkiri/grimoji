@@ -9,8 +9,8 @@ import 'package:grimoji/widgets/animations/dialog.dart';
 import 'package:grimoji/widgets/custom/app_icon.dart';
 import 'package:provider/provider.dart';
 
-class Foooter extends StatelessWidget {
-  const Foooter({super.key});
+class Footer extends StatelessWidget {
+  const Footer({super.key});
 
   void _handlePauseTap(BuildContext context) {
     final levelState = context.read<LevelState>();
