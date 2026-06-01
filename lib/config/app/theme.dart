@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../palette.dart';
+import 'palette.dart';
 
 class AppTheme {
-  static ThemeData buildTheme(Palette palette, bool isLargeScreen ){
+  static ThemeData buildTheme(Palette palette, double scale ){
     
-    final double scale = isLargeScreen ? 1.5 : 1.0;
-
     return ThemeData(
       useMaterial3: true,
       scaffoldBackgroundColor: palette.midnight, 

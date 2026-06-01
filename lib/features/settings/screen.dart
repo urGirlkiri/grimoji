@@ -131,7 +131,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               VolumeSlider(
                                 label: "SFX Volume",
                                 value: settings.sfxVolume.value,
-                                palette: palette,
                                 onChanged:
                                     (settings.soundsOn.value &&
                                         settings.audioOn.value)
@@ -142,7 +141,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               VolumeSlider(
                                 label: "Music Volume",
                                 value: settings.musicVolume.value,
-                                palette: palette,
                                 onChanged:
                                     (settings.musicOn.value &&
                                         settings.audioOn.value)

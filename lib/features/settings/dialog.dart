@@ -96,7 +96,6 @@ class SettingsDialog extends StatelessWidget {
                             VolumeSlider(
                               label: "SFX Volume",
                               value: settings.sfxVolume.value,
-                              palette: palette,
                               onChanged:
                                   (settings.soundsOn.value &&
                                       settings.audioOn.value)
@@ -109,7 +108,6 @@ class SettingsDialog extends StatelessWidget {
                             VolumeSlider(
                               label: "Music Volume",
                               value: settings.musicVolume.value,
-                              palette: palette,
                               onChanged:
                                   (settings.musicOn.value &&
                                       settings.audioOn.value)

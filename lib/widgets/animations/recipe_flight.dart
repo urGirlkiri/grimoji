@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:grimoji/utils/context_data.dart';
 import 'package:vector_math/vector_math_64.dart';
 import 'package:grimoji/config/emojis.dart';
-import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
 
 class RecipeFlightAnimator {
@@ -54,7 +54,7 @@ class RecipeFlightAnimator {
             final double scale = 1.25 + ((0.0001 - 1.25) * pauseProgress);
             final double spin = pauseProgress * 4 * pi;
             final double glowProgress = Curves.easeOut.transform((1.0 - pauseProgress).clamp(0.0, 1.0));
-            final Color glowColor = Palette().magicCyan.withValues(alpha: 0.9 * glowProgress);
+            final Color glowColor = context.palette.magicCyan.withValues(alpha: 0.9 * glowProgress);
             final double glowBlur = 12 + (64 * glowProgress);
             final double glowSpread = 1 + (4 * glowProgress);
 

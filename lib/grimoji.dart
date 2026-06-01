@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/app/lifecycle.dart';
 import 'package:grimoji/config/app/theme.dart';
-import 'package:grimoji/config/palette.dart';
+import 'package:grimoji/config/app/palette.dart';
 import 'package:grimoji/config/router/index.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/level/controller.dart';
@@ -40,12 +40,12 @@ class Grimoji extends StatelessWidget {
         child: Builder(
           builder: (context) {
             final palette = context.palette;
-            final isLarge = context.isLargeScreen;
+            final scale = context.globalScale;
 
             return MaterialApp.router(
               title: 'Grimoji',
               debugShowCheckedModeBanner: false,
-              theme: AppTheme.buildTheme(palette, isLarge),
+              theme: AppTheme.buildTheme(palette, scale),
               routerConfig: router,
             );
           },
