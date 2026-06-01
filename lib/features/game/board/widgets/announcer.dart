@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grimoji/config/palette.dart';
 import 'package:grimoji/utils/context_data.dart';
 
 class AnnouncerWidget extends StatelessWidget {
@@ -13,54 +13,13 @@ class AnnouncerWidget extends StatelessWidget {
     required this.animationToken,
   });
 
-  Color _getAuraColor(String text, Palette palette) {
-    if (text.contains("Calamity") || text.contains("Catastrophic")) {
-      return palette.crimson;
-    }
-    return palette.twilight;
-  }
-
-  static final _scaleSequence = TweenSequence<double>([
-    TweenSequenceItem(
-      tween: Tween(
-        begin: 0.2,
-        end: 1.2,
-      ).chain(CurveTween(curve: Curves.elasticOut)),
-      weight: 8,
-    ),
-    TweenSequenceItem(
-      tween: Tween(
-        begin: 1.2,
-        end: 1.0,
-      ).chain(CurveTween(curve: Curves.easeOut)),
-      weight: 6,
-    ),
-    TweenSequenceItem(tween: ConstantTween<double>(1.0), weight: 78),
-    TweenSequenceItem(
-      tween: Tween(
-        begin: 1.0,
-        end: 0.0,
-      ).chain(CurveTween(curve: Curves.easeInBack)),
-      weight: 8,
-    ),
-  ]);
-
-  static final _opacitySequence = TweenSequence<double>([
-    TweenSequenceItem(tween: Tween(begin: 0.0, end: 1.0), weight: 6),
-    TweenSequenceItem(tween: ConstantTween<double>(1.0), weight: 88),
-    TweenSequenceItem(tween: Tween(begin: 1.0, end: 0.0), weight: 6),
-  ]);
-
-  static final _yOffsetSequence = TweenSequence<double>([
-    TweenSequenceItem(tween: Tween(begin: 40.0, end: 0.0), weight: 8),
-    TweenSequenceItem(tween: ConstantTween<double>(0.0), weight: 84),
-    TweenSequenceItem(tween: Tween(begin: 0.0, end: -50.0), weight: 8),
-  ]);
-
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
-    final glowColor = _getAuraColor(phrase, palette);
+    final glowColor =
+        phrase.contains("Calamity") || phrase.contains("Catastrophic")
+        ? palette.crimson
+        : palette.twilight;
 
     final double baseFontSize = phrase.length > 18 ? 32.0 : 48.0;
     final double scaleFactor = baseFontSize / 20.0;
@@ -79,120 +38,120 @@ class AnnouncerWidget extends StatelessWidget {
       right: 14.0 * scaleFactor,
     );
 
+    Widget textStack = FittedBox(
+      fit: BoxFit.scaleDown,
+      child: Stack(
+        alignment: Alignment.center,
+        clipBehavior: Clip.none,
+        children: [
+          Padding(
+            padding: edgePadding,
+            child: Text(
+              phrase,
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              softWrap: false,
+              style: baseTextStyle.copyWith(
+                foreground: Paint()
+                  ..style = PaintingStyle.stroke
+                  ..strokeWidth = 10.0 * scaleFactor
+                  ..color = glowColor,
+                shadows: [
+                  Shadow(blurRadius: 15 * scaleFactor, color: glowColor),
+                  Shadow(blurRadius: 30 * scaleFactor, color: palette.midnight),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: edgePadding,
+            child: Text(
+              phrase,
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              softWrap: false,
+              style: baseTextStyle.copyWith(
+                foreground: Paint()
+                  ..style = PaintingStyle.stroke
+                  ..strokeWidth = 6.0 * scaleFactor
+                  ..color = palette.midnight,
+              ),
+            ),
+          ),
+          Padding(
+            padding: edgePadding,
+            child: Text(
+              phrase,
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              softWrap: false,
+              style: baseTextStyle.copyWith(
+                foreground: Paint()
+                  ..style = PaintingStyle.stroke
+                  ..strokeWidth = 2.0 * scaleFactor
+                  ..color = palette.slate,
+              ),
+            ),
+          ),
+          ShaderMask(
+            blendMode: BlendMode.srcIn,
+            shaderCallback: (bounds) {
+              return LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  palette.slate,
+                  palette.moonlightSoft,
+                  palette.midnight,
+                ],
+                stops: const [0.0, 0.45, 1.0],
+              ).createShader(bounds);
+            },
+            child: Padding(
+              padding: edgePadding,
+              child: Text(
+                phrase,
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                softWrap: false,
+                style: baseTextStyle.copyWith(color: palette.slate),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
     return IgnorePointer(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: TweenAnimationBuilder<double>(
-          key: ValueKey(animationToken),
-          tween: Tween(begin: 0.0, end: 1.0),
-          duration: const Duration(milliseconds: 2500),
-          builder: (context, value, child) {
-            final scale = _scaleSequence.transform(value);
-            final opacity = _opacitySequence.transform(value);
-            final yOffset = _yOffsetSequence.transform(value);
 
-            return Transform.translate(
-              offset: Offset(0, yOffset),
-              child: Transform.scale(
-                scale: scale,
-                child: Opacity(
-                  opacity: opacity,
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      clipBehavior: Clip.none,
-                      children: [
-                        Padding(
-                          padding: edgePadding,
-                          child: Text(
-                            phrase,
-                            textAlign: TextAlign.center,
-                            maxLines: 1,
-                            softWrap: false,
-                            style: baseTextStyle.copyWith(
-                              foreground: Paint()
-                                ..style = PaintingStyle.stroke
-                                ..strokeWidth = 10.0 * scaleFactor
-                                ..color = glowColor,
-                              shadows: [
-                                Shadow(
-                                  blurRadius: 15 * scaleFactor,
-                                  color: glowColor,
-                                ),
-                                Shadow(
-                                  blurRadius: 30 * scaleFactor,
-                                  color: palette.midnight,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: edgePadding,
-                          child: Text(
-                            phrase,
-                            textAlign: TextAlign.center,
-                            maxLines: 1,
-                            softWrap: false,
-                            style: baseTextStyle.copyWith(
-                              foreground: Paint()
-                                ..style = PaintingStyle.stroke
-                                ..strokeWidth = 6.0 * scaleFactor
-                                ..color = palette.midnight,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: edgePadding,
-                          child: Text(
-                            phrase,
-                            textAlign: TextAlign.center,
-                            maxLines: 1,
-                            softWrap: false,
-                            style: baseTextStyle.copyWith(
-                              foreground: Paint()
-                                ..style = PaintingStyle.stroke
-                                ..strokeWidth = 2.0 * scaleFactor
-                                ..color = palette.slate,
-                            ),
-                          ),
-                        ),
-                        ShaderMask(
-                          blendMode: BlendMode.srcIn,
-                          shaderCallback: (bounds) {
-                            return LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                palette.slate,
-                                palette.moonlightSoft,
-                                palette.midnight,
-                              ],
-                              stops: const [0.0, 0.45, 1.0],
-                            ).createShader(bounds);
-                          },
-                          child: Padding(
-                            padding: edgePadding,
-                            child: Text(
-                              phrase,
-                              textAlign: TextAlign.center,
-                              maxLines: 1,
-                              softWrap: false,
-                              style: baseTextStyle.copyWith(
-                                color: palette.slate,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
+        child: textStack
+            .animate(key: ValueKey(animationToken))
+            .fadeIn(duration: 150.ms)
+            .moveY(begin: 40, end: 0, duration: 200.ms)
+            .scale(
+              begin: const Offset(0.2, 0.2),
+              end: const Offset(1.2, 1.2),
+              duration: 200.ms,
+              curve: Curves.elasticOut,
+            )
+            .scale(
+              begin: const Offset(1.0, 1.0),
+              end: const Offset(1 / 1.2, 1 / 1.2),
+              delay: 200.ms,
+              duration: 150.ms,
+              curve: Curves.easeOut,
+            )
+            .moveY(begin: 0, end: -50, delay: 2300.ms, duration: 200.ms)
+            .scale(
+              begin: const Offset(1.0, 1.0),
+              end: const Offset(0.0, 0.0),
+              delay: 2300.ms,
+              duration: 200.ms,
+              curve: Curves.easeInBack,
+            )
+            .fadeOut(delay: 2350.ms, duration: 150.ms),
       ),
     );
   }

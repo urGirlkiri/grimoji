@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/constants.dart';
-import 'package:grimoji/config/palette.dart';
+import 'package:grimoji/utils/context_data.dart';
 
 class BoardGrid extends StatelessWidget {
   final int gridColumns;
   final int totalTiles;
   final double aspectRatio;
   final GlobalKey firstTileKey;
-  final Palette palette;
 
   const BoardGrid({
     super.key,
@@ -15,7 +14,6 @@ class BoardGrid extends StatelessWidget {
     required this.totalTiles,
     required this.aspectRatio,
     required this.firstTileKey,
-    required this.palette,
   });
 
   @override
@@ -34,12 +32,12 @@ class BoardGrid extends StatelessWidget {
         return Container(
           key: tileIndex == 0 ? firstTileKey : null,
           decoration: BoxDecoration(
-            color: palette.twilight.withValues(alpha: 0.38),
-            border: Border.all(color: palette.dusk, width: 1),
+            color: context.palette.twilight.withValues(alpha: 0.38),
+            border: Border.all(color: context.palette.dusk, width: 1),
             borderRadius: BorderRadius.circular(4),
             boxShadow: [
               BoxShadow(
-                color: palette.voidBlack.withValues(alpha: 0.4),
+                color: context.palette.voidBlack.withValues(alpha: 0.4),
                 blurRadius: 4,
                 offset: const Offset(0, 4),
               ),

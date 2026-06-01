@@ -212,7 +212,6 @@ class _GameBoardState extends State<GameBoard> {
                               totalTiles: totalTiles,
                               aspectRatio: dynamicTileAspectRatio,
                               firstTileKey: _tileKey,
-                              palette: palette,
                             ),
                             TileGrid(activeTileId: _draggedTile?.id),
                             
