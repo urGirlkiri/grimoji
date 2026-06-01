@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/utils/context_data.dart';
+import 'package:provider/provider.dart';
 
 class AnnouncerWidget extends StatelessWidget {
-  final String phrase;
-  final int animationToken;
-
   const AnnouncerWidget({
     super.key,
-    required this.phrase,
-    required this.animationToken,
   });
 
   @override
   Widget build(BuildContext context) {
+    final gameState = context.watch<LevelState>().gameState;
+    final phrase = gameState.activeAnnouncement;
+    if (phrase == null) {
+      return const SizedBox.shrink();
+    }
+
     final palette = context.palette;
     final glowColor =
         phrase.contains("Calamity") || phrase.contains("Catastrophic")
-        ? palette.crimson
-        : palette.twilight;
+            ? palette.crimson
+            : palette.twilight;
 
     final double baseFontSize = phrase.length > 18 ? 32.0 : 48.0;
     final double scaleFactor = baseFontSize / 20.0;
@@ -127,7 +130,7 @@ class AnnouncerWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
 
         child: textStack
-            .animate(key: ValueKey(animationToken))
+            .animate(key: ValueKey(gameState.announcementToken))
             .fadeIn(duration: 150.ms)
             .moveY(begin: 40, end: 0, duration: 200.ms)
             .scale(

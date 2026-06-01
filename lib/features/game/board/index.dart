@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/features/game/board/models/sparkle_effect.dart';
 import 'package:grimoji/features/game/board/widgets/announcer.dart';
-import 'package:grimoji/features/game/board/widgets/board_grid.dart';
+import 'package:grimoji/features/game/board/widgets/board_grid/index.dart';
 import 'package:grimoji/features/game/board/utils/metrics.dart';
+import 'package:grimoji/features/game/board/widgets/sparkle.dart';
 import 'package:grimoji/features/game/board/widgets/tile_grid/index.dart';
 import 'package:grimoji/features/game/board/models/tile.dart';
 import 'package:grimoji/features/game/board/models/coordinate.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/utils/context_data.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class GameBoard extends StatefulWidget {
@@ -26,8 +26,9 @@ class _GameBoardState extends State<GameBoard> {
 
   Tile? _draggedTile;
   Offset? _dragStartPosition;
-  
-  final List<SparkleEffect> _sparkles = [];
+
+  final ValueNotifier<List<SparkleEffect>> _sparklesNotifier = ValueNotifier([]);
+  bool _isDisposed = false;
 
   @override
   void initState() {
@@ -35,6 +36,13 @@ class _GameBoardState extends State<GameBoard> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _measureBoard();
     });
+  }
+
+  @override
+  void dispose() {
+    _isDisposed = true;
+    _sparklesNotifier.dispose();
+    super.dispose();
   }
 
   void _measureBoard() {
@@ -57,17 +65,16 @@ class _GameBoardState extends State<GameBoard> {
   }
 
   void _triggerSparkle(Offset localPosition) {
+    if (_isDisposed) return;
+
     final sparkle = SparkleEffect(position: localPosition);
-    setState(() {
-      _sparkles.add(sparkle);
-    });
+    _sparklesNotifier.value = [..._sparklesNotifier.value, sparkle];
 
     Future.delayed(boardSparksTime, () {
-      if (mounted) {
-        setState(() {
-          _sparkles.removeWhere((s) => s.id == sparkle.id);
-        });
-      }
+      if (_isDisposed) return;
+      _sparklesNotifier.value = _sparklesNotifier.value
+          .where((s) => s.id != sparkle.id)
+          .toList();
     });
   }
 
@@ -80,13 +87,13 @@ class _GameBoardState extends State<GameBoard> {
     }
   }
 
-  void onPanStart(DragStartDetails details, BuildContext contex,) {
+  void onPanStart(DragStartDetails details, BuildContext context) {
     final metrics = context.read<BoardMetrics>();
-    final levelstate = context.read<LevelState>();
+    final levelState = context.read<LevelState>();
 
     if (!metrics.isReady) return;
 
-    if (levelstate.gameState.isProcessing || levelstate.gameState.isShuffling) {
+    if (levelState.gameState.isProcessing || levelState.gameState.isShuffling) {
       _triggerSparkle(details.localPosition);
       return;
     }
@@ -95,19 +102,21 @@ class _GameBoardState extends State<GameBoard> {
     int row = (details.localPosition.dy / metrics.tileHeight!).floor();
 
     if (row >= 0 &&
-        row < levelstate.boardManager.gridTiles.length &&
+        row < levelState.boardManager.gridTiles.length &&
         col >= 0 &&
-        col < levelstate.boardManager.gridTiles[0].length) {
-      levelstate.coordinator.resetHintTimer();
+        col < levelState.boardManager.gridTiles[0].length) {
+      levelState.coordinator.resetHintTimer();
       setState(() {
-        _draggedTile = levelstate.boardManager.gridTiles[row][col];
+        _draggedTile = levelState.boardManager.gridTiles[row][col];
         _dragStartPosition = details.localPosition;
       });
     }
   }
 
-  void onPanUpdate(DragUpdateDetails details, LevelState levelState) {
+  void onPanUpdate(DragUpdateDetails details, BuildContext context) {
     if (_draggedTile == null || _dragStartPosition == null) return;
+    
+    final levelState = context.read<LevelState>();
 
     final dx = details.localPosition.dx - _dragStartPosition!.dx;
     final dy = details.localPosition.dy - _dragStartPosition!.dy;
@@ -134,17 +143,17 @@ class _GameBoardState extends State<GameBoard> {
         _triggerSparkle(details.localPosition);
       }
 
-      _clearDrag(); 
+      _clearDrag();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
-    final levelstate = context.watch<LevelState>();
-
-    final int gridColumns = levelstate.boardManager.gridTiles[0].length;
-    final int gridRows = levelstate.boardManager.gridTiles.length;
+    
+    final initialGrid = context.read<LevelState>().boardManager.gridTiles;
+    final int gridColumns = initialGrid[0].length;
+    final int gridRows = initialGrid.length;
 
     const double maxAllowedBoardWidth = 350.0;
     final int totalTiles = gridColumns * gridRows;
@@ -158,8 +167,8 @@ class _GameBoardState extends State<GameBoard> {
         final double constrainedBoardWidth = isSmallScreen
             ? screenWidth * 0.95
             : (screenWidth > maxAllowedBoardWidth
-                ? maxAllowedBoardWidth
-                : screenWidth * 0.9);
+                  ? maxAllowedBoardWidth
+                  : screenWidth * 0.9);
 
         final double proportionalBoardHeight =
             (constrainedBoardWidth * gridRows) / gridColumns;
@@ -195,14 +204,11 @@ class _GameBoardState extends State<GameBoard> {
                               (tileSpacingGap * verticalGapsCount)) /
                           gridRows;
 
-                      final double dynamicTileAspectRatio =
-                          calculatedSingleTileWidth / calculatedSingleTileHeight;
-
                       return GestureDetector(
                         onPanStart: (details) => onPanStart(details, context),
-                        onPanUpdate: (details) => onPanUpdate(details, levelstate),
-                        onPanEnd: (details) => _clearDrag(), 
-                        onPanCancel: () => _clearDrag(),     
+                        onPanUpdate: (details) => onPanUpdate(details, context),
+                        onPanEnd: (details) => _clearDrag(),
+                        onPanCancel: () => _clearDrag(),
                         child: Stack(
                           key: _boardKey,
                           clipBehavior: Clip.none,
@@ -210,43 +216,24 @@ class _GameBoardState extends State<GameBoard> {
                             BoardGrid(
                               gridColumns: gridColumns,
                               totalTiles: totalTiles,
-                              aspectRatio: dynamicTileAspectRatio,
                               firstTileKey: _tileKey,
+                              tWidth: calculatedSingleTileWidth,
+                              tHeight: calculatedSingleTileHeight,
                             ),
                             TileGrid(activeTileId: _draggedTile?.id),
-                            
-                            ..._sparkles.map((sparkle) {
-                              return Positioned(
-                                key: ValueKey(sparkle.id),
-                                left: sparkle.position.dx - 50,
-                                top: sparkle.position.dy - 50,
-                                child: IgnorePointer( 
-                                  child: SizedBox(
-                                    width: 100,
-                                    height: 100,
-                                    child: Lottie.asset(
-                                      'assets/lottie/stars.json',
-                                      repeat: false,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }),
+
+                            SparkleOverlay(sparklesNotifier: _sparklesNotifier),
                           ],
                         ),
                       );
                     },
                   ),
                 ),
-                if (levelstate.gameState.activeAnnouncement != null)
-                  OverflowBox(
-                    maxWidth: constrainedBoardWidth,
-                    child: AnnouncerWidget(
-                      phrase: levelstate.gameState.activeAnnouncement!,
-                      animationToken: levelstate.gameState.announcementToken,
-                    ),
-                  ),
+                
+                OverflowBox(
+                  maxWidth: constrainedBoardWidth,
+                  child: const AnnouncerWidget(),
+                ),
               ],
             ),
           ),
