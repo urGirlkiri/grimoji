@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 import 'package:grimoji/features/grimoire/widgets/dialogs/locked.dart';
 import 'package:grimoji/features/grimoire/widgets/dialogs/recipe.dart';
+import 'package:grimoji/features/grimoire/widgets/recipe_card/card_face.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animations/dialog.dart';
-import 'package:grimoji/widgets/custom/emoji_widget.dart';
 
 class RecipeCard extends StatefulWidget {
   final bool isUnlocked;
@@ -148,7 +148,8 @@ class _RecipeCardState extends State<RecipeCard> with TickerProviderStateMixin {
                         ),
                         child: FadeTransition(
                           opacity: fadeOutAnim,
-                          child: _buildCardContent(
+                          child: CardFace(
+                            recipe: widget.recipe,
                             showEmoji: true,
                             emojiSize: emojiSize,
                             showUnreadIndicator: widget.isUnread,
@@ -166,7 +167,8 @@ class _RecipeCardState extends State<RecipeCard> with TickerProviderStateMixin {
               color: palette.midnight,
               borderRadius: BorderRadius.circular(4),
             ),
-            child: _buildCardContent(
+            child: CardFace(
+              recipe: widget.recipe,
               showEmoji: widget.isUnlocked,
               emojiSize: emojiSize,
               showUnreadIndicator: widget.isUnread,
@@ -178,56 +180,6 @@ class _RecipeCardState extends State<RecipeCard> with TickerProviderStateMixin {
         ),
       ),
     );  
-  }
-
-  Widget _buildCardContent({
-    required bool showEmoji,
-    required double emojiSize,
-    required bool showUnreadIndicator,
-    required Color crimsonColor,
-    required Color midnightColor,
-    bool showUnreadShadow = false,
-  }) {
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(2.0),
-          child: Image.asset(
-            'assets/images/grimoire/card-frame.png',
-            fit: BoxFit.fill,
-          ),
-        ),
-        Center(
-          child: showEmoji
-              ? EmojiWidget.svg(path: widget.recipe.yields.svg, size: emojiSize)
-              : Image.asset('assets/images/grimoire/queston_mark.png'),
-        ),
-        if (showUnreadIndicator)
-          Positioned(
-            top: -4,
-            right: -4,
-            child: Container(
-              width: 16,
-              height: 16,
-              decoration: BoxDecoration(
-                color: crimsonColor,
-                shape: BoxShape.circle,
-                border: Border.all(color: midnightColor, width: 2),
-                boxShadow: showUnreadShadow
-                    ? [
-                        BoxShadow(
-                          color: crimsonColor.withValues(alpha: 0.5),
-                          blurRadius: 8,
-                          spreadRadius: 2,
-                        ),
-                      ]
-                    : null,
-              ),
-            ),
-          ),
-      ],
-    );
   }
 
 }

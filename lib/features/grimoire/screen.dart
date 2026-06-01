@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
-import 'package:grimoji/features/grimoire/widgets/recipe_card.dart';
+import 'package:grimoji/features/grimoire/widgets/recipe_card/index.dart';
 import 'package:grimoji/utils/context_data.dart';
 
 class GrimoireScreen extends StatelessWidget {
