@@ -9,12 +9,14 @@ import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:grimoji/features/audio/sounds/sfx_type.dart';
+import 'package:grimoji/features/audio/sounds/sound_type_to_volume.dart';
 import 'package:logging/logging.dart';
 
 import '../../config/app/lifecycle.dart';
 import '../settings/controller.dart';
 import 'songs.dart';
-import 'sounds.dart';
+import 'sounds/index.dart';
 
 class AudioController {
   static final _log = Logger('AudioController');

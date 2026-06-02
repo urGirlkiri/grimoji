@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/levels/game_level.dart';
-import 'package:grimoji/features/audio/sounds.dart';
 import 'package:grimoji/config/app/palette.dart';
 import 'package:grimoji/config/router/routes.dart';
+import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/game/board/utils/metrics.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/level/widgets/confetti.dart';

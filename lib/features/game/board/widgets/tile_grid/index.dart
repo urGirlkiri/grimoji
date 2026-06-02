@@ -72,8 +72,10 @@ class TileGrid extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    _initialFall(context, levelState);
-
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (context.mounted) _initialFall(context, levelState);
+    });
+    
     final double tWidth = metrics.tileWidth!;
     final double tHeight = metrics.tileHeight!;
     final grid = levelState.boardManager.gridTiles;

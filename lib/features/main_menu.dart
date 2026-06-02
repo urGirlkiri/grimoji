@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/router/routes.dart';
+import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/app_icon.dart';
 import 'package:grimoji/widgets/neon_logo.dart';
 
-import 'audio/sounds.dart';
 import '../widgets/custom/pill_button.dart';
 import '../widgets/responsive_screen.dart';
 
