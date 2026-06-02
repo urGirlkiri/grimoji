@@ -85,8 +85,19 @@ final router = GoRouter(
             GoRoute(
               path: Routes.cauldronRoute,
               name: Routes.cauldron,
-              builder: (context, state) =>
-                  const Scaffold(body: Center(child: Text("Coming Soon"))),
+              builder: (context, state) => Scaffold(
+                body: Stack(
+                  children: [
+                    Positioned.fill(
+                      child: Image.asset(
+                        'assets/images/emo_2.png',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Center(child: Text("Coming Soon", style: context.theme.textTheme.bodyLarge)),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
@@ -95,8 +106,19 @@ final router = GoRouter(
             GoRoute(
               path: Routes.covenRoute,
               name: Routes.coven,
-              builder: (context, state) =>
-                  const Scaffold(body: Center(child: Text("Coming Soon"))),
+             builder: (context, state) => Scaffold(
+                body: Stack(
+                  children: [
+                    Positioned.fill(
+                      child: Image.asset(
+                        'assets/images/emo_2.png',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Center(child: Text("Coming Soon", style: context.theme.textTheme.bodyLarge)),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
