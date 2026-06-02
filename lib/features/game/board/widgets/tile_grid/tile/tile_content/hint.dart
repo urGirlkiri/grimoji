@@ -1,11 +1,11 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/features/game/board/models/coordinate.dart';
 import 'package:grimoji/utils/context_data.dart';
 
-class HintNudge extends StatefulWidget {
+class HintNudge extends StatelessWidget {
   final bool isHinting;
   final TileCoordinate current;
   final TileCoordinate? partner;
@@ -24,83 +24,42 @@ class HintNudge extends StatefulWidget {
   });
 
   @override
-  State<HintNudge> createState() => _HintNudgeState();
-}
-
-class _HintNudgeState extends State<HintNudge>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1200),
-    );
-
-    _animation = Tween<double>(begin: 0, end: pi).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOutSine),
-    );
-
-    if (widget.isHinting) _controller.repeat();
-  }
-
-  @override
-  void didUpdateWidget(HintNudge oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.isHinting && !oldWidget.isHinting) {
-      _controller.repeat();
-    } else if (!widget.isHinting && oldWidget.isHinting) {
-      _controller.reset();
-      _controller.stop();
-    }
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    if (!isHinting || partner == null) return child;
+
     final palette = context.palette;
-    if (!widget.isHinting || widget.partner == null) return widget.child;
+    final double dx = (partner!.col - current.col).toDouble();
+    final double dy = (partner!.row - current.row).toDouble();
 
-    double dx = (widget.partner!.col - widget.current.col).toDouble();
-    double dy = (widget.partner!.row - widget.current.row).toDouble();
+    return child
+        .animate(
+          onPlay: (controller) => controller.repeat(),
+        )
+        .custom(
+          duration: 1200.ms,
+          builder: (context, value, child) {
+            final double progress = sin(value * pi);
 
-    return AnimatedBuilder(
-      animation: _animation,
-      builder: (context, child) {
-        double progress = sin(_animation.value);
+            final double moveX = dx * (tileWidth + tileSpacingGap) * 0.4 * progress;
+            final double moveY = dy * (tileHeight + tileSpacingGap) * 0.4 * progress;
 
-        double moveX =
-            dx * (widget.tileWidth + tileSpacingGap) * 0.4 * progress;
-        double moveY =
-            dy * (widget.tileHeight + tileSpacingGap) * 0.4 * progress;
-
-        return Transform.translate(
-          offset: Offset(moveX, moveY),
-          child: Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-
-              boxShadow: [
-                BoxShadow(
-                  color: palette.trueWhite.withValues(alpha: progress * 0.7),
-                  blurRadius: 20,
-                  spreadRadius: 2,
+            return Transform.translate(
+              offset: Offset(moveX, moveY),
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: palette.trueWhite.withValues(alpha: progress * 0.7),
+                      blurRadius: 20,
+                      spreadRadius: 2,
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            child: child,
-          ),
+                child: child,
+              ),
+            );
+          },
         );
-      },
-      child: widget.child,
-    );
   }
 }

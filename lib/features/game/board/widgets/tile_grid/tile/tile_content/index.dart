@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
@@ -6,7 +7,7 @@ import 'package:grimoji/features/game/board/models/tile.dart';
 import 'package:grimoji/features/game/board/widgets/tile_grid/tile/tile_content/hint.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
 
-class TileContent extends StatefulWidget {
+class TileContent extends StatelessWidget {
   final Tile tile;
   final GameEmoji displayEmoji;
   final double tWidth;
@@ -23,104 +24,72 @@ class TileContent extends StatefulWidget {
   });
 
   @override
-  State<TileContent> createState() => _TileContentState();
-}
-
-class _TileContentState extends State<TileContent> with SingleTickerProviderStateMixin {
-   late final AnimationController _shakeController;
-
-  @override
-  void initState() {
-    super.initState();
-    _shakeController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-  }
-
-  @override
-  void didUpdateWidget(covariant TileContent oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.tile.isTriggered && !oldWidget.tile.isTriggered) {
-      _shakeController.forward(from: 0);
-    }
-  }
-
-  @override
-  void dispose() {
-    _shakeController.dispose();
-    super.dispose();
-  }
-  @override
   Widget build(BuildContext context) {
-    final targetScale = widget.tile.isExploding
+    final targetScale = tile.isExploding
         ? 0.0
-        : widget.tile.isMerging
+        : tile.isMerging
         ? 0.0
-        : widget.tile.isMergePoint
+        : tile.isMergePoint
         ? 1.15
-        : widget.tile.isTriggered
+        : tile.isTriggered
         ? 1.1
-        : widget.isTouched
+        : isTouched
         ? 1.15
         : 1.0;
 
-    final displayEmoji = widget.tile.morphTarget ?? widget.tile.emoji;
+    final displayEmoji = tile.morphTarget ?? tile.emoji;
     final reaction = RecipeBook.getReactionFor(displayEmoji);
-    final isExplosive =
-        reaction != null && reaction.type == ReactionType.explosive;
+    final isExplosive = reaction?.type == ReactionType.explosive;
+    final targetOpacity = (tile.isExploding && isExplosive) ? 0.0 : 1.0;
 
-    final targetOpacity = widget.tile.isExploding && isExplosive ? 0.0 : 1.0;
+    final scaleDuration = (isTouched ? 100 : 200).ms;
+    final scaleCurve = tile.isMergePoint
+        ? Curves.elasticOut
+        : Curves.easeOutBack;
 
-    return  AnimatedBuilder(
-       animation: _shakeController,
-      
-      builder: (context, child) {
-        final shakeVal = _shakeController.value;
-        final angle = (shakeVal * 0.2) - 0.1;
-        return Transform.rotate(angle: angle, child: child);
-      },
-      child: AnimatedOpacity(
-        opacity: targetOpacity,
-        duration: const Duration(milliseconds: 300),
-        child: AnimatedScale(
-          scale: targetScale,
-          duration: Duration(milliseconds: widget.isTouched ? 100 : 200),
-          curve: widget.tile.isMergePoint ? Curves.elasticOut : Curves.easeOutBack,
-          child: HintNudge(
-            isHinting: widget.tile.isHinting,
-            current: widget.tile.coordinate,
-            partner: widget.tile.hintPartner,
-            tileWidth: widget.tWidth,
-            tileHeight: widget.tHeight,
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 400),
-              transitionBuilder: (child, animation) {
-                if (widget.tile.isTransmuting) {
-                  return RotationTransition(
-                    turns: Tween<double>(
-                      begin: -0.5,
-                      end: 0.0,
-                    ).animate(animation),
-                    child: FadeTransition(
-                      opacity: animation,
-                      child: ScaleTransition(scale: animation, child: child),
+    return AnimatedOpacity(
+      opacity: targetOpacity,
+      duration: 300.ms,
+      child: AnimatedScale(
+        scale: targetScale,
+        duration: scaleDuration,
+        curve: scaleCurve,
+
+        child:
+            HintNudge(
+                  isHinting: tile.isHinting,
+                  current: tile.coordinate,
+                  partner: tile.hintPartner,
+                  tileWidth: tWidth,
+                  tileHeight: tHeight,
+                  child: AnimatedSwitcher(
+                    duration: 400.ms,
+                    transitionBuilder: (child, animation) {
+                      Widget transition = FadeTransition(
+                        opacity: animation,
+                        child: ScaleTransition(scale: animation, child: child),
+                      );
+
+                      if (tile.isTransmuting) {
+                        transition = RotationTransition(
+                          turns: Tween<double>(
+                            begin: -0.5,
+                            end: 0.0,
+                          ).animate(animation),
+                          child: transition,
+                        );
+                      }
+                      return transition;
+                    },
+                    child: EmojiWidget.svg(
+                      key: ValueKey(displayEmoji.visual),
+                      path: displayEmoji.svg,
+                      size: tWidth * 0.8,
                     ),
-                  );
-                }
-                return FadeTransition(
-                  opacity: animation,
-                  child: ScaleTransition(scale: animation, child: child),
-                );
-              },
-              child: EmojiWidget.svg(
-                key: ValueKey(displayEmoji.visual),
-                path: displayEmoji.svg,
-                size: widget.tWidth * 0.8,
-              ),
-            ),
-          ),
-        ),
+                  ),
+                )
+                .animate(target: tile.isTriggered ? 1 : 0)
+                .shake(hz: 5, rotation: 0.1, curve: Curves.easeInOut),
       ),
     );
   }
