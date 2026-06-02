@@ -26,7 +26,7 @@ class SettingsController {
 
   ValueNotifier<double> sfxVolume = ValueNotifier(1.0);
 
-  ValueNotifier<double> musicVolume = ValueNotifier(1.0);
+  ValueNotifier<double> musicVolume = ValueNotifier(0.4); 
 
   /// Creates a new instance of [SettingsController] backed by [store].
   ///
@@ -92,7 +92,7 @@ class SettingsController {
           .getMusicOn(defaultValue: true)
           .then((value) => musicOn.value = value),
       _store.getSfxVolume(defaultValue: 1.0).then((value) => sfxVolume.value = value),
-      _store.getMusicVolume(defaultValue: 1.0).then((value) => musicVolume.value = value),
+      _store.getMusicVolume(defaultValue: 0.4).then((value) => musicVolume.value = value),
     ]);
 
     _log.fine(() => 'Loaded settings: $loadedValues');

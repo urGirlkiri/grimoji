@@ -53,7 +53,7 @@ class AudioController {
         polyphony,
         (i) => AudioPlayer(playerId: 'sfxPlayer#$i'),
       ).toList(growable: false),
-      _playlist = Queue.of(List<Song>.of(backgroundSongs)..shuffle()) {
+      _playlist = Queue.of(List<Song>.of(menuSongs)..shuffle()) {
     _musicPlayer.onPlayerComplete.listen(_handleSongFinished);
 
     final audioContext = AudioContext(
@@ -283,6 +283,28 @@ class AudioController {
       // Sometimes, resuming fails with an "Unexpected" error.
       _log.severe('Error resuming music', e);
       // Try starting the song from scratch.
+      _playCurrentSongInPlaylist();
+    }
+  }
+
+  void playMenuMusic() {
+    _log.info('Switching to menu music.');
+    _musicPlayer.stop();
+    _playlist.clear();
+    _playlist.addAll(List.of(menuSongs)..shuffle());
+
+    if (_settings?.audioOn.value == true && _settings?.musicOn.value == true) {
+      _playCurrentSongInPlaylist();
+    }
+  }
+
+  void playLevelMusic() {
+    _log.info('Switching to level music.');
+    _musicPlayer.stop();
+    _playlist.clear();
+    _playlist.addAll(List.of(levelSongs)..shuffle());
+
+    if (_settings?.audioOn.value == true && _settings?.musicOn.value == true) {
       _playCurrentSongInPlaylist();
     }
   }
