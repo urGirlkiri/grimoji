@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grimoji/features/audio/sounds.dart';
+import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/breathing_widget.dart';
 
@@ -34,18 +34,8 @@ class PillButton extends StatefulWidget {
   State<PillButton> createState() => _PillButtonState();
 }
 
-class _PillButtonState extends State<PillButton>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _tapController = AnimationController(
-    duration: const Duration(milliseconds: 100),
-    vsync: this,
-  );
-
-  @override
-  void dispose() {
-    _tapController.dispose();
-    super.dispose();
-  }
+class _PillButtonState extends State<PillButton> {
+  bool _isPressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +51,7 @@ class _PillButtonState extends State<PillButton>
             ? const EdgeInsets.symmetric(vertical: 14)
             : const EdgeInsets.symmetric(horizontal: 24, vertical: 12));
 
-    Widget innerText = Text(
+    final innerText = Text(
       widget.text,
       style: GoogleFonts.eagleLake(
         color: effectiveTextColor,
@@ -76,7 +66,7 @@ class _PillButtonState extends State<PillButton>
       ),
     );
 
-    Widget buttonContainer = Container(
+    final buttonContainer = Container(
       width: widget.fullWidth ? double.infinity : null,
       padding: effectivePadding,
       decoration: BoxDecoration(
@@ -86,7 +76,6 @@ class _PillButtonState extends State<PillButton>
           color: effectiveBorderColor,
           width: effectiveBorderWidth,
         ),
-
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -108,30 +97,31 @@ class _PillButtonState extends State<PillButton>
           ),
         ],
       ),
-
       child: widget.fullWidth ? Center(child: innerText) : innerText,
     );
 
-    Widget touchableButton = GestureDetector(
-      onTapDown: (_) => _tapController.forward(),
-      onTapUp: (_) => _tapController.reverse(),
-      onTapCancel: () => _tapController.reverse(),
+    final touchableButton = GestureDetector(
+      onTapDown: (_) => setState(() => _isPressed = true),
+      onTapUp: (_) => setState(() => _isPressed = false),
+      onTapCancel: () => setState(() => _isPressed = false),
       onTap: () {
         context.readAudio.playSfx(SfxType.buttonTap);
         widget.onTap();
       },
-      child: ScaleTransition(
-        scale: Tween<double>(begin: 1.0, end: 0.95).animate(
-          CurvedAnimation(parent: _tapController, curve: Curves.easeOut),
-        ),
+      child: AnimatedScale(
+        scale: _isPressed ? 0.95 : 1.0,
+        duration: const Duration(milliseconds: 100),
+        curve: Curves.easeOut,
         child: buttonContainer,
       ),
     );
 
-    if (widget.enableAnimation) {
-      return BreathingWidget(child: touchableButton);
-    }
-
-    return touchableButton;
+    return widget.enableAnimation
+        ? BreathingWidget(
+            duration: const Duration(milliseconds: 1200),
+            maxScale: 1.04,
+            child: touchableButton,
+          )
+        : touchableButton;
   }
 }

@@ -1,5 +1,5 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class FlyingStar extends StatelessWidget {
   final int index;
@@ -9,34 +9,19 @@ class FlyingStar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double xSpread = total > 1 ? (index - (total - 1) / 2) : 0;
+    final double xSpread = total > 1 ? (index - (total - 1) / 2) : 0;
 
-    return TweenAnimationBuilder<double>(
-      duration: Duration(milliseconds: 600 + (index * 200)), 
-      tween: Tween(begin: 0.0, end: 1.0),
-      curve: Curves.easeOutBack,
-      builder: (context, value, child) {
-        double xPos = xSpread * 80 * value;
-        
-        double yPos = -sin(pi * value) * 50; 
-        
-        double rotation = (1.0 - value) * 2;
-
-        return Transform.translate(
-          offset: Offset(xPos, yPos),
-          child: Transform.rotate(
-            angle: rotation,
-            child: Transform.scale(
-              scale: value * 1.5,
-              child: Image.asset(
-                'assets/images/level/star.png',
-                width: 60,
-                height: 60,
-              ),
-            ),
-          ),
-        );
-      },
-    );
+    return Image.asset(
+      'assets/images/level/star.png',
+      width: 60,
+      height: 60,
+    )
+        .animate(
+          delay: Duration(milliseconds: index * 200),
+        )
+        .moveX(begin: 0, end: xSpread * 80)
+        .moveY(begin: 0, end: -50)
+        .rotate(begin: 2.0, end: 0.0)
+        .scaleXY(begin: 0.0, end: 1.5);
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 import 'package:provider/provider.dart';
@@ -87,14 +88,7 @@ class _WinGameScreenState extends State<WinGameScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TweenAnimationBuilder<double>(
-                    duration: const Duration(milliseconds: 800),
-                    tween: Tween(begin: 0.0, end: 1.0),
-                    curve: Curves.elasticOut,
-                    builder: (context, value, child) {
-                      return Transform.scale(
-                        scale: value,
-                        child: Text(
+                  Text(
                           'VICTORY!!',
                           style: GoogleFonts.eagleLake(
                             color: palette.trueWhite,
@@ -108,9 +102,11 @@ class _WinGameScreenState extends State<WinGameScreen> {
                               ),
                             ],
                           ),
-                        ),
-                      );
-                    },
+                  ).animate().scale(
+                    duration: const Duration(milliseconds: 800),
+                    curve: Curves.elasticOut,
+                    begin: const Offset(0.0, 0.0),
+                    end: const Offset(1.0, 1.0),
                   ),
 
                   const SizedBox(height: 40),

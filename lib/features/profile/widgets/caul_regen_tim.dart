@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:grimoji/utils/context_data.dart';
 
 class CaulRegenTim extends StatefulWidget {
@@ -10,22 +11,16 @@ class CaulRegenTim extends StatefulWidget {
   State<CaulRegenTim> createState() => _CaulRegenTimState();
 }
 
-class _CaulRegenTimState extends State<CaulRegenTim> with SingleTickerProviderStateMixin {
+class _CaulRegenTimState extends State<CaulRegenTim> {
   late Timer _timer;
-  late AnimationController _spinController;
 
   @override
   void initState() {
     super.initState();
-    
-    _spinController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 2),
-    )..repeat(); 
 
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
       if (mounted) {
-        context.readProfile.checkCauldronRegen(); 
+        context.readProfile.checkCauldronRegen();
         setState(() {});
       }
     });
@@ -34,7 +29,6 @@ class _CaulRegenTimState extends State<CaulRegenTim> with SingleTickerProviderSt
   @override
   void dispose() {
     _timer.cancel();
-    _spinController.dispose();
     super.dispose();
   }
 
@@ -78,13 +72,17 @@ class _CaulRegenTimState extends State<CaulRegenTim> with SingleTickerProviderSt
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            RotationTransition(
-              turns: _spinController,
-              child: Icon(
-                Icons.hourglass_empty_rounded,
-                color: context.palette.twilight,
-                size: 32 * context.globalScale, 
-              ),
+            Icon(
+              Icons.hourglass_empty_rounded,
+              color: context.palette.twilight,
+              size: 32 * context.globalScale,
+            ).animate(
+              onPlay: (controller) => controller.repeat(),
+            ).rotate(
+              duration: const Duration(seconds: 2),
+              curve: Curves.linear,
+              begin: 0,
+              end: 1,
             ),
             SizedBox(width: 8 * context.globalScale),
             

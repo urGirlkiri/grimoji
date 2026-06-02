@@ -79,6 +79,7 @@ class LevelState extends ChangeNotifier {
       _isGameOver = true;
       gameState.setGameOver();
       coordinator.cancelHintTimer();
+      coordinator.clearHint();
       _ticker?.cancel();
       _timeLimitStopwatch.stop();
 

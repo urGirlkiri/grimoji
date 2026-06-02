@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 import 'package:grimoji/features/grimoire/widgets/dialogs/locked.dart';
 import 'package:grimoji/features/grimoire/widgets/dialogs/recipe.dart';
@@ -26,38 +27,18 @@ class RecipeCard extends StatefulWidget {
   State<RecipeCard> createState() => _RecipeCardState();
 }
 
-class _RecipeCardState extends State<RecipeCard> with TickerProviderStateMixin {
-  late AnimationController _shakeController;
-
-  late Animation<double> _shakeAnim;
+class _RecipeCardState extends State<RecipeCard> {
+  bool _isShaking = false;
 
   @override
   void initState() {
     super.initState();
 
-    _shakeController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 400),
-    );
-
-    _shakeAnim = TweenSequence<double>([
-      TweenSequenceItem(tween: Tween(begin: 0, end: 8), weight: 1),
-      TweenSequenceItem(tween: Tween(begin: 8, end: -8), weight: 2),
-      TweenSequenceItem(tween: Tween(begin: -8, end: 8), weight: 2),
-      TweenSequenceItem(tween: Tween(begin: 8, end: 0), weight: 1),
-    ]).animate(_shakeController);
-
-    if (widget.autoOpen == true ) {
+    if (widget.autoOpen == true) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _unlockedDialog();
       });
     }
-  }
-
-  @override
-  void dispose() {
-    _shakeController.dispose();
-    super.dispose();
   }
 
   void _unlockedDialog() {
@@ -87,8 +68,17 @@ class _RecipeCardState extends State<RecipeCard> with TickerProviderStateMixin {
     if (widget.isUnlocked) {
       _unlockedDialog();
     } else {
-      _shakeController.forward(from: 0.0).then((_) {
-        if (mounted) showAnimatedDialog(context, const LockedDialog());
+      setState(() {
+        _isShaking = true;
+      });
+
+      Future.delayed(400.ms, () {
+        if (mounted) {
+          setState(() {
+            _isShaking = false;
+          });
+          showAnimatedDialog(context, const LockedDialog());
+        }
       });
     }
   }
@@ -101,83 +91,77 @@ class _RecipeCardState extends State<RecipeCard> with TickerProviderStateMixin {
 
     return GestureDetector(
       onTap: _handleTap,
-      child: AnimatedBuilder(
-        animation: _shakeController,
-        builder: (context, child) {
-          return Transform(
-            alignment: Alignment.center,
-            transform: Matrix4.identity()
-              ..setEntry(3, 2, 0.001)
-              ..translateByDouble(_shakeAnim.value, 0.0, 0.0, 1.0),
-            child: child,
-          );
-        },
-        child: Hero(
-          tag: 'card-${widget.recipe.id}',
-          flightShuttleBuilder:
-              (
-                flightContext,
-                animation,
-                flightDirection,
-                fromHeroContext,
-                toHeroContext,
-              ) {
-                final spinAnim = Tween<double>(begin: 0, end: 4 * pi).animate(
-                  CurvedAnimation(parent: animation, curve: Curves.easeInOut),
-                );
+      child: Hero(
+        tag: 'card-${widget.recipe.id}',
+        flightShuttleBuilder:
+            (
+              flightContext,
+              animation,
+              flightDirection,
+              fromHeroContext,
+              toHeroContext,
+            ) {
+              final spinAnim = Tween<double>(begin: 0, end: 4 * pi).animate(
+                CurvedAnimation(parent: animation, curve: Curves.easeInOut),
+              );
 
-                final fadeOutAnim = Tween<double>(begin: 1.0, end: 0.0).animate(
-                  CurvedAnimation(
-                    parent: animation,
-                    curve: const Interval(0.0, 0.3, curve: Curves.easeOut),
-                  ),
-                );
+              final fadeOutAnim = Tween<double>(begin: 1.0, end: 0.0).animate(
+                CurvedAnimation(
+                  parent: animation,
+                  curve: const Interval(0.0, 0.3, curve: Curves.easeOut),
+                ),
+              );
 
-                return AnimatedBuilder(
-                  animation: animation,
-                  builder: (context, child) {
-                    return Transform(
-                      alignment: Alignment.center,
-                      transform: Matrix4.identity()
-                        ..setEntry(3, 2, 0.001)
-                        ..rotateY(spinAnim.value),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: context.palette.midnight,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: FadeTransition(
-                          opacity: fadeOutAnim,
-                          child: CardFace(
-                            recipe: widget.recipe,
-                            showEmoji: true,
-                            emojiSize: emojiSize,
-                            showUnreadIndicator: widget.isUnread,
-                            crimsonColor: palette.crimson,
-                            midnightColor: palette.midnight,
-                          ),
+              return AnimatedBuilder(
+                animation: animation,
+                builder: (context, child) {
+                  return Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.identity()
+                      ..setEntry(3, 2, 0.001)
+                      ..rotateY(spinAnim.value),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: context.palette.midnight,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: FadeTransition(
+                        opacity: fadeOutAnim,
+                        child: CardFace(
+                          recipe: widget.recipe,
+                          showEmoji: true,
+                          emojiSize: emojiSize,
+                          showUnreadIndicator: widget.isUnread,
+                          crimsonColor: palette.crimson,
+                          midnightColor: palette.midnight,
                         ),
                       ),
-                    );
-                  },
-                );
-              },
-          child: Container(
-            decoration: BoxDecoration(
-              color: palette.midnight,
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: CardFace(
-              recipe: widget.recipe,
-              showEmoji: widget.isUnlocked,
-              emojiSize: emojiSize,
-              showUnreadIndicator: widget.isUnread,
-              crimsonColor: palette.crimson,
-              midnightColor: palette.midnight,
-              showUnreadShadow: true,
-            ),
+                    ),
+                  );
+                },
+              );
+            },
+        child: Container(
+          decoration: BoxDecoration(
+            color: palette.midnight,
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: CardFace(
+            recipe: widget.recipe,
+            showEmoji: widget.isUnlocked,
+            emojiSize: emojiSize,
+            showUnreadIndicator: widget.isUnread,
+            crimsonColor: palette.crimson,
+            midnightColor: palette.midnight,
+            showUnreadShadow: true,
           ),
         ),
+      )
+      .animate(target: _isShaking ? 1 : 0)
+      .shake(
+        hz: 5,
+        rotation: 0.08,
+        duration: 400.ms,
       ),
     );  
   }

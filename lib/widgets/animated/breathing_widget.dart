@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
-class BreathingWidget extends StatefulWidget {
+class BreathingWidget extends StatelessWidget {
   final Widget child;
   final Duration duration;
   final double minScale;
@@ -15,29 +16,16 @@ class BreathingWidget extends StatefulWidget {
   });
 
   @override
-  State<BreathingWidget> createState() => _BreathingWidgetState();
-}
-
-class _BreathingWidgetState extends State<BreathingWidget>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
-    vsync: this,
-    duration: widget.duration,
-  )..repeat(reverse: true);
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return ScaleTransition(
-      scale: Tween<double>(begin: widget.minScale, end: widget.maxScale).animate(
-        CurvedAnimation(parent: _controller, curve: Curves.easeInOutSine),
-      ),
-      child: widget.child,
+    return child.animate(
+      onPlay: (controller) => controller.repeat(reverse: true),
+    ).scale(
+      begin: Offset(minScale, minScale),
+      end: Offset(maxScale, maxScale),
+      duration: duration,
+      curve: Curves.easeInOutSine,
+      alignment: Alignment.center,
     );
   }
 }
+
