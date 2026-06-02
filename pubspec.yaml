@@ -70,6 +70,7 @@ flutter:
     - assets/icons/app/
     - assets/music/
     - assets/sfx/
+    - assets/voice/
 
 flutter_launcher_icons:
   android: true
