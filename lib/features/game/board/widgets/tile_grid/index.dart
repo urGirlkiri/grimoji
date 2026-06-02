@@ -96,9 +96,12 @@ class TileGrid extends StatelessWidget {
         bool isTargetMatch = (tile.emoji == levelState.level.targetEmoji);
         bool shouldFly = tile.isFlying && !tile.hasFlown && isTargetMatch;
 
-        shouldFly
-            ? _launchTargetEmo(context, tile, levelState, leftPixel, topPixel)
-            : null;
+        if (shouldFly) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (!context.mounted || tile.hasFlown) return;
+            _launchTargetEmo(context, tile, levelState, leftPixel, topPixel);
+          });
+        }
 
         tileWidgets.add(
           TileWidget(
