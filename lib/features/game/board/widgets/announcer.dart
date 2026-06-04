@@ -128,33 +128,30 @@ class AnnouncerWidget extends StatelessWidget {
     return IgnorePointer(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-
         child: textStack
             .animate(key: ValueKey(gameState.announcementToken))
-            .fadeIn(duration: 150.ms)
-            .moveY(begin: 40, end: 0, duration: 200.ms)
+            .fadeIn(duration: 100.ms)
+            .moveY(begin: 30, end: 0, duration: 200.ms, curve: Curves.easeOut)
             .scale(
-              begin: const Offset(0.2, 0.2),
-              end: const Offset(1.2, 1.2),
-              duration: 200.ms,
+              begin: const Offset(0.5, 0.5),
+              end: const Offset(1.0, 1.0),
+              duration: 250.ms,
               curve: Curves.elasticOut,
             )
+            .moveY(
+              begin: 0,
+              end: -40,
+              delay: 1200.ms, 
+              duration: 250.ms,
+              curve: Curves.easeIn,
+            )
             .scale(
               begin: const Offset(1.0, 1.0),
-              end: const Offset(1 / 1.2, 1 / 1.2),
-              delay: 200.ms,
-              duration: 150.ms,
-              curve: Curves.easeOut,
+              end: const Offset(0.5, 0.5),
+              delay: 1200.ms,
+              duration: 250.ms,
             )
-            .moveY(begin: 0, end: -50, delay: 2300.ms, duration: 200.ms)
-            .scale(
-              begin: const Offset(1.0, 1.0),
-              end: const Offset(0.0, 0.0),
-              delay: 2300.ms,
-              duration: 200.ms,
-              curve: Curves.easeInBack,
-            )
-            .fadeOut(delay: 2350.ms, duration: 150.ms),
+            .fadeOut(delay: 1250.ms, duration: 200.ms), // Fully gone by 1450ms
       ),
     );
   }

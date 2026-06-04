@@ -64,7 +64,7 @@ class BoardAnnouncer {
       _log.info('Triggering voice for type: $nextVoice');
       _audio.playVoice(nextVoice);
 
-      await Future.delayed(const Duration(milliseconds: 1000));
+      await Future.delayed(const Duration(milliseconds: 1500));
     }
 
     _log.info('Announcement loop finished');
@@ -78,7 +78,8 @@ class BoardAnnouncer {
     _log.info('Extending display timer');
     _displayTimer?.cancel();
 
-    _displayTimer = Timer(const Duration(milliseconds: 1000), () {
+    // Match the 1500ms loop delay
+    _displayTimer = Timer(const Duration(milliseconds: 1500), () {
       if (_queue.isEmpty && !_state.isDisposed) {
         clear();
       }

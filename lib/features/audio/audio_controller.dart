@@ -158,7 +158,13 @@ class AudioController {
     final voice = voices[_random.nextInt(voices.length)];
 
     final currentPlayer = _sfxPlayers[_currentSfxPlayer];
-    currentPlayer.play(AssetSource('voice/${voice.file}'));
+    final double currentVolume = _settings?.sfxVolume.value ?? 1.0;
+
+    currentPlayer.play(
+      AssetSource('voice/${voice.file}'),
+      volume: currentVolume,
+    );
+    currentPlayer.setPlaybackRate(1.4);
     _currentSfxPlayer = (_currentSfxPlayer + 1) % _sfxPlayers.length;
   }
 
@@ -264,8 +270,12 @@ class AudioController {
 
   Future<void> _playCurrentSongInPlaylist() async {
     _log.info(() => 'Playing ${_playlist.first} now.');
+    final double currentVolume = _settings?.musicVolume.value ?? 1.0;
     try {
-      await _musicPlayer.play(AssetSource('music/${_playlist.first.filename}'));
+      await _musicPlayer.play(
+        AssetSource('music/${_playlist.first.filename}'),
+        volume: currentVolume,
+      );
     } catch (e) {
       _log.severe('Could not play song ${_playlist.first}', e);
     }
