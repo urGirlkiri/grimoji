@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/game/board/utils/announcer.dart';
 
 class GameState extends ChangeNotifier {
@@ -14,11 +15,11 @@ class GameState extends ChangeNotifier {
   int currentComboMultiplier = 0;
   double shuffleProgress = 1.0;
 
-  GameState() : announcer = BoardAnnouncer() {
+  GameState([AudioController? audio]) : announcer = BoardAnnouncer(audio ?? AudioController()) {
     announcer.gameState = this;
   }
 
-  String? get activeAnnouncement => announcer.activeAnnouncement;
+  String? get activeAnnouncement => announcer.activeAnnouncement?.text;
   int get announcementToken => announcer.announcementToken;
 
   void setProcessing(bool value) {

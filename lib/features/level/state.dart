@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/levels/game_level.dart';
+import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/game/board/utils/manager.dart';
 import 'package:grimoji/features/game/engines/game_engine.dart';
 import 'package:grimoji/features/game/coordinator.dart';
@@ -11,6 +12,7 @@ class LevelState extends ChangeNotifier {
   final void Function(int stars) onWin;
   final VoidCallback onLose;
   final GameLevel level;
+  final AudioController audio;
 
   final GlobalKey targetIconKey = GlobalKey();
 
@@ -22,12 +24,12 @@ class LevelState extends ChangeNotifier {
   late final GameState gameState;
   late final GameCoordinator coordinator;
 
-  LevelState({required this.onWin, required this.onLose, required this.level}) {
+  LevelState({required this.onWin, required this.onLose, required this.level, required this.audio}) {
     boardManager = BoardManager(level);
     engine = GameEngine(level: level, boardManager: boardManager);
     engine.initialize();
 
-    gameState = GameState();
+    gameState = GameState(audio);
 
     coordinator = GameCoordinator(
       engine: engine,

@@ -11,6 +11,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/audio/sounds/sound_type_to_volume.dart';
+import 'package:grimoji/features/audio/voices/index.dart';
+import 'package:grimoji/features/audio/voices/dialog.dart';
 import 'package:logging/logging.dart';
 
 import '../../config/app/lifecycle.dart';
@@ -124,6 +126,39 @@ class AudioController {
         soundTypeToVolume(type) * (_settings?.sfxVolume.value ?? 1.0);
 
     currentPlayer.play(AssetSource('sfx/$filename'), volume: finalVolume);
+    _currentSfxPlayer = (_currentSfxPlayer + 1) % _sfxPlayers.length;
+  }
+
+  void playVoice(Dialog type) {
+
+    if (_settings == null) {
+      _log.warning('Settings not attached, cannot play voice');
+      return;
+    }
+
+    final audioOn = _settings!.audioOn.value;
+    if (!audioOn) {
+      _log.fine(() => 'Ignoring playing voice ($type) because audio is muted.');
+      return;
+    }
+    final soundsOn = _settings!.soundsOn.value;
+    if (!soundsOn) {
+      _log.fine(
+        () => 'Ignoring playing voice ($type) because sounds are turned off.',
+      );
+      return;
+    }
+
+    final voices = Voices.voices[type] ?? [];
+    if (voices.isEmpty) {
+      _log.warning(() => 'No voices found for type: $type');
+      return;
+    }
+
+    final voice = voices[_random.nextInt(voices.length)];
+
+    final currentPlayer = _sfxPlayers[_currentSfxPlayer];
+    currentPlayer.play(AssetSource('voice/${voice.file}'));
     _currentSfxPlayer = (_currentSfxPlayer + 1) % _sfxPlayers.length;
   }
 

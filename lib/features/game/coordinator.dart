@@ -98,10 +98,10 @@ class GameCoordinator {
       List<Tile> primedBombs = boardManager.getTriggeredEmojis();
       if (primedBombs.isNotEmpty) {
         if (state.currentComboMultiplier > 0) {
-          triggerComboAnnouncement(state.currentComboMultiplier);
+          state.announcer.announceCombo(state.currentComboMultiplier, isCalamity: false);
           state.setComboMultiplier(0);
         } else if (turnHadAlchemy) {
-          state.announcer.announce("Alchemy!");
+          state.announcer.announceCombo(1, isCalamity: false);
           turnHadAlchemy = false;
         }
       }
@@ -118,11 +118,11 @@ class GameCoordinator {
     }
 
     if (state.currentComboMultiplier > 0) {
-      triggerComboAnnouncement(state.currentComboMultiplier);
+      state.announcer.announceCombo(state.currentComboMultiplier, isCalamity: false);
     } else if (turnHadCalamity) {
-      state.announcer.announce("Calamity!");
+      state.announcer.announceCombo(1, isCalamity: true);
     } else if (turnHadAlchemy) {
-      state.announcer.announce("Alchemy!");
+      state.announcer.announceCombo(1, isCalamity: false);
     }
 
     await finalizeTurnLifecycle();
@@ -306,18 +306,6 @@ class GameCoordinator {
       }
     }
     state.updateUI();
-  }
-
-  void triggerComboAnnouncement(int comboMultiplier) {
-    if (comboMultiplier == 1) {
-      state.announcer.announce("Wicked!");
-    } else if (comboMultiplier == 2) {
-      state.announcer.announce("Diabolical!");
-    } else if (comboMultiplier == 3) {
-      state.announcer.announce("Sorcery!");
-    } else if (comboMultiplier >= 4) {
-      state.announcer.announce("MAGICAL!!");
-    }
   }
 
   Future<void> shuffleBoard() async {

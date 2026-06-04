@@ -116,10 +116,11 @@ class _LevelScreenState extends State<LevelScreen> {
         Provider.value(value: widget.level),
 
         ChangeNotifierProvider(
-          create: (_) => LevelState(
+          create: (context) => LevelState(
             onWin: _playerWon,
             onLose: _playerFailed,
             level: widget.level,
+            audio: context.readAudio,
           ),
         ),
         ChangeNotifierProvider(create: (_) => BoardMetrics()),
