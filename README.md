@@ -34,7 +34,7 @@ A gothic alchemy game for mixing and collecting emojis.
 ### Credits
 
 [Animated Emoji 💖](https://googlefonts.github.io/noto-emoji-animation/) for the emoji animations and SVG icons<br>
-[Pixabay](https://pixabay.com/) for the sfx<br>
+[Pixabay](https://pixabay.com/) for the sfx and some music<br>
 [Gemini](https://gemini.google.com/) for the music<br>
 [Vecteezy](https://vecteezy.com/) for the background and pattern images<br>
 [Audjust](https://www.audjust.com/studio) for sfx variations<br>
