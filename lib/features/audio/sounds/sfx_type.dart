@@ -12,9 +12,12 @@ enum SfxType {
   merge,
   transmute,
   explode,
+  explosion,
+
+  targetAcquired,
+  fly,
   targetHit,
 
-  fly,
   fall,
 
   recipeUnlock,

@@ -23,42 +23,59 @@ List<String> soundTypeToFilename(SfxType type) => switch (type) {
     'fail.mp3',
   ],
 
+  SfxType.fall => const [
+    'fall.wav',
+  ],
+
   SfxType.swipe => const [
+    'critter.wav'
   ],
 
   SfxType.invalidMove => const [
+    'bwuu.wav'
   ],
 
   SfxType.hint => const [
+    'swoosh.wav'
   ],
 
   SfxType.trigger => const [
+    'trittle.wav'
   ],
 
   SfxType.merge => const [
+    'ripple.wav',
   ],
 
   SfxType.transmute => const [
-  ],
-
-  SfxType.fall => const [
+    'twihu.wav',
   ],
 
   SfxType.explode => const [
+    'poof.wav'
+  ],
+
+  SfxType.explosion => const [
+    'bomb.wav'
+  ],
+
+  SfxType.targetAcquired => const [
   ],
 
   SfxType.fly => const [
   ],
 
-  SfxType.recipeCollection => const [
-  ],
 
   SfxType.targetHit => const [
+  ],
+
+  SfxType.recipeUnlock => const [
+  ],
+
+  SfxType.recipeCollection => const [
   ],
 
   SfxType.recipeRead => const [
   ],
 
-  SfxType.recipeUnlock => const [
-  ],
 };
