@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/widgets/custom/animated_button.dart';
 
 class ShopItemCard extends StatelessWidget {
   final double scale;
@@ -66,26 +67,29 @@ class ShopItemCard extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 8 * scale),
-              FilledButton.icon(
-                style: FilledButton.styleFrom(
-                  backgroundColor: context.palette.twilight,
-                  padding: EdgeInsets.symmetric(horizontal: 12 * scale),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12 * scale),
+              AnimatedButton(
+                onTap: onTap,
+                child: FilledButton.icon(
+                  style: FilledButton.styleFrom(
+                    backgroundColor: context.palette.twilight,
+                    padding: EdgeInsets.symmetric(horizontal: 12 * scale),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12 * scale),
+                    ),
                   ),
-                ),
-                onPressed: onTap,
-                icon: Image.asset(
-                  'assets/images/dice.png',
-                  width: 18 * scale,
-                  height: 18 * scale,
-                ),
-                label: Text(
-                  cost.toString(),
-                  style: context.theme.textTheme.bodyLarge?.copyWith(
-                    color: context.palette.moonlight,
-                    fontSize: 16 * scale,
-                    fontWeight: FontWeight.w900,
+                  onPressed: null,
+                  icon: Image.asset(
+                    'assets/images/dice.png',
+                    width: 18 * scale,
+                    height: 18 * scale,
+                  ),
+                  label: Text(
+                    cost.toString(),
+                    style: context.theme.textTheme.bodyLarge?.copyWith(
+                      color: context.palette.moonlight,
+                      fontSize: 16 * scale,
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
                 ),
               ),

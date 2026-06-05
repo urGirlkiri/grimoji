@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/widgets/custom/animated_button.dart';
 
 class DailyRewardCard extends StatelessWidget {
   final double scale;
@@ -92,26 +93,30 @@ class DailyRewardCard extends StatelessWidget {
               SizedBox(width: 8 * scale),
               SizedBox(
                 width: 95 * scale,
-                child: FilledButton(
-                  style: FilledButton.styleFrom(
-                    backgroundColor: canClaim
-                        ? context.palette.mist
-                        : context.palette.dusk,
-                    padding: EdgeInsets.symmetric(horizontal: 8 * scale),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12 * scale),
+                child: AnimatedButton(
+                  onTap: onPressed,
+                  enableSound: canClaim,
+                  child: FilledButton(
+                    style: FilledButton.styleFrom(
+                      backgroundColor: canClaim
+                          ? context.palette.mist
+                          : context.palette.dusk,
+                      padding: EdgeInsets.symmetric(horizontal: 8 * scale),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12 * scale),
+                      ),
                     ),
-                  ),
-                  onPressed: onPressed,
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                      buttonText,
-                      style: context.theme.textTheme.bodyLarge?.copyWith(
-                        color: canClaim
-                            ? context.palette.midnight
-                            : context.palette.trueWhite,
-                        fontWeight: FontWeight.bold,
+                    onPressed: null,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        buttonText,
+                        style: context.theme.textTheme.bodyLarge?.copyWith(
+                          color: canClaim
+                              ? context.palette.midnight
+                              : context.palette.trueWhite,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),

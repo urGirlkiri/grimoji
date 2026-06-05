@@ -1,4 +1,3 @@
-import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -10,6 +9,7 @@ import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/utils/math.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -110,7 +110,7 @@ class _LevelHintScreenState extends State<LevelHintScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Transform.rotate(
-                angle: -15 * (math.pi / 180),
+                angle: degToRad(-15),
                 child: Column(
                   children: List.generate(
                     recipe.requiredAmount,

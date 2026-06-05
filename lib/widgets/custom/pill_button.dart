@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/breathing_widget.dart';
+import 'package:grimoji/widgets/custom/animated_button.dart';
 
-class PillButton extends StatefulWidget {
+class PillButton extends StatelessWidget {
   final String text;
   final Color color;
   final Color? textColor;
@@ -31,28 +31,21 @@ class PillButton extends StatefulWidget {
   });
 
   @override
-  State<PillButton> createState() => _PillButtonState();
-}
-
-class _PillButtonState extends State<PillButton> {
-  bool _isPressed = false;
-
-  @override
   Widget build(BuildContext context) {
     final palette = context.palette;
 
-    final effectiveTextColor = widget.textColor ?? palette.trueWhite;
-    final effectiveBorderColor = widget.borderColor ?? palette.twilight;
-    final effectiveBorderWidth = widget.borderWidth ?? 2;
+    final effectiveTextColor = textColor ?? palette.trueWhite;
+    final effectiveBorderColor = borderColor ?? palette.twilight;
+    final effectiveBorderWidth = borderWidth ?? 2;
 
     final effectivePadding =
-        widget.padding ??
-        (widget.fullWidth
+        padding ??
+        (fullWidth
             ? const EdgeInsets.symmetric(vertical: 14)
             : const EdgeInsets.symmetric(horizontal: 24, vertical: 12));
 
     final innerText = Text(
-      widget.text,
+      text,
       style: GoogleFonts.eagleLake(
         color: effectiveTextColor,
         fontWeight: FontWeight.bold,
@@ -67,11 +60,11 @@ class _PillButtonState extends State<PillButton> {
     );
 
     final buttonContainer = Container(
-      width: widget.fullWidth ? double.infinity : null,
+      width: fullWidth ? double.infinity : null,
       padding: effectivePadding,
       decoration: BoxDecoration(
-        color: widget.color,
-        borderRadius: BorderRadius.circular(widget.borderRadius),
+        color: color,
+        borderRadius: BorderRadius.circular(borderRadius),
         border: Border.all(
           color: effectiveBorderColor,
           width: effectiveBorderWidth,
@@ -80,8 +73,8 @@ class _PillButtonState extends State<PillButton> {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            widget.color.withValues(alpha: 0.8),
-            widget.color.withValues(alpha: 0.2),
+            color.withValues(alpha: 0.8),
+            color.withValues(alpha: 0.2),
           ],
         ),
         boxShadow: [
@@ -97,26 +90,16 @@ class _PillButtonState extends State<PillButton> {
           ),
         ],
       ),
-      child: widget.fullWidth ? Center(child: innerText) : innerText,
+      child: fullWidth ? Center(child: innerText) : innerText,
     );
 
-    final touchableButton = GestureDetector(
-      onTapDown: (_) => setState(() => _isPressed = true),
-      onTapUp: (_) => setState(() => _isPressed = false),
-      onTapCancel: () => setState(() => _isPressed = false),
-      onTap: () {
-        context.readAudio.playSfx(SfxType.buttonTap);
-        widget.onTap();
-      },
-      child: AnimatedScale(
-        scale: _isPressed ? 0.95 : 1.0,
-        duration: const Duration(milliseconds: 100),
-        curve: Curves.easeOut,
-        child: buttonContainer,
-      ),
+    final touchableButton = AnimatedButton(
+      onTap: onTap,
+      pressedScale: 0.95,
+      child: buttonContainer,
     );
 
-    return widget.enableAnimation
+    return enableAnimation
         ? BreathingWidget(
             duration: const Duration(milliseconds: 1200),
             maxScale: 1.04,
