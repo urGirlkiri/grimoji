@@ -28,17 +28,9 @@ class LockedDialog extends StatelessWidget {
               Image.asset('assets/images/question.png'),
               const SizedBox(height: 16),
               Text(
-                "Recipe Is Still A Mystery",
-                textAlign: TextAlign.center,
-                style: context.theme.textTheme.headlineSmall!.copyWith(
-                  color: context.palette.moonlight,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
                 "Continue mixing and matching emojis to discover this recipe.",
                 textAlign: TextAlign.center,
-                style: context.theme.textTheme.bodyMedium?.copyWith(
+                style: context.theme.textTheme.bodyLarge?.copyWith(
                   color: context.palette.mist,
                 ),
               ),

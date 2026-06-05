@@ -103,6 +103,7 @@ class _LevelScreenState extends State<LevelScreen> {
   @override
   void initState() {
     super.initState();
+    context.readAudio.playLevelMusic(); 
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.readProfile.markGamePlayed();

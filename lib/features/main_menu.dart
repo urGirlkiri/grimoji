@@ -9,8 +9,19 @@ import 'package:grimoji/widgets/neon_logo.dart';
 import '../widgets/custom/pill_button.dart';
 import '../widgets/responsive_screen.dart';
 
-class MainMenuScreen extends StatelessWidget {
+class MainMenuScreen extends StatefulWidget {
   const MainMenuScreen({super.key});
+
+  @override
+  State<MainMenuScreen> createState() => _MainMenuScreenState();
+}
+
+class _MainMenuScreenState extends State<MainMenuScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.readAudio.playMenuMusic();
+  }
 
   @override
   Widget build(BuildContext context) {

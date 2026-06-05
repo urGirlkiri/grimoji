@@ -33,6 +33,7 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
   @override
   void initState() {
     super.initState();
+    context.readAudio.playMenuMusic(); 
     _loadMapData();
   }
 

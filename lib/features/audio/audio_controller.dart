@@ -7,7 +7,6 @@ import 'dart:collection';
 import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/audio/sounds/sound_type_to_volume.dart';
@@ -20,10 +19,13 @@ import '../settings/controller.dart';
 import 'songs.dart';
 import 'sounds/index.dart';
 
+enum PlaylistType { none, menu, level }
+
 class AudioController {
   static final _log = Logger('AudioController');
 
   final AudioPlayer _musicPlayer;
+  final AudioPlayer _voicePlayer;
 
   /// This is a list of [AudioPlayer] instances which are rotated to play
   /// sound effects.
@@ -39,6 +41,8 @@ class AudioController {
 
   ValueNotifier<AppLifecycleState>? _lifecycleNotifier;
 
+  PlaylistType _currentPlaylist = PlaylistType.none;
+
   /// Creates an instance that plays music and sound.
   ///
   /// Use [polyphony] to configure the number of sound effects (SFX) that can
@@ -48,9 +52,10 @@ class AudioController {
   ///
   /// Background music does not count into the [polyphony] limit. Music will
   /// never be overridden by sound effects because that would be silly.
-  AudioController({int polyphony = 2})
+  AudioController({int polyphony = 4})
     : assert(polyphony >= 1),
       _musicPlayer = AudioPlayer(playerId: 'musicPlayer'),
+      _voicePlayer = AudioPlayer(playerId: 'voicePlayer'),
       _sfxPlayers = Iterable.generate(
         polyphony,
         (i) => AudioPlayer(playerId: 'sfxPlayer#$i'),
@@ -91,6 +96,7 @@ class AudioController {
     _lifecycleNotifier?.removeListener(_handleAppLifecycle);
     _stopAllSound();
     _musicPlayer.dispose();
+    _voicePlayer.dispose();
     for (final player in _sfxPlayers) {
       player.dispose();
     }
@@ -134,7 +140,6 @@ class AudioController {
   }
 
   void playVoice(Dialog type) {
-
     if (_settings == null) {
       _log.warning('Settings not attached, cannot play voice');
       return;
@@ -160,16 +165,13 @@ class AudioController {
     }
 
     final voice = voices[_random.nextInt(voices.length)];
-
-    final currentPlayer = _sfxPlayers[_currentSfxPlayer];
     final double currentVolume = _settings?.sfxVolume.value ?? 1.0;
 
-    currentPlayer.play(
+    _voicePlayer.play(
       AssetSource('voice/${voice.file}'),
       volume: currentVolume,
     );
-    currentPlayer.setPlaybackRate(1.4);
-    _currentSfxPlayer = (_currentSfxPlayer + 1) % _sfxPlayers.length;
+    _voicePlayer.setPlaybackRate(1.4);
   }
 
   /// Enables the [AudioController] to listen to [AppLifecycleState] events,
@@ -211,16 +213,6 @@ class AudioController {
     settingsController.sfxVolume.addListener(_volumeHandler);
     settingsController.musicVolume.addListener(_volumeHandler);
 
-    settingsController.initialized.then((_) {
-      if (settingsController.audioOn.value &&
-          settingsController.musicOn.value) {
-        if (kIsWeb) {
-          _log.info('On the web, music can only start after user interaction.');
-        } else {
-          _playCurrentSongInPlaylist();
-        }
-      }
-    });
   }
 
   void _audioOnHandler() {
@@ -309,6 +301,7 @@ class AudioController {
         player.stop();
       }
     }
+    if (_voicePlayer.state == PlayerState.playing) _voicePlayer.stop();
   }
 
   void _volumeHandler() {
@@ -337,12 +330,18 @@ class AudioController {
   }
 
   void playMenuMusic() {
+    if (_currentPlaylist == PlaylistType.menu) return; 
+    
     _log.info('Switching to menu music.');
+    _currentPlaylist = PlaylistType.menu;
     _transitionToPlaylist(List.of(menuSongs)..shuffle());
   }
 
   void playLevelMusic() {
+    if (_currentPlaylist == PlaylistType.level) return; 
+    
     _log.info('Switching to level music.');
+    _currentPlaylist = PlaylistType.level;
     _transitionToPlaylist(List.of(levelSongs)..shuffle());
   }
 
@@ -389,6 +388,7 @@ class AudioController {
   void _stopAllSound() {
     _log.info('Stopping all sound');
     _musicPlayer.pause();
+    _voicePlayer.pause();
     for (final player in _sfxPlayers) {
       player.stop();
     }

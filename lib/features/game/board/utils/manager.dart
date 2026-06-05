@@ -72,6 +72,8 @@ class BoardManager {
   }
 
   void triggerInitialFall() {
+    playSfx?.call(SfxType.fall);
+
     for (int r = 0; r < rows; r++) {
       for (int c = 0; c < cols; c++) {
         gridTiles[r][c].coordinate.row = r;
@@ -204,24 +206,24 @@ class BoardManager {
     }
   }
 
-  void shuffleGrid(){
+  void shuffleGrid() {
     List<GameEmoji> allEmojis = gridTiles
-          .expand((row) => row.map((tile) => tile.emoji))
-          .toList();
-      allEmojis.shuffle();
+        .expand((row) => row.map((tile) => tile.emoji))
+        .toList();
+    allEmojis.shuffle();
 
-      int index = 0;
-      for (int r = 0; r < BoardManager.rows; r++) {
-        for (int c = 0; c < BoardManager.cols; c++) {
-          final tile = gridTiles[r][c];
-          tile.emoji = allEmojis[index++];
-          tile.reset();
-          tile.clearBehavior();
-        }
+    int index = 0;
+    for (int r = 0; r < BoardManager.rows; r++) {
+      for (int c = 0; c < BoardManager.cols; c++) {
+        final tile = gridTiles[r][c];
+        tile.emoji = allEmojis[index++];
+        tile.reset();
+        tile.clearBehavior();
       }
+    }
   }
 
-    List<Tile> getTriggeredEmojis() {
+  List<Tile> getTriggeredEmojis() {
     final List<Tile> emojis = [];
     for (int r = 0; r < BoardManager.rows; r++) {
       for (int c = 0; c < BoardManager.cols; c++) {
