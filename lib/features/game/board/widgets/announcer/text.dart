@@ -1,18 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:provider/provider.dart';
 
-class AnnouncerWidget extends StatelessWidget {
-  const AnnouncerWidget({
-    super.key,
-  });
+class AnText extends StatelessWidget {
+  const AnText({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final gameState = context.watch<LevelState>().gameState;
+      final gameState = context.watch<LevelState>().gameState;
     final phrase = gameState.activeAnnouncement;
     if (phrase == null) {
       return const SizedBox.shrink();
@@ -41,7 +38,7 @@ class AnnouncerWidget extends StatelessWidget {
       right: 14.0 * scaleFactor,
     );
 
-    Widget textStack = FittedBox(
+    return FittedBox(
       fit: BoxFit.scaleDown,
       child: Stack(
         alignment: Alignment.center,
@@ -125,34 +122,5 @@ class AnnouncerWidget extends StatelessWidget {
       ),
     );
 
-    return IgnorePointer(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: textStack
-            .animate(key: ValueKey(gameState.announcementToken))
-            .fadeIn(duration: 100.ms)
-            .moveY(begin: 30, end: 0, duration: 200.ms, curve: Curves.easeOut)
-            .scale(
-              begin: const Offset(0.5, 0.5),
-              end: const Offset(1.0, 1.0),
-              duration: 250.ms,
-              curve: Curves.elasticOut,
-            )
-            .moveY(
-              begin: 0,
-              end: -40,
-              delay: 1200.ms, 
-              duration: 250.ms,
-              curve: Curves.easeIn,
-            )
-            .scale(
-              begin: const Offset(1.0, 1.0),
-              end: const Offset(0.5, 0.5),
-              delay: 1200.ms,
-              duration: 250.ms,
-            )
-            .fadeOut(delay: 1250.ms, duration: 200.ms), // Fully gone by 1450ms
-      ),
-    );
   }
 }

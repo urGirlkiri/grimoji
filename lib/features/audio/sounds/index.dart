@@ -12,6 +12,7 @@ List<String> soundTypeToFilename(SfxType type) => switch (type) {
 
   SfxType.celebration => const [
     'witch_laugh.mp3',
+    'witch_laugh_2.mp3',
     'witch_crackle.mp3',
     'witch_laugh_down.mp3',
   ],

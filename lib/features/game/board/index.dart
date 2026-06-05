@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/features/game/board/models/sparkle_effect.dart';
-import 'package:grimoji/features/game/board/widgets/announcer.dart';
+import 'package:grimoji/features/game/board/widgets/announcer/index.dart';
 import 'package:grimoji/features/game/board/widgets/board_grid/index.dart';
 import 'package:grimoji/features/game/board/utils/metrics.dart';
 import 'package:grimoji/features/game/board/widgets/sparkle.dart';

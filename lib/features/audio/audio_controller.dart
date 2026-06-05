@@ -117,6 +117,10 @@ class AudioController {
 
     _log.fine(() => 'Playing sound: $type');
     final options = soundTypeToFilename(type);
+    if(options.isEmpty){
+      _log.warning("No Sfx found for $type");
+      return;
+    }
     final filename = options[_random.nextInt(options.length)];
     _log.fine(() => '- Chosen filename: $filename');
 

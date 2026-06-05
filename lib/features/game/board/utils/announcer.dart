@@ -6,6 +6,7 @@ import 'package:grimoji/features/game/state.dart';
 
 class BoardAnnouncer {
   static final _log = Logger('BoardAnnouncer');
+  static const Duration voiceTime = Duration(milliseconds: 1500);
 
   final AudioController _audio;
   late final GameState _state;
@@ -64,7 +65,7 @@ class BoardAnnouncer {
       _log.info('Triggering voice for type: $nextVoice');
       _audio.playVoice(nextVoice);
 
-      await Future.delayed(const Duration(milliseconds: 1500));
+      await Future.delayed(voiceTime);
     }
 
     _log.info('Announcement loop finished');
@@ -78,8 +79,7 @@ class BoardAnnouncer {
     _log.info('Extending display timer');
     _displayTimer?.cancel();
 
-    // Match the 1500ms loop delay
-    _displayTimer = Timer(const Duration(milliseconds: 1500), () {
+    _displayTimer = Timer(voiceTime, () {
       if (_queue.isEmpty && !_state.isDisposed) {
         clear();
       }
