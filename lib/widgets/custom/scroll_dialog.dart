@@ -23,7 +23,7 @@ class ScrollDialog extends StatelessWidget {
     final maxDialogWidth = screenWidth * 0.9;
     final maxDialogHeight = screenSize.height * 0.8;
     final dialogWidth = isLarge ? 677.0 : maxDialogWidth.clamp(280.0, 677.0);
-    final dialogHeight = isLarge ? 1000.0 : maxDialogHeight.clamp(400.0, 818.0);
+    final dialogHeight = isLarge ? 900.0 : maxDialogHeight.clamp(400.0, 818.0);
 
     return ConstrainedBox(
       constraints: BoxConstraints(

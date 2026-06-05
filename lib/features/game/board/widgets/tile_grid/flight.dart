@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/emojis.dart';
+import 'package:grimoji/features/audio/sounds/sfx_type.dart';
+import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
 
 class TargetFlightAnimator {
@@ -8,14 +10,17 @@ class TargetFlightAnimator {
     required Offset startOffset,
     required GlobalKey targetKey,
     required GameEmoji emoji,
+    VoidCallback? onComplete,
   }) {
     if (targetKey.currentContext == null) {
+      onComplete?.call();
       return;
     }
 
     final RenderBox? targetBox =
         targetKey.currentContext?.findRenderObject() as RenderBox?;
     if (targetBox == null) {
+      onComplete?.call();
       return;
     }
 
@@ -30,7 +35,11 @@ class TargetFlightAnimator {
           duration: const Duration(milliseconds: 1200),
           curve:
               Curves.easeInOutBack, 
-          onEnd: () => entry.remove(),
+          onEnd: () {
+            entry.remove();
+            context.readAudio.playSfx(SfxType.targetCollected);
+            onComplete?.call();
+          },
           builder: (context, value, child) {
             final double currentX =
                 startOffset.dx + ((endOffset.dx - startOffset.dx) * value);

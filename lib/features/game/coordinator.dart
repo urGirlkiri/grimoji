@@ -316,7 +316,6 @@ class GameCoordinator {
   void resolveCollectedEmojis(List<CollectedEmoji> collections) {
     for (var collection in collections) {
       if (collection.emoji == engine.level.targetEmoji) {
-        audio.playSfx(SfxType.targetAcquired);
         state.setHasTargetCombo(true);
         onTargetAcquired(collection.count);
       }

@@ -59,14 +59,12 @@ List<String> soundTypeToFilename(SfxType type) => switch (type) {
     'bomb.wav'
   ],
 
-  SfxType.targetAcquired => const [
+  SfxType.targetFlight => const [
+    'swoosh.wav'
   ],
 
-  SfxType.fly => const [
-  ],
-
-
-  SfxType.targetHit => const [
+  SfxType.targetCollected => const [
+    'tee.wav'
   ],
 
   SfxType.recipeUnlock => const [

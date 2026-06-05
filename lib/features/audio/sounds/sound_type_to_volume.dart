@@ -8,8 +8,7 @@ double soundTypeToVolume(SfxType type) {
     case SfxType.transmute:
     case SfxType.explode:
     case SfxType.explosion:
-    case SfxType.targetHit:
-    case SfxType.targetAcquired:
+    case SfxType.targetCollected:
     case SfxType.fail:
     case SfxType.recipeUnlock:
     case SfxType.recipeCollection:
@@ -17,7 +16,7 @@ double soundTypeToVolume(SfxType type) {
       return 1.0;
 
     case SfxType.merge:
-    case SfxType.fly:
+    case SfxType.targetFlight:
     case SfxType.trigger:
     case SfxType.swipe:
       return 0.6;

@@ -14,9 +14,8 @@ enum SfxType {
   explode,
   explosion,
 
-  targetAcquired,
-  fly,
-  targetHit,
+  targetFlight,
+  targetCollected,
 
   fall,
 

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/constants.dart';
+import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/game/board/utils/metrics.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/features/game/board/widgets/tile_grid/flight.dart';
@@ -35,6 +36,7 @@ class TileGrid extends StatelessWidget {
     double topPixel,
   ) {
     tile.hasFlown = true;
+    context.readAudio.playSfx(SfxType.targetFlight);
 
     final targetKey = levelState.targetIconKey;
 
