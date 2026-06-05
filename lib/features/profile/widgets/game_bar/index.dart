@@ -59,6 +59,15 @@ class GameBar extends StatelessWidget {
                       spreadRadius: 1,
                     ),
                   ],
+
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/vertical_lines.png'),
+                    fit: BoxFit.cover,
+                    colorFilter: ColorFilter.mode(
+                      context.palette.midnight.withValues(alpha: 0.069),
+                      BlendMode.dstATop,
+                    ),
+                  )
                 ),
               ),
               Positioned(
@@ -84,10 +93,12 @@ class GameBar extends StatelessWidget {
                       avatar: profile.avatar,
                       onTap: () => onProfileTap(context),
                     ),
-                    ResourcePill(
-                      iconPath: 'assets/images/dice.png',
-                      value: profile.dices.toString(),
-                      onTap: () => GoRouter.of(context).goNamed(Routes.market),
+                    Flexible(
+                      child: ResourcePill(
+                        iconPath: 'assets/images/dice.png',
+                        value: profile.dices.toString(),
+                        onTap: () => GoRouter.of(context).goNamed(Routes.market),
+                      ),
                     ),
                     const SizedBox(width: 8),
                     AppIcon(
