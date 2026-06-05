@@ -19,6 +19,7 @@ enum SfxType {
 
   fall,
 
+  recipeLocked,
   recipeUnlock,
   recipeCollection,
   recipeRead

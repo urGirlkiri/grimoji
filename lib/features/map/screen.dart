@@ -84,20 +84,27 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
       }
 
       if (unlockedEmoji != null) {
-        final screenWidth = context.screenWidth;
-        final isDarkMode = context.theme.canvasColor == Colors.black;
-        final startY = isDarkMode ? 200.0 : 300.0;
+        final startX = context.screenWidth / 2;
+        final startY = context.screenHeight / 2;
+
         final overlayState = Overlay.of(context, rootOverlay: true);
         context.readAudio.playSfx(SfxType.recipeUnlock);
 
-        Future.delayed(const Duration(milliseconds: 400), () {
+        Future.delayed(const Duration(milliseconds: 600), () {
           if (!mounted) return;
           RecipeFlightAnimator.launch(
             overlay: overlayState,
-            startOffset: Offset(screenWidth / 2, startY),
+            startOffset: Offset(startX, startY),
             targetKey: AppKeys.grimoireNavKey,
             unlockedEmoji: unlockedEmoji,
-            onComplete: showLevelDialog,
+            onComplete: () {
+              if (mounted) {
+                context.readAudio.playSfx(SfxType.recipeCollection);
+              }
+              Future.delayed(const Duration(milliseconds: 200), () {
+                showLevelDialog();
+              });
+            },
           );
         });
       } else {

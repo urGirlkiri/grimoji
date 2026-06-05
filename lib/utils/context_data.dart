@@ -10,6 +10,7 @@ extension ContextData on BuildContext {
   Palette get palette => read<Palette>();
 
   double get screenWidth => MediaQuery.sizeOf(this).width;
+  double get screenHeight => MediaQuery.sizeOf(this).height;
   bool get isLargeScreen => screenWidth > 600;
   double get globalScale => isLargeScreen ? 1.5 : 1.0;
 

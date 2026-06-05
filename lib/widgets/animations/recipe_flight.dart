@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:vector_math/vector_math_64.dart';
 import 'package:grimoji/config/emojis.dart';
@@ -36,11 +35,10 @@ class RecipeFlightAnimator {
         return TweenAnimationBuilder<double>(
           tween: Tween(begin: 0.0, end: 1.0),
           duration: const Duration(milliseconds: 1200),
-          curve: Curves.easeInOutBack,
+          curve: Curves.linear,
           onEnd: () {
             entry.remove();
-            context.readAudio.playSfx(SfxType.recipeCollection);
-            onComplete?.call();
+              onComplete?.call();
           },
           builder: (context, value, child) {
 

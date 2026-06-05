@@ -10,6 +10,7 @@ double soundTypeToVolume(SfxType type) {
     case SfxType.explosion:
     case SfxType.targetCollected:
     case SfxType.fail:
+    case SfxType.recipeLocked:
     case SfxType.recipeUnlock:
     case SfxType.recipeCollection:
     case SfxType.recipeRead:

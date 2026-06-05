@@ -67,13 +67,20 @@ List<String> soundTypeToFilename(SfxType type) => switch (type) {
     'tee.wav'
   ],
 
+  SfxType.recipeLocked => const [
+    'recipe_locked.wav'
+  ],
+  
   SfxType.recipeUnlock => const [
+    'recipe_unlock.wav'
   ],
 
   SfxType.recipeCollection => const [
+    'recipe_collection.wav'
   ],
 
   SfxType.recipeRead => const [
+    'recipe_read.wav'
   ],
 
 };

@@ -37,6 +37,7 @@ class _RecipeCardState extends State<RecipeCard> {
 
     if (widget.autoOpen == true) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
+        context.readAudio.playSfx(SfxType.recipeRead);
         _unlockedDialog();
       });
     }
@@ -46,8 +47,6 @@ class _RecipeCardState extends State<RecipeCard> {
     if (widget.isUnread) {
       context.readProfile.markRecipeAsRead(widget.recipe.id);
     }
-
-    context.readAudio.playSfx(SfxType.recipeRead);
 
     Navigator.of(context, rootNavigator: true).push(
       PageRouteBuilder(
@@ -66,11 +65,11 @@ class _RecipeCardState extends State<RecipeCard> {
     );
   }
 
-
   void _handleTap() {
     if (widget.isUnlocked) {
       _unlockedDialog();
     } else {
+      context.readAudio.playSfx(SfxType.recipeLocked);
       setState(() {
         _isShaking = true;
       });
@@ -94,80 +93,84 @@ class _RecipeCardState extends State<RecipeCard> {
 
     return GestureDetector(
       onTap: _handleTap,
-      child: Hero(
-        tag: 'card-${widget.recipe.id}',
-        flightShuttleBuilder:
-            (
-              flightContext,
-              animation,
-              flightDirection,
-              fromHeroContext,
-              toHeroContext,
-            ) {
-              final spinAnim = Tween<double>(begin: 0, end: 4 * pi).animate(
-                CurvedAnimation(parent: animation, curve: Curves.easeInOut),
-              );
+      child:
+          Hero(
+                tag: 'card-${widget.recipe.id}',
+                flightShuttleBuilder:
+                    (
+                      flightContext,
+                      animation,
+                      flightDirection,
+                      fromHeroContext,
+                      toHeroContext,
+                    ) {
+                      final spinAnim = Tween<double>(begin: 0, end: 4 * pi)
+                          .animate(
+                            CurvedAnimation(
+                              parent: animation,
+                              curve: Curves.easeInOut,
+                            ),
+                          );
 
-              final fadeOutAnim = Tween<double>(begin: 1.0, end: 0.0).animate(
-                CurvedAnimation(
-                  parent: animation,
-                  curve: const Interval(0.0, 0.3, curve: Curves.easeOut),
+                      final fadeOutAnim = Tween<double>(begin: 1.0, end: 0.0)
+                          .animate(
+                            CurvedAnimation(
+                              parent: animation,
+                              curve: const Interval(
+                                0.0,
+                                0.3,
+                                curve: Curves.easeOut,
+                              ),
+                            ),
+                          );
+
+                      return AnimatedBuilder(
+                        animation: animation,
+                        builder: (context, child) {
+                          return Transform(
+                            alignment: Alignment.center,
+                            transform: Matrix4.identity()
+                              ..setEntry(3, 2, 0.001)
+                              ..rotateY(spinAnim.value),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: context.palette.midnight,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: FadeTransition(
+                                opacity: fadeOutAnim,
+                                child: CardFace(
+                                  recipe: widget.recipe,
+                                  showEmoji: true,
+                                  emojiSize: emojiSize,
+                                  showUnreadIndicator: widget.isUnread,
+                                  crimsonColor: palette.crimson,
+                                  midnightColor: palette.midnight,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: palette.midnight,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: CardFace(
+                    recipe: widget.recipe,
+                    showEmoji: widget.isUnlocked,
+                    emojiSize: emojiSize,
+                    showUnreadIndicator: widget.isUnread,
+                    crimsonColor: palette.crimson,
+                    midnightColor: palette.midnight,
+                    showUnreadShadow: true,
+                  ),
                 ),
-              );
-
-              return AnimatedBuilder(
-                animation: animation,
-                builder: (context, child) {
-                  return Transform(
-                    alignment: Alignment.center,
-                    transform: Matrix4.identity()
-                      ..setEntry(3, 2, 0.001)
-                      ..rotateY(spinAnim.value),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: context.palette.midnight,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: FadeTransition(
-                        opacity: fadeOutAnim,
-                        child: CardFace(
-                          recipe: widget.recipe,
-                          showEmoji: true,
-                          emojiSize: emojiSize,
-                          showUnreadIndicator: widget.isUnread,
-                          crimsonColor: palette.crimson,
-                          midnightColor: palette.midnight,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              );
-            },
-        child: Container(
-          decoration: BoxDecoration(
-            color: palette.midnight,
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: CardFace(
-            recipe: widget.recipe,
-            showEmoji: widget.isUnlocked,
-            emojiSize: emojiSize,
-            showUnreadIndicator: widget.isUnread,
-            crimsonColor: palette.crimson,
-            midnightColor: palette.midnight,
-            showUnreadShadow: true,
-          ),
-        ),
-      )
-      .animate(target: _isShaking ? 1 : 0)
-      .shake(
-        hz: 5,
-        rotation: 0.08,
-        duration: 400.ms,
-      ),
-    );  
+              )
+              .animate(target: _isShaking ? 1 : 0)
+              .shake(hz: 5, rotation: 0.08, duration: 400.ms),
+    );
   }
-
 }
-
