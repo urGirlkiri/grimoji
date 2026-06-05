@@ -21,6 +21,7 @@ class _LevelFailScreenState extends State<LevelFailScreen> {
     super.initState();
     
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.readAudio.playMenuMusic();
       _showFailDialog();
       context.readProfile.spendCauldron();
     });

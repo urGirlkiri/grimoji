@@ -272,13 +272,13 @@ class AudioController {
     }
   }
 
-  Future<void> _playCurrentSongInPlaylist() async {
+  Future<void> _playCurrentSongInPlaylist({double? initialVolume}) async {
     _log.info(() => 'Playing ${_playlist.first} now.');
-    final double currentVolume = _settings?.musicVolume.value ?? 1.0;
+    final double targetVolume = initialVolume ?? _settings?.musicVolume.value ?? 1.0;
     try {
       await _musicPlayer.play(
         AssetSource('music/${_playlist.first.filename}'),
-        volume: currentVolume,
+        volume: targetVolume,
       );
     } catch (e) {
       _log.severe('Could not play song ${_playlist.first}', e);
@@ -338,23 +338,51 @@ class AudioController {
 
   void playMenuMusic() {
     _log.info('Switching to menu music.');
-    _musicPlayer.stop();
-    _playlist.clear();
-    _playlist.addAll(List.of(menuSongs)..shuffle());
-
-    if (_settings?.audioOn.value == true && _settings?.musicOn.value == true) {
-      _playCurrentSongInPlaylist();
-    }
+    _transitionToPlaylist(List.of(menuSongs)..shuffle());
   }
 
   void playLevelMusic() {
     _log.info('Switching to level music.');
-    _musicPlayer.stop();
+    _transitionToPlaylist(List.of(levelSongs)..shuffle());
+  }
+
+  Future<void> _transitionToPlaylist(List<Song> songs) async {
+    if (_musicPlayer.state == PlayerState.playing) {
+      await _fadeOutMusic();
+    }
+    
     _playlist.clear();
-    _playlist.addAll(List.of(levelSongs)..shuffle());
+    _playlist.addAll(songs);
 
     if (_settings?.audioOn.value == true && _settings?.musicOn.value == true) {
-      _playCurrentSongInPlaylist();
+      await _playCurrentSongInPlaylist(initialVolume: 0.0);
+      await _fadeInMusic();
+    }
+  }
+
+  Future<void> _fadeOutMusic() async {
+    const steps = 10;
+    const stepDuration = Duration(milliseconds: 30);
+    final currentVolume = _settings?.musicVolume.value ?? 1.0;
+    
+    for (int i = 0; i <= steps; i++) {
+      final volume = currentVolume * (1 - i / steps);
+      await _musicPlayer.setVolume(volume.clamp(0.0, 1.0));
+      await Future.delayed(stepDuration);
+    }
+    
+    _musicPlayer.stop();
+  }
+
+  Future<void> _fadeInMusic() async {
+    const steps = 10;
+    const stepDuration = Duration(milliseconds: 30);
+    final targetVolume = _settings?.musicVolume.value ?? 1.0;
+    
+    for (int i = 0; i <= steps; i++) {
+      final volume = targetVolume * i / steps;
+      await _musicPlayer.setVolume(volume.clamp(0.0, 1.0));
+      await Future.delayed(stepDuration);
     }
   }
 

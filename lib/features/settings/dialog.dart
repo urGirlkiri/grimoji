@@ -26,16 +26,18 @@ class SettingsDialog extends StatelessWidget {
       child: ScrollDialog(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
         rightButton:  CorkScrewCloseButton(),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-          child: ScrollConfiguration(
-            behavior: ScrollConfiguration.of(
-              context,
-            ).copyWith(scrollbars: false),
-            child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+            child: ScrollConfiguration(
+              behavior: ScrollConfiguration.of(
+                context,
+              ).copyWith(scrollbars: false),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     "Settings",

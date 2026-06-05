@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/config/global_keys.dart';
+import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/level/widgets/dialogs/cauldron_dialog.dart';
 import 'package:grimoji/features/level/widgets/dialogs/start_dialog.dart';
@@ -87,6 +88,7 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
         final isDarkMode = context.theme.canvasColor == Colors.black;
         final startY = isDarkMode ? 200.0 : 300.0;
         final overlayState = Overlay.of(context, rootOverlay: true);
+        context.readAudio.playSfx(SfxType.recipeUnlock);
 
         Future.delayed(const Duration(milliseconds: 400), () {
           if (!mounted) return;

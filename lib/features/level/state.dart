@@ -25,8 +25,12 @@ class LevelState extends ChangeNotifier {
   late final GameCoordinator coordinator;
 
   LevelState({required this.onWin, required this.onLose, required this.level, required this.audio}) {
-    boardManager = BoardManager(level);
-    engine = GameEngine(level: level, boardManager: boardManager);
+    boardManager = BoardManager(level, playSfx: audio.playSfx);
+    engine = GameEngine(
+      level: level,
+      boardManager: boardManager,
+      playSfx: audio.playSfx,
+    );
     engine.initialize();
 
     gameState = GameState(audio);
@@ -35,8 +39,9 @@ class LevelState extends ChangeNotifier {
       engine: engine,
       state: gameState,
       boardManager: boardManager,
+      audio: audio,
       onTargetAcquired: _incrementCollectedAmnt,
-      onComboFinished: _evaluateGameEnd,
+      onComboFinished: _evaluateGameEndAsync,
     );
 
     gameState.addListener(notifyListeners);
@@ -53,6 +58,7 @@ class LevelState extends ChangeNotifier {
   double get progress => (collectedAmount / level.targetAmount).clamp(0.0, 1.0);
 
   void startLevel() {
+    audio.playLevelMusic();
     _timeLimitStopwatch.start();
     _ticker = Timer.periodic(const Duration(seconds: 1), ((timer) {
       if (_isDisposed || !_timeLimitStopwatch.isRunning) return;
@@ -85,6 +91,8 @@ class LevelState extends ChangeNotifier {
       _ticker?.cancel();
       _timeLimitStopwatch.stop();
 
+      audio.playMenuMusic();
+
       int earnedStars = progress >= 1.0
           ? 3
           : progress >= 0.66
@@ -105,6 +113,10 @@ class LevelState extends ChangeNotifier {
     }
 
     return false;
+  }
+
+  Future<bool> _evaluateGameEndAsync() async {
+    return _evaluateGameEnd();
   }
 
   void togglePause() {

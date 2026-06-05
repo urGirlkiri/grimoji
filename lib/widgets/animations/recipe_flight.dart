@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:vector_math/vector_math_64.dart';
 import 'package:grimoji/config/emojis.dart';
@@ -38,6 +39,7 @@ class RecipeFlightAnimator {
           curve: Curves.easeInOutBack,
           onEnd: () {
             entry.remove();
+            context.readAudio.playSfx(SfxType.recipeCollection);
             onComplete?.call();
           },
           builder: (context, value, child) {

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
+import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/grimoire/widgets/dialogs/locked.dart';
 import 'package:grimoji/features/grimoire/widgets/dialogs/recipe.dart';
 import 'package:grimoji/features/grimoire/widgets/recipe_card/card_face.dart';
@@ -45,6 +46,8 @@ class _RecipeCardState extends State<RecipeCard> {
     if (widget.isUnread) {
       context.readProfile.markRecipeAsRead(widget.recipe.id);
     }
+
+    context.readAudio.playSfx(SfxType.recipeRead);
 
     Navigator.of(context, rootNavigator: true).push(
       PageRouteBuilder(

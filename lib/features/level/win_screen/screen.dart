@@ -33,6 +33,7 @@ class _WinGameScreenState extends State<WinGameScreen> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.readAudio.playMenuMusic();
       context.readAudio.playSfx(SfxType.celebration);
       context.readProfile.markGamePlayed();
 
