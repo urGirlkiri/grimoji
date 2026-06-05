@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/widgets/custom/animated_button.dart';
 
 class ResourcePill extends StatelessWidget {
   final String iconPath;
@@ -19,7 +20,7 @@ class ResourcePill extends StatelessWidget {
     final scale = context.globalScale;
 
     return Expanded(
-      child: GestureDetector(
+      child: AnimatedButton(
         onTap: onTap,
         child: SizedBox(
           height: 55 * scale,

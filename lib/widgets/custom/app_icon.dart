@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:grimoji/features/audio/sounds/sfx_type.dart';
-import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/breathing_widget.dart';
+import 'package:grimoji/widgets/custom/animated_button.dart';
 
-class AppIcon extends StatefulWidget {
+class AppIcon extends StatelessWidget {
   final String fileName;
   final double size;
   final VoidCallback? onTap;
@@ -25,44 +24,23 @@ class AppIcon extends StatefulWidget {
   String get imagePath => 'assets/icons/app/$fileName.png';
 
   @override
-  State<AppIcon> createState() => _AppIconState();
-}
-
-class _AppIconState extends State<AppIcon> {
-  bool _isPressed = false;
-
-  void _handleTap() {
-    if (widget.enableSound && mounted) {
-      context.readAudio.playSfx(SfxType.buttonTap);
-    }
-    widget.onTap?.call();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final icon = GestureDetector(
-      onTapDown: (_) => setState(() => _isPressed = true),
-      onTapUp: (_) => setState(() => _isPressed = false),
-      onTapCancel: () => setState(() => _isPressed = false),
-      onTap: _handleTap,
-      child: AnimatedScale(
-        scale: _isPressed ? 0.9 : 1.0,
+    final icon = AnimatedButton(
+      onTap: onTap,
+      enableSound: enableSound,
+      child: AnimatedOpacity(
         duration: 150.ms,
-        curve: Curves.easeOut,
-        child: AnimatedOpacity(
-          duration: 150.ms,
-          opacity: widget.isActive ? 1.0 : 0.4,
-          child: Image.asset(
-            widget.imagePath,
-            width: widget.size,
-            height: widget.size,
-            fit: BoxFit.contain,
-          ),
+        opacity: isActive ? 1.0 : 0.4,
+        child: Image.asset(
+          imagePath,
+          width: size,
+          height: size,
+          fit: BoxFit.contain,
         ),
       ),
     );
 
-    return widget.enableAnimation
+    return enableAnimation
         ? BreathingWidget(
             duration: 1200.ms,
             maxScale: 1.061,

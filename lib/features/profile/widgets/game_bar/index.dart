@@ -8,6 +8,7 @@ import 'package:grimoji/features/profile/widgets/game_bar/profile_avatar.dart';
 import 'package:grimoji/features/profile/widgets/game_bar/resource_pill.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animations/dialog.dart';
+import 'package:grimoji/widgets/custom/animated_button.dart';
 import 'package:grimoji/widgets/custom/app_icon.dart';
 
 class GameBar extends StatelessWidget {
@@ -89,9 +90,11 @@ class GameBar extends StatelessWidget {
                       value: profile.cauldrons == 5 ? "Full" : profile.cauldrons.toString(),
                       onTap: () => onCauldronTap(context),
                     ),
-                    ProfileAvatar(
-                      avatar: profile.avatar,
-                      onTap: () => onProfileTap(context),
+                    AnimatedButton(
+                      child: ProfileAvatar(
+                        avatar: profile.avatar,
+                        onTap: () => onProfileTap(context),
+                      ),
                     ),
                     Flexible(
                       child: ResourcePill(
