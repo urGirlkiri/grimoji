@@ -40,6 +40,6 @@ A gothic alchemy game for mixing and collecting emojis.
 [Audjust](https://www.audjust.com/studio) for sfx variations<br>
 [Didier Boelens](https://medium.com/flutter-community/flutter-crush-debee5f389c3) for his amazing article on approaching match-3 in flutter<br>
 [Mohamed Nasr](https://github.com/mohamedhaloka/Game-Levels-Scrolling-Map) for inspiring me with his game level scrolling map<br>
-[Audio Trimmer](https://audiotrimmer.com/) for that extra touch :)
-
+[Audio Trimmer](https://audiotrimmer.com/) for that extra touch :)<br>
+[pikisuperstar on Magnific](https://www.magnific.com/author/pikisuperstar) for the hand drawn mascot 
 </div>
