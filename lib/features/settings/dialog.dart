@@ -78,8 +78,8 @@ class SettingsDialog extends StatelessWidget {
                                 ),
                                 IconToggle(
                                   fileName: settings.musicOn.value
-                                      ? 'sfx_on'
-                                      : 'sfx_off',
+                                      ? 'music_on'
+                                      : 'music_off',
                                   isActive:
                                       settings.musicOn.value &&
                                       settings.audioOn.value,
@@ -87,8 +87,8 @@ class SettingsDialog extends StatelessWidget {
                                 ),
                                 IconToggle(
                                   fileName: settings.audioOn.value
-                                      ? 'music_on'
-                                      : 'music_off',
+                                      ? 'audio_on'
+                                      : 'audio_off',
                                   isActive: settings.audioOn.value,
                                   onTap: settings.toggleAudioOn,
                                 ),

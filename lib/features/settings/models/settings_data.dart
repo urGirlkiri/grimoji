@@ -24,7 +24,7 @@ class SettingsData {
     this.soundsOn = true,
     this.musicOn = true,
     this.sfxVolume = 1.0,
-    this.musicVolume = 1.0,
+    this.musicVolume = 0.12,
   });
 
   SettingsData copyWith({
