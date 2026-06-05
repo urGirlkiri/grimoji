@@ -34,7 +34,7 @@ class ShopItemCard extends StatelessWidget {
           width: 1,
         ),
         image: DecorationImage(
-          image: AssetImage('assets/images/goth_emo.png'),
+          image: const AssetImage('assets/images/goth_emo.png'),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
             context.palette.voidBlack.withValues(alpha: 0.05),
@@ -69,27 +69,41 @@ class ShopItemCard extends StatelessWidget {
               SizedBox(width: 8 * scale),
               AnimatedButton(
                 onTap: onTap,
-                child: FilledButton.icon(
-                  style: FilledButton.styleFrom(
-                    backgroundColor: context.palette.twilight,
-                    padding: EdgeInsets.symmetric(horizontal: 12 * scale),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12 * scale),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12 * scale, vertical: 6 * scale),
+                  decoration: BoxDecoration(
+                    color: context.palette.twilight,
+                    borderRadius: BorderRadius.circular(12 * scale),
+                    border: Border.all(
+                      color: context.palette.dusk.withValues(alpha: 0.5),
+                      width: 1.5,
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: context.palette.voidBlack,
+                        offset: Offset(0, 4 * scale),
+                        blurRadius: 0, 
+                      ),
+                    ],
                   ),
-                  onPressed: null,
-                  icon: Image.asset(
-                    'assets/images/dice.png',
-                    width: 18 * scale,
-                    height: 18 * scale,
-                  ),
-                  label: Text(
-                    cost.toString(),
-                    style: context.theme.textTheme.bodyLarge?.copyWith(
-                      color: context.palette.moonlight,
-                      fontSize: 16 * scale,
-                      fontWeight: FontWeight.w900,
-                    ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset(
+                        'assets/images/dice.png',
+                        width: 18 * scale,
+                        height: 18 * scale,
+                      ),
+                      SizedBox(width: 6 * scale),
+                      Text(
+                        cost.toString(),
+                        style: context.theme.textTheme.bodyLarge?.copyWith(
+                          color: context.palette.moonlight,
+                          fontSize: 16 * scale,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),

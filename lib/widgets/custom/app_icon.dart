@@ -25,7 +25,11 @@ class AppIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final icon = AnimatedButton(
+    return BreathingWidget(
+      enabled: enableAnimation,
+      duration: 1200.ms,
+      maxScale: 1.061,
+      child: AnimatedButton(
       onTap: onTap,
       enableSound: enableSound,
       child: AnimatedOpacity(
@@ -38,14 +42,7 @@ class AppIcon extends StatelessWidget {
           fit: BoxFit.contain,
         ),
       ),
+    ),
     );
-
-    return enableAnimation
-        ? BreathingWidget(
-            duration: 1200.ms,
-            maxScale: 1.061,
-            child: icon,
-          )
-        : icon;
   }
 }

@@ -4,6 +4,7 @@ import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/profile/widgets/caul_regen_tim.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
+import 'package:grimoji/widgets/custom/animated_button.dart';
 import 'package:grimoji/widgets/custom/scroll_dialog.dart';
 
 class CauldronDialog extends StatelessWidget {
@@ -102,26 +103,29 @@ class CauldronDialog extends StatelessWidget {
                       const SizedBox(height: 16),
                       SizedBox(
                         width: double.infinity,
-                        child: FilledButton.icon(
-                          style: FilledButton.styleFrom(
-                            backgroundColor: context.palette.twilight,
-                            foregroundColor: context.palette.mist,
-                            padding: const EdgeInsets.symmetric(vertical: 24),
-                            elevation: 5,
-                          ),
-                          onPressed: () {
+                        child: AnimatedButton(
+                          onTap: () {
                             context.pop();
                             GoRouter.of(context).pushNamed(Routes.market);
                           },
-                          icon: Image.asset(
-                            'assets/images/dice.png',
-                            width: 28,
-                            height: 28,
-                          ),
-                          label: Text(
-                            "Visit The Market",
-                            style: context.theme.textTheme.titleMedium
-                                ?.copyWith(color: context.palette.mist),
+                          child: FilledButton.icon(
+                            style: FilledButton.styleFrom(
+                              backgroundColor: context.palette.twilight,
+                              foregroundColor: context.palette.mist,
+                              padding: const EdgeInsets.symmetric(vertical: 24),
+                              elevation: 5,
+                            ),
+                            onPressed: null,
+                            icon: Image.asset(
+                              'assets/images/dice.png',
+                              width: 28,
+                              height: 28,
+                            ),
+                            label: Text(
+                              "Visit The Market",
+                              style: context.theme.textTheme.titleMedium
+                                  ?.copyWith(color: context.palette.mist),
+                            ),
                           ),
                         ),
                       ),

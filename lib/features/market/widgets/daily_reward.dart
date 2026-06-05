@@ -10,6 +10,7 @@ class DailyRewardCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final profile = context.watchProfile;
+    final palette = context.palette;
     final canClaim = profile.canClaimDaily();
     final timeUntil = profile.timeUntilNextDailyClaim();
 
@@ -22,7 +23,7 @@ class DailyRewardCard extends StatelessWidget {
         profile.claimDailyReward();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            backgroundColor: context.palette.slate,
+            backgroundColor: palette.slate,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
@@ -30,7 +31,7 @@ class DailyRewardCard extends StatelessWidget {
             content: Text(
               "Claimed +15 Dices!",
               style: context.theme.textTheme.bodyMedium?.copyWith(
-                color: context.palette.trueWhite,
+                color: palette.trueWhite,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -43,31 +44,54 @@ class DailyRewardCard extends StatelessWidget {
       final seconds = timeUntil.inSeconds % 60;
       buttonText =
           "$hours:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}";
-      onPressed = null;
+      onPressed = () {
+        final dailyText = hours > 0
+            ? '$hours Hours'
+            : minutes > 0
+                ? '$minutes Minutes'
+                : '$seconds Seconds';
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: palette.slate,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            content: Text(
+              "Daily Claim available in $dailyText",
+              style: context.theme.textTheme.bodyMedium?.copyWith(
+                color: palette.trueWhite,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        );
+      };
     }
 
     return Container(
       decoration: BoxDecoration(
         color: Color.alphaBlend(
-          context.palette.twilight.withValues(alpha: 0.25),
-          context.palette.midnight,
+          palette.twilight.withValues(alpha: 0.25),
+          palette.midnight,
         ),
         borderRadius: BorderRadius.circular(20 * scale),
         border: Border.all(
-          color: canClaim ? context.palette.slate : context.palette.dusk,
+          color: canClaim ? palette.slate : palette.dusk,
           width: 1,
         ),
         image: DecorationImage(
-          image: AssetImage('assets/images/vertical_lines.png'),
+          image: const AssetImage('assets/images/vertical_lines.png'),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
-            context.palette.twilight.withValues(alpha: 0.08),
+            palette.twilight.withValues(alpha: 0.08),
             BlendMode.dstATop,
           ),
         ),
         boxShadow: [
           BoxShadow(
-            color: context.palette.voidBlack,
+            color: palette.voidBlack,
             offset: Offset(0, 6 * scale),
             blurRadius: 0,
           ),
@@ -84,7 +108,7 @@ class DailyRewardCard extends StatelessWidget {
                 child: Text(
                   "Free Daily Dices",
                   style: context.theme.textTheme.titleMedium?.copyWith(
-                    color: context.palette.trueWhite,
+                    color: palette.trueWhite,
                     fontSize: 18 * scale,
                     fontWeight: FontWeight.bold,
                   ),
@@ -96,26 +120,38 @@ class DailyRewardCard extends StatelessWidget {
                 child: AnimatedButton(
                   onTap: onPressed,
                   enableSound: canClaim,
-                  child: FilledButton(
-                    style: FilledButton.styleFrom(
-                      backgroundColor: canClaim
-                          ? context.palette.mist
-                          : context.palette.dusk,
-                      padding: EdgeInsets.symmetric(horizontal: 8 * scale),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12 * scale),
-                      ),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 8 * scale,
+                      horizontal: 8 * scale,
                     ),
-                    onPressed: null,
+                    decoration: BoxDecoration(
+                      color: canClaim ? palette.mist : palette.dusk,
+                      borderRadius: BorderRadius.circular(12 * scale),
+                      border: Border.all(
+                        color: canClaim
+                            ? palette.trueWhite.withValues(alpha: 0.5)
+                            : palette.slate,
+                        width: 1.5,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: palette.voidBlack,
+                          offset: Offset(0, 4 * scale),
+                          blurRadius: 0,
+                        ),
+                      ],
+                    ),
+                    alignment: Alignment.center,
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
                         buttonText,
                         style: context.theme.textTheme.bodyLarge?.copyWith(
                           color: canClaim
-                              ? context.palette.midnight
-                              : context.palette.trueWhite,
-                          fontWeight: FontWeight.bold,
+                              ? palette.midnight
+                              : palette.trueWhite,
+                          fontWeight: FontWeight.w900,
                         ),
                       ),
                     ),
@@ -125,7 +161,6 @@ class DailyRewardCard extends StatelessWidget {
             ],
           ),
           SizedBox(height: 12 * scale),
-
           Row(
             children: [
               Image.asset(
@@ -140,7 +175,7 @@ class DailyRewardCard extends StatelessWidget {
                       ? "+15 magical dices to spend in the bazaar."
                       : "Next claim available when the timer finishes.",
                   style: context.theme.textTheme.bodyMedium?.copyWith(
-                    color: context.palette.mist,
+                    color: palette.mist,
                     fontSize: 13 * scale,
                   ),
                 ),

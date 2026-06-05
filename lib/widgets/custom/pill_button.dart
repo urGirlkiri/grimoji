@@ -38,12 +38,6 @@ class PillButton extends StatelessWidget {
     final effectiveBorderColor = borderColor ?? palette.twilight;
     final effectiveBorderWidth = borderWidth ?? 2;
 
-    final effectivePadding =
-        padding ??
-        (fullWidth
-            ? const EdgeInsets.symmetric(vertical: 14)
-            : const EdgeInsets.symmetric(horizontal: 24, vertical: 12));
-
     final innerText = Text(
       text,
       style: GoogleFonts.eagleLake(
@@ -59,52 +53,47 @@ class PillButton extends StatelessWidget {
       ),
     );
 
-    final buttonContainer = Container(
-      width: fullWidth ? double.infinity : null,
-      padding: effectivePadding,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(borderRadius),
-        border: Border.all(
-          color: effectiveBorderColor,
-          width: effectiveBorderWidth,
-        ),
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            color.withValues(alpha: 0.8),
-            color.withValues(alpha: 0.2),
-          ],
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: palette.voidBlack.withValues(alpha: 0.6),
-            offset: const Offset(0, 4),
-            blurRadius: 0,
+    return BreathingWidget(
+      enabled: enableAnimation,
+      duration: const Duration(milliseconds: 1200),
+      maxScale: 1.04,
+      child: AnimatedButton(
+        onTap: onTap,
+        pressedScale: 0.95,
+        child: Container(
+          width: fullWidth ? double.infinity : null,
+          padding:  padding ??  EdgeInsets.symmetric(horizontal: 24, vertical: fullWidth? 14: 12),
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(borderRadius),
+            border: Border.all(
+              color: effectiveBorderColor,
+              width: effectiveBorderWidth,
+            ),
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                color.withValues(alpha: 0.8),
+                color.withValues(alpha: 0.2),
+              ],
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: palette.voidBlack.withValues(alpha: 0.6),
+                offset: const Offset(0, 4),
+                blurRadius: 0,
+              ),
+              BoxShadow(
+                color: palette.twilight.withValues(alpha: 0.2),
+                offset: const Offset(0, -2),
+                blurRadius: 2,
+              ),
+            ],
           ),
-          BoxShadow(
-            color: palette.twilight.withValues(alpha: 0.2),
-            offset: const Offset(0, -2),
-            blurRadius: 2,
-          ),
-        ],
+          child: fullWidth ? Center(child: innerText) : innerText,
+        ),
       ),
-      child: fullWidth ? Center(child: innerText) : innerText,
     );
-
-    final touchableButton = AnimatedButton(
-      onTap: onTap,
-      pressedScale: 0.95,
-      child: buttonContainer,
-    );
-
-    return enableAnimation
-        ? BreathingWidget(
-            duration: const Duration(milliseconds: 1200),
-            maxScale: 1.04,
-            child: touchableButton,
-          )
-        : touchableButton;
   }
 }
