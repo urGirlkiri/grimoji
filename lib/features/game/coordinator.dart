@@ -291,7 +291,7 @@ class GameCoordinator {
   }
 
   Future<void> finalizeTurnLifecycle() async {
-    if (!engine.hasPossibleMoves()) {
+    if (!engine.hasPossibleMoves() && !state.isGameOver) {
       _log.info('NO MOVES LEFT! Shuffling...');
       await shuffleBoard();
     }

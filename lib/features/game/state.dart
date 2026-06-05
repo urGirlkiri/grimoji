@@ -53,7 +53,6 @@ class GameState extends ChangeNotifier {
   void setGameOver() {
     if (!isGameOver) {
       isGameOver = true;
-      isProcessing = false;
       _notify();
     }
   }

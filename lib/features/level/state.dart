@@ -24,6 +24,9 @@ class LevelState extends ChangeNotifier {
   late final GameState gameState;
   late final GameCoordinator coordinator;
 
+  int collectedAmount = 0;
+  bool _isDisposed = false;
+
   LevelState({required this.onWin, required this.onLose, required this.level, required this.audio}) {
     boardManager = BoardManager(level, playSfx: audio.playSfx);
     engine = GameEngine(
@@ -47,10 +50,8 @@ class LevelState extends ChangeNotifier {
     gameState.addListener(notifyListeners);
   }
 
-  bool isPaused = false;
-  bool _isDisposed = false;
-  bool _isGameOver = false;
-  int collectedAmount = 0;
+  bool get isPaused => gameState.isPaused;
+  bool get isGameOver => gameState.isGameOver;
 
   int get secondsRemaining =>
       max(0, level.timeLimit - _timeLimitStopwatch.elapsed.inSeconds);
@@ -66,7 +67,7 @@ class LevelState extends ChangeNotifier {
       notifyListeners();
 
       if (secondsRemaining <= 0) {
-        _evaluateGameEnd();
+        _evaluateGameEndAsync();
       }
     }));
 
@@ -76,21 +77,33 @@ class LevelState extends ChangeNotifier {
   void _incrementCollectedAmnt(int count) {
     collectedAmount += count;
     notifyListeners();
+    
+    if (progress >= 1.0) {
+      _evaluateGameEndAsync();
+    }
   }
 
-  bool _evaluateGameEnd() {
-    if (_isGameOver) return true;
+  Future<bool> _evaluateGameEndAsync() async {
+    if (gameState.isGameOver) return true;
 
     bool shouldEnd = progress >= 1.0 || secondsRemaining <= 0;
 
     if (shouldEnd) {
-      _isGameOver = true;
       gameState.setGameOver();
       coordinator.cancelHintTimer();
-      coordinator.clearHint();
       _ticker?.cancel();
       _timeLimitStopwatch.stop();
+      notifyListeners();
 
+      while (gameState.isProcessing || gameState.announcer.isSpeaking || gameState.isShuffling) {
+        await Future.delayed(const Duration(milliseconds: 250));
+      }
+
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      if (_isDisposed) return true;
+
+      coordinator.clearHint();
       audio.playMenuMusic();
 
       int earnedStars = progress >= 1.0
@@ -115,14 +128,9 @@ class LevelState extends ChangeNotifier {
     return false;
   }
 
-  Future<bool> _evaluateGameEndAsync() async {
-    return _evaluateGameEnd();
-  }
-
   void togglePause() {
     coordinator.togglePause();
-    isPaused = gameState.isPaused;
-    isPaused ? _timeLimitStopwatch.stop() : _timeLimitStopwatch.start();
+    gameState.isPaused ? _timeLimitStopwatch.stop() : _timeLimitStopwatch.start();
     notifyListeners();
   }
 

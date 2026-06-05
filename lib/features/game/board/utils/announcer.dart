@@ -22,6 +22,8 @@ class BoardAnnouncer {
 
   set gameState(GameState state) => _state = state;
 
+  bool get isSpeaking => activeAnnouncement != null || _queue.isNotEmpty;
+
   void announceCombo(int comboMultiplier, {bool isCalamity = false}) {
     final validVoices = Dialog.values.where((v) => 
         v.isCalamity == isCalamity && v.minCombo <= comboMultiplier)
