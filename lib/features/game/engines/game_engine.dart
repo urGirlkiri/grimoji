@@ -4,6 +4,7 @@ import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/alchemy/behavior_register.dart';
 import 'package:grimoji/features/alchemy/behaviors/behavior.dart';
+import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/game/board/models/coordinate.dart';
 import 'package:grimoji/features/game/board/models/tile.dart';
 import 'package:grimoji/features/game/board/utils/manager.dart';
@@ -17,11 +18,12 @@ import 'behavior_engine.dart';
 class GameEngine {
   final GameLevel level;
   final BoardManager boardManager;
+  final void Function(SfxType) playSfx;
 
   late final AlchemyEngine _alchemy;
   late final BehaviorEngine _behavior;
 
-  GameEngine({required this.level, required this.boardManager}) {
+  GameEngine({required this.level, required this.boardManager, required this.playSfx}) {
     _behavior = BehaviorEngine(
       boardManager: boardManager,
       getBehavior: BehaviorRegister.getBehaviorFor,
@@ -29,6 +31,7 @@ class GameEngine {
 
     _alchemy = AlchemyEngine(
       boardManager: boardManager,
+      playSfx: playSfx,
       getRecipes: RecipeBook.getRecipesFor,
       getReactionFor: RecipeBook.getReactionFor,
       getTransformationsForType: RecipeBook.getTransformationsForType,
@@ -126,8 +129,11 @@ class GameEngine {
         } else {
           for (var coord in groupMatch.coordinates) {
             grid[coord.row][coord.col].isExploding = true;
+            playSfx(SfxType.explode);
           }
         }
+      }else{
+        playSfx(SfxType.merge);
       }
     }
   }

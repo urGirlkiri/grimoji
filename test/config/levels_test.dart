@@ -5,6 +5,7 @@ import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/level/state.dart';
+import '../mocks/mock_audio_controller.dart';
 import 'package:logging/logging.dart';
 
 const maxMoves = 50000;
@@ -108,6 +109,7 @@ void main() {
                 finalStars = 0;
                 gameEnded = true;
               },
+              audio: MockAudioController(),
             );
 
             levelState.startLevel();

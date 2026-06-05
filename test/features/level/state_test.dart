@@ -7,9 +7,12 @@ import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/game/board/models/coordinate.dart';
 import 'package:grimoji/utils/test_helpers.dart';
 
+import '../../mocks/mock_audio_controller.dart';
+
 void main() {
   group('LevelState tests', () {
     late GameLevel level;
+    late MockAudioController mockAudio;
 
     setUp(() {
       level = const GameLevel(
@@ -21,6 +24,7 @@ void main() {
         goal: 'Test goal',
         description: 'Test description',
       );
+      mockAudio = MockAudioController();
     });
 
     test('Should initialize and start initial drop with gravity', () {
@@ -29,6 +33,7 @@ void main() {
           level: level,
           onWin: (_) {},
           onLose: () {},
+          audio: mockAudio,
         );
 
         state.startLevel();
@@ -44,6 +49,7 @@ void main() {
           level: level,
           onWin: (_) {},
           onLose: () {},
+          audio: mockAudio,
         );
 
         state.startLevel();
@@ -70,6 +76,7 @@ void main() {
           level: level,
           onWin: (_) {},
           onLose: () {},
+          audio: mockAudio,
         );
 
         TestHelpers.genDeadLockGrid(state.engine);
@@ -103,6 +110,7 @@ void main() {
           level: level,
           onWin: (_) {},
           onLose: () {},
+          audio: mockAudio,
         );
 
         TestHelpers.genDeadLockGrid(state.engine);
@@ -129,6 +137,7 @@ void main() {
           level: level,
           onWin: (_) {},
           onLose: () {},
+          audio: mockAudio,
         );
 
         TestHelpers.genDeadLockGrid(state.engine);
@@ -154,6 +163,7 @@ void main() {
           level: level,
           onWin: (_) {},
           onLose: () {},
+          audio: mockAudio,
         );
 
         state.coordinator.shuffleBoard();
@@ -168,6 +178,7 @@ void main() {
           level: level,
           onWin: (_) {},
           onLose: () {},
+          audio: mockAudio,
         );
 
         TestHelpers.genDeadLockGrid(state.engine);
@@ -191,6 +202,7 @@ void main() {
           level: level,
           onWin: (_) {},
           onLose: () {},
+          audio: mockAudio,
         );
 
         state.startLevel();
@@ -209,6 +221,7 @@ void main() {
           level: level,
           onWin: (_) {},
           onLose: () {},
+          audio: mockAudio,
         );
 
         state.startLevel();
@@ -230,6 +243,7 @@ void main() {
           level: level,
           onWin: (_) {},
           onLose: () {},
+          audio: mockAudio,
         );
 
         state.startLevel();
@@ -253,6 +267,7 @@ void main() {
           level: level,
           onWin: (_) {},
           onLose: () {},
+          audio: mockAudio,
         );
 
         state.startLevel();
@@ -273,6 +288,7 @@ void main() {
           level: level,
           onWin: (_) {},
           onLose: () {},
+          audio: mockAudio,
         );
 
         state.startLevel();

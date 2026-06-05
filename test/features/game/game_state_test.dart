@@ -1,12 +1,15 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:grimoji/features/game/state.dart';
+import '../../mocks/mock_audio_controller.dart';
 
 void main() {
   group('GameState tests', () {
     late GameState gameState;
+    late MockAudioController mockAudio;
 
     setUp(() {
-      gameState = GameState();
+      mockAudio = MockAudioController();
+      gameState = GameState(mockAudio);
     });
 
     tearDown(() {
@@ -118,13 +121,13 @@ void main() {
     });
 
     test('Should set isDisposed to true on dispose', () {
-      final testState = GameState();
+      final testState = GameState(mockAudio);
       testState.dispose();
       expect(testState.isDisposed, isTrue);
     });
 
     test('Should not notify after disposed', () {
-      final testState = GameState();
+      final testState = GameState(mockAudio);
       testState.dispose();
       
       expect(testState.isDisposed, isTrue);
@@ -133,14 +136,14 @@ void main() {
     test('Should provide activeAnnouncement from announcer', () {
       expect(gameState.activeAnnouncement, isNull);
       
-      gameState.announcer.announce("Test");
-      expect(gameState.activeAnnouncement, "Test");
+      gameState.announcer.announceCombo(2, isCalamity: false);
+      expect(gameState.activeAnnouncement, "Wicked Alchemy!");
     });
 
     test('Should provide announcementToken from announcer', () {
       expect(gameState.announcementToken, 0);
       
-      gameState.announcer.announce("Test");
+      gameState.announcer.announceCombo(1, isCalamity: false);
       expect(gameState.announcementToken, 1);
     });
   });

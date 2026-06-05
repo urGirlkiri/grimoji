@@ -5,12 +5,14 @@ import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/game/board/models/coordinate.dart';
+import '../../mocks/mock_audio_controller.dart';
 import 'package:grimoji/utils/test_helpers.dart';
 
 void main() {
   group('GameCoordinator tests', () {
     late GameLevel level;
     late LevelState levelState;
+    late MockAudioController mockAudio;
 
     setUp(() {
       level = const GameLevel(
@@ -22,6 +24,7 @@ void main() {
         goal: 'Test goal',
         description: 'Test description',
       );
+      mockAudio = MockAudioController();
     });
 
     test('Should initialize and start initial drop', () {
@@ -30,6 +33,7 @@ void main() {
           level: level,
           onWin: (_) {},
           onLose: () {},
+          audio: mockAudio,
         );
 
         levelState.startLevel();
@@ -45,6 +49,7 @@ void main() {
           level: level,
           onWin: (_) {},
           onLose: () {},
+          audio: mockAudio,
         );
 
         TestHelpers.genDeadLockGrid(levelState.engine);
@@ -76,6 +81,7 @@ void main() {
           level: level,
           onWin: (_) {},
           onLose: () {},
+          audio: mockAudio,
         );
 
         levelState.startLevel();
@@ -103,6 +109,7 @@ void main() {
           level: level,
           onWin: (_) {},
           onLose: () {},
+          audio: mockAudio,
         );
 
         TestHelpers.genDeadLockGrid(levelState.engine);
@@ -124,6 +131,7 @@ void main() {
           level: level,
           onWin: (_) {},
           onLose: () {},
+          audio: mockAudio,
         );
 
         levelState.startLevel();
@@ -145,6 +153,7 @@ void main() {
           level: level,
           onWin: (_) {},
           onLose: () {},
+          audio: mockAudio,
         );
 
         levelState.startLevel();

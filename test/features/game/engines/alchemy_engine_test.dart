@@ -34,6 +34,7 @@ void main() {
 
       alchemyEngine = AlchemyEngine(
         boardManager: boardManager,
+        playSfx: (type) {},
         getRecipes: RecipeBook.getRecipesFor,
         getReactionFor: RecipeBook.getReactionFor,
         getTransformationsForType: RecipeBook.getTransformationsForType,

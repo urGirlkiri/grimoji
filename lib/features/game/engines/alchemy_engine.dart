@@ -1,4 +1,5 @@
 import 'package:grimoji/config/emojis.dart';
+import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/game/board/models/tile.dart';
 import 'package:grimoji/features/game/board/models/coordinate.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
@@ -14,6 +15,7 @@ typedef BehaviorInitCallback = void Function(Tile tile);
 
 class AlchemyEngine {
   final BoardManager boardManager;
+  final void Function(SfxType) playSfx;
   final List<Recipe>? Function(GameEmoji) getRecipes;
   final Reaction? Function(GameEmoji) getReactionFor;
   final Map<GameEmoji, GameEmoji> Function(ReactionType) getTransformationsForType;
@@ -24,6 +26,7 @@ class AlchemyEngine {
 
   AlchemyEngine({
     required this.boardManager,
+    required this.playSfx,
     required this.getRecipes,
     required this.getReactionFor,
     required this.getTransformationsForType,
@@ -75,6 +78,7 @@ class AlchemyEngine {
               tilesToDestroy.addAll(sources);
 
               mergedEmojis++;
+              // playSfx(SfxType.merge);
 
               if (initializeBehavior != null) {
                 initializeBehavior!(targetTile);
@@ -121,6 +125,7 @@ class AlchemyEngine {
                       targetTile.reset();
                       targetTile.isTransmuting = true;
                       transmutedTiles.add(targetCoord);
+                      playSfx(SfxType.transmute);
                       if (initializeBehavior != null) {
                         initializeBehavior!(targetTile);
                       }
@@ -152,6 +157,7 @@ class AlchemyEngine {
 
           if (!isPartOfMatch && reaction != null && reaction.type == ReactionType.explosive && !neighbor.isTriggered) {
             neighbor.isTriggered = true;
+            playSfx(SfxType.trigger);
           }
         }
       }
@@ -179,6 +185,8 @@ class AlchemyEngine {
 
     while (primedBombs.isNotEmpty) {
       final currentBombs = List<Tile>.from(primedBombs);
+      playSfx(SfxType.explosion);
+
 
       for (Tile activeBomb in currentBombs) {
         if (!activeBomb.isTriggered) continue;

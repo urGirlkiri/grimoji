@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/emojis.dart';
+import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/game/board/models/tile.dart';
 import 'package:grimoji/features/game/board/models/coordinate.dart';
 
@@ -11,8 +12,9 @@ class BoardManager {
   late List<List<Tile>> gridTiles;
   final GameLevel level;
   final Random _random = Random();
+  final void Function(SfxType)? playSfx;
 
-  BoardManager(this.level);
+  BoardManager(this.level, {this.playSfx});
 
   void initialize() {
     gridTiles = List.generate(
@@ -109,6 +111,8 @@ class BoardManager {
       }
 
       if (destroyedCount == 0) continue;
+
+      playSfx?.call(SfxType.fall);
 
       List<Tile> skyTiles = List.generate(destroyedCount, (i) {
         final tile = Tile(

@@ -34,7 +34,11 @@ void main() {
       boardManager = BoardManager(level);
       boardManager.initialize();
 
-      gameEngine = GameEngine(level: level, boardManager: boardManager);
+      gameEngine = GameEngine(
+        level: level,
+        boardManager: boardManager,
+        playSfx: (type) {},
+      );
     });
 
     test('Should initialize and provide grid access', () {

@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:grimoji/config/constants.dart';
+import 'package:grimoji/features/audio/audio_controller.dart';
+import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/game/board/models/coordinate.dart';
 import 'package:grimoji/features/game/board/models/tile.dart';
 import 'package:grimoji/features/game/board/utils/manager.dart';
@@ -14,8 +16,9 @@ class GameCoordinator {
   final GameEngine engine;
   final GameState state;
   final BoardManager boardManager;
+  final AudioController audio;
   final void Function(int) onTargetAcquired;
-  final bool Function() onComboFinished;
+  final Future<bool> Function() onComboFinished;
   final Logger _log = Logger('GameCoordinator');
 
   Timer? _hintTimer;
@@ -25,6 +28,7 @@ class GameCoordinator {
     required this.engine,
     required this.state,
     required this.boardManager,
+    required this.audio,
     required this.onTargetAcquired,
     required this.onComboFinished,
   });
@@ -52,6 +56,7 @@ class GameCoordinator {
     final decision = engine.evaluateSwipe(dCoord, tCoord);
 
     if (decision.type == SwipeResult.invalid) {
+      audio.playSfx(SfxType.invalidMove);
       boardManager.swapTiles(dCoord, tCoord);
       state.updateUI();
 
@@ -66,6 +71,8 @@ class GameCoordinator {
       resetHintTimer();
       return;
     }
+
+    audio.playSfx(SfxType.swipe);
 
     state.updateUI();
     await Future.delayed(const Duration(milliseconds: 100));
@@ -98,7 +105,10 @@ class GameCoordinator {
       List<Tile> primedBombs = boardManager.getTriggeredEmojis();
       if (primedBombs.isNotEmpty) {
         if (state.currentComboMultiplier > 0) {
-          state.announcer.announceCombo(state.currentComboMultiplier, isCalamity: false);
+          state.announcer.announceCombo(
+            state.currentComboMultiplier,
+            isCalamity: false,
+          );
           state.setComboMultiplier(0);
         } else if (turnHadAlchemy) {
           state.announcer.announceCombo(1, isCalamity: false);
@@ -118,7 +128,10 @@ class GameCoordinator {
     }
 
     if (state.currentComboMultiplier > 0) {
-      state.announcer.announceCombo(state.currentComboMultiplier, isCalamity: false);
+      state.announcer.announceCombo(
+        state.currentComboMultiplier,
+        isCalamity: false,
+      );
     } else if (turnHadCalamity) {
       state.announcer.announceCombo(1, isCalamity: true);
     } else if (turnHadAlchemy) {
@@ -134,7 +147,9 @@ class GameCoordinator {
 
     while (true) {
       await waitIfPaused();
-      final matchedGroups = MatchDetector.findMatchedGroups(boardManager.gridTiles);
+      final matchedGroups = MatchDetector.findMatchedGroups(
+        boardManager.gridTiles,
+      );
 
       matchedGroups.removeWhere(
         (group) => group.coordinates.any((c) {
@@ -294,13 +309,14 @@ class GameCoordinator {
     if (!state.isDisposed) {
       state.updateUI();
       resetHintTimer();
-      onComboFinished();
+      await onComboFinished();
     }
   }
 
   void resolveCollectedEmojis(List<CollectedEmoji> collections) {
     for (var collection in collections) {
       if (collection.emoji == engine.level.targetEmoji) {
+        audio.playSfx(SfxType.targetAcquired);
         state.setHasTargetCombo(true);
         onTargetAcquired(collection.count);
       }
@@ -349,6 +365,7 @@ class GameCoordinator {
 
     _currentHints = engine.getHintMove();
     if (_currentHints != null) {
+      audio.playSfx(SfxType.hint);
       Tile tileA = engine.grid[_currentHints![0].row][_currentHints![0].col];
       Tile tileB = engine.grid[_currentHints![1].row][_currentHints![1].col];
 
