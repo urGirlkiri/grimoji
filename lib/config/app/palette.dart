@@ -13,6 +13,6 @@ class Palette {
   Color get trueWhite => const Color(0xffffffff);
 
   Color get crimson => const Color(0xFFd10841);
-  Color get magicCyan => Color(0xFFd9f8fa);
-  Color get magicCyanDeep => Color(0xFFb3edfc);
+  Color get magicCyan => const Color(0xFFd9f8fa);
+  Color get magicCyanDeep => const Color(0xFFb3edfc);
 }

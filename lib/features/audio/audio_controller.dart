@@ -64,7 +64,7 @@ class AudioController {
     _musicPlayer.onPlayerComplete.listen(_handleSongFinished);
 
     final audioContext = AudioContext(
-      android: AudioContextAndroid(
+      android: const AudioContextAndroid(
         isSpeakerphoneOn: false,
         stayAwake: false,
         contentType: AndroidContentType.sonification,

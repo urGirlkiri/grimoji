@@ -22,7 +22,7 @@ class PowerupBtn extends StatelessWidget {
             BoxShadow(
               color: context.palette.voidBlack,
               blurRadius: 1,
-              offset: Offset(1, 6),
+              offset: const Offset(1, 6),
             ),
           ],
         ),

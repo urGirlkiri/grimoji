@@ -26,9 +26,9 @@ class PauseDialog extends StatelessWidget {
     return Dialog(
       backgroundColor: Colors.transparent,
       elevation: 0,
-      insetPadding: EdgeInsets.all(0),
+      insetPadding: const EdgeInsets.all(0),
       child: ScrollDialog(
-        rightButton:  CorkScrewCloseButton(),
+        rightButton:  const CorkScrewCloseButton(),
         leftButton: AppIcon(
           fileName: 'settings',
           size: 80,

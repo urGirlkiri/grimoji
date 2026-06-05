@@ -165,7 +165,7 @@ class TileGrid extends StatelessWidget {
           color: palette.trueWhite,
           gradient: LinearGradient(
             colors: [palette.voidBlack, palette.trueWhite, palette.midnight],
-            stops: [0.0, 0.5, 1.0],
+            stops: const [0.0, 0.5, 1.0],
           ),
           boxShadow: [
             BoxShadow(

@@ -26,16 +26,16 @@ class Header extends StatelessWidget {
                 borderRadius: BorderRadius.circular(40),
               ),
             ),
-            child: FittedBox(
+            child: const FittedBox(
               fit: BoxFit.scaleDown,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TimerBox(),
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16),
                   TargetBox(),
-                  const SizedBox(width: 16),
-                  const Mascot(),
+                  SizedBox(width: 16),
+                  Mascot(),
                 ],
               ),
             ),
@@ -52,7 +52,7 @@ class Header extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 12),
-              Expanded(child: ProgressBar()),
+              const Expanded(child: ProgressBar()),
             ],
           ),
         ],

@@ -27,7 +27,7 @@ class LayoutScaffold extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          GameBar(backgroundColor: isMap ? Color(0xFF48484f) : palette.midnight),
+          GameBar(backgroundColor: isMap ? const Color(0xFF48484f) : palette.midnight),
           Expanded(child: navigationShell),
         ],
       ),

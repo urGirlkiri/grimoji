@@ -47,7 +47,7 @@ void main() {
     late SpyBehavior spyBehavior;
 
     setUp(() {
-      final testLevel = const GameLevel(
+      const testLevel = GameLevel(
         number: 1,
         timeLimit: 60,
         targetEmoji: Emojis.ocean,

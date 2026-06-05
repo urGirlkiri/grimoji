@@ -50,7 +50,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Positioned(
                   top: isLarge ? -1 : -10,
                   right: isLarge ? -1 : -1,
-                  child: CorkScrewCloseButton(),
+                  child: const CorkScrewCloseButton(),
                 ),
 
                 Padding(

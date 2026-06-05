@@ -18,7 +18,7 @@ class LockedDialog extends StatelessWidget {
       backgroundColor: context.palette.midnight,
       insetPadding: const EdgeInsets.all(0),
       child: ScrollDialog(
-        rightButton: CorkScrewCloseButton(),
+        rightButton: const CorkScrewCloseButton(),
         child: Padding(
           padding: const EdgeInsets.all(48.0),
           child: Column(

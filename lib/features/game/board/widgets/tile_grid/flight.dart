@@ -46,7 +46,7 @@ class TargetFlightAnimator {
             final double currentY =
                 startOffset.dy + ((endOffset.dy - startOffset.dy) * value);
             
-            final double scale = 1.3;
+            const double scale = 1.3;
 
             return Positioned(
               left: currentX,

@@ -145,14 +145,14 @@ class _LevelScreenState extends State<LevelScreen> {
               child: Scaffold(
                 body: Stack(
                   children: [
-                    ResponsiveScreen(
-                      topMessageArea: const Header(),
-                      squarishMainArea: const GameBoard(),
-                      rectangularMenuArea: const Footer(),
-                      mobileBackgroundImage: const AssetImage(
+                    const ResponsiveScreen(
+                      topMessageArea: Header(),
+                      squarishMainArea: GameBoard(),
+                      rectangularMenuArea: Footer(),
+                      mobileBackgroundImage: AssetImage(
                         'assets/images/level/game.png',
                       ),
-                      desktopBackgroundImage: const AssetImage(
+                      desktopBackgroundImage: AssetImage(
                         'assets/images/level/large_game.png',
                       ),
                     ),

@@ -87,7 +87,7 @@ class EmojiWidget extends StatelessWidget {
           fit: BoxFit.contain,
           animate: true,
           repeat: true,
-          frameRate: FrameRate(30),
+          frameRate: const FrameRate(30),
         ),
       );
       if (useDropShadow) {

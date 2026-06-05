@@ -31,7 +31,7 @@ class IconToggle extends StatelessWidget {
             enableAnimation: false,
             onTap: onTap,
           ),
-          if (label != null) SizedBox(height: 12),
+          if (label != null) const SizedBox(height: 12),
           if (label != null)
             Text(
               label!,

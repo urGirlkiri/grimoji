@@ -147,7 +147,7 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text("Updated!"),
+            content: const Text("Updated!"),
             backgroundColor: Colors.green,
             behavior: SnackBarBehavior.floating,
             margin: EdgeInsets.only(
@@ -161,7 +161,7 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text("Failed to save map data."),
+            content: const Text("Failed to save map data."),
             backgroundColor: Colors.red,
             behavior: SnackBarBehavior.floating,
             margin: EdgeInsets.only(

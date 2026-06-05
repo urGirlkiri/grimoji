@@ -21,9 +21,9 @@ class QuitDialog extends StatelessWidget {
     return Dialog(
       backgroundColor: Colors.transparent,
       elevation: 0,
-      insetPadding: EdgeInsets.all(0),
+      insetPadding: const EdgeInsets.all(0),
       child: ScrollDialog(
-        rightButton: CorkScrewCloseButton(),
+        rightButton: const CorkScrewCloseButton(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

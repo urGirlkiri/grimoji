@@ -150,7 +150,7 @@ void main() {
     });
 
     test('Should destroy tiles normally when NO recipe exists (Basic Match-3)', () {
-      final nonRecipeEmoji = Emojis.avocado; 
+      const nonRecipeEmoji = Emojis.avocado; 
 
       boardManager.gridTiles[0][0].emoji = nonRecipeEmoji;
       boardManager.gridTiles[0][1].emoji = nonRecipeEmoji;
@@ -208,8 +208,8 @@ void main() {
         }
       }
 
-      final centerRow = 4;
-      final centerCol = 2;
+      const centerRow = 4;
+      const centerCol = 2;
       boardManager.gridTiles[centerRow][centerCol].emoji = explosiveEmoji;
       
       final matchGroups = MatchDetector.findMatchedGroups(boardManager.gridTiles);
@@ -222,7 +222,7 @@ void main() {
       final detonationResult = alchemyEngine.processDetonationStep();
 
       final safeRow = centerRow + radius + 1;
-      final safeCol = centerCol;
+      const safeCol = centerCol;
       
       expect(detonationResult.destroyed.contains(TileCoordinate(row: safeRow, col: safeCol)), isFalse, reason: 'Tile outside radius should not be destroyed');
       expect(detonationResult.transformed.contains(TileCoordinate(row: safeRow, col: safeCol)), isFalse, reason: 'Tile outside radius should not be transformed');

@@ -21,9 +21,9 @@ class LevelStartDialog extends StatelessWidget {
     return Dialog(
       backgroundColor: Colors.transparent,
       elevation: 0,
-      insetPadding: EdgeInsets.all(0),
+      insetPadding: const EdgeInsets.all(0),
       child: ScrollDialog(
-        rightButton: CorkScrewCloseButton(),
+        rightButton: const CorkScrewCloseButton(),
         child: ScrollConfiguration(
           behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
           child: Column(

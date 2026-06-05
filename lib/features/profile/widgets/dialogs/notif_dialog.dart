@@ -9,9 +9,9 @@ class NotifDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      insetPadding: EdgeInsets.all(0),
+      insetPadding: const EdgeInsets.all(0),
       child: ScrollDialog(
-        rightButton: CorkScrewCloseButton(),
+        rightButton: const CorkScrewCloseButton(),
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Center(

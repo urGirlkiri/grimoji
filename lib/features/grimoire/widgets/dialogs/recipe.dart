@@ -67,12 +67,12 @@ class RecipeDialog extends StatelessWidget {
             ),
           ),
 
-          Positioned(
+          const Positioned(
             top: 16.0,
             right: 16.0,
             child: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(8.0),
                 child: CorkScrewCloseButton(),
               ),
             ),

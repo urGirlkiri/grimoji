@@ -25,7 +25,7 @@ class SettingsDialog extends StatelessWidget {
       insetPadding: const EdgeInsets.all(0),
       child: ScrollDialog(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
-        rightButton:  CorkScrewCloseButton(),
+        rightButton:  const CorkScrewCloseButton(),
         child: Padding(
           padding: const EdgeInsets.only(left: 8.0, right: 8.0),
           child: Container(

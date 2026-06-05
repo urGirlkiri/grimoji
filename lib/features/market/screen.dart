@@ -61,7 +61,7 @@ class _MarketScreenState extends State<MarketScreen> {
         decoration: BoxDecoration(
           color: context.palette.midnight,
          image: DecorationImage(
-          image: AssetImage('assets/images/vertical_lines.png'),
+          image: const AssetImage('assets/images/vertical_lines.png'),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
             context.palette.voidBlack.withValues(alpha: 0.009),

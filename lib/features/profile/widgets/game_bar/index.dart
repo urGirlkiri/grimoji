@@ -62,7 +62,7 @@ class GameBar extends StatelessWidget {
                   ],
 
                   image: DecorationImage(
-                    image: AssetImage('assets/images/vertical_lines.png'),
+                    image: const AssetImage('assets/images/vertical_lines.png'),
                     fit: BoxFit.cover,
                     colorFilter: ColorFilter.mode(
                       context.palette.midnight.withValues(alpha: 0.069),
