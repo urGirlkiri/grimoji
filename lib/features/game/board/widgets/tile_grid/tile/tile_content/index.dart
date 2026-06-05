@@ -4,8 +4,7 @@ import 'package:grimoji/config/emojis.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/game/board/models/tile.dart';
-import 'package:grimoji/features/game/board/widgets/tile_grid/tile/tile_content/hint.dart';
-import 'package:grimoji/widgets/custom/emoji_widget.dart';
+import 'package:grimoji/features/game/board/widgets/tile_grid/tile/tile_content/disp.dart';
 
 class TileContent extends StatelessWidget {
   final Tile tile;
@@ -47,6 +46,13 @@ class TileContent extends StatelessWidget {
         ? Curves.elasticOut
         : Curves.easeOutBack;
 
+    final disp = TileDisp(
+      tile: tile,
+      displayEmoji: displayEmoji,
+      tWidth: tWidth,
+      tHeight: tHeight,
+    );
+
     return AnimatedOpacity(
       opacity: targetOpacity,
       duration: 300.ms,
@@ -54,42 +60,11 @@ class TileContent extends StatelessWidget {
         scale: targetScale,
         duration: scaleDuration,
         curve: scaleCurve,
-
-        child:
-            HintNudge(
-                  isHinting: tile.isHinting,
-                  current: tile.coordinate,
-                  partner: tile.hintPartner,
-                  tileWidth: tWidth,
-                  tileHeight: tHeight,
-                  child: AnimatedSwitcher(
-                    duration: 400.ms,
-                    transitionBuilder: (child, animation) {
-                      Widget transition = FadeTransition(
-                        opacity: animation,
-                        child: ScaleTransition(scale: animation, child: child),
-                      );
-
-                      if (tile.isTransmuting) {
-                        transition = RotationTransition(
-                          turns: Tween<double>(
-                            begin: -0.5,
-                            end: 0.0,
-                          ).animate(animation),
-                          child: transition,
-                        );
-                      }
-                      return transition;
-                    },
-                    child: EmojiWidget.svg(
-                      key: ValueKey(displayEmoji.visual),
-                      path: displayEmoji.svg,
-                      size: tWidth * 0.8,
-                    ),
-                  ),
-                )
-                .animate(target: tile.isTriggered ? 1 : 0)
-                .shake(hz: 5, rotation: 0.1, curve: Curves.easeInOut),
+        child: tile.isTriggered
+            ? disp
+                  .animate(onPlay: (controller) => controller.repeat())
+                  .shake(hz: 5, rotation: 0.1, curve: Curves.easeInOut)
+            : disp,
       ),
     );
   }

@@ -64,7 +64,7 @@ List<String> soundTypeToFilename(SfxType type) => switch (type) {
   ],
 
   SfxType.targetCollected => const [
-    'tee.wav'
+    'twubi.wav'
   ],
 
   SfxType.recipeLocked => const [
