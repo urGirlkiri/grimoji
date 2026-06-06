@@ -1,12 +1,13 @@
-name: CI Tests
+name: CI & Testing
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
+  workflow_run:
+    workflows: ["Compress Media"]
+    types:
+      - completed
 
 jobs:
-  test:
+  test-and-deploy-internal:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -32,8 +33,32 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
-      - name: Error Check
-        run: flutter analyze 
+      - name: Error Check & Tests
+        run: |
+          flutter analyze
+          flutter test --coverage
 
-      - name: Run Unit & Widget Tests
-        run: flutter test --coverage 
+      - name: Decode Android Secrets
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > upload-keystore.jks
+          cat << EOF > android/key.properties
+          storePassword=${{ secrets.STORE_PASSWORD }}
+          keyPassword=${{ secrets.KEY_PASSWORD }}
+          keyAlias=${{ secrets.KEY_ALIAS }}
+          storeFile=../upload-keystore.jks
+          EOF
+
+      - name: Build Android AAB
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: flutter build appbundle --release
+
+      - name: Upload to Google Play
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: io.grimoji.game
+          releaseFiles: build/app/outputs/bundle/release/app-release.aab
+          tracks: internal
+          status: completed

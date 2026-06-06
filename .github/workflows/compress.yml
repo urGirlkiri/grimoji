@@ -18,7 +18,7 @@ jobs:
       - name: Install Tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y ffmpeg optipng jq bc
+          sudo apt-get install -y ffmpeg pngquant jq bc
           npm install -g svgo
 
       - name: Initial Size
@@ -29,38 +29,21 @@ jobs:
       - name: Compress Audio 
         run: |
           START_AUDIO_KB=$(du -sk . | cut -f1)
-          find . -type f -name "*.wav" -not -path "*/screenshots/*" | while read -r file; do
-            [ ! -f "$file" ] && continue
-            sample_rate=$(ffprobe -v error -select_streams a:0 -show_entries stream=sample_rate -of default=noprint_wrappers=1:nokey=1 "$file" || echo "unknown")
-            if [ "$sample_rate" = "22050" ]; then
-              echo "WAV already optimized, skipping: $file"
-            else
-              orig_size=$(stat -c%s "$file" || echo "0")
-              if ffmpeg -i "$file" -ac 1 -ar 22050 -y "${file%.*}.tmp.wav" > /dev/null 2>&1; then
-                mv "${file%.*}.tmp.wav" "$file"
-                new_size=$(stat -c%s "$file" || echo "0")
-                echo "WAV Optimized: $file | $((orig_size / 1024))KB -> $((new_size / 1024))KB"
-              else
-                echo "Failed to compress $file (might be corrupted/too short), skipping."
-                rm -f "${file%.*}.tmp.wav"
-              fi
-            fi
-          done
-
-          find . -type f -name "*.mp3" -not -path "*/screenshots/*" | while read -r file; do
+          
+          find . -type f -name "*.m4a" -not -path "*/screenshots/*" | while read -r file; do
             [ ! -f "$file" ] && continue
             bitrate=$(ffprobe -v error -select_streams a:0 -show_entries stream=bit_rate -of default=noprint_wrappers=1:nokey=1 "$file" || echo "unknown")
-            if [ "$bitrate" != "unknown" ] && [ "$bitrate" -le 66000 ]; then
-              echo "MP3 already optimized, skipping: $file"
+            if [ "$bitrate" != "unknown" ] && [ "$bitrate" -le 50000 ]; then
+              echo "M4A already optimized, skipping: $file"
             else
               orig_size=$(stat -c%s "$file" || echo "0")
-              if ffmpeg -i "$file" -b:a 64k -y "${file%.*}.tmp.mp3" > /dev/null 2>&1; then
-                mv "${file%.*}.tmp.mp3" "$file"
+              if ffmpeg -nostdin -i "$file" -c:a aac -b:a 48k -ac 1 -y "${file%.*}.tmp.m4a" > /dev/null 2>&1; then
+                mv "${file%.*}.tmp.m4a" "$file"
                 new_size=$(stat -c%s "$file" || echo "0")
-                echo "MP3 Optimized: $file | $((orig_size / 1024))KB -> $((new_size / 1024))KB"
+                echo "M4A Optimized: $file | $((orig_size / 1024))KB -> $((new_size / 1024))KB"
               else
                 echo "Failed to compress $file, skipping."
-                rm -f "${file%.*}.tmp.mp3"
+                rm -f "${file%.*}.tmp.m4a"
               fi
             fi
           done
@@ -68,14 +51,14 @@ jobs:
           AUDIO_SAVED_KB=$((START_AUDIO_KB - END_AUDIO_KB))
           AUDIO_SAVED_MB=$(echo "scale=2; $AUDIO_SAVED_KB / 1024" | bc 2>/dev/null || echo "0")
           AUDIO_PCT=$(echo "scale=1; $AUDIO_SAVED_KB * 100 / $START_AUDIO_KB" | bc 2>/dev/null || echo "0")
-          echo "🔊Audio: reduced by ~$AUDIO_SAVED_MB MB ($AUDIO_SAVED_KB KB, ${AUDIO_PCT}% reduction)"
+          echo "Audio: reduced by ~$AUDIO_SAVED_MB MB ($AUDIO_SAVED_KB KB, ${AUDIO_PCT}% reduction)"
 
       - name: Compress Images
         run: |
           START_IMAGES_KB=$(du -sk . | cut -f1)
           find . -type f -name "*.png" -not -path "*/screenshots/*" | while read -r img; do
             [ ! -f "$img" ] && continue
-            optipng -o2 -quiet "$img"
+            pngquant --quality=65-80 --skip-if-larger --ext .png --force "$img" || true
           done
           echo "All PNGs optimized."
           END_IMAGES_KB=$(du -sk . | cut -f1)
