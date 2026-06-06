@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/router/routes.dart';
+import 'package:grimoji/features/cauldron/play.dart';
 import 'package:grimoji/features/cauldron/screen.dart';
 import 'package:grimoji/features/grimoire/screen.dart';
 
@@ -206,6 +207,14 @@ final router = GoRouter(
       builder: (context, state) {
         final level = int.parse(state.pathParameters['level']!);
         return LevelFailScreen(level: level);
+      },
+    ),
+    GoRoute(
+      parentNavigatorKey: _routerNavigatorKey,
+      path: Routes.cauldronPlayRoute,
+      name: Routes.cauldronPlay,
+      builder: (context, state) {
+        return const CauldronPlayScreen();
       },
     ),
   ],
