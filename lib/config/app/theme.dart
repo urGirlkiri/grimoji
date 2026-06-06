@@ -28,6 +28,9 @@ class AppTheme {
         titleMedium: GoogleFonts.eagleLake(
           fontSize: 16 * scale, color: palette.mist, height: 1,
         ),
+        displayMedium: GoogleFonts.eagleLake(
+          fontSize: 32 * scale, color: palette.mist, height: 1,
+        ),
         displayLarge: GoogleFonts.eagleLake(
           fontSize: 65 * scale, color: palette.mist, height: 1,
         ),
