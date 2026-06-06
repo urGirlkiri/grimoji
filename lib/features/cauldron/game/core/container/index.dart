@@ -43,8 +43,8 @@ class CauContainer extends BodyComponent<CauldronGame> {
 
     final fixtureDef = FixtureDef(
       shape,
-      friction: 0.55,    
-      restitution: 0.12, 
+      friction: 0.9,
+      restitution: 0.02,
     );
 
     body.createFixture(fixtureDef);

@@ -3,11 +3,12 @@ import 'dart:math' as math;
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-// 1. Only hide PointerMoveEvent, as that is the only true name collision
 import 'package:flutter/material.dart' hide PointerMoveEvent;
 import 'package:grimoji/app/palette.dart';
-import 'package:grimoji/features/cauldron/game/core/prediction_line.dart';
+import 'package:grimoji/config/emojis.dart';
+import 'core/prediction_line.dart';
 import 'core/container/index.dart';
+import 'core/emoji_body.dart';
 
 final Vector2 worldCauldronSize = Vector2(10.9125, 9.93);
 
@@ -27,12 +28,25 @@ class CauldronGame extends Forge2DGame with TapCallbacks, PointerMoveCallbacks, 
   final double cauldronBottomY = 3.5; 
   final bool halfShowLine = false;
 
+  bool _canDrop = true;
+  final math.Random _random = math.Random();
+
+  final List<GameEmoji> _spawnableEmojis = [
+    Emojis.smile, 
+    Emojis.fire, 
+    Emojis.pizza, 
+    Emojis.alien, 
+    Emojis.rocket,
+    Emojis.poop,
+    Emojis.heart,
+  ];
+
   CauldronGame({
     required this.context,
     required this.colorScheme,
     required this.globalScale,
   }) : super(gravity: Vector2(0, 30)) {
-    debugMode = true; 
+    debugMode = false; 
   }
 
   @override
@@ -65,11 +79,7 @@ class CauldronGame extends Forge2DGame with TapCallbacks, PointerMoveCallbacks, 
 
     final zoomX = (size.x * padding) / worldCauldronSize.x;
     final zoomY = (size.y * padding) / worldCauldronSize.y;
-
-    final baseZoom = math.min(zoomX, zoomY);
-
-    camera.viewfinder.zoom = baseZoom;
-    
+    camera.viewfinder.zoom = math.min(zoomX, zoomY);
     camera.viewfinder.anchor = Anchor.center;
     camera.viewfinder.position = Vector2(0, 0);
   }
@@ -80,8 +90,29 @@ class CauldronGame extends Forge2DGame with TapCallbacks, PointerMoveCallbacks, 
 
     predictionLine.updateLine(
       Vector2(clampedX, dropSpawnY),
-      Vector2(clampedX, cauldronBottomY  + (halfShowLine ? 2.5 : 0)),
+      Vector2(clampedX, cauldronBottomY + (halfShowLine ? 2.5 : 0)),
     );
+  }
+
+  void _dropEmoji() {
+    if (!_canDrop || predictionLine.start == null) return;
+    
+    _canDrop = false; 
+
+    final dropX = predictionLine.start!.x;
+    
+    final randomEmoji = _spawnableEmojis[_random.nextInt(_spawnableEmojis.length)];
+
+    final emojiBody = EmojiBody(
+      initialPosition: Vector2(dropX, dropSpawnY),
+      emoji: randomEmoji,
+    );
+
+    world.add(emojiBody);
+
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      _canDrop = true;
+    });
   }
 
   @override
@@ -94,5 +125,18 @@ class CauldronGame extends Forge2DGame with TapCallbacks, PointerMoveCallbacks, 
   void onDragUpdate(DragUpdateEvent event) {
     _updateDropPosition(event.canvasEndPosition);
     super.onDragUpdate(event);
+  }
+
+  @override
+  void onTapUp(TapUpEvent event) {
+    _updateDropPosition(event.canvasPosition); 
+    _dropEmoji();
+    super.onTapUp(event);
+  }
+
+  @override
+  void onDragEnd(DragEndEvent event) {
+    _dropEmoji();
+    super.onDragEnd(event);
   }
 }
