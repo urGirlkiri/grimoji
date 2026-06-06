@@ -8,11 +8,10 @@ import 'package:grimoji/app/palette.dart';
 import 'core/container/index.dart';
 
 final Vector2 worldCauldronSize = Vector2(10.9125, 9.93);
-const cauldronScale = 18.0; 
 
 class CauldronGame extends Forge2DGame with TapCallbacks {
   final ColorScheme colorScheme;
-  final double globalScale;
+  final double globalScale; 
   final BuildContext context;
   
   static final palette = Palette();
@@ -48,8 +47,14 @@ class CauldronGame extends Forge2DGame with TapCallbacks {
     
     camera.viewport.size = size;
     
-    final shortestSide = math.min(size.x, size.y);
-    camera.viewfinder.zoom = (shortestSide / cauldronScale) * globalScale;
+    const padding = 0.90; 
+
+    final zoomX = (size.x * padding) / worldCauldronSize.x;
+    final zoomY = (size.y * padding) / worldCauldronSize.y;
+
+    final baseZoom = math.min(zoomX, zoomY);
+
+    camera.viewfinder.zoom = baseZoom;
     
     camera.viewfinder.anchor = Anchor.center;
     camera.viewfinder.position = Vector2(0, 0);
