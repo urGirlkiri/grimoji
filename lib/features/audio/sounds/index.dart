@@ -2,85 +2,54 @@ import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 
 List<String> soundTypeToFilename(SfxType type) => switch (type) {
   SfxType.buttonTap => const [
-    'whirl_test_tube.mp3',
-    'whirl_test_tube_2.mp3',
-    'whirl_test_tube_3.mp3',
-    'whirl_test_tube_4.mp3',
+    'whirl_test_tube.m4a',
+    'whirl_test_tube_2.m4a',
+    'whirl_test_tube_3.m4a',
+    'whirl_test_tube_4.m4a',
   ],
 
-  SfxType.congrats => const ['congrats.mp3', 'congrats2.mp3', 'congrats3.mp3'],
+  SfxType.congrats => const ['congrats.m4a', 'congrats2.m4a', 'congrats3.m4a'],
 
   SfxType.celebration => const [
-    'witch_laugh.mp3',
-    'witch_laugh_2.mp3',
-    'witch_crackle.mp3',
-    'witch_laugh_down.mp3',
+    'witch_laugh.m4a',
+    'witch_laugh_2.m4a',
+    'witch_crackle.m4a',
+    'witch_laugh_down.m4a',
   ],
 
   SfxType.fail => const [
-    'slow_trumpet_fail.mp3',
-    'trumpet_fail.mp3',
-    'fail.mp3',
+    'slow_trumpet_fail.m4a',
+    'trumpet_fail.m4a',
+    'fail.m4a',
   ],
 
-  SfxType.fall => const [
-    'fall.wav',
-  ],
+  SfxType.fall => const ['fall.m4a'],
 
-  SfxType.swipe => const [
-    'critter.wav'
-  ],
+  SfxType.swipe => const ['critter.m4a'],
 
-  SfxType.invalidMove => const [
-    'bwuu.wav'
-  ],
+  SfxType.invalidMove => const ['bwuu.m4a'],
 
-  SfxType.hint => const [
-    'swoosh.wav'
-  ],
+  SfxType.hint => const ['swoosh.m4a'],
 
-  SfxType.trigger => const [
-    'trittle.wav'
-  ],
+  SfxType.trigger => const ['trittle.m4a'],
 
-  SfxType.merge => const [
-    'ripple.wav',
-  ],
+  SfxType.merge => const ['ripple.m4a'],
 
-  SfxType.transmute => const [
-    'twihu.wav',
-  ],
+  SfxType.transmute => const ['twihu.m4a'],
 
-  SfxType.explode => const [
-    'poof.wav'
-  ],
+  SfxType.explode => const ['poof.m4a'],
 
-  SfxType.explosion => const [
-    'bomb.wav'
-  ],
+  SfxType.explosion => const ['bomb.m4a'],
 
-  SfxType.targetFlight => const [
-    'swoosh.wav'
-  ],
+  SfxType.targetFlight => const ['swoosh.m4a'],
 
-  SfxType.targetCollected => const [
-    'twubi.wav'
-  ],
+  SfxType.targetCollected => const ['twubi.m4a'],
 
-  SfxType.recipeLocked => const [
-    'recipe_locked.wav'
-  ],
-  
-  SfxType.recipeUnlock => const [
-    'recipe_unlock.wav'
-  ],
+  SfxType.recipeLocked => const ['recipe_locked.m4a'],
 
-  SfxType.recipeCollection => const [
-    'recipe_collection.wav'
-  ],
+  SfxType.recipeUnlock => const ['recipe_unlock.m4a'],
 
-  SfxType.recipeRead => const [
-    'recipe_read.wav'
-  ],
+  SfxType.recipeCollection => const ['recipe_collection.m4a'],
 
+  SfxType.recipeRead => const ['recipe_read.m4a'],
 };
