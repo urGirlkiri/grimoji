@@ -11,7 +11,7 @@ import 'package:grimoji/features/level/hint_screen/screen.dart';
 import 'package:grimoji/features/map/widgets/builder.dart';
 import 'package:grimoji/features/market/screen.dart';
 import 'package:grimoji/features/settings/screen.dart';
-import 'package:grimoji/config/router/layout_scaffold.dart';
+import 'package:grimoji/config/router/layout/index.dart';
 
 import 'package:grimoji/features/level/screen.dart';
 import 'package:grimoji/features/level/win_screen/screen.dart';

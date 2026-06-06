@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/game/board/utils/metrics.dart';
+import 'package:grimoji/features/game/board/widgets/tile_grid/shuffle.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/features/game/board/widgets/tile_grid/flight.dart';
 import 'package:grimoji/features/game/board/widgets/tile_grid/tile/index.dart';
@@ -146,37 +147,10 @@ class TileGrid extends StatelessWidget {
             ),
 
             if (widthFactor > 0.0 && widthFactor < 1.0)
-              _buildShuffleIndicator(context, edgeX),
+              ShuffleIndicator(edgeX: edgeX),
           ],
         );
       },
-    );
-  }
-
-  Widget _buildShuffleIndicator(BuildContext context, double edgeX) {
-    final palette = context.palette;
-    return Positioned(
-      left: edgeX - 25,
-      top: 0,
-      bottom: 0,
-      width: 30,
-      child: Container(
-        decoration: BoxDecoration(
-          color: palette.trueWhite,
-          gradient: LinearGradient(
-            colors: [palette.voidBlack, palette.trueWhite, palette.midnight],
-            stops: const [0.0, 0.5, 1.0],
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: palette.voidBlack.withValues(alpha: .5),
-              blurRadius: 12,
-              spreadRadius: 2,
-              offset: const Offset(-8, 0),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

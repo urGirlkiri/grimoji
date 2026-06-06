@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/level/widgets/header/mascot.dart';
-import 'package:grimoji/features/level/widgets/header/progress_bar.dart';
+import 'package:grimoji/features/level/widgets/header/progress_bar/index.dart';
 import 'package:grimoji/features/level/widgets/header/target_box.dart';
 import 'package:grimoji/features/level/widgets/header/timer_box.dart';
 import 'package:grimoji/utils/context_data.dart';

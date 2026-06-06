@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/level/controller.dart';
+import 'package:grimoji/features/profile/widgets/dialogs/inventory_card.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
-import 'package:grimoji/widgets/custom/emoji_widget.dart';
 import 'package:grimoji/widgets/custom/scroll_dialog.dart';
 import 'package:provider/provider.dart';
 
@@ -128,7 +128,7 @@ class ProfileDialog extends StatelessWidget {
                   final item = Powerup.all[index];
                   final count = profile.getPowerupCount(item.id);
 
-                  return _buildInventoryCard(
+                  return InventoryCard(
                     context: context,
                     name: item.name,
                     iconPath: item.iconPath,
@@ -139,78 +139,6 @@ class ProfileDialog extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildInventoryCard({
-    required BuildContext context,
-    required String name,
-    required String iconPath,
-    required int count,
-  }) {
-    final bool isEmpty = count <= 0;
-
-    return Container(
-      decoration: BoxDecoration(
-        color:context.palette.twilight.withValues(alpha: .6),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: isEmpty ? context.palette.twilight : context.palette.twilight.withValues(alpha: 200),
-          width: 2,
-        ),
-      ),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Opacity(
-                opacity: isEmpty ? 0.3 : 1.0,
-                child: EmojiWidget.svg(path: iconPath, size: 45* context.globalScale),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                name,
-                style: context.theme.textTheme.bodyMedium?.copyWith(
-                  color:context.palette.mist,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-
-          Positioned(
-            top: 8,
-            right: 8,
-            child: Container(
-              padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                color: isEmpty
-                    ? context.palette.twilight
-                    : context.palette.slate,
-                shape: BoxShape.circle,
-                boxShadow: isEmpty
-                    ? []
-                    : [
-                        BoxShadow(
-                          color: context.palette.voidBlack,
-                          offset: const Offset(0, 2),
-                          blurRadius: 4,
-                        ),
-                      ],
-              ),
-              child: Text(
-                count.toString(),
-                style: context.theme.textTheme.labelMedium?.copyWith(
-                  color: context.palette.moonlight,
-                  fontSize: 12,
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

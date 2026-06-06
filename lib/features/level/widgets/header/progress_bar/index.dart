@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/features/level/state.dart';
+import 'package:grimoji/features/level/widgets/header/progress_bar/star.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:provider/provider.dart';
 
@@ -57,33 +58,12 @@ class ProgressBar extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _buildStar(isActive: progress >= 0.33),
-            _buildStar(isActive: progress >= 0.66),
-            _buildStar(isActive: progress >= 1.00),
+            Star(isActive: progress >= 0.33),
+            Star(isActive: progress >= 0.66),
+            Star(isActive: progress >= 1.00),
           ],
         ),
       ],
-    );
-  }
-
-  Widget _buildStar({required bool isActive}) {
-    return AnimatedScale(
-      scale: isActive ? 1.0 : 0.8,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.elasticOut,
-      child: AnimatedOpacity(
-        opacity: isActive ? 1.0 : 0.3,
-        duration: const Duration(milliseconds: 300),
-        child: Container(
-          width: 32,
-          height: 32,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/images/level/star.png"),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }
