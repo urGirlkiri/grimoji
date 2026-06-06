@@ -1,4 +1,4 @@
-name: Grimoji CI Tests
+name: CI Tests
 
 on:
   push:

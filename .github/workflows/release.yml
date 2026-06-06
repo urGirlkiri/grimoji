@@ -1,4 +1,4 @@
-name: Grimoji Global Release Pipeline
+name:  Production Release 
 
 on:
   push:
