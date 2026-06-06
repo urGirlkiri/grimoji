@@ -6,6 +6,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart' hide PointerMoveEvent;
 import 'package:grimoji/app/palette.dart';
 import 'package:grimoji/config/emojis.dart';
+import 'package:grimoji/features/cauldron/game/core/container/front.dart';
 import 'core/prediction_line.dart';
 import 'core/container/index.dart';
 import 'core/emoji_body.dart';
@@ -17,6 +18,7 @@ class CauldronGame extends Forge2DGame with TapCallbacks, PointerMoveCallbacks, 
   final double globalScale;
   final BuildContext context;
   
+//  Vector2 worldCauldronSize = Vector2(10.9125, 10.43);
   static final palette = Palette();
 
   late final PredictionLine predictionLine;
@@ -46,7 +48,7 @@ class CauldronGame extends Forge2DGame with TapCallbacks, PointerMoveCallbacks, 
     required this.colorScheme,
     required this.globalScale,
   }) : super(gravity: Vector2(0, 30)) {
-    debugMode = false; 
+    debugMode = true; 
   }
 
   @override
@@ -60,13 +62,21 @@ class CauldronGame extends Forge2DGame with TapCallbacks, PointerMoveCallbacks, 
 
     predictionLine = PredictionLine();
 
-    await world.addAll([
-      CauContainer(
-        worldSize: worldCauldronSize, 
-        position: Vector2(0, 0.5), 
+   await world.add(
+      CauldronBack(
+        worldSize: worldCauldronSize,
+        position: Vector2(0, 0.5),
       ),
-      predictionLine,
-    ]);
+    );
+
+    await world.add(predictionLine);
+
+    await world.add(
+      CauldronFront(
+        worldSize: worldCauldronSize,
+        worldPosition: Vector2(0, 0.5),
+      ),
+    );
   }
 
   @override
