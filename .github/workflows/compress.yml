@@ -29,14 +29,15 @@ jobs:
       - name: Compress Audio 
         run: |
           find . -type f -name "*.wav" -not -path "*/screenshots/*" | while read -r file; do
+            [ ! -f "$file" ] && continue
             sample_rate=$(ffprobe -v error -select_streams a:0 -show_entries stream=sample_rate -of default=noprint_wrappers=1:nokey=1 "$file" || echo "unknown")
             if [ "$sample_rate" = "22050" ]; then
               echo "WAV already optimized, skipping: $file"
             else
-              orig_size=$(stat -c%s "$file")
+              orig_size=$(stat -c%s "$file" || echo "0")
               if ffmpeg -i "$file" -ac 1 -ar 22050 -y "${file%.*}.tmp.wav" > /dev/null 2>&1; then
                 mv "${file%.*}.tmp.wav" "$file"
-                new_size=$(stat -c%s "$file")
+                new_size=$(stat -c%s "$file" || echo "0")
                 echo "WAV Optimized: $file | $((orig_size / 1024))KB -> $((new_size / 1024))KB"
               else
                 echo "Failed to compress $file (might be corrupted/too short), skipping."
@@ -46,14 +47,15 @@ jobs:
           done
 
           find . -type f -name "*.mp3" -not -path "*/screenshots/*" | while read -r file; do
+            [ ! -f "$file" ] && continue
             bitrate=$(ffprobe -v error -select_streams a:0 -show_entries stream=bit_rate -of default=noprint_wrappers=1:nokey=1 "$file" || echo "unknown")
             if [ "$bitrate" != "unknown" ] && [ "$bitrate" -le 66000 ]; then
               echo "MP3 already optimized, skipping: $file"
             else
-              orig_size=$(stat -c%s "$file")
+              orig_size=$(stat -c%s "$file" || echo "0")
               if ffmpeg -i "$file" -b:a 64k -y "${file%.*}.tmp.mp3" > /dev/null 2>&1; then
                 mv "${file%.*}.tmp.mp3" "$file"
-                new_size=$(stat -c%s "$file")
+                new_size=$(stat -c%s "$file" || echo "0")
                 echo "MP3 Optimized: $file | $((orig_size / 1024))KB -> $((new_size / 1024))KB"
               else
                 echo "Failed to compress $file, skipping."
