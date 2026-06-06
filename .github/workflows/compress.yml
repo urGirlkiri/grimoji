@@ -1,0 +1,104 @@
+name: Compress Media
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  compress-media:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg optipng jq
+          npm install -g svgo
+
+      - name: Initial Size
+        run: |
+          echo "START_SIZE_HUMAN=$(du -sh . | cut -f1)" >> $GITHUB_ENV
+          echo "START_SIZE_KB=$(du -sk . | cut -f1)" >> $GITHUB_ENV
+
+      - name: Compress Audio 
+        run: |
+          find . -type f -name "*.wav" -not -path "*/screenshots/*" | while read -r file; do
+            sample_rate=$(ffprobe -v error -select_streams a:0 -show_entries stream=sample_rate -of default=noprint_wrappers=1:nokey=1 "$file")
+            if [ "$sample_rate" = "22050" ]; then
+              echo "WAV already optimized, skipping: $file"
+            else
+              orig_size=$(stat -c%s "$file")
+              ffmpeg -i "$file" -ac 1 -ar 22050 -y "${file%.*}.tmp.wav" > /dev/null 2>&1
+              mv "${file%.*}.tmp.wav" "$file"
+              new_size=$(stat -c%s "$file")
+              echo "WAV Optimized: $file | $((orig_size / 1024))KB -> $((new_size / 1024))KB"
+            fi
+          done
+
+          find . -type f -name "*.mp3" -not -path "*/screenshots/*" | while read -r file; do
+            bitrate=$(ffprobe -v error -select_streams a:0 -show_entries stream=bit_rate -of default=noprint_wrappers=1:nokey=1 "$file")
+            if [ -n "$bitrate" ] && [ "$bitrate" -le 66000 ]; then
+              echo "MP3 already optimized, skipping: $file"
+            else
+              orig_size=$(stat -c%s "$file")
+              ffmpeg -i "$file" -b:a 64k -y "${file%.*}.tmp.mp3" > /dev/null 2>&1
+              mv "${file%.*}.tmp.mp3" "$file"
+              new_size=$(stat -c%s "$file")
+              echo "MP3 Optimized: $file | $((orig_size / 1024))KB -> $((new_size / 1024))KB"
+            fi
+          done
+
+      - name: Compress Images
+        run: |
+          find . -type f -name "*.png" -not -path "*/screenshots/*" | while read -r img; do
+            optipng -o2 -quiet "$img"
+          done
+          echo "All PNGs optimized."
+
+      - name: Optimize Vectors 
+        run: |
+          find . -type f -name "*.svg" -not -path "*/screenshots/*" | while read -r file; do
+            svgo --quiet "$file"
+          done
+          echo "All SVGs optimized."
+
+      - name: Minify Lottie 
+        run: |
+          find . -type f -name "*.json" -not -path "*/screenshots/*" | while read -r file; do
+            jq -c . "$file" > "${file}.tmp"
+            mv "${file}.tmp" "$file"
+          done
+          echo "All JSONs minified."
+
+      - name: Summary Report
+        run: |
+          END_SIZE_HUMAN=$(du -sh . | cut -f1)
+          END_SIZE_KB=$(du -sk . | cut -f1)
+          SAVED_KB=$((START_SIZE_KB - END_SIZE_KB))
+          SAVED_MB=$(echo "scale=2; $SAVED_KB / 1024" | bc 2>/dev/null || echo "0")
+          
+          echo "=========================================="
+          echo "🏁 OPTIMIZATION COMPLETE!"
+          echo "📦 Starting Size: $START_SIZE_HUMAN"
+          echo "📦 Ending Size:   $END_SIZE_HUMAN"
+          echo "💎 Total Space Saved: ~$SAVED_MB MB ($SAVED_KB KB)"
+          echo "=========================================="
+
+      - name: Commit and Push 
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          if [ -n "$(git status --porcelain)" ]; then
+            git add .
+            git commit -m "chore: cleaned and compress all media [skip ci]"
+            git push
+          else
+            echo "Everything is already  compressed :}"
+          fi
