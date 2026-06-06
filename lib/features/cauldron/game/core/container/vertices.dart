@@ -1,0 +1,61 @@
+import 'package:flame_forge2d/flame_forge2d.dart';
+
+List<Vector2> get vertices => [
+  Vector2(-3.95, -3.63),
+  Vector2(-4.27, -3.21),
+  Vector2(-4.57, -2.74),
+  Vector2(-4.84, -2.16),
+
+  Vector2(-5.06, -1.51),
+  Vector2(-5.18, -0.94),
+  Vector2(-5.24, -0.32),
+  Vector2(-5.18, 0.29),
+  Vector2(-5.06, 0.92),
+
+  Vector2(-4.74, 1.72),
+  Vector2(-4.35, 2.52),
+  Vector2(-4.02, 3.05),
+  Vector2(-3.58, 3.24),
+  Vector2(-3.04, 3.40),
+  Vector2(-2.45, 3.50),
+  Vector2(-1.96, 3.56),
+  Vector2(-1.39, 3.62),
+
+  Vector2(-0.75, 3.62),
+  Vector2(-0.10, 3.62),
+  Vector2(0.53, 3.62),
+  Vector2(0.97, 3.62),
+
+  Vector2(1.64, 3.56),
+  Vector2(2.22, 3.50),
+  Vector2(2.89, 3.40),
+  Vector2(3.37, 3.31),
+  Vector2(3.83, 3.16),
+  Vector2(3.96, 3.05),
+  Vector2(4.12, 2.85),
+  Vector2(4.30, 2.58),
+  Vector2(4.45, 2.34),
+  Vector2(4.57, 2.13),
+  Vector2(4.71, 1.88),
+  Vector2(4.83, 1.61),
+  Vector2(4.93, 1.33),
+  Vector2(5.06, 0.97),
+  Vector2(5.12, 0.78),
+
+  Vector2(5.16, 0.55),
+  Vector2(5.19, 0.34),
+  Vector2(5.24, 0.06),
+  Vector2(5.24, -0.37),
+  Vector2(5.24, -0.93),
+
+  Vector2(5.03, -1.65),
+  Vector2(4.93, -1.90),
+  Vector2(4.82, -2.25),
+  Vector2(4.73, -2.47),
+  Vector2(4.58, -2.71),
+  Vector2(4.45, -2.93),
+  Vector2(4.35, -3.10),
+  Vector2(4.18, -3.32),
+
+  Vector2(3.83, -3.62),
+];

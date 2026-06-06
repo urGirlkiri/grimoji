@@ -14,6 +14,7 @@ class CauldronPlayScreen extends StatelessWidget {
         game: CauldronGame(
           colorScheme: context.theme.colorScheme,
           globalScale: context.globalScale,
+          context: context
         ),
         loadingBuilder: (context) => const Loading(),
       ),
