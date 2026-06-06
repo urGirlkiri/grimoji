@@ -39,7 +39,7 @@ jobs:
           flutter test --coverage
 
       - name: Decode Android Secrets
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main'
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > upload-keystore.jks
           cat << EOF > android/key.properties
@@ -50,11 +50,11 @@ jobs:
           EOF
 
       - name: Build Android AAB
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main'
         run: flutter build appbundle --release
 
       - name: Upload to Google Play
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main'
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
