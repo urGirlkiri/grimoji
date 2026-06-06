@@ -361,6 +361,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.37.0"
+  flame_forge2d:
+    dependency: "direct main"
+    description:
+      name: flame_forge2d
+      sha256: "9c3fed8ae1bd7ad3014e541f1c2abbc8c6297ddc1c67616394bb7447453a4552"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.19.2+6"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -432,6 +440,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  forge2d:
+    dependency: transitive
+    description:
+      name: forge2d
+      sha256: "0f63d177f2e137a5007b879fda4076d0b81de065fcd72056c6fc896c82758bb7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.14.2+1"
   freezed_annotation:
     dependency: transitive
     description:

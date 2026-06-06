@@ -12,6 +12,7 @@ class Loading extends StatelessWidget {
     final palette = context.palette;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         EmojiWidget.lottie(
           path: Emojis.package.lottie,
