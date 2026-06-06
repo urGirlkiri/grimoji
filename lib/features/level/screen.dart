@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/levels/game_level.dart';
-import 'package:grimoji/config/app/palette.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/game/board/utils/metrics.dart';
@@ -34,7 +33,6 @@ class _LevelScreenState extends State<LevelScreen> {
   static const _celebrationDuration = Duration(milliseconds: 2000);
   static const _preCelebrationDuration = Duration(milliseconds: 500);
 
-  Palette get palette => Palette();
 
   void _showQuitDialog() {
     if (_isQuitDialogOpen) return;
@@ -46,7 +44,7 @@ class _LevelScreenState extends State<LevelScreen> {
     showDialog(
       context: context,
       barrierDismissible: true,
-      barrierColor: palette.voidBlack.withValues(alpha: 0.7),
+      barrierColor: context.palette.voidBlack.withValues(alpha: 0.7),
       builder: (context) => QuitDialog(level: widget.level.number),
     ).then((_) {
       if (mounted) {

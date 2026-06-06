@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/router/routes.dart';
-import 'package:grimoji/features/cauldron/play.dart';
+import 'package:grimoji/features/cauldron/game/screen.dart';
 import 'package:grimoji/features/cauldron/screen.dart';
 import 'package:grimoji/features/grimoire/screen.dart';
 
-import 'package:grimoji/features/main_menu.dart';
+import 'package:grimoji/app/menu.dart';
 import 'package:grimoji/features/map/screen.dart';
 import 'package:grimoji/features/level/fail_screen/screen.dart';
 import 'package:grimoji/features/level/hint_screen/screen.dart';

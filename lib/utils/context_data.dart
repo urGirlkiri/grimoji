@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grimoji/config/app/palette.dart';
+import 'package:grimoji/app/palette.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/features/settings/controller.dart';

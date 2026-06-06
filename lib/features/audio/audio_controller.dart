@@ -14,7 +14,7 @@ import 'package:grimoji/features/audio/voices/index.dart';
 import 'package:grimoji/features/audio/voices/dialog.dart';
 import 'package:logging/logging.dart';
 
-import '../../config/app/lifecycle.dart';
+import '../../app/lifecycle.dart';
 import '../settings/controller.dart';
 import 'songs.dart';
 import 'sounds/index.dart';
