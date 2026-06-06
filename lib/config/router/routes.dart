@@ -18,9 +18,11 @@ class Routes {
 
   static const String mapRoute      = '/map';
   static const String grimoireRoute = '/grimoire'; 
-  static const String cauldronRoute = '/cauldron';
   static const String covenRoute    = '/coven';    
   static const String marketRoute   = '/market';
+
+  static const String cauldronRoute = '/cauldron';
+  static const String cauldronPlayRoute = '/cauldron/play';
 
   static const String levelOneRoute = '/map/hint/1';
   static const String levelHintRoute = '/map/hint/:level';
@@ -38,6 +40,7 @@ class Routes {
   static const String map      = 'map';
   static const String grimoire = 'grimoire';
   static const String cauldron = 'cauldron';
+  static const String cauldronPlay = 'cauldronPlay';
   static const String coven    = 'coven';
   static const String market   = 'market';
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/router/routes.dart';
+import 'package:grimoji/features/cauldron/screen.dart';
 import 'package:grimoji/features/grimoire/screen.dart';
 
 import 'package:grimoji/features/main_menu.dart';
@@ -85,20 +86,8 @@ final router = GoRouter(
             GoRoute(
               path: Routes.cauldronRoute,
               name: Routes.cauldron,
-              builder: (context, state) => Scaffold(
-                body: Stack(
-                  children: [
-                    Positioned.fill(
-                      child: Image.asset(
-                        'assets/images/emo_2.png',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Center(child: Text("Coming Soon", style: context.theme.textTheme.bodyLarge)),
-                  ],
-                ),
-              ),
-            ),
+              builder: (context, state) => const CauldronScreen(),
+            )
           ],
         ),
         StatefulShellBranch(
