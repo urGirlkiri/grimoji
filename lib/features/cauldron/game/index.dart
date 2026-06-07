@@ -11,14 +11,12 @@ import 'core/prediction_line.dart';
 import 'core/container/index.dart';
 import 'core/emoji_body.dart';
 
-final Vector2 worldCauldronSize = Vector2(10.9125, 9.93);
-
 class CauldronGame extends Forge2DGame with TapCallbacks, PointerMoveCallbacks, DragCallbacks {
   final ColorScheme colorScheme;
   final double globalScale;
   final BuildContext context;
   
-//  Vector2 worldCauldronSize = Vector2(10.9125, 10.43);
+ final Vector2 worldCauldronSize = Vector2(10.5125, 9.573);
   static final palette = Palette();
 
   late final PredictionLine predictionLine;
