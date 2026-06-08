@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
-import 'package:grimoji/config/emojis.dart';
+import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/features/level/models/level_data.dart';
 import 'package:hive_flutter/hive_flutter.dart';

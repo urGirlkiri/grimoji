@@ -1,4 +1,4 @@
-import 'package:grimoji/config/emojis.dart';
+import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/game/board/models/tile.dart';
 import 'package:grimoji/features/game/board/models/coordinate.dart';
 

@@ -1,4 +1,4 @@
-import 'package:grimoji/config/emojis.dart';
+import 'package:grimoji/config/emojis/index.dart';
 import 'behavior.dart';
 
 class RainbowBehavior extends EmojiBehavior {

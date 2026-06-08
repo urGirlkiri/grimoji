@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grimoji/config/emojis.dart';
+import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
 import 'package:lottie/lottie.dart';

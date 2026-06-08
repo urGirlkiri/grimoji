@@ -1,4 +1,4 @@
-import 'package:grimoji/config/emojis.dart';
+import 'package:grimoji/config/emojis/index.dart';
 
 class CollectedEmoji {
   final GameEmoji emoji;

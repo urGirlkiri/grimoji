@@ -1,4 +1,4 @@
-import 'package:grimoji/config/emojis.dart';
+import 'package:grimoji/config/emojis/index.dart';
 
 class Recipe {
   final GameEmoji ingredient;

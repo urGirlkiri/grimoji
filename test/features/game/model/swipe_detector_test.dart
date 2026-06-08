@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:grimoji/config/emojis.dart';
+import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/behaviors/behavior.dart';
 import 'package:grimoji/features/game/board/models/coordinate.dart';
 import 'package:grimoji/features/game/utils/swipe_detector.dart';

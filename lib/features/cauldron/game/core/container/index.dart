@@ -47,7 +47,7 @@ class CauldronBack extends BodyComponent<CauldronGame> {
       FixtureDef(
         shape,
         friction: 0.9,
-        restitution: 0.02,
+        restitution: 0.0,
       ),
     );
 

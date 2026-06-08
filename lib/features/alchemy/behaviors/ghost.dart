@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:grimoji/config/emojis.dart';
+import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/behaviors/behavior.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 

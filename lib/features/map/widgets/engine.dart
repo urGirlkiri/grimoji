@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grimoji/config/emojis.dart';
+import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/features/map/widgets/level_node.dart';

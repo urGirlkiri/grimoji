@@ -1,4 +1,4 @@
-import 'package:grimoji/config/emojis.dart';
+import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 
 const List<Recipe> chapter3Recipes = [

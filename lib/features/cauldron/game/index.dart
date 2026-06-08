@@ -5,7 +5,7 @@ import 'package:flame/events.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart' hide PointerMoveEvent;
 import 'package:grimoji/app/palette.dart';
-import 'package:grimoji/config/emojis.dart';
+import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/cauldron/game/core/container/front.dart';
 import 'core/prediction_line.dart';
 import 'core/container/index.dart';

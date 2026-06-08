@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/levels/game_level.dart';
-import 'package:grimoji/config/emojis.dart';
+import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/level/widgets/dialogs/pause_dialog.dart';
 import 'package:grimoji/features/level/widgets/footer/powerup.dart';

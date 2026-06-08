@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/constants.dart';
-import 'package:grimoji/config/emojis.dart';
+import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/game/board/models/tile.dart';
 import 'package:grimoji/features/game/board/widgets/tile_grid/tile/tile_content/index.dart';
 import 'package:grimoji/features/game/board/widgets/tile_grid/tile/tile_v_f_x/index.dart';
