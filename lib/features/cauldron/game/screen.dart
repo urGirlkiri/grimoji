@@ -33,7 +33,7 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
     return Scaffold(
       body: GameWidget(
         game: _game,
-        loadingBuilder: (context) => const Loading(),
+        loadingBuilder: (context) => const Center(child: Loading()),
       ),
     );
   }

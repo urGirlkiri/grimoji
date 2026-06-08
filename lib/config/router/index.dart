@@ -78,7 +78,7 @@ final router = GoRouter(
             GoRoute(
               path: Routes.grimoireRoute,
               name: Routes.grimoire,
-              builder: (context, state) => const GrimoireScreen(),
+              builder: (context, state) => GrimoireScreen(),
             ),
           ],
         ),

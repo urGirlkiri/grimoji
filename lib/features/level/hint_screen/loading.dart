@@ -17,14 +17,13 @@ class Loading extends StatelessWidget {
         EmojiWidget.lottie(
           path: Emojis.package.lottie,
           useDropShadow: false,
-          size: 120,
+          size: 120 * context.globalScale,
         ),
-        const SizedBox(height: 20),
+        SizedBox(height: 20* context.globalScale),
         Text(
           "Gathering ingredients...",
-          style: GoogleFonts.caudex(color: palette.mist, fontSize: 24),
+          style: GoogleFonts.caudex(color: palette.mist, fontSize: 24*context.globalScale),
         ),
-        const SizedBox(height: 40),
       ],
     );
   }
