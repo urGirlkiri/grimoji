@@ -3,10 +3,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
-import 'package:grimoji/features/game/board/utils/manager.dart';
-import 'package:grimoji/features/game/engines/game_engine.dart';
-import 'package:grimoji/features/game/coordinator.dart';
-import 'package:grimoji/features/game/state.dart';
+import 'package:grimoji/features/match/board/utils/manager.dart';
+import 'package:grimoji/features/match/engines/game_engine.dart';
+import 'package:grimoji/features/match/coordinator.dart';
+import 'package:grimoji/features/match/state.dart';
 
 class LevelState extends ChangeNotifier {
   final void Function(int stars) onWin;

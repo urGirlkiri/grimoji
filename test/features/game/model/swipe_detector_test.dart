@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/behaviors/behavior.dart';
-import 'package:grimoji/features/game/board/models/coordinate.dart';
-import 'package:grimoji/features/game/utils/swipe_detector.dart';
-import 'package:grimoji/features/game/board/models/tile.dart';
+import 'package:grimoji/features/match/board/models/coordinate.dart';
+import 'package:grimoji/features/match/utils/swipe_detector.dart';
+import 'package:grimoji/features/match/board/models/tile.dart';
 
 void main() {
   group('SwipeDetector Test', () {

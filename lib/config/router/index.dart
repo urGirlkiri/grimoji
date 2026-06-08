@@ -29,7 +29,8 @@ final router = GoRouter(
     final profile = context.readProfile;
     final targetPath = state.matchedLocation;
 
-    // return Routes.levelFailRoute.replaceAll(":level", '1');
+    // return Routes.cauldronPlayRoute;
+    // return Routes.levelHintRoute.replaceAll(':level', '1');
 
     final isDevMode = dotenv.env['MAP_BUILDER_MODE'] == 'true';
 

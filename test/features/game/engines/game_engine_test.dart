@@ -2,10 +2,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
-import 'package:grimoji/features/game/board/utils/manager.dart';
-import 'package:grimoji/features/game/engines/game_engine.dart';
-import 'package:grimoji/features/game/board/models/coordinate.dart';
-import 'package:grimoji/features/game/utils/swipe_detector.dart';
+import 'package:grimoji/features/match/board/utils/manager.dart';
+import 'package:grimoji/features/match/engines/game_engine.dart';
+import 'package:grimoji/features/match/board/models/coordinate.dart';
+import 'package:grimoji/features/match/utils/swipe_detector.dart';
 
 void main() {
   group('GameEngine Tests', () {
