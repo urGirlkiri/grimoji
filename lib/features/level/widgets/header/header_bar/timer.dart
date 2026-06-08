@@ -8,9 +8,6 @@ class TimerBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final levelState = context.watch<LevelState>();
-    final value = levelState.secondsRemaining.toString();
-    
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
       decoration: ShapeDecoration(
@@ -33,15 +30,25 @@ class TimerBox extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          Text(
-            value,
-            style: TextStyle(
-              color: context.palette.trueWhite,
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          const _TimerText()
         ],
+      ),
+    );
+  }
+}
+
+class _TimerText extends StatelessWidget {
+  const _TimerText();
+
+  @override
+  Widget build(BuildContext context) {
+    final seconds = context.select((LevelState state) => state.secondsRemaining);
+    return Text(
+      seconds.toString(),
+      style: TextStyle(
+        color: context.palette.trueWhite,
+        fontSize: 28,
+        fontWeight: FontWeight.bold,
       ),
     );
   }
