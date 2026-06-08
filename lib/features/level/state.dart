@@ -29,7 +29,13 @@ class LevelState extends ChangeNotifier {
   int collectedAmount = 0;
   bool _isDisposed = false;
 
-  LevelState({required this.onWin, required this.onLose, required this.level, required this.audio, required this.lifecycleNotifier}) {
+  LevelState({
+    required this.onWin,
+    required this.onLose,
+    required this.level,
+    required this.audio,
+    required this.lifecycleNotifier,
+  }) {
     boardManager = BoardManager(level, playSfx: audio.playSfx);
     engine = GameEngine(
       level: level,
@@ -51,22 +57,34 @@ class LevelState extends ChangeNotifier {
 
     gameState.addListener(notifyListeners);
     lifecycleNotifier.addListener(_onLifecycleChanged);
-
+    gameState.addListener(_onGameStateChanged);
   }
 
-void _onLifecycleChanged() {
-  final state = lifecycleNotifier.value;
-  
-  if (state == AppLifecycleState.inactive || 
-      state == AppLifecycleState.hidden || 
-      state == AppLifecycleState.paused) {
-    
-    if (!isPaused && !isGameOver) {
-      togglePause();
-      
+  void _onLifecycleChanged() {
+    final state = lifecycleNotifier.value;
+
+    if (state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.hidden ||
+        state == AppLifecycleState.paused) {
+      if (!isPaused && !isGameOver) {
+        togglePause();
+      }
     }
   }
-}
+
+  void _onGameStateChanged() {
+    if (gameState.isPaused || gameState.isProcessing || gameState.isGameOver) {
+      if (_timeLimitStopwatch.isRunning) {
+        _timeLimitStopwatch.stop();
+      }
+    } else {
+      if (!_timeLimitStopwatch.isRunning && !_isDisposed) {
+        _timeLimitStopwatch.start();
+      }
+    }
+
+    notifyListeners();
+  }
 
   bool get isPaused => gameState.isPaused;
   bool get isGameOver => gameState.isGameOver;
@@ -95,7 +113,7 @@ void _onLifecycleChanged() {
   void _incrementCollectedAmnt(int count) {
     collectedAmount += count;
     notifyListeners();
-    
+
     if (progress >= 1.0) {
       _evaluateGameEndAsync();
     }
@@ -113,7 +131,9 @@ void _onLifecycleChanged() {
       _timeLimitStopwatch.stop();
       notifyListeners();
 
-      while (gameState.isProcessing || gameState.announcer.isSpeaking || gameState.isShuffling) {
+      while (gameState.isProcessing ||
+          gameState.announcer.isSpeaking ||
+          gameState.isShuffling) {
         await Future.delayed(const Duration(milliseconds: 250));
       }
 
@@ -148,7 +168,9 @@ void _onLifecycleChanged() {
 
   void togglePause() {
     coordinator.togglePause();
-    gameState.isPaused ? _timeLimitStopwatch.stop() : _timeLimitStopwatch.start();
+    gameState.isPaused
+        ? _timeLimitStopwatch.stop()
+        : _timeLimitStopwatch.start();
     notifyListeners();
   }
 
