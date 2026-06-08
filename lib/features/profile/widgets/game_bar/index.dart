@@ -31,94 +31,90 @@ class GameBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final scale = context.globalScale;
     final profile = context.watchProfile;
+    
+    final topPadding = MediaQuery.paddingOf(context).top;
 
-    return SafeArea(
-      bottom: false,
-      child: SizedBox(
-        height: 105.0 * scale,
-        child: Container(
-          color: backgroundColor,
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Container(
-                height: 90.0 * scale,
-                decoration: BoxDecoration(
-                  color: context.palette.midnight,
-                  borderRadius: const BorderRadius.vertical(
-                    bottom: Radius.circular(24.0),
+    return SizedBox(
+      height: (105.0 * scale) + topPadding,
+      child: Container(
+        color: backgroundColor,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Container(
+              height: (90.0 * scale) + topPadding,
+              decoration: BoxDecoration(
+                color: context.palette.midnight,
+                borderRadius: const BorderRadius.vertical(
+                  bottom: Radius.circular(24.0),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: context.palette.voidBlack,
+                    offset: Offset(0, 6 * scale),
+                    blurRadius: 0,
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: context.palette.voidBlack,
-                      offset: Offset(0, 6 * scale),
-                      blurRadius: 0,
-                    ),
-                    BoxShadow(
-                      color: context.palette.voidBlack.withValues(alpha: 0.3),
-                      offset: Offset(0, 10 * scale),
-                      blurRadius: 10,
-                      spreadRadius: 1,
-                    ),
-                  ],
-
-                  image: DecorationImage(
-                    image: const AssetImage('assets/images/vertical_lines.png'),
-                    fit: BoxFit.cover,
-                    colorFilter: ColorFilter.mode(
-                      context.palette.midnight.withValues(alpha: 0.069),
-                      BlendMode.dstATop,
-                    ),
+                  BoxShadow(
+                    color: context.palette.voidBlack.withValues(alpha: 0.3),
+                    offset: Offset(0, 10 * scale),
+                    blurRadius: 10,
+                    spreadRadius: 1,
+                  ),
+                ],
+                image: DecorationImage(
+                  image: const AssetImage('assets/images/vertical_lines.png'),
+                  fit: BoxFit.cover,
+                  colorFilter: ColorFilter.mode(
+                    context.palette.midnight.withValues(alpha: 0.069),
+                    BlendMode.dstATop,
                   ),
                 ),
               ),
-              Positioned(
-                top: 20 * scale,
-                left: 12 * scale,
-                right: 12 * scale,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    AppIcon(
-                      fileName: 'mail_inbox',
-                      size: 30 * scale,
-                      onTap: () => onNotifTap(context),
+            ),
+            Positioned(
+              top: (20 * scale) + topPadding,
+              left: 12 * scale,
+              right: 12 * scale,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  AppIcon(
+                    fileName: 'mail_inbox',
+                    size: 30 * scale,
+                    onTap: () => onNotifTap(context),
+                  ),
+                  const SizedBox(width: 8),
+                  ResourcePill(
+                    iconPath: 'assets/images/cauldron.png',
+                    value: profile.cauldrons == 5
+                        ? "Full"
+                        : profile.cauldrons.toString(),
+                    onTap: () => onCauldronTap(context),
+                  ),
+                  AnimatedButton(
+                    child: ProfileAvatar(
+                      avatar: profile.avatar,
+                      onTap: () => onProfileTap(context),
                     ),
-                    const SizedBox(width: 8),
-                    ResourcePill(
-                      iconPath: 'assets/images/cauldron.png',
-                      value: profile.cauldrons == 5
-                          ? "Full"
-                          : profile.cauldrons.toString(),
-                      onTap: () => onCauldronTap(context),
-                    ),
-                    AnimatedButton(
-                      child: ProfileAvatar(
-                        avatar: profile.avatar,
-                        onTap: () => onProfileTap(context),
-                      ),
-                    ),
-                    Flexible(
-                      child: ResourcePill(
-                        iconPath: 'assets/images/dice.png',
-                        value: profile.dices.toString(),
-                        onTap: () =>
-                            GoRouter.of(context).goNamed(Routes.market),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    AppIcon(
-                      fileName: 'settings',
-                      size: 30 * scale,
+                  ),
+                  ResourcePill(
+                      iconPath: 'assets/images/dice.png',
+                      value: profile.dices.toString(),
                       onTap: () =>
-                          GoRouter.of(context).pushNamed(Routes.settings),
+                          GoRouter.of(context).goNamed(Routes.market),
                     ),
-                  ],
-                ),
+                  const SizedBox(width: 8),
+                  AppIcon(
+                    fileName: 'settings',
+                    size: 30 * scale,
+                    onTap: () =>
+                        GoRouter.of(context).pushNamed(Routes.settings),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

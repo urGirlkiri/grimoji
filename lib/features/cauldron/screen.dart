@@ -9,11 +9,18 @@ class CauldronScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: ResponsiveScreen(
-        topMessageArea: Ranking(),
-        squarishMainArea: Cauldron(),
-        rectangularMenuArea: PlayBtn(),
+    return Scaffold(
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset('assets/images/emo.png', fit: BoxFit.cover),
+          ),
+          const ResponsiveScreen(
+            topMessageArea: Ranking(),
+            squarishMainArea: Cauldron(),
+            rectangularMenuArea: PlayBtn(),
+          ),
+        ],
       ),
     );
   }

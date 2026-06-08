@@ -37,14 +37,10 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
   Widget build(BuildContext context) {
     final scale = context.globalScale;
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
-          image: const AssetImage('assets/images/vertical_lines.png'),
+          image: AssetImage('assets/images/emo.png'),
           fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(
-            context.palette.voidBlack.withValues(alpha: 0.05),
-            BlendMode.dstATop,
-          ),
         ),
       ),
       child: ResponsiveScreen(

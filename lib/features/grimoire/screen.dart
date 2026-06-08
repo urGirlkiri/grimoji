@@ -27,30 +27,36 @@ class GrimoireScreen extends StatelessWidget {
         : null;
 
     return Scaffold(
-      backgroundColor: palette.midnight,
-      body: GridView.builder(
-        itemCount: recipes.length,
-        padding: EdgeInsets.only(
-          right: screenWidth > 900 ? 16.0 : 8.0,
-          left: 8.0,
-          bottom: 24.0,
-          top: 12.0,
-        ),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4,
-          crossAxisSpacing: 6,
-          mainAxisSpacing: 6,
-          childAspectRatio: 0.72,
-        ),
-        itemBuilder: (context, index) {
-          final recipe = recipes[index];
-          return RecipeCard(
-            isUnlocked: profile.isRecipeUnlocked(recipe.id),
-            isUnread: profile.isRecipeUnread(recipe.id),
-            autoOpen: recipe.id == targetAutoOpenId,
-            recipe: recipe,
-          );
-        },
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset('assets/images/emo_2.png', fit: BoxFit.cover),
+          ),
+          GridView.builder(
+            itemCount: recipes.length,
+            padding: EdgeInsets.only(
+              right: screenWidth > 900 ? 16.0 : 8.0,
+              left: 8.0,
+              bottom: 24.0,
+              top: 12.0,
+            ),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4,
+              crossAxisSpacing: 6,
+              mainAxisSpacing: 6,
+              childAspectRatio: 0.72,
+            ),
+            itemBuilder: (context, index) {
+              final recipe = recipes[index];
+              return RecipeCard(
+                isUnlocked: profile.isRecipeUnlocked(recipe.id),
+                isUnread: profile.isRecipeUnread(recipe.id),
+                autoOpen: recipe.id == targetAutoOpenId,
+                recipe: recipe,
+              );
+            },
+          ),
+        ],
       ),
     );
   }
