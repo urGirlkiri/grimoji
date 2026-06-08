@@ -1,7 +1,7 @@
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 
-const List<Recipe> chapter5Recipes = [
+final List<Recipe> chapter5Recipes = [
   Recipe(
     ingredient: Emojis.sparkles,
     requiredAmount: 3,

@@ -16,7 +16,7 @@ void main() {
     setUp(() {
       RecipeBook.initialize();
 
-      level = const GameLevel(
+      level =  GameLevel(
         number: 1,
         timeLimit: 60,
         targetEmoji: Emojis.fire,

@@ -150,7 +150,7 @@ void main() {
     });
 
     test('Should destroy tiles normally when NO recipe exists (Basic Match-3)', () {
-      const nonRecipeEmoji = Emojis.avocado; 
+      final nonRecipeEmoji = Emojis.avocado; 
 
       boardManager.gridTiles[0][0].emoji = nonRecipeEmoji;
       boardManager.gridTiles[0][1].emoji = nonRecipeEmoji;

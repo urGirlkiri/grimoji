@@ -6,7 +6,7 @@ import 'package:grimoji/utils/context_data.dart';
 
 class GrimoireScreen extends StatelessWidget {
   final List<Recipe> recipes = RecipeBook.allRecipes;
-  const GrimoireScreen({super.key});
+  GrimoireScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

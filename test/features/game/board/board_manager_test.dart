@@ -11,7 +11,7 @@ void main() {
     late GameLevel testLevel;
 
     setUp(() {
-      testLevel = const GameLevel(
+      testLevel = GameLevel(
         number: 1,
         timeLimit: 60,
         targetEmoji: Emojis.ocean,
@@ -83,7 +83,7 @@ void main() {
       });
 
       test('findAdjacentEmptyTile should return a coordinate when an empty tile exists', () {
-        const emptyEmoji = GameEmoji('svg/empty.svg', 'lottie/empty.json', '');
+        const emptyEmoji = GameEmoji('svg/empty.svg', 'lottie/empty.json', '', []);
         
         boardManager.gridTiles[4][3].emoji = emptyEmoji;
 

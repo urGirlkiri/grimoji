@@ -15,7 +15,7 @@ void main() {
     late MockAudioController mockAudio;
 
     setUp(() {
-      level = const GameLevel(
+      level = GameLevel(
         number: 1,
         availableEmojis: [Emojis.fire, Emojis.rock, Emojis.droplet, Emojis.alien],
         targetEmoji: Emojis.fire,

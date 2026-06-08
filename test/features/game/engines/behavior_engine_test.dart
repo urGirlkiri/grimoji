@@ -47,7 +47,7 @@ void main() {
     late SpyBehavior spyBehavior;
 
     setUp(() {
-      const testLevel = GameLevel(
+      final testLevel = GameLevel(
         number: 1,
         timeLimit: 60,
         targetEmoji: Emojis.ocean,
@@ -130,7 +130,7 @@ void main() {
 
     group('Action Execution Logic', () {
       test('ActionType.placeEmoji should clone the emoji into an adjacent empty tile', () {
-        const emptyEmoji = GameEmoji('svg/empty.svg', 'lottie/empty.json', '');
+        const emptyEmoji = GameEmoji('svg/empty.svg', 'lottie/empty.json', '', []);
         boardManager.gridTiles[1][1].emoji = Emojis.bug;
         behaviorEngine.initializeBehavior(boardManager.gridTiles[1][1]);
         
@@ -140,7 +140,7 @@ void main() {
         boardManager.gridTiles[1][2].emoji = emptyEmoji;
 
         spyBehavior.turnEndActionsToReturn = [
-          const BehaviorAction(type: ActionType.placeEmoji, x: 1, y: 1, emoji: Emojis.bug)
+           BehaviorAction(type: ActionType.placeEmoji, x: 1, y: 1, emoji: Emojis.bug)
         ];
 
         behaviorEngine.processTurnEndBehaviors();
@@ -164,7 +164,7 @@ void main() {
         
         boardManager.gridTiles[0][1].behavior = SpyBehavior();
         
-        final transmuteAction = [const BehaviorAction(type: ActionType.reactEmoji, x: 1, y: 1, emoji: Emojis.cloud)];
+        final transmuteAction = [ BehaviorAction(type: ActionType.reactEmoji, x: 1, y: 1, emoji: Emojis.cloud)];
         behaviorEngine.executeBehaviorActions(transmuteAction, 1, 1);
 
         final neighbors = [
@@ -190,17 +190,17 @@ void main() {
         expect(() => behaviorEngine.executeBehaviorActions(nullEmojiAction, 1, 1), returnsNormally, 
           reason: 'Engine should safely ignore actions with null emojis without error');
 
-        final placeAction = [const BehaviorAction(type: ActionType.placeEmoji, x: 1, y: 1, emoji: Emojis.bug)];
+        final placeAction = [ BehaviorAction(type: ActionType.placeEmoji, x: 1, y: 1, emoji: Emojis.bug)];
         expect(() => behaviorEngine.executeBehaviorActions(placeAction, 1, 1), returnsNormally, 
           reason: 'Engine should safely execute valid placeEmoji actions without error');
 
-        const emptyEmoji = GameEmoji('svg/empty.svg', 'lottie/empty.json', '');
+        const emptyEmoji = GameEmoji('svg/empty.svg', 'lottie/empty.json', '', []);
         for (int r = 0; r < BoardManager.rows; r++) {
           for (int c = 0; c < BoardManager.cols; c++) {
             boardManager.gridTiles[r][c].emoji = emptyEmoji;
           }
         }
-        final transmuteAction = [const BehaviorAction(type: ActionType.reactEmoji, x: 1, y: 1, emoji: Emojis.cloud)];
+        final transmuteAction = [ BehaviorAction(type: ActionType.reactEmoji, x: 1, y: 1, emoji: Emojis.cloud)];
         expect(() => behaviorEngine.executeBehaviorActions(transmuteAction, 1, 1), returnsNormally, 
           reason: 'Engine should safely ignore transmute actions with no available targets without error');
       });

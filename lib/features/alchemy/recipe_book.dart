@@ -14,7 +14,7 @@ import 'package:grimoji/features/alchemy/recipes/chapter5.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 
 class RecipeBook {
-  static const List<Recipe> allRecipes = [
+  static final List<Recipe> allRecipes = [
     ...chapter1Recipes,
     ...chapter2Recipes,
     ...chapter3Recipes,

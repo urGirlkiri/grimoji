@@ -1,5 +1,13 @@
 # Local Development
 
+## Cauldron Forge2d Workflow
+
+Drag the [svg](assets/images/cauldron/Cauldron.svg) into figma
+
+Play Around A bit :)
+
+[Here's](https://cdn.hackclub.com/019ea59e-2dfc-78fe-8477-db7a7be6490b/output.png) How I do it 
+
 ## Map Builder
 
 Set the `MAP_BUILDER_MODE` env to either `true` / `false` to toggle dev or prod.

@@ -1,7 +1,7 @@
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 
-const List<GameLevel> chapter2Levels = [
+final List<GameLevel> chapter2Levels = [
   GameLevel(
     number: 10,
     timeLimit: 200,
