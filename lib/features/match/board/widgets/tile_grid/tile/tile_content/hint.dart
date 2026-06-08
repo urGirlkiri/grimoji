@@ -37,7 +37,7 @@ class HintNudge extends StatelessWidget {
         )
         .custom(
           duration: 1200.ms,
-          builder: (context, value, child) {
+          builder: (context, value, cachedChild) {
             final double progress = sin(value * pi);
 
             final double moveX = dx * (tileWidth + tileSpacingGap) * 0.4 * progress;
@@ -50,13 +50,13 @@ class HintNudge extends StatelessWidget {
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: palette.trueWhite.withValues(alpha: progress * 0.7),
+                      color: palette.trueWhite.withValues(alpha: progress * 0.5),
                       blurRadius: 20,
                       spreadRadius: 2,
                     ),
                   ],
                 ),
-                child: child,
+                child: cachedChild,
               ),
             );
           },

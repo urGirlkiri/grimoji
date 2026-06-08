@@ -14,6 +14,8 @@ class GameState extends ChangeNotifier {
 
   int currentComboMultiplier = 0;
   double shuffleProgress = 1.0;
+  
+  int updateToken = 0; 
 
   GameState([AudioController? audio]) : announcer = BoardAnnouncer(audio ?? AudioController()) {
     announcer.gameState = this;
@@ -77,6 +79,7 @@ class GameState extends ChangeNotifier {
   }
 
   void updateUI() {
+    updateToken++; 
     _notify();
   }
 

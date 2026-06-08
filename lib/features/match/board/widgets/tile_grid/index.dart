@@ -75,6 +75,10 @@ class TileGrid extends StatelessWidget {
       (s) => s.level.targetEmoji,
     );
 
+    context.select<LevelState, int>(
+      (s) => s.gameState.updateToken,
+    );
+
     if (metrics == null) {
       return const SizedBox.shrink();
     }
