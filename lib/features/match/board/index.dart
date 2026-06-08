@@ -28,6 +28,7 @@ class _GameBoardState extends State<GameBoard> {
   Offset? _dragStartPosition;
 
   final ValueNotifier<List<SparkleEffect>> _sparklesNotifier = ValueNotifier([]);
+  final ValueNotifier<String?> _activeTileIdNotifier = ValueNotifier<String?>(null);
   bool _isDisposed = false;
 
   @override
@@ -42,6 +43,7 @@ class _GameBoardState extends State<GameBoard> {
   void dispose() {
     _isDisposed = true;
     _sparklesNotifier.dispose();
+    _activeTileIdNotifier.dispose();
     super.dispose();
   }
 
@@ -79,12 +81,9 @@ class _GameBoardState extends State<GameBoard> {
   }
 
   void _clearDrag() {
-    if (_draggedTile != null || _dragStartPosition != null) {
-      setState(() {
-        _draggedTile = null;
-        _dragStartPosition = null;
-      });
-    }
+    _draggedTile = null;
+    _dragStartPosition = null;
+    _activeTileIdNotifier.value = null; 
   }
 
   void onPanStart(DragStartDetails details, BuildContext context) {
@@ -106,10 +105,10 @@ class _GameBoardState extends State<GameBoard> {
         col >= 0 &&
         col < levelState.boardManager.gridTiles[0].length) {
       levelState.coordinator.resetHintTimer();
-      setState(() {
-        _draggedTile = levelState.boardManager.gridTiles[row][col];
-        _dragStartPosition = details.localPosition;
-      });
+      
+      _draggedTile = levelState.boardManager.gridTiles[row][col];
+      _dragStartPosition = details.localPosition;
+      _activeTileIdNotifier.value = _draggedTile?.id;
     }
   }
 
@@ -220,7 +219,13 @@ class _GameBoardState extends State<GameBoard> {
                               tWidth: calculatedSingleTileWidth,
                               tHeight: calculatedSingleTileHeight,
                             ),
-                            TileGrid(activeTileId: _draggedTile?.id),
+                            
+                            ListenableBuilder(
+                              listenable: _activeTileIdNotifier,
+                              builder: (context, _) {
+                                return TileGrid(activeTileId: _activeTileIdNotifier.value);
+                              },
+                            ),
 
                             SparkleOverlay(sparklesNotifier: _sparklesNotifier),
                           ],
