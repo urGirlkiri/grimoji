@@ -35,140 +35,159 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveScreen(
-      topMessageArea: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: ShapeDecoration(
-          color: context.palette.twilight,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: const AssetImage('assets/images/vertical_lines.png'),
+          fit: BoxFit.cover,
+          colorFilter: ColorFilter.mode(
+            context.palette.voidBlack.withValues(alpha: 0.05),
+            BlendMode.dstATop,
           ),
-        ),
-        child: Row(
-          children: [
-            AppIcon(
-              fileName: _game.paused ? 'resume' : 'pause',
-              enableAnimation: false,
-              onTap: () {
-                setState(() {
-                  _game.paused ? _game.resumeEngine() : _game.pauseEngine();
-                });
-              },
-            ),
-            const Spacer(),
-            Container(
-              width: 150,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-              decoration: BoxDecoration(
-                color: Color.alphaBlend(
-                  context.palette.dusk.withValues(alpha: 0.15),
-                  context.palette.twilight,
-                ),
-                borderRadius: BorderRadius.circular(20 * context.globalScale),
-                border: Border.all(
-                  color: context.palette.slate.withValues(alpha: 0.1),
-                  width: 1,
-                ),
-                image: DecorationImage(
-                  image: const AssetImage('assets/images/goth_emo.png'),
-                  fit: BoxFit.cover,
-                  colorFilter: ColorFilter.mode(
-                    context.palette.voidBlack.withValues(alpha: 0.05),
-                    BlendMode.dstATop,
-                  ),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: context.palette.voidBlack,
-                    offset: Offset(0, 6 * context.globalScale),
-                    blurRadius: 0,
-                  ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  Text("0", style: context.theme.textTheme.bodyLarge),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      EmojiWidget.svg(path: Emojis.moai.svg, size: 20),
-                      const SizedBox(width: 3),
-                      Text('20000', style: context.theme.textTheme.bodySmall),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            const Spacer(),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-
-              decoration: ShapeDecoration(
-                color: context.palette.dusk.withValues(alpha: .8),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  side: BorderSide(
-                    width: 2,
-                    color: context.palette.magicCyan.withValues(alpha: .5),
-                  ),
-                ),
-              ),
-              child: Row(
-                children: [
-                  Text("Next", style: context.theme.textTheme.titleSmall),
-                  const SizedBox(width: 6),
-                  EmojiWidget.svg(path: Emojis.heart.svg, size: 15),
-                ],
-              ),
-            ),
-          ],
         ),
       ),
-      squarishMainArea: Column(
-        children: [
-          Expanded(
-            child: GameWidget(
-              game: _game,
-              loadingBuilder: (context) => const Center(child: Loading()),
+      child: ResponsiveScreen(
+        topMessageArea: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          decoration: ShapeDecoration(
+            color: context.palette.twilight,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
             ),
           ),
-        ],
-      ),
-      rectangularMenuArea: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: ShapeDecoration(
-          color: context.palette.twilight,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(40),
-          ),
-        ),
-        child: FittedBox(
           child: Row(
             children: [
-              PowerupBtn(
-                bgColor: context.palette.dusk,
-                assetPath: Emojis.shakingFace.svg,
-                onTap: () {},
+              AppIcon(
+                fileName: _game.paused ? 'resume' : 'pause',
+                enableAnimation: false,
+                onTap: () {
+                  setState(() {
+                    _game.paused ? _game.resumeEngine() : _game.pauseEngine();
+                  });
+                },
               ),
-              const SizedBox(width: 12),
-              PowerupBtn(
-                bgColor: context.palette.dusk,
-                assetPath: Emojis.boomerang.svg,
-                onTap: () {},
+              const Spacer(),
+              Container(
+                width: 150,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: Color.alphaBlend(
+                    context.palette.dusk.withValues(alpha: 0.15),
+                    context.palette.twilight,
+                  ),
+                  borderRadius: BorderRadius.circular(20 * context.globalScale),
+                  border: Border.all(
+                    color: context.palette.slate.withValues(alpha: 0.1),
+                    width: 1,
+                  ),
+                  image: DecorationImage(
+                    image: const AssetImage('assets/images/goth_emo.png'),
+                    fit: BoxFit.cover,
+                    colorFilter: ColorFilter.mode(
+                      context.palette.voidBlack.withValues(alpha: 0.05),
+                      BlendMode.dstATop,
+                    ),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: context.palette.voidBlack,
+                      offset: Offset(0, 6 * context.globalScale),
+                      blurRadius: 0,
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    Text("0", style: context.theme.textTheme.bodyLarge),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        EmojiWidget.svg(path: Emojis.moai.svg, size: 20),
+                        const SizedBox(width: 3),
+                        Text('20000', style: context.theme.textTheme.bodySmall),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(width: 12),
-              PowerupBtn(
-                bgColor: context.palette.dusk,
-                assetPath: Emojis.testTube.svg,
-                onTap: () {},
-              ),
-              const SizedBox(width: 12),
-              PowerupBtn(
-                bgColor: context.palette.dusk,
-                assetPath: Emojis.flyingSaucer.svg,
-                onTap: () {},
+              const Spacer(),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+
+                decoration: ShapeDecoration(
+                  color: context.palette.dusk.withValues(alpha: .8),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    side: BorderSide(
+                      width: 2,
+                      color: context.palette.magicCyan.withValues(alpha: .5),
+                    ),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Text("Next", style: context.theme.textTheme.titleSmall),
+                    const SizedBox(width: 6),
+                    EmojiWidget.svg(path: Emojis.heart.svg, size: 15),
+                  ],
+                ),
               ),
             ],
+          ),
+        ),
+        squarishMainArea: Column(
+          children: [
+            Expanded(
+              child: GameWidget(
+                game: _game,
+                loadingBuilder: (context) => const Center(child: Loading()),
+              ),
+            ),
+            
+          ],
+        ),
+        rectangularMenuArea: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          decoration: ShapeDecoration(
+            color: context.palette.twilight,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(40),
+            ),
+          ),
+          child: FittedBox(
+            child: Row(
+              children: [
+                PowerupBtn(
+                  bgColor: context.palette.dusk,
+                  assetPath: Emojis.shakingFace.svg,
+                  onTap: () {},
+                ),
+                const SizedBox(width: 12),
+                PowerupBtn(
+                  bgColor: context.palette.dusk,
+                  assetPath: Emojis.boomerang.svg,
+                  onTap: () {},
+                ),
+                const SizedBox(width: 12),
+                PowerupBtn(
+                  bgColor: context.palette.dusk,
+                  assetPath: Emojis.testTube.svg,
+                  onTap: () {},
+                ),
+                const SizedBox(width: 12),
+                PowerupBtn(
+                  bgColor: context.palette.dusk,
+                  assetPath: Emojis.flyingSaucer.svg,
+                  onTap: () {},
+                ),
+              ],
+            ),
           ),
         ),
       ),

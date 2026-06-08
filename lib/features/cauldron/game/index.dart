@@ -4,7 +4,6 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart' hide PointerMoveEvent;
-import 'package:grimoji/app/palette.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/cauldron/game/core/container/front.dart';
 import 'core/prediction_line.dart';
@@ -17,7 +16,6 @@ class CauldronGame extends Forge2DGame with TapCallbacks, PointerMoveCallbacks, 
   final BuildContext context;
   
   static final Vector2 worldCauldronSize = Vector2(10.5125, 9.573);
-  static final palette = Palette();
 
   late final PredictionLine predictionLine;
 
@@ -51,7 +49,7 @@ class CauldronGame extends Forge2DGame with TapCallbacks, PointerMoveCallbacks, 
 
   @override
   Color backgroundColor() {
-    return palette.midnight;
+    return Colors.transparent;
   }
 
   @override
