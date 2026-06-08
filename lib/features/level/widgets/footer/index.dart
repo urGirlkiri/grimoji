@@ -9,20 +9,63 @@ import 'package:grimoji/widgets/animations/dialog.dart';
 import 'package:grimoji/widgets/custom/app_icon.dart';
 import 'package:provider/provider.dart';
 
-class Footer extends StatelessWidget {
+class Footer extends StatefulWidget {
   const Footer({super.key});
 
-  void _handlePauseTap(BuildContext context) {
-    final levelState = context.read<LevelState>();
-    levelState.togglePause();
+  @override
+  State<Footer> createState() => _FooterState();
+}
 
+class _FooterState extends State<Footer> {
+  late LevelState _levelState;
+  bool _isPauseDialogOpen = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _levelState = context.read<LevelState>();
+    
+    _levelState.addListener(_onStateChanged);
+  }
+
+  @override
+  void dispose() {
+    _levelState.removeListener(_onStateChanged);
+    super.dispose();
+  }
+
+  void _onStateChanged() {
+    if (_levelState.isPaused && !_isPauseDialogOpen) {
+      _showPauseDialog();
+    }
+  }
+
+  void _showPauseDialog() {
+    _isPauseDialogOpen = true;
     final levelNumber = context.read<GameLevel>().number;
 
-    showAnimatedDialog(context, PauseDialog(level: levelNumber)).then((_) {
-      if (context.mounted) {
-        levelState.togglePause();
-      }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+
+      showAnimatedDialog(
+        context, 
+        PauseDialog(level: levelNumber)
+      ).then((_) {
+        if (!mounted) return;
+        
+        _isPauseDialogOpen = false;
+        
+        if (_levelState.isPaused) {
+          _levelState.togglePause();
+        }
+      });
     });
+  }
+
+  void _handlePauseTap() {
+    if (!_levelState.isPaused) {
+      _levelState.togglePause();
+    }
   }
 
   void _showSnackbar(BuildContext context) {
@@ -45,7 +88,9 @@ class Footer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // We still watch for UI rebuilds (e.g., swapping the pause/resume icon)
     final isPaused = context.watch<LevelState>().isPaused;
+    
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: ShapeDecoration(
@@ -60,36 +105,28 @@ class Footer extends StatelessWidget {
             AppIcon(
               fileName: isPaused ? 'resume' : 'pause',
               size: 68,
-              onTap: () => _handlePauseTap(context),
+              onTap: _handlePauseTap,
               enableAnimation: false,
             ),
             const SizedBox(width: 12),
             PowerupBtn(
               assetPath: Emojis.hourglassNotDone.svg,
-              onTap: () {
-                _showSnackbar(context);
-              },
+              onTap: () => _showSnackbar(context),
             ),
             const SizedBox(width: 12),
             PowerupBtn(
               assetPath: Emojis.testTube.svg,
-              onTap: () {
-                _showSnackbar(context);
-              },
+              onTap: () => _showSnackbar(context),
             ),
             const SizedBox(width: 12),
             PowerupBtn(
               assetPath: Emojis.boxingGlove.svg,
-              onTap: () {
-                _showSnackbar(context);
-              },
+              onTap: () => _showSnackbar(context),
             ),
             const SizedBox(width: 12),
             PowerupBtn(
               assetPath: Emojis.flyingSaucer.svg,
-              onTap: () {
-                _showSnackbar(context);
-              },
+              onTap: () => _showSnackbar(context),
             ),
           ],
         ),

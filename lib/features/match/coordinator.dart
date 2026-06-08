@@ -358,7 +358,7 @@ class GameCoordinator {
     if (state.isProcessing ||
         state.isShuffling ||
         state.isDisposed ||
-        state.isGameOver) {
+        state.isGameOver || state.isPaused ) {
       return;
     }
 

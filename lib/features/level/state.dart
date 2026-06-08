@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/lifecycle.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/match/board/utils/manager.dart';
@@ -13,6 +14,7 @@ class LevelState extends ChangeNotifier {
   final VoidCallback onLose;
   final GameLevel level;
   final AudioController audio;
+  final AppLifecycleStateNotifier lifecycleNotifier;
 
   final GlobalKey targetIconKey = GlobalKey();
 
@@ -27,7 +29,7 @@ class LevelState extends ChangeNotifier {
   int collectedAmount = 0;
   bool _isDisposed = false;
 
-  LevelState({required this.onWin, required this.onLose, required this.level, required this.audio}) {
+  LevelState({required this.onWin, required this.onLose, required this.level, required this.audio, required this.lifecycleNotifier}) {
     boardManager = BoardManager(level, playSfx: audio.playSfx);
     engine = GameEngine(
       level: level,
@@ -48,7 +50,23 @@ class LevelState extends ChangeNotifier {
     );
 
     gameState.addListener(notifyListeners);
+    lifecycleNotifier.addListener(_onLifecycleChanged);
+
   }
+
+void _onLifecycleChanged() {
+  final state = lifecycleNotifier.value;
+  
+  if (state == AppLifecycleState.inactive || 
+      state == AppLifecycleState.hidden || 
+      state == AppLifecycleState.paused) {
+    
+    if (!isPaused && !isGameOver) {
+      togglePause();
+      
+    }
+  }
+}
 
   bool get isPaused => gameState.isPaused;
   bool get isGameOver => gameState.isGameOver;
@@ -140,6 +158,7 @@ class LevelState extends ChangeNotifier {
     _ticker?.cancel();
     _timeLimitStopwatch.stop();
     gameState.removeListener(notifyListeners);
+    lifecycleNotifier.removeListener(_onLifecycleChanged);
     coordinator.dispose();
     super.dispose();
   }

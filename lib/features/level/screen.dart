@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimoji/app/lifecycle.dart' show AppLifecycleStateNotifier;
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
@@ -12,6 +13,7 @@ import 'package:grimoji/features/level/widgets/footer/index.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/level/widgets/dialogs/quit_dialog.dart';
 import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/widgets/animations/dialog.dart';
 import 'package:grimoji/widgets/responsive_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:logging/logging.dart' hide Level;
@@ -41,11 +43,9 @@ class _LevelScreenState extends State<LevelScreen> {
       _isQuitDialogOpen = true;
     });
 
-    showDialog(
-      context: context,
-      barrierDismissible: true,
-      barrierColor: context.palette.voidBlack.withValues(alpha: 0.7),
-      builder: (context) => QuitDialog(level: widget.level.number),
+    showAnimatedDialog(
+     context,
+     QuitDialog(level: widget.level.number)
     ).then((_) {
       if (mounted) {
         setState(() {
@@ -120,6 +120,7 @@ class _LevelScreenState extends State<LevelScreen> {
             onLose: _playerFailed,
             level: widget.level,
             audio: context.readAudio,
+            lifecycleNotifier: context.read<AppLifecycleStateNotifier>(),
           ),
         ),
         ChangeNotifierProvider(create: (_) => BoardMetrics()),
