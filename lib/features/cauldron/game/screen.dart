@@ -35,6 +35,7 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final scale = context.globalScale;
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -78,7 +79,7 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
                     context.palette.dusk.withValues(alpha: 0.15),
                     context.palette.twilight,
                   ),
-                  borderRadius: BorderRadius.circular(20 * context.globalScale),
+                  borderRadius: BorderRadius.circular(20 * scale),
                   border: Border.all(
                     color: context.palette.slate.withValues(alpha: 0.1),
                     width: 1,
@@ -94,7 +95,7 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
                   boxShadow: [
                     BoxShadow(
                       color: context.palette.voidBlack,
-                      offset: Offset(0, 6 * context.globalScale),
+                      offset: Offset(0, 6 * scale),
                       blurRadius: 0,
                     ),
                   ],
@@ -149,7 +150,6 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
                 loadingBuilder: (context) => const Center(child: Loading()),
               ),
             ),
-            
           ],
         ),
         rectangularMenuArea: Container(

@@ -34,8 +34,9 @@ class _CaulRegenTimState extends State<CaulRegenTim> {
 
   @override
   Widget build(BuildContext context) {
+    final scale = context.globalScale;
     final timeUntil = context.readProfile.timeUntilNextCauldron();
-    
+
     if (timeUntil == Duration.zero) {
       return const SizedBox.shrink(); 
     }
@@ -54,14 +55,11 @@ class _CaulRegenTimState extends State<CaulRegenTim> {
     return Padding(
       padding: const EdgeInsets.only(left: 24, right: 24),
       child: Container(
-        height: 50 * context.globalScale, 
+        height: 50 * scale,
         decoration: BoxDecoration(
           color: context.palette.slate,
-          borderRadius: BorderRadius.circular(20 * context.globalScale),
-          border: Border.all(
-            color: context.palette.twilight,
-            width: 2.5,
-          ),
+          borderRadius: BorderRadius.circular(20 * scale),
+          border: Border.all(color: context.palette.twilight, width: 2.5),
           boxShadow: [
             BoxShadow(
               color: context.palette.voidBlack,
@@ -73,19 +71,19 @@ class _CaulRegenTimState extends State<CaulRegenTim> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              Icons.hourglass_empty_rounded,
-              color: context.palette.twilight,
-              size: 32 * context.globalScale,
-            ).animate(
-              onPlay: (controller) => controller.repeat(),
-            ).rotate(
-              duration: const Duration(seconds: 2),
-              curve: Curves.linear,
-              begin: 0,
-              end: 1,
-            ),
-            SizedBox(width: 8 * context.globalScale),
-            
+                  Icons.hourglass_empty_rounded,
+                  color: context.palette.twilight,
+                  size: 32 * scale,
+                )
+                .animate(onPlay: (controller) => controller.repeat())
+                .rotate(
+                  duration: const Duration(seconds: 2),
+                  curve: Curves.linear,
+                  begin: 0,
+                  end: 1,
+                ),
+            SizedBox(width: 8 * scale),
+
             Flexible(
               child: FittedBox(
                 fit: BoxFit.scaleDown,

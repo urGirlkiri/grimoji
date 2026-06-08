@@ -3,7 +3,6 @@ import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/animated_button.dart';
 
 class ShopItemCard extends StatelessWidget {
-  final double scale;
   final String title;
   final String description;
   final int cost;
@@ -12,7 +11,6 @@ class ShopItemCard extends StatelessWidget {
 
   const ShopItemCard({
     super.key,
-    required this.scale,
     required this.title,
     required this.description,
     required this.cost,
@@ -22,6 +20,7 @@ class ShopItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scale = context.globalScale;
     return Container(
       decoration: BoxDecoration(
         color: Color.alphaBlend(

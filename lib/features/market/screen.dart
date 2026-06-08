@@ -84,7 +84,7 @@ class _MarketScreenState extends State<MarketScreen> {
             ),
             SizedBox(height: 16 * scale),
         
-            DailyRewardCard(scale: scale),
+            const DailyRewardCard(),
         
             SizedBox(height: 36 * scale),
         
@@ -99,7 +99,6 @@ class _MarketScreenState extends State<MarketScreen> {
             SizedBox(height: 16 * scale),
         
             ShopItemCard(
-              scale: scale,
               title: "Restore Cauldron",
               description: "Instantly restore 1 Cauldron.",
               cost: 30,
@@ -126,7 +125,6 @@ class _MarketScreenState extends State<MarketScreen> {
             SizedBox(height: 20 * scale),
         
             ShopItemCard(
-              scale: scale,
               title: "Cauldron Refill",
               description: "Instantly restore all 5 Cauldrons.",
               cost: 150,

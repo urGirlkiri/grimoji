@@ -9,6 +9,7 @@ class Loading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scale = context.globalScale;
     final palette = context.palette;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -17,12 +18,12 @@ class Loading extends StatelessWidget {
         EmojiWidget.lottie(
           path: Emojis.package.lottie,
           useDropShadow: false,
-          size: 120 * context.globalScale,
+          size: 120 * scale,
         ),
-        SizedBox(height: 20* context.globalScale),
+        SizedBox(height: 20 * scale),
         Text(
           "Gathering ingredients...",
-          style: GoogleFonts.caudex(color: palette.mist, fontSize: 24*context.globalScale),
+          style: GoogleFonts.caudex(color: palette.mist, fontSize: 24 * scale),
         ),
       ],
     );

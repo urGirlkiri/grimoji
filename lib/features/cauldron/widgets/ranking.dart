@@ -77,7 +77,6 @@ class Ranking extends StatelessWidget {
                           const SizedBox(height: 12),
                           Avatar(
                             name: player['name'] as String,
-                            scale: 1.0,
                             backgroundColor: palette.dusk.withValues(alpha: .4),
                           ),
                           const SizedBox(height: 6),

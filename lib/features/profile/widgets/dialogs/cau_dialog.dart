@@ -12,6 +12,7 @@ class CauldronDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scale = context.globalScale;
     final cauldrons = context.watchProfile.cauldrons;
     final isFull = cauldrons >= 5;
 
@@ -47,8 +48,8 @@ class CauldronDialog extends StatelessWidget {
                 children: [
                   Image.asset(
                     'assets/images/cauldron.png',
-                    width: 150 * context.globalScale,
-                    height: 150 * context.globalScale,
+                    width: 150 * scale,
+                    height: 150 * scale,
                     fit: BoxFit.contain,
                   ),
                   Positioned(

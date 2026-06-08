@@ -7,7 +7,6 @@ class Avatar extends StatelessWidget {
   final double radius;
   final Color? backgroundColor;
   final BoxBorder? border;
-  final double? scale;
   final VoidCallback? onTap;
 
   const Avatar({
@@ -16,47 +15,44 @@ class Avatar extends StatelessWidget {
     this.radius = 32,
     this.backgroundColor,
     this.border,
-    this.scale,
     this.onTap,
   });
 
   String get avatarPath => 'assets/avatars/$name.png';
 
   @override
-Widget build(BuildContext context) {
-  return AnimatedButton(
-    onTap: onTap ?? (){},
-    child: Container(
-      width: 75 * context.globalScale,
-      height: 80 * context.globalScale,
-      margin: EdgeInsets.symmetric(horizontal: 10 * context.globalScale),
-      padding: EdgeInsets.all(8 * context.globalScale), 
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(24 * context.globalScale),
-        border: border,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.3),
-            blurRadius: 4,
-            spreadRadius: 1,
-            offset: Offset(0, 5 * context.globalScale),
-          ),
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.5),
-            offset: Offset(0, 4 * context.globalScale),
-            blurRadius: 0,
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16 * context.globalScale),
-        child: Image.asset(
-          avatarPath,
-          fit: BoxFit.cover,
+  Widget build(BuildContext context) {
+    final scale = context.globalScale;
+    return AnimatedButton(
+      onTap: onTap ?? () {},
+      child: Container(
+        width: 75 * scale,
+        height: 80 * scale,
+        margin: EdgeInsets.symmetric(horizontal: 10 * scale),
+        padding: EdgeInsets.all(8 * scale),
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(24 * scale),
+          border: border,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.3),
+              blurRadius: 4,
+              spreadRadius: 1,
+              offset: Offset(0, 5 * scale),
+            ),
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.5),
+              offset: Offset(0, 4 * scale),
+              blurRadius: 0,
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16 * scale),
+          child: Image.asset(avatarPath, fit: BoxFit.cover),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }

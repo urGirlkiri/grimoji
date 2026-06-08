@@ -29,19 +29,20 @@ class GameBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scale = context.globalScale;
     final profile = context.watchProfile;
 
     return SafeArea(
       bottom: false,
       child: SizedBox(
-        height: 105.0 * context.globalScale,
+        height: 105.0 * scale,
         child: Container(
           color: backgroundColor,
           child: Stack(
             clipBehavior: Clip.none,
             children: [
               Container(
-                height: 90.0 * context.globalScale,
+                height: 90.0 * scale,
                 decoration: BoxDecoration(
                   color: context.palette.midnight,
                   borderRadius: const BorderRadius.vertical(
@@ -50,12 +51,12 @@ class GameBar extends StatelessWidget {
                   boxShadow: [
                     BoxShadow(
                       color: context.palette.voidBlack,
-                      offset: Offset(0, 6 * context.globalScale),
+                      offset: Offset(0, 6 * scale),
                       blurRadius: 0,
                     ),
                     BoxShadow(
                       color: context.palette.voidBlack.withValues(alpha: 0.3),
-                      offset: Offset(0, 10 * context.globalScale),
+                      offset: Offset(0, 10 * scale),
                       blurRadius: 10,
                       spreadRadius: 1,
                     ),
@@ -68,26 +69,28 @@ class GameBar extends StatelessWidget {
                       context.palette.midnight.withValues(alpha: 0.069),
                       BlendMode.dstATop,
                     ),
-                  )
+                  ),
                 ),
               ),
               Positioned(
-                top: 20 * context.globalScale,
-                left: 12 * context.globalScale,
-                right: 12 * context.globalScale,
+                top: 20 * scale,
+                left: 12 * scale,
+                right: 12 * scale,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     AppIcon(
                       fileName: 'mail_inbox',
-                      size: 30 * context.globalScale,
+                      size: 30 * scale,
                       onTap: () => onNotifTap(context),
                     ),
                     const SizedBox(width: 8),
                     ResourcePill(
                       iconPath: 'assets/images/cauldron.png',
-                      value: profile.cauldrons == 5 ? "Full" : profile.cauldrons.toString(),
+                      value: profile.cauldrons == 5
+                          ? "Full"
+                          : profile.cauldrons.toString(),
                       onTap: () => onCauldronTap(context),
                     ),
                     AnimatedButton(
@@ -100,14 +103,16 @@ class GameBar extends StatelessWidget {
                       child: ResourcePill(
                         iconPath: 'assets/images/dice.png',
                         value: profile.dices.toString(),
-                        onTap: () => GoRouter.of(context).goNamed(Routes.market),
+                        onTap: () =>
+                            GoRouter.of(context).goNamed(Routes.market),
                       ),
                     ),
                     const SizedBox(width: 8),
                     AppIcon(
                       fileName: 'settings',
-                      size: 30 * context.globalScale,
-                      onTap: () => GoRouter.of(context).pushNamed(Routes.settings),
+                      size: 30 * scale,
+                      onTap: () =>
+                          GoRouter.of(context).pushNamed(Routes.settings),
                     ),
                   ],
                 ),

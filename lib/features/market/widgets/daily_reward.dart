@@ -3,12 +3,11 @@ import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/animated_button.dart';
 
 class DailyRewardCard extends StatelessWidget {
-  final double scale;
-
-  const DailyRewardCard({super.key, required this.scale});
+  const DailyRewardCard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final scale = context.globalScale;
     final profile = context.watchProfile;
     final palette = context.palette;
     final canClaim = profile.canClaimDaily();
