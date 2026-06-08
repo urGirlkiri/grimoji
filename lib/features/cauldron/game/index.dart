@@ -16,7 +16,7 @@ class CauldronGame extends Forge2DGame with TapCallbacks, PointerMoveCallbacks, 
   final double globalScale;
   final BuildContext context;
   
- final Vector2 worldCauldronSize = Vector2(10.5125, 9.573);
+  static final Vector2 worldCauldronSize = Vector2(10.5125, 9.573);
   static final palette = Palette();
 
   late final PredictionLine predictionLine;
@@ -26,7 +26,7 @@ class CauldronGame extends Forge2DGame with TapCallbacks, PointerMoveCallbacks, 
   
   final double dropSpawnY = -4.5; 
   final double cauldronBottomY = 3.5; 
-  final bool halfShowLine = false;
+  final bool showHalfLine = false;
 
   bool _canDrop = true;
   final math.Random _random = math.Random();
@@ -46,7 +46,7 @@ class CauldronGame extends Forge2DGame with TapCallbacks, PointerMoveCallbacks, 
     required this.colorScheme,
     required this.globalScale,
   }) : super(gravity: Vector2(0, 30)) {
-    debugMode = true; 
+    debugMode = false; 
   }
 
   @override
@@ -98,7 +98,7 @@ class CauldronGame extends Forge2DGame with TapCallbacks, PointerMoveCallbacks, 
 
     predictionLine.updateLine(
       Vector2(clampedX, dropSpawnY),
-      Vector2(clampedX, cauldronBottomY + (halfShowLine ? 2.5 : 0)),
+      Vector2(clampedX, cauldronBottomY + (showHalfLine ? 2.5 : 0)),
     );
   }
 
