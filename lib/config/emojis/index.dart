@@ -11,6 +11,18 @@ class GameEmoji {
 class Emojis {
   Emojis._();
 
+  static final GameEmoji boxingGlove = GameEmoji(
+    'assets/emojis/svg/boxing_glove.svg', 'assets/emojis/lottie/boxing_glove.json', '🥊️', [
+      Vector2(-0.360, -0.173),
+      Vector2(-0.310, -0.412),
+      Vector2(-0.178, -0.500),
+      Vector2(0.242, -0.453),
+      Vector2(0.360, -0.254),
+      Vector2(0.357, -0.032),
+      Vector2(0.178, 0.495),
+      Vector2(-0.222, 0.500),
+    ],
+  );
   static final GameEmoji mountain = GameEmoji(
     'assets/emojis/svg/mountain.svg', 'assets/emojis/lottie/mountain.json', '⛰️', [
       Vector2(-0.500, 0.334),

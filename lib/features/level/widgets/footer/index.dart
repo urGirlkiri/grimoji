@@ -25,6 +25,24 @@ class Footer extends StatelessWidget {
     });
   }
 
+  void _showSnackbar(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: context.palette.dusk,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        content: Text(
+          'Coming Soon',
+          textAlign: TextAlign.center,
+          style: context.theme.textTheme.bodyMedium?.copyWith(
+            color: context.palette.moonlight,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isPaused = context.watch<LevelState>().isPaused;
@@ -46,13 +64,33 @@ class Footer extends StatelessWidget {
               enableAnimation: false,
             ),
             const SizedBox(width: 12),
-            PowerupBtn(assetPath: Emojis.crystalBall.svg, onTap: () {}),
+            PowerupBtn(
+              assetPath: Emojis.hourglassNotDone.svg,
+              onTap: () {
+                _showSnackbar(context);
+              },
+            ),
             const SizedBox(width: 12),
-            PowerupBtn(assetPath: Emojis.testTube.svg, onTap: () {}),
+            PowerupBtn(
+              assetPath: Emojis.testTube.svg,
+              onTap: () {
+                _showSnackbar(context);
+              },
+            ),
             const SizedBox(width: 12),
-            PowerupBtn(assetPath: Emojis.flyingDisc.svg, onTap: () {}),
+            PowerupBtn(
+              assetPath: Emojis.boxingGlove.svg,
+              onTap: () {
+                _showSnackbar(context);
+              },
+            ),
             const SizedBox(width: 12),
-            PowerupBtn(assetPath: Emojis.comet.svg, onTap: () {}),
+            PowerupBtn(
+              assetPath: Emojis.flyingSaucer.svg,
+              onTap: () {
+                _showSnackbar(context);
+              },
+            ),
           ],
         ),
       ),
