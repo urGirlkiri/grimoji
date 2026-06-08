@@ -1,25 +1,20 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/utils/context_data.dart';
-import 'package:provider/provider.dart';
 
 class AnText extends StatelessWidget {
-  const AnText({super.key});
+  const AnText({super.key, required this.phrase});
+
+  final String phrase;
 
   @override
   Widget build(BuildContext context) {
-      final gameState = context.watch<LevelState>().gameState;
-    final phrase = gameState.activeAnnouncement;
-    if (phrase == null) {
-      return const SizedBox.shrink();
-    }
-
     final palette = context.palette;
+
     final glowColor =
         phrase.contains("Calamity") || phrase.contains("Catastrophic")
-            ? palette.crimson
-            : palette.twilight;
+        ? palette.crimson
+        : palette.twilight;
 
     final double baseFontSize = phrase.length > 18 ? 32.0 : 48.0;
     final double scaleFactor = baseFontSize / 20.0;
@@ -63,6 +58,7 @@ class AnText extends StatelessWidget {
               ),
             ),
           ),
+
           Padding(
             padding: edgePadding,
             child: Text(
@@ -78,6 +74,7 @@ class AnText extends StatelessWidget {
               ),
             ),
           ),
+
           Padding(
             padding: edgePadding,
             child: Text(
@@ -93,6 +90,7 @@ class AnText extends StatelessWidget {
               ),
             ),
           ),
+
           ShaderMask(
             blendMode: BlendMode.srcIn,
             shaderCallback: (bounds) {
@@ -121,6 +119,5 @@ class AnText extends StatelessWidget {
         ],
       ),
     );
-
   }
 }
