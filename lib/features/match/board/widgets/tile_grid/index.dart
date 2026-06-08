@@ -1,7 +1,7 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/constants.dart';
+import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/match/board/utils/metrics.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/shuffle.dart';
@@ -68,17 +68,23 @@ class TileGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final metrics = context.watch<BoardMetrics>();
-    final levelState = context.watch<LevelState>();
+    final metrics = context.select<BoardMetrics, BoardMetrics?>(
+      (m) => m.isReady ? m : null,
+    );
+    final targetEmoji = context.select<LevelState, GameEmoji>(
+      (s) => s.level.targetEmoji,
+    );
 
-    if (!metrics.isReady) {
+    if (metrics == null) {
       return const SizedBox.shrink();
     }
+
+    final levelState = context.read<LevelState>();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (context.mounted) _initialFall(context, levelState);
     });
-    
+
     final double tWidth = metrics.tileWidth!;
     final double tHeight = metrics.tileHeight!;
     final grid = levelState.boardManager.gridTiles;
@@ -98,7 +104,7 @@ class TileGrid extends StatelessWidget {
             (tile.coordinate.row * tHeight) +
             (tile.coordinate.row * tileSpacingGap);
 
-        bool isTargetMatch = (tile.emoji == levelState.level.targetEmoji);
+        bool isTargetMatch = (tile.emoji == targetEmoji);
         bool shouldFly = tile.isFlying && !tile.hasFlown && isTargetMatch;
 
         if (shouldFly) {
@@ -122,35 +128,12 @@ class TileGrid extends StatelessWidget {
         );
       }
     }
+
     final double boardWidth = (nCol * tWidth) + ((nCol - 1) * tileSpacingGap);
 
-    final double targetWidth = levelState.gameState.shuffleProgress;
-
-    return TweenAnimationBuilder<double>(
-      tween: Tween(begin: 1.0, end: targetWidth),
-      duration: shuffleDuration,
-      curve: Curves.easeInOutCubic,
-      builder: (context, widthFactor, child) {
-        final double edgeX = boardWidth * widthFactor;
-
-        return Stack(
-          children: [
-            ClipRect(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                widthFactor: widthFactor,
-                child: SizedBox(
-                  width: boardWidth,
-                  child: Stack(children: tileWidgets),
-                ),
-              ),
-            ),
-
-            if (widthFactor > 0.0 && widthFactor < 1.0)
-              ShuffleIndicator(edgeX: edgeX),
-          ],
-        );
-      },
+    return ShuffleAnimator(
+      boardWidth: boardWidth,
+      child: Stack(children: tileWidgets),
     );
   }
 }
