@@ -5,8 +5,8 @@ void main() {
   group('Emojis Test', () {
     test('All SVGs and Lotties mentioned in emojis.dart MUST exist', () {
       
-      final file = File('lib/config/emojis.dart');
-      expect(file.existsSync(), isTrue, reason: 'Could not find lib/config/emojis.dart');
+      final file = File('lib/config/emojis/index.dart');
+      expect(file.existsSync(), isTrue, reason: 'Could not find lib/config/emojis/index.dart');
 
       final fileContent = file.readAsStringSync();
 
