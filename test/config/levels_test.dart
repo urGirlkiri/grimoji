@@ -5,6 +5,7 @@ import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/level/state.dart';
+import 'package:flutter/widgets.dart';
 import '../mocks/mock_audio_controller.dart';
 import 'package:logging/logging.dart';
 
@@ -110,6 +111,7 @@ void main() {
                 gameEnded = true;
               },
               audio: MockAudioController(),
+              lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
             );
 
             levelState.startLevel();

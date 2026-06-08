@@ -86,31 +86,7 @@ class LevelState extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool get isPaused => gameState.isPaused;
-  bool get isGameOver => gameState.isGameOver;
-
-  int get secondsRemaining =>
-      max(0, level.timeLimit - _timeLimitStopwatch.elapsed.inSeconds);
-
-  double get progress => (collectedAmount / level.targetAmount).clamp(0.0, 1.0);
-
-  void startLevel() {
-    audio.playLevelMusic();
-    _timeLimitStopwatch.start();
-    _ticker = Timer.periodic(const Duration(seconds: 1), ((timer) {
-      if (_isDisposed || !_timeLimitStopwatch.isRunning) return;
-
-      notifyListeners();
-
-      if (secondsRemaining <= 0) {
-        _evaluateGameEndAsync();
-      }
-    }));
-
-    coordinator.startInitialDrop();
-  }
-
-  void _incrementCollectedAmnt(int count) {
+    void _incrementCollectedAmnt(int count) {
     collectedAmount += count;
     notifyListeners();
 
@@ -164,6 +140,30 @@ class LevelState extends ChangeNotifier {
     }
 
     return false;
+  }
+
+  bool get isPaused => gameState.isPaused;
+  bool get isGameOver => gameState.isGameOver;
+
+  int get secondsRemaining =>
+      max(0, level.timeLimit - _timeLimitStopwatch.elapsed.inSeconds);
+
+  double get progress => (collectedAmount / level.targetAmount).clamp(0.0, 1.0);
+
+  void startLevel() {
+    audio.playLevelMusic();
+    _timeLimitStopwatch.start();
+    _ticker = Timer.periodic(const Duration(seconds: 1), ((timer) {
+      if (_isDisposed || !_timeLimitStopwatch.isRunning) return;
+
+      notifyListeners();
+
+      if (secondsRemaining <= 0) {
+        _evaluateGameEndAsync();
+      }
+    }));
+
+    coordinator.startInitialDrop();
   }
 
   void togglePause() {

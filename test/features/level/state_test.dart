@@ -5,6 +5,7 @@ import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
+import 'package:flutter/widgets.dart';
 import 'package:grimoji/utils/test_helpers.dart';
 
 import '../../mocks/mock_audio_controller.dart';
@@ -34,6 +35,7 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
         );
 
         state.startLevel();
@@ -50,6 +52,7 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
         );
 
         state.startLevel();
@@ -77,6 +80,7 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
         );
 
         TestHelpers.genDeadLockGrid(state.engine);
@@ -111,6 +115,7 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
         );
 
         TestHelpers.genDeadLockGrid(state.engine);
@@ -138,6 +143,7 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
         );
 
         TestHelpers.genDeadLockGrid(state.engine);
@@ -164,6 +170,7 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
         );
 
         state.coordinator.shuffleBoard();
@@ -179,6 +186,7 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
         );
 
         TestHelpers.genDeadLockGrid(state.engine);
@@ -203,6 +211,7 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
         );
 
         state.startLevel();
@@ -222,6 +231,7 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
         );
 
         state.startLevel();
@@ -244,6 +254,7 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
         );
 
         state.startLevel();
@@ -268,6 +279,7 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
         );
 
         state.startLevel();
@@ -289,6 +301,7 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
         );
 
         state.startLevel();
