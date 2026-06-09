@@ -42,6 +42,21 @@ workflows:
           zip -q -r grimoji_ios_preview.zip Runner.app
           echo "Zip file created successfully!"
 
+      - name: Upload to Appetize.io
+        script: |
+          echo "Uploading zip to Appetize..."
+          RESPONSE=$(curl -s -X POST "https://api.appetize.io/v1/apps" \
+            -H "X-API-KEY: $APPETIZE_API_TOKEN" \
+            -F "file=@build/ios/iphonesimulator/grimoji_ios_preview.zip" \
+            -F "platform=ios")
+          
+          # Extract the URL from the JSON response
+          PUBLIC_URL=$(echo $RESPONSE | jq -r '.publicURL')
+          
+          echo "========================================================"
+          echo "🚀 Ios Preview is Live :!"
+          echo "🎮 $PUBLIC_URL"
+          echo "========================================================"
+
     artifacts:
-      - build/ios/iphonesimulator/Runner.app
       - build/ios/iphonesimulator/grimoji_ios_preview.zip
