@@ -45,18 +45,30 @@ workflows:
       - name: Upload to Appetize.io
         script: |
           echo "Uploading zip to Appetize..."
+          
+          if [ -z "$APPETIZE_API_TOKEN" ]; then
+            echo "❌ ERROR: APPETIZE_API_TOKEN is empty!"
+            exit 1
+          fi
+
           RESPONSE=$(curl -s -X POST "https://api.appetize.io/v1/apps" \
             -H "X-API-KEY: $APPETIZE_API_TOKEN" \
             -F "file=@build/ios/iphonesimulator/grimoji_ios_preview.zip" \
             -F "platform=ios")
           
-          # Extract the URL from the JSON response
+          echo "Appetize Response:"
+          echo "$RESPONSE"
+          
           PUBLIC_URL=$(echo $RESPONSE | jq -r '.publicURL')
           
-          echo "========================================================"
-          echo "🚀 Ios Preview is Live :!"
-          echo "🎮 $PUBLIC_URL"
-          echo "========================================================"
+          if [ "$PUBLIC_URL" = "null" ]; then
+            echo "❌ Upload Failed."
+          else
+            echo "========================================================"
+            echo "🚀 SUCCESS! Play your iOS preview here:"
+            echo "🎮 $PUBLIC_URL"
+            echo "========================================================"
+          fi
 
     artifacts:
       - build/ios/iphonesimulator/grimoji_ios_preview.zip
