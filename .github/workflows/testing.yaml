@@ -1,13 +1,26 @@
-name: CI & Testing
+name: CI
 
 on:
-  workflow_run:
-    workflows: ["Compress Media"]
-    types:
-      - completed
+  push:
+    branches:
+      - main
+      - staging
+    paths-ignore:
+      - '**/*.png'
+      - '**/*.svg'
+      - '**/*.m4a'
+      - '**/*.mp4'
+      - '**/*.gif'
+      - '**/*.ttf'
+      - '**/*.json'
+
+  pull_request:
+    branches:
+      - main
+      - staging
 
 jobs:
-  test-and-deploy-internal:
+  integration-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
