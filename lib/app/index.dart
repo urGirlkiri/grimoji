@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:grimoji/app/lifecycle.dart';
 import 'package:grimoji/app/theme.dart';
@@ -9,6 +10,7 @@ import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/features/settings/controller.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_performance_optimizer/flutter_performance_optimizer.dart';
 
 class Grimoji extends StatelessWidget {
   final ProfileController profileController;
@@ -47,6 +49,14 @@ class Grimoji extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               theme: AppTheme.buildTheme(palette, scale),
               routerConfig: router,
+              builder: (context, child) {
+                return PerformanceOptimizer(
+                  enabled: kDebugMode,         
+                  showDashboard: kDebugMode,   
+                  showHeatmap: false,        
+                  child: child ?? const SizedBox.shrink(),
+                );
+              },
             );
           },
         ),

@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_performance_optimizer/flutter_performance_optimizer.dart';
 import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/features/profile/models/profile_data.dart';
 import 'package:grimoji/features/profile/persistance/hive.dart';
@@ -58,6 +59,12 @@ void main() async {
   ]);
 
   RecipeBook.initialize();
+
+  if (kDebugMode) {
+    AISuggestionService.instance.enabled = false;
+    
+    AISuggestionService.instance.apiKey =  dotenv.env['GEMINI_API_KEY'];
+  }
 
   runApp(Grimoji(profileController: profileController));
 }
