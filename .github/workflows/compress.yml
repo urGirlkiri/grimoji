@@ -4,12 +4,16 @@ on:
   push:
     branches:
       - main
+    paths:
+      - '**/*.m4a'
+      - '**/*.png'
+      - '**/*.svg'
+      - '**/*.json'
+      - '!**/screenshots/**' 
 
 jobs:
   compress-media:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     
     steps:
       - name: Checkout repository
