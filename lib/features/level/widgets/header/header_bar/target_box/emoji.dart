@@ -13,7 +13,7 @@ class TargetEmoji extends StatelessWidget {
     final hasCombo = context.select<LevelState, bool>(
       (s) => s.gameState.hasTargetCombo,
     );
-    final isPaused = context.select<LevelState, bool>((s) => s.isPaused);
+    final isPaused = context.select<LevelState, bool>((s) => s.gameState.isPaused);
     final targetIconKey = context.select<LevelState, GlobalKey>(
       (s) => s.targetIconKey,
     );

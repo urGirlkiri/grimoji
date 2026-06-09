@@ -25,17 +25,17 @@ class _FooterState extends State<Footer> {
     super.initState();
     _levelState = context.read<LevelState>();
     
-    _levelState.addListener(_onStateChanged);
+    _levelState.gameState.addListener(_onStateChanged);
   }
 
   @override
   void dispose() {
-    _levelState.removeListener(_onStateChanged);
+    _levelState.gameState.removeListener(_onStateChanged);
     super.dispose();
   }
 
   void _onStateChanged() {
-    if (_levelState.isPaused && !_isPauseDialogOpen) {
+    if (_levelState.gameState.isPaused && !_isPauseDialogOpen) {
       _showPauseDialog();
     }
   }
@@ -55,16 +55,16 @@ class _FooterState extends State<Footer> {
         
         _isPauseDialogOpen = false;
         
-        if (_levelState.isPaused) {
-          _levelState.togglePause();
+        if (_levelState.gameState.isPaused) {
+          _levelState.coordinator.togglePause();
         }
       });
     });
   }
 
   void _handlePauseTap() {
-    if (!_levelState.isPaused) {
-      _levelState.togglePause();
+    if (!_levelState.gameState.isPaused) {
+      _levelState.coordinator.togglePause();
     }
   }
 
@@ -88,8 +88,7 @@ class _FooterState extends State<Footer> {
 
   @override
   Widget build(BuildContext context) {
-    // We still watch for UI rebuilds (e.g., swapping the pause/resume icon)
-    final isPaused = context.watch<LevelState>().isPaused;
+    final isPaused = context.watch<LevelState>().gameState.isPaused;
     
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),

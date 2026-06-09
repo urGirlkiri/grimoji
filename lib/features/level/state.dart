@@ -56,8 +56,8 @@ class LevelState extends ChangeNotifier {
     );
 
     gameState.addListener(notifyListeners);
-    lifecycleNotifier.addListener(_onLifecycleChanged);
     gameState.addListener(_onGameStateChanged);
+    lifecycleNotifier.addListener(_onLifecycleChanged);
   }
 
   void _onLifecycleChanged() {
@@ -66,8 +66,8 @@ class LevelState extends ChangeNotifier {
     if (state == AppLifecycleState.inactive ||
         state == AppLifecycleState.hidden ||
         state == AppLifecycleState.paused) {
-      if (!isPaused && !isGameOver) {
-        togglePause();
+      if (!gameState.isPaused && !gameState.isGameOver) {
+        coordinator.togglePause();
       }
     }
   }
@@ -82,8 +82,6 @@ class LevelState extends ChangeNotifier {
         _timeLimitStopwatch.start();
       }
     }
-
-    notifyListeners();
   }
 
     void _incrementCollectedAmnt(int count) {
@@ -142,13 +140,12 @@ class LevelState extends ChangeNotifier {
     return false;
   }
 
-  bool get isPaused => gameState.isPaused;
-  bool get isGameOver => gameState.isGameOver;
-
   int get secondsRemaining =>
       max(0, level.timeLimit - _timeLimitStopwatch.elapsed.inSeconds);
 
   double get progress => (collectedAmount / level.targetAmount).clamp(0.0, 1.0);
+
+  int _lastNotifiedSeconds = -1;
 
   void startLevel() {
     audio.playLevelMusic();
@@ -156,7 +153,11 @@ class LevelState extends ChangeNotifier {
     _ticker = Timer.periodic(const Duration(seconds: 1), ((timer) {
       if (_isDisposed || !_timeLimitStopwatch.isRunning) return;
 
-      notifyListeners();
+      final currentSeconds = secondsRemaining;
+      if (currentSeconds != _lastNotifiedSeconds) {
+        _lastNotifiedSeconds = currentSeconds;
+        notifyListeners();
+      }
 
       if (secondsRemaining <= 0) {
         _evaluateGameEndAsync();
@@ -166,13 +167,7 @@ class LevelState extends ChangeNotifier {
     coordinator.startInitialDrop();
   }
 
-  void togglePause() {
-    coordinator.togglePause();
-    gameState.isPaused
-        ? _timeLimitStopwatch.stop()
-        : _timeLimitStopwatch.start();
-    notifyListeners();
-  }
+ 
 
   @override
   void dispose() {
