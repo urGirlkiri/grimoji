@@ -22,7 +22,7 @@ workflows:
           
     environment:
       groups:
-        - env_secrets 
+        - Deploy 
       flutter: stable
     scripts:
       - name: Create .env file for Flutter
