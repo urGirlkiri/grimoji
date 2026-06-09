@@ -76,7 +76,7 @@ workflows:
                   -H "Authorization: Bearer $GITHUB_PAT" \
                   -H "X-GitHub-Api-Version: 2022-11-28" \
                   https://api.github.com/repos/$CM_REPO_SLUG/issues/$CM_PULL_REQUEST_NUMBER/comments \
-                  -d "{\"body\":\"iOS Preview Bot** ✨\n\nChanges are ready to test on iOS!\n🎮 **[Click here to play on Appetize.io]($PUBLIC_URL)**\"}"
+                  -d "{\"body\":\"**IOS Preview Bot** ✨\n\nChanges are ready to test on iOS!\n🎮 **[Click here to play on Appetize.io]($PUBLIC_URL)**\"}"
               
               else
                 echo "Posting preview link to Commit $CM_COMMIT..."
@@ -86,7 +86,7 @@ workflows:
                   -H "Authorization: Bearer $GITHUB_PAT" \
                   -H "X-GitHub-Api-Version: 2022-11-28" \
                   https://api.github.com/repos/$CM_REPO_SLUG/commits/$CM_COMMIT/comments \
-                  -d "{\"body\":\" iOS Preview Bot** ✨\n\nStaging branch updated!\n🎮 **[Click here to play on Appetize.io]($PUBLIC_URL)**\"}"
+                  -d "{\"body\":\"**IOS Preview Bot** ✨\n\nStaging branch updated!\n🎮 **[Click here to play on Appetize.io]($PUBLIC_URL)**\"}"
               fi
             else
               echo "⚠️ GITHUB_PAT not found. Skipping GitHub comment."
