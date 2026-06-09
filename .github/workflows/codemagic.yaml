@@ -1,0 +1,44 @@
+workflows:
+  ios-simulator-preview:
+    name: iOS Simulator Build 
+    instance_type: mac_mini_m1
+    max_build_duration: 30
+    
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: release
+          include: true
+          
+    cache:
+      cache_paths:
+        - $HOME/.pub-cache
+        - $HOME/Library/Caches/CocoaPods
+        - $HOME/Library/Developer/Xcode/DerivedData/CompilationCache.noindex
+          
+    environment:
+      groups:
+        - env_secrets 
+      flutter: stable
+    scripts:
+      - name: Create .env file for Flutter
+        script: |
+          echo "HACKAI_API_KEY=$HACKAI_API_KEY" > .env
+          echo "MAP_BUILDER_MODE=$MAP_BUILDER_MODE" >> .env
+
+      - name: Fetch packages
+        script: flutter pub get
+
+      - name: Build iOS App
+        script: flutter build ios --simulator
+
+      - name: Zip the .app for Appetize.io
+        script: |
+          cd build/ios/iphonesimulator
+          zip -q -r grimoji_ios_preview.zip Runner.app
+          echo "Zip file created successfully!"
+
+    artifacts:
+      - build/ios/iphonesimulator/Runner.app
+      - build/ios/iphonesimulator/grimoji_ios_preview.zip
