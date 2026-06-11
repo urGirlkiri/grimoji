@@ -74,14 +74,24 @@ class _WinGameScreenState extends State<WinGameScreen> {
     }
   }
 
+  void _navigateToMap() {
+    GoRouter.of(context).goNamed(Routes.map);
+  }
+
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
 
-    return Scaffold(
-      backgroundColor: palette.twilight,
-      body: SafeArea(
-        child: Stack(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        _navigateToMap();
+      },
+      child: Scaffold(
+        backgroundColor: palette.twilight,
+        body: SafeArea(
+          child: Stack(
           children: [
             const SizedBox.expand(child: Confetti(isStopped: false)),
 
@@ -151,6 +161,6 @@ class _WinGameScreenState extends State<WinGameScreen> {
           ],
         ),
       ),
-    );
+    ));
   }
 }

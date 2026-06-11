@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/utils/context_data.dart';
 
-Future<T?> showAnimatedDialog<T>(BuildContext context, Widget dialog) {
+Future<T?> showAnimatedDialog<T>(
+  BuildContext context,
+  Widget dialog, {
+  bool barrierDismissible = true,
+}) {
   return showGeneralDialog<T>(
     context: context,
-    barrierDismissible: true,
+    barrierDismissible: barrierDismissible,
     barrierLabel: 'Dismiss',
-    barrierColor: context.palette.voidBlack.withValues(alpha: 0.7), 
+    barrierColor: context.palette.voidBlack.withValues(alpha: 0.7),
     transitionDuration: const Duration(milliseconds: 250),
     pageBuilder: (context, animation, secondaryAnimation) => dialog,
     transitionBuilder: (context, animation, secondaryAnimation, child) {
@@ -17,10 +21,7 @@ Future<T?> showAnimatedDialog<T>(BuildContext context, Widget dialog) {
         ),
         child: ScaleTransition(
           scale: Tween<double>(begin: 0.6, end: 1.0).animate(
-            CurvedAnimation(
-              parent: animation,
-              curve: Curves.easeInOutCubic,
-            ),
+            CurvedAnimation(parent: animation, curve: Curves.easeInOutCubic),
           ),
           child: child,
         ),
