@@ -1,32 +1,10 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:grimoji/features/market/widgets/daily_reward.dart';
+import 'package:grimoji/features/market/widgets/daily_reward/index.dart';
 import 'package:grimoji/features/market/widgets/shop_item.dart';
 import 'package:grimoji/utils/context_data.dart';
 
-class MarketScreen extends StatefulWidget {
+class MarketScreen extends StatelessWidget {
   const MarketScreen({super.key});
-
-  @override
-  State<MarketScreen> createState() => _MarketScreenState();
-}
-
-class _MarketScreenState extends State<MarketScreen> {
-  late Timer _timer;
-
-  @override
-  void initState() {
-    super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (mounted) setState(() {});
-    });
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
 
   void _showSnackbar(
     BuildContext context,
@@ -60,15 +38,14 @@ class _MarketScreenState extends State<MarketScreen> {
       body: Container(
         decoration: BoxDecoration(
           color: context.palette.midnight,
-         image: DecorationImage(
-          image: const AssetImage('assets/images/vertical_lines.png'),
-          fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(
-            context.palette.voidBlack.withValues(alpha: 0.009),
-            BlendMode.dstATop,
+          image: DecorationImage(
+            image: const AssetImage('assets/images/vertical_lines.png'),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+              context.palette.voidBlack.withValues(alpha: 0.009),
+              BlendMode.dstATop,
+            ),
           ),
-        
-        ),
         ),
         child: ListView(
           padding: EdgeInsets.all(24.0 * scale),
@@ -83,11 +60,8 @@ class _MarketScreenState extends State<MarketScreen> {
               ),
             ),
             SizedBox(height: 16 * scale),
-        
             const DailyRewardCard(),
-        
             SizedBox(height: 36 * scale),
-        
             Text(
               "Bazaar",
               style: context.theme.textTheme.titleMedium?.copyWith(
@@ -97,7 +71,6 @@ class _MarketScreenState extends State<MarketScreen> {
               ),
             ),
             SizedBox(height: 16 * scale),
-        
             ShopItemCard(
               title: "Restore Cauldron",
               description: "Instantly restore 1 Cauldron.",
@@ -121,9 +94,7 @@ class _MarketScreenState extends State<MarketScreen> {
                 }
               },
             ),
-        
             SizedBox(height: 20 * scale),
-        
             ShopItemCard(
               title: "Cauldron Refill",
               description: "Instantly restore all 5 Cauldrons.",
