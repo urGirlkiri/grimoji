@@ -42,4 +42,10 @@ A gothic alchemy game for mixing and collecting emojis.
 [Mohamed Nasr](https://github.com/mohamedhaloka/Game-Levels-Scrolling-Map) for inspiring me with his game level scrolling map<br>
 [Audio Trimmer](https://audiotrimmer.com/) for that extra touch :)<br>
 [pikisuperstar on Magnific](https://www.magnific.com/author/pikisuperstar) for the hand drawn mascot 
+
+### License & Copyright
+
+The source code of Grimoji is made available under the [PolyForm Noncommercial License 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0). You are free to study, modify, and self-host the code for personal or educational purposes, but you may **not** use it for any commercial purpose (including ad revenue or paid deployment).
+
+The "Grimoji" brand, custom artwork, UI designs, lore, and sfx are strictly **All Rights Reserved** by Ghetto Coders / Christin Nyakanyanga. They may not be reused or redistributed outside of personal, non-commercial mods of Grimoji itself.
 </div>
