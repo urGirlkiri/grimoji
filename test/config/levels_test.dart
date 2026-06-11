@@ -95,8 +95,8 @@ void main() {
 
       test(
         'Level ${level.number} should be winnable within a reasonable number of moves',
-        () {
-          fakeAsync((async) {
+        () async {
+          fakeAsync((async) async {
             int finalStars = 0;
             bool gameEnded = false;
 
@@ -120,7 +120,7 @@ void main() {
             int moveCount = 0;
 
             while (moveCount < maxMoves && !gameEnded) {
-              final hint = levelState.engine.getHintMove();
+              final hint = await levelState.engine.getHintMove();
 
               if (hint != null) {
                 levelState.coordinator.resolveSwipe(hint[0], hint[1]);

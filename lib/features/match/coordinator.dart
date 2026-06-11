@@ -363,15 +363,16 @@ class GameCoordinator {
     }
   }
 
-  void _triggerHint() {
+  Future<void> _triggerHint() async {
     if (state.isProcessing ||
         state.isShuffling ||
         state.isDisposed ||
-        state.isGameOver || state.isPaused ) {
+        state.isGameOver ||
+        state.isPaused) {
       return;
     }
 
-    _currentHints = engine.getHintMove();
+    _currentHints = await engine.getHintMove();
     if (_currentHints != null) {
       audio.playSfx(SfxType.hint);
       Tile tileA = engine.grid[_currentHints![0].row][_currentHints![0].col];
