@@ -30,11 +30,12 @@ class LevelScreen extends StatefulWidget {
 class _LevelScreenState extends State<LevelScreen> {
   bool _duringCelebration = false;
   bool _isQuitDialogOpen = false;
+  late final LevelState _levelState;
+  late final BoardMetrics _boardMetrics;
 
   static final _log = Logger('LevelScreen');
   static const _celebrationDuration = Duration(milliseconds: 2000);
   static const _preCelebrationDuration = Duration(milliseconds: 500);
-
 
   void _showQuitDialog() {
     if (_isQuitDialogOpen) return;
@@ -43,10 +44,9 @@ class _LevelScreenState extends State<LevelScreen> {
       _isQuitDialogOpen = true;
     });
 
-    showAnimatedDialog(
-     context,
-     QuitDialog(level: widget.level.number)
-    ).then((_) {
+    showAnimatedDialog(context, QuitDialog(level: widget.level.number)).then((
+      _,
+    ) {
       if (mounted) {
         setState(() {
           _isQuitDialogOpen = false;
@@ -101,7 +101,16 @@ class _LevelScreenState extends State<LevelScreen> {
   @override
   void initState() {
     super.initState();
-    context.readAudio.playLevelMusic(); 
+    context.readAudio.playLevelMusic();
+
+    _levelState = LevelState(
+      onWin: _playerWon,
+      onLose: _playerFailed,
+      level: widget.level,
+      audio: context.readAudio,
+      lifecycleNotifier: context.read<AppLifecycleStateNotifier>(),
+    );
+    _boardMetrics = BoardMetrics();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.readProfile.markGamePlayed();
@@ -109,23 +118,20 @@ class _LevelScreenState extends State<LevelScreen> {
   }
 
   @override
+  void dispose() {
+    _levelState.dispose();
+    _boardMetrics.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         Provider.value(value: widget.level),
-
-        ChangeNotifierProvider(
-          create: (context) => LevelState(
-            onWin: _playerWon,
-            onLose: _playerFailed,
-            level: widget.level,
-            audio: context.readAudio,
-            lifecycleNotifier: context.read<AppLifecycleStateNotifier>(),
-          ),
-        ),
-        ChangeNotifierProvider(create: (_) => BoardMetrics()),
+        ChangeNotifierProvider.value(value: _levelState),
+        ChangeNotifierProvider.value(value: _boardMetrics),
       ],
-
       child: Builder(
         builder: (context) {
           return PopScope(
