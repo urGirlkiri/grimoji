@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/router/layout/nav_item.dart';
+import 'package:grimoji/config/router/layout/shell_tab.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/profile/widgets/game_bar/index.dart';
 import 'package:grimoji/utils/context_data.dart';
@@ -25,14 +26,18 @@ class LayoutScaffold extends StatelessWidget {
     final double iconBaseSize = isLarge ? 100.0 : 60.0;
     final double iconSelectedSize = isLarge ? 120.0 : 80.0;
 
-    return Scaffold(
-      body: Column(
-        children: [
-          GameBar(backgroundColor: isMap ? const Color(0xFF48484f) : palette.midnight),
-          Expanded(child: navigationShell),
-        ],
-      ),
-      bottomNavigationBar: Container(
+    return ShellTabScope(
+      activeIndex: navigationShell.currentIndex,
+      child: Scaffold(
+        body: Column(
+          children: [
+            GameBar(
+              backgroundColor: isMap ? const Color(0xFF48484f) : palette.midnight,
+            ),
+            Expanded(child: navigationShell),
+          ],
+        ),
+        bottomNavigationBar: Container(
         height: navHeight,
         decoration: BoxDecoration(
           border: Border(
@@ -88,6 +93,7 @@ class LayoutScaffold extends StatelessWidget {
               );
             }).toList(),
           ),
+        ),
         ),
       ),
     );
