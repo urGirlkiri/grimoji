@@ -144,12 +144,19 @@ class GameCoordinator {
   Future<bool> executeCascadePhase(TileCoordinate targetCoordinate) async {
     bool isFirstMatch = true;
     bool executionOccurred = false;
+    Set<int> affectedColumns = {};
+    Set<int> affectedRows = {};
 
     while (true) {
       await waitIfPaused();
-      final matchedGroups = MatchDetector.findMatchedGroups(
-        boardManager.gridTiles,
-      );
+      
+      final matchedGroups = (affectedColumns.isEmpty || affectedRows.isEmpty)
+          ? MatchDetector.findMatchedGroups(boardManager.gridTiles)
+          : MatchDetector.findMatchesInVectors(
+              grid: boardManager.gridTiles,
+              affectedColumns: affectedColumns,
+              affectedRows: affectedRows,
+            );
 
       matchedGroups.removeWhere(
         (group) => group.coordinates.any((c) {
@@ -222,7 +229,10 @@ class GameCoordinator {
         ...mergedFlyingTargets,
       };
 
-      boardManager.applyGravity(allDestroyed);
+      final gravityDeltas = boardManager.applyGravity(allDestroyed);
+      affectedColumns = gravityDeltas.cols;
+      affectedRows = gravityDeltas.rows;
+      
       boardManager.clearAllFlyingFlags();
       state.updateUI();
 
@@ -273,7 +283,6 @@ class GameCoordinator {
         ...targetFlyingTransforms,
       };
 
-      boardManager.clearTransmutingFlags();
       boardManager.applyGravity(allDestroyed);
       boardManager.clearAllFlyingFlags();
       state.updateUI();

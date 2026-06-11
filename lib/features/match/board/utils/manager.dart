@@ -99,20 +99,33 @@ class BoardManager {
     return true;
   }
 
-  void applyGravity(Set<TileCoordinate> tilesToDestroy) {
+  ({Set<int> cols, Set<int> rows}) applyGravity(Set<TileCoordinate> tilesToDestroy) {
+    final Set<int> affectedColumns = {};
+    final Set<int> affectedRows = {};
+    
     for (int c = 0; c < cols; c++) {
       List<Tile> remainingTiles = [];
       int destroyedCount = 0;
+      int highestDestroyedRow = -1;
 
       for (int r = 0; r < rows; r++) {
         if (tilesToDestroy.any((m) => m.row == r && m.col == c)) {
           destroyedCount++;
+          if (r > highestDestroyedRow) {
+            highestDestroyedRow = r;
+          }
         } else {
           remainingTiles.add(gridTiles[r][c]);
         }
       }
 
       if (destroyedCount == 0) continue;
+      
+      affectedColumns.add(c);
+      
+      for (int r = 0; r <= highestDestroyedRow; r++) {
+        affectedRows.add(r);
+      }
 
       playSfx?.call(SfxType.fall);
 
@@ -132,6 +145,8 @@ class BoardManager {
         gridTiles[r][c].coordinate.col = c;
       }
     }
+    
+    return (cols: affectedColumns, rows: affectedRows);
   }
 
   ({int x, int y})? findAdjacentEmptyTile(int centerX, int centerY) {

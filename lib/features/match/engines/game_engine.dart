@@ -140,13 +140,20 @@ class GameEngine {
 
   void shuffleGrid() {
     bool validBoard = false;
-    while (!validBoard) {
+    int attempts = 0;
+    const maxAttempts = 50;
+    
+    while (!validBoard && attempts < maxAttempts) {
       boardManager.shuffleGrid();
 
-      validBoard = hasPossibleMoves();
-      if (MatchDetector.findMatchedGroups(grid).isNotEmpty) {
-        validBoard = false;
+      final immediateMatches = MatchDetector.findMatchedGroups(grid);
+      if (immediateMatches.isNotEmpty) {
+        attempts++;
+        continue;
       }
+
+      validBoard = hasPossibleMoves();
+      attempts++;
     }
 
     for (int r = 0; r < BoardManager.rows; r++) {
