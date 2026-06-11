@@ -93,6 +93,7 @@ class GameState extends ChangeNotifier {
   void dispose() {
     isDisposed = true;
     isProcessing = false;
+    announcer.clear();
     super.dispose();
   }
 }

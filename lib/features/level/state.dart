@@ -180,6 +180,7 @@ class LevelState extends ChangeNotifier {
     _ticker?.cancel();
     _timeLimitStopwatch.stop();
     gameState.removeListener(notifyListeners);
+    gameState.removeListener(_onGameStateChanged);
     lifecycleNotifier.removeListener(_onLifecycleChanged);
     coordinator.dispose();
     super.dispose();
