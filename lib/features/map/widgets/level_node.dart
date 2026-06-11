@@ -9,54 +9,61 @@ import 'package:grimoji/widgets/animations/dialog.dart';
 class LevelNode extends StatelessWidget {
   final GameLevel level;
   final int stars;
+  final double cacheSize; 
+  final bool isUnlocked;
 
-  const LevelNode({super.key, required this.level, required this.stars});
+  const LevelNode({
+    super.key, 
+    required this.level, 
+    required this.stars,
+    required this.cacheSize,
+    required this.isUnlocked,
+  });
 
   @override
   Widget build(BuildContext context) {
+    if (!isUnlocked) return const SizedBox.shrink();
+
     const double nodeSize = 85.0;
     const double fontSize = 28.0;
 
-    var imagePath = "assets/images/map/level.png";
+    final String imagePath = switch (stars) {
+      1 => "assets/images/map/level_1_star.png",
+      2 => "assets/images/map/level_2_stars.png",
+      3 => "assets/images/map/level_3_stars.png",
+      _ => "assets/images/map/level.png",
+    };
 
-    switch (stars) {
-      case 1:
-        imagePath = "assets/images/map/level_1_star.png";
-        break;
-      case 2:
-        imagePath = "assets/images/map/level_2_stars.png";
-        break;
-      case 3:
-        imagePath = "assets/images/map/level_3_stars.png";
-        break;
-    }
-
-    return InkWell(
-      borderRadius: BorderRadius.circular(100),
-      onTap: () => _showLevelDialog(context),
-      child: SizedBox(
-        width: 100,
-        height: 100,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Image.asset(
-              imagePath,
-              fit: BoxFit.contain,
-              width: nodeSize,
-              height: nodeSize,
-            ),
-            Positioned(
-              top: stars > 0 ? 18 : null,
-              child: Text(
-                level.number.toString(),
-                style: context.theme.textTheme.titleLarge?.copyWith(
-                  fontSize: fontSize,
-                  fontWeight: FontWeight.w900,
+    return RepaintBoundary( 
+      child: InkWell(
+        borderRadius: BorderRadius.circular(100),
+        onTap: () => _showLevelDialog(context),
+        child: SizedBox(
+          width: 100,
+          height: 100,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Image.asset(
+                imagePath,
+                fit: BoxFit.contain,
+                width: nodeSize,
+                height: nodeSize,
+                cacheWidth: cacheSize.round(),
+                cacheHeight: cacheSize.round(),
+              ),
+              Positioned(
+                top: stars > 0 ? 18 : null,
+                child: Text(
+                  level.number.toString(),
+                  style: context.theme.textTheme.titleLarge?.copyWith(
+                    fontSize: fontSize,
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

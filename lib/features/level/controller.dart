@@ -13,6 +13,7 @@ import 'models/hive_data_persistence.dart';
 class LevelDataController extends ChangeNotifier {
   final LevelDataPersistence _store;
   final Map<int, LevelData> _levelData = {};
+  int _mapVersion = 0;
 
   bool isInitialized = false;
 
@@ -37,6 +38,7 @@ class LevelDataController extends ChangeNotifier {
     _getLatestFromStore();
   }
 
+  int get mapVersion => _mapVersion;
   int getStars(int level) => _levelData[level]?.stars ?? 0;
 
   int currentLevel() {
@@ -58,6 +60,7 @@ class LevelDataController extends ChangeNotifier {
 
   Future<void> saveLevelCompletion(int level, int stars) async {
     _levelData[level] = LevelData(level: level, stars: stars);
+    _mapVersion++;
     notifyListeners();
 
     await _store.saveLevelStars(level, stars);
@@ -81,6 +84,7 @@ class LevelDataController extends ChangeNotifier {
   Future<void> reset() async {
     await _store.clearAllData();
     _levelData.clear();
+    _mapVersion++;
     notifyListeners();
   }
 }

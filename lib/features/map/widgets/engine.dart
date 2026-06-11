@@ -41,6 +41,11 @@ class MapEngine extends StatelessWidget {
   Widget build(BuildContext context) {
     final double mapHeight = mapWidth * (mapImgHeight / mapImgWidth);
     
+    final double dpr = MediaQuery.devicePixelRatioOf(context);
+    final int cacheWidth = (mapWidth * dpr).round();
+    final int cacheHeight = (mapHeight * dpr).round();
+    final double computedNodeCacheSize = 85.0 * dpr;
+
     final bool isBuilderMode = onDeleteNode != null;
     final bool isCursorMode = isBuilderMode && !isPlacementMode;
 
@@ -49,11 +54,17 @@ class MapEngine extends StatelessWidget {
       height: mapHeight,
       child: Stack(
         children: [
-          Image.asset(
-            'assets/images/map/map_visual.png',
-            width: mapWidth,
-            height: mapHeight,
-            fit: BoxFit.fill,
+          RepaintBoundary(
+            child: Image.asset(
+              'assets/images/map/map_visual.png',
+              width: mapWidth,
+              height: mapHeight,
+              fit: BoxFit.fill,
+              cacheWidth: cacheWidth,
+              cacheHeight: cacheHeight,
+              filterQuality: FilterQuality.low,
+              gaplessPlayback: true,
+            ),
           ),
 
           ...nodes.map((node) {
@@ -77,11 +88,14 @@ class MapEngine extends StatelessWidget {
                       ? TempNode(
                           isCursorMode: isCursorMode,
                           onTap: () => onDeleteNode!(node),
-                          child: LevelNode(level: levelDef, stars: 3),
+                          child: LevelNode(level: levelDef, stars: 3, cacheSize: computedNodeCacheSize, isUnlocked: true),
                         )
-                      : (isUnlocked
-                          ? LevelNode(level: levelDef, stars: stars)
-                          : const SizedBox.shrink()),
+                      : LevelNode(
+                          level: levelDef, 
+                          stars: stars, 
+                          cacheSize: computedNodeCacheSize,
+                          isUnlocked: isUnlocked,
+                        ),
                 ),
               ),
             );
@@ -105,6 +119,8 @@ class MapEngine extends StatelessWidget {
                                 ? gameLevels[(nodes.length) % gameLevels.length]
                                 : _previewLevel(nodes.length + 1)),
                         stars: 0,
+                        cacheSize: computedNodeCacheSize,
+                        isUnlocked: true,
                       ),
                     ),
                   ),
