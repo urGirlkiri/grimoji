@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
@@ -21,9 +22,9 @@ class _AppLifecycleObserverState extends State<AppLifecycleObserver> {
   static final _log = Logger('AppLifecycleObserver');
   late final AppLifecycleListener _appLifecycleListener;
 
-  final ValueNotifier<AppLifecycleState> lifecycleListenable = ValueNotifier(
-    AppLifecycleState.inactive,
-  );
+  late final ValueNotifier<AppLifecycleState> lifecycleListenable = ValueNotifier(
+        SchedulerBinding.instance.lifecycleState ?? AppLifecycleState.resumed,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +49,7 @@ class _AppLifecycleObserverState extends State<AppLifecycleObserver> {
   @override
   void dispose() {
     _appLifecycleListener.dispose();
+    lifecycleListenable.dispose();
     super.dispose();
   }
 
