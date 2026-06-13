@@ -13,6 +13,8 @@ class GameState extends ChangeNotifier {
   bool isGameOver = false;
 
   int currentComboMultiplier = 0;
+  int tilesCleared = 0;
+  bool hasLegendaryEmoji = false;
   double shuffleProgress = 1.0;
   
   int updateToken = 0; 
@@ -71,6 +73,23 @@ class GameState extends ChangeNotifier {
     _notify();
   }
 
+  void addTilesCleared(int count) {
+    tilesCleared += count;
+    _notify();
+  }
+
+  void resetTilesCleared() {
+    tilesCleared = 0;
+    _notify();
+  }
+
+  void setLegendaryEmoji(bool value) {
+    if (hasLegendaryEmoji != value) {
+      hasLegendaryEmoji = value;
+      _notify();
+    }
+  }
+
   void setShuffleProgress(double value) {
     if (shuffleProgress != value) {
       shuffleProgress = value;
@@ -93,7 +112,7 @@ class GameState extends ChangeNotifier {
   void dispose() {
     isDisposed = true;
     isProcessing = false;
-    announcer.clear();
+    announcer.dispose();
     super.dispose();
   }
 }

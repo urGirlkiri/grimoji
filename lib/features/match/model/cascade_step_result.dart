@@ -6,6 +6,7 @@ class CascadeStepResult {
   final List<MatchGroup> matchedGroups;
   final Set<TileCoordinate> tilesToDestroy;
   final Set<TileCoordinate> transmutedTiles;
+  final Set<TileCoordinate> transformed;
   final List<CollectedEmoji> collectedEmojis;
   final bool hasTriggeredBombs;
 
@@ -13,6 +14,7 @@ class CascadeStepResult {
     required this.matchedGroups,
     required this.tilesToDestroy,
     required this.transmutedTiles,
+    required this.transformed,
     required this.collectedEmojis,
     required this.hasTriggeredBombs,
   });
