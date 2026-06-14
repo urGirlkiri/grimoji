@@ -51,6 +51,7 @@ void main() async {
   final profileController = ProfileController(persistence: persistence);
 
   await profileController.load();
+  profileController.checkCauldronRegen();
 
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   await SystemChrome.setPreferredOrientations([

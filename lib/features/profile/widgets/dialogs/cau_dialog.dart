@@ -34,19 +34,6 @@ class CauldronDialog extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    "Your Cauldrons",
-                    style: context.theme.textTheme.headlineMedium?.copyWith(
-                      color: context.palette.moonlight,
-                      shadows: [
-                        Shadow(
-                          color: context.palette.voidBlack,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
                   const SizedBox(height: 30),
 
                   Stack(
