@@ -11,6 +11,7 @@ class GameState extends ChangeNotifier {
   bool isPaused = false;
   bool isDisposed = false;
   bool isGameOver = false;
+  bool isFeverTime = false;
 
   int currentComboMultiplier = 0;
   int tilesCleared = 0;
@@ -93,6 +94,13 @@ class GameState extends ChangeNotifier {
   void setShuffleProgress(double value) {
     if (shuffleProgress != value) {
       shuffleProgress = value;
+      _notify();
+    }
+  }
+
+  void setFeverTime(bool value) {
+    if (isFeverTime != value) {
+      isFeverTime = value;
       _notify();
     }
   }

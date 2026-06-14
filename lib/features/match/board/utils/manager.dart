@@ -249,4 +249,35 @@ class BoardManager {
     }
     return emojis;
   }
+
+  void spawnBombs(int count) {
+    final List<TileCoordinate> candidates = [];
+    for (int r = 0; r < BoardManager.rows; r++) {
+      for (int c = 0; c < BoardManager.cols; c++) {
+        final tile = gridTiles[r][c];
+        if (!tile.isTriggered && tile.behavior == null) {
+          candidates.add(TileCoordinate(row: r, col: c));
+        }
+      }
+    }
+
+    candidates.shuffle();
+    final int toSpawn = min(count, candidates.length);
+
+    for (int i = 0; i < toSpawn; i++) {
+      final coord = candidates[i];
+      gridTiles[coord.row][coord.col].emoji = Emojis.bomb;
+      gridTiles[coord.row][coord.col].isTriggered = true;
+    }
+  }
+
+  void triggerAllBombs() {
+    for (int r = 0; r < BoardManager.rows; r++) {
+      for (int c = 0; c < BoardManager.cols; c++) {
+        if (gridTiles[r][c].emoji == Emojis.bomb && !gridTiles[r][c].isTriggered) {
+          gridTiles[r][c].isTriggered = true;
+        }
+      }
+    }
+  }
 }

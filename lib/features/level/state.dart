@@ -84,11 +84,11 @@ class LevelState extends ChangeNotifier {
     }
   }
 
-    void _incrementCollectedAmnt(int count) {
+  void _incrementCollectedAmnt(int count) {
     collectedAmount += count;
     notifyListeners();
 
-    if (progress >= 1.0) {
+    if (progress >= 1.0 && !gameState.isFeverTime) {
       _evaluateGameEndAsync();
     }
   }
@@ -96,9 +96,12 @@ class LevelState extends ChangeNotifier {
   Future<bool> _evaluateGameEndAsync() async {
     if (gameState.isGameOver) return true;
 
-    bool shouldEnd = progress >= 1.0 || secondsRemaining <= 0;
+    if (progress >= 1.0 && !gameState.isFeverTime) {
+      await _triggerFever();
+      return false;
+    }
 
-    if (shouldEnd) {
+    if (secondsRemaining <= 0) {
       gameState.setGameOver();
       coordinator.cancelHintTimer();
       _ticker?.cancel();
@@ -117,27 +120,55 @@ class LevelState extends ChangeNotifier {
 
       coordinator.clearHint();
       audio.playMenuMusic();
-
-      int earnedStars = progress >= 1.0
-          ? 3
-          : progress >= 0.66
-          ? 2
-          : progress >= 0.33
-          ? 1
-          : 0;
-
-      // ignore: unused_local_variable
-      int timeBonus = (secondsRemaining / 10).round();
-
-      if (earnedStars > 0) {
-        gameState.setHasTargetCombo(true);
-        onWin.call(earnedStars);
-      } else {
-        onLose.call();
-      }
+      onLose.call();
     }
 
     return false;
+  }
+
+  Future<void> _triggerFever() async {
+    gameState.setFeverTime(true);
+    _timeLimitStopwatch.stop();
+    _ticker?.cancel();
+    coordinator.cancelHintTimer();
+
+    int bonusBombs = (secondsRemaining / 5).floor();
+
+    while (gameState.isProcessing) {
+      await Future.delayed(const Duration(milliseconds: 250));
+    }
+
+    if (bonusBombs > 0) {
+      boardManager.spawnBombs(bonusBombs);
+      gameState.updateUI();
+      await Future.delayed(const Duration(seconds: 1));
+
+      boardManager.triggerAllBombs();
+      await coordinator.executeDetonatorPhase();
+
+      while (gameState.isProcessing) {
+        await Future.delayed(const Duration(milliseconds: 250));
+      }
+    }
+
+    gameState.setGameOver();
+
+    while (gameState.isProcessing ||
+        gameState.announcer.isSpeaking ||
+        gameState.isShuffling) {
+      await Future.delayed(const Duration(milliseconds: 250));
+    }
+
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    if (_isDisposed) return;
+
+    coordinator.clearHint();
+    audio.playMenuMusic();
+
+    int earnedStars = 3;
+    gameState.setHasTargetCombo(true);
+    onWin.call(earnedStars);
   }
 
   int get secondsRemaining =>
@@ -166,8 +197,6 @@ class LevelState extends ChangeNotifier {
 
     coordinator.startInitialDrop();
   }
-
- 
 
   @override
   void dispose() {
