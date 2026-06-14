@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:grimoji/app/lifecycle.dart';
 import 'package:grimoji/config/levels/game_level.dart';
@@ -8,6 +6,8 @@ import 'package:grimoji/features/match/board/utils/manager.dart';
 import 'package:grimoji/features/match/engines/game_engine.dart';
 import 'package:grimoji/features/match/coordinator.dart';
 import 'package:grimoji/features/match/state.dart';
+import 'managers/time.dart';
+import 'managers/goal.dart';
 
 class LevelState extends ChangeNotifier {
   final void Function(int stars) onWin;
@@ -18,15 +18,14 @@ class LevelState extends ChangeNotifier {
 
   final GlobalKey targetIconKey = GlobalKey();
 
-  final Stopwatch _timeLimitStopwatch = Stopwatch();
-  Timer? _ticker;
+  late final TimeManager timeManager;
+  late final GoalManager goalManager;
 
   late final BoardManager boardManager;
   late final GameEngine engine;
   late final GameState gameState;
   late final GameCoordinator coordinator;
 
-  int collectedAmount = 0;
   bool _isDisposed = false;
 
   LevelState({
@@ -36,6 +35,13 @@ class LevelState extends ChangeNotifier {
     required this.audio,
     required this.lifecycleNotifier,
   }) {
+    goalManager = GoalManager(targetAmount: level.targetAmount);
+    timeManager = TimeManager(
+      timeLimit: level.timeLimit,
+      onTick: notifyListeners,
+      onTimeUp: _handleTimeUp,
+    );
+
     boardManager = BoardManager(level, playSfx: audio.playSfx);
     engine = GameEngine(
       level: level,
@@ -45,14 +51,14 @@ class LevelState extends ChangeNotifier {
     engine.initialize();
 
     gameState = GameState(audio);
-
     coordinator = GameCoordinator(
       engine: engine,
       state: gameState,
       boardManager: boardManager,
       audio: audio,
       onTargetAcquired: _incrementCollectedAmnt,
-      onComboFinished: _evaluateGameEndAsync,
+      onComboFinished: () async =>
+          false, 
     );
 
     gameState.addListener(notifyListeners);
@@ -62,7 +68,6 @@ class LevelState extends ChangeNotifier {
 
   void _onLifecycleChanged() {
     final state = lifecycleNotifier.value;
-
     if (state == AppLifecycleState.inactive ||
         state == AppLifecycleState.hidden ||
         state == AppLifecycleState.paused) {
@@ -74,135 +79,65 @@ class LevelState extends ChangeNotifier {
 
   void _onGameStateChanged() {
     if (gameState.isPaused || gameState.isProcessing || gameState.isGameOver) {
-      if (_timeLimitStopwatch.isRunning) {
-        _timeLimitStopwatch.stop();
-      }
+      timeManager.pause();
     } else {
-      if (!_timeLimitStopwatch.isRunning && !_isDisposed) {
-        _timeLimitStopwatch.start();
-      }
+      timeManager.resume();
     }
   }
 
-  void _incrementCollectedAmnt(int count) {
-    collectedAmount += count;
+  void _incrementCollectedAmnt(int count) async {
+    goalManager.add(count);
     notifyListeners();
 
-    if (progress >= 1.0 && !gameState.isFeverTime) {
-      _evaluateGameEndAsync();
-    }
-  }
+    if (goalManager.isComplete && !gameState.isFeverTime) {
+      timeManager.stop();
 
-  Future<bool> _evaluateGameEndAsync() async {
-    if (gameState.isGameOver) return true;
+      int bonusBombs = (timeManager.secondsRemaining / 5).floor();
 
-    if (progress >= 1.0 && !gameState.isFeverTime) {
-      await _triggerFever();
-      return false;
-    }
+      await coordinator.executeFeverSequence(bonusBombs);
 
-    if (secondsRemaining <= 0) {
-      gameState.setGameOver();
-      coordinator.cancelHintTimer();
-      _ticker?.cancel();
-      _timeLimitStopwatch.stop();
-      notifyListeners();
-
-      while (gameState.isProcessing ||
-          gameState.announcer.isSpeaking ||
-          gameState.isShuffling) {
-        await Future.delayed(const Duration(milliseconds: 250));
-      }
-
-      await Future.delayed(const Duration(milliseconds: 500));
-
-      if (_isDisposed) return true;
-
-      coordinator.clearHint();
+      if (_isDisposed) return;
       audio.playMenuMusic();
-      onLose.call();
+      gameState.setHasTargetCombo(true);
+      onWin.call(goalManager.calculateStars());
     }
-
-    return false;
   }
 
-  Future<void> _triggerFever() async {
-    gameState.setFeverTime(true);
-    _timeLimitStopwatch.stop();
-    _ticker?.cancel();
-    coordinator.cancelHintTimer();
-
-    int bonusBombs = (secondsRemaining / 5).floor();
-
-    while (gameState.isProcessing) {
-      await Future.delayed(const Duration(milliseconds: 250));
-    }
-
-    if (bonusBombs > 0) {
-      boardManager.spawnBombs(bonusBombs);
-      gameState.updateUI();
-      await Future.delayed(const Duration(seconds: 1));
-
-      boardManager.triggerAllBombs();
-      await coordinator.executeDetonatorPhase();
-
-      while (gameState.isProcessing) {
-        await Future.delayed(const Duration(milliseconds: 250));
-      }
-    }
+  void _handleTimeUp() async {
+    if (gameState.isFeverTime || goalManager.isComplete) return;
 
     gameState.setGameOver();
+    coordinator.cancelHintTimer();
+    notifyListeners();
 
     while (gameState.isProcessing ||
         gameState.announcer.isSpeaking ||
         gameState.isShuffling) {
       await Future.delayed(const Duration(milliseconds: 250));
     }
-
     await Future.delayed(const Duration(milliseconds: 500));
 
     if (_isDisposed) return;
 
     coordinator.clearHint();
     audio.playMenuMusic();
-
-    int earnedStars = 3;
-    gameState.setHasTargetCombo(true);
-    onWin.call(earnedStars);
+    onLose.call();
   }
 
-  int get secondsRemaining =>
-      max(0, level.timeLimit - _timeLimitStopwatch.elapsed.inSeconds);
-
-  double get progress => (collectedAmount / level.targetAmount).clamp(0.0, 1.0);
-
-  int _lastNotifiedSeconds = -1;
+  int get secondsRemaining => timeManager.secondsRemaining;
+  double get progress => goalManager.progress;
+  int get collectedAmount => goalManager.collectedAmount;
 
   void startLevel() {
     audio.playLevelMusic();
-    _timeLimitStopwatch.start();
-    _ticker = Timer.periodic(const Duration(seconds: 1), ((timer) {
-      if (_isDisposed || !_timeLimitStopwatch.isRunning) return;
-
-      final currentSeconds = secondsRemaining;
-      if (currentSeconds != _lastNotifiedSeconds) {
-        _lastNotifiedSeconds = currentSeconds;
-        notifyListeners();
-      }
-
-      if (secondsRemaining <= 0) {
-        _evaluateGameEndAsync();
-      }
-    }));
-
+    timeManager.start();
     coordinator.startInitialDrop();
   }
 
   @override
   void dispose() {
     _isDisposed = true;
-    _ticker?.cancel();
-    _timeLimitStopwatch.stop();
+    timeManager.dispose();
     gameState.removeListener(notifyListeners);
     gameState.removeListener(_onGameStateChanged);
     lifecycleNotifier.removeListener(_onLifecycleChanged);

@@ -103,7 +103,7 @@ class GameCoordinator {
       }
       if (state.hasLegendaryEmoji) {
         events.add(TurnEvent.legendaryEmoji);
-        state.setLegendaryEmoji(false); 
+        state.setLegendaryEmoji(false);
       }
 
       bool detonationOccurred = await executeDetonatorPhase();
@@ -416,6 +416,42 @@ class GameCoordinator {
 
   void togglePause() {
     state.setPaused(!state.isPaused);
+  }
+
+  Future<void> executeFeverSequence(int bonusBombs) async {
+    state.setFeverTime(true);
+    cancelHintTimer();
+
+    while (state.isProcessing) {
+      await Future.delayed(const Duration(milliseconds: 250));
+    }
+
+    if (bonusBombs > 0) {
+      boardManager.spawnBombs(bonusBombs);
+      state.updateUI();
+      await Future.delayed(const Duration(seconds: 1));
+
+      boardManager.triggerAllBombs();
+      await executeDetonatorPhase();
+
+      while (state.isProcessing) {
+        await Future.delayed(const Duration(milliseconds: 250));
+      }
+    }
+
+    state.setGameOver();
+
+    while (state.isProcessing ||
+        state.announcer.isSpeaking ||
+        state.isShuffling) {
+      await Future.delayed(const Duration(milliseconds: 250));
+    }
+
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    if (!state.isDisposed) {
+      clearHint();
+    }
   }
 
   void cancelHintTimer() {
