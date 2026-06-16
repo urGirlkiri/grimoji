@@ -4,6 +4,9 @@ import 'package:grimoji/app/lifecycle.dart' show AppLifecycleStateNotifier;
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
+import 'package:grimoji/features/level/widgets/footer/skip_btn.dart';
+import 'package:grimoji/features/level/widgets/overlays/fever_complete.dart';
+import 'package:grimoji/features/level/widgets/overlays/level_complete.dart';
 import 'package:grimoji/features/match/board/utils/metrics.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/level/widgets/confetti.dart';
@@ -98,6 +101,17 @@ class _LevelScreenState extends State<LevelScreen> {
     );
   }
 
+  void _skipFever() {
+    _levelState.coordinator.skipFever();
+    GoRouter.of(context).goNamed(
+      Routes.levelWon,
+      extra: {
+        'level': widget.level.number,
+        'stars': _levelState.goalManager.calculateStars(),
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -150,14 +164,20 @@ class _LevelScreenState extends State<LevelScreen> {
               child: Scaffold(
                 body: Stack(
                   children: [
-                    const ResponsiveScreen(
-                      topMessageArea: Header(),
-                      squarishMainArea: GameBoard(),
-                      rectangularMenuArea: Footer(),
-                      mobileBackgroundImage: AssetImage(
+                    ResponsiveScreen(
+                      topMessageArea: const Header(),
+                      squarishMainArea: const GameBoard(),
+                      rectangularMenuArea: Selector<LevelState, Map>(
+                        selector: (_, state) => {'isFeverTime': state.gameState.isFeverTime, 'isFeverComplete': state.gameState.isFeverComplete, },
+                        builder: (context, state, child) => state['isFeverTime'] as bool
+                            ? state['isFeverComplete'] as bool ? const SizedBox.shrink()
+                            : SkipBtn(onSkip: _skipFever)
+                            : const Footer(),
+                      ),
+                      mobileBackgroundImage: const AssetImage(
                         'assets/images/level/game.png',
                       ),
-                      desktopBackgroundImage: AssetImage(
+                      desktopBackgroundImage: const AssetImage(
                         'assets/images/level/large_game.png',
                       ),
                     ),
@@ -168,6 +188,22 @@ class _LevelScreenState extends State<LevelScreen> {
                           child: Confetti(isStopped: !_duringCelebration),
                         ),
                       ),
+                    ),
+
+                    Selector<LevelState, bool>(
+                      selector: (_, state) => state.gameState.isFeverComplete,
+                      builder: (context, isFeverComplete, child) {
+                        final controller = context.read<LevelDataController>();
+                        final isFirstTime = controller.isLevelCompleted(
+                          widget.level.number,
+                        );
+
+                        return isFeverComplete
+                            ? isFirstTime
+                                  ? const LevelComOverlay()
+                                  : const FeverComOverlay()
+                            : const SizedBox.shrink();
+                      },
                     ),
                   ],
                 ),

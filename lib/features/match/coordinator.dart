@@ -420,6 +420,9 @@ class GameCoordinator {
 
   Future<void> executeFeverSequence(int bonusBombs) async {
     state.setFeverTime(true);
+    state.setFeverBombCount(bonusBombs);
+    state.setReFeverBombs(bonusBombs);
+    state.setFeverTimer(bonusBombs);
     cancelHintTimer();
 
     while (state.isProcessing) {
@@ -427,18 +430,37 @@ class GameCoordinator {
     }
 
     if (bonusBombs > 0) {
-      boardManager.spawnBombs(bonusBombs);
-      state.updateUI();
-      await Future.delayed(const Duration(seconds: 1));
+      for (int i = 0; i < bonusBombs; i++) {
+        if (state.isDisposed) return;
 
-      boardManager.triggerAllBombs();
-      await executeDetonatorPhase();
+        boardManager.spawnBomb();
+        state.updateUI();
 
-      while (state.isProcessing) {
-        await Future.delayed(const Duration(milliseconds: 250));
+        await Future.delayed(const Duration(milliseconds: 150));
+      }
+
+      while (boardManager.countSafeBombs() > 0) {
+        if (state.isDisposed) return;
+
+        boardManager.triggerNextBomb();
+        state.updateUI();
+        await Future.delayed(const Duration(milliseconds: 300));
+
+        await executeDetonatorPhase();
+
+        while (state.isProcessing) {
+          await Future.delayed(const Duration(milliseconds: 250));
+        }
+
+        state.setReFeverBombs(boardManager.countSafeBombs());
+        state.decrementFeverTimer();
+        state.updateUI();
+
+        await Future.delayed(const Duration(milliseconds: 150));
       }
     }
 
+    state.setFeverComplete(true);
     state.setGameOver();
 
     while (state.isProcessing ||
@@ -452,6 +474,14 @@ class GameCoordinator {
     if (!state.isDisposed) {
       clearHint();
     }
+  }
+
+  void skipFever() {
+    state.setGameOver();
+    state.setFeverTime(false);
+    state.setFeverBombCount(0);
+    state.setReFeverBombs(0);
+    state.setFeverTimer(0);
   }
 
   void cancelHintTimer() {

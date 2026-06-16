@@ -12,15 +12,20 @@ class GameState extends ChangeNotifier {
   bool isDisposed = false;
   bool isGameOver = false;
   bool isFeverTime = false;
+  bool isFeverComplete = false;
+  int feverBombCount = 0;
+  int remainingFeverBombs = 0;
+  int feverTimer = 0;
 
   int currentComboMultiplier = 0;
   int tilesCleared = 0;
   bool hasLegendaryEmoji = false;
   double shuffleProgress = 1.0;
-  
-  int updateToken = 0; 
 
-  GameState([AudioController? audio]) : announcer = BoardAnnouncer(audio ?? AudioController()) {
+  int updateToken = 0;
+
+  GameState([AudioController? audio])
+    : announcer = BoardAnnouncer(audio ?? AudioController()) {
     announcer.gameState = this;
   }
 
@@ -105,8 +110,41 @@ class GameState extends ChangeNotifier {
     }
   }
 
+  void setFeverComplete(bool value) {
+    if (isFeverComplete != value) {
+      isFeverComplete = value;
+      _notify();
+    }
+  }
+
+  void setFeverBombCount(int count) {
+    if (feverBombCount != count) {
+      feverBombCount = count;
+      _notify();
+    }
+  }
+
+  void setReFeverBombs(int remaining) {
+    if (remainingFeverBombs != remaining) {
+      remainingFeverBombs = remaining;
+      _notify();
+    }
+  }
+
+  void setFeverTimer(int timer) {
+    if (feverTimer != timer) {
+      feverTimer = timer;
+      _notify();
+    }
+  }
+
+  void decrementFeverTimer() {
+    feverTimer--;
+    _notify();
+  }
+
   void updateUI() {
-    updateToken++; 
+    updateToken++;
     _notify();
   }
 
