@@ -3,8 +3,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
+import 'package:grimoji/features/level/widgets/header/header_bar/mascot.dart';
 import 'package:provider/provider.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/config/router/routes.dart';
@@ -13,7 +13,6 @@ import 'package:grimoji/features/level/widgets/confetti.dart';
 import 'package:grimoji/features/level/win_screen/flying_star.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/pill_button.dart';
-import 'package:lottie/lottie.dart';
 
 class WinGameScreen extends StatefulWidget {
   final int level;
@@ -101,18 +100,7 @@ class _WinGameScreenState extends State<WinGameScreen> {
                 children: [
                   Text(
                     'VICTORY!!',
-                    style: GoogleFonts.eagleLake(
-                      color: palette.trueWhite,
-                      fontSize: 48,
-                      fontWeight: FontWeight.bold,
-                      shadows: [
-                        Shadow(
-                          color: palette.midnight,
-                          offset: const Offset(4, 4),
-                          blurRadius: 5,
-                        ),
-                      ],
-                    ),
+                    style: context.theme.textTheme.headlineLarge
                   ).animate().scale(
                     duration: const Duration(milliseconds: 800),
                     curve: Curves.elasticOut,
@@ -134,13 +122,8 @@ class _WinGameScreenState extends State<WinGameScreen> {
                     ),
                   ),
 
-                  Flexible(
-                    child: Lottie.asset(
-                      'assets/lottie/star-witch.json',
-                      fit: BoxFit.contain,
-                      animate: true,
-                      repeat: true,
-                    ),
+                  const Flexible(
+                    child: Mascot()
                   ),
 
                   const SizedBox(height: 32),
