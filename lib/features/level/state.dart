@@ -20,6 +20,7 @@ class LevelState extends ChangeNotifier {
 
   late final TimeManager timeManager;
   late final GoalManager goalManager;
+  static const int bonusTime = 5;
 
   late final BoardManager boardManager;
   late final GameEngine engine;
@@ -57,8 +58,7 @@ class LevelState extends ChangeNotifier {
       boardManager: boardManager,
       audio: audio,
       onTargetAcquired: _incrementCollectedAmnt,
-      onComboFinished: () async =>
-          false, 
+      onComboFinished: () async => false,
     );
 
     gameState.addListener(notifyListeners);
@@ -92,9 +92,11 @@ class LevelState extends ChangeNotifier {
     if (goalManager.isComplete && !gameState.isFeverTime) {
       timeManager.stop();
 
-      int bonusBombs = (timeManager.secondsRemaining / 5).floor();
+      int bonusBombs = (timeManager.secondsRemaining / bonusTime).floor();
 
-      await coordinator.executeFeverSequence(bonusBombs);
+      await coordinator.executeFeverSequence(bonusBombs, () {
+        timeManager.removeTime(bonusTime);
+      });
 
       if (_isDisposed) return;
       audio.playMenuMusic();

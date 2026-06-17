@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/animation.dart';
 import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
@@ -418,7 +419,7 @@ class GameCoordinator {
     state.setPaused(!state.isPaused);
   }
 
-  Future<void> executeFeverSequence(int bonusBombs) async {
+  Future<void> executeFeverSequence(int bonusBombs, VoidCallback onSpawn) async {
     state.setFeverTime(true);
     state.setFeverBombCount(bonusBombs);
     state.setReFeverBombs(bonusBombs);
@@ -434,6 +435,7 @@ class GameCoordinator {
         if (state.isDisposed) return;
 
         boardManager.spawnBomb();
+        onSpawn();
         state.updateUI();
 
         await Future.delayed(const Duration(milliseconds: 200));
