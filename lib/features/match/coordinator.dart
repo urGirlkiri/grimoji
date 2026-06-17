@@ -135,7 +135,7 @@ class GameCoordinator {
       state.announcer.startCooldown();
     }
 
-    await finalizeTurnLifecycle();
+    await _finalizeTurnLifecycle();
   }
 
   Future<bool> executeCascadePhase(TileCoordinate targetCoordinate) async {
@@ -312,8 +312,8 @@ class GameCoordinator {
     return executionOccurred;
   }
 
-  Future<void> finalizeTurnLifecycle() async {
-    if (!engine.hasPossibleMoves() && !state.isGameOver) {
+  Future<void> _finalizeTurnLifecycle() async {
+    if (!engine.hasPossibleMoves() && !state.isGameOver && !state.isFeverTime) {
       _log.info('NO MOVES LEFT! Shuffling...');
       await shuffleBoard();
     }
@@ -358,7 +358,7 @@ class GameCoordinator {
     await Future.delayed(const Duration(milliseconds: 600));
     state.setShuffling(false);
 
-    if (!state.isDisposed) {
+    if (!state.isDisposed && !state.isFeverTime) {
       resetHintTimer();
     }
   }
@@ -381,7 +381,8 @@ class GameCoordinator {
         state.isShuffling ||
         state.isDisposed ||
         state.isGameOver ||
-        state.isPaused) {
+        state.isPaused ||
+        state.isFeverTime) {
       return;
     }
 
