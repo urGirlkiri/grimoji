@@ -34,7 +34,7 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
   @override
   void initState() {
     super.initState();
-    context.readAudio.playMenuMusic(); 
+    context.readAudio.playMenuMusic();
     _loadMapData();
   }
 
@@ -42,10 +42,16 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     final controller = context.read<LevelDataController>();
+    _logger.info('Seq init');
     if (_levelData != controller) {
       _levelData?.removeListener(_checkAutoOpen);
       _levelData = controller;
       _levelData!.addListener(_checkAutoOpen);
+      if (_levelData!.autoOpenLvl != null && !_pendingAutoOpen) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) _checkAutoOpen();
+        });
+      }
     }
   }
 
@@ -56,9 +62,13 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
   }
 
   void _checkAutoOpen() {
+    _logger.info("Checking auto open : ${_levelData?.autoOpenLvl}");
     final levelData = _levelData;
+    _logger.info("Is mounted: $mounted");
+
     if (levelData == null || !mounted) return;
     if (levelData.autoOpenLvl != null && !_pendingAutoOpen) {
+      _logger.info("Handling seq auto open");
       _handleAutoOpenSequence(levelData);
     }
   }
@@ -140,7 +150,9 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
     });
   }
 
-  ({Map<int, int> stars, Set<int> unlocked}) _lvProgress(LevelDataController levelData) {
+  ({Map<int, int> stars, Set<int> unlocked}) _lvProgress(
+    LevelDataController levelData,
+  ) {
     final Map<int, int> stars = {};
     final Set<int> unlocked = {};
 
@@ -166,7 +178,9 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
     }
 
     context.select<LevelDataController, int>((c) => c.mapVersion);
-    final bool isInitialized = context.select<LevelDataController, bool>((c) => c.isInitialized);
+    final bool isInitialized = context.select<LevelDataController, bool>(
+      (c) => c.isInitialized,
+    );
 
     if (!isInitialized) {
       return const Scaffold(

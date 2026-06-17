@@ -103,8 +103,13 @@ class _LevelScreenState extends State<LevelScreen> {
   }
 
   void _skipFever() {
-    _levelState.coordinator.skipFever();
-    _levelState.skipFeverAndComplete();
+    context.readAudio.playSfx(SfxType.congrats);
+    final stars = _levelState.goalManager.calculateStars();
+
+    GoRouter.of(context).goNamed(
+      Routes.levelWon,
+      extra: {'level': widget.level.number, 'stars': stars},
+    );
   }
 
   @override
