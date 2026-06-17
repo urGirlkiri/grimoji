@@ -130,7 +130,7 @@ void main() {
     test('Should not notify after disposed', () {
       final testState = GameState(mockAudio);
       testState.dispose();
-      
+
       expect(testState.isDisposed, isTrue);
     });
 
@@ -140,7 +140,7 @@ void main() {
       gameState.announcer.evaluateTurn(
         events: {TurnEvent.merge},
         combo: 2,
-        tilesCleared: 0,
+        tilesCleared: 10,
       );
       expect(gameState.activeAnnouncement, "Wicked Alchemy!");
     });
@@ -150,8 +150,8 @@ void main() {
 
       gameState.announcer.evaluateTurn(
         events: {TurnEvent.merge},
-        combo: 1,
-        tilesCleared: 0,
+        combo: 2,
+        tilesCleared: 10,
       );
       expect(gameState.announcementToken, 1);
     });

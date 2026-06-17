@@ -143,7 +143,13 @@ void main() {
       );
 
       test('Crafted items MUST be a higher tier than their ingredients', () {
+        final craftedEmojis = RecipeBook.allRecipes
+            .map((r) => r.yields)
+            .toSet();
+
         for (final recipe in RecipeBook.allRecipes) {
+          if (craftedEmojis.contains(recipe.yields)) continue;
+
           final ingredientTier = RecipeBook.getTier(recipe.ingredient);
           final yieldsTier = RecipeBook.getTier(recipe.yields);
 

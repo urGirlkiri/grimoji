@@ -75,7 +75,22 @@ void main() {
           }
         }
 
-        expect(hasRecipe,true, reason: 'Level ${level.number}\'s target ${level.targetEmoji.visual} has no recipe ');
+        for (var reaction in RecipeBook.allReactions) {
+          for (var entry in reaction.transformations.entries) {
+            if (entry.value == level.targetEmoji) {
+              hasRecipe = true;
+              break;
+            }
+          }
+          if (hasRecipe) break;
+        }
+
+        expect(
+          hasRecipe,
+          true,
+          reason:
+              'Level ${level.number}\'s target ${level.targetEmoji.visual} has no recipe ',
+        );
 
         final availableNames = level.availableEmojis
             .map((e) => e.visual)
@@ -111,7 +126,9 @@ void main() {
                 gameEnded = true;
               },
               audio: MockAudioController(),
-              lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
+              lifecycleNotifier: ValueNotifier<AppLifecycleState>(
+                AppLifecycleState.resumed,
+              ),
             );
 
             levelState.startLevel();
