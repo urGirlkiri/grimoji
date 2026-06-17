@@ -42,8 +42,8 @@ class CauldronDialog extends StatelessWidget {
                     children: [
                       Image.asset(
                         'assets/images/cauldron.png',
-                        width: 150 * scale,
-                        height: 150 * scale,
+                        width: 250 * scale,
+                        height: 250 * scale,
                         fit: BoxFit.contain,
                       ),
                       Positioned(
@@ -74,6 +74,7 @@ class CauldronDialog extends StatelessWidget {
                                   color: context.palette.trueWhite,
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 1.5,
+                                  fontSize: 24 * context.globalScale
                                 ),
                           ),
                         ),
