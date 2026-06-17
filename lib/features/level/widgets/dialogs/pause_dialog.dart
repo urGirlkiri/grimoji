@@ -81,7 +81,7 @@ class PauseDialog extends StatelessWidget {
                       vertical: 16,
                     ),
                     borderRadius: 20,
-                    borderColor: palette.voidBlack,
+                    borderColor: palette.crimson.withValues(alpha: .1),
                     borderWidth: 3,
                     onTap: () {
                       Navigator.of(context).pop();
@@ -101,7 +101,7 @@ class PauseDialog extends StatelessWidget {
                       vertical: 16,
                     ),
                     borderRadius: 20,
-                    borderColor: palette.voidBlack,
+                    borderColor: palette.twilight,
                     borderWidth: 3,
                     onTap: () => Navigator.of(context).pop(),
                   ),
