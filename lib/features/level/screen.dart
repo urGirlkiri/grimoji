@@ -34,7 +34,6 @@ class LevelScreen extends StatefulWidget {
 class _LevelScreenState extends State<LevelScreen> {
   bool _duringCelebration = false;
   bool _isQuitDialogOpen = false;
-  bool _feverScheduled = false;
   late final LevelState _levelState;
   late final BoardMetrics _boardMetrics;
 
@@ -201,18 +200,9 @@ class _LevelScreenState extends State<LevelScreen> {
                           widget.level.number,
                         );
 
-                        if (!_feverScheduled) {
-                          _feverScheduled = true;
-                          if (isFirstTime) {
-                            WidgetsBinding.instance.addPostFrameCallback((_) {
-                              _levelState.startFeverSequence();
-                            });
-                          } else {
-                            WidgetsBinding.instance.addPostFrameCallback((_) {
-                              _levelState.skipFeverAndComplete();
-                            });
-                          }
-                        }
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          _levelState.startFeverSequence();
+                        });
 
                         if (isFirstTime && !isFeverTime) {
                           return const LevelComOverlay();

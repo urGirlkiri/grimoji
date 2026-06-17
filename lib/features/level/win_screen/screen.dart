@@ -51,7 +51,7 @@ class _WinGameScreenState extends State<WinGameScreen> {
         }
       }
 
-      Future.delayed(const Duration(milliseconds: 1200), () {
+      Future.delayed(const Duration(milliseconds: 1800), () {
         if (mounted) {
           _redirectToNext(context);
         }

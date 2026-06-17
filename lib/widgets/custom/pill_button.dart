@@ -40,6 +40,7 @@ class PillButton extends StatelessWidget {
 
     final innerText = Text(
       text,
+      textAlign: TextAlign.center,
       style: GoogleFonts.eagleLake(
         color: effectiveTextColor,
         fontWeight: FontWeight.bold,

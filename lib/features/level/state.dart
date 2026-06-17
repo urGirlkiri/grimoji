@@ -105,15 +105,17 @@ class LevelState extends ChangeNotifier {
 
     int bonusBombs = (timeManager.secondsRemaining / bonusTime).floor();
 
-    await coordinator.executeFeverSequence(bonusBombs, () {
-      timeManager.removeTime(bonusTime);
-    });
+    coordinator
+        .executeFeverSequence(bonusBombs, () {
+          timeManager.removeTime(bonusTime);
+        })
+        .then((_) {
+          if (_isDisposed) return;
 
-    if (_isDisposed) return;
-
-    audio.playMenuMusic();
-    gameState.setHasTargetCombo(true);
-    onWin.call(goalManager.calculateStars());
+          audio.playMenuMusic();
+          gameState.setHasTargetCombo(true);
+          onWin.call(goalManager.calculateStars());
+        });
   }
 
   void skipFeverAndComplete() {
