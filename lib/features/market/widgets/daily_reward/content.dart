@@ -43,7 +43,7 @@ class CardContent extends StatelessWidget {
               : '$seconds Seconds';
               
       onPressed = () => onLockedPressed(displayDurationText);
-      statusMessage = "Next claim available when the timer finishes.";
+      statusMessage = "Next claim available in $displayDurationText.";
     }
 
     return Container(
@@ -67,7 +67,7 @@ class CardContent extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  "Free Daily Dices",
+                  "Free Dices",
                   style: context.theme.textTheme.titleMedium?.copyWith(
                     color: palette.trueWhite,
                     fontSize: 18 * scale,
