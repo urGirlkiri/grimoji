@@ -8,6 +8,7 @@ class ProfileController extends ChangeNotifier {
   final Logger _log = Logger('ProfileController');
   static const int _maxCauldrons = 5;
   static const Duration _regenDuration = Duration(hours: 1);
+  int _profileVersion = 0;
   ProfileData? _profile;
 
   ProfileController({required ProfilePersistence persistence})
@@ -20,6 +21,7 @@ class ProfileController extends ChangeNotifier {
     notifyListeners();
   }
 
+  int get profileVersion => _profileVersion;
   String get avatar => _profile?.avatar ?? 'cyber_goth';
   int get cauldrons => _profile?.cauldrons ?? 5;
   int get dices => _profile?.dices ?? 0;
@@ -68,6 +70,7 @@ class ProfileController extends ChangeNotifier {
       if (!_profile!.unlockedRecipeIds.contains(recipeId)) {
         _profile?.unlockedRecipeIds = [..._profile!.unlockedRecipeIds, recipeId];        
         _profile?.unreadRecipeIds =  [..._profile!.unreadRecipeIds, recipeId];
+        _profileVersion++;
         _save();
       }
     }
@@ -77,6 +80,7 @@ class ProfileController extends ChangeNotifier {
     if (_profile != null) {
       if (_profile!.unreadRecipeIds.contains(recipeId)) {
         _profile?.unreadRecipeIds.remove(recipeId);
+        _profileVersion++;
         _save();
       }
     }

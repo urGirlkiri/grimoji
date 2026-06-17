@@ -19,6 +19,7 @@ class Grimoji extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppLifecycleObserver(
+      onResume: profileController.checkCauldronRegen,
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider.value(value: profileController),

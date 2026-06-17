@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/router/routes.dart';
+import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/features/profile/widgets/dialogs/cau_dialog.dart';
 import 'package:grimoji/features/profile/widgets/dialogs/prof_dialog.dart';
 import 'package:grimoji/features/profile/widgets/dialogs/notif_dialog.dart';
@@ -10,6 +11,7 @@ import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animations/dialog.dart';
 import 'package:grimoji/widgets/custom/animated_button.dart';
 import 'package:grimoji/widgets/custom/app_icon.dart';
+import 'package:provider/provider.dart';
 
 class GameBar extends StatelessWidget {
   final Color backgroundColor;
@@ -30,8 +32,6 @@ class GameBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scale = context.globalScale;
-    final profile = context.watchProfile;
-    
     final topPadding = MediaQuery.paddingOf(context).top;
 
     return SizedBox(
@@ -85,25 +85,33 @@ class GameBar extends StatelessWidget {
                     onTap: () => onNotifTap(context),
                   ),
                   const SizedBox(width: 8),
-                  ResourcePill(
-                    iconPath: 'assets/images/cauldron.png',
-                    value: profile.cauldrons == 5
-                        ? "Full"
+                  Selector<ProfileController, String>(
+                    selector: (_, profile) => profile.cauldrons >= 5
+                        ? 'Full'
                         : profile.cauldrons.toString(),
-                    onTap: () => onCauldronTap(context),
-                  ),
-                  AnimatedButton(
-                    child: ProfileAvatar(
-                      avatar: profile.avatar,
-                      onTap: () => onProfileTap(context),
+                    builder: (context, cauldrons, _) => ResourcePill(
+                      iconPath: 'assets/images/cauldron.png',
+                      value: cauldrons,
+                      onTap: () => onCauldronTap(context),
                     ),
                   ),
-                  ResourcePill(
+                  Selector<ProfileController, String>(
+                    selector: (_, profile) => profile.avatar,
+                    builder: (context, avatar, _) => AnimatedButton(
+                      child: ProfileAvatar(
+                        avatar: avatar,
+                        onTap: () => onProfileTap(context),
+                      ),
+                    ),
+                  ),
+                  Selector<ProfileController, int>(
+                    selector: (_, profile) => profile.dices,
+                    builder: (context, dices, _) => ResourcePill(
                       iconPath: 'assets/images/dice.png',
-                      value: profile.dices.toString(),
-                      onTap: () =>
-                          GoRouter.of(context).goNamed(Routes.market),
+                      value: dices.toString(),
+                      onTap: () => GoRouter.of(context).goNamed(Routes.market),
                     ),
+                  ),
                   const SizedBox(width: 8),
                   AppIcon(
                     fileName: 'settings',

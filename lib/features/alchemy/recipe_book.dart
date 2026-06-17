@@ -33,6 +33,8 @@ class RecipeBook {
 
   static final Map<GameEmoji, List<Recipe>> _recipeCache = {};
   static final Map<GameEmoji, Reaction> _triggerCache = {};
+  static final Map<GameEmoji, List<Recipe>> _yieldCache = {};
+  static final Map<GameEmoji, int> _tierCache = {};
   static bool _isInitialized = false;
 
   static void _ensureInitialized() {
@@ -41,6 +43,7 @@ class RecipeBook {
     
     for (var recipe in allRecipes) {
       _recipeCache.putIfAbsent(recipe.ingredient, () => []).add(recipe);
+      _yieldCache.putIfAbsent(recipe.yields, () => []).add(recipe);
     }
     
     for (var list in _recipeCache.values) {
@@ -97,5 +100,40 @@ class RecipeBook {
     _ensureInitialized();
     final recipes = _recipeCache[emoji];
     return recipes?.isNotEmpty == true ? recipes!.first : null;
+  }
+
+  static int getTier(GameEmoji emoji) {
+    return _calcEmojiTier(emoji, {});
+  }
+
+  static int _calcEmojiTier(GameEmoji emoji, Set<GameEmoji> visited) {
+    _ensureInitialized();
+    
+    if (_tierCache.containsKey(emoji)) {
+      return _tierCache[emoji]!;
+    }
+
+    if (visited.contains(emoji)) {
+      _tierCache[emoji] = 1;
+      return 1;
+    }
+    
+
+    if (!_yieldCache.containsKey(emoji)) {
+      _tierCache[emoji] = 1;
+      return 1;
+    }
+
+    visited.add(emoji);
+    final recipes = _yieldCache[emoji]!;
+    recipes.sort((a, b) => b.requiredAmount.compareTo(a.requiredAmount));
+    int tier = 1 + _calcEmojiTier(recipes.first.ingredient, visited);
+    _tierCache[emoji] = tier;
+    
+    return tier;
+  }
+
+  static bool isLegendary(GameEmoji emoji) {
+    return getTier(emoji) >= 5;
   }
 }

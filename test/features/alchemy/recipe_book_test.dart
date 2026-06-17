@@ -113,5 +113,87 @@ void main() {
         }
       },
     );
+    group('Tier System Tests', () {
+      test(
+        'Base emojis (items never yielded by any recipe) MUST be Tier 1',
+        () {
+          final yieldedEmojis = RecipeBook.allRecipes
+              .map((r) => r.yields)
+              .toSet();
+          final baseEmojis = RecipeBook.allRecipes
+              .map((r) => r.ingredient)
+              .where((emoji) => !yieldedEmojis.contains(emoji))
+              .toSet();
+
+          expect(
+            baseEmojis,
+            isNotEmpty,
+            reason: 'Game must have at least one base emoji',
+          );
+
+          for (final baseEmoji in baseEmojis) {
+            expect(
+              RecipeBook.getTier(baseEmoji),
+              equals(1),
+              reason:
+                  '${baseEmoji.visual} cannot be crafted, so it must be Tier 1',
+            );
+          }
+        },
+      );
+
+      test('Crafted items MUST be a higher tier than their ingredients', () {
+        final craftedEmojis = RecipeBook.allRecipes
+            .map((r) => r.yields)
+            .toSet();
+
+        for (final recipe in RecipeBook.allRecipes) {
+          if (craftedEmojis.contains(recipe.yields)) continue;
+
+          final ingredientTier = RecipeBook.getTier(recipe.ingredient);
+          final yieldsTier = RecipeBook.getTier(recipe.yields);
+
+          expect(
+            yieldsTier,
+            greaterThan(ingredientTier),
+            reason:
+                '${recipe.yields.visual} (Tier $yieldsTier) must be a higher tier '
+                'than its ingredient ${recipe.ingredient.visual} (Tier $ingredientTier)',
+          );
+        }
+      });
+
+      test('isLegendary MUST exactly match Tier 5+ logic for all items', () {
+        final allCraftedEmojis = RecipeBook.allRecipes
+            .map((r) => r.yields)
+            .toSet();
+
+        for (final emoji in allCraftedEmojis) {
+          final tier = RecipeBook.getTier(emoji);
+          final legendary = RecipeBook.isLegendary(emoji);
+
+          expect(
+            legendary,
+            equals(tier >= 5),
+            reason:
+                '${emoji.visual} is Tier $tier. isLegendary should be ${tier >= 5}',
+          );
+        }
+      });
+
+      test('Tier calculation should be memoized and consistent', () {
+        final dynamicTestEmoji = RecipeBook.allRecipes.first.yields;
+
+        final tier1 = RecipeBook.getTier(dynamicTestEmoji);
+        final tier2 = RecipeBook.getTier(dynamicTestEmoji);
+
+        expect(
+          tier1,
+          equals(tier2),
+          reason:
+              'Sequential tier checks should return identical results from cache',
+        );
+      });
+    });
   });
 }

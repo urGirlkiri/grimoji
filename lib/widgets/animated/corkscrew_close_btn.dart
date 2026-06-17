@@ -20,6 +20,13 @@ class CorkScrewCloseButton extends StatefulWidget {
 
 class _CorkScrewCloseButtonState extends State<CorkScrewCloseButton> {
   bool _isVisible = false;
+  Animation<double>? _routeAnimation;
+
+  void _onRouteAnimStatus(AnimationStatus status) {
+    if (mounted && status == AnimationStatus.completed) {
+      setState(() => _isVisible = true);
+    }
+  }
 
   @override
   void initState() {
@@ -27,20 +34,44 @@ class _CorkScrewCloseButtonState extends State<CorkScrewCloseButton> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final route = ModalRoute.of(context);
-      if (route != null && route.animation != null) {
-        if (route.animation!.status == AnimationStatus.completed) {
-          setState(() => _isVisible = true);
-        } else {
-          route.animation!.addStatusListener((status) {
-            if (mounted && status == AnimationStatus.completed) {
-              setState(() => _isVisible = true);
-            }
-          });
-        }
-      } else {
+      final animation = route?.animation;
+      _routeAnimation = animation;
+
+      if (animation == null || animation.status == AnimationStatus.completed) {
         setState(() => _isVisible = true);
+        return;
       }
+
+      animation.addStatusListener(_onRouteAnimStatus);
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final route = ModalRoute.of(context);
+    final currentAnimation = route?.animation;
+
+    if (_routeAnimation == currentAnimation) return;
+
+    _routeAnimation?.removeStatusListener(_onRouteAnimStatus);
+
+    _routeAnimation = currentAnimation;
+
+    if (currentAnimation == null ||
+        currentAnimation.status == AnimationStatus.completed) {
+      setState(() => _isVisible = true);
+      return;
+    }
+
+    currentAnimation.addStatusListener(_onRouteAnimStatus);
+  }
+
+  @override
+  void dispose() {
+    _routeAnimation?.removeStatusListener(_onRouteAnimStatus);
+    super.dispose();
   }
 
   void _handleTap(VoidCallback onTap) {

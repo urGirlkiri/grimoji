@@ -260,14 +260,12 @@ void main() {
         state.startLevel();
         async.elapse(gravityAnimationTime);
         
-        expect(state.isPaused, isFalse);
+        expect(state.gameState.isPaused, isFalse);
         
-        state.togglePause();
-        expect(state.isPaused, isTrue);
+        state.coordinator.togglePause();
         expect(state.gameState.isPaused, isTrue);
         
-        state.togglePause();
-        expect(state.isPaused, isFalse);
+        state.coordinator.togglePause();
         expect(state.gameState.isPaused, isFalse);
       });
     });

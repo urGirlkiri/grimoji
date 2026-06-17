@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:provider/provider.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/config/router/routes.dart';
@@ -12,8 +11,6 @@ import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/level/widgets/confetti.dart';
 import 'package:grimoji/features/level/win_screen/flying_star.dart';
 import 'package:grimoji/utils/context_data.dart';
-import 'package:grimoji/widgets/custom/pill_button.dart';
-import 'package:lottie/lottie.dart';
 
 class WinGameScreen extends StatefulWidget {
   final int level;
@@ -53,10 +50,16 @@ class _WinGameScreenState extends State<WinGameScreen> {
           context.readProfile.unlockRecipe(recipe.id);
         }
       }
+
+      Future.delayed(const Duration(milliseconds: 1800), () {
+        if (mounted) {
+          _redirectToNext(context);
+        }
+      });
     });
   }
 
-  void _onContinuePressed(BuildContext context) {
+  void _redirectToNext(BuildContext context) {
     final nextLevelNumber = widget.level + 1;
     final hasNextLevel = gameLevels.any((l) => l.number == nextLevelNumber);
 
@@ -74,81 +77,73 @@ class _WinGameScreenState extends State<WinGameScreen> {
     }
   }
 
+  void _navigateToMap() {
+    GoRouter.of(context).goNamed(Routes.map);
+  }
+
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
 
-    return Scaffold(
-      backgroundColor: palette.twilight,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            const SizedBox.expand(child: Confetti(isStopped: false)),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        _navigateToMap();
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: Stack(
+            children: [
+              const SizedBox.expand(child: Confetti(isStopped: false)),
 
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'VICTORY!!',
-                    style: GoogleFonts.eagleLake(
-                      color: palette.trueWhite,
-                      fontSize: 48,
-                      fontWeight: FontWeight.bold,
-                      shadows: [
-                        Shadow(
-                          color: palette.midnight,
-                          offset: const Offset(4, 4),
-                          blurRadius: 5,
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 100.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'VICTORY!!',
+                        style: context.theme.textTheme.headlineLarge!.copyWith(
+                          color: palette.magicCyan
                         ),
-                      ],
-                    ),
-                  ).animate().scale(
-                    duration: const Duration(milliseconds: 800),
-                    curve: Curves.elasticOut,
-                    begin: const Offset(0.0, 0.0),
-                    end: const Offset(1.0, 1.0),
+                      ).animate().scale(
+                        duration: const Duration(milliseconds: 800),
+                        curve: Curves.elasticOut,
+                        begin: const Offset(0.0, 0.0),
+                        end: const Offset(1.0, 1.0),
+                      ),
+                  
+                      const SizedBox(height: 40),
+                  
+                      SizedBox(
+                        height: 200,
+                        width: double.infinity,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            for (int i = 0; i < widget.stars; i++)
+                              FlyingStar(index: i, total: widget.stars),
+                          ],
+                        ),
+                      ),
+                  
+                      Flexible(
+                        child: Image.asset(
+                          "assets/mascot/celebration.webp",
+                          fit: BoxFit.contain,
+                          gaplessPlayback: true,
+                        ),
+                      ),
+                  
+                      const SizedBox(height: 32),
+                    ],
                   ),
-
-                  const SizedBox(height: 40),
-
-                  SizedBox(
-                    height: 200,
-                    width: double.infinity,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        for (int i = 0; i < widget.stars; i++)
-                          FlyingStar(index: i, total: widget.stars),
-                      ],
-                    ),
-                  ),
-
-                  Flexible(
-                    child: Lottie.asset(
-                      'assets/lottie/star-witch.json',
-                      fit: BoxFit.contain,
-                      animate: true,
-                      repeat: true,
-                    ),
-                  ),
-
-                  const SizedBox(height: 32),
-
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                    child: PillButton(
-                      text: "Continue",
-                      color: palette.magicCyan,
-                      onTap: () => _onContinuePressed(context),
-                    ),
-                  ),
-
-                  const SizedBox(height: 32),
-                ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

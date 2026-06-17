@@ -41,7 +41,13 @@ class AudioController {
 
   ValueNotifier<AppLifecycleState>? _lifecycleNotifier;
 
+  StreamSubscription<void>? _musicCompleteSubscription;
+
+  final Set<String> _loadedSfx = {};
+
   PlaylistType _currentPlaylist = PlaylistType.none;
+
+  int _activeTransitionId = 0;
 
   /// Creates an instance that plays music and sound.
   ///
@@ -61,7 +67,8 @@ class AudioController {
         (i) => AudioPlayer(playerId: 'sfxPlayer#$i'),
       ).toList(growable: false),
       _playlist = Queue.of(List<Song>.of(menuSongs)..shuffle()) {
-    _musicPlayer.onPlayerComplete.listen(_handleSongFinished);
+    _musicCompleteSubscription =
+        _musicPlayer.onPlayerComplete.listen(_handleSongFinished);
 
     final audioContext = AudioContext(
       android: const AudioContextAndroid(
@@ -78,7 +85,7 @@ class AudioController {
     );
     AudioPlayer.global.setAudioContext(audioContext);
 
-    unawaited(_preloadSfx());
+    unawaited(_preloadSfxTypes(const [SfxType.buttonTap]));
   }
 
   /// Makes sure the audio controller is listening to changes
@@ -94,6 +101,8 @@ class AudioController {
 
   void dispose() {
     _lifecycleNotifier?.removeListener(_handleAppLifecycle);
+    _detachSettings();
+    _musicCompleteSubscription?.cancel();
     _stopAllSound();
     _musicPlayer.dispose();
     _voicePlayer.dispose();
@@ -131,15 +140,36 @@ class AudioController {
     _log.fine(() => '- Chosen filename: $filename');
 
     final currentPlayer = _sfxPlayers[_currentSfxPlayer];
+    _currentSfxPlayer = (_currentSfxPlayer + 1) % _sfxPlayers.length;
 
     final double finalVolume =
         soundTypeToVolume(type) * (_settings?.sfxVolume.value ?? 1.0);
+    final assetPath = 'sfx/$filename';
 
-    currentPlayer.play(AssetSource('sfx/$filename'), volume: finalVolume);
-    _currentSfxPlayer = (_currentSfxPlayer + 1) % _sfxPlayers.length;
+    unawaited(_playSfxAsset(currentPlayer, assetPath, finalVolume));
   }
 
-  void playVoice(Dialog type) {
+  Future<void> _playSfxAsset(
+    AudioPlayer player,
+    String assetPath,
+    double volume,
+  ) async {
+    await _ensureSfxLoaded(assetPath);
+    await player.play(AssetSource(assetPath), volume: volume);
+  }
+
+  Future<void> _ensureSfxLoaded(String assetPath) async {
+    if (_loadedSfx.contains(assetPath)) return;
+
+    try {
+      await AudioCache.instance.load(assetPath);
+      _loadedSfx.add(assetPath);
+    } catch (e, stack) {
+      _log.warning('Failed to load SFX $assetPath: $e', e, stack);
+    }
+  }
+
+  void playVoice(Dialog type) async {
     if (_settings == null) {
       _log.warning('Settings not attached, cannot play voice');
       return;
@@ -167,11 +197,10 @@ class AudioController {
     final voice = voices[_random.nextInt(voices.length)];
     final double currentVolume = _settings?.sfxVolume.value ?? 1.0;
 
-    _voicePlayer.play(
+    await _voicePlayer.play(
       AssetSource('voice/${voice.file}'),
       volume: currentVolume,
     );
-    _voicePlayer.setPlaybackRate(1.4);
   }
 
   /// Enables the [AudioController] to listen to [AppLifecycleState] events,
@@ -212,7 +241,18 @@ class AudioController {
     settingsController.soundsOn.addListener(_soundsOnHandler);
     settingsController.sfxVolume.addListener(_volumeHandler);
     settingsController.musicVolume.addListener(_volumeHandler);
+  }
 
+  void _detachSettings() {
+    final settings = _settings;
+    if (settings == null) return;
+
+    settings.audioOn.removeListener(_audioOnHandler);
+    settings.musicOn.removeListener(_musicOnHandler);
+    settings.soundsOn.removeListener(_soundsOnHandler);
+    settings.sfxVolume.removeListener(_volumeHandler);
+    settings.musicVolume.removeListener(_volumeHandler);
+    _settings = null;
   }
 
   void _audioOnHandler() {
@@ -277,21 +317,12 @@ class AudioController {
     }
   }
 
-  /// Preloads all sound effects.
-  Future<void> _preloadSfx() async {
-    _log.info('Preloading sound effects');
-    // This assumes there is only a limited number of sound effects in the game.
-    // If there are hundreds of long sound effect files, it's better
-    // to be more selective when preloading.
-    try {
-      await AudioCache.instance.loadAll(
-        SfxType.values
-            .expand(soundTypeToFilename)
-            .map((path) => 'sfx/$path')
-            .toList(),
-      );
-    } catch (e, stack) {
-      _log.warning('Failed to preload some sound effects: $e', e, stack);
+  Future<void> _preloadSfxTypes(Iterable<SfxType> types) async {
+    _log.info('Preloading ${types.length} priority sound effects');
+    for (final type in types) {
+      for (final filename in soundTypeToFilename(type)) {
+        await _ensureSfxLoaded('sfx/$filename');
+      }
     }
   }
 
@@ -346,8 +377,11 @@ class AudioController {
   }
 
   Future<void> _transitionToPlaylist(List<Song> songs) async {
+    final int transitionId = ++_activeTransitionId;
+
     if (_musicPlayer.state == PlayerState.playing) {
-      await _fadeOutMusic();
+      await _fadeOutMusic(transitionId);
+      if (transitionId != _activeTransitionId) return; 
     }
     
     _playlist.clear();
@@ -355,16 +389,18 @@ class AudioController {
 
     if (_settings?.audioOn.value == true && _settings?.musicOn.value == true) {
       await _playCurrentSongInPlaylist(initialVolume: 0.0);
-      await _fadeInMusic();
+      if (transitionId != _activeTransitionId) return;
+      await _fadeInMusic(transitionId);
     }
   }
 
-  Future<void> _fadeOutMusic() async {
+  Future<void> _fadeOutMusic(int transitionId) async {
     const steps = 10;
     const stepDuration = Duration(milliseconds: 30);
     final currentVolume = _settings?.musicVolume.value ?? 1.0;
     
     for (int i = 0; i <= steps; i++) {
+      if (transitionId != _activeTransitionId) return; // Abort if overridden
       final volume = currentVolume * (1 - i / steps);
       await _musicPlayer.setVolume(volume.clamp(0.0, 1.0));
       await Future.delayed(stepDuration);
@@ -373,12 +409,13 @@ class AudioController {
     _musicPlayer.stop();
   }
 
-  Future<void> _fadeInMusic() async {
+  Future<void> _fadeInMusic(int transitionId) async {
     const steps = 10;
     const stepDuration = Duration(milliseconds: 30);
     final targetVolume = _settings?.musicVolume.value ?? 1.0;
     
     for (int i = 0; i <= steps; i++) {
+      if (transitionId != _activeTransitionId) return; 
       final volume = targetVolume * i / steps;
       await _musicPlayer.setVolume(volume.clamp(0.0, 1.0));
       await Future.delayed(stepDuration);

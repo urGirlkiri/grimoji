@@ -68,7 +68,7 @@ class QuitDialog extends StatelessWidget {
                     vertical: 12,
                   ),
                   borderRadius: 20,
-                  borderColor: palette.voidBlack,
+                  borderColor: palette.crimson,
                   borderWidth: 3,
                   onTap: () {
                     Navigator.of(context).pop();
@@ -88,7 +88,7 @@ class QuitDialog extends StatelessWidget {
                     vertical: 12,
                   ),
                   borderRadius: 20,
-                  borderColor: palette.voidBlack,
+                  borderColor: palette.twilight,
                   borderWidth: 3,
                   onTap: () => Navigator.of(context).pop(),
                 ),

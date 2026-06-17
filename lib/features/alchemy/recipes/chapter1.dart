@@ -30,9 +30,6 @@ final List<Recipe> chapter1Recipes = [
     requiredAmount: 3,
     yields: Emojis.bug,
   ),
-
-
-
   Recipe(
     ingredient: Emojis.bone,
     requiredAmount: 3,

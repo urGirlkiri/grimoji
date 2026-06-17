@@ -583,6 +583,30 @@ class Emojis {
       Vector2(-0.500, 0.500),
     ],
   );
+  static final GameEmoji barberPole = GameEmoji(
+    'assets/emojis/svg/barber_pole.svg', 'assets/emojis/lottie/barber_pole.json', '💈', [
+      Vector2(-0.166, -0.472),
+      Vector2(0.112, -0.500),
+      Vector2(0.231, -0.348),
+      Vector2(0.238, 0.329),
+      Vector2(0.061, 0.500),
+      Vector2(-0.108, 0.487),
+      Vector2(-0.229, 0.336),
+      Vector2(-0.238, -0.330),
+    ],
+  );
+  static final GameEmoji wheel = GameEmoji(
+    'assets/emojis/svg/wheel.svg', 'assets/emojis/lottie/wheel.json', '💈', [
+      Vector2(-0.488, -0.077),
+      Vector2(-0.103, -0.500),
+      Vector2(0.319, -0.415),
+      Vector2(0.488, -0.202),
+      Vector2(0.460, 0.254),
+      Vector2(0.225, 0.465),
+      Vector2(-0.064, 0.500),
+      Vector2(-0.387, 0.311),
+    ],
+  );
   static final GameEmoji baseball = GameEmoji(
     'assets/emojis/svg/baseball.svg', 'assets/emojis/lottie/baseball.json', '⚾', [
       Vector2(-0.492, -0.094),

@@ -1,5 +1,24 @@
 # Local Development
 
+## Mascot Animations
+
+### Setup 
+
+### Step 0: Get The img2webp
+
+[documentation](https://developers.google.com/speed/webp/docs/img2webp)
+
+### Step 1: Extract the frames to PNGs using FFmpeg:
+
+```bash
+ffmpeg -c:v libvpx-vp9 -i mascot.webm -vf "scale=320:-1,fps=15" mascot_frame_%04d.png
+```
+
+### Step 2: Stitch them together with img2webp:
+
+```bash
+img2webp -loop 0 -d 66 -lossy -q 75 mascot_frame_*.png -o mascot_clean.webp
+```
 ## Cauldron Forge2d Workflow
 
 Drag the [svg](assets/images/cauldron/Cauldron.svg) into figma

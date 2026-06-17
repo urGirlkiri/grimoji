@@ -42,6 +42,7 @@ class AlchemyEngine {
     final List<CollectedEmoji> collectedEmojis = [];
     final Set<TileCoordinate> tilesToDestroy = {};
     final Set<TileCoordinate> transmutedTiles = {};
+    final Set<TileCoordinate> transformed = {};
     
     int mergedEmojis = 0;
 
@@ -76,9 +77,10 @@ class AlchemyEngine {
 
               final Set<TileCoordinate> sources = coords.where((c) => c != spawnPoint).toSet();
               tilesToDestroy.addAll(sources);
+              
+              transformed.add(spawnPoint);
 
               mergedEmojis++;
-              // playSfx(SfxType.merge);
 
               if (initializeBehavior != null) {
                 initializeBehavior!(targetTile);
@@ -170,6 +172,7 @@ class AlchemyEngine {
       matchedGroups: matchedGroups,
       tilesToDestroy: tilesToDestroy,
       transmutedTiles: transmutedTiles,
+      transformed: transformed,
       collectedEmojis: collectedEmojis,
       hasTriggeredBombs: hasTriggeredBombs,
     );

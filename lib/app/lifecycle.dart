@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
@@ -10,8 +11,9 @@ typedef AppLifecycleStateNotifier = ValueNotifier<AppLifecycleState>;
 
 class AppLifecycleObserver extends StatefulWidget {
   final Widget child;
+  final VoidCallback? onResume;
 
-  const AppLifecycleObserver({required this.child, super.key});
+  const AppLifecycleObserver({required this.child, this.onResume, super.key});
 
   @override
   State<AppLifecycleObserver> createState() => _AppLifecycleObserverState();
@@ -21,9 +23,10 @@ class _AppLifecycleObserverState extends State<AppLifecycleObserver> {
   static final _log = Logger('AppLifecycleObserver');
   late final AppLifecycleListener _appLifecycleListener;
 
-  final ValueNotifier<AppLifecycleState> lifecycleListenable = ValueNotifier(
-    AppLifecycleState.inactive,
-  );
+  late final ValueNotifier<AppLifecycleState> lifecycleListenable =
+      ValueNotifier(
+        SchedulerBinding.instance.lifecycleState ?? AppLifecycleState.resumed,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +51,7 @@ class _AppLifecycleObserverState extends State<AppLifecycleObserver> {
   @override
   void dispose() {
     _appLifecycleListener.dispose();
+    lifecycleListenable.dispose();
     super.dispose();
   }
 
@@ -55,7 +59,12 @@ class _AppLifecycleObserverState extends State<AppLifecycleObserver> {
   void initState() {
     super.initState();
     _appLifecycleListener = AppLifecycleListener(
-      onStateChange: (s) => lifecycleListenable.value = s,
+      onStateChange: (s) {
+        lifecycleListenable.value = s;
+        if (s == AppLifecycleState.resumed) {
+          widget.onResume?.call();
+        }
+      },
     );
     _log.info('Subscribed to app lifecycle updates');
   }

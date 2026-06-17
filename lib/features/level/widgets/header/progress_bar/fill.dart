@@ -12,7 +12,7 @@ class BarFill extends StatelessWidget {
     final hasTargetCombo = context.select<LevelState, bool>(
       (s) => s.gameState.hasTargetCombo,
     );
-    final isPaused = context.select<LevelState, bool>((s) => s.isPaused);
+    final isPaused = context.select<LevelState, bool>((s) => s.gameState.isPaused);
 
     return AnimatedFractionallySizedBox(
       duration: const Duration(milliseconds: 600),

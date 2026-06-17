@@ -19,7 +19,7 @@ class FlyingStar extends StatelessWidget {
         .animate(
           delay: Duration(milliseconds: index * 200),
         )
-        .moveX(begin: 0, end: xSpread * 80)
+        .moveX(begin: 0, end: xSpread * 50)
         .moveY(begin: 0, end: -50)
         .rotate(begin: 2.0, end: 0.0)
         .scaleXY(begin: 0.0, end: 1.5);

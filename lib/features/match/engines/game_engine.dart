@@ -23,7 +23,11 @@ class GameEngine {
   late final AlchemyEngine _alchemy;
   late final BehaviorEngine _behavior;
 
-  GameEngine({required this.level, required this.boardManager, required this.playSfx}) {
+  GameEngine({
+    required this.level,
+    required this.boardManager,
+    required this.playSfx,
+  }) {
     _behavior = BehaviorEngine(
       boardManager: boardManager,
       getBehavior: BehaviorRegister.getBehaviorFor,
@@ -82,12 +86,11 @@ class GameEngine {
     return _alchemy.processDetonationStep();
   }
 
- void categorizeAnimations(
+  void categorizeAnimations(
     List<MatchGroup> matchedGroups,
     bool isFirstMatch,
     TileCoordinate targetCoord,
   ) {
-
     for (var groupMatch in matchedGroups) {
       final recipes = RecipeBook.getRecipesFor(groupMatch.emoji);
       final reaction = RecipeBook.getReactionFor(groupMatch.emoji);
@@ -117,7 +120,7 @@ class GameEngine {
                 tile.morphTarget = recipe.yields;
               }
             }
-          
+
             break;
           }
         }
@@ -125,14 +128,14 @@ class GameEngine {
 
       if (!mergeHappened) {
         if (reaction?.type == ReactionType.explosive) {
-          continue; 
+          continue;
         } else {
           for (var coord in groupMatch.coordinates) {
             grid[coord.row][coord.col].isExploding = true;
             playSfx(SfxType.explode);
           }
         }
-      }else{
+      } else {
         playSfx(SfxType.merge);
       }
     }
@@ -140,13 +143,20 @@ class GameEngine {
 
   void shuffleGrid() {
     bool validBoard = false;
-    while (!validBoard) {
+    int attempts = 0;
+    const maxAttempts = 50;
+
+    while (!validBoard && attempts < maxAttempts) {
       boardManager.shuffleGrid();
 
-      validBoard = hasPossibleMoves();
-      if (MatchDetector.findMatchedGroups(grid).isNotEmpty) {
-        validBoard = false;
+      final immediateMatches = MatchDetector.findMatchedGroups(grid);
+      if (immediateMatches.isNotEmpty) {
+        attempts++;
+        continue;
       }
+
+      validBoard = hasPossibleMoves();
+      attempts++;
     }
 
     for (int r = 0; r < BoardManager.rows; r++) {
@@ -184,7 +194,7 @@ class GameEngine {
     return false;
   }
 
-  List<TileCoordinate>? getHintMove() {
+  Future<List<TileCoordinate>?> getHintMove() async {
     List<({List<TileCoordinate> coords, int score})> validMoves = [];
     for (int r = 0; r < BoardManager.rows; r++) {
       for (int c = 0; c < BoardManager.cols; c++) {
@@ -216,6 +226,9 @@ class GameEngine {
             validMoves.add((coords: [t1, t2], score: _scoreMove(t1, t2, d)));
           }
         }
+      }
+      if (r % 2 == 1) {
+        await Future.delayed(Duration.zero);
       }
     }
 
@@ -257,5 +270,4 @@ class GameEngine {
   ) {
     return _behavior.processSwipedWithBehavior(tile, x, y, targetEmoji);
   }
-
 }

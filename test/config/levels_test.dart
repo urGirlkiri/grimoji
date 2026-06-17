@@ -75,7 +75,22 @@ void main() {
           }
         }
 
-        expect(hasRecipe,true, reason: 'Level ${level.number}\'s target ${level.targetEmoji.visual} has no recipe ');
+        for (var reaction in RecipeBook.allReactions) {
+          for (var entry in reaction.transformations.entries) {
+            if (entry.value == level.targetEmoji) {
+              hasRecipe = true;
+              break;
+            }
+          }
+          if (hasRecipe) break;
+        }
+
+        expect(
+          hasRecipe,
+          true,
+          reason:
+              'Level ${level.number}\'s target ${level.targetEmoji.visual} has no recipe ',
+        );
 
         final availableNames = level.availableEmojis
             .map((e) => e.visual)
@@ -95,8 +110,8 @@ void main() {
 
       test(
         'Level ${level.number} should be winnable within a reasonable number of moves',
-        () {
-          fakeAsync((async) {
+        () async {
+          fakeAsync((async) async {
             int finalStars = 0;
             bool gameEnded = false;
 
@@ -111,7 +126,9 @@ void main() {
                 gameEnded = true;
               },
               audio: MockAudioController(),
-              lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
+              lifecycleNotifier: ValueNotifier<AppLifecycleState>(
+                AppLifecycleState.resumed,
+              ),
             );
 
             levelState.startLevel();
@@ -120,7 +137,7 @@ void main() {
             int moveCount = 0;
 
             while (moveCount < maxMoves && !gameEnded) {
-              final hint = levelState.engine.getHintMove();
+              final hint = await levelState.engine.getHintMove();
 
               if (hint != null) {
                 levelState.coordinator.resolveSwipe(hint[0], hint[1]);

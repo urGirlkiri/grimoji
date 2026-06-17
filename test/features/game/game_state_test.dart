@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:grimoji/features/match/state.dart';
+import 'package:grimoji/features/match/board/utils/announcer.dart';
 import '../../mocks/mock_audio_controller.dart';
 
 void main() {
@@ -129,21 +130,29 @@ void main() {
     test('Should not notify after disposed', () {
       final testState = GameState(mockAudio);
       testState.dispose();
-      
+
       expect(testState.isDisposed, isTrue);
     });
 
     test('Should provide activeAnnouncement from announcer', () {
       expect(gameState.activeAnnouncement, isNull);
-      
-      gameState.announcer.announceCombo(2, isCalamity: false);
+
+      gameState.announcer.evaluateTurn(
+        events: {TurnEvent.merge},
+        combo: 2,
+        tilesCleared: 10,
+      );
       expect(gameState.activeAnnouncement, "Wicked Alchemy!");
     });
 
     test('Should provide announcementToken from announcer', () {
       expect(gameState.announcementToken, 0);
-      
-      gameState.announcer.announceCombo(1, isCalamity: false);
+
+      gameState.announcer.evaluateTurn(
+        events: {TurnEvent.merge},
+        combo: 2,
+        tilesCleared: 10,
+      );
       expect(gameState.announcementToken, 1);
     });
   });

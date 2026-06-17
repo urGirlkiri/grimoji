@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/router/routes.dart';
+import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/features/profile/widgets/caul_regen_tim.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
 import 'package:grimoji/widgets/custom/animated_button.dart';
 import 'package:grimoji/widgets/custom/scroll_dialog.dart';
+import 'package:provider/provider.dart';
 
 class CauldronDialog extends StatelessWidget {
   const CauldronDialog({super.key});
@@ -13,131 +15,129 @@ class CauldronDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scale = context.globalScale;
-    final cauldrons = context.watchProfile.cauldrons;
-    final isFull = cauldrons >= 5;
 
-    return Dialog(
-      backgroundColor: Colors.transparent,
-      insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-      child: ScrollDialog(
-        rightButton: const CorkScrewCloseButton(),
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Your Cauldrons",
-                style: context.theme.textTheme.headlineMedium?.copyWith(
-                  color: context.palette.moonlight,
-                  shadows: [
-                    Shadow(
-                      color: context.palette.voidBlack,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 30),
-
-              Stack(
-                alignment: Alignment.center,
-                clipBehavior: Clip.none,
+    return Selector<ProfileController, int>(
+      selector: (_, profile) => profile.cauldrons,
+      builder: (context, cauldrons, _) {
+        final isFull = cauldrons >= 5;
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          insetPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 24,
+          ),
+          child: ScrollDialog(
+            rightButton: const CorkScrewCloseButton(),
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    'assets/images/cauldron.png',
-                    width: 150 * scale,
-                    height: 150 * scale,
-                    fit: BoxFit.contain,
-                  ),
-                  Positioned(
-                    bottom: -10,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        color: context.palette.slate,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: context.palette.twilight,
-                          width: 2.5,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: context.palette.voidBlack,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: Text(
-                        isFull ? "Full" : "$cauldrons/5",
-                        style: context.theme.textTheme.titleMedium?.copyWith(
-                          color: context.palette.trueWhite,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 30),
+                  const SizedBox(height: 30),
 
-              if (!isFull) ...[
-                const CaulRegenTim(),
-                const SizedBox(height: 24),
-
-                Padding(
-                  padding: const EdgeInsets.only(left: 24.0, right: 24.0),
-                  child: Column(
+                  Stack(
+                    alignment: Alignment.center,
+                    clipBehavior: Clip.none,
                     children: [
-                      Text(
-                        "Need more cauldrons?",
-                        style: context.theme.textTheme.bodyMedium?.copyWith(
-                          color: context.palette.moonlightSoft,
-                        ),
+                      Image.asset(
+                        'assets/images/cauldron.png',
+                        width: 250 * scale,
+                        height: 250 * scale,
+                        fit: BoxFit.contain,
                       ),
-                      const SizedBox(height: 16),
-                      SizedBox(
-                        width: double.infinity,
-                        child: AnimatedButton(
-                          onTap: () {
-                            context.pop();
-                            GoRouter.of(context).pushNamed(Routes.market);
-                          },
-                          child: FilledButton.icon(
-                            style: FilledButton.styleFrom(
-                              backgroundColor: context.palette.twilight,
-                              foregroundColor: context.palette.mist,
-                              padding: const EdgeInsets.symmetric(vertical: 24),
-                              elevation: 5,
+                      Positioned(
+                        bottom: -10,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: context.palette.slate,
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: context.palette.twilight,
+                              width: 2.5,
                             ),
-                            onPressed: null,
-                            icon: Image.asset(
-                              'assets/images/dice.png',
-                              width: 28,
-                              height: 28,
-                            ),
-                            label: Text(
-                              "Visit The Market",
-                              style: context.theme.textTheme.titleMedium
-                                  ?.copyWith(color: context.palette.mist),
-                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: context.palette.voidBlack,
+                                offset: const Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          child: Text(
+                            isFull ? "Full" : "$cauldrons/5",
+                            style: context.theme.textTheme.titleMedium
+                                ?.copyWith(
+                                  color: context.palette.trueWhite,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1.5,
+                                  fontSize: 24 * context.globalScale
+                                ),
                           ),
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            ],
+                  const SizedBox(height: 30),
+
+                  if (!isFull) ...[
+                    const CaulRegenTim(),
+                    const SizedBox(height: 24),
+
+                    Padding(
+                      padding: const EdgeInsets.only(left: 24.0, right: 24.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            "Need more cauldrons?",
+                            style: context.theme.textTheme.bodyMedium?.copyWith(
+                              color: context.palette.moonlightSoft,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          SizedBox(
+                            width: double.infinity,
+                            child: AnimatedButton(
+                              onTap: () {
+                                context.pop();
+                                GoRouter.of(context).pushNamed(Routes.market);
+                              },
+                              child: FilledButton.icon(
+                                style: FilledButton.styleFrom(
+                                  backgroundColor: context.palette.twilight,
+                                  foregroundColor: context.palette.mist,
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 24,
+                                  ),
+                                  elevation: 5,
+                                ),
+                                onPressed: null,
+                                icon: Image.asset(
+                                  'assets/images/dice.png',
+                                  width: 28,
+                                  height: 28,
+                                ),
+                                label: Text(
+                                  "Visit The Market",
+                                  style: context.theme.textTheme.titleMedium
+                                      ?.copyWith(color: context.palette.mist),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

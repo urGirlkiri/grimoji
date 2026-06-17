@@ -27,13 +27,11 @@ class SettingsDialog extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
         rightButton:  const CorkScrewCloseButton(),
         child: Padding(
-          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
             child: ScrollConfiguration(
-              behavior: ScrollConfiguration.of(
-                context,
-              ).copyWith(scrollbars: false),
+              behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -59,48 +57,37 @@ class SettingsDialog extends StatelessWidget {
                     ]),
                     builder: (context, child) {
                       return Padding(
-                        padding: const EdgeInsets.all(32.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
                         child: Column(
                           children: [
                             Wrap(
                               alignment: WrapAlignment.center,
+                              crossAxisAlignment: WrapCrossAlignment.center,
                               spacing: 16,
                               runSpacing: 12,
                               children: [
                                 IconToggle(
-                                  fileName: settings.soundsOn.value
-                                      ? 'vibration_on'
-                                      : 'vibration_off',
-                                  isActive:
-                                      settings.soundsOn.value &&
-                                      settings.audioOn.value,
+                                  fileName: settings.soundsOn.value ? 'vibration_on' : 'vibration_off',
+                                  isActive: settings.soundsOn.value && settings.audioOn.value,
                                   onTap: settings.toggleSoundsOn,
                                 ),
                                 IconToggle(
-                                  fileName: settings.musicOn.value
-                                      ? 'music_on'
-                                      : 'music_off',
-                                  isActive:
-                                      settings.musicOn.value &&
-                                      settings.audioOn.value,
+                                  fileName: settings.musicOn.value ? 'music_on' : 'music_off',
+                                  isActive: settings.musicOn.value && settings.audioOn.value,
                                   onTap: settings.toggleMusicOn,
                                 ),
                                 IconToggle(
-                                  fileName: settings.audioOn.value
-                                      ? 'audio_on'
-                                      : 'audio_off',
+                                  fileName: settings.audioOn.value ? 'audio_on' : 'audio_off',
                                   isActive: settings.audioOn.value,
                                   onTap: settings.toggleAudioOn,
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 24),
+                            const SizedBox(height: 32),
                             VolumeSlider(
                               label: "SFX Volume",
                               value: settings.sfxVolume.value,
-                              onChanged:
-                                  (settings.soundsOn.value &&
-                                      settings.audioOn.value)
+                              onChanged: (settings.soundsOn.value && settings.audioOn.value)
                                   ? (val) {
                                       settings.setSfxVolume(val);
                                     }
@@ -110,9 +97,7 @@ class SettingsDialog extends StatelessWidget {
                             VolumeSlider(
                               label: "Music Volume",
                               value: settings.musicVolume.value,
-                              onChanged:
-                                  (settings.musicOn.value &&
-                                      settings.audioOn.value)
+                              onChanged: (settings.musicOn.value && settings.audioOn.value)
                                   ? (val) {
                                       settings.setMusicVolume(val);
                                     }
@@ -123,8 +108,9 @@ class SettingsDialog extends StatelessWidget {
                       );
                     },
                   ),
+                  
                   Padding(
-                    padding: const EdgeInsets.all(32.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
                     child: PillButton(
                       text: "Quit level",
                       color: palette.crimson,

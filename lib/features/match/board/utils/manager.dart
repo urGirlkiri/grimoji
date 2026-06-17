@@ -99,20 +99,35 @@ class BoardManager {
     return true;
   }
 
-  void applyGravity(Set<TileCoordinate> tilesToDestroy) {
+  ({Set<int> cols, Set<int> rows}) applyGravity(
+    Set<TileCoordinate> tilesToDestroy,
+  ) {
+    final Set<int> affectedColumns = {};
+    final Set<int> affectedRows = {};
+
     for (int c = 0; c < cols; c++) {
       List<Tile> remainingTiles = [];
       int destroyedCount = 0;
+      int highestDestroyedRow = -1;
 
       for (int r = 0; r < rows; r++) {
         if (tilesToDestroy.any((m) => m.row == r && m.col == c)) {
           destroyedCount++;
+          if (r > highestDestroyedRow) {
+            highestDestroyedRow = r;
+          }
         } else {
           remainingTiles.add(gridTiles[r][c]);
         }
       }
 
       if (destroyedCount == 0) continue;
+
+      affectedColumns.add(c);
+
+      for (int r = 0; r <= highestDestroyedRow; r++) {
+        affectedRows.add(r);
+      }
 
       playSfx?.call(SfxType.fall);
 
@@ -132,6 +147,8 @@ class BoardManager {
         gridTiles[r][c].coordinate.col = c;
       }
     }
+
+    return (cols: affectedColumns, rows: affectedRows);
   }
 
   ({int x, int y})? findAdjacentEmptyTile(int centerX, int centerY) {
@@ -233,5 +250,66 @@ class BoardManager {
       }
     }
     return emojis;
+  }
+
+  void spawnBomb() {
+    final List<TileCoordinate> candidates = [];
+    for (int r = 0; r < BoardManager.rows; r++) {
+      for (int c = 0; c < BoardManager.cols; c++) {
+        final tile = gridTiles[r][c];
+        if (!tile.isTriggered && tile.behavior == null) {
+          candidates.add(TileCoordinate(row: r, col: c));
+        }
+      }
+    }
+
+    if (candidates.isEmpty) return;
+
+    candidates.shuffle();
+    final coord = candidates[0];
+    gridTiles[coord.row][coord.col].emoji = Emojis.bomb;
+  }
+
+  void triggerAllBombs() {
+    for (int r = 0; r < BoardManager.rows; r++) {
+      for (int c = 0; c < BoardManager.cols; c++) {
+        if (gridTiles[r][c].emoji == Emojis.bomb &&
+            !gridTiles[r][c].isTriggered) {
+          gridTiles[r][c].isTriggered = true;
+        }
+      }
+    }
+  }
+
+  Tile? getSafeBomb() {
+    for (int r = 0; r < BoardManager.rows; r++) {
+      for (int c = 0; c < BoardManager.cols; c++) {
+        if (gridTiles[r][c].emoji == Emojis.bomb &&
+            !gridTiles[r][c].isTriggered) {
+          return gridTiles[r][c];
+        }
+      }
+    }
+    return null;
+  }
+
+  void triggerNextBomb() {
+    final bomb = getSafeBomb();
+    if (bomb != null) {
+      bomb.isTriggered = true;
+    }
+  }
+
+  int countSafeBombs() {
+    int count = 0;
+    for (int r = 0; r < BoardManager.rows; r++) {
+      for (int c = 0; c < BoardManager.cols; c++) {
+        if (gridTiles[r][c].emoji == Emojis.bomb &&
+            !gridTiles[r][c].isTriggered) {
+          count++;
+        }
+      }
+    }
+    return count;
   }
 }

@@ -115,7 +115,7 @@ void main() {
       expect(gameEngine.hasPossibleMoves(), isTrue);
     });
 
-    test('Should get hint move when moves available', () {
+    test('Should get hint move when moves available', () async {
       gameEngine.initialize();
 
       for (int r = 0; r < BoardManager.rows; r++) {
@@ -132,12 +132,12 @@ void main() {
       boardManager.gridTiles[0][1].emoji = Emojis.fire;
       boardManager.gridTiles[0][2].emoji = Emojis.fire;
 
-      final hint = gameEngine.getHintMove();
+      final hint = await gameEngine.getHintMove();
       expect(hint, isNotNull);
       expect(hint!.length, 2);
     });
 
-    test('Should return null hint when no moves available', () {
+    test('Should return null hint when no moves available', () async {
       gameEngine.initialize();
 
       for (int r = 0; r < BoardManager.rows; r++) {
@@ -151,7 +151,7 @@ void main() {
         }
       }
 
-      final hint = gameEngine.getHintMove();
+      final hint = await gameEngine.getHintMove();
       expect(hint, isNull);
     });
 

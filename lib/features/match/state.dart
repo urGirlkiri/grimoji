@@ -11,13 +11,22 @@ class GameState extends ChangeNotifier {
   bool isPaused = false;
   bool isDisposed = false;
   bool isGameOver = false;
+  
+  bool isFeverTime = false;
+  bool isFeverComplete = false;
+  int feverBombCount = 0;
+  int remainingFeverBombs = 0;
+  int feverTimer = 0;
 
   int currentComboMultiplier = 0;
+  int tilesCleared = 0;
+  bool hasLegendaryEmoji = false;
   double shuffleProgress = 1.0;
-  
-  int updateToken = 0; 
 
-  GameState([AudioController? audio]) : announcer = BoardAnnouncer(audio ?? AudioController()) {
+  int updateToken = 0;
+
+  GameState([AudioController? audio])
+    : announcer = BoardAnnouncer(audio ?? AudioController()) {
     announcer.gameState = this;
   }
 
@@ -71,6 +80,23 @@ class GameState extends ChangeNotifier {
     _notify();
   }
 
+  void addTilesCleared(int count) {
+    tilesCleared += count;
+    _notify();
+  }
+
+  void resetTilesCleared() {
+    tilesCleared = 0;
+    _notify();
+  }
+
+  void setLegendaryEmoji(bool value) {
+    if (hasLegendaryEmoji != value) {
+      hasLegendaryEmoji = value;
+      _notify();
+    }
+  }
+
   void setShuffleProgress(double value) {
     if (shuffleProgress != value) {
       shuffleProgress = value;
@@ -78,8 +104,48 @@ class GameState extends ChangeNotifier {
     }
   }
 
+  void setFeverTime(bool value) {
+    if (isFeverTime != value) {
+      isFeverTime = value;
+      _notify();
+    }
+  }
+
+  void setFeverComplete(bool value) {
+    if (isFeverComplete != value) {
+      isFeverComplete = value;
+      _notify();
+    }
+  }
+
+  void setFeverBombCount(int count) {
+    if (feverBombCount != count) {
+      feverBombCount = count;
+      _notify();
+    }
+  }
+
+  void setReFeverBombs(int remaining) {
+    if (remainingFeverBombs != remaining) {
+      remainingFeverBombs = remaining;
+      _notify();
+    }
+  }
+
+  void setFeverTimer(int timer) {
+    if (feverTimer != timer) {
+      feverTimer = timer;
+      _notify();
+    }
+  }
+
+  void decrementFeverTimer() {
+    feverTimer--;
+    _notify();
+  }
+
   void updateUI() {
-    updateToken++; 
+    updateToken++;
     _notify();
   }
 
@@ -93,6 +159,7 @@ class GameState extends ChangeNotifier {
   void dispose() {
     isDisposed = true;
     isProcessing = false;
+    announcer.dispose();
     super.dispose();
   }
 }

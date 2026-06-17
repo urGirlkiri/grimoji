@@ -27,14 +27,50 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
   List<LevelNde> _nodes = [];
   bool _isLoadingMap = true;
   bool _pendingAutoOpen = false;
+  LevelDataController? _levelData;
 
   final Logger _logger = Logger('LevelsMapScreen');
 
   @override
   void initState() {
     super.initState();
-    context.readAudio.playMenuMusic(); 
+    context.readAudio.playMenuMusic();
     _loadMapData();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final controller = context.read<LevelDataController>();
+    _logger.info('Seq init');
+    if (_levelData != controller) {
+      _levelData?.removeListener(_checkAutoOpen);
+      _levelData = controller;
+      _levelData!.addListener(_checkAutoOpen);
+      if (_levelData!.autoOpenLvl != null && !_pendingAutoOpen) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) _checkAutoOpen();
+        });
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _levelData?.removeListener(_checkAutoOpen);
+    super.dispose();
+  }
+
+  void _checkAutoOpen() {
+    _logger.info("Checking auto open : ${_levelData?.autoOpenLvl}");
+    final levelData = _levelData;
+    _logger.info("Is mounted: $mounted");
+
+    if (levelData == null || !mounted) return;
+    if (levelData.autoOpenLvl != null && !_pendingAutoOpen) {
+      _logger.info("Handling seq auto open");
+      _handleAutoOpenSequence(levelData);
+    }
   }
 
   Future<void> _loadMapData() async {
@@ -114,7 +150,7 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
     });
   }
 
-  ({Map<int, int> stars, Set<int> unlocked}) _getLevels(
+  ({Map<int, int> stars, Set<int> unlocked}) _lvProgress(
     LevelDataController levelData,
   ) {
     final Map<int, int> stars = {};
@@ -129,26 +165,31 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
         unlocked.add(node.level);
       }
     }
-
     return (stars: stars, unlocked: unlocked);
   }
 
   @override
   Widget build(BuildContext context) {
-    final levelData = context.watch<LevelDataController>();
-
-    if (levelData.autoOpenLvl != null && !_pendingAutoOpen) {
-      _handleAutoOpenSequence(levelData);
-    }
-
-    if (!levelData.isInitialized || _isLoadingMap) {
+    if (_isLoadingMap) {
       return const Scaffold(
         backgroundColor: Color(0xFF48484f),
         body: Center(child: CircularProgressIndicator()),
       );
     }
 
-    final levels = _getLevels(levelData);
+    context.select<LevelDataController, int>((c) => c.mapVersion);
+    final bool isInitialized = context.select<LevelDataController, bool>(
+      (c) => c.isInitialized,
+    );
+
+    if (!isInitialized) {
+      return const Scaffold(
+        backgroundColor: Color(0xFF48484f),
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    final levelProgress = _lvProgress(context.read<LevelDataController>());
 
     return Scaffold(
       backgroundColor: const Color(0xFF48484f),
@@ -162,8 +203,8 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
               mapWidth: mapWidth,
               nodes: _nodes,
               nodeScale: mapWidth / mapImgWidth,
-              unlockedLevels: levels.unlocked,
-              levelStars: levels.stars,
+              unlockedLevels: levelProgress.unlocked,
+              levelStars: levelProgress.stars,
             ),
           );
         },

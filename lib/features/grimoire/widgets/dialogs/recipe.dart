@@ -53,6 +53,9 @@ class RecipeDialog extends StatelessWidget {
                           'assets/images/grimoire/down-arrow.png',
                           width: 200,
                           height: 300,
+                          cacheWidth: 200,
+                          cacheHeight: 300,
+                          filterQuality: FilterQuality.low,
                         ),
                         const SizedBox(height: 32),
                         EmojiWidget.lottie(

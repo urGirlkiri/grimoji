@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'package:flutter/animation.dart';
 import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
+import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
 import 'package:grimoji/features/match/board/utils/manager.dart';
+import 'package:grimoji/features/match/board/utils/announcer.dart';
 import 'package:grimoji/features/match/engines/game_engine.dart';
 import 'package:grimoji/features/match/model/collected_emoji.dart';
 import 'package:grimoji/features/match/utils/match_detector.dart';
@@ -86,40 +89,35 @@ class GameCoordinator {
       return;
     }
 
+    await _cascadeSequence(tCoord);
+  }
+
+  Future<void> _cascadeSequence(
+    TileCoordinate focusCoordinate,
+  ) async {
     state.announcer.clear();
     state.setComboMultiplier(0);
-    bool turnHadAlchemy = false;
-    bool turnHadCalamity = false;
+    state.resetTilesCleared();
+
+    final Set<TurnEvent> events = {};
 
     while (true) {
-      int comboBeforeCascade = state.currentComboMultiplier;
-
-      bool cascadeOccurred = await executeCascadePhase(tCoord);
+      bool cascadeOccurred = await executeCascadePhase(focusCoordinate);
       if (state.isDisposed) return;
 
-      if (cascadeOccurred &&
-          state.currentComboMultiplier > comboBeforeCascade) {
-        turnHadAlchemy = true;
+      if (cascadeOccurred) {
+        events.add(TurnEvent.merge);
       }
-
-      List<Tile> primedBombs = boardManager.getTriggeredEmojis();
-      if (primedBombs.isNotEmpty) {
-        if (state.currentComboMultiplier > 0) {
-          state.announcer.announceCombo(
-            state.currentComboMultiplier,
-            isCalamity: false,
-          );
-          state.setComboMultiplier(0);
-        } else if (turnHadAlchemy) {
-          state.announcer.announceCombo(1, isCalamity: false);
-          turnHadAlchemy = false;
-        }
+      if (state.hasLegendaryEmoji) {
+        events.add(TurnEvent.legendaryEmoji);
+        state.setLegendaryEmoji(false);
       }
 
       bool detonationOccurred = await executeDetonatorPhase();
       if (state.isDisposed) return;
+
       if (detonationOccurred) {
-        turnHadCalamity = true;
+        events.add(TurnEvent.explosion);
       }
 
       if (!cascadeOccurred && !detonationOccurred) {
@@ -127,29 +125,36 @@ class GameCoordinator {
       }
     }
 
-    if (state.currentComboMultiplier > 0) {
-      state.announcer.announceCombo(
-        state.currentComboMultiplier,
-        isCalamity: false,
-      );
-    } else if (turnHadCalamity) {
-      state.announcer.announceCombo(1, isCalamity: true);
-    } else if (turnHadAlchemy) {
-      state.announcer.announceCombo(1, isCalamity: false);
+    state.announcer.evaluateTurn(
+      events: events,
+      combo: state.currentComboMultiplier,
+      tilesCleared: state.tilesCleared,
+    );
+
+    if (state.announcer.isSpeaking) {
+      state.announcer.startCooldown();
     }
 
-    await finalizeTurnLifecycle();
+    await _finalizeTurnLifecycle();
   }
 
   Future<bool> executeCascadePhase(TileCoordinate targetCoordinate) async {
     bool isFirstMatch = true;
     bool executionOccurred = false;
+    Set<int> affectedColumns = {};
+    Set<int> affectedRows = {};
+    bool hadLegendaryEmo = false;
 
     while (true) {
       await waitIfPaused();
-      final matchedGroups = MatchDetector.findMatchedGroups(
-        boardManager.gridTiles,
-      );
+
+      final matchedGroups = (affectedColumns.isEmpty || affectedRows.isEmpty)
+          ? MatchDetector.findMatchedGroups(boardManager.gridTiles)
+          : MatchDetector.findMatchesInVectors(
+              grid: boardManager.gridTiles,
+              affectedColumns: affectedColumns,
+              affectedRows: affectedRows,
+            );
 
       matchedGroups.removeWhere(
         (group) => group.coordinates.any((c) {
@@ -198,6 +203,17 @@ class GameCoordinator {
       }
       state.updateUI();
 
+      int tilesCleared =
+          stepResult.tilesToDestroy.length + mergedFlyingTargets.length;
+      state.addTilesCleared(tilesCleared);
+
+      for (var coord in stepResult.transformed) {
+        final tile = engine.grid[coord.row][coord.col];
+        if (RecipeBook.isLegendary(tile.emoji)) {
+          hadLegendaryEmo = true;
+        }
+      }
+
       final Set<TileCoordinate> matches = matchedGroups
           .expand((g) => g.coordinates)
           .toSet();
@@ -222,7 +238,10 @@ class GameCoordinator {
         ...mergedFlyingTargets,
       };
 
-      boardManager.applyGravity(allDestroyed);
+      final gravityDeltas = boardManager.applyGravity(allDestroyed);
+      affectedColumns = gravityDeltas.cols;
+      affectedRows = gravityDeltas.rows;
+
       boardManager.clearAllFlyingFlags();
       state.updateUI();
 
@@ -235,6 +254,10 @@ class GameCoordinator {
       if (state.isDisposed) return false;
 
       isFirstMatch = false;
+    }
+
+    if (hadLegendaryEmo) {
+      state.setLegendaryEmoji(true);
     }
 
     return executionOccurred;
@@ -273,7 +296,6 @@ class GameCoordinator {
         ...targetFlyingTransforms,
       };
 
-      boardManager.clearTransmutingFlags();
       boardManager.applyGravity(allDestroyed);
       boardManager.clearAllFlyingFlags();
       state.updateUI();
@@ -290,8 +312,8 @@ class GameCoordinator {
     return executionOccurred;
   }
 
-  Future<void> finalizeTurnLifecycle() async {
-    if (!engine.hasPossibleMoves() && !state.isGameOver) {
+  Future<void> _finalizeTurnLifecycle() async {
+    if (!engine.hasPossibleMoves() && !state.isGameOver && !state.isFeverTime) {
       _log.info('NO MOVES LEFT! Shuffling...');
       await shuffleBoard();
     }
@@ -336,13 +358,13 @@ class GameCoordinator {
     await Future.delayed(const Duration(milliseconds: 600));
     state.setShuffling(false);
 
-    if (!state.isDisposed) {
+    if (!state.isDisposed && !state.isFeverTime) {
       resetHintTimer();
     }
   }
 
   void resetHintTimer() {
-    if (state.isDisposed || state.isGameOver) {
+    if (state.isDisposed || state.isGameOver || state.isFeverTime) {
       _hintTimer?.cancel();
       return;
     }
@@ -354,15 +376,17 @@ class GameCoordinator {
     }
   }
 
-  void _triggerHint() {
+  Future<void> _triggerHint() async {
     if (state.isProcessing ||
         state.isShuffling ||
         state.isDisposed ||
-        state.isGameOver || state.isPaused ) {
+        state.isGameOver ||
+        state.isPaused ||
+        state.isFeverTime) {
       return;
     }
 
-    _currentHints = engine.getHintMove();
+    _currentHints = await engine.getHintMove();
     if (_currentHints != null) {
       audio.playSfx(SfxType.hint);
       Tile tileA = engine.grid[_currentHints![0].row][_currentHints![0].col];
@@ -400,6 +424,83 @@ class GameCoordinator {
 
   void togglePause() {
     state.setPaused(!state.isPaused);
+  }
+
+  Future<void> executeFeverSequence(
+    int bonusBombs,
+    VoidCallback onSpawn,
+  ) async {
+    state.setFeverTime(true);
+    state.setFeverBombCount(bonusBombs);
+    state.setReFeverBombs(bonusBombs);
+    state.setFeverTimer(bonusBombs);
+    cancelHintTimer();
+
+    while (state.isProcessing) {
+      await Future.delayed(const Duration(milliseconds: 250));
+    }
+
+    if (bonusBombs > 0) {
+      for (int i = 0; i < bonusBombs; i++) {
+        if (state.isDisposed) return;
+
+        boardManager.spawnBomb();
+        onSpawn();
+        state.updateUI();
+
+        await Future.delayed(const Duration(milliseconds: 200));
+      }
+
+      await Future.delayed(const Duration(milliseconds: 300));
+      while (boardManager.countSafeBombs() > 0) {
+        if (state.isDisposed) return;
+
+        final primedBombs = boardManager.getTriggeredEmojis();
+        final focusCoord = primedBombs.isNotEmpty
+            ? primedBombs.first.coordinate
+            : TileCoordinate(row: 3, col: 3);
+
+        boardManager.triggerNextBomb();
+        state.updateUI();
+
+        await Future.delayed(const Duration(milliseconds: 300));
+
+        await _cascadeSequence(focusCoord);
+
+        while (state.isProcessing) {
+          await Future.delayed(const Duration(milliseconds: 250));
+        }
+
+        state.setReFeverBombs(boardManager.countSafeBombs());
+        state.decrementFeverTimer();
+        state.updateUI();
+
+        await Future.delayed(const Duration(milliseconds: 150));
+      }
+    }
+
+    state.setFeverComplete(true);
+    state.setGameOver();
+
+    while (state.isProcessing ||
+        state.announcer.isSpeaking ||
+        state.isShuffling) {
+      await Future.delayed(const Duration(milliseconds: 250));
+    }
+
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    if (!state.isDisposed) {
+      clearHint();
+    }
+  }
+
+  void skipFever() {
+    state.setGameOver();
+    state.setFeverTime(false);
+    state.setFeverBombCount(0);
+    state.setReFeverBombs(0);
+    state.setFeverTimer(0);
   }
 
   void cancelHintTimer() {
