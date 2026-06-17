@@ -41,8 +41,8 @@ class LevelComOverlay extends StatelessWidget {
             left: 0,
             right: 0,
             child: SizedBox(
-              width: 100,
-              height: 100,
+              width: 250,
+              height: 250,
               child: Image.asset(
                 'assets/mascot/celebration.webp',
                 fit: BoxFit.contain,

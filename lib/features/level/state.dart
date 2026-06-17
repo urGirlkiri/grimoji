@@ -86,23 +86,49 @@ class LevelState extends ChangeNotifier {
   }
 
   void _incrementCollectedAmnt(int count) async {
+    if (goalManager.isComplete) return;
+
     goalManager.add(count);
     notifyListeners();
 
     if (goalManager.isComplete && !gameState.isFeverTime) {
       timeManager.stop();
-
-      int bonusBombs = (timeManager.secondsRemaining / bonusTime).floor();
-
-      await coordinator.executeFeverSequence(bonusBombs, () {
-        timeManager.removeTime(bonusTime);
-      });
-
-      if (_isDisposed) return;
-      audio.playMenuMusic();
-      gameState.setHasTargetCombo(true);
-      onWin.call(goalManager.calculateStars());
     }
+  }
+
+  Future<void> startFeverSequence() async {
+    if (_isDisposed || gameState.isGameOver || gameState.isFeverTime) return;
+
+    while (gameState.isProcessing || gameState.isShuffling) {
+      await Future.delayed(const Duration(milliseconds: 100));
+    }
+
+    int bonusBombs = (timeManager.secondsRemaining / bonusTime).floor();
+
+    await coordinator.executeFeverSequence(bonusBombs, () {
+      timeManager.removeTime(bonusTime);
+    });
+
+    if (_isDisposed) return;
+
+    audio.playMenuMusic();
+    gameState.setHasTargetCombo(true);
+    onWin.call(goalManager.calculateStars());
+  }
+
+  void skipFeverAndComplete() {
+    if (_isDisposed) return;
+    audio.playMenuMusic();
+    gameState.setHasTargetCombo(true);
+    onWin.call(goalManager.calculateStars());
+  }
+
+  void triggerFeverForTesting() {
+    if (gameState.isFeverTime || gameState.isGameOver) return;
+    timeManager.stop();
+    goalManager.add(level.targetAmount);
+    notifyListeners();
+    startFeverSequence();
   }
 
   void _handleTimeUp() async {
@@ -125,6 +151,8 @@ class LevelState extends ChangeNotifier {
     audio.playMenuMusic();
     onLose.call();
   }
+
+  bool get isGoalComplete => goalManager.isComplete;
 
   int get secondsRemaining => timeManager.secondsRemaining;
   double get progress => goalManager.progress;
