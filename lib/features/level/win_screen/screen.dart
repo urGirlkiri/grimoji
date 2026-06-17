@@ -3,7 +3,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
-import 'package:grimoji/features/level/widgets/header/header_bar/mascot.dart';
 import 'package:provider/provider.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/config/levels/index.dart';
@@ -12,7 +11,6 @@ import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/level/widgets/confetti.dart';
 import 'package:grimoji/features/level/win_screen/flying_star.dart';
 import 'package:grimoji/utils/context_data.dart';
-import 'package:grimoji/widgets/custom/pill_button.dart';
 
 class WinGameScreen extends StatefulWidget {
   final int level;
@@ -52,10 +50,16 @@ class _WinGameScreenState extends State<WinGameScreen> {
           context.readProfile.unlockRecipe(recipe.id);
         }
       }
+
+      Future.delayed(const Duration(milliseconds: 4050), () {
+        if (mounted) {
+          _redirectToNext(context);
+        }
+      });
     });
   }
 
-  void _onContinuePressed(BuildContext context) {
+  void _redirectToNext(BuildContext context) {
     final nextLevelNumber = widget.level + 1;
     final hasNextLevel = gameLevels.any((l) => l.number == nextLevelNumber);
 
@@ -88,62 +92,60 @@ class _WinGameScreenState extends State<WinGameScreen> {
         _navigateToMap();
       },
       child: Scaffold(
-        backgroundColor: palette.twilight,
         body: SafeArea(
           child: Stack(
-          children: [
-            const SizedBox.expand(child: Confetti(isStopped: false)),
+            children: [
+              const SizedBox.expand(child: Confetti(isStopped: false)),
 
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'VICTORY!!',
-                    style: context.theme.textTheme.headlineLarge
-                  ).animate().scale(
-                    duration: const Duration(milliseconds: 800),
-                    curve: Curves.elasticOut,
-                    begin: const Offset(0.0, 0.0),
-                    end: const Offset(1.0, 1.0),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 100.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'VICTORY!!',
+                        style: context.theme.textTheme.headlineLarge!.copyWith(
+                          color: palette.magicCyan
+                        ),
+                      ).animate().scale(
+                        duration: const Duration(milliseconds: 800),
+                        curve: Curves.elasticOut,
+                        begin: const Offset(0.0, 0.0),
+                        end: const Offset(1.0, 1.0),
+                      ),
+                  
+                      const SizedBox(height: 40),
+                  
+                      SizedBox(
+                        height: 200,
+                        width: double.infinity,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            for (int i = 0; i < widget.stars; i++)
+                              FlyingStar(index: i, total: widget.stars),
+                          ],
+                        ),
+                      ),
+                  
+                      Flexible(
+                        child: Image.asset(
+                          "assets/mascot/celebration.webp",
+                          fit: BoxFit.contain,
+                          gaplessPlayback: true,
+                        ),
+                      ),
+                  
+                      const SizedBox(height: 32),
+                    ],
                   ),
-
-                  const SizedBox(height: 40),
-
-                  SizedBox(
-                    height: 200,
-                    width: double.infinity,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        for (int i = 0; i < widget.stars; i++)
-                          FlyingStar(index: i, total: widget.stars),
-                      ],
-                    ),
-                  ),
-
-                  const Flexible(
-                    child: Mascot()
-                  ),
-
-                  const SizedBox(height: 32),
-
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                    child: PillButton(
-                      text: "Continue",
-                      color: palette.magicCyan,
-                      onTap: () => _onContinuePressed(context),
-                    ),
-                  ),
-
-                  const SizedBox(height: 32),
-                ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-    ));
+    );
   }
 }

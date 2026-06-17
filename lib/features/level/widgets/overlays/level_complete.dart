@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:grimoji/features/level/widgets/overlays/mascot.dart';
 import 'package:grimoji/utils/context_data.dart';
 
 class LevelComOverlay extends StatelessWidget {
@@ -23,13 +22,12 @@ class LevelComOverlay extends StatelessWidget {
             left: 0,
             right: 0,
             child: Center(
-              child: Text(
-                'LEVEL COMPLETE!',
-                textAlign: TextAlign.center,
-                style: context.theme.textTheme.headlineMedium
-              )
-                  .animate()
-                  .scale(
+              child:
+                  Text(
+                    'LEVEL COMPLETE!',
+                    textAlign: TextAlign.center,
+                    style: context.theme.textTheme.headlineMedium,
+                  ).animate().scale(
                     duration: const Duration(milliseconds: 1000),
                     curve: Curves.easeOutBack,
                     begin: const Offset(0.8, 0.8),
@@ -38,11 +36,18 @@ class LevelComOverlay extends StatelessWidget {
             ),
           ),
 
-          const Positioned(
+          Positioned(
             bottom: 120,
             left: 0,
             right: 0,
-            child: WavingMascot(),
+            child: SizedBox(
+              width: 100,
+              height: 100,
+              child: Image.asset(
+                'assets/mascot/celebration.webp',
+                fit: BoxFit.contain,
+              ),
+            ),
           ),
         ],
       ),
