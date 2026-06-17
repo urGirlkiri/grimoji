@@ -127,6 +127,11 @@ class _FooterState extends State<Footer> {
               assetPath: Emojis.flyingSaucer.svg,
               onTap: () => _showSnackbar(context),
             ),
+            const SizedBox(width: 12),
+            PowerupBtn(
+              assetPath: Emojis.comet.svg,
+              onTap: () => _showSnackbar(context),
+            ),
           ],
         ),
       ),

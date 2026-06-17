@@ -595,6 +595,18 @@ class Emojis {
       Vector2(-0.238, -0.330),
     ],
   );
+  static final GameEmoji wheel = GameEmoji(
+    'assets/emojis/svg/wheel.svg', 'assets/emojis/lottie/wheel.json', '💈', [
+      Vector2(-0.488, -0.077),
+      Vector2(-0.103, -0.500),
+      Vector2(0.319, -0.415),
+      Vector2(0.488, -0.202),
+      Vector2(0.460, 0.254),
+      Vector2(0.225, 0.465),
+      Vector2(-0.064, 0.500),
+      Vector2(-0.387, 0.311),
+    ],
+  );
   static final GameEmoji baseball = GameEmoji(
     'assets/emojis/svg/baseball.svg', 'assets/emojis/lottie/baseball.json', '⚾', [
       Vector2(-0.492, -0.094),
