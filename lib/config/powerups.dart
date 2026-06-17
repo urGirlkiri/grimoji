@@ -5,12 +5,14 @@ class Powerup {
   final String name;
   final String iconPath;
   final String description;
+  final bool isPrelevel;
 
   const Powerup({
     required this.id,
     required this.name,
     required this.iconPath,
     required this.description,
+    this.isPrelevel = false
   });
 
   static final List<Powerup> all = [
@@ -34,9 +36,9 @@ class Powerup {
       description: 'Transforms a target tile into a specific desired emoji.',
     ),
     Powerup(
-      id: 'flying_disc',
+      id: 'ufo',
       name: 'The UFO',
-      iconPath: Emojis.flyingDisc.svg,
+      iconPath: Emojis.flyingSaucer.svg,
       description:
           'Beams down and mutates 3 random tiles into triggered bombs.',
     ),
@@ -45,6 +47,7 @@ class Powerup {
       name: 'Insight',
       iconPath: Emojis.crystalBall.svg,
       description: 'Reveals a hidden path or optimal match.',
+      isPrelevel: true
     ),
 
     Powerup(
@@ -52,6 +55,8 @@ class Powerup {
       name: 'Line Clearer',
       iconPath: Emojis.barberPole.svg,
       description: 'Clears an entire row or column when swiped.',
+      isPrelevel: true
+
     ),
 
     Powerup(
@@ -59,6 +64,8 @@ class Powerup {
       name: 'Wheel',
       iconPath: Emojis.wheel.svg,
       description: 'Converts first 3 candies in its path into bombs.',
+      isPrelevel: true
+
     ),
 
     Powerup(
@@ -68,20 +75,14 @@ class Powerup {
       description: 'Converts the emoji its dropped on into barbed poles.',
     ),
 
-    Powerup(
-      id: 'ghost',
-      name: 'The Spirit',
-      iconPath: Emojis.ghost.svg,
+    const Powerup(
+      id: 'board_sweep',
+      name: 'Board Sweep Combo',
+      iconPath: 'assets/images/map/board_sweep.svg',
       description:
-          'Flies off the board and dive-bombs the most crucial tile or obstacle.',
-    ),
+          'Spawns Bombo and Sweep when level starts',
+      isPrelevel: true
 
-    Powerup(
-      id: 'bomb',
-      name: 'The Bomb',
-      iconPath: Emojis.bomb.svg,
-      description:
-          'Detonates in a massive 3x3 radius, falls, and explodes a second time.',
     ),
 
     Powerup(
