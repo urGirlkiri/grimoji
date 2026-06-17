@@ -436,14 +436,16 @@ class GameCoordinator {
         boardManager.spawnBomb();
         state.updateUI();
 
-        await Future.delayed(const Duration(milliseconds: 150));
+        await Future.delayed(const Duration(milliseconds: 200));
       }
 
+      await Future.delayed(const Duration(milliseconds: 300));
       while (boardManager.countSafeBombs() > 0) {
         if (state.isDisposed) return;
 
         boardManager.triggerNextBomb();
         state.updateUI();
+        
         await Future.delayed(const Duration(milliseconds: 300));
 
         await executeDetonatorPhase();

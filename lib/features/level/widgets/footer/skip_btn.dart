@@ -11,18 +11,11 @@ class SkipBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     final palette = context.palette;
 
-    return Positioned(
-      bottom: 40,
-      left: 0,
-      right: 0,
-      child: Center(
-        child: PillButton(
-          text: 'SKIP',
-          color: palette.dusk,
-          borderColor: palette.slate,
-          onTap: onSkip,
-        ),
-      ),
+    return PillButton(
+      text: 'SKIP',
+      color: palette.dusk,
+      borderColor: palette.slate,
+      onTap: onSkip,
     );
   }
 }
