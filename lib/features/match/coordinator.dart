@@ -364,7 +364,7 @@ class GameCoordinator {
   }
 
   void resetHintTimer() {
-    if (state.isDisposed || state.isGameOver) {
+    if (state.isDisposed || state.isGameOver || state.isFeverTime) {
       _hintTimer?.cancel();
       return;
     }
