@@ -89,6 +89,12 @@ class GameCoordinator {
       return;
     }
 
+    await _cascadeSequence(tCoord);
+  }
+
+  Future<void> _cascadeSequence(
+    TileCoordinate focusCoordinate,
+  ) async {
     state.announcer.clear();
     state.setComboMultiplier(0);
     state.resetTilesCleared();
@@ -96,7 +102,7 @@ class GameCoordinator {
     final Set<TurnEvent> events = {};
 
     while (true) {
-      bool cascadeOccurred = await executeCascadePhase(tCoord);
+      bool cascadeOccurred = await executeCascadePhase(focusCoordinate);
       if (state.isDisposed) return;
 
       if (cascadeOccurred) {
@@ -419,7 +425,10 @@ class GameCoordinator {
     state.setPaused(!state.isPaused);
   }
 
-  Future<void> executeFeverSequence(int bonusBombs, VoidCallback onSpawn) async {
+  Future<void> executeFeverSequence(
+    int bonusBombs,
+    VoidCallback onSpawn,
+  ) async {
     state.setFeverTime(true);
     state.setFeverBombCount(bonusBombs);
     state.setReFeverBombs(bonusBombs);
@@ -445,12 +454,17 @@ class GameCoordinator {
       while (boardManager.countSafeBombs() > 0) {
         if (state.isDisposed) return;
 
+        final primedBombs = boardManager.getTriggeredEmojis();
+        final focusCoord = primedBombs.isNotEmpty
+            ? primedBombs.first.coordinate
+            : TileCoordinate(row: 3, col: 3);
+
         boardManager.triggerNextBomb();
         state.updateUI();
-        
+
         await Future.delayed(const Duration(milliseconds: 300));
 
-        await executeDetonatorPhase();
+        await _cascadeSequence(focusCoord);
 
         while (state.isProcessing) {
           await Future.delayed(const Duration(milliseconds: 250));
