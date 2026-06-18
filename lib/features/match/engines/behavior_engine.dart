@@ -58,16 +58,15 @@ class BehaviorEngine {
           for (int r = 0; r < BoardManager.rows; r++) {
             for (int c = 0; c < BoardManager.cols; c++) {
               final tile = boardManager.gridTiles[r][c];
-              
-              if (action.emoji == null || 
-                  tile.emoji == action.emoji || 
+
+              if (action.emoji == null ||
+                  tile.emoji == action.emoji ||
                   (r == centerX && c == centerY)) {
-                
                 tile.isTaggedForDestruct = true;
-                
+
                 if (r == centerX && c == centerY) {
                   tile.isDestructTrigger = true;
-                } 
+                }
               }
             }
           }
@@ -117,7 +116,7 @@ class BehaviorEngine {
 
   bool hasSwipeBehavior(Tile tile, int x, int y, GameEmoji targetEmoji) {
     if (tile.behavior != null) {
-      return tile.behavior!.hasSwipeBehavior(x, y, targetEmoji);
+      return tile.behavior!.onSwipedWith(x, y, targetEmoji).isNotEmpty;
     }
     return false;
   }
