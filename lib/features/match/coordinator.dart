@@ -51,14 +51,22 @@ class GameCoordinator {
     TileCoordinate dCoord,
     TileCoordinate tCoord,
   ) async {
+    final dtile = engine.grid[dCoord.row][dCoord.col];
+    final ttile = engine.grid[tCoord.row][tCoord.col];
+
+    _log.info(" swipe ${dtile.emoji.visual} -> ${ttile.emoji.visual} registered");
     if (state.isGameOver || state.isPaused) return;
 
     state.setProcessing(true);
     resetHintTimer();
 
+    _log.info(" eval swipe");
+
     final decision = engine.evaluateSwipe(dCoord, tCoord);
 
     if (decision.type == SwipeResult.invalid) {
+      _log.info("  invalid swipe");
+
       audio.playSfx(SfxType.invalidMove);
       boardManager.swapTiles(dCoord, tCoord);
       state.updateUI();
@@ -81,16 +89,14 @@ class GameCoordinator {
     await Future.delayed(const Duration(milliseconds: 100));
     if (state.isDisposed) return;
 
-    // if (decision.type == SwipeResult.specialBehavior) {
-    //   engine.executeBehaviorActions(decision.actions, dCoord.row, dCoord.col);
-    //   state.setProcessing(false);
-    //   state.updateUI();
-    //   resetHintTimer();
-    //   return;
-    // }
 
     if (decision.type == SwipeResult.specialBehavior) {
-      engine.executeBehaviorActions(decision.actions, dCoord.row, dCoord.col);
+      _log.info("Detexted swipe behavior");
+
+      final dTile = engine.grid[dCoord.row][dCoord.col];
+      final TileCoordinate triggerCoord = dTile.behavior != null ? dCoord : tCoord;
+
+      engine.executeBehaviorActions(decision.actions, triggerCoord.row, triggerCoord.col);
       state.updateUI();
 
       await Future.delayed(const Duration(milliseconds: 700));
@@ -99,9 +105,11 @@ class GameCoordinator {
       Set<TileCoordinate> destroyedByBehavior = {};
       for (int r = 0; r < BoardManager.rows; r++) {
         for (int c = 0; c < BoardManager.cols; c++) {
-          if (engine.grid[r][c].isTaggedForDestruct) {
+          final tile = engine.grid[r][c];
+          if (tile.isTaggedForDestruct || tile.isDestructTrigger) {
             destroyedByBehavior.add(TileCoordinate(row: r, col: c));
             engine.grid[r][c].isTaggedForDestruct = false;
+            engine.grid[r][c].isDestructTrigger = false;
           }
         }
       }

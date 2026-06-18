@@ -38,8 +38,6 @@ class BehaviorEngine {
     int centerX,
     int centerY,
   ) {
-    _log.info("Loooking up emoji behaviours");
-
     for (final action in actions) {
       switch (action.type) {
         case ActionType.placeEmoji:
@@ -57,16 +55,19 @@ class BehaviorEngine {
           }
           break;
         case ActionType.consumeAllOfType:
-          _log.info("Matched Swallow Behaviour");
-
           for (int r = 0; r < BoardManager.rows; r++) {
             for (int c = 0; c < BoardManager.cols; c++) {
               final tile = boardManager.gridTiles[r][c];
-
-              if (action.emoji == null ||
-                  tile.emoji == action.emoji ||
+              
+              if (action.emoji == null || 
+                  tile.emoji == action.emoji || 
                   (r == centerX && c == centerY)) {
+                
                 tile.isTaggedForDestruct = true;
+                
+                if (r == centerX && c == centerY) {
+                  tile.isDestructTrigger = true;
+                } 
               }
             }
           }
