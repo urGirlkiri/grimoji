@@ -30,6 +30,7 @@ void main() {
         dCoord: TileCoordinate(row: 0, col: 0),
         tCoord: TileCoordinate(row: 0, col: 1),
         getSwipeBehaviors: (_, _, _, _) => [],
+        hasSwipeBehavior: (_, _, _, _) => false,
       );
 
       expect(decision.type, equals(SwipeResult.invalid));
@@ -46,6 +47,7 @@ void main() {
         dCoord: TileCoordinate(row: 0, col: 2),
         tCoord: TileCoordinate(row: 1, col: 2),
         getSwipeBehaviors: (_, _, _, _) => [],
+        hasSwipeBehavior: (_, _, _, _) => false,
         quickCheckOnly: true, 
       );
 
@@ -60,6 +62,7 @@ void main() {
         dCoord: TileCoordinate(row: 0, col: 0),
         tCoord: TileCoordinate(row: 0, col: 1),
         getSwipeBehaviors: (_, _, _, _) => [],
+        hasSwipeBehavior: (_, _, _, _) => false,
         quickCheckOnly: true,
       );
 
@@ -78,6 +81,7 @@ void main() {
         dCoord: TileCoordinate(row: 0, col: 2),
         tCoord: TileCoordinate(row: 1, col: 2),
         getSwipeBehaviors: (_, _, _, _) => [],
+        hasSwipeBehavior: (_, _, _, _) => false,
       );
 
       expect(decision.type, equals(SwipeResult.match));
@@ -97,6 +101,7 @@ void main() {
         dCoord: TileCoordinate(row: 2, col: 0),
         tCoord: TileCoordinate(row: 2, col: 1),
         getSwipeBehaviors: (_, _, _, _) => [],
+        hasSwipeBehavior: (_, _, _, _) => false,
       );
 
       expect(decision.type, equals(SwipeResult.match));
@@ -117,6 +122,7 @@ void main() {
         getSwipeBehaviors: (tile, r, c, emoji) {
           return [const BehaviorAction(type: ActionType.doNothing, x: 0, y: 0)];
         },
+        hasSwipeBehavior: (_, _, _, _) => true,
       );
 
       expect(decision.type, equals(SwipeResult.specialBehavior), 
@@ -135,6 +141,7 @@ void main() {
         dCoord: TileCoordinate(row: 0, col: 0),
         tCoord: TileCoordinate(row: 0, col: 1),
         getSwipeBehaviors: (_, _, _, _) => [],
+        hasSwipeBehavior: (_, _, _, _) => false,
       );
 
       expect(grid[0][0].emoji, equals(Emojis.fire), reason: 'Tile should be back to original after evaluation');
