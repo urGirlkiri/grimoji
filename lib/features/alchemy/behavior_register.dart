@@ -1,14 +1,14 @@
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/behaviors/behavior.dart';
+import 'package:grimoji/features/alchemy/behaviors/swallow.dart';
 import 'package:grimoji/features/alchemy/behaviors/virus.dart';
 import 'package:grimoji/features/alchemy/behaviors/ghost.dart';
-import 'package:grimoji/features/alchemy/behaviors/rainbow.dart';
 
 class BehaviorRegister {
   static final Map<GameEmoji, EmojiBehavior Function()> _behaviors = {
     Emojis.bug: () => VirusBehavior(),
     Emojis.ghost: () => GhostBehavior(),
-    Emojis.rainbow: () => RainbowBehavior(),
+    Emojis.hole: () => SwallowBehavior(),
   };
 
   static EmojiBehavior? getBehaviorFor(GameEmoji emoji) {
