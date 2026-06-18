@@ -39,10 +39,33 @@ class TileWidget extends StatelessWidget {
       isTouched: isTouched,
     );
 
-    if (tile.isTaggedForDestruct) {
-      content = content.animate()
+    if (tile.isTaggedForDestruct && !tile.isDestructTrigger) {
+      content = content
+          .animate()
           .moveY(begin: 0, end: 20, duration: 400.ms, curve: Curves.easeInBack)
-          .scale(begin: const Offset(1, 1), end: Offset.zero, duration: 400.ms, curve: Curves.easeInBack);
+          .scale(
+            begin: const Offset(1, 1),
+            end: Offset.zero,
+            duration: 400.ms,
+            curve: Curves.easeInBack,
+          );
+    } else if (tile.isDestructTrigger) {
+      content = content
+          .animate()
+          .rotate(duration: 500.ms, begin: 0, end: 2, curve: Curves.easeInOut)
+          .scale(
+            begin: const Offset(1, 1),
+            end: const Offset(1.3, 1.3),
+            duration: 400.ms,
+            curve: Curves.easeOutBack,
+          )
+          .then(delay: 100.ms)
+          .scale(
+            begin: const Offset(1.3, 1.3),
+            end: Offset.zero,
+            duration: 200.ms,
+            curve: Curves.easeInBack,
+          );
     }
 
     return AnimatedPositioned(
@@ -63,23 +86,29 @@ class TileWidget extends StatelessWidget {
               alignment: Alignment.center,
               clipBehavior: Clip.none,
               children: [
-                if (tile.isTaggedForDestruct && tile.emoji != Emojis.hole)
+                if (tile.isTaggedForDestruct && !tile.isDestructTrigger)
                   Positioned(
                     bottom: -10,
-                    child: EmojiWidget.svg(
-                      path: Emojis.hole.svg,
-                      size: tWidth * 0.8,
-                    )
-                    .animate(onPlay: (c) => c.repeat())
-                    .rotate(duration: 1.seconds, curve: Curves.linear)
-                    .scale(begin: Offset.zero, end: const Offset(1, 1), duration: 200.ms) 
-                    .then(delay: 300.ms) 
-                    .scale(end: Offset.zero, duration: 200.ms),
+                    child:
+                        EmojiWidget.svg(
+                              path: Emojis.hole.svg,
+                              size: tWidth * 0.8,
+                            )
+                            .animate(onPlay: (c) => c.repeat())
+                            .rotate(duration: 1.seconds, curve: Curves.linear)
+                            .scale(
+                              begin: Offset.zero,
+                              end: const Offset(1, 1),
+                              duration: 200.ms,
+                            )
+                            .then(delay: 300.ms)
+                            .scale(end: Offset.zero, duration: 200.ms),
                   ),
 
                 content,
-                
+
                 TileVFX(tile: tile, displayEmoji: displayEmoji, tWidth: tWidth),
+
                 if (tile.isTransmuting)
                   AnimatedOpacity(
                     duration: const Duration(milliseconds: 50),

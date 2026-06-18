@@ -21,6 +21,8 @@ class Tile {
   bool isMergePoint = false;
 
   bool isTransmuting = false;
+
+  bool isDestructTrigger = false;
   bool isTaggedForDestruct = false;
 
   bool hasFlown = false;
@@ -63,6 +65,7 @@ class Tile {
     newTile.hintPartner = hintPartner;
     
     newTile.isTaggedForDestruct = isTaggedForDestruct;
+    newTile.isDestructTrigger = isDestructTrigger;
 
     return newTile;
   }
@@ -84,6 +87,7 @@ class Tile {
     hintPartner = null;
 
     isTaggedForDestruct = false;
+    isDestructTrigger = false;
   }
 
   void clearBehavior() {
