@@ -62,6 +62,7 @@ class GameEngine {
       dCoord: dCoord,
       tCoord: tCoord,
       getSwipeBehaviors: _behavior.processSwipedWithBehavior,
+      hasSwipeBehavior: _behavior.hasSwipeBehavior,
     );
 
     if (decision.type != SwipeResult.invalid) {
@@ -175,6 +176,7 @@ class GameEngine {
             dCoord: TileCoordinate(row: r, col: c),
             tCoord: TileCoordinate(row: r, col: c + 1),
             getSwipeBehaviors: _behavior.processSwipedWithBehavior,
+            hasSwipeBehavior: _behavior.hasSwipeBehavior,
             quickCheckOnly: true,
           );
           if (d.type != SwipeResult.invalid) return true;
@@ -185,6 +187,7 @@ class GameEngine {
             dCoord: TileCoordinate(row: r, col: c),
             tCoord: TileCoordinate(row: r + 1, col: c),
             getSwipeBehaviors: _behavior.processSwipedWithBehavior,
+            hasSwipeBehavior: _behavior.hasSwipeBehavior,
             quickCheckOnly: true,
           );
           if (d.type != SwipeResult.invalid) return true;
@@ -206,6 +209,7 @@ class GameEngine {
             dCoord: t1,
             tCoord: t2,
             getSwipeBehaviors: _behavior.processSwipedWithBehavior,
+            hasSwipeBehavior: _behavior.hasSwipeBehavior,
             quickCheckOnly: true,
           );
           if (d.type != SwipeResult.invalid) {
@@ -220,6 +224,7 @@ class GameEngine {
             dCoord: t1,
             tCoord: t2,
             getSwipeBehaviors: _behavior.processSwipedWithBehavior,
+            hasSwipeBehavior: _behavior.hasSwipeBehavior,
             quickCheckOnly: true,
           );
           if (d.type != SwipeResult.invalid) {

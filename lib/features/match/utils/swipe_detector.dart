@@ -25,25 +25,43 @@ class SwipeDetector {
     required TileCoordinate tCoord,
     required List<BehaviorAction> Function(Tile, int, int, GameEmoji)
     getSwipeBehaviors,
+    required bool Function(Tile, int, int, GameEmoji) hasSwipeBehavior,
     bool quickCheckOnly = false,
   }) {
     final tileD = grid[dCoord.row][dCoord.col];
     final tileT = grid[tCoord.row][tCoord.col];
 
-    final actionsD = getSwipeBehaviors(
+    final hasBehaviorD = hasSwipeBehavior.call(
       tileT,
       dCoord.row,
       dCoord.col,
       tileD.emoji,
     );
-    final actionsT = getSwipeBehaviors(
+
+    final hasBehaviorT = hasSwipeBehavior.call(
       tileD,
       tCoord.row,
       tCoord.col,
       tileT.emoji,
     );
 
-    if (actionsD.isNotEmpty || actionsT.isNotEmpty) {
+    if (hasBehaviorD || hasBehaviorT) {
+      if (quickCheckOnly) {
+        return SwipeDecision(type: SwipeResult.specialBehavior);
+      }
+
+      final actionsD = getSwipeBehaviors(
+        tileT,
+        dCoord.row,
+        dCoord.col,
+        tileD.emoji,
+      );
+      final actionsT = getSwipeBehaviors(
+        tileD,
+        tCoord.row,
+        tCoord.col,
+        tileT.emoji,
+      );
       return SwipeDecision(
         type: SwipeResult.specialBehavior,
         actions: [...actionsD, ...actionsT],

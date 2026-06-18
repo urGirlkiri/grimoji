@@ -68,8 +68,9 @@ class MapEngine extends StatelessWidget {
           ),
 
           ...nodes.map((node) {
-            if (node.level > gameLevels.length && !isBuilderMode)
+            if (node.level > gameLevels.length && !isBuilderMode) {
               return const SizedBox.shrink();
+            }
 
             final int levelNum = node.level;
             final int stars = levelStars[levelNum] ?? 0;

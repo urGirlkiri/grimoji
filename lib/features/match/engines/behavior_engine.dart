@@ -5,10 +5,12 @@ import 'package:grimoji/features/alchemy/models/behavior_action.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:grimoji/features/match/board/utils/manager.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
+import 'package:logging/logging.dart';
 
 class BehaviorEngine {
   final BoardManager boardManager;
   final EmojiBehavior? Function(GameEmoji) getBehavior;
+  final Logger _log = Logger('BehaviorEngine');
 
   BehaviorEngine({required this.boardManager, required this.getBehavior});
 
@@ -36,6 +38,8 @@ class BehaviorEngine {
     int centerX,
     int centerY,
   ) {
+    _log.info("Loooking up emoji behaviours");
+
     for (final action in actions) {
       switch (action.type) {
         case ActionType.placeEmoji:
@@ -50,6 +54,21 @@ class BehaviorEngine {
           if (target != null && action.emoji != null) {
             boardManager.gridTiles[target.x][target.y].emoji = action.emoji!;
             boardManager.gridTiles[target.x][target.y].clearBehavior();
+          }
+          break;
+        case ActionType.consumeAllOfType:
+          _log.info("Matched Swallow Behaviour");
+
+          for (int r = 0; r < BoardManager.rows; r++) {
+            for (int c = 0; c < BoardManager.cols; c++) {
+              final tile = boardManager.gridTiles[r][c];
+
+              if (action.emoji == null ||
+                  tile.emoji == action.emoji ||
+                  (r == centerX && c == centerY)) {
+                tile.isTaggedForDestruct = true;
+              }
+            }
           }
           break;
         case ActionType.doNothing:
@@ -81,9 +100,24 @@ class BehaviorEngine {
     int y,
     GameEmoji targetEmoji,
   ) {
+    _log.info("Looking for  Swipe Behaviour for ${tile.emoji.visual}");
+
     if (tile.behavior != null) {
+      _log.info(
+        "Found behaviour for ${tile.emoji.visual} with ${targetEmoji.visual}  ",
+      );
+
       return tile.behavior!.onSwipedWith(x, y, targetEmoji);
     }
+    _log.info("Swipe Behaviour Not Found");
+
     return [];
+  }
+
+  bool hasSwipeBehavior(Tile tile, int x, int y, GameEmoji targetEmoji) {
+    if (tile.behavior != null) {
+      return tile.behavior!.hasSwipeBehavior(x, y, targetEmoji);
+    }
+    return false;
   }
 }
