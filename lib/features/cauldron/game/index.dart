@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:math' as math; 
+import 'dart:math' as math;
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
@@ -10,30 +10,31 @@ import 'core/prediction_line.dart';
 import 'core/container/index.dart';
 import 'core/emoji_body.dart';
 
-class CauldronGame extends Forge2DGame with TapCallbacks, PointerMoveCallbacks, DragCallbacks {
+class CauldronGame extends Forge2DGame
+    with TapCallbacks, PointerMoveCallbacks, DragCallbacks {
   final ColorScheme colorScheme;
   final double globalScale;
   final BuildContext context;
-  
+
   static final Vector2 worldCauldronSize = Vector2(10.5125, 9.573);
 
   late final PredictionLine predictionLine;
 
-  final double minDropX = -4.5; 
+  final double minDropX = -4.5;
   final double maxDropX = 4.5;
-  
-  final double dropSpawnY = -4.5; 
-  final double cauldronBottomY = 3.5; 
+
+  final double dropSpawnY = -4.5;
+  final double cauldronBottomY = 3.5;
   final bool showHalfLine = false;
 
   bool _canDrop = true;
   final math.Random _random = math.Random();
 
   final List<GameEmoji> _spawnableEmojis = [
-    Emojis.smile, 
-    Emojis.fire, 
-    Emojis.pizza, 
-    Emojis.alien, 
+    Emojis.smile,
+    Emojis.fire,
+    Emojis.pizza,
+    Emojis.alien,
     Emojis.rocket,
     Emojis.poop,
     Emojis.heart,
@@ -44,7 +45,7 @@ class CauldronGame extends Forge2DGame with TapCallbacks, PointerMoveCallbacks, 
     required this.colorScheme,
     required this.globalScale,
   }) : super(gravity: Vector2(0, 30)) {
-    debugMode = false; 
+    debugMode = false;
   }
 
   @override
@@ -58,11 +59,8 @@ class CauldronGame extends Forge2DGame with TapCallbacks, PointerMoveCallbacks, 
 
     predictionLine = PredictionLine();
 
-   await world.add(
-      CauldronBack(
-        worldSize: worldCauldronSize,
-        position: Vector2(0, 0.5),
-      ),
+    await world.add(
+      CauldronBack(worldSize: worldCauldronSize, position: Vector2(0, 0.5)),
     );
 
     await world.add(predictionLine);
@@ -78,10 +76,10 @@ class CauldronGame extends Forge2DGame with TapCallbacks, PointerMoveCallbacks, 
   @override
   void onGameResize(Vector2 size) {
     super.onGameResize(size);
-    
+
     camera.viewport.size = size;
-    
-    const padding = 0.90; 
+
+    const padding = 0.90;
 
     final zoomX = (size.x * padding) / worldCauldronSize.x;
     final zoomY = (size.y * padding) / worldCauldronSize.y;
@@ -102,12 +100,13 @@ class CauldronGame extends Forge2DGame with TapCallbacks, PointerMoveCallbacks, 
 
   void _dropEmoji() {
     if (!_canDrop || predictionLine.start == null) return;
-    
-    _canDrop = false; 
+
+    _canDrop = false;
 
     final dropX = predictionLine.start!.x;
-    
-    final randomEmoji = _spawnableEmojis[_random.nextInt(_spawnableEmojis.length)];
+
+    final randomEmoji =
+        _spawnableEmojis[_random.nextInt(_spawnableEmojis.length)];
 
     final emojiBody = EmojiBody(
       initialPosition: Vector2(dropX, dropSpawnY),
@@ -135,7 +134,7 @@ class CauldronGame extends Forge2DGame with TapCallbacks, PointerMoveCallbacks, 
 
   @override
   void onTapUp(TapUpEvent event) {
-    _updateDropPosition(event.canvasPosition); 
+    _updateDropPosition(event.canvasPosition);
     _dropEmoji();
     super.onTapUp(event);
   }

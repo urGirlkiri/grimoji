@@ -28,12 +28,12 @@ class PauseDialog extends StatelessWidget {
       elevation: 0,
       insetPadding: const EdgeInsets.all(0),
       child: ScrollDialog(
-        rightButton:  const CorkScrewCloseButton(),
+        rightButton: const CorkScrewCloseButton(),
         leftButton: AppIcon(
           fileName: 'settings',
           size: 80,
           onTap: () {
-           showAnimatedDialog(context,  SettingsDialog(level: level));
+            showAnimatedDialog(context, SettingsDialog(level: level));
           },
         ),
         child: Padding(

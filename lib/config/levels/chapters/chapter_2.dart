@@ -24,12 +24,7 @@ final List<GameLevel> chapter2Levels = [
     targetEmoji: Emojis.spider,
     goal: 'Must merge 4 bugs to make Spiders',
     description: 'Arachnophobia - The swarm grows',
-    availableEmojis: [
-      Emojis.bug,
-      Emojis.leafyGreen,
-      Emojis.rock,
-      Emojis.skull,
-    ],
+    availableEmojis: [Emojis.bug, Emojis.leafyGreen, Emojis.rock, Emojis.skull],
   ),
 
   GameLevel(
@@ -70,12 +65,7 @@ final List<GameLevel> chapter2Levels = [
     targetEmoji: Emojis.bat,
     goal: 'Requires merging Bugs -> Spiders -> Bats',
     description: 'Creatures of the Night - The swarm evolves',
-    availableEmojis: [
-      Emojis.bug,
-      Emojis.spider,
-      Emojis.rock,
-      Emojis.ghost,
-    ],
+    availableEmojis: [Emojis.bug, Emojis.spider, Emojis.rock, Emojis.ghost],
   ),
 
   GameLevel(
@@ -101,12 +91,7 @@ final List<GameLevel> chapter2Levels = [
     targetEmoji: Emojis.testTube,
     goal: 'Must brew multiple potions while bugs interfere',
     description: 'Potion Master - Managing the chaos',
-    availableEmojis: [
-      Emojis.droplet,
-      Emojis.bug,
-      Emojis.rock,
-      Emojis.fire,
-    ],
+    availableEmojis: [Emojis.droplet, Emojis.bug, Emojis.rock, Emojis.fire],
     skipAutoPlayer: true,
   ),
 
@@ -132,12 +117,7 @@ final List<GameLevel> chapter2Levels = [
     targetEmoji: Emojis.redApple,
     goal: 'A rare item to collect amidst chaos',
     description: 'The Poisoned Apple - The final test of the swamp',
-    availableEmojis: [
-      Emojis.bug,
-      Emojis.spider,
-      Emojis.testTube,
-      Emojis.plant,
-    ],
+    availableEmojis: [Emojis.bug, Emojis.spider, Emojis.testTube, Emojis.plant],
   ),
 
   GameLevel(
@@ -208,12 +188,7 @@ final List<GameLevel> chapter2Levels = [
     targetEmoji: Emojis.testTube,
     goal: 'Keep bugs away from the potions',
     description: 'The Witch\'s Brew - Potions amid the storm',
-    availableEmojis: [
-      Emojis.droplet,
-      Emojis.herb,
-      Emojis.bug,
-      Emojis.fire,
-    ],
+    availableEmojis: [Emojis.droplet, Emojis.herb, Emojis.bug, Emojis.fire],
     skipAutoPlayer: true,
   ),
 
@@ -224,12 +199,7 @@ final List<GameLevel> chapter2Levels = [
     targetEmoji: Emojis.bat,
     goal: 'Combine Spiders to make Bats',
     description: 'Nightfall - The swarm evolves under cover of dark',
-    availableEmojis: [
-      Emojis.bug,
-      Emojis.spider,
-      Emojis.cloud,
-      Emojis.ghost,
-    ],
+    availableEmojis: [Emojis.bug, Emojis.spider, Emojis.cloud, Emojis.ghost],
   ),
 
   GameLevel(
@@ -255,12 +225,7 @@ final List<GameLevel> chapter2Levels = [
     targetEmoji: Emojis.bomb,
     goal: 'Mix fire and ice for explosive effect',
     description: 'Thermal Shock - Opposites create chaos',
-    availableEmojis: [
-      Emojis.fire,
-      Emojis.cloud,
-      Emojis.droplet,
-      Emojis.rock,
-    ],
+    availableEmojis: [Emojis.fire, Emojis.cloud, Emojis.droplet, Emojis.rock],
   ),
 
   GameLevel(

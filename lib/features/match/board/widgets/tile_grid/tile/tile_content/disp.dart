@@ -11,7 +11,8 @@ class TileDisp extends StatelessWidget {
   final double tWidth;
   final double tHeight;
 
-  const TileDisp({super.key, 
+  const TileDisp({
+    super.key,
     required this.tile,
     required this.displayEmoji,
     required this.tWidth,

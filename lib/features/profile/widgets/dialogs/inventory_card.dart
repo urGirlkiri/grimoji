@@ -36,7 +36,7 @@ class InventoryCard extends StatelessWidget {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.only(bottom: 8.0), 
+          padding: const EdgeInsets.only(bottom: 8.0),
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(24),
@@ -44,9 +44,9 @@ class InventoryCard extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  palette.slate.withValues(alpha: 0.8), 
+                  palette.slate.withValues(alpha: 0.8),
                   palette.twilight,
-                  palette.dusk, 
+                  palette.dusk,
                 ],
                 stops: const [0.0, 0.15, 1.0],
               ),
@@ -59,7 +59,7 @@ class InventoryCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const SizedBox(height: 8),
-                
+
                 // Text(
                 //   name.toUpperCase(),
                 //   textAlign: TextAlign.center,
@@ -70,21 +70,24 @@ class InventoryCard extends StatelessWidget {
                 //     fontSize: 10 * context.globalScale,
                 //   ),
                 // ),
-                
                 Expanded(
                   child: Opacity(
                     opacity: isEmpty ? 0.4 : 1.0,
                     child: Center(
                       child: EmojiWidget.svg(
-                        path: iconPath, 
+                        path: iconPath,
                         size: 55 * context.globalScale,
                       ),
                     ),
                   ),
                 ),
-                
+
                 Padding(
-                  padding: const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 12.0),
+                  padding: const EdgeInsets.only(
+                    left: 12.0,
+                    right: 12.0,
+                    bottom: 12.0,
+                  ),
                   child: Container(
                     height: 32 * context.globalScale,
                     width: double.infinity,
@@ -95,7 +98,7 @@ class InventoryCard extends StatelessWidget {
                         BoxShadow(
                           color: palette.mist.withValues(alpha: 0.3),
                           offset: const Offset(0, 1.5),
-                          blurRadius: 0, 
+                          blurRadius: 0,
                         ),
                         BoxShadow(
                           color: palette.midnight,

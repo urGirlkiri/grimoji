@@ -30,7 +30,7 @@ class TimerBox extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          const _TimerText()
+          const _TimerText(),
         ],
       ),
     );
@@ -42,7 +42,9 @@ class _TimerText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final seconds = context.select((LevelState state) => state.secondsRemaining);
+    final seconds = context.select(
+      (LevelState state) => state.secondsRemaining,
+    );
     return Text(
       seconds.toString(),
       style: TextStyle(

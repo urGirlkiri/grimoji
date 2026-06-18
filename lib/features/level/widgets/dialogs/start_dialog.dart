@@ -85,7 +85,9 @@ class _LevelStartDialogState extends State<LevelStartDialog> {
                       child: AnimatedButton(
                         onTap: () {
                           if (!hasInventory) {
-                            debugPrint("Todo: Open market shortcut  for ${item.name}");
+                            debugPrint(
+                              "Todo: Open market shortcut  for ${item.name}",
+                            );
                             return;
                           }
 

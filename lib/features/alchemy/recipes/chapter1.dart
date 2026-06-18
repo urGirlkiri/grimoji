@@ -14,32 +14,12 @@ final List<Recipe> chapter1Recipes = [
     requiredAmount: 3,
     yields: Emojis.fire,
   ),
-  Recipe(
-    ingredient: Emojis.fire,
-    requiredAmount: 4,
-    yields: Emojis.bomb,
-  ),
+  Recipe(ingredient: Emojis.fire, requiredAmount: 4, yields: Emojis.bomb),
 
-  Recipe(
-    ingredient: Emojis.poultryLeg,
-    requiredAmount: 3,
-    yields: Emojis.bone,
-  ),
-  Recipe(
-    ingredient: Emojis.worm,
-    requiredAmount: 3,
-    yields: Emojis.bug,
-  ),
-  Recipe(
-    ingredient: Emojis.bone,
-    requiredAmount: 3,
-    yields: Emojis.poultryLeg,
-  ),
-  Recipe(
-    ingredient: Emojis.bone,
-    requiredAmount: 4,
-    yields: Emojis.skull,
-  ),
+  Recipe(ingredient: Emojis.poultryLeg, requiredAmount: 3, yields: Emojis.bone),
+  Recipe(ingredient: Emojis.worm, requiredAmount: 3, yields: Emojis.bug),
+  Recipe(ingredient: Emojis.bone, requiredAmount: 3, yields: Emojis.poultryLeg),
+  Recipe(ingredient: Emojis.bone, requiredAmount: 4, yields: Emojis.skull),
 
   Recipe(
     ingredient: Emojis.bone,

@@ -10,13 +10,10 @@ class BehaviorEngine {
   final BoardManager boardManager;
   final EmojiBehavior? Function(GameEmoji) getBehavior;
 
-  BehaviorEngine({
-    required this.boardManager,
-    required this.getBehavior, 
-  });
+  BehaviorEngine({required this.boardManager, required this.getBehavior});
 
   void initializeBehavior(Tile tile) {
-    final behavior = getBehavior(tile.emoji); 
+    final behavior = getBehavior(tile.emoji);
     if (behavior != null) {
       tile.behavior = behavior;
     }
@@ -34,7 +31,11 @@ class BehaviorEngine {
     }
   }
 
-  void executeBehaviorActions(List<BehaviorAction> actions, int centerX, int centerY) {
+  void executeBehaviorActions(
+    List<BehaviorAction> actions,
+    int centerX,
+    int centerY,
+  ) {
     for (final action in actions) {
       switch (action.type) {
         case ActionType.placeEmoji:
@@ -63,13 +64,23 @@ class BehaviorEngine {
     }
   }
 
-  void processBlastBehavior(Tile tile, int x, int y, ReactionType reactionType) {
+  void processBlastBehavior(
+    Tile tile,
+    int x,
+    int y,
+    ReactionType reactionType,
+  ) {
     if (tile.behavior != null) {
       tile.behavior!.onBlastNearby(x, y, reactionType);
     }
   }
 
-  List<BehaviorAction> processSwipedWithBehavior(Tile tile, int x, int y, GameEmoji targetEmoji) {
+  List<BehaviorAction> processSwipedWithBehavior(
+    Tile tile,
+    int x,
+    int y,
+    GameEmoji targetEmoji,
+  ) {
     if (tile.behavior != null) {
       return tile.behavior!.onSwipedWith(x, y, targetEmoji);
     }

@@ -6,8 +6,8 @@ import 'package:grimoji/features/alchemy/models/behavior_action.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 
 class GhostBehavior extends EmojiBehavior {
-  static const double randomChance = 0.10; 
-  
+  static const double randomChance = 0.10;
+
   @override
   List<BehaviorAction> onTurnEnd(int x, int y) {
     if (Random().nextDouble() < randomChance) {

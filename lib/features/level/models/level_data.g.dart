@@ -16,10 +16,7 @@ class LevelDataAdapter extends TypeAdapter<LevelData> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return LevelData(
-      level: fields[0] as int,
-      stars: fields[1] as int,
-    );
+    return LevelData(level: fields[0] as int, stars: fields[1] as int);
   }
 
   @override

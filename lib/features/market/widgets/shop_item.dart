@@ -69,7 +69,10 @@ class ShopItemCard extends StatelessWidget {
               AnimatedButton(
                 onTap: onTap,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12 * scale, vertical: 6 * scale),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12 * scale,
+                    vertical: 6 * scale,
+                  ),
                   decoration: BoxDecoration(
                     color: context.palette.twilight,
                     borderRadius: BorderRadius.circular(12 * scale),
@@ -81,7 +84,7 @@ class ShopItemCard extends StatelessWidget {
                       BoxShadow(
                         color: context.palette.voidBlack,
                         offset: Offset(0, 4 * scale),
-                        blurRadius: 0, 
+                        blurRadius: 0,
                       ),
                     ],
                   ),

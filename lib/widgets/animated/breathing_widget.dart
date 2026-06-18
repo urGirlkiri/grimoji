@@ -21,15 +21,14 @@ class BreathingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     if (!enabled) return child;
 
-    return child.animate(
-      onPlay: (controller) => controller.repeat(reverse: true),
-    ).scale(
-      begin: Offset(minScale, minScale),
-      end: Offset(maxScale, maxScale),
-      duration: duration,
-      curve: Curves.easeInOutSine,
-      alignment: Alignment.center,
-    );
+    return child
+        .animate(onPlay: (controller) => controller.repeat(reverse: true))
+        .scale(
+          begin: Offset(minScale, minScale),
+          end: Offset(maxScale, maxScale),
+          duration: duration,
+          curve: Curves.easeInOutSine,
+          alignment: Alignment.center,
+        );
   }
 }
-

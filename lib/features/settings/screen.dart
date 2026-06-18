@@ -54,7 +54,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
 
                 Padding(
-                  padding:  EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     horizontal: isLarge ? 60.0 : 40.0,
                     vertical: 50.0,
                   ),
@@ -71,7 +71,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                       ),
                       const SizedBox(height: 32),
-                  
+
                       ListenableBuilder(
                         listenable: Listenable.merge([
                           settings.audioOn,
@@ -114,9 +114,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           );
                         },
                       ),
-                  
+
                       const SizedBox(height: 24),
-                  
+
                       ListenableBuilder(
                         listenable: Listenable.merge([
                           settings.soundsOn,
@@ -151,9 +151,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           );
                         },
                       ),
-                  
+
                       const SizedBox(height: 24),
-                  
+
                       PillButton(
                         text: "Reset Progress",
                         color: palette.crimson,

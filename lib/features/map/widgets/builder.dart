@@ -17,10 +17,10 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
   final Logger _logger = Logger('MapBuilderScreen');
 
   List<LevelNde> _nodes = [];
-  
+
   final List<LevelNde> _deletedNodes = [];
-  final List<LevelNde> _placementHistory = []; 
-  
+  final List<LevelNde> _placementHistory = [];
+
   bool _isLoading = true;
 
   bool _isPlacementMode = true;
@@ -78,16 +78,17 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
       }
 
       final newNode = LevelNde(level: nextLevel, x: percentX, y: percentY);
-      
+
       _nodes.add(newNode);
-      _placementHistory.add(newNode); 
+      _placementHistory.add(newNode);
       _nodes.sort((a, b) => a.level.compareTo(b.level));
 
       _previewLevel = _deletedNodes.isNotEmpty
           ? _deletedNodes.last.level
           : (_nodes.isEmpty
-              ? 1
-              : _nodes.map((n) => n.level).reduce((a, b) => a > b ? a : b) + 1);
+                ? 1
+                : _nodes.map((n) => n.level).reduce((a, b) => a > b ? a : b) +
+                      1);
     });
   }
 
@@ -96,7 +97,7 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
 
     setState(() {
       _nodes.remove(node);
-      _placementHistory.remove(node); 
+      _placementHistory.remove(node);
       _deletedNodes.add(node);
     });
   }
@@ -115,19 +116,18 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
     setState(() {
       if (_isPlacementMode) {
         if (_placementHistory.isEmpty) return;
-        
+
         final LevelNde lastPlaced = _placementHistory.removeLast();
         _nodes.remove(lastPlaced);
-        _deletedNodes.add(lastPlaced); 
-        
-        _previewLevel = lastPlaced.level; 
-        
+        _deletedNodes.add(lastPlaced);
+
+        _previewLevel = lastPlaced.level;
       } else {
         if (_deletedNodes.isEmpty) return;
 
         final LevelNde lastDeleted = _deletedNodes.removeLast();
         _nodes.add(lastDeleted);
-        _placementHistory.add(lastDeleted); 
+        _placementHistory.add(lastDeleted);
         _nodes.sort((a, b) => a.level.compareTo(b.level));
       }
     });
@@ -151,7 +151,7 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
             backgroundColor: Colors.green,
             behavior: SnackBarBehavior.floating,
             margin: EdgeInsets.only(
-              bottom: MediaQuery.of(context).size.height -200,
+              bottom: MediaQuery.of(context).size.height - 200,
             ),
           ),
         );
@@ -165,14 +165,13 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
             backgroundColor: Colors.red,
             behavior: SnackBarBehavior.floating,
             margin: EdgeInsets.only(
-              bottom: MediaQuery.of(context).size.height -200,
+              bottom: MediaQuery.of(context).size.height - 200,
             ),
           ),
         );
       }
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -197,7 +196,9 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
             return KeyEventResult.handled;
           }
           if (event.logicalKey == LogicalKeyboardKey.keyZ) {
-            final bool isModifierPressed = HardwareKeyboard.instance.isControlPressed || HardwareKeyboard.instance.isMetaPressed;
+            final bool isModifierPressed =
+                HardwareKeyboard.instance.isControlPressed ||
+                HardwareKeyboard.instance.isMetaPressed;
             if (isModifierPressed) {
               _undo();
               return KeyEventResult.handled;
@@ -221,8 +222,11 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
                   final int level = _deletedNodes.isNotEmpty
                       ? _deletedNodes.last.level
                       : (_nodes.isEmpty
-                          ? 1
-                          : _nodes.map((n) => n.level).reduce((a, b) => a > b ? a : b) + 1);
+                            ? 1
+                            : _nodes
+                                      .map((n) => n.level)
+                                      .reduce((a, b) => a > b ? a : b) +
+                                  1);
                   setState(() {
                     _hoverPercentX = event.localPosition.dx / mapWidth;
                     _hoverPercentY = event.localPosition.dy / mapHeight;

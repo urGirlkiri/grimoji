@@ -20,7 +20,7 @@ class MapEngine extends StatelessWidget {
   final Map<int, int> levelStars;
   final Set<int> unlockedLevels;
   final int? previewLevel;
-  
+
   final bool isPlacementMode;
 
   const MapEngine({
@@ -34,13 +34,13 @@ class MapEngine extends StatelessWidget {
     this.levelStars = const {},
     this.unlockedLevels = const {},
     this.previewLevel,
-    this.isPlacementMode = false, 
+    this.isPlacementMode = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final double mapHeight = mapWidth * (mapImgHeight / mapImgWidth);
-    
+
     final double dpr = MediaQuery.devicePixelRatioOf(context);
     final int cacheWidth = (mapWidth * dpr).round();
     final int cacheHeight = (mapHeight * dpr).round();
@@ -68,13 +68,14 @@ class MapEngine extends StatelessWidget {
           ),
 
           ...nodes.map((node) {
-            if (node.level > gameLevels.length && !isBuilderMode) return const SizedBox.shrink();
+            if (node.level > gameLevels.length && !isBuilderMode)
+              return const SizedBox.shrink();
 
             final int levelNum = node.level;
             final int stars = levelStars[levelNum] ?? 0;
             final bool isUnlocked = unlockedLevels.contains(levelNum);
-            final GameLevel levelDef = levelNum <= gameLevels.length 
-                ? gameLevels[levelNum - 1] 
+            final GameLevel levelDef = levelNum <= gameLevels.length
+                ? gameLevels[levelNum - 1]
                 : _previewLevel(levelNum);
 
             return Positioned(
@@ -88,11 +89,16 @@ class MapEngine extends StatelessWidget {
                       ? TempNode(
                           isCursorMode: isCursorMode,
                           onTap: () => onDeleteNode!(node),
-                          child: LevelNode(level: levelDef, stars: 3, cacheSize: computedNodeCacheSize, isUnlocked: true),
+                          child: LevelNode(
+                            level: levelDef,
+                            stars: 3,
+                            cacheSize: computedNodeCacheSize,
+                            isUnlocked: true,
+                          ),
                         )
                       : LevelNode(
-                          level: levelDef, 
-                          stars: stars, 
+                          level: levelDef,
+                          stars: stars,
                           cacheSize: computedNodeCacheSize,
                           isUnlocked: isUnlocked,
                         ),
@@ -101,7 +107,10 @@ class MapEngine extends StatelessWidget {
             );
           }),
 
-          if (isPlacementMode && hoverPercentX != null && hoverPercentY != null && isBuilderMode)
+          if (isPlacementMode &&
+              hoverPercentX != null &&
+              hoverPercentY != null &&
+              isBuilderMode)
             Positioned(
               left: hoverPercentX! * mapWidth,
               top: hoverPercentY! * mapHeight,
@@ -116,8 +125,9 @@ class MapEngine extends StatelessWidget {
                         level: previewLevel != null
                             ? _previewLevel(previewLevel!)
                             : (gameLevels.isNotEmpty
-                                ? gameLevels[(nodes.length) % gameLevels.length]
-                                : _previewLevel(nodes.length + 1)),
+                                  ? gameLevels[(nodes.length) %
+                                        gameLevels.length]
+                                  : _previewLevel(nodes.length + 1)),
                         stars: 0,
                         cacheSize: computedNodeCacheSize,
                         isUnlocked: true,

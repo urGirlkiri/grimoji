@@ -135,7 +135,7 @@ class ProfileDialog extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final item = Powerup.all[index];
                         final count = profile.getPowerupCount(item.id);
-                    
+
                         return InventoryCard(
                           context: context,
                           name: item.name,

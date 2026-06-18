@@ -51,7 +51,7 @@ class ProfileData extends HiveObject {
     this.lastDailyClaimTime = 0,
   });
 
-@override
+  @override
   String toString() {
     return '''
     Avatar: $avatar

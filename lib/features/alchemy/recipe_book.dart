@@ -40,12 +40,12 @@ class RecipeBook {
   static void _ensureInitialized() {
     if (_isInitialized) return;
     _isInitialized = true;
-    
+
     for (var recipe in allRecipes) {
       _recipeCache.putIfAbsent(recipe.ingredient, () => []).add(recipe);
       _yieldCache.putIfAbsent(recipe.yields, () => []).add(recipe);
     }
-    
+
     for (var list in _recipeCache.values) {
       list.sort((a, b) => b.requiredAmount.compareTo(a.requiredAmount));
     }
@@ -59,7 +59,7 @@ class RecipeBook {
 
   static List<Recipe>? getRecipesFor(GameEmoji emoji) {
     _ensureInitialized();
-    return _recipeCache[emoji]; 
+    return _recipeCache[emoji];
   }
 
   static Reaction? getReactionFor(GameEmoji emoji) {
@@ -67,7 +67,9 @@ class RecipeBook {
     return _triggerCache[emoji];
   }
 
-  static Map<GameEmoji, GameEmoji> getTransformationsForType(ReactionType type) {
+  static Map<GameEmoji, GameEmoji> getTransformationsForType(
+    ReactionType type,
+  ) {
     _ensureInitialized();
     final Map<GameEmoji, GameEmoji> allTransformations = {};
     for (final reaction in allReactions) {
@@ -82,12 +84,8 @@ class RecipeBook {
     _ensureInitialized();
     final reaction = allReactions.firstWhere(
       (r) => r.type == type,
-      orElse: () => Reaction(
-        type: type,
-        triggers: [],
-        transformations: {},
-        aoeRadius: 1,
-      ),
+      orElse: () =>
+          Reaction(type: type, triggers: [], transformations: {}, aoeRadius: 1),
     );
     return reaction.aoeRadius;
   }
@@ -108,7 +106,7 @@ class RecipeBook {
 
   static int _calcEmojiTier(GameEmoji emoji, Set<GameEmoji> visited) {
     _ensureInitialized();
-    
+
     if (_tierCache.containsKey(emoji)) {
       return _tierCache[emoji]!;
     }
@@ -117,7 +115,6 @@ class RecipeBook {
       _tierCache[emoji] = 1;
       return 1;
     }
-    
 
     if (!_yieldCache.containsKey(emoji)) {
       _tierCache[emoji] = 1;
@@ -129,7 +126,7 @@ class RecipeBook {
     recipes.sort((a, b) => b.requiredAmount.compareTo(a.requiredAmount));
     int tier = 1 + _calcEmojiTier(recipes.first.ingredient, visited);
     _tierCache[emoji] = tier;
-    
+
     return tier;
   }
 

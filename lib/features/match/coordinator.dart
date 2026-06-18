@@ -92,9 +92,7 @@ class GameCoordinator {
     await _cascadeSequence(tCoord);
   }
 
-  Future<void> _cascadeSequence(
-    TileCoordinate focusCoordinate,
-  ) async {
+  Future<void> _cascadeSequence(TileCoordinate focusCoordinate) async {
     state.announcer.clear();
     state.setComboMultiplier(0);
     state.resetTilesCleared();

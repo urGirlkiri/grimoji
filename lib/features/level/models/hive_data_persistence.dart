@@ -11,7 +11,7 @@ class HiveLevelDataPersistence extends LevelDataPersistence {
   @override
   Future<Map<int, LevelData>> getLevelData() async {
     final result = <int, LevelData>{};
-    
+
     for (final entry in _box.toMap().entries) {
       if (entry.key is int) {
         result[entry.key as int] = entry.value;

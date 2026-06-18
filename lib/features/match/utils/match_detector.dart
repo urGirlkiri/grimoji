@@ -12,10 +12,10 @@ class MatchGroup {
 class MatchDetector {
   static List<MatchGroup> findMatchedGroups(List<List<Tile>> grid) {
     List<MatchGroup> groups = [];
-    
+
     groups.addAll(_scanGrid(grid, isHorizontal: true));
     groups.addAll(_scanGrid(grid, isHorizontal: false));
-    
+
     return groups;
   }
 
@@ -30,7 +30,7 @@ class MatchDetector {
       int streak = 1;
       for (int row = 0; row < grid.length; row++) {
         bool isLast = (row == grid.length - 1);
-        
+
         Tile currentTile = grid[row][col];
         Tile? nextTile = isLast ? null : grid[row + 1][col];
 
@@ -40,12 +40,11 @@ class MatchDetector {
           if (streak >= 3) {
             final coords = <TileCoordinate>{};
             for (int k = 0; k < streak; k++) {
-              coords.add(TileCoordinate(
-                row: row - k,
-                col: col,
-              ));
+              coords.add(TileCoordinate(row: row - k, col: col));
             }
-            groups.add(MatchGroup(emoji: currentTile.emoji, coordinates: coords));
+            groups.add(
+              MatchGroup(emoji: currentTile.emoji, coordinates: coords),
+            );
           }
           streak = 1;
         }
@@ -56,7 +55,7 @@ class MatchDetector {
       int streak = 1;
       for (int col = 0; col < grid[0].length; col++) {
         bool isLast = (col == grid[0].length - 1);
-        
+
         Tile currentTile = grid[row][col];
         Tile? nextTile = isLast ? null : grid[row][col + 1];
 
@@ -66,12 +65,11 @@ class MatchDetector {
           if (streak >= 3) {
             final coords = <TileCoordinate>{};
             for (int k = 0; k < streak; k++) {
-              coords.add(TileCoordinate(
-                row: row,
-                col: col - k,
-              ));
+              coords.add(TileCoordinate(row: row, col: col - k));
             }
-            groups.add(MatchGroup(emoji: currentTile.emoji, coordinates: coords));
+            groups.add(
+              MatchGroup(emoji: currentTile.emoji, coordinates: coords),
+            );
           }
           streak = 1;
         }
@@ -81,7 +79,10 @@ class MatchDetector {
     return groups;
   }
 
-  static List<MatchGroup> _scanGrid(List<List<Tile>> grid, {required bool isHorizontal}) {
+  static List<MatchGroup> _scanGrid(
+    List<List<Tile>> grid, {
+    required bool isHorizontal,
+  }) {
     List<MatchGroup> groups = [];
     int outerLimit = isHorizontal ? grid.length : grid[0].length;
     int innerLimit = isHorizontal ? grid[0].length : grid.length;
@@ -90,9 +91,11 @@ class MatchDetector {
       int streak = 1;
       for (int j = 0; j < innerLimit; j++) {
         bool isLast = (j == innerLimit - 1);
-        
+
         Tile currentTile = isHorizontal ? grid[i][j] : grid[j][i];
-        Tile? nextTile = isLast ? null : (isHorizontal ? grid[i][j + 1] : grid[j + 1][i]);
+        Tile? nextTile = isLast
+            ? null
+            : (isHorizontal ? grid[i][j + 1] : grid[j + 1][i]);
 
         if (nextTile != null && currentTile.emoji == nextTile.emoji) {
           streak++;
@@ -100,12 +103,16 @@ class MatchDetector {
           if (streak >= 3) {
             final coords = <TileCoordinate>{};
             for (int k = 0; k < streak; k++) {
-              coords.add(TileCoordinate(
-                row: isHorizontal ? i : j - k,
-                col: isHorizontal ? j - k : i,
-              ));
+              coords.add(
+                TileCoordinate(
+                  row: isHorizontal ? i : j - k,
+                  col: isHorizontal ? j - k : i,
+                ),
+              );
             }
-            groups.add(MatchGroup(emoji: currentTile.emoji, coordinates: coords));
+            groups.add(
+              MatchGroup(emoji: currentTile.emoji, coordinates: coords),
+            );
           }
           streak = 1;
         }
@@ -113,6 +120,7 @@ class MatchDetector {
     }
     return groups;
   }
+
   static bool hasMatchAt(List<List<Tile>> grid, int row, int col) {
     if (_hasMatchInDirection(grid, row, col, 0, 1)) return true;
 

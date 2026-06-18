@@ -5,10 +5,7 @@ class Layout {
   final double emojiSize;
   final double cacheSize;
 
-  const Layout({
-    required this.emojiSize,
-    required this.cacheSize,
-  });
+  const Layout({required this.emojiSize, required this.cacheSize});
 
   @override
   bool operator ==(Object other) =>

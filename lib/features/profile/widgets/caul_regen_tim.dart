@@ -38,7 +38,7 @@ class _CaulRegenTimState extends State<CaulRegenTim> {
     final timeUntil = context.readProfile.timeUntilNextCauldron();
 
     if (timeUntil == Duration.zero) {
-      return const SizedBox.shrink(); 
+      return const SizedBox.shrink();
     }
 
     final hours = timeUntil.inHours;
@@ -48,9 +48,7 @@ class _CaulRegenTimState extends State<CaulRegenTim> {
     final vMin = minutes.toString().padLeft(2, '0');
     final vSec = seconds.toString().padLeft(2, '0');
 
-    final timeString = hours > 0 
-        ? "$hours:$vMin:$vSec"
-        : "$vMin:$vSec";
+    final timeString = hours > 0 ? "$hours:$vMin:$vSec" : "$vMin:$vSec";
 
     return Padding(
       padding: const EdgeInsets.only(left: 24, right: 24),

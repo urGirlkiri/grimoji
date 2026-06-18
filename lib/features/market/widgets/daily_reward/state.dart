@@ -38,7 +38,9 @@ class _RewardTickerState extends State<RewardTicker> {
   }
 
   void _syncTimer() {
-    final isMarketTab = ShellTabScope.maybeOf(context)?.isBranchActive(_marketBranchIndex) ?? true;
+    final isMarketTab =
+        ShellTabScope.maybeOf(context)?.isBranchActive(_marketBranchIndex) ??
+        true;
 
     if (!isMarketTab || widget.canClaim) {
       _timer?.cancel();

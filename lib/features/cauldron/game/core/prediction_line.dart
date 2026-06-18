@@ -32,14 +32,10 @@ class PredictionLine extends PositionComponent {
 
     while (distance < totalLength) {
       final dashStart = start! + direction * distance;
-      final dashEnd = start! +
-          direction * (distance + dashLength).clamp(0, totalLength);
+      final dashEnd =
+          start! + direction * (distance + dashLength).clamp(0, totalLength);
 
-      canvas.drawLine(
-        dashStart.toOffset(),
-        dashEnd.toOffset(),
-        paint,
-      );
+      canvas.drawLine(dashStart.toOffset(), dashEnd.toOffset(), paint);
 
       distance += dashLength + gapLength;
     }

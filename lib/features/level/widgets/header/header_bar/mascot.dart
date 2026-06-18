@@ -11,24 +11,21 @@ class Mascot extends StatelessWidget {
       width: 72,
       height: 72,
       child: Stack(
-        clipBehavior: Clip.none, 
+        clipBehavior: Clip.none,
         alignment: Alignment.bottomCenter,
         children: [
           Container(
             decoration: BoxDecoration(
               color: context.palette.dusk,
               shape: BoxShape.circle,
-              border: Border.all(
-                width: 3, 
-                color: context.palette.dusk,
-              ),
+              border: Border.all(width: 3, color: context.palette.dusk),
             ),
           ),
-          
+
           Positioned(
-            bottom: -10, 
-            width: 80, 
-            height: 80, 
+            bottom: -10,
+            width: 80,
+            height: 80,
             child: Transform.rotate(
               angle: degToRad(-10),
               child: Image.asset(
