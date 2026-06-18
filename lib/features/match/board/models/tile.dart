@@ -5,23 +5,28 @@ import 'package:uuid/uuid.dart';
 
 class Tile {
   final String id;
+
   TileCoordinate coordinate;
   TileCoordinate? hintPartner;
+
   GameEmoji emoji;
+  GameEmoji? morphTarget;
 
   EmojiBehavior? behavior;
 
+  bool isTriggered = false;
   bool isExploding = false;
+
   bool isMerging = false;
   bool isMergePoint = false;
 
-  bool isTriggered = false;
   bool isTransmuting = false;
+  bool isTaggedForDestruct = false;
 
   bool hasFlown = false;
   bool isFlying = false;
+
   bool isHinting = false;
-  GameEmoji? morphTarget;
 
   Tile({
     required this.coordinate,
@@ -43,30 +48,42 @@ class Tile {
     );
 
     newTile.isExploding = isExploding;
-    newTile.isMerging = isMerging;
     newTile.isTriggered = isTriggered;
+
+    newTile.isMerging = isMerging;
+    newTile.isMergePoint = isMergePoint;
+    
     newTile.isTransmuting = isTransmuting;
+    newTile.morphTarget = morphTarget;
+    
     newTile.hasFlown = hasFlown;
     newTile.isFlying = isFlying;
+    
     newTile.isHinting = isHinting;
     newTile.hintPartner = hintPartner;
-    newTile.isMergePoint = isMergePoint;
-    newTile.morphTarget = morphTarget;
+    
+    newTile.isTaggedForDestruct = isTaggedForDestruct;
 
     return newTile;
   }
 
   void reset() {
     isExploding = false;
+    isTriggered = false;
+
     isMerging = false;
     isMergePoint = false;
-    isTriggered = false;
+
     isTransmuting = false;
+    morphTarget = null;
+
     hasFlown = false;
     isFlying = false;
+
     isHinting = false;
     hintPartner = null;
-    morphTarget = null;
+
+    isTaggedForDestruct = false;
   }
 
   void clearBehavior() {
