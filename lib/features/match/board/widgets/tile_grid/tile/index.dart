@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
+import 'package:grimoji/features/match/board/widgets/tile_grid/tile/swallow.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/tile/tile_content/index.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/tile/tile_v_f_x/index.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
@@ -39,35 +40,20 @@ class TileWidget extends StatelessWidget {
       isTouched: isTouched,
     );
 
-    if (tile.isTaggedForDestruct && !tile.isDestructTrigger) {
+    if (tile.isDestructTrigger) {
       content = content
           .animate()
-          .rotate(begin: 0, end: 4, duration: 450.ms, curve: Curves.easeInOutQuint)
           .scale(
-            begin: const Offset(1, 1),
-            end: Offset.zero,
-            duration: 450.ms,
-            curve: Curves.easeInOutQuint,
-          )
-          .blurXY(begin: 0, end: 8, duration: 450.ms)
-          .fade(begin: 1, end: 0, duration: 450.ms);
-    } else if (tile.isDestructTrigger) {
-      content = content
-          .animate()
-          .rotate(duration: 500.ms, begin: 0, end: 2, curve: Curves.easeInOut)
-          .scale(
-            begin: const Offset(1, 1),
-            end: const Offset(1.3, 1.3),
-            duration: 400.ms,
+            begin: Offset.zero,
+            end: const Offset(1.1, 1.1),
+            duration: 150.ms,
             curve: Curves.easeOutBack,
           )
-          .then(delay: 100.ms)
-          .scale(
-            begin: const Offset(1.3, 1.3),
-            end: Offset.zero,
-            duration: 200.ms,
-            curve: Curves.easeInBack,
-          );
+          .then()
+          .shake(hz: 8, duration: 200.ms, curve: Curves.linear)
+          .rotate(begin: 0, end: -6, duration: 450.ms, curve: Curves.linear)
+          .then()
+          .scale(end: Offset.zero, duration: 150.ms, curve: Curves.easeInBack);
     }
 
     return AnimatedPositioned(
@@ -88,29 +74,12 @@ class TileWidget extends StatelessWidget {
               alignment: Alignment.center,
               clipBehavior: Clip.none,
               children: [
-                if (tile.isTaggedForDestruct && !tile.isDestructTrigger)
-                  Positioned.fill(
-                    child: Center(
-                      child: EmojiWidget.svg(
-                        path: Emojis.hole.svg,
-                        size: tWidth * 1.4,
-                      )
-                          .animate()
-                          .scale(
-                            begin: Offset.zero,
-                            end: const Offset(1.1, 1.1),
-                            duration: 150.ms,
-                            curve: Curves.easeOutBack,
-                          )
-                          .then()
-                          .shake(hz: 8, duration: 200.ms, curve: Curves.linear)
-                          .rotate(begin: 0, end: -6, duration: 450.ms, curve: Curves.linear)
-                          .then()
-                          .scale(end: Offset.zero, duration: 150.ms, curve: Curves.easeInBack),
-                    ),
-                  ),
-
-                content,
+                SwallowEffect(
+                  size: tWidth,
+                  isSwallowing:
+                      tile.isTaggedForDestruct && !tile.isDestructTrigger,
+                  child: content,
+                ),
 
                 TileVFX(tile: tile, displayEmoji: displayEmoji, tWidth: tWidth),
 

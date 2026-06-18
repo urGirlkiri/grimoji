@@ -59,14 +59,13 @@ class BehaviorEngine {
             for (int c = 0; c < BoardManager.cols; c++) {
               final tile = boardManager.gridTiles[r][c];
 
+              if (r == centerX && c == centerY) {
+                tile.isDestructTrigger =true;
+              }
               if (action.emoji == null ||
                   tile.emoji == action.emoji ||
                   (r == centerX && c == centerY)) {
                 tile.isTaggedForDestruct = true;
-
-                if (r == centerX && c == centerY) {
-                  tile.isDestructTrigger = true;
-                }
               }
             }
           }
