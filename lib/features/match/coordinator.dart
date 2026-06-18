@@ -121,6 +121,7 @@ class GameCoordinator {
       );
 
       boardManager.applyGravity(destroyedByBehavior);
+      engine.initializeBehaviors();
       state.updateUI();
 
       await Future.delayed(const Duration(milliseconds: 50));
@@ -283,6 +284,7 @@ class GameCoordinator {
       };
 
       final gravityDeltas = boardManager.applyGravity(allDestroyed);
+      engine.initializeBehaviors();
       affectedColumns = gravityDeltas.cols;
       affectedRows = gravityDeltas.rows;
 
@@ -341,6 +343,7 @@ class GameCoordinator {
       };
 
       boardManager.applyGravity(allDestroyed);
+      engine.initializeBehaviors();
       boardManager.clearAllFlyingFlags();
       state.updateUI();
 

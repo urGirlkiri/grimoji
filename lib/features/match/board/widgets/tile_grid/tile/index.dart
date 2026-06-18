@@ -42,13 +42,15 @@ class TileWidget extends StatelessWidget {
     if (tile.isTaggedForDestruct && !tile.isDestructTrigger) {
       content = content
           .animate()
-          .moveY(begin: 0, end: 20, duration: 400.ms, curve: Curves.easeInBack)
+          .rotate(begin: 0, end: 4, duration: 450.ms, curve: Curves.easeInOutQuint)
           .scale(
             begin: const Offset(1, 1),
             end: Offset.zero,
-            duration: 400.ms,
-            curve: Curves.easeInBack,
-          );
+            duration: 450.ms,
+            curve: Curves.easeInOutQuint,
+          )
+          .blurXY(begin: 0, end: 8, duration: 450.ms)
+          .fade(begin: 1, end: 0, duration: 450.ms);
     } else if (tile.isDestructTrigger) {
       content = content
           .animate()
@@ -87,22 +89,25 @@ class TileWidget extends StatelessWidget {
               clipBehavior: Clip.none,
               children: [
                 if (tile.isTaggedForDestruct && !tile.isDestructTrigger)
-                  Positioned(
-                    bottom: -10,
-                    child:
-                        EmojiWidget.svg(
-                              path: Emojis.hole.svg,
-                              size: tWidth * 0.8,
-                            )
-                            .animate(onPlay: (c) => c.repeat())
-                            .rotate(duration: 1.seconds, curve: Curves.linear)
-                            .scale(
-                              begin: Offset.zero,
-                              end: const Offset(1, 1),
-                              duration: 200.ms,
-                            )
-                            .then(delay: 300.ms)
-                            .scale(end: Offset.zero, duration: 200.ms),
+                  Positioned.fill(
+                    child: Center(
+                      child: EmojiWidget.svg(
+                        path: Emojis.hole.svg,
+                        size: tWidth * 1.4,
+                      )
+                          .animate()
+                          .scale(
+                            begin: Offset.zero,
+                            end: const Offset(1.1, 1.1),
+                            duration: 150.ms,
+                            curve: Curves.easeOutBack,
+                          )
+                          .then()
+                          .shake(hz: 8, duration: 200.ms, curve: Curves.linear)
+                          .rotate(begin: 0, end: -6, duration: 450.ms, curve: Curves.linear)
+                          .then()
+                          .scale(end: Offset.zero, duration: 150.ms, curve: Curves.easeInBack),
+                    ),
                   ),
 
                 content,
