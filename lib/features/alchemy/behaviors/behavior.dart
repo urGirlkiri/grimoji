@@ -11,4 +11,8 @@ abstract class EmojiBehavior {
       [];
 
   List<BehaviorAction> onSwipedWith(int x, int y, GameEmoji targetEmoji) => [];
+
+  bool hasSwipeBehavior(int x, int y, GameEmoji targetEmoji) {
+    return onSwipedWith(x, y, targetEmoji).isNotEmpty;
+  }
 }
