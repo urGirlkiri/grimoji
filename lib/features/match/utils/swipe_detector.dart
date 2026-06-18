@@ -10,11 +10,15 @@ class SwipeDecision {
   final SwipeResult type;
   final List<MatchGroup> matches;
   final List<BehaviorAction> actions;
+  final int triggerRow;
+  final int triggerCol;
 
   SwipeDecision({
     required this.type,
     this.matches = const [],
     this.actions = const [],
+    this.triggerRow = 0,
+    this.triggerCol = 0,
   });
 }
 
