@@ -25,7 +25,7 @@ class Cauldron extends StatelessWidget {
               children: List.generate(
                 4,
                 (i) => Positioned(
-                  left: i *35,
+                  left: i * 35,
                   child: EmojiWidget.lottie(
                     path: Emojis.fire.lottie,
                     size: size * 0.5,
@@ -35,17 +35,17 @@ class Cauldron extends StatelessWidget {
             ),
           ),
         ),
-          RepaintBoundary(
-            child: OverflowBox(
-              maxWidth: size * 30,
-              maxHeight: double.infinity,
-              child: Lottie.asset(
-                'assets/lottie/cauldron.json',
-                fit: BoxFit.cover,
-                repeat: true,
-              ),
+        RepaintBoundary(
+          child: OverflowBox(
+            maxWidth: size * 30,
+            maxHeight: double.infinity,
+            child: Lottie.asset(
+              'assets/lottie/cauldron.json',
+              fit: BoxFit.cover,
+              repeat: true,
             ),
           ),
+        ),
       ],
     );
   }

@@ -5,7 +5,11 @@ import 'package:grimoji/utils/context_data.dart';
 import 'package:provider/provider.dart';
 
 class ShuffleAnimator extends StatelessWidget {
-  const ShuffleAnimator({super.key, required this.boardWidth, required this.child});
+  const ShuffleAnimator({
+    super.key,
+    required this.boardWidth,
+    required this.child,
+  });
 
   final double boardWidth;
   final Widget child;

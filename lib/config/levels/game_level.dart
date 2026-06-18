@@ -4,7 +4,7 @@ class GameLevel {
   final int number;
   final int targetAmount;
   final int timeLimit;
-  
+
   final GameEmoji targetEmoji;
   final List<GameEmoji> availableEmojis;
 

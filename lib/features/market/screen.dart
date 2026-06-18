@@ -80,11 +80,7 @@ class MarketScreen extends StatelessWidget {
                 final profile = context.readProfile;
                 if (profile.spendDice(30)) {
                   profile.refillCauldrons();
-                  _showSnackbar(
-                    context,
-                    "Cauldron Restored!",
-                    isError: false,
-                  );
+                  _showSnackbar(context, "Cauldron Restored!", isError: false);
                 } else {
                   _showSnackbar(
                     context,
@@ -104,11 +100,7 @@ class MarketScreen extends StatelessWidget {
                 final profile = context.readProfile;
                 if (profile.spendDice(150)) {
                   profile.refillCauldrons();
-                  _showSnackbar(
-                    context,
-                    "Cauldrons refilled!",
-                    isError: false,
-                  );
+                  _showSnackbar(context, "Cauldrons refilled!", isError: false);
                 } else {
                   _showSnackbar(
                     context,

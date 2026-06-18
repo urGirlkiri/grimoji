@@ -69,7 +69,7 @@ class BoardAnnouncer {
         : tilesCleared >= 10
         ? 1
         : 0;
-        
+
     int hypeScore = max(combo, tileHype).clamp(1, 6);
 
     Dialog selectedVoice = isLegendary

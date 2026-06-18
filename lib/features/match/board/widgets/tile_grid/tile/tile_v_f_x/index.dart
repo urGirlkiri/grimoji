@@ -12,7 +12,8 @@ class TileVFX extends StatelessWidget {
   final GameEmoji displayEmoji;
   final double tWidth;
 
-  const TileVFX({super.key, 
+  const TileVFX({
+    super.key,
     required this.tile,
     required this.displayEmoji,
     required this.tWidth,

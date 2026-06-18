@@ -40,12 +40,7 @@ final List<GameLevel> chapter3Levels = [
     targetEmoji: Emojis.metal,
     goal: 'Melt the shields into scrap metal',
     description: 'The Armory - Defend the keep',
-    availableEmojis: [
-      Emojis.shield,
-      Emojis.guitar,
-      Emojis.chains,
-      Emojis.fire,
-    ],
+    availableEmojis: [Emojis.shield, Emojis.guitar, Emojis.chains, Emojis.fire],
     skipAutoPlayer: true,
   ),
 
@@ -72,12 +67,7 @@ final List<GameLevel> chapter3Levels = [
     targetEmoji: Emojis.volcano,
     goal: 'Craft Seismic Bombs to bring down the towers',
     description: 'Tremors - The earth awakens',
-    availableEmojis: [
-      Emojis.rock,
-      Emojis.fire,
-      Emojis.chains,
-      Emojis.bone,
-    ],
+    availableEmojis: [Emojis.rock, Emojis.fire, Emojis.chains, Emojis.bone],
   ),
 
   GameLevel(
@@ -103,12 +93,7 @@ final List<GameLevel> chapter3Levels = [
     targetEmoji: Emojis.ghost,
     goal: 'Free the ghosts from the dungeon',
     description: 'The Dungeon - Captives in chains',
-    availableEmojis: [
-      Emojis.locked,
-      Emojis.snake,
-      Emojis.bone,
-      Emojis.skull,
-    ],
+    availableEmojis: [Emojis.locked, Emojis.snake, Emojis.bone, Emojis.skull],
   ),
 
   GameLevel(
@@ -149,12 +134,7 @@ final List<GameLevel> chapter3Levels = [
     targetEmoji: Emojis.bat,
     goal: 'Craft bats from spiders',
     description: 'The Gargoyle\'s Perch - Night falls on the keep',
-    availableEmojis: [
-      Emojis.rock,
-      Emojis.spider,
-      Emojis.chains,
-      Emojis.skull,
-    ],
+    availableEmojis: [Emojis.rock, Emojis.spider, Emojis.chains, Emojis.skull],
   ),
 
   GameLevel(
@@ -181,12 +161,7 @@ final List<GameLevel> chapter3Levels = [
     targetEmoji: Emojis.ghost,
     goal: 'Free the ghosts from the locked catacombs',
     description: 'The Catacombs - Ancient dead sleep below',
-    availableEmojis: [
-      Emojis.bone,
-      Emojis.locked,
-      Emojis.snake,
-      Emojis.skull,
-    ],
+    availableEmojis: [Emojis.bone, Emojis.locked, Emojis.snake, Emojis.skull],
     skipAutoPlayer: true,
   ),
 
@@ -213,12 +188,7 @@ final List<GameLevel> chapter3Levels = [
     targetEmoji: Emojis.volcano,
     goal: 'Master the Earthquake magic to bring down the inner keep',
     description: 'Tremors II - The earth shakes with fury',
-    availableEmojis: [
-      Emojis.rock,
-      Emojis.chains,
-      Emojis.mountain,
-      Emojis.fire,
-    ],
+    availableEmojis: [Emojis.rock, Emojis.chains, Emojis.mountain, Emojis.fire],
     skipAutoPlayer: true,
   ),
 
@@ -262,12 +232,7 @@ final List<GameLevel> chapter3Levels = [
     targetEmoji: Emojis.coin,
     goal: 'Loot the keep and melt metal into coins',
     description: 'The King\'s Ransom - Treasure awaits',
-    availableEmojis: [
-      Emojis.metal,
-      Emojis.fire,
-      Emojis.locked,
-      Emojis.snake,
-    ],
+    availableEmojis: [Emojis.metal, Emojis.fire, Emojis.locked, Emojis.snake],
   ),
 
   GameLevel(

@@ -8,17 +8,9 @@ final List<Recipe> chapter4Recipes = [
     yields: Emojis.cloudWithLightning,
   ),
 
-  Recipe(
-    ingredient: Emojis.blackBird,
-    requiredAmount: 4,
-    yields: Emojis.eagle,
-  ),
+  Recipe(ingredient: Emojis.blackBird, requiredAmount: 4, yields: Emojis.eagle),
 
-  Recipe(
-    ingredient: Emojis.eagle,
-    requiredAmount: 5,
-    yields: Emojis.phoenix,
-  ),
+  Recipe(ingredient: Emojis.eagle, requiredAmount: 5, yields: Emojis.phoenix),
 
   Recipe(
     ingredient: Emojis.cloudWithLightning,
@@ -30,11 +22,7 @@ final List<Recipe> chapter4Recipes = [
     requiredAmount: 4,
     yields: Emojis.collision,
   ),
-  Recipe(
-    ingredient: Emojis.fireworks,
-    requiredAmount: 3,
-    yields: Emojis.bomb,
-  ),
+  Recipe(ingredient: Emojis.fireworks, requiredAmount: 3, yields: Emojis.bomb),
   Recipe(
     ingredient: Emojis.babyChick,
     requiredAmount: 3,
@@ -45,9 +33,5 @@ final List<Recipe> chapter4Recipes = [
     requiredAmount: 3,
     yields: Emojis.coldFace,
   ),
-  Recipe(
-    ingredient: Emojis.windFace,
-    requiredAmount: 4,
-    yields: Emojis.cloud,
-  ),
+  Recipe(ingredient: Emojis.windFace, requiredAmount: 4, yields: Emojis.cloud),
 ];

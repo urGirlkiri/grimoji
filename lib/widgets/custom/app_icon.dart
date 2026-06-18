@@ -30,19 +30,19 @@ class AppIcon extends StatelessWidget {
       duration: 1200.ms,
       maxScale: 1.061,
       child: AnimatedButton(
-      onTap: onTap,
-      enableSound: enableSound,
-      child: AnimatedOpacity(
-        duration: 150.ms,
-        opacity: isActive ? 1.0 : 0.4,
-        child: Image.asset(
-          imagePath,
-          width: size,
-          height: size,
-          fit: BoxFit.contain,
+        onTap: onTap,
+        enableSound: enableSound,
+        child: AnimatedOpacity(
+          duration: 150.ms,
+          opacity: isActive ? 1.0 : 0.4,
+          child: Image.asset(
+            imagePath,
+            width: size,
+            height: size,
+            fit: BoxFit.contain,
+          ),
         ),
       ),
-    ),
     );
   }
 }

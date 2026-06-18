@@ -5,11 +5,7 @@ class ProfileAvatar extends StatelessWidget {
   final String avatar;
   final VoidCallback onTap;
 
-  const ProfileAvatar({
-    super.key,
-    required this.avatar,
-    required this.onTap,
-  });
+  const ProfileAvatar({super.key, required this.avatar, required this.onTap});
 
   @override
   Widget build(BuildContext context) {

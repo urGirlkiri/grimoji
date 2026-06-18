@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grimoji/utils/context_data.dart';
 
 class NeonLogo extends StatelessWidget {
-  final double imageSize; 
+  final double imageSize;
 
   const NeonLogo({super.key, required this.imageSize});
 
@@ -15,21 +15,25 @@ class NeonLogo extends StatelessWidget {
     final double subtitleFontSize = (titleFontSize * 0.35).clamp(16.0, 28.0);
     final double scale = titleFontSize / 72.0;
 
-    final titleStyle = context.theme.textTheme.displayLarge?.copyWith(
+    final titleStyle =
+        context.theme.textTheme.displayLarge?.copyWith(
           fontSize: titleFontSize,
-          height: 1.0, 
-        ) ?? TextStyle(fontSize: titleFontSize, height: 1.0);
+          height: 1.0,
+        ) ??
+        TextStyle(fontSize: titleFontSize, height: 1.0);
 
-    final subtitleStyle = context.theme.textTheme.bodyLarge?.copyWith(
+    final subtitleStyle =
+        context.theme.textTheme.bodyLarge?.copyWith(
           fontSize: subtitleFontSize,
-          color: palette.moonlightSoft, 
-        ) ?? TextStyle(fontSize: subtitleFontSize, color: palette.moonlightSoft);
+          color: palette.moonlightSoft,
+        ) ??
+        TextStyle(fontSize: subtitleFontSize, color: palette.moonlightSoft);
 
     final edgePadding = EdgeInsets.only(
-      bottom: 24.0 * scale, 
-      top: 12.0 * scale, 
-      left: 16.0 * scale, 
-      right: 16.0 * scale
+      bottom: 24.0 * scale,
+      top: 12.0 * scale,
+      left: 16.0 * scale,
+      right: 16.0 * scale,
     );
 
     return Padding(
@@ -41,7 +45,7 @@ class NeonLogo extends StatelessWidget {
           children: [
             Stack(
               alignment: Alignment.center,
-              clipBehavior: Clip.none, 
+              clipBehavior: Clip.none,
               children: [
                 Padding(
                   padding: edgePadding,
@@ -52,7 +56,7 @@ class NeonLogo extends StatelessWidget {
                     style: titleStyle.copyWith(
                       foreground: Paint()
                         ..style = PaintingStyle.stroke
-                        ..strokeWidth = 10 * scale 
+                        ..strokeWidth = 10 * scale
                         ..color = palette.twilight,
                       shadows: [
                         Shadow(blurRadius: 15 * scale, color: palette.twilight),
@@ -72,7 +76,7 @@ class NeonLogo extends StatelessWidget {
                       foreground: Paint()
                         ..style = PaintingStyle.stroke
                         ..strokeWidth = 6 * scale
-                        ..color = palette.midnight, 
+                        ..color = palette.midnight,
                     ),
                   ),
                 ),
@@ -87,7 +91,7 @@ class NeonLogo extends StatelessWidget {
                       foreground: Paint()
                         ..style = PaintingStyle.stroke
                         ..strokeWidth = 2.0 * scale
-                        ..color = palette.trueWhite, 
+                        ..color = palette.trueWhite,
                     ),
                   ),
                 ),
@@ -98,12 +102,12 @@ class NeonLogo extends StatelessWidget {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        palette.trueWhite, 
+                        palette.trueWhite,
                         palette.moonlightSoft,
                         palette.magicCyan,
-                        palette.twilight, 
+                        palette.twilight,
                       ],
-                      stops: const [0.0, 0.4, 0.6, 1.0], 
+                      stops: const [0.0, 0.4, 0.6, 1.0],
                     ).createShader(bounds);
                   },
                   child: Padding(
@@ -118,26 +122,27 @@ class NeonLogo extends StatelessWidget {
                 ),
               ],
             ),
-            screenSize.width >= 400 ?
-            Text(
-              'Alchemy of Emojis',
-              maxLines: 1,
-              softWrap: false,
-              style: subtitleStyle.copyWith(
-                shadows: [
-                  Shadow(
-                    offset: Offset(0, 2 * scale),
-                    blurRadius: 4.0 * scale,
-                    color: palette.voidBlack, 
-                  ),
-                  Shadow(
-                    offset: const Offset(0, 0),
-                    blurRadius: 10.0 * scale,
-                    color: palette.mist.withValues(alpha: 0.3),
-                  ),
-                ],
-              ),
-            ) : const SizedBox.shrink(),
+            screenSize.width >= 400
+                ? Text(
+                    'Alchemy of Emojis',
+                    maxLines: 1,
+                    softWrap: false,
+                    style: subtitleStyle.copyWith(
+                      shadows: [
+                        Shadow(
+                          offset: Offset(0, 2 * scale),
+                          blurRadius: 4.0 * scale,
+                          color: palette.voidBlack,
+                        ),
+                        Shadow(
+                          offset: const Offset(0, 0),
+                          blurRadius: 10.0 * scale,
+                          color: palette.mist.withValues(alpha: 0.3),
+                        ),
+                      ],
+                    ),
+                  )
+                : const SizedBox.shrink(),
           ],
         ),
       ),

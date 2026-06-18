@@ -26,7 +26,9 @@ class VolumeSlider extends StatelessWidget {
           child: Text(
             label,
             style: GoogleFonts.eagleLake(
-              color: isEnabled ? context.palette.midnight : context.palette.slate,
+              color: isEnabled
+                  ? context.palette.midnight
+                  : context.palette.slate,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -47,10 +49,18 @@ class VolumeSlider extends StatelessWidget {
           ),
           child: SliderTheme(
             data: SliderThemeData(
-              activeTrackColor: isEnabled ? context.palette.midnight : context.palette.slate,
-              inactiveTrackColor: context.palette.twilight.withValues(alpha: 0.3),
-              thumbColor: isEnabled ? context.palette.trueWhite : context.palette.mist,
-              overlayColor: isEnabled ? context.palette.midnight.withValues(alpha: 0.2) : Colors.transparent,
+              activeTrackColor: isEnabled
+                  ? context.palette.midnight
+                  : context.palette.slate,
+              inactiveTrackColor: context.palette.twilight.withValues(
+                alpha: 0.3,
+              ),
+              thumbColor: isEnabled
+                  ? context.palette.trueWhite
+                  : context.palette.mist,
+              overlayColor: isEnabled
+                  ? context.palette.midnight.withValues(alpha: 0.2)
+                  : Colors.transparent,
               trackHeight: 8.0,
               thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8.0),
               overlayShape: const RoundSliderOverlayShape(overlayRadius: 16.0),

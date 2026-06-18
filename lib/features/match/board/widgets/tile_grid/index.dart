@@ -84,9 +84,7 @@ class _TileGridState extends State<TileGrid> {
       (s) => s.level.targetEmoji,
     );
 
-    context.select<LevelState, int>(
-      (s) => s.gameState.updateToken,
-    );
+    context.select<LevelState, int>((s) => s.gameState.updateToken);
 
     if (metrics == null) {
       return const SizedBox.shrink();

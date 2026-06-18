@@ -3,12 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'palette.dart';
 
 class AppTheme {
-  static ThemeData buildTheme(Palette palette, double scale ){
-    
+  static ThemeData buildTheme(Palette palette, double scale) {
     return ThemeData(
       useMaterial3: true,
-      scaffoldBackgroundColor: palette.midnight, 
-      
+      scaffoldBackgroundColor: palette.midnight,
+
       colorScheme: ColorScheme.dark(
         primary: palette.slate,
         secondary: palette.mist,
@@ -20,42 +19,57 @@ class AppTheme {
         onSurface: palette.moonlight,
         onSurfaceVariant: palette.moonlightSoft,
       ),
-      
+
       textTheme: TextTheme(
         titleSmall: GoogleFonts.eagleLake(
-          fontSize: 10 * scale, color: palette.mist, height: 1,
+          fontSize: 10 * scale,
+          color: palette.mist,
+          height: 1,
         ),
         titleMedium: GoogleFonts.eagleLake(
-          fontSize: 16 * scale, color: palette.mist, height: 1,
+          fontSize: 16 * scale,
+          color: palette.mist,
+          height: 1,
         ),
         displayMedium: GoogleFonts.eagleLake(
-          fontSize: 32 * scale, color: palette.mist, height: 1,
+          fontSize: 32 * scale,
+          color: palette.mist,
+          height: 1,
         ),
         displayLarge: GoogleFonts.eagleLake(
-          fontSize: 65 * scale, color: palette.mist, height: 1,
+          fontSize: 65 * scale,
+          color: palette.mist,
+          height: 1,
         ),
         headlineMedium: GoogleFonts.eagleLake(
-          fontSize: 28 * scale, color: palette.moonlight, fontWeight: FontWeight.bold,
+          fontSize: 28 * scale,
+          color: palette.moonlight,
+          fontWeight: FontWeight.bold,
         ),
         headlineLarge: GoogleFonts.eagleLake(
-          fontSize: 32 * scale, color: palette.moonlight, fontWeight: FontWeight.bold,
+          fontSize: 32 * scale,
+          color: palette.moonlight,
+          fontWeight: FontWeight.bold,
         ),
         bodyLarge: GoogleFonts.caudex(
-          fontSize: 20 * scale, color: palette.moonlightSoft,
+          fontSize: 20 * scale,
+          color: palette.moonlightSoft,
         ),
         bodyMedium: GoogleFonts.caudex(
-          fontSize: 16 * scale, color: palette.moonlightSoft,
+          fontSize: 16 * scale,
+          color: palette.moonlightSoft,
         ),
         bodySmall: GoogleFonts.caudex(
-          fontSize: 12 * scale, color: palette.moonlightSoft,
+          fontSize: 12 * scale,
+          color: palette.moonlightSoft,
         ),
       ),
-      
+
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
           textStyle: GoogleFonts.eagleLake(
             fontWeight: FontWeight.bold,
-            fontSize: 20 * scale, 
+            fontSize: 20 * scale,
           ),
         ),
       ),

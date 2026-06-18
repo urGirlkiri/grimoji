@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:grimoji/app/lifecycle.dart';
 import 'package:grimoji/app/theme.dart';
@@ -52,9 +51,9 @@ class Grimoji extends StatelessWidget {
               routerConfig: router,
               builder: (context, child) {
                 return PerformanceOptimizer(
-                  enabled: kDebugMode,         
-                  showDashboard: kDebugMode,   
-                  showHeatmap: false,        
+                  enabled: false,
+                  showDashboard: false,
+                  showHeatmap: false,
                   child: child ?? const SizedBox.shrink(),
                 );
               },

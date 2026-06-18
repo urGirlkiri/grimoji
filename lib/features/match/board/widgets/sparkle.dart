@@ -19,7 +19,7 @@ class SparkleOverlay extends StatelessWidget {
               key: ValueKey(sparkle.id),
               left: sparkle.position.dx - 50,
               top: sparkle.position.dy - 50,
-              child: RepaintBoundary( 
+              child: RepaintBoundary(
                 child: IgnorePointer(
                   child: SizedBox(
                     width: 100,

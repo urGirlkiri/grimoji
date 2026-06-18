@@ -74,7 +74,7 @@ class CauldronDialog extends StatelessWidget {
                                   color: context.palette.trueWhite,
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 1.5,
-                                  fontSize: 24 * context.globalScale
+                                  fontSize: 24 * context.globalScale,
                                 ),
                           ),
                         ),

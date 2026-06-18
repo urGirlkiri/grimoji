@@ -33,30 +33,46 @@ class CardContent extends StatelessWidget {
       final hours = timeUntil.inHours;
       final minutes = timeUntil.inMinutes % 60;
       final seconds = timeUntil.inSeconds % 60;
-      
-      buttonText = "$hours:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}";
-      
+
+      buttonText =
+          "$hours:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}";
+
       final displayDurationText = hours > 0
           ? '$hours Hours'
           : minutes > 0
-              ? '$minutes Minutes'
-              : '$seconds Seconds';
-              
+          ? '$minutes Minutes'
+          : '$seconds Seconds';
+
       onPressed = () => onLockedPressed(displayDurationText);
       statusMessage = "Next claim available in $displayDurationText.";
     }
 
     return Container(
       decoration: BoxDecoration(
-        color: Color.alphaBlend(palette.twilight.withValues(alpha: 0.25), palette.midnight),
+        color: Color.alphaBlend(
+          palette.twilight.withValues(alpha: 0.25),
+          palette.midnight,
+        ),
         borderRadius: BorderRadius.circular(20 * scale),
-        border: Border.all(color: canClaim ? palette.slate : palette.dusk, width: 1),
+        border: Border.all(
+          color: canClaim ? palette.slate : palette.dusk,
+          width: 1,
+        ),
         image: DecorationImage(
           image: const AssetImage('assets/images/vertical_lines.png'),
           fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(palette.twilight.withValues(alpha: 0.08), BlendMode.dstATop),
+          colorFilter: ColorFilter.mode(
+            palette.twilight.withValues(alpha: 0.08),
+            BlendMode.dstATop,
+          ),
         ),
-        boxShadow: [BoxShadow(color: palette.voidBlack, offset: Offset(0, 6 * scale), blurRadius: 0)],
+        boxShadow: [
+          BoxShadow(
+            color: palette.voidBlack,
+            offset: Offset(0, 6 * scale),
+            blurRadius: 0,
+          ),
+        ],
       ),
       padding: EdgeInsets.all(16 * scale),
       child: Column(
@@ -82,15 +98,26 @@ class CardContent extends StatelessWidget {
                   onTap: onPressed,
                   enableSound: canClaim,
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 8 * scale, horizontal: 8 * scale),
+                    padding: EdgeInsets.symmetric(
+                      vertical: 8 * scale,
+                      horizontal: 8 * scale,
+                    ),
                     decoration: BoxDecoration(
                       color: canClaim ? palette.mist : palette.dusk,
                       borderRadius: BorderRadius.circular(12 * scale),
                       border: Border.all(
-                        color: canClaim ? palette.trueWhite.withValues(alpha: 0.5) : palette.slate,
+                        color: canClaim
+                            ? palette.trueWhite.withValues(alpha: 0.5)
+                            : palette.slate,
                         width: 1.5,
                       ),
-                      boxShadow: [BoxShadow(color: palette.voidBlack, offset: Offset(0, 4 * scale), blurRadius: 0)],
+                      boxShadow: [
+                        BoxShadow(
+                          color: palette.voidBlack,
+                          offset: Offset(0, 4 * scale),
+                          blurRadius: 0,
+                        ),
+                      ],
                     ),
                     alignment: Alignment.center,
                     child: FittedBox(
@@ -98,7 +125,9 @@ class CardContent extends StatelessWidget {
                       child: Text(
                         buttonText,
                         style: context.theme.textTheme.bodyLarge?.copyWith(
-                          color: canClaim ? palette.midnight : palette.trueWhite,
+                          color: canClaim
+                              ? palette.midnight
+                              : palette.trueWhite,
                           fontWeight: FontWeight.w900,
                         ),
                       ),
@@ -111,12 +140,19 @@ class CardContent extends StatelessWidget {
           SizedBox(height: 12 * scale),
           Row(
             children: [
-              Image.asset('assets/images/dice.png', width: 50 * scale, height: 50 * scale),
+              Image.asset(
+                'assets/images/dice.png',
+                width: 50 * scale,
+                height: 50 * scale,
+              ),
               SizedBox(width: 16 * scale),
               Expanded(
                 child: Text(
                   statusMessage,
-                  style: context.theme.textTheme.bodyMedium?.copyWith(color: palette.mist, fontSize: 13 * scale),
+                  style: context.theme.textTheme.bodyMedium?.copyWith(
+                    color: palette.mist,
+                    fontSize: 13 * scale,
+                  ),
                 ),
               ),
             ],

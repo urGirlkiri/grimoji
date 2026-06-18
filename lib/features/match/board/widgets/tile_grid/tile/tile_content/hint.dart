@@ -32,16 +32,16 @@ class HintNudge extends StatelessWidget {
     final double dy = (partner!.row - current.row).toDouble();
 
     return child
-        .animate(
-          onPlay: (controller) => controller.repeat(),
-        )
+        .animate(onPlay: (controller) => controller.repeat())
         .custom(
           duration: 1200.ms,
           builder: (context, value, cachedChild) {
             final double progress = sin(value * pi);
 
-            final double moveX = dx * (tileWidth + tileSpacingGap) * 0.4 * progress;
-            final double moveY = dy * (tileHeight + tileSpacingGap) * 0.4 * progress;
+            final double moveX =
+                dx * (tileWidth + tileSpacingGap) * 0.4 * progress;
+            final double moveY =
+                dy * (tileHeight + tileSpacingGap) * 0.4 * progress;
 
             return Transform.translate(
               offset: Offset(moveX, moveY),
@@ -50,7 +50,9 @@ class HintNudge extends StatelessWidget {
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: palette.trueWhite.withValues(alpha: progress * 0.5),
+                      color: palette.trueWhite.withValues(
+                        alpha: progress * 0.5,
+                      ),
                       blurRadius: 20,
                       spreadRadius: 2,
                     ),

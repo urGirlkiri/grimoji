@@ -24,7 +24,7 @@ class _FooterState extends State<Footer> {
   void initState() {
     super.initState();
     _levelState = context.read<LevelState>();
-    
+
     _levelState.gameState.addListener(_onStateChanged);
   }
 
@@ -47,14 +47,11 @@ class _FooterState extends State<Footer> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
 
-      showAnimatedDialog(
-        context, 
-        PauseDialog(level: levelNumber)
-      ).then((_) {
+      showAnimatedDialog(context, PauseDialog(level: levelNumber)).then((_) {
         if (!mounted) return;
-        
+
         _isPauseDialogOpen = false;
-        
+
         if (_levelState.gameState.isPaused) {
           _levelState.coordinator.togglePause();
         }
@@ -89,7 +86,7 @@ class _FooterState extends State<Footer> {
   @override
   Widget build(BuildContext context) {
     final isPaused = context.watch<LevelState>().gameState.isPaused;
-    
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: ShapeDecoration(

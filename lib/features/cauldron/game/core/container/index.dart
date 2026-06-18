@@ -11,10 +11,7 @@ class CauldronBack extends BodyComponent<CauldronGame> {
   @override
   final Vector2 position;
 
-  CauldronBack({
-    required this.worldSize,
-    required this.position,
-  });
+  CauldronBack({required this.worldSize, required this.position});
 
   @override
   Future<void> onLoad() async {
@@ -33,23 +30,13 @@ class CauldronBack extends BodyComponent<CauldronGame> {
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef(
-      type: BodyType.static,
-      position: position,
-    );
+    final bodyDef = BodyDef(type: BodyType.static, position: position);
 
     final body = world.createBody(bodyDef);
 
-    final shape = ChainShape()
-      ..createChain(vertices);
+    final shape = ChainShape()..createChain(vertices);
 
-    body.createFixture(
-      FixtureDef(
-        shape,
-        friction: 0.9,
-        restitution: 0.0,
-      ),
-    );
+    body.createFixture(FixtureDef(shape, friction: 0.9, restitution: 0.0));
 
     return body;
   }
@@ -57,9 +44,9 @@ class CauldronBack extends BodyComponent<CauldronGame> {
   @override
   void onHotReload() {
     super.onHotReload();
-    
+
     world.destroyBody(body);
     _logger.info("Rebuilding Physics Body");
     body = createBody();
   }
-} 
+}

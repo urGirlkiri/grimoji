@@ -14,12 +14,8 @@ class TargetBox extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       ),
       child: const Column(
-        mainAxisSize: MainAxisSize.min, 
-        children: [
-          _Label(),
-          SizedBox(height: 8),
-          TargetEmoji(), 
-        ],
+        mainAxisSize: MainAxisSize.min,
+        children: [_Label(), SizedBox(height: 8), TargetEmoji()],
       ),
     );
   }

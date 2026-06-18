@@ -61,4 +61,3 @@ class _IsolatedAnnouncerLeaf extends StatelessWidget {
     );
   }
 }
-

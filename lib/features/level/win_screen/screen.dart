@@ -106,7 +106,7 @@ class _WinGameScreenState extends State<WinGameScreen> {
                       Text(
                         'VICTORY!!',
                         style: context.theme.textTheme.headlineLarge!.copyWith(
-                          color: palette.magicCyan
+                          color: palette.magicCyan,
                         ),
                       ).animate().scale(
                         duration: const Duration(milliseconds: 800),
@@ -114,9 +114,9 @@ class _WinGameScreenState extends State<WinGameScreen> {
                         begin: const Offset(0.0, 0.0),
                         end: const Offset(1.0, 1.0),
                       ),
-                  
+
                       const SizedBox(height: 40),
-                  
+
                       SizedBox(
                         height: 200,
                         width: double.infinity,
@@ -128,7 +128,7 @@ class _WinGameScreenState extends State<WinGameScreen> {
                           ],
                         ),
                       ),
-                  
+
                       Flexible(
                         child: Image.asset(
                           "assets/mascot/celebration.webp",
@@ -136,7 +136,7 @@ class _WinGameScreenState extends State<WinGameScreen> {
                           gaplessPlayback: true,
                         ),
                       ),
-                  
+
                       const SizedBox(height: 32),
                     ],
                   ),

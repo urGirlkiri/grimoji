@@ -1,23 +1,23 @@
 import 'package:grimoji/config/emojis/index.dart';
 
-enum ReactionType { 
+enum ReactionType {
   explosive,
-  freezing, 
-  burning,  
+  freezing,
+  burning,
   corrosive,
-  seismic,  
-  electric, 
+  seismic,
+  electric,
   gale,
   cosmic,
 }
 
 class Reaction {
   final ReactionType type;
-  
+
   final List<GameEmoji> triggers;
-  
+
   final Map<GameEmoji, GameEmoji> transformations;
-  
+
   final int aoeRadius;
 
   Reaction({

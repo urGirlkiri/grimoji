@@ -27,12 +27,13 @@ class Powerup {
       id: 'hole',
       name: 'Black Hole',
       iconPath: Emojis.hole.svg,
-      description: 'Swallows all instances of the swapped emoji from the entire board.',
+      description:
+          'Swallows all instances of the swapped emoji from the entire board.',
       isPrelevel: true,
     ),
     Powerup(
       id: 'ghost',
-      name: 'Haunting Ghost Clearer', 
+      name: 'Haunting Ghost Clearer',
       iconPath: Emojis.ghost.svg,
       description: 'Dives into an emoji and destorys it.',
       isPrelevel: true,
@@ -62,7 +63,8 @@ class Powerup {
       id: 'boxing_glove',
       name: 'The Glove',
       iconPath: Emojis.boxingGlove.svg,
-      description: 'Punches and destroys a single target without triggering surrounding tiles.',
+      description:
+          'Punches and destroys a single target without triggering surrounding tiles.',
     ),
     Powerup(
       id: 'test_tube',
@@ -74,7 +76,8 @@ class Powerup {
       id: 'ufo',
       name: 'The UFO',
       iconPath: Emojis.flyingSaucer.svg,
-      description: 'Beams down and mutates 3 random tiles into triggered bombs.',
+      description:
+          'Beams down and mutates 3 random tiles into triggered bombs.',
     ),
     Powerup(
       id: 'blood',

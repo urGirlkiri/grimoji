@@ -10,7 +10,7 @@ class VirusBehavior extends EmojiBehavior {
   @override
   List<BehaviorAction> onTurnEnd(int x, int y) {
     turnsSinceLastMultiplication++;
-    
+
     if (turnsSinceLastMultiplication >= 3) {
       turnsSinceLastMultiplication = 0;
       return [
@@ -28,7 +28,7 @@ class VirusBehavior extends EmojiBehavior {
   @override
   List<BehaviorAction> onBlastNearby(int x, int y, ReactionType reactionType) {
     if (reactionType == ReactionType.freezing) {
-      turnsSinceLastMultiplication = -5; 
+      turnsSinceLastMultiplication = -5;
     }
     return [];
   }

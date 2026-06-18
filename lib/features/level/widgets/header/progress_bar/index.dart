@@ -10,11 +10,7 @@ class ProgressBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Stack(
       alignment: Alignment.centerLeft,
-      children: [
-        _Background(),
-        BarFill(),
-        StarRow(),
-      ],
+      children: [_Background(), BarFill(), StarRow()],
     );
   }
 }

@@ -2,12 +2,8 @@ import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 
 final List<Recipe> chapter5Recipes = [
-  Recipe(
-    ingredient: Emojis.sparkles,
-    requiredAmount: 3,
-    yields: Emojis.star,
-  ),
-  
+  Recipe(ingredient: Emojis.sparkles, requiredAmount: 3, yields: Emojis.star),
+
   Recipe(
     ingredient: Emojis.droplet,
     requiredAmount: 5,
@@ -32,20 +28,16 @@ final List<Recipe> chapter5Recipes = [
     yields: Emojis.crystalBall,
   ),
 
-  Recipe(
-    ingredient: Emojis.crystalBall,
-    requiredAmount: 3,
-    yields: Emojis.die,
-  ),
+  Recipe(ingredient: Emojis.crystalBall, requiredAmount: 3, yields: Emojis.die),
 
   Recipe(
-    ingredient: Emojis.alien, 
+    ingredient: Emojis.alien,
     requiredAmount: 3,
-    yields: Emojis.alienMonster, 
+    yields: Emojis.alienMonster,
   ),
   Recipe(
-    ingredient: Emojis.alienMonster, 
+    ingredient: Emojis.alienMonster,
     requiredAmount: 4,
-    yields: Emojis.flyingSaucer, 
+    yields: Emojis.flyingSaucer,
   ),
 ];

@@ -9,11 +9,13 @@ class GrimoireScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.select<ProfileController, int>((p) => p.profileVersion);
-    final bool isLoaded = context.select<ProfileController, bool>((p) => p.isLoaded);
+    final bool isLoaded = context.select<ProfileController, bool>(
+      (p) => p.isLoaded,
+    );
 
     if (!isLoaded) {
       return const Scaffold(
-        backgroundColor: Color(0xFF0E0E1E), 
+        backgroundColor: Color(0xFF0E0E1E),
         body: Center(child: CircularProgressIndicator()),
       );
     }

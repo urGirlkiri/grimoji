@@ -33,8 +33,7 @@ class TargetFlightAnimator {
         return TweenAnimationBuilder<double>(
           tween: Tween(begin: 0.0, end: 1.0),
           duration: const Duration(milliseconds: 1200),
-          curve:
-              Curves.easeInOutBack, 
+          curve: Curves.easeInOutBack,
           onEnd: () {
             entry.remove();
             context.readAudio.playSfx(SfxType.targetCollected);
@@ -45,7 +44,7 @@ class TargetFlightAnimator {
                 startOffset.dx + ((endOffset.dx - startOffset.dx) * value);
             final double currentY =
                 startOffset.dy + ((endOffset.dy - startOffset.dy) * value);
-            
+
             const double scale = 1.3;
 
             return Positioned(

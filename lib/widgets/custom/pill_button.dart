@@ -63,7 +63,12 @@ class PillButton extends StatelessWidget {
         pressedScale: 0.95,
         child: Container(
           width: fullWidth ? double.infinity : null,
-          padding:  padding ??  EdgeInsets.symmetric(horizontal: 24, vertical: fullWidth? 14: 12),
+          padding:
+              padding ??
+              EdgeInsets.symmetric(
+                horizontal: 24,
+                vertical: fullWidth ? 14 : 12,
+              ),
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(borderRadius),

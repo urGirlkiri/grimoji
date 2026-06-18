@@ -40,8 +40,10 @@ class ResponsiveScreen extends StatelessWidget {
         final padding = EdgeInsets.all(size.shortestSide / 30);
 
         final isMobile = size.height >= size.width;
-        
-        final currentBgImage = isMobile ? mobileBackgroundImage : desktopBackgroundImage;
+
+        final currentBgImage = isMobile
+            ? mobileBackgroundImage
+            : desktopBackgroundImage;
 
         Widget layout;
 
@@ -124,7 +126,7 @@ class ResponsiveScreen extends StatelessWidget {
               ? BoxDecoration(
                   image: DecorationImage(
                     image: currentBgImage,
-                    fit: BoxFit.cover, 
+                    fit: BoxFit.cover,
                   ),
                 )
               : null,

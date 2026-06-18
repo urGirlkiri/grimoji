@@ -27,8 +27,12 @@ class _GameBoardState extends State<GameBoard> {
   Tile? _draggedTile;
   Offset? _dragStartPosition;
 
-  final ValueNotifier<List<SparkleEffect>> _sparklesNotifier = ValueNotifier([]);
-  final ValueNotifier<String?> _activeTileIdNotifier = ValueNotifier<String?>(null);
+  final ValueNotifier<List<SparkleEffect>> _sparklesNotifier = ValueNotifier(
+    [],
+  );
+  final ValueNotifier<String?> _activeTileIdNotifier = ValueNotifier<String?>(
+    null,
+  );
   bool _isDisposed = false;
 
   @override
@@ -83,7 +87,7 @@ class _GameBoardState extends State<GameBoard> {
   void _clearDrag() {
     _draggedTile = null;
     _dragStartPosition = null;
-    _activeTileIdNotifier.value = null; 
+    _activeTileIdNotifier.value = null;
   }
 
   void onPanStart(DragStartDetails details, BuildContext context) {
@@ -105,7 +109,7 @@ class _GameBoardState extends State<GameBoard> {
         col >= 0 &&
         col < levelState.boardManager.gridTiles[0].length) {
       levelState.coordinator.resetHintTimer();
-      
+
       _draggedTile = levelState.boardManager.gridTiles[row][col];
       _dragStartPosition = details.localPosition;
       _activeTileIdNotifier.value = _draggedTile?.id;
@@ -114,7 +118,7 @@ class _GameBoardState extends State<GameBoard> {
 
   void onPanUpdate(DragUpdateDetails details, BuildContext context) {
     if (_draggedTile == null || _dragStartPosition == null) return;
-    
+
     final levelState = context.read<LevelState>();
 
     final dx = details.localPosition.dx - _dragStartPosition!.dx;
@@ -149,7 +153,7 @@ class _GameBoardState extends State<GameBoard> {
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
-    
+
     final initialGrid = context.read<LevelState>().boardManager.gridTiles;
     final int gridColumns = initialGrid[0].length;
     final int gridRows = initialGrid.length;
@@ -219,11 +223,13 @@ class _GameBoardState extends State<GameBoard> {
                               tWidth: calculatedSingleTileWidth,
                               tHeight: calculatedSingleTileHeight,
                             ),
-                            
+
                             ListenableBuilder(
                               listenable: _activeTileIdNotifier,
                               builder: (context, _) {
-                                return TileGrid(activeTileId: _activeTileIdNotifier.value);
+                                return TileGrid(
+                                  activeTileId: _activeTileIdNotifier.value,
+                                );
                               },
                             ),
 
@@ -234,7 +240,7 @@ class _GameBoardState extends State<GameBoard> {
                     },
                   ),
                 ),
-                
+
                 OverflowBox(
                   maxWidth: constrainedBoardWidth,
                   child: const AnnouncerWidget(),
