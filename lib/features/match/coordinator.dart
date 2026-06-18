@@ -81,14 +81,52 @@ class GameCoordinator {
     await Future.delayed(const Duration(milliseconds: 100));
     if (state.isDisposed) return;
 
+    // if (decision.type == SwipeResult.specialBehavior) {
+    //   engine.executeBehaviorActions(decision.actions, dCoord.row, dCoord.col);
+    //   state.setProcessing(false);
+    //   state.updateUI();
+    //   resetHintTimer();
+    //   return;
+    // }
+
     if (decision.type == SwipeResult.specialBehavior) {
       engine.executeBehaviorActions(decision.actions, dCoord.row, dCoord.col);
-      state.setProcessing(false);
       state.updateUI();
-      resetHintTimer();
+
+      await Future.delayed(const Duration(milliseconds: 700));
+      if (state.isDisposed) return;
+
+      Set<TileCoordinate> destroyedByBehavior = {};
+      for (int r = 0; r < BoardManager.rows; r++) {
+        for (int c = 0; c < BoardManager.cols; c++) {
+          if (engine.grid[r][c].isTaggedForDestruct) {
+            destroyedByBehavior.add(TileCoordinate(row: r, col: c));
+            engine.grid[r][c].isTaggedForDestruct = false;
+          }
+        }
+      }
+
+      state.announcer.evaluateTurn(
+        events: {TurnEvent.blackHole},
+        combo: state.currentComboMultiplier,
+        tilesCleared: destroyedByBehavior.length,
+      );
+
+      boardManager.applyGravity(destroyedByBehavior);
+      state.updateUI();
+
+      await Future.delayed(const Duration(milliseconds: 50));
+      if (state.isDisposed) return;
+
+      boardManager.triggerInitialFall();
+      state.updateUI();
+
+      await Future.delayed(gravityAnimationTime);
+      if (state.isDisposed) return;
+
+      await _cascadeSequence(tCoord);
       return;
     }
-
     await _cascadeSequence(tCoord);
   }
 
