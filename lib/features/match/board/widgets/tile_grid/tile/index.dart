@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
@@ -30,6 +31,20 @@ class TileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final displayEmoji = tile.morphTarget ?? tile.emoji;
 
+    Widget content = TileContent(
+      tile: tile,
+      displayEmoji: displayEmoji,
+      tWidth: tWidth,
+      tHeight: tHeight,
+      isTouched: isTouched,
+    );
+
+    if (tile.isTaggedForDestruct) {
+      content = content.animate()
+          .moveY(begin: 0, end: 20, duration: 400.ms, curve: Curves.easeInBack)
+          .scale(begin: const Offset(1, 1), end: Offset.zero, duration: 400.ms, curve: Curves.easeInBack);
+    }
+
     return AnimatedPositioned(
       duration: swapAnimationTime,
       curve: Curves.easeOutCubic,
@@ -48,13 +63,22 @@ class TileWidget extends StatelessWidget {
               alignment: Alignment.center,
               clipBehavior: Clip.none,
               children: [
-                TileContent(
-                  tile: tile,
-                  displayEmoji: displayEmoji,
-                  tWidth: tWidth,
-                  tHeight: tHeight,
-                  isTouched: isTouched,
-                ),
+                if (tile.isTaggedForDestruct && tile.emoji != Emojis.hole)
+                  Positioned(
+                    bottom: -10,
+                    child: EmojiWidget.svg(
+                      path: Emojis.hole.svg,
+                      size: tWidth * 0.8,
+                    )
+                    .animate(onPlay: (c) => c.repeat())
+                    .rotate(duration: 1.seconds, curve: Curves.linear)
+                    .scale(begin: Offset.zero, end: const Offset(1, 1), duration: 200.ms) 
+                    .then(delay: 300.ms) 
+                    .scale(end: Offset.zero, duration: 200.ms),
+                  ),
+
+                content,
+                
                 TileVFX(tile: tile, displayEmoji: displayEmoji, tWidth: tWidth),
                 if (tile.isTransmuting)
                   AnimatedOpacity(
