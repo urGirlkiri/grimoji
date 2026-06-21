@@ -84,6 +84,28 @@ class _GameBoardState extends State<GameBoard> {
     });
   }
 
+  void onTapped(TapUpDetails details, BuildContext context) {
+    final metrics = context.read<BoardMetrics>();
+    final levelState = context.read<LevelState>();
+
+    if (!metrics.isReady) return;
+
+    if (levelState.gameState.isProcessing || levelState.gameState.isShuffling) {
+      _triggerSparkle(details.localPosition);
+      return;
+    }
+
+    int col = (details.localPosition.dx / metrics.tileWidth!).floor();
+    int row = (details.localPosition.dy / metrics.tileHeight!).floor();
+
+    if (row >= 0 &&
+        row < levelState.boardManager.gridTiles.length &&
+        col >= 0 &&
+        col < levelState.boardManager.gridTiles[0].length) {
+      levelState.coordinator.resolveTap(TileCoordinate(row: row, col: col));
+    }
+  }
+
   void _clearDrag() {
     _draggedTile = null;
     _dragStartPosition = null;
@@ -208,6 +230,7 @@ class _GameBoardState extends State<GameBoard> {
                           gridRows;
 
                       return GestureDetector(
+                        onTapUp: (details) => onTapped(details, context),
                         onPanStart: (details) => onPanStart(details, context),
                         onPanUpdate: (details) => onPanUpdate(details, context),
                         onPanEnd: (details) => _clearDrag(),
