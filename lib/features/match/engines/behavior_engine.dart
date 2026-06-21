@@ -16,6 +16,11 @@ class BehaviorEngine {
   final GameLevel level;
   final Logger _log = Logger('BehaviorEngine');
 
+  final List<({Tile tile, int x, int y, ReactionType reactionType})>
+  _pendingBlasts = [];
+
+  bool get hasPendingBlastBehaviors => _pendingBlasts.isNotEmpty;
+
   BehaviorEngine({
     required this.boardManager,
     required this.getBehavior,
@@ -130,9 +135,24 @@ class BehaviorEngine {
     int y,
     ReactionType reactionType,
   ) {
-    if (tile.behavior != null) {
-      final actions = tile.behavior!.onBlastNearby(x, y, reactionType);
-      executeBehaviorActions(actions, x, y);
+    if (tile.behavior != null &&
+        tile.behavior!.onBlastNearby(x, y, reactionType).isNotEmpty) {
+      _pendingBlasts.add((tile: tile, x: x, y: y, reactionType: reactionType));
+    }
+  }
+
+  void processPendingBlasts() {
+    final pending = List.of(_pendingBlasts);
+    _pendingBlasts.clear();
+    for (final entry in pending) {
+      if (entry.tile.behavior != null) {
+        final actions = entry.tile.behavior!.onBlastNearby(
+          entry.x,
+          entry.y,
+          entry.reactionType,
+        );
+        executeBehaviorActions(actions, entry.x, entry.y);
+      }
     }
   }
 
