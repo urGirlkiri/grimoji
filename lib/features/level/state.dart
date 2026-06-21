@@ -15,6 +15,7 @@ class LevelState extends ChangeNotifier {
   final GameLevel level;
   final AudioController audio;
   final AppLifecycleStateNotifier lifecycleNotifier;
+  final List<String> startingBoosters;
 
   final GlobalKey targetIconKey = GlobalKey();
 
@@ -35,6 +36,7 @@ class LevelState extends ChangeNotifier {
     required this.level,
     required this.audio,
     required this.lifecycleNotifier,
+    this.startingBoosters = const [],
   }) {
     goalManager = GoalManager(targetAmount: level.targetAmount);
     timeManager = TimeManager(
@@ -50,6 +52,10 @@ class LevelState extends ChangeNotifier {
       playSfx: audio.playSfx,
     );
     engine.initialize();
+    if (startingBoosters.isNotEmpty) {
+      boardManager.placeStartingBoosters(startingBoosters);
+      engine.initializeBehaviors();
+    }
 
     gameState = GameState(audio);
     coordinator = GameCoordinator(

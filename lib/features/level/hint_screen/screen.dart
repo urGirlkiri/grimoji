@@ -12,7 +12,13 @@ import 'package:provider/provider.dart';
 
 class LevelHintScreen extends StatefulWidget {
   final int level;
-  const LevelHintScreen({super.key, required this.level});
+  final List<String> startingBoosters;
+
+  const LevelHintScreen({
+    super.key,
+    required this.level,
+    this.startingBoosters = const [],
+  });
 
   @override
   State<LevelHintScreen> createState() => _LevelHintScreenState();
@@ -55,6 +61,7 @@ class _LevelHintScreenState extends State<LevelHintScreen> {
     context.replaceNamed(
       Routes.levelPlay,
       pathParameters: {'level': widget.level.toString()},
+      extra: {'startingBoosters': widget.startingBoosters},
     );
   }
 
