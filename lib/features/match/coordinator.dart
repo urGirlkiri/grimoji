@@ -324,24 +324,6 @@ class GameCoordinator {
 
       final stepResult = engine.processDetonationStep();
       resolveCollectedEmojis(stepResult.collectedEmojis);
-      state.updateUI();
-
-      Set<TileCoordinate> behaviorDestroyed = {};
-      for (int r = 0; r < BoardManager.rows; r++) {
-        for (int c = 0; c < BoardManager.cols; c++) {
-          final tile = engine.grid[r][c];
-          if (tile.isTaggedForDestruct) {
-            behaviorDestroyed.add(TileCoordinate(row: r, col: c));
-            tile.isTaggedForDestruct = false;
-          }
-        }
-      }
-
-      boardManager.flagFlyingTargetEmojis(stepResult.destroyed);
-      state.updateUI();
-
-      await Future.delayed(clearAnimationTime);
-      if (state.isDisposed) return false;
 
       Set<TileCoordinate> targetFlyingTransforms = {};
       for (var coord in stepResult.transformed) {
@@ -353,17 +335,18 @@ class GameCoordinator {
         }
       }
 
-      final Set<TileCoordinate> allDestroyed = {
+      boardManager.flagFlyingTargetEmojis(stepResult.destroyed);
+      state.updateUI();
+
+      await Future.delayed(clearAnimationTime);
+      if (state.isDisposed) return false;
+
+      final Set<TileCoordinate> blastDestroyed = {
         ...stepResult.destroyed,
         ...targetFlyingTransforms,
-        ...behaviorDestroyed,
       };
 
-      if (behaviorDestroyed.isNotEmpty) {
-        await Future.delayed(const Duration(milliseconds: 700));
-      }
-
-      boardManager.applyGravity(allDestroyed);
+      boardManager.applyGravity(blastDestroyed);
       engine.initializeBehaviors();
       boardManager.clearAllFlyingFlags();
       state.updateUI();
@@ -376,6 +359,41 @@ class GameCoordinator {
 
       await Future.delayed(gravityAnimationTime);
       if (state.isDisposed) return false;
+
+      engine.processPendingBlasts();
+
+      Set<TileCoordinate> behaviorDestroyed = {};
+      for (int r = 0; r < BoardManager.rows; r++) {
+        for (int c = 0; c < BoardManager.cols; c++) {
+          final tile = engine.grid[r][c];
+          if (tile.isTaggedForDestruct || tile.isDestructTrigger) {
+            behaviorDestroyed.add(TileCoordinate(row: r, col: c));
+          }
+        }
+      }
+
+      if (behaviorDestroyed.isNotEmpty) {
+        state.updateUI();
+        await Future.delayed(const Duration(milliseconds: 700));
+        if (state.isDisposed) return false;
+        for (final coord in behaviorDestroyed) {
+          engine.grid[coord.row][coord.col].isTaggedForDestruct = false;
+          engine.grid[coord.row][coord.col].isDestructTrigger = false;
+        }
+
+        boardManager.applyGravity(behaviorDestroyed);
+        engine.initializeBehaviors();
+        state.updateUI();
+
+        await Future.delayed(const Duration(milliseconds: 50));
+        if (state.isDisposed) return false;
+
+        boardManager.triggerInitialFall();
+        state.updateUI();
+
+        await Future.delayed(gravityAnimationTime);
+        if (state.isDisposed) return false;
+      }
     }
 
     return executionOccurred;

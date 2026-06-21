@@ -282,6 +282,10 @@ class GameEngine {
     return _behavior.processTappedBehavior(tile, x, y);
   }
 
+  bool get hasPendingBlastBehaviors => _behavior.hasPendingBlastBehaviors;
+
+  void processPendingBlasts() => _behavior.processPendingBlasts();
+
   bool hasTapBehavior(Tile tile, int x, int y) {
     return _behavior.hasTapBehavior(tile, x, y);
   }
