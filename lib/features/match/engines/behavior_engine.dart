@@ -63,38 +63,51 @@ class BehaviorEngine {
             boardManager.gridTiles[target.x][target.y].clearBehavior();
           }
           break;
+          
         case ActionType.consumeAllOfType:
+          boardManager.gridTiles[centerX][centerY].isDestructTrigger = true;
+          boardManager.gridTiles[centerX][centerY].isTaggedForDestruct = true;
+
           for (int r = 0; r < BoardManager.rows; r++) {
             for (int c = 0; c < BoardManager.cols; c++) {
               final tile = boardManager.gridTiles[r][c];
-
-              if (r == centerX && c == centerY) {
-                tile.isDestructTrigger = true;
-              }
-              if (action.emoji == null ||
-                  tile.emoji == action.emoji ||
-                  (r == centerX && c == centerY)) {
+              if (action.emoji == null || tile.emoji == action.emoji) {
                 tile.isTaggedForDestruct = true;
               }
             }
           }
           break;
+          
         case ActionType.doNothing:
           break;
+          
         case ActionType.consumeRandomType:
           _log.info('Triggering random consumption');
+          
+          final emojisOnBoard = <GameEmoji>{};
+          for (int r = 0; r < BoardManager.rows; r++) {
+            for (int c = 0; c < BoardManager.cols; c++) {
+              if (r == centerX && c == centerY) continue;
+              emojisOnBoard.add(boardManager.gridTiles[r][c].emoji);
+            }
+          }
+
+          boardManager.gridTiles[centerX][centerY].isDestructTrigger = true;
+          boardManager.gridTiles[centerX][centerY].isTaggedForDestruct = true;
+
+          if (emojisOnBoard.isEmpty) {
+            break;
+          }
+
           final random = Random();
-          final randomEmoji = level.availableEmojis.elementAt(
-            random.nextInt(level.availableEmojis.length),
+          final randomEmoji = emojisOnBoard.elementAt(
+            random.nextInt(emojisOnBoard.length),
           );
           _log.info('Selected ${randomEmoji.visual} ');
 
-          for (int r = 0; r < BoardManager.rows; r++) {
+                    for (int r = 0; r < BoardManager.rows; r++) {
             for (int c = 0; c < BoardManager.cols; c++) {
               final tile = boardManager.gridTiles[r][c];
-              if (r == centerX && c == centerY) {
-                tile.isDestructTrigger = true;
-              }
               if (tile.emoji == randomEmoji) {
                 tile.isTaggedForDestruct = true;
               }
@@ -139,6 +152,20 @@ class BehaviorEngine {
   bool hasSwipeBehavior(Tile tile, int x, int y, GameEmoji targetEmoji) {
     if (tile.behavior != null) {
       return tile.behavior!.onSwipedWith(x, y, targetEmoji).isNotEmpty;
+    }
+    return false;
+  }
+
+  List<BehaviorAction> processTappedBehavior(Tile tile, int x, int y) {
+    if (tile.behavior != null) {
+      return tile.behavior!.onTapped(x, y);
+    }
+    return [];
+  }
+
+  bool hasTapBehavior(Tile tile, int x, int y) {
+    if (tile.behavior != null) {
+      return tile.behavior!.onTapped(x, y).isNotEmpty;
     }
     return false;
   }

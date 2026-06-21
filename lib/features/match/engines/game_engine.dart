@@ -278,6 +278,14 @@ class GameEngine {
     return _behavior.processSwipedWithBehavior(tile, x, y, targetEmoji);
   }
 
+  List<BehaviorAction> processTappedBehavior(Tile tile, int x, int y) {
+    return _behavior.processTappedBehavior(tile, x, y);
+  }
+
+  bool hasTapBehavior(Tile tile, int x, int y) {
+    return _behavior.hasTapBehavior(tile, x, y);
+  }
+
   void initializeBehaviors() {
     for (int r = 0; r < BoardManager.rows; r++) {
       for (int c = 0; c < BoardManager.cols; c++) {

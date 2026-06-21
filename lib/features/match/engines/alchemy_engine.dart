@@ -294,7 +294,8 @@ class AlchemyEngine {
             tile.reset();
             tile.isTransmuting = true;
             transformedTiles.add(TileCoordinate(row: r, col: c));
-          } else {
+
+          } else if (!tile.isTaggedForDestruct && !tile.isDestructTrigger) {
             tile.isExploding = true;
             destroyedTiles.add(TileCoordinate(row: r, col: c));
           }
