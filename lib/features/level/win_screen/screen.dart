@@ -8,7 +8,6 @@ import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
-import 'package:grimoji/features/level/widgets/confetti.dart';
 import 'package:grimoji/features/level/win_screen/flying_star.dart';
 import 'package:grimoji/utils/context_data.dart';
 
@@ -95,7 +94,6 @@ class _WinGameScreenState extends State<WinGameScreen> {
         body: SafeArea(
           child: Stack(
             children: [
-              const SizedBox.expand(child: Confetti(isStopped: false)),
 
               Center(
                 child: Padding(
