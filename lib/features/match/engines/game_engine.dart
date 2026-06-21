@@ -279,12 +279,12 @@ class GameEngine {
   }
 
   void initializeBehaviors() {
-  for (int r = 0; r < BoardManager.rows; r++) {
-    for (int c = 0; c < BoardManager.cols; c++) {
-      if (grid[r][c].behavior == null) {
-        _behavior.initializeBehavior(grid[r][c]);
+    for (int r = 0; r < BoardManager.rows; r++) {
+      for (int c = 0; c < BoardManager.cols; c++) {
+        if (grid[r][c].behavior == null) {
+          _behavior.initializeBehavior(grid[r][c]);
+        }
       }
     }
   }
-}
 }

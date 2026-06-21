@@ -8,14 +8,27 @@ class DummyBehavior extends EmojiBehavior {}
 
 void main() {
   group('Tile Tests', () {
-    
     test('Should generate a unique UUID if no ID is provided', () {
-      final tile1 = Tile(coordinate: TileCoordinate(row: 0, col: 0), emoji: Emojis.fire);
-      final tile2 = Tile(coordinate: TileCoordinate(row: 0, col: 1), emoji: Emojis.droplet);
+      final tile1 = Tile(
+        coordinate: TileCoordinate(row: 0, col: 0),
+        emoji: Emojis.fire,
+      );
+      final tile2 = Tile(
+        coordinate: TileCoordinate(row: 0, col: 1),
+        emoji: Emojis.droplet,
+      );
 
-      expect(tile1.id, isNotEmpty, reason: 'ID should be automatically generated');
+      expect(
+        tile1.id,
+        isNotEmpty,
+        reason: 'ID should be automatically generated',
+      );
       expect(tile2.id, isNotEmpty);
-      expect(tile1.id, isNot(equals(tile2.id)), reason: 'Every tile must have a completely unique UUID');
+      expect(
+        tile1.id,
+        isNot(equals(tile2.id)),
+        reason: 'Every tile must have a completely unique UUID',
+      );
     });
 
     test('Should use the provided ID if passed in the constructor', () {
@@ -26,12 +39,19 @@ void main() {
         emoji: Emojis.rock,
       );
 
-      expect(tile.id, equals(customId), reason: 'Constructor should respect explicitly passed IDs');
+      expect(
+        tile.id,
+        equals(customId),
+        reason: 'Constructor should respect explicitly passed IDs',
+      );
     });
 
     test('reset() should completely clear all visual and state flags', () {
-      final tile = Tile(coordinate: TileCoordinate(row: 2, col: 2), emoji: Emojis.cloud);
-      
+      final tile = Tile(
+        coordinate: TileCoordinate(row: 2, col: 2),
+        emoji: Emojis.cloud,
+      );
+
       tile.isExploding = true;
       tile.isMerging = true;
       tile.hasFlown = true;
@@ -51,26 +71,34 @@ void main() {
 
     test('clearBehavior() should remove the attached EmojiBehavior', () {
       final tile = Tile(
-        coordinate: TileCoordinate(row: 3, col: 3), 
+        coordinate: TileCoordinate(row: 3, col: 3),
         emoji: Emojis.bug,
         behavior: DummyBehavior(),
       );
 
-      expect(tile.behavior, isNotNull, reason: 'Tile should start with the behavior we gave it');
+      expect(
+        tile.behavior,
+        isNotNull,
+        reason: 'Tile should start with the behavior we gave it',
+      );
 
       tile.clearBehavior();
 
-      expect(tile.behavior, isNull, reason: 'clearBehavior() should completely nullify the property');
+      expect(
+        tile.behavior,
+        isNull,
+        reason: 'clearBehavior() should completely nullify the property',
+      );
     });
 
     test('toString() should format correctly for debugging logs', () {
       final tile = Tile(
-        coordinate: TileCoordinate(row: 5, col: 7), 
-        emoji: Emojis.alien, 
+        coordinate: TileCoordinate(row: 5, col: 7),
+        emoji: Emojis.alien,
       );
 
       final expectedString = 'Tile(5, 7: ${Emojis.alien.visual})';
-      
+
       expect(tile.toString(), equals(expectedString));
     });
   });

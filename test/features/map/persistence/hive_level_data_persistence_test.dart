@@ -12,7 +12,7 @@ void main() {
     setUpAll(() async {
       final tempDir = await Directory.systemTemp.createTemp('hive_test_dir');
       Hive.init(tempDir.path);
-      
+
       if (!Hive.isAdapterRegistered(0)) {
         Hive.registerAdapter(LevelDataAdapter());
       }
@@ -39,9 +39,9 @@ void main() {
 
     test('should save and correctly retrieve level data', () async {
       await persistence.saveLevelStars(1, 3);
-      
+
       final retrievedData = await persistence.getLevelData();
-      
+
       expect(retrievedData[1], isNotNull);
       expect(retrievedData[1]!.level, 1);
       expect(retrievedData[1]!.stars, 3);
@@ -60,11 +60,11 @@ void main() {
 
     test('should clear all data when reset is called', () async {
       await persistence.saveLevelStars(1, 3);
-      
+
       expect(box.isEmpty, isFalse);
-      
+
       await persistence.clearAllData();
-      
+
       expect(box.isEmpty, isTrue);
     });
   });

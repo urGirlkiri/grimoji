@@ -51,7 +51,7 @@ class BoardAnnouncer {
   bool get isSpeaking => activeAnnouncement != null || _queue.isNotEmpty;
   bool get isInCooldown => _cooldownTimer?.isActive == true;
 
-void evaluateTurn({
+  void evaluateTurn({
     required Set<TurnEvent> events,
     required int combo,
     required int tilesCleared,
@@ -76,7 +76,7 @@ void evaluateTurn({
     Dialog selectedVoice = isLegendary
         ? Dialog.catastrophicMasterpiece
         : isBlackHole
-        ? Dialog.masterfulAlchemy 
+        ? Dialog.masterfulAlchemy
         : events.contains(TurnEvent.explosion)
         ? _calamityVoices[hypeScore]
         : _alchemyVoices[hypeScore];

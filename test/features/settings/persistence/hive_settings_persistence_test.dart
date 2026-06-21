@@ -10,7 +10,9 @@ void main() {
     late Box<SettingsData> box;
 
     setUpAll(() async {
-      final tempDir = await Directory.systemTemp.createTemp('hive_settings_test_dir');
+      final tempDir = await Directory.systemTemp.createTemp(
+        'hive_settings_test_dir',
+      );
       Hive.init(tempDir.path);
       Hive.registerAdapter(SettingsDataAdapter());
     });
@@ -36,30 +38,33 @@ void main() {
 
     test('should correctly save and retrieve audio settings', () async {
       await persistence.saveAudioOn(false);
-      
+
       final isAudioOn = await persistence.getAudioOn(defaultValue: true);
-      
+
       expect(isAudioOn, isFalse);
     });
 
-    test('should correctly save and retrieve a full settings payload', () async {
-      await persistence.saveAudioOn(false);
-      await persistence.saveMusicOn(true);
-      await persistence.saveSoundsOn(true);
-      await persistence.saveSfxVolume(0.8);
-      await persistence.saveMusicVolume(1.0);
-      
-      final audioOn = await persistence.getAudioOn(defaultValue: true);
-      final musicOn = await persistence.getMusicOn(defaultValue: true);
-      final soundsOn = await persistence.getSoundsOn(defaultValue: true);
-      final sfxVol = await persistence.getSfxVolume(defaultValue: 1.0);
-      final musicVol = await persistence.getMusicVolume(defaultValue: 1.0);
-      
-      expect(audioOn, isFalse);
-      expect(musicOn, isTrue);
-      expect(soundsOn, isTrue);
-      expect(sfxVol, 0.8);
-      expect(musicVol, 1.0);
-    });
+    test(
+      'should correctly save and retrieve a full settings payload',
+      () async {
+        await persistence.saveAudioOn(false);
+        await persistence.saveMusicOn(true);
+        await persistence.saveSoundsOn(true);
+        await persistence.saveSfxVolume(0.8);
+        await persistence.saveMusicVolume(1.0);
+
+        final audioOn = await persistence.getAudioOn(defaultValue: true);
+        final musicOn = await persistence.getMusicOn(defaultValue: true);
+        final soundsOn = await persistence.getSoundsOn(defaultValue: true);
+        final sfxVol = await persistence.getSfxVolume(defaultValue: 1.0);
+        final musicVol = await persistence.getMusicVolume(defaultValue: 1.0);
+
+        expect(audioOn, isFalse);
+        expect(musicOn, isTrue);
+        expect(soundsOn, isTrue);
+        expect(sfxVol, 0.8);
+        expect(musicVol, 1.0);
+      },
+    );
   });
 }
