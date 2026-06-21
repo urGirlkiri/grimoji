@@ -23,4 +23,6 @@ enum SfxType {
   recipeUnlock,
   recipeCollection,
   recipeRead,
+
+  purchase
 }

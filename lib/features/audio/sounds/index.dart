@@ -52,4 +52,6 @@ List<String> soundTypeToFilename(SfxType type) => switch (type) {
   SfxType.recipeCollection => const ['recipe_collection.m4a'],
 
   SfxType.recipeRead => const ['recipe_read.m4a'],
+
+  SfxType.purchase => const ['cha-ching.m4a'],
 };

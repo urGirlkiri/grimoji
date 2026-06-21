@@ -14,6 +14,7 @@ double soundTypeToVolume(SfxType type) {
     case SfxType.recipeUnlock:
     case SfxType.recipeCollection:
     case SfxType.recipeRead:
+    case SfxType.purchase:
       return 1.0;
 
     case SfxType.merge:
