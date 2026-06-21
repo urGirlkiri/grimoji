@@ -12,6 +12,8 @@ import 'package:grimoji/features/match/utils/match_detector.dart';
 import 'package:logging/logging.dart';
 
 typedef BehaviorInitCallback = void Function(Tile tile);
+typedef TileBlastedCallback =
+    void Function(Tile tile, int x, int y, ReactionType reactionType);
 
 class AlchemyEngine {
   final BoardManager boardManager;
@@ -22,6 +24,7 @@ class AlchemyEngine {
   getTransformationsForType;
   final int Function(ReactionType) getAoERadiusForType;
   final BehaviorInitCallback? initializeBehavior;
+  final TileBlastedCallback? onTileBlasted;
 
   final Logger _log = Logger('AlchemyEngine');
 
@@ -33,6 +36,7 @@ class AlchemyEngine {
     required this.getTransformationsForType,
     required this.getAoERadiusForType,
     this.initializeBehavior,
+    this.onTileBlasted,
   });
 
   CascadeStepResult processCascadeStep({
@@ -275,6 +279,15 @@ class AlchemyEngine {
             tile.isTriggered = true;
           }
         } else {
+          if (tile.behavior != null) {
+            onTileBlasted?.call(
+              tile,
+              r,
+              c,
+              centerReaction?.type ?? ReactionType.explosive,
+            );
+          }
+
           final resultingEmoji = transformations[tile.emoji];
           if (resultingEmoji != null) {
             tile.emoji = resultingEmoji;

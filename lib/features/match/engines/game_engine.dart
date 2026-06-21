@@ -29,6 +29,7 @@ class GameEngine {
     required this.playSfx,
   }) {
     _behavior = BehaviorEngine(
+      level: level,
       boardManager: boardManager,
       getBehavior: BehaviorRegister.getBehaviorFor,
     );
@@ -41,6 +42,7 @@ class GameEngine {
       getTransformationsForType: RecipeBook.getTransformationsForType,
       getAoERadiusForType: RecipeBook.getAoERadiusForType,
       initializeBehavior: _behavior.initializeBehavior,
+      onTileBlasted: _behavior.processBlastBehavior,
     );
   }
 
