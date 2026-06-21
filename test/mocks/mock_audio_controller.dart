@@ -8,34 +8,30 @@ class MockAudioController implements AudioController {
   int playVoiceCallCount = 0;
   List<Dialog> playedVoices = [];
   bool disposeCalled = false;
-  
+
   @override
   void playVoice(Dialog type) {
     playVoiceCallCount++;
     playedVoices.add(type);
   }
-  
+
   @override
-  void playSfx(SfxType type) {
-  }
-  
+  void playSfx(SfxType type) {}
+
   @override
   void dispose() {
     disposeCalled = true;
   }
-  
+
   @override
   void attachDependencies(
     AppLifecycleStateNotifier lifecycleNotifier,
     SettingsController settingsController,
-  ) {
-  }
-  
+  ) {}
+
   @override
-  void playMenuMusic() {
-  }
-  
+  void playMenuMusic() {}
+
   @override
-  void playLevelMusic() {
-  }
+  void playLevelMusic() {}
 }

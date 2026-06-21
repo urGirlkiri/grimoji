@@ -55,6 +55,7 @@ class BehaviorEngine {
             initializeBehavior(boardManager.gridTiles[target.x][target.y]);
           }
           break;
+          
         case ActionType.reactEmoji:
           final target = boardManager.findAdjacentFilledTile(centerX, centerY);
           if (target != null && action.emoji != null) {

@@ -54,16 +54,16 @@ class Tile {
 
     newTile.isMerging = isMerging;
     newTile.isMergePoint = isMergePoint;
-    
+
     newTile.isTransmuting = isTransmuting;
     newTile.morphTarget = morphTarget;
-    
+
     newTile.hasFlown = hasFlown;
     newTile.isFlying = isFlying;
-    
+
     newTile.isHinting = isHinting;
     newTile.hintPartner = hintPartner;
-    
+
     newTile.isTaggedForDestruct = isTaggedForDestruct;
     newTile.isDestructTrigger = isDestructTrigger;
 

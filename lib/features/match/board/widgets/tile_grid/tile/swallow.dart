@@ -27,10 +27,7 @@ class SwallowEffect extends StatelessWidget {
       children: [
         Positioned.fill(
           child: Center(
-            child: EmojiWidget.svg(
-              path: Emojis.hole.svg,
-              size: size * 1.4,
-            )
+            child: EmojiWidget.svg(path: Emojis.hole.svg, size: size * 1.4)
                 .animate()
                 .scale(
                   begin: Offset.zero,
@@ -40,14 +37,28 @@ class SwallowEffect extends StatelessWidget {
                 )
                 .then()
                 .shake(hz: 8, duration: 200.ms, curve: Curves.linear)
-                .rotate(begin: 0, end: -6, duration: 450.ms, curve: Curves.linear)
+                .rotate(
+                  begin: 0,
+                  end: -6,
+                  duration: 450.ms,
+                  curve: Curves.linear,
+                )
                 .then()
-                .scale(end: Offset.zero, duration: 150.ms, curve: Curves.easeInBack),
+                .scale(
+                  end: Offset.zero,
+                  duration: 150.ms,
+                  curve: Curves.easeInBack,
+                ),
           ),
         ),
         child
             .animate()
-            .rotate(begin: 0, end: 4, duration: 450.ms, curve: Curves.easeInOutQuint)
+            .rotate(
+              begin: 0,
+              end: 4,
+              duration: 450.ms,
+              curve: Curves.easeInOutQuint,
+            )
             .scale(
               begin: const Offset(1, 1),
               end: Offset.zero,

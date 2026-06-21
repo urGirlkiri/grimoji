@@ -18,7 +18,12 @@ void main() {
     setUp(() {
       level = GameLevel(
         number: 1,
-        availableEmojis: [Emojis.fire, Emojis.rock, Emojis.droplet, Emojis.alien],
+        availableEmojis: [
+          Emojis.fire,
+          Emojis.rock,
+          Emojis.droplet,
+          Emojis.alien,
+        ],
         targetEmoji: Emojis.fire,
         targetAmount: 10,
         timeLimit: 60,
@@ -35,7 +40,9 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
-          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(
+            AppLifecycleState.resumed,
+          ),
         );
 
         levelState.startLevel();
@@ -52,7 +59,9 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
-          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(
+            AppLifecycleState.resumed,
+          ),
         );
 
         TestHelpers.genDeadLockGrid(levelState.engine);
@@ -85,23 +94,25 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
-          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(
+            AppLifecycleState.resumed,
+          ),
         );
 
         levelState.startLevel();
         async.elapse(gravityAnimationTime);
 
         async.elapse(const Duration(seconds: 5));
-        
+
         bool hasHint = levelState.engine.grid.any(
-          (row) => row.any((tile) => tile.isHinting)
+          (row) => row.any((tile) => tile.isHinting),
         );
         expect(hasHint, isTrue, reason: 'Hints should appear after 5s idle');
 
         levelState.coordinator.resetHintTimer();
-        
+
         hasHint = levelState.engine.grid.any(
-          (row) => row.any((tile) => tile.isHinting)
+          (row) => row.any((tile) => tile.isHinting),
         );
         expect(hasHint, isFalse, reason: 'Hints should be cleared after reset');
       });
@@ -114,7 +125,9 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
-          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(
+            AppLifecycleState.resumed,
+          ),
         );
 
         TestHelpers.genDeadLockGrid(levelState.engine);
@@ -122,7 +135,7 @@ void main() {
         async.elapse(gravityAnimationTime);
 
         levelState.coordinator.shuffleBoard();
-        
+
         async.elapse(const Duration(milliseconds: 600));
         async.elapse(const Duration(milliseconds: 600));
 
@@ -137,17 +150,19 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
-          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(
+            AppLifecycleState.resumed,
+          ),
         );
 
         levelState.startLevel();
         async.elapse(gravityAnimationTime);
 
         expect(levelState.gameState.isPaused, isFalse);
-        
+
         levelState.coordinator.togglePause();
         expect(levelState.gameState.isPaused, isTrue);
-        
+
         levelState.coordinator.togglePause();
         expect(levelState.gameState.isPaused, isFalse);
       });
@@ -160,7 +175,9 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
-          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(
+            AppLifecycleState.resumed,
+          ),
         );
 
         levelState.startLevel();

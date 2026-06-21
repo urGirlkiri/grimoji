@@ -18,7 +18,12 @@ void main() {
     setUp(() {
       level = GameLevel(
         number: 1,
-        availableEmojis: [Emojis.fire, Emojis.rock, Emojis.droplet, Emojis.alien],
+        availableEmojis: [
+          Emojis.fire,
+          Emojis.rock,
+          Emojis.droplet,
+          Emojis.alien,
+        ],
         targetEmoji: Emojis.fire,
         targetAmount: 10,
         timeLimit: 60,
@@ -35,13 +40,19 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
-          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(
+            AppLifecycleState.resumed,
+          ),
         );
 
         state.startLevel();
         async.elapse(gravityAnimationTime);
 
-        expect(state.engine.grid[0][0].coordinate.row, 0, reason: 'Gravity should position tile at row 0');
+        expect(
+          state.engine.grid[0][0].coordinate.row,
+          0,
+          reason: 'Gravity should position tile at row 0',
+        );
       });
     });
 
@@ -52,22 +63,24 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
-          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(
+            AppLifecycleState.resumed,
+          ),
         );
 
         state.startLevel();
         async.elapse(gravityAnimationTime);
-        
+
         async.elapse(const Duration(seconds: 5));
-        
+
         bool hasHint = state.engine.grid.any(
-          (row) => row.any((tile) => tile.isHinting)
+          (row) => row.any((tile) => tile.isHinting),
         );
         expect(hasHint, isTrue, reason: 'Hints should appear after 5s idle');
 
         state.coordinator.resetHintTimer();
         hasHint = state.engine.grid.any(
-          (row) => row.any((tile) => tile.isHinting)
+          (row) => row.any((tile) => tile.isHinting),
         );
         expect(hasHint, isFalse, reason: 'Touching screen should clear hints');
       });
@@ -80,31 +93,44 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
-          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(
+            AppLifecycleState.resumed,
+          ),
         );
 
         TestHelpers.genDeadLockGrid(state.engine);
         state.startLevel();
         async.elapse(gravityAnimationTime);
-        
+
         async.elapse(const Duration(seconds: 3));
         bool hasHint = state.engine.grid.any(
-          (row) => row.any((tile) => tile.isHinting)
+          (row) => row.any((tile) => tile.isHinting),
         );
         expect(hasHint, isFalse, reason: 'No hint should appear before 5s');
-        
-        state.coordinator.resolveSwipe(TileCoordinate(row: 0, col: 0), TileCoordinate(row: 0, col: 1));
-        async.elapse(swapAnimationTime * 2 + const Duration(milliseconds: 400) + shuffleWipeTime * 2);
-        
+
+        state.coordinator.resolveSwipe(
+          TileCoordinate(row: 0, col: 0),
+          TileCoordinate(row: 0, col: 1),
+        );
+        async.elapse(
+          swapAnimationTime * 2 +
+              const Duration(milliseconds: 400) +
+              shuffleWipeTime * 2,
+        );
+
         state.engine.grid[5][0].emoji = Emojis.fire;
         state.engine.grid[6][0].emoji = Emojis.fire;
         state.engine.grid[7][1].emoji = Emojis.fire;
-        
+
         async.elapse(const Duration(seconds: 5));
         hasHint = state.engine.grid.any(
-          (row) => row.any((tile) => tile.isHinting)
+          (row) => row.any((tile) => tile.isHinting),
         );
-        expect(hasHint, isTrue, reason: 'Hint should appear 5s after swipe (timer restarted)');
+        expect(
+          hasHint,
+          isTrue,
+          reason: 'Hint should appear 5s after swipe (timer restarted)',
+        );
       });
     });
 
@@ -115,7 +141,9 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
-          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(
+            AppLifecycleState.resumed,
+          ),
         );
 
         TestHelpers.genDeadLockGrid(state.engine);
@@ -125,14 +153,29 @@ void main() {
         state.engine.grid[1][0].emoji = Emojis.fire;
         state.engine.grid[1][1].emoji = Emojis.fire;
 
-        state.coordinator.resolveSwipe(TileCoordinate(row: 0, col: 0), TileCoordinate(row: 0, col: 1));
-        
-        expect(state.gameState.isProcessing, isTrue, reason: 'State should be processing during swap');
-        
+        state.coordinator.resolveSwipe(
+          TileCoordinate(row: 0, col: 0),
+          TileCoordinate(row: 0, col: 1),
+        );
+
+        expect(
+          state.gameState.isProcessing,
+          isTrue,
+          reason: 'State should be processing during swap',
+        );
+
         async.elapse(swapAnimationTime * 2 + const Duration(milliseconds: 400));
 
-        expect(state.engine.grid[0][0].emoji, Emojis.droplet, reason: 'Grid should revert after invalid swap');
-        expect(state.gameState.isProcessing, isFalse, reason: 'State should stop processing after revert');
+        expect(
+          state.engine.grid[0][0].emoji,
+          Emojis.droplet,
+          reason: 'Grid should revert after invalid swap',
+        );
+        expect(
+          state.gameState.isProcessing,
+          isFalse,
+          reason: 'State should stop processing after revert',
+        );
       });
     });
 
@@ -143,7 +186,9 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
-          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(
+            AppLifecycleState.resumed,
+          ),
         );
 
         TestHelpers.genDeadLockGrid(state.engine);
@@ -151,15 +196,22 @@ void main() {
         state.engine.grid[0][1].emoji = Emojis.fire;
         state.engine.grid[1][2].emoji = Emojis.fire;
 
-        state.coordinator.resolveSwipe(TileCoordinate(row: 0, col: 2), TileCoordinate(row: 1, col: 2));
-        
-        int safeTimeLimit = 200; 
+        state.coordinator.resolveSwipe(
+          TileCoordinate(row: 0, col: 2),
+          TileCoordinate(row: 1, col: 2),
+        );
+
+        int safeTimeLimit = 200;
         while (state.gameState.isProcessing && safeTimeLimit > 0) {
           async.elapse(const Duration(milliseconds: 100));
           safeTimeLimit--;
         }
 
-        expect(state.gameState.isProcessing, isFalse, reason: 'Processing should complete after valid match');
+        expect(
+          state.gameState.isProcessing,
+          isFalse,
+          reason: 'Processing should complete after valid match',
+        );
       });
     });
 
@@ -170,7 +222,9 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
-          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(
+            AppLifecycleState.resumed,
+          ),
         );
 
         state.coordinator.shuffleBoard();
@@ -186,21 +240,30 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
-          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(
+            AppLifecycleState.resumed,
+          ),
         );
 
         TestHelpers.genDeadLockGrid(state.engine);
         state.startLevel();
         async.elapse(gravityAnimationTime);
-        
+
         state.engine.grid[0][0].emoji = Emojis.fire;
         state.engine.grid[0][1].emoji = Emojis.fire;
-        
-        state.coordinator.resolveSwipe(TileCoordinate(row: 0, col: 2), TileCoordinate(row: 1, col: 2));
-        
+
+        state.coordinator.resolveSwipe(
+          TileCoordinate(row: 0, col: 2),
+          TileCoordinate(row: 1, col: 2),
+        );
+
         async.elapse(swapAnimationTime * 2 + const Duration(seconds: 10));
-        
-        expect(state.gameState.isProcessing, isFalse, reason: 'Processing should complete');
+
+        expect(
+          state.gameState.isProcessing,
+          isFalse,
+          reason: 'Processing should complete',
+        );
       });
     });
 
@@ -211,16 +274,22 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
-          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(
+            AppLifecycleState.resumed,
+          ),
         );
 
         state.startLevel();
         async.elapse(gravityAnimationTime);
         state.coordinator.shuffleBoard();
-        
+
         async.elapse(const Duration(seconds: 10));
-        
-        expect(state.gameState.isShuffling, isFalse, reason: 'Shuffling should complete');
+
+        expect(
+          state.gameState.isShuffling,
+          isFalse,
+          reason: 'Shuffling should complete',
+        );
       });
     });
 
@@ -231,19 +300,25 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
-          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(
+            AppLifecycleState.resumed,
+          ),
         );
 
         state.startLevel();
         async.elapse(gravityAnimationTime);
         state.gameState.setGameOver();
-        
+
         async.elapse(const Duration(seconds: 10));
-        
+
         bool hasHint = state.engine.grid.any(
-          (row) => row.any((tile) => tile.isHinting)
+          (row) => row.any((tile) => tile.isHinting),
         );
-        expect(hasHint, isFalse, reason: 'Hints should not appear after game over');
+        expect(
+          hasHint,
+          isFalse,
+          reason: 'Hints should not appear after game over',
+        );
       });
     });
 
@@ -254,17 +329,19 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
-          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(
+            AppLifecycleState.resumed,
+          ),
         );
 
         state.startLevel();
         async.elapse(gravityAnimationTime);
-        
+
         expect(state.gameState.isPaused, isFalse);
-        
+
         state.coordinator.togglePause();
         expect(state.gameState.isPaused, isTrue);
-        
+
         state.coordinator.togglePause();
         expect(state.gameState.isPaused, isFalse);
       });
@@ -277,15 +354,17 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
-          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(
+            AppLifecycleState.resumed,
+          ),
         );
 
         state.startLevel();
         async.elapse(gravityAnimationTime);
-        
+
         expect(state.collectedAmount, 0);
         expect(state.progress, 0);
-        
+
         state.coordinator.onTargetAcquired(5);
         expect(state.collectedAmount, 5);
         expect(state.progress, 5 / 10);
@@ -299,12 +378,14 @@ void main() {
           onWin: (_) {},
           onLose: () {},
           audio: mockAudio,
-          lifecycleNotifier: ValueNotifier<AppLifecycleState>(AppLifecycleState.resumed),
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(
+            AppLifecycleState.resumed,
+          ),
         );
 
         state.startLevel();
         async.elapse(gravityAnimationTime);
-        
+
         expect(state.secondsRemaining, inInclusiveRange(0, 60));
       });
     });
