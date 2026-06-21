@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:grimoji/config/emojis/index.dart';
+import 'package:grimoji/config/levels/chapters/chapter_1.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/alchemy/behaviors/behavior.dart';
 import 'package:grimoji/features/alchemy/models/action_type.dart';
@@ -65,6 +66,7 @@ void main() {
       spyBehavior = SpyBehavior();
 
       behaviorEngine = BehaviorEngine(
+        level: chapter1Levels.first,
         boardManager: boardManager,
         getBehavior: (emoji) {
           if (emoji == Emojis.bug) {

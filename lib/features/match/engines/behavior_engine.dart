@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:grimoji/config/emojis/index.dart';
+import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/alchemy/behaviors/behavior.dart';
 import 'package:grimoji/features/alchemy/models/action_type.dart';
 import 'package:grimoji/features/alchemy/models/behavior_action.dart';
@@ -10,9 +13,14 @@ import 'package:logging/logging.dart';
 class BehaviorEngine {
   final BoardManager boardManager;
   final EmojiBehavior? Function(GameEmoji) getBehavior;
+  final GameLevel level;
   final Logger _log = Logger('BehaviorEngine');
 
-  BehaviorEngine({required this.boardManager, required this.getBehavior});
+  BehaviorEngine({
+    required this.boardManager,
+    required this.getBehavior,
+    required this.level,
+  });
 
   void initializeBehavior(Tile tile) {
     final behavior = getBehavior(tile.emoji);
@@ -60,7 +68,7 @@ class BehaviorEngine {
               final tile = boardManager.gridTiles[r][c];
 
               if (r == centerX && c == centerY) {
-                tile.isDestructTrigger =true;
+                tile.isDestructTrigger = true;
               }
               if (action.emoji == null ||
                   tile.emoji == action.emoji ||
@@ -71,6 +79,26 @@ class BehaviorEngine {
           }
           break;
         case ActionType.doNothing:
+          break;
+        case ActionType.consumeRandomType:
+          _log.info('Triggering random consumption');
+          final random = Random();
+          final randomEmoji = level.availableEmojis.elementAt(
+            random.nextInt(level.availableEmojis.length),
+          );
+          _log.info('Selected ${randomEmoji.visual} ');
+
+          for (int r = 0; r < BoardManager.rows; r++) {
+            for (int c = 0; c < BoardManager.cols; c++) {
+              final tile = boardManager.gridTiles[r][c];
+              if (r == centerX && c == centerY) {
+                tile.isDestructTrigger = true;
+              }
+              if (tile.emoji == randomEmoji) {
+                tile.isTaggedForDestruct = true;
+              }
+            }
+          }
           break;
       }
     }
@@ -89,7 +117,8 @@ class BehaviorEngine {
     ReactionType reactionType,
   ) {
     if (tile.behavior != null) {
-      tile.behavior!.onBlastNearby(x, y, reactionType);
+      final actions = tile.behavior!.onBlastNearby(x, y, reactionType);
+      executeBehaviorActions(actions, x, y);
     }
   }
 
@@ -99,16 +128,9 @@ class BehaviorEngine {
     int y,
     GameEmoji targetEmoji,
   ) {
-    _log.info("Looking for  Swipe Behaviour for ${tile.emoji.visual}");
-
     if (tile.behavior != null) {
-      _log.info(
-        "Found behaviour for ${tile.emoji.visual} with ${targetEmoji.visual}  ",
-      );
-
       return tile.behavior!.onSwipedWith(x, y, targetEmoji);
     }
-    _log.info("Swipe Behaviour Not Found");
 
     return [];
   }

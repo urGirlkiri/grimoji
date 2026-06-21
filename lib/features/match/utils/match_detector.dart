@@ -10,6 +10,8 @@ class MatchGroup {
 }
 
 class MatchDetector {
+  static final Set<GameEmoji> unmatchableEmojis = {Emojis.hole};
+
   static List<MatchGroup> findMatchedGroups(List<List<Tile>> grid) {
     List<MatchGroup> groups = [];
 
@@ -34,7 +36,9 @@ class MatchDetector {
         Tile currentTile = grid[row][col];
         Tile? nextTile = isLast ? null : grid[row + 1][col];
 
-        if (nextTile != null && currentTile.emoji == nextTile.emoji) {
+        if (nextTile != null &&
+            currentTile.emoji == nextTile.emoji &&
+            !unmatchableEmojis.contains(currentTile.emoji)) {
           streak++;
         } else {
           if (streak >= 3) {
@@ -59,7 +63,9 @@ class MatchDetector {
         Tile currentTile = grid[row][col];
         Tile? nextTile = isLast ? null : grid[row][col + 1];
 
-        if (nextTile != null && currentTile.emoji == nextTile.emoji) {
+        if (nextTile != null &&
+            currentTile.emoji == nextTile.emoji &&
+            !unmatchableEmojis.contains(currentTile.emoji)) {
           streak++;
         } else {
           if (streak >= 3) {
@@ -97,7 +103,9 @@ class MatchDetector {
             ? null
             : (isHorizontal ? grid[i][j + 1] : grid[j + 1][i]);
 
-        if (nextTile != null && currentTile.emoji == nextTile.emoji) {
+        if (nextTile != null &&
+            currentTile.emoji == nextTile.emoji &&
+            !unmatchableEmojis.contains(currentTile.emoji)) {
           streak++;
         } else {
           if (streak >= 3) {
@@ -122,8 +130,9 @@ class MatchDetector {
   }
 
   static bool hasMatchAt(List<List<Tile>> grid, int row, int col) {
-    if (_hasMatchInDirection(grid, row, col, 0, 1)) return true;
+    if (unmatchableEmojis.contains(grid[row][col].emoji)) return false;
 
+    if (_hasMatchInDirection(grid, row, col, 0, 1)) return true;
     if (_hasMatchInDirection(grid, row, col, 1, 0)) return true;
 
     return false;
@@ -139,6 +148,8 @@ class MatchDetector {
     int rows = grid.length;
     int cols = grid[0].length;
     GameEmoji emoji = grid[startRow][startCol].emoji;
+
+    if (unmatchableEmojis.contains(emoji)) return false;
 
     int streak = 1;
 

@@ -1,1 +1,7 @@
-enum ActionType { placeEmoji, reactEmoji, doNothing, consumeAllOfType }
+enum ActionType {
+  placeEmoji,
+  reactEmoji,
+  doNothing,
+  consumeAllOfType,
+  consumeRandomType,
+}
