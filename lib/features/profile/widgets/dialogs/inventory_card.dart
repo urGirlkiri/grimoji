@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/config/powerups.dart';
+import 'package:grimoji/features/level/widgets/dialogs/purchase/index.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/animated_button.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
@@ -10,19 +12,25 @@ class InventoryCard extends StatelessWidget {
     required this.name,
     required this.iconPath,
     required this.count,
+    required this.id,
   });
 
   final BuildContext context;
   final String name;
   final String iconPath;
   final int count;
+  final String id;
 
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
     final bool isEmpty = count <= 0;
+    final boost = Powerup.byId(id);
 
     return AnimatedButton(
+      onTap: () {
+        showBoostPurchase(context, boost!);
+      },
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
@@ -60,16 +68,6 @@ class InventoryCard extends StatelessWidget {
               children: [
                 const SizedBox(height: 8),
 
-                // Text(
-                //   name.toUpperCase(),
-                //   textAlign: TextAlign.center,
-                //   style: context.theme.textTheme.labelSmall?.copyWith(
-                //     color: palette.moonlight.withValues(alpha: 0.7),
-                //     fontWeight: FontWeight.w900,
-                //     letterSpacing: 1.0,
-                //     fontSize: 10 * context.globalScale,
-                //   ),
-                // ),
                 Expanded(
                   child: Opacity(
                     opacity: isEmpty ? 0.4 : 1.0,
@@ -107,14 +105,17 @@ class InventoryCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: Center(
-                      child: Text(
-                        count.toString(),
-                        style: context.theme.textTheme.titleMedium?.copyWith(
-                          color: isEmpty ? palette.dusk : palette.crimson,
-                          fontWeight: FontWeight.w900,
-                          fontStyle: FontStyle.italic,
-                          fontSize: 18 * context.globalScale,
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: isEmpty ? 0 : 8.0),
+                      child: Center(
+                        child: Text(
+                          count.toString(),
+                          style: context.theme.textTheme.titleMedium?.copyWith(
+                            color: isEmpty ? palette.dusk : palette.slate,
+                            fontWeight: FontWeight.w900,
+                            fontStyle: FontStyle.italic,
+                            fontSize: 18 * context.globalScale,
+                          ),
                         ),
                       ),
                     ),
