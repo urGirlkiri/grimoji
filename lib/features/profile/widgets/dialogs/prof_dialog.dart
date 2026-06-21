@@ -13,7 +13,7 @@ class ProfileDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final profile = context.readProfile;
+    final profile = context.watchProfile;
     final level = context.read<LevelDataController>();
 
     return Dialog(
@@ -138,6 +138,7 @@ class ProfileDialog extends StatelessWidget {
 
                         return InventoryCard(
                           context: context,
+                          id: item.id,
                           name: item.name,
                           iconPath: item.iconPath,
                           count: count,

@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/config/router/routes.dart';
+import 'package:grimoji/features/level/widgets/dialogs/purchase/index.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/breathing_widget.dart';
 import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
@@ -27,6 +28,7 @@ class _LevelStartDialogState extends State<LevelStartDialog> {
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
+    final scale = context.globalScale;
     final profile = context.readProfile;
 
     final prelevelItems = Powerup.all.where((p) => p.isPrelevel).toList();
@@ -82,12 +84,19 @@ class _LevelStartDialogState extends State<LevelStartDialog> {
                     final isSelected = _selectedPowerupIds.contains(item.id);
 
                     return BreathingWidget(
+                      duration: const Duration(milliseconds: 3600),
+                      maxScale: 1.14,
+                      enabled: !isSelected && !hasInventory,
                       child: AnimatedButton(
-                        onTap: () {
+                        onTap: () async {
                           if (!hasInventory) {
-                            debugPrint(
-                              "Todo: Open market shortcut  for ${item.name}",
+                            final purchased = await showBoostPurchase(
+                              context,
+                              item,
                             );
+                            if (purchased && mounted) {
+                              setState(() {});
+                            }
                             return;
                           }
 
@@ -104,8 +113,8 @@ class _LevelStartDialogState extends State<LevelStartDialog> {
                           children: [
                             AnimatedContainer(
                               duration: const Duration(milliseconds: 150),
-                              width: 64 * context.globalScale,
-                              height: 64 * context.globalScale,
+                              width: 64 * scale,
+                              height: 64 * scale,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(32),
                                 color: palette.twilight,
@@ -156,7 +165,7 @@ class _LevelStartDialogState extends State<LevelStartDialog> {
                                           : 0.5,
                                       child: EmojiWidget.svg(
                                         path: item.iconPath,
-                                        size: 36 * context.globalScale,
+                                        size: 36 * scale,
                                       ),
                                     ),
                                   ),
@@ -175,7 +184,7 @@ class _LevelStartDialogState extends State<LevelStartDialog> {
                                     color: palette.slate,
                                     shape: BoxShape.circle,
                                     border: Border.all(
-                                      color: palette.trueWhite,
+                                      color: palette.mist,
                                       width: 2,
                                     ),
                                     boxShadow: [
@@ -191,7 +200,7 @@ class _LevelStartDialogState extends State<LevelStartDialog> {
                                   child: Center(
                                     child: Icon(
                                       Icons.add,
-                                      color: palette.trueWhite,
+                                      color: palette.moonlight,
                                       size: 18,
                                     ),
                                   ),
@@ -199,27 +208,39 @@ class _LevelStartDialogState extends State<LevelStartDialog> {
                               )
                             else
                               Positioned(
-                                top: -2,
-                                right: -2,
+                                top: -20,
+                                right: -12,
                                 child: Container(
-                                  padding: const EdgeInsets.all(4),
+                                  padding: const EdgeInsets.all(9),
                                   decoration: BoxDecoration(
                                     color: isSelected
-                                        ? palette.magicCyanDeep
-                                        : palette.midnight,
+                                        ? palette.twilight
+                                        : palette.midnight.withValues(
+                                            alpha: .8,
+                                          ),
                                     shape: BoxShape.circle,
                                     border: Border.all(
-                                      color: palette.trueWhite,
+                                      color: palette.dusk,
                                       width: 1.5,
                                     ),
                                   ),
-                                  child: Icon(
-                                    isSelected ? Icons.check : null,
-                                    color: isSelected
-                                        ? palette.midnight
-                                        : palette.trueWhite,
-                                    size: 12,
-                                  ),
+                                  child: isSelected
+                                      ? Icon(
+                                          Icons.check,
+                                          color: palette.mist,
+                                          size: 20 * scale,
+                                        )
+                                      : Text(
+                                          count.toString(),
+                                          style: context
+                                              .theme
+                                              .textTheme
+                                              .labelMedium!
+                                              .copyWith(
+                                                fontSize: 20 * scale,
+                                                color: palette.mist,
+                                              ),
+                                        ),
                                 ),
                               ),
                           ],
