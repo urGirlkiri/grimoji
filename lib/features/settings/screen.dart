@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grimoji/features/settings/dialogs/reset.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
 import 'package:provider/provider.dart';
 
 import 'package:grimoji/features/level/controller.dart';
+import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/features/settings/widgets/icon_toggle.dart';
 import 'package:grimoji/features/settings/widgets/volume_slider.dart';
 import 'package:grimoji/widgets/custom/pill_button.dart';
@@ -17,6 +19,38 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  Future<void> _resetProgress(BuildContext context) async {
+    final palette = context.palette;
+    
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) {
+        return const ResetDialog();
+      },
+    );
+
+    if (confirmed != true) return;
+    if (!context.mounted) return;
+
+    await context.read<LevelDataController>().reset();
+    if (!context.mounted) return;
+
+    await context.read<ProfileController>().reset();
+    if (!context.mounted) return;
+    
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: palette.midnight,
+        content: Center(
+          child: Text(
+            'Player progress has been reset.',
+            style: context.theme.textTheme.bodyLarge,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final settings = context.watchSettings;
@@ -153,27 +187,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
 
                       const SizedBox(height: 24),
-
                       PillButton(
                         text: "Reset Progress",
+                        enableAnimation: false,
                         color: palette.crimson,
-                        onTap: () async {
-                          await context.read<LevelDataController>().reset();
-                          if (!context.mounted) return;
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              backgroundColor: palette.midnight,
-                              content: Center(
-                                child: Text(
-                                  'Player progress has been reset.',
-                                  style: GoogleFonts.eagleLake(
-                                    color: palette.trueWhite,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
+                        onTap: () => _resetProgress(context),
                       ),
                     ],
                   ),
