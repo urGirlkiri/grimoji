@@ -16,7 +16,7 @@ class Powerup {
     required this.description,
     required this.price,
     this.isPrelevel = false,
-    this.bundleAmount = 3
+    this.bundleAmount = 3,
   });
 
   static final List<Powerup> all = [
@@ -110,35 +110,18 @@ class Powerup {
 
   static List<Powerup> get prelevel => all.where((p) => p.isPrelevel).toList();
 
+  static List<Powerup> get bottom => all.where((p) => !p.isPrelevel).toList();
+
   static Powerup? byId(String id) =>
       all.cast<Powerup?>().firstWhere((p) => p!.id == id, orElse: () => null);
 
   static GameEmoji? emojiForId(String id) {
-    switch (id) {
-      case 'hole':
-        return Emojis.hole;
-      case 'ghost':
-        return Emojis.ghost;
-      case 'wheel':
-        return Emojis.wheel;
-      case 'crystal_ball':
-        return Emojis.crystalBall;
-      case 'board_sweep':
-        return Emojis.broom;
-      case 'hourglass':
-        return Emojis.hourglassNotDone;
-      case 'boxing_glove':
-        return Emojis.boxingGlove;
-      case 'test_tube':
-        return Emojis.testTube;
-      case 'ufo':
-        return Emojis.flyingSaucer;
-      case 'blood':
-        return Emojis.blood;
-      case 'comet':
-        return Emojis.comet;
-      default:
-        return null;
-    }
+    final powerup = byId(id);
+    if (powerup == null) return null;
+    final svgPath = powerup.iconPath;
+    return Emojis.all.cast<GameEmoji?>().firstWhere(
+      (e) => e!.svg == svgPath,
+      orElse: () => null,
+    );
   }
 }

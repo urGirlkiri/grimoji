@@ -1,13 +1,19 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/powerups.dart';
+import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/market/widgets/daily_reward/index.dart';
-import 'package:grimoji/features/market/widgets/shop_item.dart';
+import 'package:grimoji/features/market/widgets/powerups/index.dart';
+import 'package:grimoji/features/market/widgets/powerups/item.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/pill_button.dart';
 
 class MarketScreen extends StatelessWidget {
   const MarketScreen({super.key});
+
+  void playPurchaseSfx(BuildContext context) {
+    context.readAudio.playSfx(SfxType.purchase);
+  }
 
   void _showSnackbar(
     BuildContext context,
@@ -62,14 +68,10 @@ class MarketScreen extends StatelessWidget {
                   color: context.palette.crimson.withValues(alpha: 0.25),
                   textColor: context.palette.crimson,
                   borderWidth: 1,
-                  fullWidth: true,
                   onTap: () {
+                    playPurchaseSfx(context);
                     context.readProfile.addDice(1000);
-                    _showSnackbar(
-                      context,
-                      '+1000 dice',
-                      isError: false,
-                    );
+                    _showSnackbar(context, '+1000 dice', isError: false);
                   },
                 ),
               ),
@@ -101,6 +103,7 @@ class MarketScreen extends StatelessWidget {
               onTap: () {
                 final profile = context.readProfile;
                 if (profile.spendDice(30)) {
+                  playPurchaseSfx(context);
                   profile.refillCauldrons();
                   _showSnackbar(context, "Cauldron Restored!", isError: false);
                 } else {
@@ -121,6 +124,7 @@ class MarketScreen extends StatelessWidget {
               onTap: () {
                 final profile = context.readProfile;
                 if (profile.spendDice(150)) {
+                  playPurchaseSfx(context);
                   profile.refillCauldrons();
                   _showSnackbar(context, "Cauldrons refilled!", isError: false);
                 } else {
@@ -133,64 +137,17 @@ class MarketScreen extends StatelessWidget {
               },
             ),
             SizedBox(height: 40 * scale),
-            Text(
-              "Boosters",
-              style: context.theme.textTheme.titleMedium?.copyWith(
-                color: context.palette.mist,
-                fontSize: 18 * scale,
-                fontWeight: FontWeight.w900,
-              ),
+            PowerupSection(
+              title: 'Boosters',
+              subtitle: 'Equip before a level starts for a tactical advantage.',
+              items: Powerup.prelevel,
             ),
-            SizedBox(height: 6 * scale),
-            Text(
-              "Equip before a level starts for a tactical advantage.",
-              style: context.theme.textTheme.bodySmall?.copyWith(
-                color: context.palette.slate,
-                fontSize: 12 * scale,
-              ),
+            SizedBox(height: 40 * scale),
+            PowerupSection(
+              title: 'Powerups',
+              subtitle: 'Have an extra edge during play.',
+              items: Powerup.bottom,
             ),
-            SizedBox(height: 16 * scale),
-            ...Powerup.prelevel.map((boost) {
-              return Padding(
-                padding: EdgeInsets.only(bottom: 12 * scale),
-                child: Builder(
-                  builder: (context) {
-                    final profile = context.readProfile;
-                    return ListenableBuilder(
-                      listenable: profile,
-                      builder: (context, _) {
-                        final count = profile.getPowerupCount(boost.id);
-                        return ShopItemCard(
-                          title: boost.name,
-                          description: boost.description,
-                          cost: boost.price,
-                          iconPath: boost.iconPath,
-                          isEmoji: true,
-                          amount: '×${boost.bundleAmount.toString()}',
-                          ownedCount: count,
-                          onTap: () {
-                            if (profile.spendDice(boost.price)) {
-                              profile.updatePowerupCount(boost.id, boost.bundleAmount);
-                              _showSnackbar(
-                                context,
-                                "Got ${boost.bundleAmount.toString()}× ${boost.name}!",
-                                isError: false,
-                              );
-                            } else {
-                              _showSnackbar(
-                                context,
-                                "Need ${boost.price} dice for this boost!",
-                                isError: true,
-                              );
-                            }
-                          },
-                        );
-                      },
-                    );
-                  },
-                ),
-              );
-            }),
             SizedBox(height: 40 * scale),
           ],
         ),
