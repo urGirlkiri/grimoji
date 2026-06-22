@@ -41,7 +41,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               alignment: Alignment.center,
               children: [
                 Image.asset(
-                  'assets/images/scroll.png',
+                  'assets/images/scrolls/verticalWideLong.png',
                   fit: isLarge ? BoxFit.fill : BoxFit.fitWidth,
                   width: 677,
                   height: isLarge ? 677 : null,
