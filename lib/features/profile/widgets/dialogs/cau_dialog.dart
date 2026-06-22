@@ -1,25 +1,69 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimoji/config/cauldrons.dart';
 import 'package:grimoji/config/router/routes.dart';
+import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/features/profile/widgets/caul_regen_tim.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
 import 'package:grimoji/widgets/custom/animated_button.dart';
+import 'package:grimoji/widgets/custom/pill_button.dart';
 import 'package:grimoji/widgets/custom/scroll_dialog.dart';
 import 'package:provider/provider.dart';
 
 class CauldronDialog extends StatelessWidget {
   const CauldronDialog({super.key});
 
+  void _showSnackbar(BuildContext context, String message, {bool isError = false}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: isError ? context.palette.crimson : context.palette.dusk,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        content: Text(
+          message,
+          textAlign: TextAlign.center,
+          style: context.theme.textTheme.bodyMedium?.copyWith(
+            color: context.palette.moonlight,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _buyOne(BuildContext context) {
+    final profile = context.read<ProfileController>();
+    if (profile.spendDice(CauldronPrice.restoreOne)) {
+      context.readAudio.playSfx(SfxType.purchase);
+      profile.refillCauldrons();
+      _showSnackbar(context, 'Cauldron restored!');
+    } else {
+      _showSnackbar(context, "Not enough dice!", isError: true);
+    }
+  }
+
+  void _buyAll(BuildContext context) {
+    final profile = context.read<ProfileController>();
+    if (profile.spendDice(CauldronPrice.refillAll)) {
+      context.readAudio.playSfx(SfxType.purchase);
+      profile.refillCauldrons();
+      _showSnackbar(context, 'All cauldrons refilled!');
+    } else {
+      _showSnackbar(context, "Not enough dice!", isError: true);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final scale = context.globalScale;
 
-    return Selector<ProfileController, int>(
-      selector: (_, profile) => profile.cauldrons,
-      builder: (context, cauldrons, _) {
-        final isFull = cauldrons >= 5;
+    return Selector<ProfileController, ({int cauldrons, int dices})>(
+      selector: (_, profile) => (cauldrons: profile.cauldrons, dices: profile.dices),
+      builder: (context, data, _) {
+        final isFull = data.cauldrons >= 5;
+        final hasDice = data.dices > 0;
         return Dialog(
           backgroundColor: Colors.transparent,
           insetPadding: const EdgeInsets.symmetric(
@@ -68,7 +112,7 @@ class CauldronDialog extends StatelessWidget {
                             ],
                           ),
                           child: Text(
-                            isFull ? "Full" : "$cauldrons/5",
+                            isFull ? "Full" : "${data.cauldrons}/5",
                             style: context.theme.textTheme.titleMedium
                                 ?.copyWith(
                                   color: context.palette.trueWhite,
@@ -98,36 +142,53 @@ class CauldronDialog extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 16),
-                          SizedBox(
-                            width: double.infinity,
-                            child: AnimatedButton(
-                              onTap: () {
-                                context.pop();
-                                GoRouter.of(context).pushNamed(Routes.market);
-                              },
-                              child: FilledButton.icon(
-                                style: FilledButton.styleFrom(
-                                  backgroundColor: context.palette.twilight,
-                                  foregroundColor: context.palette.mist,
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 24,
+
+                          if (hasDice) ...[
+                            _BuyButton(
+                              label: '${CauldronPrice.restoreOneLabel}  •  ${CauldronPrice.restoreOne}',
+                              cost: CauldronPrice.restoreOne,
+                              dices: data.dices,
+                              onTap: () => _buyOne(context),
+                            ),
+                            const SizedBox(height: 10),
+                            _BuyButton(
+                              label: '${CauldronPrice.refillAllLabel}  •  ${CauldronPrice.refillAll}',
+                              cost: CauldronPrice.refillAll,
+                              dices: data.dices,
+                              onTap: () => _buyAll(context),
+                            ),
+                          ] else ...[
+                            SizedBox(
+                              width: double.infinity,
+                              child: AnimatedButton(
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                  GoRouter.of(context).pushNamed(Routes.market);
+                                },
+                                child: FilledButton.icon(
+                                  style: FilledButton.styleFrom(
+                                    backgroundColor: context.palette.twilight,
+                                    foregroundColor: context.palette.mist,
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 24,
+                                    ),
+                                    elevation: 5,
                                   ),
-                                  elevation: 5,
-                                ),
-                                onPressed: null,
-                                icon: Image.asset(
-                                  'assets/images/dice.png',
-                                  width: 28,
-                                  height: 28,
-                                ),
-                                label: Text(
-                                  "Visit The Market",
-                                  style: context.theme.textTheme.titleMedium
-                                      ?.copyWith(color: context.palette.mist),
+                                  onPressed: null,
+                                  icon: Image.asset(
+                                    'assets/images/dice.png',
+                                    width: 28,
+                                    height: 28,
+                                  ),
+                                  label: Text(
+                                    "Visit The Market",
+                                    style: context.theme.textTheme.titleMedium
+                                        ?.copyWith(color: context.palette.mist),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
+                          ],
                         ],
                       ),
                     ),
@@ -138,6 +199,37 @@ class CauldronDialog extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _BuyButton extends StatelessWidget {
+  const _BuyButton({
+    required this.label,
+    required this.cost,
+    required this.dices,
+    required this.onTap,
+  });
+
+  final String label;
+  final int cost;
+  final int dices;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final canAfford = dices >= cost;
+    final palette = context.palette;
+    return PillButton(
+      text: label,
+      leading: Image.asset('assets/images/dice.png', width: 22, height: 22),
+      color: canAfford ? palette.twilight : palette.slate,
+      textColor: canAfford ? palette.mist : palette.mist.withValues(alpha: 0.5),
+      fullWidth: true,
+      borderColor: canAfford ? palette.dusk : palette.slate,
+      borderWidth: 2,
+      onTap: canAfford ? onTap : () {},
+      enableAnimation: canAfford,
     );
   }
 }

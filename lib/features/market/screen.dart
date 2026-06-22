@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:grimoji/config/cauldrons.dart';
 import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/market/widgets/daily_reward/index.dart';
@@ -98,11 +99,11 @@ class MarketScreen extends StatelessWidget {
             ShopItemCard(
               title: "Restore Cauldron",
               description: "Instantly restore 1 Cauldron.",
-              cost: 30,
-              iconPath: 'assets/images/cauldron.png',
+              cost: CauldronPrice.restoreOne,
+              iconPath: CauldronPrice.iconPath,
               onTap: () {
                 final profile = context.readProfile;
-                if (profile.spendDice(30)) {
+                if (profile.spendDice(CauldronPrice.restoreOne)) {
                   playPurchaseSfx(context);
                   profile.refillCauldrons();
                   _showSnackbar(context, "Cauldron Restored!", isError: false);
@@ -119,11 +120,11 @@ class MarketScreen extends StatelessWidget {
             ShopItemCard(
               title: "Cauldron Refill",
               description: "Instantly restore all 5 Cauldrons.",
-              cost: 150,
-              iconPath: 'assets/images/cauldrons.png',
+              cost: CauldronPrice.refillAll,
+              iconPath: CauldronPrice.iconPath3,
               onTap: () {
                 final profile = context.readProfile;
-                if (profile.spendDice(150)) {
+                if (profile.spendDice(CauldronPrice.refillAll)) {
                   playPurchaseSfx(context);
                   profile.refillCauldrons();
                   _showSnackbar(context, "Cauldrons refilled!", isError: false);

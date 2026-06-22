@@ -16,6 +16,7 @@ class PillButton extends StatelessWidget {
   final double? borderWidth;
   final double? fontSize;
   final bool enableAnimation;
+  final Widget? leading;
 
   const PillButton({
     super.key,
@@ -30,6 +31,7 @@ class PillButton extends StatelessWidget {
     this.borderWidth,
     this.fontSize,
     this.enableAnimation = true,
+    this.leading,
   });
 
   @override
@@ -101,7 +103,29 @@ class PillButton extends StatelessWidget {
               ),
             ],
           ),
-          child: fullWidth ? Center(child: innerText) : innerText,
+          child: fullWidth
+              ? Center(
+                  child: leading != null
+                      ? Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            leading!,
+                            const SizedBox(width: 8),
+                            innerText,
+                          ],
+                        )
+                      : innerText,
+                )
+              : leading != null
+              ? Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    leading!,
+                    const SizedBox(width: 8),
+                    innerText,
+                  ],
+                )
+              : innerText,
         ),
       ),
     );

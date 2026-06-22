@@ -32,7 +32,7 @@ class CauldronDialog extends StatelessWidget {
 
   void _buyOne(BuildContext context) {
     final profile = context.read<ProfileController>();
-    if (profile.spendDice(CauldronConfig.restoreOnePrice)) {
+    if (profile.spendDice(CauldronPrice.restoreOne)) {
       context.readAudio.playSfx(SfxType.purchase);
       profile.refillCauldrons();
       Navigator.of(context).pop();
@@ -44,7 +44,7 @@ class CauldronDialog extends StatelessWidget {
 
   void _buyAll(BuildContext context) {
     final profile = context.read<ProfileController>();
-    if (profile.spendDice(CauldronConfig.refillAllPrice)) {
+    if (profile.spendDice(CauldronPrice.refillAll)) {
       context.readAudio.playSfx(SfxType.purchase);
       profile.refillCauldrons();
       Navigator.of(context).pop();
@@ -109,29 +109,29 @@ class CauldronDialog extends StatelessWidget {
                       child: Column(
                         children: [
                           PillButton(
-                            text: '${CauldronConfig.restoreOneLabel}  •  ${CauldronConfig.restoreOnePrice}',
+                            text: '${CauldronPrice.restoreOneLabel}  •  ${CauldronPrice.restoreOne}',
                             leading: Image.asset('assets/images/dice.png', width: 20 * scale, height: 20 * scale),
-                            color: dices >= CauldronConfig.restoreOnePrice ? palette.twilight : palette.slate,
-                            textColor: dices >= CauldronConfig.restoreOnePrice
+                            color: dices >= CauldronPrice.restoreOne ? palette.twilight : palette.slate,
+                            textColor: dices >= CauldronPrice.restoreOne
                                 ? palette.mist
                                 : palette.mist.withValues(alpha: 0.5),
                             fullWidth: true,
                             fontSize: 13 * scale,
-                            enableAnimation: dices >= CauldronConfig.restoreOnePrice,
-                            onTap: dices >= CauldronConfig.restoreOnePrice ? () => _buyOne(context) : () {},
+                            enableAnimation: dices >= CauldronPrice.restoreOne,
+                            onTap: dices >= CauldronPrice.restoreOne ? () => _buyOne(context) : () {},
                           ),
                           SizedBox(height: 8 * scale),
                           PillButton(
-                            text: '${CauldronConfig.refillAllLabel}  •  ${CauldronConfig.refillAllPrice}',
+                            text: '${CauldronPrice.refillAllLabel}  •  ${CauldronPrice.refillAll}',
                             leading: Image.asset('assets/images/dice.png', width: 20 * scale, height: 20 * scale),
-                            color: dices >= CauldronConfig.refillAllPrice ? palette.twilight : palette.slate,
-                            textColor: dices >= CauldronConfig.refillAllPrice
+                            color: dices >= CauldronPrice.refillAll ? palette.twilight : palette.slate,
+                            textColor: dices >= CauldronPrice.refillAll
                                 ? palette.mist
                                 : palette.mist.withValues(alpha: 0.5),
                             fullWidth: true,
                             fontSize: 13 * scale,
-                            enableAnimation: dices >= CauldronConfig.refillAllPrice,
-                            onTap: dices >= CauldronConfig.refillAllPrice ? () => _buyAll(context) : () {},
+                            enableAnimation: dices >= CauldronPrice.refillAll,
+                            onTap: dices >= CauldronPrice.refillAll ? () => _buyAll(context) : () {},
                           ),
                         ],
                       ),
