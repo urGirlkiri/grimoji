@@ -131,9 +131,12 @@ class ShopItemCard extends StatelessWidget {
           SizedBox(height: 12 * scale),
 
           Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Stack(
                 clipBehavior: Clip.none,
+                alignment: Alignment.center,
                 children: [
                   isEmoji
                       ? EmojiWidget.svg(path: iconPath, size: 45 * scale)
