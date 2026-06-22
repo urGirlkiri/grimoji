@@ -1,5 +1,11 @@
 // ignore_for_file: avoid_print
 
+/// Codegen script: reads index.dart, extracts all SVG paths from GameEmoji
+/// entries, then parses each SVG file to produce a diagnostic report of all
+/// tags, attributes, and path commands found across the emoji asset set.
+/// 
+library;
+
 import 'dart:io';
 
 void main() async {
