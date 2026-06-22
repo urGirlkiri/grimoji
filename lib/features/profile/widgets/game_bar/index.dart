@@ -98,10 +98,8 @@ class GameBar extends StatelessWidget {
                   Selector<ProfileController, String>(
                     selector: (_, profile) => profile.avatar,
                     builder: (context, avatar, _) => AnimatedButton(
-                      child: ProfileAvatar(
-                        avatar: avatar,
-                        onTap: () => onProfileTap(context),
-                      ),
+                      onTap: () => onProfileTap(context),
+                      child: ProfileAvatar(avatar: avatar),
                     ),
                   ),
                   Selector<ProfileController, int>(

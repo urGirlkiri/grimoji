@@ -71,7 +71,7 @@ class _PowerupShopItem extends StatelessWidget {
   void _onTap(BuildContext context) {
     final profile = context.readProfile;
     if (profile.spendDice(boost.price)) {
-      context.readAudio.playSfx(SfxType.buttonTap);
+      context.readAudio.playSfx(SfxType.purchase);
       profile.updatePowerupCount(boost.id, boost.bundleAmount);
       _showSnackbar(context, 'Got ${boost.bundleAmount}× ${boost.name}!', isError: false);
     } else {
