@@ -1,5 +1,6 @@
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/behaviors/behavior.dart';
+import 'package:grimoji/features/alchemy/behaviors/clear.dart';
 import 'package:grimoji/features/alchemy/behaviors/swallow.dart';
 import 'package:grimoji/features/alchemy/behaviors/virus.dart';
 import 'package:grimoji/features/alchemy/behaviors/ghost.dart';
@@ -9,6 +10,7 @@ class BehaviorRegister {
     Emojis.bug: () => VirusBehavior(),
     Emojis.ghost: () => GhostBehavior(),
     Emojis.hole: () => SwallowBehavior(),
+    Emojis.barberPole: () => ClearBehavior(isHorizontal: false),
   };
 
   static EmojiBehavior? getBehaviorFor(GameEmoji emoji) {

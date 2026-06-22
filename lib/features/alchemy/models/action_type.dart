@@ -4,4 +4,6 @@ enum ActionType {
   doNothing,
   consumeAllOfType,
   consumeRandomType,
+  clearRow,
+  clearCol,
 }
