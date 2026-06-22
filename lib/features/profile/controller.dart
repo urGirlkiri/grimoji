@@ -221,10 +221,26 @@ class ProfileController extends ChangeNotifier {
     }
   }
 
-  void _save() {
+  Future<void> _save() async {
     if (_profile != null) {
-      _persistence.saveProfile(_profile!);
+      await _persistence.saveProfile(_profile!);
       notifyListeners();
     }
+  }
+
+  Future<void> reset() async {
+    if (_profile == null) {
+      await load();
+    }
+    if (_profile == null) return;
+
+    _profile!.isFirstTime = true;
+    _profile!.cauldrons = _maxCauldrons;
+    _profile!.lastCauldronRegenTime = 0;
+    _profile!.lastPlayedGameTime = 0;
+    _profile!.unlockedRecipeIds = [];
+    _profile!.unreadRecipeIds = [];
+    _profileVersion++;
+    await _save();
   }
 }

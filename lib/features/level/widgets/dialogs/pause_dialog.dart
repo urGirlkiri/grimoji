@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/router/routes.dart';
-import 'package:grimoji/features/settings/dialog.dart';
+import 'package:grimoji/features/settings/dialogs/settings.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animations/dialog.dart';
 import 'package:grimoji/widgets/custom/app_icon.dart';
@@ -81,7 +81,6 @@ class PauseDialog extends StatelessWidget {
                       vertical: 16,
                     ),
                     borderRadius: 20,
-                    borderColor: palette.crimson.withValues(alpha: .1),
                     borderWidth: 3,
                     onTap: () {
                       Navigator.of(context).pop();
