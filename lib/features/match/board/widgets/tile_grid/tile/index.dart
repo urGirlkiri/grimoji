@@ -40,7 +40,7 @@ class TileWidget extends StatelessWidget {
       isTouched: isTouched,
     );
 
-    if (tile.isDestructTrigger) {
+    if (tile.isSwallowTrigger) {
       content = content
           .animate()
           .scale(
@@ -77,7 +77,7 @@ class TileWidget extends StatelessWidget {
                 SwallowEffect(
                   size: tWidth,
                   isSwallowing:
-                      tile.isTaggedForDestruct && !tile.isDestructTrigger,
+                      tile.isSwallowTarget && !tile.isSwallowTrigger,
                   child: content,
                 ),
 
