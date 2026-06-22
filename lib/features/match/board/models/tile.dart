@@ -25,6 +25,9 @@ class Tile {
   bool isSwallowTrigger = false;
   bool isSwallowTarget = false;
 
+  bool isLineClearTrigger = false;
+  bool isLineClearTarget = false;
+
   bool hasFlown = false;
   bool isFlying = false;
 
@@ -67,6 +70,9 @@ class Tile {
     newTile.isSwallowTarget = isSwallowTarget;
     newTile.isSwallowTrigger = isSwallowTrigger;
 
+    newTile.isLineClearTrigger = isLineClearTrigger;
+    newTile.isLineClearTarget = isLineClearTarget;
+
     return newTile;
   }
 
@@ -89,6 +95,8 @@ class Tile {
     isSwallowTarget = false;
     isSwallowTrigger = false;
 
+    isLineClearTrigger = false;
+    isLineClearTarget = false;
   }
 
   void clearBehavior() {

@@ -405,10 +405,10 @@ class GameCoordinator {
     for (int r = 0; r < BoardManager.rows; r++) {
       for (int c = 0; c < BoardManager.cols; c++) {
         final tile = engine.grid[r][c];
-        if (tile.isTaggedForDestruct || tile.isDestructTrigger) {
+        if (tile.isSwallowTarget || tile.isSwallowTrigger) {
           destroyedByBehavior.add(TileCoordinate(row: r, col: c));
-          engine.grid[r][c].isTaggedForDestruct = false;
-          engine.grid[r][c].isDestructTrigger = false;
+          engine.grid[r][c].isSwallowTarget = false;
+          engine.grid[r][c].isSwallowTrigger = false;
         }
       }
     }
