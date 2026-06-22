@@ -149,7 +149,7 @@ class _PurchaseDialog extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                    padding: EdgeInsets.symmetric(horizontal: 18.0 * scale),
                     child: Text(
                       boost.description,
                       textAlign: TextAlign.center,
