@@ -366,7 +366,7 @@ class GameCoordinator {
       for (int r = 0; r < BoardManager.rows; r++) {
         for (int c = 0; c < BoardManager.cols; c++) {
           final tile = engine.grid[r][c];
-          if (tile.isTaggedForDestruct || tile.isDestructTrigger) {
+          if (tile.isSwallowTarget || tile.isSwallowTrigger) {
             behaviorDestroyed.add(TileCoordinate(row: r, col: c));
           }
         }
@@ -377,8 +377,8 @@ class GameCoordinator {
         await Future.delayed(const Duration(milliseconds: 700));
         if (state.isDisposed) return false;
         for (final coord in behaviorDestroyed) {
-          engine.grid[coord.row][coord.col].isTaggedForDestruct = false;
-          engine.grid[coord.row][coord.col].isDestructTrigger = false;
+          engine.grid[coord.row][coord.col].isSwallowTarget = false;
+          engine.grid[coord.row][coord.col].isSwallowTrigger = false;
         }
 
         boardManager.applyGravity(behaviorDestroyed);

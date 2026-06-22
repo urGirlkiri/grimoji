@@ -70,14 +70,14 @@ class BehaviorEngine {
           break;
           
         case ActionType.consumeAllOfType:
-          boardManager.gridTiles[centerX][centerY].isDestructTrigger = true;
-          boardManager.gridTiles[centerX][centerY].isTaggedForDestruct = true;
+          boardManager.gridTiles[centerX][centerY].isSwallowTrigger = true;
+          boardManager.gridTiles[centerX][centerY].isSwallowTarget = true;
 
           for (int r = 0; r < BoardManager.rows; r++) {
             for (int c = 0; c < BoardManager.cols; c++) {
               final tile = boardManager.gridTiles[r][c];
               if (action.emoji == null || tile.emoji == action.emoji) {
-                tile.isTaggedForDestruct = true;
+                tile.isSwallowTarget = true;
               }
             }
           }
@@ -97,8 +97,8 @@ class BehaviorEngine {
             }
           }
 
-          boardManager.gridTiles[centerX][centerY].isDestructTrigger = true;
-          boardManager.gridTiles[centerX][centerY].isTaggedForDestruct = true;
+          boardManager.gridTiles[centerX][centerY].isSwallowTrigger = true;
+          boardManager.gridTiles[centerX][centerY].isSwallowTarget = true;
 
           if (emojisOnBoard.isEmpty) {
             break;
@@ -114,7 +114,7 @@ class BehaviorEngine {
             for (int c = 0; c < BoardManager.cols; c++) {
               final tile = boardManager.gridTiles[r][c];
               if (tile.emoji == randomEmoji) {
-                tile.isTaggedForDestruct = true;
+                tile.isSwallowTarget = true;
               }
             }
           }

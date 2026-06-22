@@ -22,8 +22,8 @@ class Tile {
 
   bool isTransmuting = false;
 
-  bool isDestructTrigger = false;
-  bool isTaggedForDestruct = false;
+  bool isSwallowTrigger = false;
+  bool isSwallowTarget = false;
 
   bool hasFlown = false;
   bool isFlying = false;
@@ -64,8 +64,8 @@ class Tile {
     newTile.isHinting = isHinting;
     newTile.hintPartner = hintPartner;
 
-    newTile.isTaggedForDestruct = isTaggedForDestruct;
-    newTile.isDestructTrigger = isDestructTrigger;
+    newTile.isSwallowTarget = isSwallowTarget;
+    newTile.isSwallowTrigger = isSwallowTrigger;
 
     return newTile;
   }
@@ -86,8 +86,9 @@ class Tile {
     isHinting = false;
     hintPartner = null;
 
-    isTaggedForDestruct = false;
-    isDestructTrigger = false;
+    isSwallowTarget = false;
+    isSwallowTrigger = false;
+
   }
 
   void clearBehavior() {
