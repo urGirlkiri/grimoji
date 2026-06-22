@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/config/router/routes.dart';
-import 'package:grimoji/features/level/widgets/dialogs/purchase/index.dart';
+import 'package:grimoji/features/level/widgets/dialogs/purchase_dialog/index.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/breathing_widget.dart';
 import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';

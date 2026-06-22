@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/powerups.dart';
-import 'package:grimoji/features/level/widgets/dialogs/purchase/index.dart';
+import 'package:grimoji/features/level/widgets/dialogs/purchase_dialog/index.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/animated_button.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';

@@ -14,6 +14,7 @@ class PillButton extends StatelessWidget {
   final double borderRadius;
   final Color? borderColor;
   final double? borderWidth;
+  final double? fontSize;
   final bool enableAnimation;
 
   const PillButton({
@@ -27,6 +28,7 @@ class PillButton extends StatelessWidget {
     this.borderRadius = 40,
     this.borderColor,
     this.borderWidth,
+    this.fontSize,
     this.enableAnimation = true,
   });
 
@@ -44,6 +46,8 @@ class PillButton extends StatelessWidget {
       style: GoogleFonts.eagleLake(
         color: effectiveTextColor,
         fontWeight: FontWeight.bold,
+        fontSize: fontSize,
+        decoration: TextDecoration.none,
         shadows: [
           Shadow(
             color: palette.voidBlack.withValues(alpha: 0.5),

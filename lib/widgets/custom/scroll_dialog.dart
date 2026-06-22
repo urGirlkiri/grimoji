@@ -46,13 +46,13 @@ class ScrollDialog extends StatelessWidget {
     switch (type) {
       case ScrollType.horizontalShort:
         final w = isLarge ? 500.0 : maxWidth.clamp(280.0, 500.0);
-        return Size(w, w * 0.365);
+        return Size(w, w * 0.65);
       case ScrollType.horizontalLong:
         final w = isLarge ? 600.0 : maxWidth.clamp(280.0, 600.0);
         return Size(w, w * .84);
       case ScrollType.fullyOpenHorizontal:
         final w = isLarge ? 550.0 : maxWidth.clamp(300.0, 550.0);
-        return Size(w, (w * 1.1).clamp(180.0, maxHeight));
+        return Size(w, (w * (isLarge ? 1.32 : 1.5) ).clamp(180.0, maxHeight));
       case ScrollType.verticalWideLong:
       default:
         final w = isLarge ? 677.0 : maxWidth.clamp(280.0, 677.0);
