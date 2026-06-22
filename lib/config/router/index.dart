@@ -192,7 +192,10 @@ final router = GoRouter(
       name: Routes.levelHint,
       builder: (context, state) {
         final level = int.parse(state.pathParameters['level']!);
-        return LevelHintScreen(level: level);
+        final extra = state.extra as Map<String, dynamic>?;
+        final boosters = (extra?['startingBoosters'] as List<dynamic>? ?? [])
+            .cast<String>();
+        return LevelHintScreen(level: level, startingBoosters: boosters);
       },
     ),
 
@@ -206,7 +209,10 @@ final router = GoRouter(
           (e) => e.number == levelNumber,
           orElse: () => throw Exception('Level not found: $levelNumber'),
         );
-        return LevelScreen(level: level);
+        final extra = state.extra as Map<String, dynamic>?;
+        final boosters = (extra?['startingBoosters'] as List<dynamic>? ?? [])
+            .cast<String>();
+        return LevelScreen(level: level, startingBoosters: boosters);
       },
     ),
 

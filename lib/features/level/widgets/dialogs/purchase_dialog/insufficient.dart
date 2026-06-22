@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/pill_button.dart';
 import 'package:grimoji/widgets/custom/scroll_dialog.dart';
@@ -62,7 +60,7 @@ class InsufficientAlert extends StatelessWidget {
                         fullWidth: false,
                         fontSize: 12 * scale,
                         text: 'Cancel',
-                        onTap: () => Navigator.of(context).pop(),
+                        onTap: () => Navigator.of(context).pop(false),
                       ),
                     ),
                     SizedBox(width: 10 * scale),
@@ -72,10 +70,7 @@ class InsufficientAlert extends StatelessWidget {
                         fullWidth: false,
                         text: 'Market',
                         fontSize: 12 * scale,
-                        onTap: () {
-                          Navigator.of(context).pop();
-                          GoRouter.of(context).goNamed(Routes.market);
-                        },
+                        onTap: () => Navigator.of(context).pop(true),
                       ),
                     ),
                   ],

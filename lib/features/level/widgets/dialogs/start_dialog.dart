@@ -94,7 +94,12 @@ class _LevelStartDialogState extends State<LevelStartDialog> {
                               context,
                               item,
                             );
-                            if (purchased && mounted) {
+                            if (purchased == null) {
+                            if (!context.mounted) return;
+                              Navigator.of(context).pop();
+                              return;
+                            }
+                            if (purchased == true) {
                               setState(() {});
                             }
                             return;

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/level/widgets/dialogs/purchase_dialog/balance_pill.dart';
@@ -13,8 +15,8 @@ import 'package:grimoji/widgets/custom/emoji_widget.dart';
 import 'package:grimoji/widgets/custom/scroll_dialog.dart';
 import 'package:provider/provider.dart';
 
-Future<bool> showBoostPurchase(BuildContext context, Powerup boost) async {
-  final result = await showGeneralDialog<bool>(
+Future<bool?> showBoostPurchase(BuildContext context, Powerup boost) async {
+  final result = await showGeneralDialog<bool?>(
     context: context,
     barrierDismissible: true,
     barrierLabel: 'Dismiss',
@@ -37,7 +39,7 @@ Future<bool> showBoostPurchase(BuildContext context, Powerup boost) async {
       );
     },
   );
-  return result ?? false;
+  return result;
 }
 
 class _PurchaseDialog extends StatelessWidget {
@@ -45,7 +47,7 @@ class _PurchaseDialog extends StatelessWidget {
 
   final Powerup boost;
 
-  void _onBuy(BuildContext context, int qty) {
+  Future<void> _onBuy(BuildContext context, int qty) async {
     final profile = context.read<ProfileController>();
     final total = boost.price * qty;
 
@@ -54,12 +56,16 @@ class _PurchaseDialog extends StatelessWidget {
       context.readAudio.playSfx(SfxType.purchase);
       Navigator.of(context).pop(true);
     } else {
-      showInsufficiensAlert(context, total);
+      final goToMarket = await showInsufficiensAlert(context, total);
+      if (goToMarket && context.mounted) {
+        Navigator.of(context).pop(null);
+        GoRouter.of(context).goNamed(Routes.market);
+      }
     }
   }
 
-  Future<void> showInsufficiensAlert(BuildContext context, int needed) async {
-    await showGeneralDialog<void>(
+  Future<bool> showInsufficiensAlert(BuildContext context, int needed) async {
+    final result = await showGeneralDialog<bool>(
       context: context,
       barrierDismissible: true,
       barrierLabel: 'Dismiss',
@@ -74,6 +80,7 @@ class _PurchaseDialog extends StatelessWidget {
         return ScaleTransition(scale: curved, child: child);
       },
     );
+    return result ?? false;
   }
 
   @override
@@ -87,7 +94,6 @@ class _PurchaseDialog extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const SizedBox(height: 24),
           CustomPaint(size: const Size(5, 180), painter: RopePainter()),
           ScrollDialog(
             scrollType: ScrollType.fullyOpenHorizontal,
@@ -102,7 +108,7 @@ class _PurchaseDialog extends StatelessWidget {
                 children: [
                   const SizedBox(height: 50),
                   Padding(
-                    padding:  EdgeInsets.all(8 * scale),
+                    padding: EdgeInsets.all(8 * scale),
                     child: Stack(
                       children: [
                         Positioned(
