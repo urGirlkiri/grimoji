@@ -5,7 +5,7 @@ import 'package:grimoji/features/match/board/models/sparkle_effect.dart';
 import 'package:grimoji/features/match/board/widgets/announcer/index.dart';
 import 'package:grimoji/features/match/board/widgets/board_grid/index.dart';
 import 'package:grimoji/features/match/board/utils/metrics.dart';
-import 'package:grimoji/features/match/board/widgets/sparkle.dart';
+import 'package:grimoji/features/match/board/widgets/overlays/sparkle.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/index.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
