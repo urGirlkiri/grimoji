@@ -227,8 +227,8 @@ class _LevelScreenState extends State<LevelScreen> {
 
                     if (kDebugMode)
                       Positioned(
-                        bottom: 100,
-                        left: 16,
+                        top: 200,
+                        left: 90,
                         child: PillButton(
                           text: 'FORCE FEVER',
                           color: Colors.red,
