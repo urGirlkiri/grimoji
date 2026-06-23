@@ -332,15 +332,23 @@ class BoardManager {
 
     for (final id in boosterIds) {
       if (placed.contains(id)) continue;
-      final emoji = Powerup.emojiForId(id);
-      if (emoji == null) continue;
-      if (posIndex >= positions.length) break;
+      final List<GameEmoji> emojis;
+      if (id == 'board_sweep') {
+        emojis = [Emojis.barberPole, Emojis.bomb];
+      } else {
+        final emoji = Powerup.emojiForId(id);
+        emojis = emoji != null ? [emoji] : [];
+      }
+      if (emojis.isEmpty) continue;
+      if (posIndex + emojis.length > positions.length) break;
 
-      final coord = positions[posIndex++];
-      final tile = gridTiles[coord.row][coord.col];
-      tile.emoji = emoji;
-      tile.reset();
-      tile.clearBehavior();
+      for (final emoji in emojis) {
+        final coord = positions[posIndex++];
+        final tile = gridTiles[coord.row][coord.col];
+        tile.emoji = emoji;
+        tile.reset();
+        tile.clearBehavior();
+      }
       placed.add(id);
     }
   }

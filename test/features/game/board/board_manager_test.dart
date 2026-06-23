@@ -375,5 +375,26 @@ void main() {
         );
       });
     });
+
+    group('Starting Boosters', () {
+      test('board_sweep should place both barber pole and bomb', () {
+        boardManager.placeStartingBoosters(['board_sweep']);
+
+        final placedEmojis = boardManager.gridTiles
+            .expand((row) => row.map((tile) => tile.emoji))
+            .toList();
+
+        expect(
+          placedEmojis.where((e) => e == Emojis.barberPole).length,
+          1,
+          reason: 'Board sweep should place exactly one barber pole',
+        );
+        expect(
+          placedEmojis.where((e) => e == Emojis.bomb).length,
+          1,
+          reason: 'Board sweep should place exactly one bomb',
+        );
+      });
+    });
   });
 }
