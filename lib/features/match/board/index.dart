@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/constants.dart';
+import 'package:grimoji/features/match/board/models/line_clear.dart';
 import 'package:grimoji/features/match/board/models/sparkle_effect.dart';
 import 'package:grimoji/features/match/board/widgets/announcer/index.dart';
+import 'package:grimoji/features/match/board/widgets/overlays/line_clear.dart';
 import 'package:grimoji/features/match/board/widgets/board_grid/index.dart';
 import 'package:grimoji/features/match/board/utils/metrics.dart';
 import 'package:grimoji/features/match/board/widgets/overlays/sparkle.dart';
@@ -24,6 +26,8 @@ class _GameBoardState extends State<GameBoard> {
   final GlobalKey _boardKey = GlobalKey();
   final GlobalKey _tileKey = GlobalKey();
 
+  LevelState? _levelState;
+
   Tile? _draggedTile;
   Offset? _dragStartPosition;
 
@@ -32,6 +36,9 @@ class _GameBoardState extends State<GameBoard> {
   );
   final ValueNotifier<String?> _activeTileIdNotifier = ValueNotifier<String?>(
     null,
+  );
+  final ValueNotifier<List<LineClearEffect>> _lineClearNotifier = ValueNotifier(
+    [],
   );
   bool _isDisposed = false;
 
@@ -44,10 +51,23 @@ class _GameBoardState extends State<GameBoard> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final newLevelState = context.read<LevelState>();
+    if (_levelState != newLevelState) {
+      _levelState?.coordinator.onLineClear = null;
+      _levelState = newLevelState;
+      _levelState!.coordinator.onLineClear = triggerLineClear;
+    }
+  }
+
+  @override
   void dispose() {
     _isDisposed = true;
     _sparklesNotifier.dispose();
     _activeTileIdNotifier.dispose();
+    _lineClearNotifier.dispose();
+    _levelState?.coordinator.onLineClear = null;
     super.dispose();
   }
 
@@ -68,6 +88,22 @@ class _GameBoardState extends State<GameBoard> {
         boardRect,
       );
     }
+  }
+
+  void triggerLineClear(int row, int col, bool isHorizontal) {
+    if (_isDisposed) return;
+    final effect = LineClearEffect(
+      row: row,
+      col: col,
+      isHorizontal: isHorizontal,
+    );
+    _lineClearNotifier.value = [..._lineClearNotifier.value, effect];
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (_isDisposed) return;
+      _lineClearNotifier.value = _lineClearNotifier.value
+          .where((e) => e.id != effect.id)
+          .toList();
+    });
   }
 
   void _triggerSparkle(Offset localPosition) {
@@ -257,6 +293,16 @@ class _GameBoardState extends State<GameBoard> {
                             ),
 
                             SparkleOverlay(sparklesNotifier: _sparklesNotifier),
+
+                            IgnorePointer(
+                              child: LineClearOverlay(
+                                notifier: _lineClearNotifier,
+                                tileWidth: calculatedSingleTileWidth,
+                                tileHeight: calculatedSingleTileHeight,
+                                cols: gridColumns,
+                                rows: gridRows,
+                              ),
+                            ),
                           ],
                         ),
                       );

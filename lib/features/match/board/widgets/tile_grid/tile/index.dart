@@ -56,6 +56,15 @@ class TileWidget extends StatelessWidget {
           .scale(end: Offset.zero, duration: 150.ms, curve: Curves.easeInBack);
     }
 
+    if (tile.isLineClearTrigger) {
+      content = content.animate().scaleXY(
+        begin: 1.0,
+        end: 1.4,
+        duration: 150.ms,
+        curve: Curves.easeOutBack,
+      );
+   }
+
     return AnimatedPositioned(
       duration: swapAnimationTime,
       curve: Curves.easeOutCubic,
@@ -76,8 +85,7 @@ class TileWidget extends StatelessWidget {
               children: [
                 SwallowEffect(
                   size: tWidth,
-                  isSwallowing:
-                      tile.isSwallowTarget && !tile.isSwallowTrigger,
+                  isSwallowing: tile.isSwallowTarget && !tile.isSwallowTrigger,
                   child: content,
                 ),
 
