@@ -290,22 +290,13 @@ class GameCoordinator {
         ...mergedFlyingTargets,
       };
 
-      final gravityDeltas = boardManager.applyGravity(allDestroyed);
-      engine.initializeBehaviors();
+      final gravityDeltas = await _settleBoard(
+        allDestroyed,
+        clearFlyingFlags: true,
+      );
+      if (gravityDeltas == null) return false;
       affectedColumns = gravityDeltas.cols;
       affectedRows = gravityDeltas.rows;
-
-      boardManager.clearAllFlyingFlags();
-      state.updateUI();
-
-      await Future.delayed(const Duration(milliseconds: 50));
-      if (state.isDisposed) return false;
-
-      boardManager.triggerInitialFall();
-      state.updateUI();
-
-      await Future.delayed(gravityAnimationTime);
-      if (state.isDisposed) return false;
 
       isFirstMatch = false;
     }
@@ -352,19 +343,9 @@ class GameCoordinator {
         ...targetFlyingTransforms,
       };
 
-      boardManager.applyGravity(blastDestroyed);
-      engine.initializeBehaviors();
-      boardManager.clearAllFlyingFlags();
-      state.updateUI();
-
-      await Future.delayed(const Duration(milliseconds: 50));
-      if (state.isDisposed) return false;
-
-      boardManager.triggerInitialFall();
-      state.updateUI();
-
-      await Future.delayed(gravityAnimationTime);
-      if (state.isDisposed) return false;
+      if (await _settleBoard(blastDestroyed, clearFlyingFlags: true) == null) {
+        return false;
+      }
 
       engine.processPendingBlasts();
 
@@ -387,18 +368,7 @@ class GameCoordinator {
           engine.grid[coord.row][coord.col].isSwallowTrigger = false;
         }
 
-        boardManager.applyGravity(behaviorDestroyed);
-        engine.initializeBehaviors();
-        state.updateUI();
-
-        await Future.delayed(const Duration(milliseconds: 50));
-        if (state.isDisposed) return false;
-
-        boardManager.triggerInitialFall();
-        state.updateUI();
-
-        await Future.delayed(gravityAnimationTime);
-        if (state.isDisposed) return false;
+        if (await _settleBoard(behaviorDestroyed) == null) return false;
       }
 
       Set<TileCoordinate> lineClearDestroyed = {};
@@ -406,10 +376,7 @@ class GameCoordinator {
         for (int c = 0; c < BoardManager.cols; c++) {
           final tile = engine.grid[r][c];
           if (tile.isLineClearTrigger) {
-            final isHorizontal =
-                tile.behavior is ClearBehavior &&
-                (tile.behavior as ClearBehavior).isHorizontal;
-            onLineClear?.call(r, c, isHorizontal);
+            onLineClear?.call(r, c, _isHorizontalClear(tile));
           }
           if (tile.isLineClearTrigger || tile.isLineClearTarget) {
             lineClearDestroyed.add(TileCoordinate(row: r, col: c));
@@ -424,18 +391,7 @@ class GameCoordinator {
           engine.grid[coord.row][coord.col].isLineClearTarget = false;
         }
 
-        boardManager.applyGravity(lineClearDestroyed);
-        engine.initializeBehaviors();
-        state.updateUI();
-
-        await Future.delayed(const Duration(milliseconds: 50));
-        if (state.isDisposed) return false;
-
-        boardManager.triggerInitialFall();
-        state.updateUI();
-
-        await Future.delayed(gravityAnimationTime);
-        if (state.isDisposed) return false;
+        if (await _settleBoard(lineClearDestroyed) == null) return false;
       }
     }
 
@@ -456,10 +412,11 @@ class GameCoordinator {
           engine.grid[r][c].isSwallowTrigger = false;
         }
         if (tile.isLineClearTrigger) {
-          final isHorizontal =
-              tile.behavior is ClearBehavior &&
-              (tile.behavior as ClearBehavior).isHorizontal;
-          lineClearTriggers.add((row: r, col: c, isHorizontal: isHorizontal));
+          lineClearTriggers.add((
+            row: r,
+            col: c,
+            isHorizontal: _isHorizontalClear(tile),
+          ));
         }
         if (tile.isLineClearTrigger || tile.isLineClearTarget) {
           lineClearDestroyed.add(TileCoordinate(row: r, col: c));
@@ -478,18 +435,7 @@ class GameCoordinator {
         tilesCleared: swallowDestroyed.length,
       );
 
-      boardManager.applyGravity(swallowDestroyed);
-      engine.initializeBehaviors();
-      state.updateUI();
-
-      await Future.delayed(const Duration(milliseconds: 50));
-      if (state.isDisposed) return false;
-
-      boardManager.triggerInitialFall();
-      state.updateUI();
-
-      await Future.delayed(gravityAnimationTime);
-      if (state.isDisposed) return false;
+      if (await _settleBoard(swallowDestroyed) == null) return false;
     }
 
     if (lineClearDestroyed.isNotEmpty) {
@@ -510,18 +456,7 @@ class GameCoordinator {
         engine.grid[coord.row][coord.col].isLineClearTarget = false;
       }
 
-      boardManager.applyGravity(lineClearDestroyed);
-      engine.initializeBehaviors();
-      state.updateUI();
-
-      await Future.delayed(const Duration(milliseconds: 50));
-      if (state.isDisposed) return false;
-
-      boardManager.triggerInitialFall();
-      state.updateUI();
-
-      await Future.delayed(gravityAnimationTime);
-      if (state.isDisposed) return false;
+      if (await _settleBoard(lineClearDestroyed) == null) return false;
     }
 
     return true;
@@ -535,6 +470,31 @@ class GameCoordinator {
       }
     }
     return false;
+  }
+
+  bool _isHorizontalClear(Tile tile) =>
+      tile.behavior is ClearBehavior &&
+      (tile.behavior as ClearBehavior).isHorizontal;
+
+  Future<({Set<int> cols, Set<int> rows})?> _settleBoard(
+    Set<TileCoordinate> destroyed, {
+    bool clearFlyingFlags = false,
+  }) async {
+    final deltas = boardManager.applyGravity(destroyed);
+    engine.initializeBehaviors();
+    if (clearFlyingFlags) boardManager.clearAllFlyingFlags();
+    state.updateUI();
+
+    await Future.delayed(const Duration(milliseconds: 50));
+    if (state.isDisposed) return null;
+
+    boardManager.triggerInitialFall();
+    state.updateUI();
+
+    await Future.delayed(gravityAnimationTime);
+    if (state.isDisposed) return null;
+
+    return deltas;
   }
 
   Future<void> _finalizeTurnLifecycle() async {
