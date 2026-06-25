@@ -13,6 +13,7 @@ import 'package:grimoji/features/match/model/collected_emoji.dart';
 import 'package:grimoji/features/match/utils/match_detector.dart';
 import 'package:grimoji/features/match/state.dart';
 import 'package:grimoji/features/match/utils/swipe_detector.dart';
+import 'package:grimoji/features/alchemy/behaviors/clear.dart';
 import 'package:logging/logging.dart';
 
 class GameCoordinator {
@@ -22,6 +23,7 @@ class GameCoordinator {
   final AudioController audio;
   final void Function(int) onTargetAcquired;
   final Future<bool> Function() onComboFinished;
+  void Function(int row, int col, bool isHorizontal)? onLineClear;
   final Logger _log = Logger('GameCoordinator');
 
   Timer? _hintTimer;
@@ -63,8 +65,10 @@ class GameCoordinator {
     engine.executeBehaviorActions(actions, coord.row, coord.col);
     state.updateUI();
 
-    await Future.delayed(const Duration(milliseconds: 700));
-    if (state.isDisposed) return;
+    if (_anySwallowPending()) {
+      await Future.delayed(const Duration(milliseconds: 700));
+      if (state.isDisposed) return;
+    }
 
     await executeEmojiBehaviors();
     if (state.isDisposed) return;
@@ -113,10 +117,9 @@ class GameCoordinator {
     if (state.isDisposed) return;
 
     if (decision.type == SwipeResult.specialBehavior) {
-      final dTile = engine.grid[dCoord.row][dCoord.col];
-      final TileCoordinate triggerCoord = dTile.behavior != null
-          ? dCoord
-          : tCoord;
+      final TileCoordinate triggerCoord = dtile.behavior != null
+          ? tCoord
+          : dCoord;
 
       engine.executeBehaviorActions(
         decision.actions,
@@ -125,8 +128,11 @@ class GameCoordinator {
       );
       state.updateUI();
 
-      await Future.delayed(const Duration(milliseconds: 700));
-      if (state.isDisposed) return;
+      final hasSwallow = _anySwallowPending();
+      if (hasSwallow) {
+        await Future.delayed(const Duration(milliseconds: 700));
+        if (state.isDisposed) return;
+      }
 
       await executeEmojiBehaviors();
       if (state.isDisposed) return;
@@ -394,49 +400,130 @@ class GameCoordinator {
         await Future.delayed(gravityAnimationTime);
         if (state.isDisposed) return false;
       }
+
+      Set<TileCoordinate> lineClearDestroyed = {};
+      for (int r = 0; r < BoardManager.rows; r++) {
+        for (int c = 0; c < BoardManager.cols; c++) {
+          final tile = engine.grid[r][c];
+          if (tile.isLineClearTrigger) {
+            final isHorizontal =
+                tile.behavior is ClearBehavior &&
+                (tile.behavior as ClearBehavior).isHorizontal;
+            onLineClear?.call(r, c, isHorizontal);
+          }
+          if (tile.isLineClearTrigger || tile.isLineClearTarget) {
+            lineClearDestroyed.add(TileCoordinate(row: r, col: c));
+          }
+        }
+      }
+
+      if (lineClearDestroyed.isNotEmpty) {
+        state.updateUI();
+        for (final coord in lineClearDestroyed) {
+          engine.grid[coord.row][coord.col].isLineClearTrigger = false;
+          engine.grid[coord.row][coord.col].isLineClearTarget = false;
+        }
+
+        boardManager.applyGravity(lineClearDestroyed);
+        engine.initializeBehaviors();
+        state.updateUI();
+
+        await Future.delayed(const Duration(milliseconds: 50));
+        if (state.isDisposed) return false;
+
+        boardManager.triggerInitialFall();
+        state.updateUI();
+
+        await Future.delayed(gravityAnimationTime);
+        if (state.isDisposed) return false;
+      }
     }
 
     return executionOccurred;
   }
 
   Future<bool> executeEmojiBehaviors() async {
-    Set<TileCoordinate> destroyedByBehavior = {};
+    Set<TileCoordinate> swallowDestroyed = {};
+    Set<TileCoordinate> lineClearDestroyed = {};
 
     for (int r = 0; r < BoardManager.rows; r++) {
       for (int c = 0; c < BoardManager.cols; c++) {
         final tile = engine.grid[r][c];
         if (tile.isSwallowTarget || tile.isSwallowTrigger) {
-          destroyedByBehavior.add(TileCoordinate(row: r, col: c));
+          swallowDestroyed.add(TileCoordinate(row: r, col: c));
           engine.grid[r][c].isSwallowTarget = false;
           engine.grid[r][c].isSwallowTrigger = false;
+        }
+        if (tile.isLineClearTrigger) {
+          final isHorizontal =
+              tile.behavior is ClearBehavior &&
+              (tile.behavior as ClearBehavior).isHorizontal;
+          onLineClear?.call(r, c, isHorizontal);
+        }
+        if (tile.isLineClearTrigger || tile.isLineClearTarget) {
+          lineClearDestroyed.add(TileCoordinate(row: r, col: c));
         }
       }
     }
 
-    if (destroyedByBehavior.isEmpty) {
+    if (swallowDestroyed.isEmpty && lineClearDestroyed.isEmpty) {
       return false;
     }
 
-    state.announcer.evaluateTurn(
-      events: {TurnEvent.blackHole},
-      combo: state.currentComboMultiplier,
-      tilesCleared: destroyedByBehavior.length,
-    );
+    if (swallowDestroyed.isNotEmpty) {
+      state.announcer.evaluateTurn(
+        events: {TurnEvent.blackHole},
+        combo: state.currentComboMultiplier,
+        tilesCleared: swallowDestroyed.length,
+      );
 
-    boardManager.applyGravity(destroyedByBehavior);
-    engine.initializeBehaviors();
-    state.updateUI();
+      boardManager.applyGravity(swallowDestroyed);
+      engine.initializeBehaviors();
+      state.updateUI();
 
-    await Future.delayed(const Duration(milliseconds: 50));
-    if (state.isDisposed) return false;
+      await Future.delayed(const Duration(milliseconds: 50));
+      if (state.isDisposed) return false;
 
-    boardManager.triggerInitialFall();
-    state.updateUI();
+      boardManager.triggerInitialFall();
+      state.updateUI();
 
-    await Future.delayed(gravityAnimationTime);
-    if (state.isDisposed) return false;
+      await Future.delayed(gravityAnimationTime);
+      if (state.isDisposed) return false;
+    }
+
+    if (lineClearDestroyed.isNotEmpty) {
+      state.updateUI();
+
+      for (final coord in lineClearDestroyed) {
+        engine.grid[coord.row][coord.col].isLineClearTrigger = false;
+        engine.grid[coord.row][coord.col].isLineClearTarget = false;
+      }
+
+      boardManager.applyGravity(lineClearDestroyed);
+      engine.initializeBehaviors();
+      state.updateUI();
+
+      await Future.delayed(const Duration(milliseconds: 50));
+      if (state.isDisposed) return false;
+
+      boardManager.triggerInitialFall();
+      state.updateUI();
+
+      await Future.delayed(gravityAnimationTime);
+      if (state.isDisposed) return false;
+    }
 
     return true;
+  }
+
+  bool _anySwallowPending() {
+    for (int r = 0; r < BoardManager.rows; r++) {
+      for (int c = 0; c < BoardManager.cols; c++) {
+        final tile = engine.grid[r][c];
+        if (tile.isSwallowTrigger || tile.isSwallowTarget) return true;
+      }
+    }
+    return false;
   }
 
   Future<void> _finalizeTurnLifecycle() async {
