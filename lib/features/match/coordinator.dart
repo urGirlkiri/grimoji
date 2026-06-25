@@ -445,6 +445,7 @@ class GameCoordinator {
   Future<bool> executeEmojiBehaviors() async {
     Set<TileCoordinate> swallowDestroyed = {};
     Set<TileCoordinate> lineClearDestroyed = {};
+    final List<({int row, int col, bool isHorizontal})> lineClearTriggers = [];
 
     for (int r = 0; r < BoardManager.rows; r++) {
       for (int c = 0; c < BoardManager.cols; c++) {
@@ -458,7 +459,7 @@ class GameCoordinator {
           final isHorizontal =
               tile.behavior is ClearBehavior &&
               (tile.behavior as ClearBehavior).isHorizontal;
-          onLineClear?.call(r, c, isHorizontal);
+          lineClearTriggers.add((row: r, col: c, isHorizontal: isHorizontal));
         }
         if (tile.isLineClearTrigger || tile.isLineClearTarget) {
           lineClearDestroyed.add(TileCoordinate(row: r, col: c));
@@ -493,6 +494,16 @@ class GameCoordinator {
 
     if (lineClearDestroyed.isNotEmpty) {
       state.updateUI();
+
+      await Future.delayed(lineWaveAnimDuration);
+      if (state.isDisposed) return false;
+
+      for (final trigger in lineClearTriggers) {
+        onLineClear?.call(trigger.row, trigger.col, trigger.isHorizontal);
+      }
+
+      await Future.delayed(const Duration(milliseconds: 120));
+      if (state.isDisposed) return false;
 
       for (final coord in lineClearDestroyed) {
         engine.grid[coord.row][coord.col].isLineClearTrigger = false;

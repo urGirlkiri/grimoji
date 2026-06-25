@@ -57,13 +57,29 @@ class TileWidget extends StatelessWidget {
     }
 
     if (tile.isLineClearTrigger) {
+      content = content
+          .animate()
+          .scaleXY(
+            begin: 1.0,
+            end: 1.4,
+            duration: lineWaveAnimDuration,
+            curve: Curves.easeOutBack,
+          )
+          .scaleXY(
+            begin: 1.4,
+            end: 0,
+            duration: lineWaveAnimDuration,
+            curve: Curves.easeInBack,
+          );
+    }
+
+    if (tile.isLineClearTarget) {
       content = content.animate().scaleXY(
         begin: 1.0,
-        end: 1.4,
-        duration: 150.ms,
-        curve: Curves.easeOutBack,
+        end: 0,
+        duration: lineWaveAnimDuration * 2 - 100.ms,
       );
-   }
+    }
 
     return AnimatedPositioned(
       duration: swapAnimationTime,

@@ -9,3 +9,5 @@ const Duration gravityAnimationTime = Duration(milliseconds: 400);
 const Duration shuffleWipeTime = Duration(milliseconds: 400);
 
 const Duration boardSparksTime = Duration(milliseconds: 800);
+
+const Duration lineWaveAnimDuration = Duration(milliseconds: 150);
