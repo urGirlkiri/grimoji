@@ -4,7 +4,7 @@ import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/features/match/board/models/line_clear.dart';
 import 'package:grimoji/features/match/board/models/sparkle_effect.dart';
 import 'package:grimoji/features/match/board/widgets/announcer/index.dart';
-import 'package:grimoji/features/match/board/widgets/overlays/line_clear.dart';
+import 'package:grimoji/features/match/board/widgets/overlays/line_clear/index.dart';
 import 'package:grimoji/features/match/board/widgets/board_grid/index.dart';
 import 'package:grimoji/features/match/board/utils/metrics.dart';
 import 'package:grimoji/features/match/board/widgets/overlays/sparkle.dart';
@@ -98,7 +98,7 @@ class _GameBoardState extends State<GameBoard> {
       isHorizontal: isHorizontal,
     );
     _lineClearNotifier.value = [..._lineClearNotifier.value, effect];
-    Future.delayed(const Duration(milliseconds: 100), () {
+    Future.delayed(const Duration(milliseconds: 300), () {
       if (_isDisposed) return;
       _lineClearNotifier.value = _lineClearNotifier.value
           .where((e) => e.id != effect.id)
@@ -294,13 +294,16 @@ class _GameBoardState extends State<GameBoard> {
 
                             SparkleOverlay(sparklesNotifier: _sparklesNotifier),
 
-                            IgnorePointer(
-                              child: LineClearOverlay(
-                                notifier: _lineClearNotifier,
-                                tileWidth: calculatedSingleTileWidth,
-                                tileHeight: calculatedSingleTileHeight,
-                                cols: gridColumns,
-                                rows: gridRows,
+                            OverflowBox(
+                              maxWidth: constrainedBoardWidth,
+                              child: IgnorePointer(
+                                child: LineClearOverlay(
+                                  notifier: _lineClearNotifier,
+                                  tileWidth: calculatedSingleTileWidth,
+                                  tileHeight: calculatedSingleTileHeight,
+                                  cols: gridColumns,
+                                  rows: gridRows,
+                                ),
                               ),
                             ),
                           ],
