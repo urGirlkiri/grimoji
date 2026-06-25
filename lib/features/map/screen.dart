@@ -7,7 +7,7 @@ import 'package:grimoji/config/global_keys.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/level/widgets/dialogs/cauldron_dialog.dart';
-import 'package:grimoji/features/level/widgets/dialogs/start_dialog.dart';
+import 'package:grimoji/features/level/widgets/dialogs/start_dialog/index.dart';
 import 'package:grimoji/features/map/models/level_node.dart';
 import 'package:grimoji/features/map/widgets/engine.dart';
 import 'package:grimoji/utils/context_data.dart';
