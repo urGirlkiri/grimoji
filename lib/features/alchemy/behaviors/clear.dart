@@ -10,7 +10,7 @@ class ClearBehavior extends EmojiBehavior {
   ClearBehavior({required this.isHorizontal});
 
   BehaviorAction get _action => BehaviorAction(
-        type: isHorizontal ? ActionType.clearCol : ActionType.clearRow,
+        type: isHorizontal ? ActionType.clearRow : ActionType.clearCol,
       );
 
   @override

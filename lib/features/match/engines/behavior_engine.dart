@@ -119,6 +119,24 @@ class BehaviorEngine {
             }
           }
           break;
+
+        case ActionType.clearRow:
+          boardManager.gridTiles[centerX][centerY].isLineClearTrigger = true;
+          for (int c = 0; c < BoardManager.cols; c++) {
+            if (c != centerY) {
+              boardManager.gridTiles[centerX][c].isLineClearTarget = true;
+            }
+          }
+          break;
+
+        case ActionType.clearCol:
+          boardManager.gridTiles[centerX][centerY].isLineClearTrigger = true;
+          for (int r = 0; r < BoardManager.rows; r++) {
+            if (r != centerX) {
+              boardManager.gridTiles[r][centerY].isLineClearTarget = true;
+            }
+          }
+          break;
       }
     }
   }

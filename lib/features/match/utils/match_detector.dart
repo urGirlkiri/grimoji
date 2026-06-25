@@ -10,7 +10,10 @@ class MatchGroup {
 }
 
 class MatchDetector {
-  static final Set<GameEmoji> unmatchableEmojis = {Emojis.hole};
+  static final Set<GameEmoji> unmatchableEmojis = {
+    Emojis.hole,
+    Emojis.barberPole,
+  };
 
   static List<MatchGroup> findMatchedGroups(List<List<Tile>> grid) {
     List<MatchGroup> groups = [];
