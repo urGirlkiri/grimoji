@@ -10,7 +10,7 @@ class BehaviorRegister {
     Emojis.bug: () => VirusBehavior(),
     Emojis.ghost: () => GhostBehavior(),
     Emojis.hole: () => SwallowBehavior(),
-    Emojis.barberPole: () => ClearBehavior(isHorizontal: false),
+    Emojis.barberPole: () => ClearBehavior(isHorizontal: true),
   };
 
   static EmojiBehavior? getBehaviorFor(GameEmoji emoji) {
