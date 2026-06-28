@@ -110,11 +110,7 @@ class BoosterButton extends StatelessWidget {
                     ],
                   ),
                   child: Center(
-                    child: Icon(
-                      Icons.add,
-                      color: palette.moonlight,
-                      size: 18,
-                    ),
+                    child: Icon(Icons.add, color: palette.moonlight, size: 18),
                   ),
                 ),
               )
@@ -137,11 +133,7 @@ class BoosterButton extends StatelessWidget {
                     ),
                   ),
                   child: isSelected
-                      ? Icon(
-                          Icons.check,
-                          color: palette.mist,
-                          size: 20 * scale,
-                        )
+                      ? Icon(Icons.check, color: palette.mist, size: 20 * scale)
                       : Text(
                           count.toString(),
                           style: context.theme.textTheme.labelMedium!.copyWith(

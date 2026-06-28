@@ -24,5 +24,5 @@ enum SfxType {
   recipeCollection,
   recipeRead,
 
-  purchase
+  purchase,
 }

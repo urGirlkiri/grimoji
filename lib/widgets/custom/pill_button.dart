@@ -119,11 +119,7 @@ class PillButton extends StatelessWidget {
               : leading != null
               ? Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: [
-                    leading!,
-                    const SizedBox(width: 8),
-                    innerText,
-                  ],
+                  children: [leading!, const SizedBox(width: 8), innerText],
                 )
               : innerText,
         ),

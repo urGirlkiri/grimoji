@@ -97,10 +97,7 @@ class GameEngine {
   ) {
     for (var groupMatch in matchedGroups) {
       if (groupMatch.isSpecial) {
-        _categorizeShapeAnim(
-          groupMatch,
-          isFirstMatch ? targetCoord : null,
-        );
+        _categorizeShapeAnim(groupMatch, isFirstMatch ? targetCoord : null);
         continue;
       }
 
@@ -153,10 +150,7 @@ class GameEngine {
     }
   }
 
-  void _categorizeShapeAnim(
-    MatchGroup group,
-    TileCoordinate? targetCoord,
-  ) {
+  void _categorizeShapeAnim(MatchGroup group, TileCoordinate? targetCoord) {
     final catalyst = MatchDetector.resolveShapePivot(
       group,
       swipeTarget: targetCoord,

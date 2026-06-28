@@ -14,7 +14,7 @@ class BalancePill extends StatelessWidget {
       decoration: BoxDecoration(
         color: palette.twilight,
         shape: BoxShape.rectangle,
-        borderRadius: const BorderRadius.all(Radius.circular(20))
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),

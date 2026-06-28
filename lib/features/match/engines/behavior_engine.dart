@@ -60,7 +60,7 @@ class BehaviorEngine {
             initializeBehavior(boardManager.gridTiles[target.x][target.y]);
           }
           break;
-          
+
         case ActionType.reactEmoji:
           final target = boardManager.findAdjacentFilledTile(centerX, centerY);
           if (target != null && action.emoji != null) {
@@ -68,7 +68,7 @@ class BehaviorEngine {
             boardManager.gridTiles[target.x][target.y].clearBehavior();
           }
           break;
-          
+
         case ActionType.consumeAllOfType:
           boardManager.gridTiles[centerX][centerY].isSwallowTrigger = true;
           boardManager.gridTiles[centerX][centerY].isSwallowTarget = true;
@@ -82,13 +82,13 @@ class BehaviorEngine {
             }
           }
           break;
-          
+
         case ActionType.doNothing:
           break;
-          
+
         case ActionType.consumeRandomType:
           _log.info('Triggering random consumption');
-          
+
           final emojisOnBoard = <GameEmoji>{};
           for (int r = 0; r < BoardManager.rows; r++) {
             for (int c = 0; c < BoardManager.cols; c++) {
@@ -110,7 +110,7 @@ class BehaviorEngine {
           );
           _log.info('Selected ${randomEmoji.visual} ');
 
-                    for (int r = 0; r < BoardManager.rows; r++) {
+          for (int r = 0; r < BoardManager.rows; r++) {
             for (int c = 0; c < BoardManager.cols; c++) {
               final tile = boardManager.gridTiles[r][c];
               if (tile.emoji == randomEmoji) {

@@ -53,6 +53,7 @@ class Powerup {
       isPrelevel: true,
       price: 35,
     ),
+
     // Powerup(
     //   id: 'crystal_ball',
     //   name: 'Insight',
@@ -61,7 +62,6 @@ class Powerup {
     //   isPrelevel: true,
     //   price: 20,
     // ),
-
     Powerup(
       id: 'hourglass',
       name: 'Extra Time',

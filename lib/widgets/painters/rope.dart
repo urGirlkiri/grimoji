@@ -6,7 +6,6 @@ class RopePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    
     final paint = Paint()
       ..color = palette.dusk
       ..strokeWidth = size.width
@@ -30,11 +29,7 @@ class RopePainter extends CustomPainter {
 
     for (int i = 1; i < 8; i++) {
       final segH = size.height / 8;
-      canvas.drawCircle(
-        Offset(size.width / 2, segH * i),
-        1.8,
-        knot,
-      );
+      canvas.drawCircle(Offset(size.width / 2, segH * i), 1.8, knot);
     }
   }
 

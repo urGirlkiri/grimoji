@@ -9,13 +9,7 @@ final List<GameLevel> chapter1Levels = [
     targetEmoji: Emojis.ocean,
     goal: 'Collect water',
     description: 'The Awakening - Super easy, introducing basic matches',
-    availableEmojis: [
-      Emojis.droplet,
-      Emojis.fire,
-      Emojis.rock,
-      Emojis.spider,
-
-    ],
+    availableEmojis: [Emojis.droplet, Emojis.fire, Emojis.rock, Emojis.spider],
   ),
 
   GameLevel(
