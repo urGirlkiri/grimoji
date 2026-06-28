@@ -10,15 +10,19 @@ class ClearBehavior extends EmojiBehavior {
   ClearBehavior({required this.isHorizontal});
 
   BehaviorAction get _action => BehaviorAction(
-        type: isHorizontal ? ActionType.clearRow : ActionType.clearCol,
-      );
+    type: isHorizontal ? ActionType.clearRow : ActionType.clearCol,
+  );
 
   @override
   List<BehaviorAction> onTapped(int x, int y) => [_action];
 
   @override
-  List<BehaviorAction> onSwipedWith(int x, int y, GameEmoji targetEmoji) =>
-      [_action];
+  List<BehaviorAction> onMatched(int x, int y) => [_action];
+
+  @override
+  List<BehaviorAction> onSwipedWith(int x, int y, GameEmoji targetEmoji) => [
+    _action,
+  ];
 
   @override
   List<BehaviorAction> onBlastNearby(int x, int y, ReactionType reactionType) {

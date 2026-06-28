@@ -5,7 +5,7 @@ import 'package:grimoji/features/alchemy/models/action_type.dart';
 import 'package:grimoji/features/alchemy/models/behavior_action.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 
-class GhostBehavior extends EmojiBehavior {
+class PrankBehavior extends EmojiBehavior {
   static const double randomChance = 0.10;
 
   @override
