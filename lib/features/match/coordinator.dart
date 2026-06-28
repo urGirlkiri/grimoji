@@ -297,6 +297,27 @@ class GameCoordinator {
   }
 
   Future<bool> _executeEmojiBehaviors() async {
+    final drained = await _removeBehaviorFlags();
+
+    if (drained.swallowDestroyed.isNotEmpty) {
+      state.announcer.evaluateTurn(
+        events: {TurnEvent.blackHole},
+        combo: state.currentComboMultiplier,
+        tilesCleared: drained.swallowDestroyed.length,
+      );
+    }
+
+    return drained.didAnything;
+  }
+
+  Future<
+    ({
+      Set<TileCoordinate> swallowDestroyed,
+      Set<TileCoordinate> lineClearDestroyed,
+      bool didAnything,
+    })
+  >
+  _removeBehaviorFlags() async {
     Set<TileCoordinate> swallowDestroyed = {};
     Set<TileCoordinate> lineClearDestroyed = {};
     final List<({int row, int col, bool isHorizontal})> lineClearTriggers = [];
@@ -322,42 +343,63 @@ class GameCoordinator {
       }
     }
 
-    if (swallowDestroyed.isEmpty && lineClearDestroyed.isEmpty) {
-      return false;
-    }
+    final bool didAnything =
+        swallowDestroyed.isNotEmpty || lineClearDestroyed.isNotEmpty;
 
     if (swallowDestroyed.isNotEmpty) {
-      state.announcer.evaluateTurn(
-        events: {TurnEvent.blackHole},
-        combo: state.currentComboMultiplier,
-        tilesCleared: swallowDestroyed.length,
-      );
-
-      if (await _settleBoard(swallowDestroyed) == null) return false;
+      if (await _settleBoard(swallowDestroyed) == null) {
+        return (
+          swallowDestroyed: swallowDestroyed,
+          lineClearDestroyed: lineClearDestroyed,
+          didAnything: false,
+        );
+      }
     }
 
     if (lineClearDestroyed.isNotEmpty) {
       state.updateUI();
 
       await Future.delayed(lineWaveAnimDuration);
-      if (state.isDisposed) return false;
+      if (state.isDisposed) {
+        return (
+          swallowDestroyed: swallowDestroyed,
+          lineClearDestroyed: lineClearDestroyed,
+          didAnything: false,
+        );
+      }
 
       for (final trigger in lineClearTriggers) {
         onLineClear?.call(trigger.row, trigger.col, trigger.isHorizontal);
       }
 
       await Future.delayed(const Duration(milliseconds: 120));
-      if (state.isDisposed) return false;
+      if (state.isDisposed) {
+        return (
+          swallowDestroyed: swallowDestroyed,
+          lineClearDestroyed: lineClearDestroyed,
+          didAnything: false,
+        );
+      }
 
       for (final coord in lineClearDestroyed) {
         engine.grid[coord.row][coord.col].isLineClearTrigger = false;
         engine.grid[coord.row][coord.col].isLineClearTarget = false;
       }
 
-      if (await _settleBoard(lineClearDestroyed) == null) return false;
+      if (await _settleBoard(lineClearDestroyed) == null) {
+        return (
+          swallowDestroyed: swallowDestroyed,
+          lineClearDestroyed: lineClearDestroyed,
+          didAnything: false,
+        );
+      }
     }
 
-    return true;
+    return (
+      swallowDestroyed: swallowDestroyed,
+      lineClearDestroyed: lineClearDestroyed,
+      didAnything: didAnything,
+    );
   }
 
   Future<void> _cascadeSequence(TileCoordinate focusCoordinate) async {
@@ -456,6 +498,8 @@ class GameCoordinator {
 
       _resolveCollectedEmojis(stepResult.collectedEmojis);
       boardManager.flagFlyingTargetEmojis(stepResult.tilesToDestroy);
+      await _removeBehaviorFlags();
+      if (state.isDisposed) return false;
 
       Set<TileCoordinate> mergedFlyingTargets = {};
       for (int r = 0; r < BoardManager.rows; r++) {

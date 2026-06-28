@@ -43,6 +43,7 @@ class GameEngine {
       getAoERadiusForType: RecipeBook.getAoERadiusForType,
       initializeBehavior: _behavior.initializeBehavior,
       onTileBlasted: _behavior.processBlastBehavior,
+      onTileMatched: _behavior.processMatchedBehavior,
     );
   }
 
@@ -95,6 +96,14 @@ class GameEngine {
     TileCoordinate targetCoord,
   ) {
     for (var groupMatch in matchedGroups) {
+      if (groupMatch.isSpecial) {
+        _categorizeShapeAnim(
+          groupMatch,
+          isFirstMatch ? targetCoord : null,
+        );
+        continue;
+      }
+
       final recipes = RecipeBook.getRecipesFor(groupMatch.emoji);
       final reaction = RecipeBook.getReactionFor(groupMatch.emoji);
 
@@ -142,6 +151,30 @@ class GameEngine {
         playSfx(SfxType.merge);
       }
     }
+  }
+
+  void _categorizeShapeAnim(
+    MatchGroup group,
+    TileCoordinate? targetCoord,
+  ) {
+    final catalyst = MatchDetector.resolveShapePivot(
+      group,
+      swipeTarget: targetCoord,
+    );
+
+    for (var coord in group.coordinates) {
+      final tile = grid[coord.row][coord.col];
+      tile.isMergePoint = coord == catalyst;
+
+      if (!tile.isMergePoint) {
+        tile.isMerging = true;
+        tile.coordinate.col = catalyst.col;
+        tile.coordinate.row = catalyst.row;
+      } else {
+        tile.morphTarget = group.yields;
+      }
+    }
+    playSfx(SfxType.merge);
   }
 
   void shuffleGrid() {

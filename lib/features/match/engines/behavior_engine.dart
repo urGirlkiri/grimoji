@@ -143,7 +143,10 @@ class BehaviorEngine {
 
   void processMatchedBehavior(Tile tile, int x, int y) {
     if (tile.behavior != null) {
-      tile.behavior!.onMatched(x, y);
+      final actions = tile.behavior!.onMatched(x, y);
+      if (actions.isNotEmpty) {
+        executeBehaviorActions(actions, x, y);
+      }
     }
   }
 

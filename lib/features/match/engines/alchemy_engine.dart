@@ -14,6 +14,7 @@ import 'package:logging/logging.dart';
 typedef BehaviorInitCallback = void Function(Tile tile);
 typedef TileBlastedCallback =
     void Function(Tile tile, int x, int y, ReactionType reactionType);
+typedef TileMatchedCallback = void Function(Tile tile, int x, int y);
 
 class AlchemyEngine {
   final BoardManager boardManager;
@@ -25,6 +26,7 @@ class AlchemyEngine {
   final int Function(ReactionType) getAoERadiusForType;
   final BehaviorInitCallback? initializeBehavior;
   final TileBlastedCallback? onTileBlasted;
+  final TileMatchedCallback? onTileMatched;
 
   final Logger _log = Logger('AlchemyEngine');
 
@@ -37,6 +39,7 @@ class AlchemyEngine {
     required this.getAoERadiusForType,
     this.initializeBehavior,
     this.onTileBlasted,
+    this.onTileMatched,
   });
 
   CascadeStepResult processCascadeStep({
@@ -54,6 +57,38 @@ class AlchemyEngine {
     for (var group in matchedGroups) {
       final emoji = group.emoji;
       final coords = group.coordinates;
+
+      _executeMatchedBehavior(group);
+
+      if (group.isSpecial) {
+        final TileCoordinate spawnPoint = MatchDetector.resolveShapePivot(
+          group,
+          swipeTarget: isFirstMatch ? targetCoordinate : null,
+        );
+        final Tile targetTile =
+            boardManager.gridTiles[spawnPoint.row][spawnPoint.col];
+        targetTile.emoji = group.yields!;
+        targetTile.reset();
+
+        if (group.yields! == boardManager.level.targetEmoji) {
+          collectedEmojis.add(CollectedEmoji(emoji: group.yields!, count: 1));
+          targetTile.isFlying = true;
+        }
+
+        final Set<TileCoordinate> sources = coords
+            .where((c) => c != spawnPoint)
+            .toSet();
+        tilesToDestroy.addAll(sources);
+
+        transformed.add(spawnPoint);
+
+        mergedEmojis++;
+
+        if (initializeBehavior != null) {
+          initializeBehavior!(targetTile);
+        }
+        continue;
+      }
 
       bool isAlreadyTriggered = coords.any(
         (c) => boardManager.gridTiles[c.row][c.col].isTriggered,
@@ -294,7 +329,6 @@ class AlchemyEngine {
             tile.reset();
             tile.isTransmuting = true;
             transformedTiles.add(TileCoordinate(row: r, col: c));
-
           } else if (!tile.isSwallowTarget && !tile.isSwallowTrigger) {
             tile.isExploding = true;
             destroyedTiles.add(TileCoordinate(row: r, col: c));
@@ -303,5 +337,14 @@ class AlchemyEngine {
       }
     }
     return (destroyed: destroyedTiles, transformed: transformedTiles);
+  }
+
+  void _executeMatchedBehavior(MatchGroup group) {
+    if (onTileMatched == null) return;
+
+    for (var coord in group.coordinates) {
+      final tile = boardManager.gridTiles[coord.row][coord.col];
+      onTileMatched!(tile, coord.row, coord.col);
+    }
   }
 }
