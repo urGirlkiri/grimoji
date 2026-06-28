@@ -243,8 +243,9 @@ class GameCoordinator {
       }
 
       await Future.delayed(const Duration(milliseconds: 300));
-      while (boardManager.countSafeBombs() > 0) {
+      for (int i = 0; i < bonusBombs; i++) {
         if (state.isDisposed) return;
+        if (boardManager.countSafeBombs() == 0) break;
 
         final primedBombs = boardManager.getTriggeredEmojis();
         final focusCoord = primedBombs.isNotEmpty
