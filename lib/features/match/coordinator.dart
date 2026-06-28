@@ -4,6 +4,7 @@ import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
+import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
 import 'package:grimoji/features/match/board/utils/manager.dart';
@@ -53,6 +54,21 @@ class GameCoordinator {
     if (state.isGameOver || state.isPaused) return;
 
     final tile = engine.grid[coord.row][coord.col];
+
+    final reaction = RecipeBook.getReactionFor(tile.emoji);
+    final isExplosive =
+        reaction != null && reaction.type == ReactionType.explosive;
+
+    if (isExplosive && !tile.isTriggered) {
+      state.setProcessing(true);
+      resetHintTimer();
+      audio.playSfx(SfxType.trigger);
+      tile.isTriggered = true;
+      state.updateUI();
+      await _cascadeSequence(coord);
+      return;
+    }
+
     final actions = engine.processTappedBehavior(tile, coord.row, coord.col);
 
     if (actions.isEmpty) return;
@@ -465,12 +481,20 @@ class GameCoordinator {
               affectedRows: affectedRows,
             );
 
-      matchedGroups.removeWhere(
-        (group) => group.coordinates.any((c) {
+      final removed = <MatchGroup>[];
+      matchedGroups.removeWhere((group) {
+        final blocked = group.coordinates.any((c) {
           final tile = engine.grid[c.row][c.col];
           return tile.isTriggered || tile.isExploding || tile.isMerging;
-        }),
-      );
+        });
+        if (blocked) removed.add(group);
+        return blocked;
+      });
+      if (removed.isNotEmpty) {
+        _log.warning(
+          'Removed ${removed.length} groups due to dirty flags: ${removed.map((g) => '${g.emoji.visual}:${g.coordinates.length}').join(', ')}',
+        );
+      }
 
       if (matchedGroups.isEmpty) break;
 
@@ -705,6 +729,18 @@ class GameCoordinator {
     bool clearFlyingFlags = false,
   }) async {
     final deltas = boardManager.applyGravity(destroyed);
+    final dirtyAfterGravity = engine.grid
+        .expand((row) => row)
+        .where(
+          (t) =>
+              t.isMerging || t.isMergePoint || t.isExploding || t.isTriggered,
+        )
+        .toList();
+    if (dirtyAfterGravity.isNotEmpty) {
+      _log.warning(
+        'Dirty flags after gravity: ${dirtyAfterGravity.map((t) => '${t.emoji.visual}(${t.coordinate.row},${t.coordinate.col}) M=${t.isMerging} P=${t.isMergePoint} E=${t.isExploding} T=${t.isTriggered}').join(', ')}',
+      );
+    }
     engine.initializeBehaviors();
     if (clearFlyingFlags) boardManager.clearAllFlyingFlags();
     state.updateUI();

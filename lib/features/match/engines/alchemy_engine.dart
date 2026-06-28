@@ -52,6 +52,10 @@ class AlchemyEngine {
     final Set<TileCoordinate> transmutedTiles = {};
     final Set<TileCoordinate> transformed = {};
 
+    _log.info(
+      'Cascade step: ${matchedGroups.length} groups, tilesToDestroy=${tilesToDestroy.length}, transformed=${transformed.length}',
+    );
+
     int mergedEmojis = 0;
 
     for (var group in matchedGroups) {
