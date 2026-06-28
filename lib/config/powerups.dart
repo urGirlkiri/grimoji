@@ -53,14 +53,14 @@ class Powerup {
       isPrelevel: true,
       price: 35,
     ),
-    Powerup(
-      id: 'crystal_ball',
-      name: 'Insight',
-      iconPath: Emojis.crystalBall.svg,
-      description: 'Reveals a hidden path or optimal match.',
-      isPrelevel: true,
-      price: 20,
-    ),
+    // Powerup(
+    //   id: 'crystal_ball',
+    //   name: 'Insight',
+    //   iconPath: Emojis.crystalBall.svg,
+    //   description: 'Reveals a hidden path or optimal match.',
+    //   isPrelevel: true,
+    //   price: 20,
+    // ),
 
     Powerup(
       id: 'hourglass',
