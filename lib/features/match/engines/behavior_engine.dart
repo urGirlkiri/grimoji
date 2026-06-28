@@ -121,6 +121,8 @@ class BehaviorEngine {
           break;
 
         case ActionType.clearRow:
+          if (boardManager.gridTiles[centerX].any((t) => t.isLineClearTrigger))
+            break;
           boardManager.gridTiles[centerX][centerY].isLineClearTrigger = true;
           for (int c = 0; c < BoardManager.cols; c++) {
             if (c != centerY) {
@@ -130,6 +132,11 @@ class BehaviorEngine {
           break;
 
         case ActionType.clearCol:
+          if (List.generate(
+            BoardManager.rows,
+            (r) => boardManager.gridTiles[r][centerY],
+          ).any((t) => t.isLineClearTrigger))
+            break;
           boardManager.gridTiles[centerX][centerY].isLineClearTrigger = true;
           for (int r = 0; r < BoardManager.rows; r++) {
             if (r != centerX) {

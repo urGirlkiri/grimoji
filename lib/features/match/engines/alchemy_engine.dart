@@ -1,4 +1,5 @@
 import 'package:grimoji/config/emojis/index.dart';
+import 'package:grimoji/features/alchemy/behaviors/clear.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
@@ -214,7 +215,11 @@ class AlchemyEngine {
           collectedEmojis.add(
             CollectedEmoji(emoji: emoji, count: coords.length),
           );
-          tilesToDestroy.addAll(group.coordinates);
+          tilesToDestroy.addAll(
+            group.coordinates.where(
+              (c) => !boardManager.gridTiles[c.row][c.col].isLineClearTrigger,
+            ),
+          );
         }
       }
     }
@@ -346,8 +351,20 @@ class AlchemyEngine {
   void _executeMatchedBehavior(MatchGroup group) {
     if (onTileMatched == null) return;
 
+    final rows = group.coordinates.map((c) => c.row).toSet();
+    final cols = group.coordinates.map((c) => c.col).toSet();
+    final bool isHorizontalGroup = rows.length == 1;
+    final bool isVerticalGroup = cols.length == 1;
+
     for (var coord in group.coordinates) {
       final tile = boardManager.gridTiles[coord.row][coord.col];
+      if (tile.behavior is ClearBehavior) {
+        if (isHorizontalGroup) {
+          tile.behavior = ClearBehavior(isHorizontal: true);
+        } else if (isVerticalGroup) {
+          tile.behavior = ClearBehavior(isHorizontal: false);
+        }
+      }
       onTileMatched!(tile, coord.row, coord.col);
     }
   }
