@@ -4,6 +4,7 @@ import 'package:grimoji/features/alchemy/models/behavior_action.dart';
 import 'package:grimoji/config/emojis/index.dart';
 
 class WheelBehavior extends EmojiBehavior {
+  static final emoji = Emojis.wheel;
   static const _action = BehaviorAction(type: ActionType.rollWheel);
 
   @override

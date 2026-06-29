@@ -5,11 +5,11 @@ import 'package:grimoji/features/alchemy/models/behavior_action.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 
 class SwallowBehavior extends EmojiBehavior {
-  static final triggerEmoji = Emojis.hole;
+  static final emoji = Emojis.hole;
 
   @override
   List<BehaviorAction> onSwipedWith(int x, int y, GameEmoji targetEmoji) {
-    if (targetEmoji == triggerEmoji) {
+    if (targetEmoji == emoji) {
       return [
         const BehaviorAction(
           type: ActionType.consumeAllOfType,

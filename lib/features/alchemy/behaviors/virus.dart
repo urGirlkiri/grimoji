@@ -5,6 +5,7 @@ import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'behavior.dart';
 
 class VirusBehavior extends EmojiBehavior {
+  static final  emoji = Emojis.microbe;
   int turnsSinceLastMultiplication = 0;
 
   @override
@@ -18,7 +19,7 @@ class VirusBehavior extends EmojiBehavior {
           type: ActionType.placeEmoji,
           x: x,
           y: y,
-          emoji: Emojis.bug,
+          emoji: emoji,
         ),
       ];
     }

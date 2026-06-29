@@ -8,11 +8,11 @@ import 'package:grimoji/features/alchemy/behaviors/wheel.dart';
 
 class BehaviorRegister {
   static final Map<GameEmoji, EmojiBehavior Function()> _behaviors = {
-    Emojis.microbe: () => VirusBehavior(),
-    Emojis.impSmile: () => PrankBehavior(),
-    Emojis.hole: () => SwallowBehavior(),
-    Emojis.barberPole: () => ClearBehavior(isHorizontal: true),
-    Emojis.wheel: () => WheelBehavior(),
+    VirusBehavior.emoji: () => VirusBehavior(),
+    PrankBehavior.emoji: () => PrankBehavior(),
+    SwallowBehavior.emoji: () => SwallowBehavior(),
+    ClearBehavior.emoji: () => ClearBehavior(isHorizontal: true),
+    WheelBehavior.emoji: () => WheelBehavior(),
   };
 
   static EmojiBehavior? getBehaviorFor(GameEmoji emoji) {

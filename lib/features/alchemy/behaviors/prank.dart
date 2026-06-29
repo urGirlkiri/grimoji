@@ -6,6 +6,7 @@ import 'package:grimoji/features/alchemy/models/behavior_action.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 
 class PrankBehavior extends EmojiBehavior {
+  static final emoji = Emojis.impSmile;
   static const double randomChance = 0.10;
 
   @override
@@ -31,7 +32,7 @@ class PrankBehavior extends EmojiBehavior {
           type: ActionType.placeEmoji,
           x: x,
           y: y,
-          emoji: Emojis.ghost,
+          emoji: Emojis.poop,
         ),
       ];
     }

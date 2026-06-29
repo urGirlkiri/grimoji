@@ -5,6 +5,7 @@ import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:grimoji/config/emojis/index.dart';
 
 class ClearBehavior extends EmojiBehavior {
+  static final emoji = Emojis.barberPole;
   final bool isHorizontal;
 
   ClearBehavior({required this.isHorizontal});
