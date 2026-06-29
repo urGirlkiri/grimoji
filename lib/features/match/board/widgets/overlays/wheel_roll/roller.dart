@@ -40,15 +40,15 @@ class _WheelRollerState extends State<WheelRoller>
 
     _stepX = _tileWidth + tileSpacingGap;
     _stepY = _tileHeight + tileSpacingGap;
-    
+
     _sign = widget.effect.isWrapping ? 1.0 : -1.0;
 
     final double totalDistance = widget.effect.isHorizontal
         ? _stepX * 3
         : _stepY * 3;
-    
+
     final double radius = _tileWidth / 2;
-    
+
     _totalAngle = (totalDistance / radius) * _sign;
 
     _controller = AnimationController(
@@ -77,11 +77,11 @@ class _WheelRollerState extends State<WheelRoller>
         final double dx = widget.effect.isHorizontal
             ? _sign * _stepX * 3 * t
             : 0;
-        
+
         final double dy = widget.effect.isHorizontal
             ? 0
             : _sign * _stepY * 3 * t;
-        
+
         final double angle = _totalAngle * t;
 
         final double opacity = t < 0.8 ? 1.0 : 1.0 - (t - 0.8) / 0.2;
@@ -94,8 +94,8 @@ class _WheelRollerState extends State<WheelRoller>
               angle: angle,
               child: SvgPicture.asset(
                 Emojis.wheel.svg,
-                width: _tileWidth,
-                height: _tileHeight,
+                width: _tileWidth * 1.3,
+                height: _tileHeight * 1.3,
               ),
             ),
           ),

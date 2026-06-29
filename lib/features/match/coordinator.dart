@@ -396,6 +396,9 @@ class GameCoordinator {
     }
     state.updateUI();
 
+    await Future.delayed(const Duration(milliseconds: 180));
+    if (state.isDisposed) return;
+
     for (final w in wheels) {
       final effect = RollEffect(
         startRow: w.origin.row,
@@ -433,9 +436,7 @@ class GameCoordinator {
     }
     state.updateUI();
 
-    final Set<TileCoordinate> staleOrigins = {
-      for (final w in wheels) w.origin,
-    };
+    final Set<TileCoordinate> staleOrigins = {for (final w in wheels) w.origin};
     await _settleBoard(staleOrigins);
   }
 

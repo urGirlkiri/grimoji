@@ -39,11 +39,7 @@ class TileContent extends StatelessWidget {
     final displayEmoji = tile.morphTarget ?? tile.emoji;
     final reaction = RecipeBook.getReactionFor(displayEmoji);
     final isExplosive = reaction?.type == ReactionType.explosive;
-    final targetOpacity = tile.isWheelOrigin
-        ? 0.0
-        : (tile.isExploding && isExplosive)
-        ? 0.0
-        : 1.0;
+    final targetOpacity = (tile.isExploding && isExplosive) ? 0.0 : 1.0;
 
     final scaleDuration = (isTouched ? 100 : 200).ms;
     final scaleCurve = tile.isMergePoint
@@ -56,6 +52,19 @@ class TileContent extends StatelessWidget {
       tWidth: tWidth,
       tHeight: tHeight,
     );
+
+    if (tile.isWheelOrigin) {
+      return disp
+          .animate()
+          .scaleXY(
+            begin: 1.0,
+            end: 1.3,
+            duration: 180.ms,
+            curve: Curves.easeOut,
+          )
+          .then()
+          .fadeOut(duration: 1.ms);
+    }
 
     return AnimatedOpacity(
       opacity: targetOpacity,
