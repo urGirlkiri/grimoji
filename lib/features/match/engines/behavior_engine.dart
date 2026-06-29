@@ -144,6 +144,10 @@ class BehaviorEngine {
             }
           }
           break;
+
+        case ActionType.rollWheel:
+          boardManager.gridTiles[centerX][centerY].isWheelTrigger = true;
+          break;
       }
     }
   }
