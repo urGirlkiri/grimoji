@@ -39,7 +39,11 @@ class TileContent extends StatelessWidget {
     final displayEmoji = tile.morphTarget ?? tile.emoji;
     final reaction = RecipeBook.getReactionFor(displayEmoji);
     final isExplosive = reaction?.type == ReactionType.explosive;
-    final targetOpacity = (tile.isExploding && isExplosive) ? 0.0 : 1.0;
+    final targetOpacity = tile.isWheelOrigin
+        ? 0.0
+        : (tile.isExploding && isExplosive)
+        ? 0.0
+        : 1.0;
 
     final scaleDuration = (isTouched ? 100 : 200).ms;
     final scaleCurve = tile.isMergePoint

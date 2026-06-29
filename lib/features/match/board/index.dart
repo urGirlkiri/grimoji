@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/features/match/board/models/line_clear.dart';
 import 'package:grimoji/features/match/board/models/sparkle_effect.dart';
+import 'package:grimoji/features/match/board/models/roll.dart';
+import 'package:grimoji/features/match/board/widgets/overlays/wheel_roll/index.dart';
 import 'package:grimoji/features/match/board/widgets/announcer/index.dart';
 import 'package:grimoji/features/match/board/widgets/overlays/line_clear/index.dart';
 import 'package:grimoji/features/match/board/widgets/board_grid/index.dart';
@@ -37,9 +39,15 @@ class _GameBoardState extends State<GameBoard> {
   final ValueNotifier<String?> _activeTileIdNotifier = ValueNotifier<String?>(
     null,
   );
+  
   final ValueNotifier<List<LineClearEffect>> _lineClearNotifier = ValueNotifier(
     [],
+  )
+  ;
+  final ValueNotifier<List<RollEffect>> _wheelRollNotifier = ValueNotifier(
+    [],
   );
+
   bool _isDisposed = false;
 
   @override
@@ -56,8 +64,10 @@ class _GameBoardState extends State<GameBoard> {
     final newLevelState = context.read<LevelState>();
     if (_levelState != newLevelState) {
       _levelState?.coordinator.onLineClear = null;
+      _levelState?.coordinator.onWheelRoll = null;
       _levelState = newLevelState;
       _levelState!.coordinator.onLineClear = triggerLineClear;
+      _levelState!.coordinator.onWheelRoll = triggerWheelRoll;
     }
   }
 
@@ -67,7 +77,9 @@ class _GameBoardState extends State<GameBoard> {
     _sparklesNotifier.dispose();
     _activeTileIdNotifier.dispose();
     _lineClearNotifier.dispose();
+    _wheelRollNotifier.dispose();
     _levelState?.coordinator.onLineClear = null;
+    _levelState?.coordinator.onWheelRoll = null;
     super.dispose();
   }
 
@@ -88,6 +100,16 @@ class _GameBoardState extends State<GameBoard> {
         boardRect,
       );
     }
+  }
+
+  Future<void> triggerWheelRoll(RollEffect effect) async {
+    if (_isDisposed) return;
+    _wheelRollNotifier.value = [..._wheelRollNotifier.value, effect];
+    await Future.delayed(const Duration(milliseconds: 1200));
+    if (_isDisposed) return;
+    _wheelRollNotifier.value = _wheelRollNotifier.value
+        .where((e) => e.id != effect.id)
+        .toList();
   }
 
   void triggerLineClear(int row, int col, bool isHorizontal) {
@@ -303,6 +325,17 @@ class _GameBoardState extends State<GameBoard> {
                                   tileHeight: calculatedSingleTileHeight,
                                   cols: gridColumns,
                                   rows: gridRows,
+                                ),
+                              ),
+                            ),
+
+                            OverflowBox(
+                              maxWidth: constrainedBoardWidth,
+                              child: IgnorePointer(
+                                child: WheelRollOverlay(
+                                  notifier: _wheelRollNotifier,
+                                  tileWidth: calculatedSingleTileWidth,
+                                  tileHeight: calculatedSingleTileHeight,
                                 ),
                               ),
                             ),

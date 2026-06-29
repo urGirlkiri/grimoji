@@ -29,6 +29,7 @@ class Tile {
   bool isLineClearTarget = false;
 
   bool isWheelTrigger = false;
+  bool isWheelOrigin = false;
 
   bool hasFlown = false;
   bool isFlying = false;
@@ -101,6 +102,7 @@ class Tile {
     isLineClearTarget = false;
 
     isWheelTrigger = false;
+    isWheelOrigin = false;
   }
 
   void clearBehavior() {

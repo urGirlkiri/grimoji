@@ -15,6 +15,8 @@ import 'package:grimoji/features/match/utils/match_detector.dart';
 import 'package:grimoji/features/match/state.dart';
 import 'package:grimoji/features/match/utils/swipe_detector.dart';
 import 'package:grimoji/features/alchemy/behaviors/clear.dart';
+import 'package:grimoji/config/emojis/index.dart';
+import 'package:grimoji/features/match/board/models/roll.dart';
 import 'package:logging/logging.dart';
 
 class GameCoordinator {
@@ -25,6 +27,7 @@ class GameCoordinator {
   final void Function(int) onTargetAcquired;
   final Future<bool> Function() onComboFinished;
   void Function(int row, int col, bool isHorizontal)? onLineClear;
+  Future<void> Function(RollEffect)? onWheelRoll;
   final Logger _log = Logger('GameCoordinator');
 
   Timer? _hintTimer;
@@ -86,6 +89,15 @@ class GameCoordinator {
       if (state.isDisposed) return;
     }
 
+    if (_anyWheelPending()) {
+      await _executeWheelPhase(
+        isHorizontal: true,
+        isWrapping: true,
+        triggerCoord: coord,
+      );
+      if (state.isDisposed) return;
+    }
+
     await _executeEmojiBehaviors();
     if (state.isDisposed) return;
 
@@ -137,6 +149,11 @@ class GameCoordinator {
           ? tCoord
           : dCoord;
 
+      final bool isHorizontal = dCoord.row == tCoord.row;
+      final bool isPositive = isHorizontal
+          ? tCoord.col > dCoord.col
+          : tCoord.row > dCoord.row;
+
       engine.executeBehaviorActions(
         decision.actions,
         triggerCoord.row,
@@ -147,6 +164,15 @@ class GameCoordinator {
       final hasSwallow = _anySwallowPending();
       if (hasSwallow) {
         await Future.delayed(const Duration(milliseconds: 700));
+        if (state.isDisposed) return;
+      }
+
+      if (_anyWheelPending()) {
+        await _executeWheelPhase(
+          isHorizontal: isHorizontal,
+          isWrapping: isPositive,
+          triggerCoord: triggerCoord,
+        );
         if (state.isDisposed) return;
       }
 
@@ -303,6 +329,116 @@ class GameCoordinator {
     state.dispose();
   }
 
+  void _clearWheelTriggers() {
+    for (int r = 0; r < BoardManager.rows; r++) {
+      for (int c = 0; c < BoardManager.cols; c++) {
+        engine.grid[r][c].isWheelTrigger = false;
+      }
+    }
+  }
+
+  bool _anyWheelPending() {
+    for (int r = 0; r < BoardManager.rows; r++) {
+      for (int c = 0; c < BoardManager.cols; c++) {
+        if (engine.grid[r][c].isWheelTrigger) return true;
+      }
+    }
+    return false;
+  }
+
+  Future<void> _executeWheelPhase({
+    required bool isHorizontal,
+    required bool isWrapping,
+    required TileCoordinate triggerCoord,
+  }) async {
+    const int stepCount = 3;
+    const stepDelay = Duration(milliseconds: 300);
+    const tailDelay = Duration(milliseconds: 200);
+
+    const int rows = BoardManager.rows;
+    const int cols = BoardManager.cols;
+
+    final List<({TileCoordinate origin, List<TileCoordinate> steps})> wheels =
+        [];
+    for (int r = 0; r < rows; r++) {
+      for (int c = 0; c < cols; c++) {
+        if (engine.grid[r][c].isWheelTrigger) {
+          engine.grid[r][c].isWheelTrigger = false;
+          final origin = TileCoordinate(row: r, col: c);
+
+          final List<TileCoordinate> steps = [];
+          for (int i = 1; i <= stepCount; i++) {
+            int sr = r;
+            int sc = c;
+            if (isHorizontal) {
+              sc = ((sc + (isWrapping ? i : -i)) % cols + cols) % cols;
+            } else {
+              sr = ((sr + (isWrapping ? i : -i)) % rows + rows) % rows;
+            }
+            steps.add(TileCoordinate(row: sr, col: sc));
+          }
+          _log.info(
+            'WheelPhase: found trigger at (${origin.row},${origin.col}) '
+            'isHorizontal=$isHorizontal isWrapping=$isWrapping '
+            'steps=${steps.map((s) => "(${s.row},${s.col})").join(",")}',
+          );
+          wheels.add((origin: origin, steps: steps));
+        }
+      }
+    }
+    _log.info('WheelPhase: total wheels found = ${wheels.length}');
+    if (wheels.isEmpty) return;
+
+    for (final w in wheels) {
+      _log.info('WheelPhase: hiding origin (${w.origin.row},${w.origin.col})');
+      engine.grid[w.origin.row][w.origin.col].isWheelOrigin = true;
+      engine.grid[w.origin.row][w.origin.col].clearBehavior();
+    }
+    state.updateUI();
+
+    for (final w in wheels) {
+      final effect = RollEffect(
+        startRow: w.origin.row,
+        startCol: w.origin.col,
+        isHorizontal: isHorizontal,
+        isWrapping: isWrapping,
+        steps: w.steps,
+      );
+      _log.info(
+        'WheelPhase: firing overlay id=${effect.id} '
+        'start=(${effect.startRow},${effect.startCol})',
+      );
+      onWheelRoll?.call(effect);
+    }
+
+    for (int i = 0; i < stepCount; i++) {
+      await Future.delayed(stepDelay);
+      if (state.isDisposed) return;
+
+      for (final w in wheels) {
+        final step = w.steps[i];
+        engine.grid[step.row][step.col].emoji = Emojis.bomb;
+        engine.grid[step.row][step.col].clearBehavior();
+      }
+      state.updateUI();
+    }
+
+    await Future.delayed(tailDelay);
+    if (state.isDisposed) return;
+
+    for (final w in wheels) {
+      for (final step in w.steps) {
+        engine.grid[step.row][step.col].isTriggered = true;
+      }
+    }
+    state.updateUI();
+
+    final Set<TileCoordinate> staleOrigins = {
+      for (final w in wheels) w.origin,
+    };
+    await _settleBoard(staleOrigins);
+  }
+
   bool _anySwallowPending() {
     for (int r = 0; r < BoardManager.rows; r++) {
       for (int c = 0; c < BoardManager.cols; c++) {
@@ -443,6 +579,16 @@ class GameCoordinator {
 
       if (detonationOccurred) {
         events.add(TurnEvent.explosion);
+      }
+
+      if (_anyWheelPending()) {
+        await _executeWheelPhase(
+          isHorizontal: true,
+          isWrapping: true,
+          triggerCoord: focusCoordinate,
+        );
+        if (state.isDisposed) return;
+        continue;
       }
 
       if (!cascadeOccurred && !detonationOccurred) {
@@ -687,6 +833,8 @@ class GameCoordinator {
     if (!engine.hasPossibleMoves() && !state.isGameOver && !state.isFeverTime) {
       await shuffleBoard();
     }
+
+    _clearWheelTriggers();
 
     _log.info('Processing After Turn Emoji Behaviors...');
     engine.processTurnEndBehaviors();
