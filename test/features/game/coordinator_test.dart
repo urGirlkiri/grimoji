@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fake_async/fake_async.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/levels/game_level.dart';
-import 'package:grimoji/config/constants.dart';
+import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
 import 'package:flutter/widgets.dart';
@@ -46,7 +46,7 @@ void main() {
         );
 
         levelState.startLevel();
-        async.elapse(gravityAnimationTime);
+        async.elapse(fallDuration);
 
         expect(levelState.engine.grid[0][0].coordinate.row, 0);
       });
@@ -66,7 +66,7 @@ void main() {
 
         TestHelpers.genDeadLockGrid(levelState.engine);
         levelState.startLevel();
-        async.elapse(gravityAnimationTime);
+        async.elapse(fallDuration);
 
         levelState.engine.grid[0][0].emoji = Emojis.fire;
         levelState.engine.grid[0][1].emoji = Emojis.fire;
@@ -100,7 +100,7 @@ void main() {
         );
 
         levelState.startLevel();
-        async.elapse(gravityAnimationTime);
+        async.elapse(fallDuration);
 
         async.elapse(const Duration(seconds: 5));
 
@@ -132,7 +132,7 @@ void main() {
 
         TestHelpers.genDeadLockGrid(levelState.engine);
         levelState.startLevel();
-        async.elapse(gravityAnimationTime);
+        async.elapse(fallDuration);
 
         levelState.coordinator.shuffleBoard();
 
@@ -156,7 +156,7 @@ void main() {
         );
 
         levelState.startLevel();
-        async.elapse(gravityAnimationTime);
+        async.elapse(fallDuration);
 
         expect(levelState.gameState.isPaused, isFalse);
 
@@ -181,7 +181,7 @@ void main() {
         );
 
         levelState.startLevel();
-        async.elapse(gravityAnimationTime);
+        async.elapse(fallDuration);
 
         levelState.engine.grid[0][0].isHinting = true;
         levelState.engine.grid[0][1].isHinting = true;

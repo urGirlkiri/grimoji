@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
@@ -58,8 +59,8 @@ class TileContent extends StatelessWidget {
           .animate()
           .scaleXY(
             begin: 1.0,
-            end: 1.3,
-            duration: 180.ms,
+            end: wheelVisualScaleFactor,
+            duration: wheelWindUpDuration,
             curve: Curves.easeOut,
           )
           .then()

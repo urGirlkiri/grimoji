@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:grimoji/config/constants.dart';
+import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/config/emojis/index.dart';
 
 class ClearBeam extends StatelessWidget {
@@ -79,7 +79,7 @@ class ClearBeam extends StatelessWidget {
               .move(
                 begin: Offset.zero,
                 end: Offset(dx, dy),
-                duration: lineWaveAnimDuration,
+                duration: lineClearBeamDuration,
                 curve: Curves.easeOut,
               )
               .scaleXY(begin: 0.5, end: 1.2, duration: 100.ms)
@@ -125,7 +125,7 @@ class ClearBeam extends StatelessWidget {
                   )
                   .animate()
                   .custom(
-                    duration: lineWaveAnimDuration,
+                    duration: lineClearBeamDuration,
                     curve: Curves.easeOutExpo,
                     builder: (context, value, child) {
                       return Transform.scale(
@@ -136,7 +136,7 @@ class ClearBeam extends StatelessWidget {
                       );
                     },
                   )
-                  .fadeOut(delay: 50.ms, duration: lineWaveAnimDuration),
+                  .fadeOut(delay: 50.ms, duration: lineClearBeamDuration),
         ),
         ...mirages,
       ],

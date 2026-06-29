@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:grimoji/config/constants.dart';
+import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/match/board/models/line_clear.dart';
 import 'package:grimoji/features/match/board/models/sparkle_effect.dart';
 import 'package:grimoji/features/match/board/models/roll.dart';
@@ -39,14 +39,11 @@ class _GameBoardState extends State<GameBoard> {
   final ValueNotifier<String?> _activeTileIdNotifier = ValueNotifier<String?>(
     null,
   );
-  
+
   final ValueNotifier<List<LineClearEffect>> _lineClearNotifier = ValueNotifier(
     [],
-  )
-  ;
-  final ValueNotifier<List<RollEffect>> _wheelRollNotifier = ValueNotifier(
-    [],
   );
+  final ValueNotifier<List<RollEffect>> _wheelRollNotifier = ValueNotifier([]);
 
   bool _isDisposed = false;
 
@@ -134,7 +131,7 @@ class _GameBoardState extends State<GameBoard> {
     final sparkle = SparkleEffect(position: localPosition);
     _sparklesNotifier.value = [..._sparklesNotifier.value, sparkle];
 
-    Future.delayed(boardSparksTime, () {
+    Future.delayed(sparkleLifetime, () {
       if (_isDisposed) return;
       _sparklesNotifier.value = _sparklesNotifier.value
           .where((s) => s.id != sparkle.id)

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:grimoji/config/constants.dart';
+import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/match/board/models/roll.dart';
 
@@ -53,7 +53,7 @@ class _WheelRollerState extends State<WheelRoller>
 
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1100),
+      duration: wheelSpinTotalDuration,
     )..forward();
   }
 
@@ -94,8 +94,8 @@ class _WheelRollerState extends State<WheelRoller>
               angle: angle,
               child: SvgPicture.asset(
                 Emojis.wheel.svg,
-                width: _tileWidth * 1.3,
-                height: _tileHeight * 1.3,
+                width: _tileWidth * wheelVisualScaleFactor,
+                height: _tileHeight * wheelVisualScaleFactor,
               ),
             ),
           ),
