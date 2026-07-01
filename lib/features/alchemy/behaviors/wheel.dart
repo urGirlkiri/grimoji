@@ -5,7 +5,7 @@ import 'package:grimoji/config/emojis/index.dart';
 
 class WheelBehavior extends EmojiBehavior {
   static final emoji = Emojis.wheel;
-  static const _action = BehaviorAction(type: ActionType.rollWheel);
+  static const _action = BehaviorAction(type: ActionType.wheelRoll);
 
   @override
   List<BehaviorAction> onMatched(int x, int y) => [_action];
