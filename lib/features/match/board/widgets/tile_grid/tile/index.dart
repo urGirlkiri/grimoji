@@ -1,6 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:grimoji/config/constants.dart';
+import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/tile/swallow.dart';
@@ -62,13 +63,13 @@ class TileWidget extends StatelessWidget {
           .scaleXY(
             begin: 1.0,
             end: 1.4,
-            duration: lineWaveAnimDuration,
+            duration: lineClearBeamDuration,
             curve: Curves.easeOutBack,
           )
           .scaleXY(
             begin: 1.4,
             end: 0,
-            duration: lineWaveAnimDuration,
+            duration: lineClearBeamDuration,
             curve: Curves.easeInBack,
           );
     }
@@ -77,12 +78,21 @@ class TileWidget extends StatelessWidget {
       content = content.animate().scaleXY(
         begin: 1.0,
         end: 0,
-        duration: lineWaveAnimDuration * 2 - 100.ms,
+        duration: lineClearBeamDuration * 2 - 100.ms,
+      );
+    }
+
+    if (tile.isGhostTarget) {
+      content = content.animate().scaleXY(
+        begin: 1.0,
+        end: 0,
+        duration: ghostDiveDuration * 0.1,
+        curve: Curves.easeInExpo,
       );
     }
 
     return AnimatedPositioned(
-      duration: swapAnimationTime,
+      duration: swapSpeed,
       curve: Curves.easeOutCubic,
       left: leftPixel,
       top: topPixel,
@@ -114,6 +124,16 @@ class TileWidget extends StatelessWidget {
                     child: EmojiWidget.lottie(
                       path: tile.emoji.lottie,
                       size: tWidth * 0.8,
+                    ),
+                  ),
+
+                if (kDebugMode && tile.isGhostTarget)
+                  Container(
+                    width: tWidth,
+                    height: tHeight,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.red, width: 3),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                   ),
               ],

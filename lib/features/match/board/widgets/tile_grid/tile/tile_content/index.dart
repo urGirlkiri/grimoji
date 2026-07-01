@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
@@ -52,6 +53,37 @@ class TileContent extends StatelessWidget {
       tWidth: tWidth,
       tHeight: tHeight,
     );
+
+    if (tile.isWheelOrigin) {
+      return disp
+          .animate()
+          .scaleXY(
+            begin: 1.0,
+            end: wheelVisualScaleFactor,
+            duration: wheelWindUpDuration,
+            curve: Curves.easeOut,
+          )
+          .then()
+          .fadeOut(duration: 1.ms);
+    }
+
+    if (tile.isGhostOrigin) {
+      return disp
+          .animate()
+          .scaleXY(
+            begin: 1.0,
+            end: ghostScaleFactor,
+            duration: ghostDiveDuration * 0.2,
+            curve: Curves.easeOut,
+          )
+          .then()
+           .scaleXY(
+            begin: 1.0,
+            end: 0,
+            duration: 0.microseconds,
+            curve: Curves.easeOut,
+          );
+    }
 
     return AnimatedOpacity(
       opacity: targetOpacity,

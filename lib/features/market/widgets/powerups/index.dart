@@ -50,10 +50,16 @@ class _PowerupShopItem extends StatelessWidget {
 
   final Powerup boost;
 
-  void _showSnackbar(BuildContext context, String message, {required bool isError}) {
+  void _showSnackbar(
+    BuildContext context,
+    String message, {
+    required bool isError,
+  }) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: isError ? context.palette.crimson : context.palette.dusk,
+        backgroundColor: isError
+            ? context.palette.crimson
+            : context.palette.dusk,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         content: Text(
@@ -73,9 +79,17 @@ class _PowerupShopItem extends StatelessWidget {
     if (profile.spendDice(boost.price)) {
       context.readAudio.playSfx(SfxType.purchase);
       profile.updatePowerupCount(boost.id, boost.bundleAmount);
-      _showSnackbar(context, 'Got ${boost.bundleAmount}× ${boost.name}!', isError: false);
+      _showSnackbar(
+        context,
+        'Got ${boost.bundleAmount}× ${boost.name}!',
+        isError: false,
+      );
     } else {
-      _showSnackbar(context, 'Need ${boost.price} dice for ${boost.name}!', isError: true);
+      _showSnackbar(
+        context,
+        'Need ${boost.price} dice for ${boost.name}!',
+        isError: true,
+      );
     }
   }
 

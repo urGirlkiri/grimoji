@@ -6,4 +6,6 @@ enum ActionType {
   consumeRandomType,
   clearRow,
   clearCol,
+  wheelRoll,
+  ghostDive,
 }

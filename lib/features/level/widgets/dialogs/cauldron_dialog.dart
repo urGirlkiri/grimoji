@@ -12,10 +12,16 @@ import 'package:provider/provider.dart';
 class CauldronDialog extends StatelessWidget {
   const CauldronDialog({super.key});
 
-  void _showSnackbar(BuildContext context, String message, {bool isError = false}) {
+  void _showSnackbar(
+    BuildContext context,
+    String message, {
+    bool isError = false,
+  }) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: isError ? context.palette.crimson : context.palette.dusk,
+        backgroundColor: isError
+            ? context.palette.crimson
+            : context.palette.dusk,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         content: Text(
@@ -109,29 +115,47 @@ class CauldronDialog extends StatelessWidget {
                       child: Column(
                         children: [
                           PillButton(
-                            text: '${CauldronPrice.restoreOneLabel}  •  ${CauldronPrice.restoreOne}',
-                            leading: Image.asset('assets/images/dice.png', width: 20 * scale, height: 20 * scale),
-                            color: dices >= CauldronPrice.restoreOne ? palette.twilight : palette.slate,
+                            text:
+                                '${CauldronPrice.restoreOneLabel}  •  ${CauldronPrice.restoreOne}',
+                            leading: Image.asset(
+                              'assets/images/dice.png',
+                              width: 20 * scale,
+                              height: 20 * scale,
+                            ),
+                            color: dices >= CauldronPrice.restoreOne
+                                ? palette.twilight
+                                : palette.slate,
                             textColor: dices >= CauldronPrice.restoreOne
                                 ? palette.mist
                                 : palette.mist.withValues(alpha: 0.5),
                             fullWidth: true,
                             fontSize: 13 * scale,
                             enableAnimation: dices >= CauldronPrice.restoreOne,
-                            onTap: dices >= CauldronPrice.restoreOne ? () => _buyOne(context) : () {},
+                            onTap: dices >= CauldronPrice.restoreOne
+                                ? () => _buyOne(context)
+                                : () {},
                           ),
                           SizedBox(height: 8 * scale),
                           PillButton(
-                            text: '${CauldronPrice.refillAllLabel}  •  ${CauldronPrice.refillAll}',
-                            leading: Image.asset('assets/images/dice.png', width: 20 * scale, height: 20 * scale),
-                            color: dices >= CauldronPrice.refillAll ? palette.twilight : palette.slate,
+                            text:
+                                '${CauldronPrice.refillAllLabel}  •  ${CauldronPrice.refillAll}',
+                            leading: Image.asset(
+                              'assets/images/dice.png',
+                              width: 20 * scale,
+                              height: 20 * scale,
+                            ),
+                            color: dices >= CauldronPrice.refillAll
+                                ? palette.twilight
+                                : palette.slate,
                             textColor: dices >= CauldronPrice.refillAll
                                 ? palette.mist
                                 : palette.mist.withValues(alpha: 0.5),
                             fullWidth: true,
                             fontSize: 13 * scale,
                             enableAnimation: dices >= CauldronPrice.refillAll,
-                            onTap: dices >= CauldronPrice.refillAll ? () => _buyAll(context) : () {},
+                            onTap: dices >= CauldronPrice.refillAll
+                                ? () => _buyAll(context)
+                                : () {},
                           ),
                         ],
                       ),

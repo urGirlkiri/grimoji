@@ -3,8 +3,8 @@ import 'dart:io';
 
 /// Codegen script: reads index.dart, collects all GameEmoji variable names,
 /// then writes a `static final List<GameEmoji> all = [...]` block into the
-/// Emojis class. 
-/// 
+/// Emojis class.
+///
 void main() async {
   final File indexFile = File('lib/config/emojis/index.dart');
 
@@ -20,10 +20,7 @@ void main() async {
     r'static\s+(?:const|final)\s+GameEmoji\s+(\w+)\s*=\s*GameEmoji\s*\(',
   );
 
-  final names = emojiRegex
-      .allMatches(content)
-      .map((m) => m.group(1)!)
-      .toList();
+  final names = emojiRegex.allMatches(content).map((m) => m.group(1)!).toList();
 
   if (names.isEmpty) {
     print('CRITICAL ERROR: Found 0 GameEmoji entries. Aborting.');
@@ -58,5 +55,7 @@ void main() async {
   }
 
   await indexFile.writeAsString(updated);
-  print('SUCCESS: index.dart updated with ${names.length} entries in Emojis.all.');
+  print(
+    'SUCCESS: index.dart updated with ${names.length} entries in Emojis.all.',
+  );
 }

@@ -12,6 +12,7 @@ import 'package:grimoji/features/match/model/cascade_step_result.dart';
 import 'package:grimoji/features/match/model/detonation_step_result.dart';
 import 'package:grimoji/features/match/utils/swipe_detector.dart';
 import 'package:grimoji/features/match/utils/match_detector.dart';
+import 'package:grimoji/features/match/utils/hint_detector.dart';
 import 'alchemy_engine.dart';
 import 'behavior_engine.dart';
 
@@ -43,6 +44,7 @@ class GameEngine {
       getAoERadiusForType: RecipeBook.getAoERadiusForType,
       initializeBehavior: _behavior.initializeBehavior,
       onTileBlasted: _behavior.processBlastBehavior,
+      onTileMatched: _behavior.processMatchedBehavior,
     );
   }
 
@@ -95,6 +97,11 @@ class GameEngine {
     TileCoordinate targetCoord,
   ) {
     for (var groupMatch in matchedGroups) {
+      if (groupMatch.isSpecial) {
+        _categorizeShapeAnim(groupMatch, isFirstMatch ? targetCoord : null);
+        continue;
+      }
+
       final recipes = RecipeBook.getRecipesFor(groupMatch.emoji);
       final reaction = RecipeBook.getReactionFor(groupMatch.emoji);
 
@@ -142,6 +149,27 @@ class GameEngine {
         playSfx(SfxType.merge);
       }
     }
+  }
+
+  void _categorizeShapeAnim(MatchGroup group, TileCoordinate? targetCoord) {
+    final catalyst = MatchDetector.resolveShapePivot(
+      group,
+      swipeTarget: targetCoord,
+    );
+
+    for (var coord in group.coordinates) {
+      final tile = grid[coord.row][coord.col];
+      tile.isMergePoint = coord == catalyst;
+
+      if (!tile.isMergePoint) {
+        tile.isMerging = true;
+        tile.coordinate.col = catalyst.col;
+        tile.coordinate.row = catalyst.row;
+      } else {
+        tile.morphTarget = group.yields;
+      }
+    }
+    playSfx(SfxType.merge);
   }
 
   void shuffleGrid() {
@@ -199,69 +227,8 @@ class GameEngine {
     return false;
   }
 
-  Future<List<TileCoordinate>?> getHintMove() async {
-    List<({List<TileCoordinate> coords, int score})> validMoves = [];
-    for (int r = 0; r < BoardManager.rows; r++) {
-      for (int c = 0; c < BoardManager.cols; c++) {
-        if (c < BoardManager.cols - 1) {
-          final t1 = TileCoordinate(row: r, col: c);
-          final t2 = TileCoordinate(row: r, col: c + 1);
-          final d = SwipeDetector.evaluate(
-            grid: grid,
-            dCoord: t1,
-            tCoord: t2,
-            getSwipeBehaviors: _behavior.processSwipedWithBehavior,
-            hasSwipeBehavior: _behavior.hasSwipeBehavior,
-            quickCheckOnly: true,
-          );
-          if (d.type != SwipeResult.invalid) {
-            validMoves.add((coords: [t1, t2], score: _scoreMove(t1, t2, d)));
-          }
-        }
-        if (r < BoardManager.rows - 1) {
-          final t1 = TileCoordinate(row: r, col: c);
-          final t2 = TileCoordinate(row: r + 1, col: c);
-          final d = SwipeDetector.evaluate(
-            grid: grid,
-            dCoord: t1,
-            tCoord: t2,
-            getSwipeBehaviors: _behavior.processSwipedWithBehavior,
-            hasSwipeBehavior: _behavior.hasSwipeBehavior,
-            quickCheckOnly: true,
-          );
-          if (d.type != SwipeResult.invalid) {
-            validMoves.add((coords: [t1, t2], score: _scoreMove(t1, t2, d)));
-          }
-        }
-      }
-      if (r % 2 == 1) {
-        await Future.delayed(Duration.zero);
-      }
-    }
-
-    if (validMoves.isEmpty) return null;
-    validMoves.sort((a, b) => b.score.compareTo(a.score));
-    final topScore = validMoves.first.score;
-    final bestMoves = validMoves.where((m) => m.score == topScore).toList();
-    bestMoves.shuffle();
-    return bestMoves.first.coords;
-  }
-
-  int _scoreMove(TileCoordinate t1, TileCoordinate t2, SwipeDecision decision) {
-    int score = (decision.type == SwipeResult.match) ? 100 : 0;
-    if (_isTargetIngredient(grid[t1.row][t1.col].emoji) ||
-        _isTargetIngredient(grid[t2.row][t2.col].emoji)) {
-      score += 50;
-    }
-    score += (t1.row > t2.row ? t1.row : t2.row);
-    return score;
-  }
-
-  bool _isTargetIngredient(GameEmoji emoji) {
-    return RecipeBook.allRecipes.any(
-      (r) => r.yields == level.targetEmoji && r.ingredient == emoji,
-    );
-  }
+  Future<List<TileCoordinate>?> getHintMove() =>
+      HintDetector.findBestMove(grid: grid, targetEmoji: level.targetEmoji);
 
   void processTurnEndBehaviors() => _behavior.processTurnEndBehaviors();
 

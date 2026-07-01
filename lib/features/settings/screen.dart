@@ -21,7 +21,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   Future<void> _resetProgress(BuildContext context) async {
     final palette = context.palette;
-    
+
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) {
@@ -37,7 +37,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     await context.read<ProfileController>().reset();
     if (!context.mounted) return;
-    
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: palette.midnight,

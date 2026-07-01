@@ -270,5 +270,134 @@ void main() {
         expect(matches.first.coordinates.length, 7);
       });
     });
+
+    group('Testing Shape detection', () {
+      test('Should detect a 2x2 square as a ghost shape group', () {
+        final grid = [
+          buildRow(0, [Emojis.fire, Emojis.fire, Emojis.rock]),
+          buildRow(1, [Emojis.fire, Emojis.fire, Emojis.rock]),
+        ];
+        final matches = MatchDetector.findMatchedGroups(grid);
+        final shape = matches.firstWhere((m) => m.isSpecial);
+        expect(shape.yields, Emojis.ghost);
+        expect(shape.coordinates.length, 4);
+      });
+
+      test('Should detect a T shape as a bomb shape group', () {
+        final grid = [
+          buildRow(0, [Emojis.rock, Emojis.fire, Emojis.rock]),
+          buildRow(1, [Emojis.fire, Emojis.fire, Emojis.fire]),
+          buildRow(2, [Emojis.rock, Emojis.fire, Emojis.rock]),
+        ];
+        final matches = MatchDetector.findMatchedGroups(grid);
+        final shape = matches.firstWhere((m) => m.isSpecial);
+        expect(shape.yields, Emojis.bomb);
+        expect(shape.coordinates.length, 5);
+      });
+
+      test('Should detect an L shape as a bomb shape group', () {
+        final grid = [
+          buildRow(0, [Emojis.fire, Emojis.fire, Emojis.fire]),
+          buildRow(1, [Emojis.fire, Emojis.rock, Emojis.rock]),
+          buildRow(2, [Emojis.fire, Emojis.rock, Emojis.rock]),
+        ];
+        final matches = MatchDetector.findMatchedGroups(grid);
+        final shape = matches.firstWhere((m) => m.isSpecial);
+        expect(shape.yields, Emojis.bomb);
+        expect(shape.coordinates.length, 5);
+      });
+
+      test('Should detect six in a line as a black hole shape group', () {
+        final grid = [
+          buildRow(0, [Emojis.leafyGreen]),
+          buildRow(1, [Emojis.leafyGreen]),
+          buildRow(2, [Emojis.leafyGreen]),
+          buildRow(3, [Emojis.leafyGreen]),
+          buildRow(4, [Emojis.leafyGreen]),
+          buildRow(5, [Emojis.leafyGreen]),
+        ];
+        final matches = MatchDetector.findMatchedGroups(grid);
+        final shape = matches.firstWhere((m) => m.isSpecial);
+        expect(shape.yields, Emojis.hole);
+        expect(shape.coordinates.length, 6);
+      });
+
+      test('Should include the shape group pivot in the coordinates', () {
+        final grid = [
+          buildRow(0, [Emojis.fire, Emojis.fire]),
+          buildRow(1, [Emojis.fire, Emojis.fire]),
+        ];
+        final matches = MatchDetector.findMatchedGroups(grid);
+        final shape = matches.firstWhere((m) => m.isSpecial);
+        expect(shape.pivot, isNotNull);
+        expect(shape.coordinates.contains(shape.pivot), isTrue);
+      });
+
+      test(
+        'Should resolve the L shape pivot to the swipe target when inside the group',
+        () {
+          final grid = [
+            buildRow(0, [Emojis.fire, Emojis.fire, Emojis.fire]),
+            buildRow(1, [Emojis.fire, Emojis.rock, Emojis.rock]),
+            buildRow(2, [Emojis.fire, Emojis.rock, Emojis.rock]),
+          ];
+          final matches = MatchDetector.findMatchedGroups(grid);
+          final shape = matches.firstWhere((m) => m.isSpecial);
+          final swipeTarget = TileCoordinate(row: 2, col: 0);
+          final pivot = MatchDetector.resolveShapePivot(
+            shape,
+            swipeTarget: swipeTarget,
+          );
+          expect(pivot, swipeTarget);
+        },
+      );
+
+      test(
+        'Should resolve the 2x2 shape pivot to the swipe target when inside the group',
+        () {
+          final grid = [
+            buildRow(0, [Emojis.fire, Emojis.fire, Emojis.rock]),
+            buildRow(1, [Emojis.fire, Emojis.fire, Emojis.rock]),
+          ];
+          final matches = MatchDetector.findMatchedGroups(grid);
+          final shape = matches.firstWhere((m) => m.isSpecial);
+          final swipeTarget = TileCoordinate(row: 1, col: 1);
+          final pivot = MatchDetector.resolveShapePivot(
+            shape,
+            swipeTarget: swipeTarget,
+          );
+          expect(pivot, swipeTarget);
+        },
+      );
+
+      test('Should resolve the T shape pivot to the horizontal junction', () {
+        final grid = [
+          buildRow(0, [Emojis.rock, Emojis.fire, Emojis.rock]),
+          buildRow(1, [Emojis.fire, Emojis.fire, Emojis.fire]),
+          buildRow(2, [Emojis.rock, Emojis.fire, Emojis.rock]),
+        ];
+        final matches = MatchDetector.findMatchedGroups(grid);
+        final shape = matches.firstWhere((m) => m.isSpecial);
+        final swipeTarget = TileCoordinate(row: 2, col: 1);
+        final pivot = MatchDetector.resolveShapePivot(
+          shape,
+          swipeTarget: swipeTarget,
+        );
+        expect(pivot, TileCoordinate(row: 1, col: 1));
+      });
+
+      test('Should allow barber poles to match in a line of 3', () {
+        final grid = [
+          buildRow(0, [
+            Emojis.barberPole,
+            Emojis.barberPole,
+            Emojis.barberPole,
+          ]),
+        ];
+        final matches = MatchDetector.findMatchedGroups(grid);
+        expect(matches.length, 1);
+        expect(matches.first.isSpecial, isFalse);
+      });
+    });
   });
 }

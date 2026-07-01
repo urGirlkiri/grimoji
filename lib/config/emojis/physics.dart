@@ -3,7 +3,7 @@
 /// Codegen script: reads index.dart, parses each emoji's SVG to extract a
 /// point cloud, computes a convex hull, decimates it to ≤8 vertices, then
 /// rewrites index.dart with normalized physics vertices for every GameEmoji.
-/// 
+///
 library;
 
 import 'dart:io';

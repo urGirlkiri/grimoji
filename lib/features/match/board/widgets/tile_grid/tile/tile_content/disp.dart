@@ -53,7 +53,10 @@ class TileDisp extends StatelessWidget {
           );
           final behavior = tile.behavior;
           if (behavior is ClearBehavior) {
-            return Transform.rotate(angle: behavior.isHorizontal ? 0 : degToRad(90), child: emojiWidget);
+            return Transform.rotate(
+              angle: behavior.isHorizontal ? 0 : degToRad(90),
+              child: emojiWidget,
+            );
           }
           return emojiWidget;
         }(),

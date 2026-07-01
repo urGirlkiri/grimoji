@@ -1,4 +1,5 @@
 import 'package:grimoji/config/emojis/index.dart';
+import 'package:grimoji/features/alchemy/behaviors/clear.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
@@ -14,6 +15,7 @@ import 'package:logging/logging.dart';
 typedef BehaviorInitCallback = void Function(Tile tile);
 typedef TileBlastedCallback =
     void Function(Tile tile, int x, int y, ReactionType reactionType);
+typedef TileMatchedCallback = void Function(Tile tile, int x, int y);
 
 class AlchemyEngine {
   final BoardManager boardManager;
@@ -25,6 +27,7 @@ class AlchemyEngine {
   final int Function(ReactionType) getAoERadiusForType;
   final BehaviorInitCallback? initializeBehavior;
   final TileBlastedCallback? onTileBlasted;
+  final TileMatchedCallback? onTileMatched;
 
   final Logger _log = Logger('AlchemyEngine');
 
@@ -37,6 +40,7 @@ class AlchemyEngine {
     required this.getAoERadiusForType,
     this.initializeBehavior,
     this.onTileBlasted,
+    this.onTileMatched,
   });
 
   CascadeStepResult processCascadeStep({
@@ -49,11 +53,47 @@ class AlchemyEngine {
     final Set<TileCoordinate> transmutedTiles = {};
     final Set<TileCoordinate> transformed = {};
 
+    _log.info(
+      'Cascade step: ${matchedGroups.length} groups, tilesToDestroy=${tilesToDestroy.length}, transformed=${transformed.length}',
+    );
+
     int mergedEmojis = 0;
 
     for (var group in matchedGroups) {
       final emoji = group.emoji;
       final coords = group.coordinates;
+
+      _executeMatchedBehavior(group);
+
+      if (group.isSpecial) {
+        final TileCoordinate spawnPoint = MatchDetector.resolveShapePivot(
+          group,
+          swipeTarget: isFirstMatch ? targetCoordinate : null,
+        );
+        final Tile targetTile =
+            boardManager.gridTiles[spawnPoint.row][spawnPoint.col];
+        targetTile.emoji = group.yields!;
+        targetTile.reset();
+
+        if (group.yields! == boardManager.level.targetEmoji) {
+          collectedEmojis.add(CollectedEmoji(emoji: group.yields!, count: 1));
+          targetTile.isFlying = true;
+        }
+
+        final Set<TileCoordinate> sources = coords
+            .where((c) => c != spawnPoint)
+            .toSet();
+        tilesToDestroy.addAll(sources);
+
+        transformed.add(spawnPoint);
+
+        mergedEmojis++;
+
+        if (initializeBehavior != null) {
+          initializeBehavior!(targetTile);
+        }
+        continue;
+      }
 
       bool isAlreadyTriggered = coords.any(
         (c) => boardManager.gridTiles[c.row][c.col].isTriggered,
@@ -175,7 +215,11 @@ class AlchemyEngine {
           collectedEmojis.add(
             CollectedEmoji(emoji: emoji, count: coords.length),
           );
-          tilesToDestroy.addAll(group.coordinates);
+          tilesToDestroy.addAll(
+            group.coordinates.where(
+              (c) => !boardManager.gridTiles[c.row][c.col].isLineClearTrigger,
+            ),
+          );
         }
       }
     }
@@ -294,7 +338,6 @@ class AlchemyEngine {
             tile.reset();
             tile.isTransmuting = true;
             transformedTiles.add(TileCoordinate(row: r, col: c));
-
           } else if (!tile.isSwallowTarget && !tile.isSwallowTrigger) {
             tile.isExploding = true;
             destroyedTiles.add(TileCoordinate(row: r, col: c));
@@ -303,5 +346,26 @@ class AlchemyEngine {
       }
     }
     return (destroyed: destroyedTiles, transformed: transformedTiles);
+  }
+
+  void _executeMatchedBehavior(MatchGroup group) {
+    if (onTileMatched == null) return;
+
+    final rows = group.coordinates.map((c) => c.row).toSet();
+    final cols = group.coordinates.map((c) => c.col).toSet();
+    final bool isHorizontalGroup = rows.length == 1;
+    final bool isVerticalGroup = cols.length == 1;
+
+    for (var coord in group.coordinates) {
+      final tile = boardManager.gridTiles[coord.row][coord.col];
+      if (tile.behavior is ClearBehavior) {
+        if (isHorizontalGroup) {
+          tile.behavior = ClearBehavior(isHorizontal: true);
+        } else if (isVerticalGroup) {
+          tile.behavior = ClearBehavior(isHorizontal: false);
+        }
+      }
+      onTileMatched!(tile, coord.row, coord.col);
+    }
   }
 }

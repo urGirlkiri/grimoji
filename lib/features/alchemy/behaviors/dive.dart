@@ -1,29 +1,19 @@
+import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/behaviors/behavior.dart';
 import 'package:grimoji/features/alchemy/models/action_type.dart';
 import 'package:grimoji/features/alchemy/models/behavior_action.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
-import 'package:grimoji/config/emojis/index.dart';
 
-class ClearBehavior extends EmojiBehavior {
-  static final emoji = Emojis.barberPole;
-  final bool isHorizontal;
+class DiveBehavior extends EmojiBehavior {
+  static final emoji = Emojis.ghost;
 
-  ClearBehavior({required this.isHorizontal});
-
-  BehaviorAction get _action => BehaviorAction(
-    type: isHorizontal ? ActionType.clearRow : ActionType.clearCol,
-  );
-
-  @override
-  List<BehaviorAction> onTapped(int x, int y) => [_action];
+  static const _action = BehaviorAction(type: ActionType.ghostDive);
 
   @override
   List<BehaviorAction> onMatched(int x, int y) => [_action];
 
   @override
-  List<BehaviorAction> onSwipedWith(int x, int y, GameEmoji targetEmoji) => [
-    _action,
-  ];
+  List<BehaviorAction> onTapped(int x, int y) => [_action];
 
   @override
   List<BehaviorAction> onBlastNearby(int x, int y, ReactionType reactionType) {

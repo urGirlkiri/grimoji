@@ -3,6 +3,7 @@ import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/levels/chapters/chapter_1.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/alchemy/behaviors/behavior.dart';
+import 'package:grimoji/features/alchemy/behaviors/clear.dart';
 import 'package:grimoji/features/alchemy/models/action_type.dart';
 import 'package:grimoji/features/alchemy/models/behavior_action.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
@@ -169,6 +170,37 @@ void main() {
             returnsNormally,
             reason: 'Engine should safely ignore tiles without behaviors',
           );
+        },
+      );
+
+      test(
+        'processMatchedBehavior executes onMatched actions and sets line-clear flags',
+        () {
+          boardManager.gridTiles[3][2].emoji = Emojis.barberPole;
+          boardManager.gridTiles[3][2].behavior = ClearBehavior(
+            isHorizontal: true,
+          );
+
+          behaviorEngine.processMatchedBehavior(
+            boardManager.gridTiles[3][2],
+            3,
+            2,
+          );
+
+          expect(
+            boardManager.gridTiles[3][2].isLineClearTrigger,
+            isTrue,
+            reason: 'Barber pole should trigger a horizontal line clear',
+          );
+          for (int c = 0; c < BoardManager.cols; c++) {
+            if (c == 2) continue;
+            expect(
+              boardManager.gridTiles[3][c].isLineClearTarget,
+              isTrue,
+              reason:
+                  'Other tiles in row 3 should be marked as line-clear target',
+            );
+          }
         },
       );
 

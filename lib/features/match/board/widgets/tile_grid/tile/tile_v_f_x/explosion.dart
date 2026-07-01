@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:grimoji/features/match/board/models/particle.dart';
+import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/tile/tile_v_f_x/painter.dart';
 import 'package:grimoji/utils/context_data.dart';
 
@@ -22,10 +23,7 @@ class _TileExplosionState extends State<TileExplosion>
   @override
   void initState() {
     super.initState();
-    _ticker = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 500),
-    );
+    _ticker = AnimationController(vsync: this, duration: blastFxDuration);
 
     _spawnExplosion();
     _ticker.addListener(_onFrameTick);

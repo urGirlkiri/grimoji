@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:grimoji/config/constants.dart';
+import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/match/board/utils/metrics.dart';

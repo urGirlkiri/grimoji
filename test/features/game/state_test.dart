@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fake_async/fake_async.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/levels/game_level.dart';
-import 'package:grimoji/config/constants.dart';
+import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
 import 'package:flutter/widgets.dart';
@@ -45,7 +45,7 @@ void main() {
         );
 
         state.startLevel();
-        async.elapse(gravityAnimationTime);
+        async.elapse(fallDuration);
 
         expect(
           state.engine.grid[0][0].coordinate.row,
@@ -68,7 +68,7 @@ void main() {
         );
 
         state.startLevel();
-        async.elapse(gravityAnimationTime);
+        async.elapse(fallDuration);
 
         async.elapse(const Duration(seconds: 5));
 
@@ -99,7 +99,7 @@ void main() {
 
         TestHelpers.genDeadLockGrid(state.engine);
         state.startLevel();
-        async.elapse(gravityAnimationTime);
+        async.elapse(fallDuration);
 
         async.elapse(const Duration(seconds: 3));
         bool hasHint = state.engine.grid.any(
@@ -112,9 +112,9 @@ void main() {
           TileCoordinate(row: 0, col: 1),
         );
         async.elapse(
-          swapAnimationTime * 2 +
+          swapSpeed * 2 +
               const Duration(milliseconds: 400) +
-              shuffleWipeTime * 2,
+              shuffleWipeHalfTime * 2,
         );
 
         state.engine.grid[5][0].emoji = Emojis.fire;
@@ -163,7 +163,7 @@ void main() {
           reason: 'State should be processing during swap',
         );
 
-        async.elapse(swapAnimationTime * 2 + const Duration(milliseconds: 400));
+        async.elapse(swapSpeed * 2 + const Duration(milliseconds: 400));
 
         expect(
           state.engine.grid[0][0].emoji,
@@ -246,7 +246,7 @@ void main() {
 
         TestHelpers.genDeadLockGrid(state.engine);
         state.startLevel();
-        async.elapse(gravityAnimationTime);
+        async.elapse(fallDuration);
 
         state.engine.grid[0][0].emoji = Emojis.fire;
         state.engine.grid[0][1].emoji = Emojis.fire;
@@ -256,7 +256,7 @@ void main() {
           TileCoordinate(row: 1, col: 2),
         );
 
-        async.elapse(swapAnimationTime * 2 + const Duration(seconds: 10));
+        async.elapse(swapSpeed * 2 + const Duration(seconds: 10));
 
         expect(
           state.gameState.isProcessing,
@@ -279,7 +279,7 @@ void main() {
         );
 
         state.startLevel();
-        async.elapse(gravityAnimationTime);
+        async.elapse(fallDuration);
         state.coordinator.shuffleBoard();
 
         async.elapse(const Duration(seconds: 10));
@@ -305,7 +305,7 @@ void main() {
         );
 
         state.startLevel();
-        async.elapse(gravityAnimationTime);
+        async.elapse(fallDuration);
         state.gameState.setGameOver();
 
         async.elapse(const Duration(seconds: 10));

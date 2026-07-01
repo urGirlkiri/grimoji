@@ -51,7 +51,7 @@ class _LevelStartDialogState extends State<LevelStartDialog> {
                     color: palette.midnight,
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
-                  )
+                  ),
                 ),
                 const SizedBox(height: 16),
                 EmojiWidget.lottie(
@@ -96,7 +96,7 @@ class _LevelStartDialogState extends State<LevelStartDialog> {
                             return;
                           }
                           if (purchased == true) {
-                            setState(() {}); 
+                            setState(() {});
                           }
                           return;
                         }

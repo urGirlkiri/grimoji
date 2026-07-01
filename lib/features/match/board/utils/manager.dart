@@ -5,8 +5,10 @@ import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
+import 'package:logging/logging.dart';
 
 class BoardManager {
+  final Logger _log = Logger('BoardManager');
   static const int rows = 8;
   static const int cols = 5;
 
@@ -123,6 +125,12 @@ class BoardManager {
       }
 
       if (destroyedCount == 0) continue;
+
+      if (destroyedCount > 0) {
+        _log.info(
+          'Gravity col $c: destroyed=$destroyedCount highestRow=$highestDestroyedRow remaining=${remainingTiles.length}',
+        );
+      }
 
       affectedColumns.add(c);
 
@@ -316,7 +324,7 @@ class BoardManager {
 
   void placeStartingBoosters(List<String> boosterIds) {
     final List<TileCoordinate> positions = [];
-    
+
     for (int r = 0; r < rows; r++) {
       for (int c = 0; c < cols; c++) {
         if (gridTiles[r][c].behavior == null) {
