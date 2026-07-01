@@ -7,6 +7,10 @@ import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 
 class PrankBehavior extends EmojiBehavior {
   static final emoji = Emojis.impSmile;
+
+  @override
+  bool get isIntrusive => true;
+
   static const double randomChance = 0.10;
 
   @override
