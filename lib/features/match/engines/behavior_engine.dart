@@ -135,8 +135,9 @@ class BehaviorEngine {
           if (List.generate(
             BoardManager.rows,
             (r) => boardManager.gridTiles[r][centerY],
-          ).any((t) => t.isLineClearTrigger))
+          ).any((t) => t.isLineClearTrigger)) {
             break;
+          }
           boardManager.gridTiles[centerX][centerY].isLineClearTrigger = true;
           for (int r = 0; r < BoardManager.rows; r++) {
             if (r != centerX) {
@@ -145,8 +146,12 @@ class BehaviorEngine {
           }
           break;
 
-        case ActionType.rollWheel:
+        case ActionType.wheelRoll:
           boardManager.gridTiles[centerX][centerY].isWheelTrigger = true;
+          break;
+
+        case ActionType.ghostDive:
+          boardManager.gridTiles[centerX][centerY].isGhostTrigger = true;
           break;
       }
     }
