@@ -119,7 +119,9 @@ int? _scoreHintMove(
   int score = 100;
   if (matched.any((m) => m.isSpecial)) score += 75;
   if (args.targetIngredients.contains(g[r1][c1]) ||
-      args.targetIngredients.contains(g[r2][c2])) score += 50;
+      args.targetIngredients.contains(g[r2][c2])) {
+    score += 50;
+  }
   if (matched.any((m) => m.emoji == args.targetVisual)) score += 100;
   score += (r1 > r2 ? r1 : r2);
   return score;

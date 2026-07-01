@@ -209,8 +209,6 @@ class MatchDetector {
     final innerLimit = isHorizontal ? grid[0].length : grid.length;
 
     for (int i = 0; i < outerLimit; i++) {
-      // ignore: unused_local_variable
-      int streak = 0;
       GameEmoji? currentEmoji;
       final streakCoords = <TileCoordinate>[];
 
@@ -230,17 +228,14 @@ class MatchDetector {
             streakCoords: streakCoords,
             groups: groups,
           );
-          streak = 0;
           currentEmoji = null;
           streakCoords.clear();
 
           if (!consumed.contains(coord) && matchable) {
-            streak = 1;
             currentEmoji = tile.emoji;
             streakCoords.add(coord);
           }
         } else {
-          streak++;
           streakCoords.add(coord);
         }
       }

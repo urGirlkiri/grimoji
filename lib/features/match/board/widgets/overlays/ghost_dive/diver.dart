@@ -1,12 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:grimoji/app/palette.dart';
 import 'package:grimoji/features/alchemy/behaviors/dive.dart';
 import 'package:grimoji/features/match/board/models/ghost_dive.dart';
-import 'package:grimoji/features/match/board/models/particle.dart';
-import 'package:grimoji/features/match/board/widgets/tile_grid/tile/tile_v_f_x/painter.dart';
 import 'package:grimoji/features/match/constants.dart';
-import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
 
 class GhostDiver extends StatefulWidget {
@@ -33,9 +29,6 @@ class _GhostDiverState extends State<GhostDiver>
   late final Animation<double> _opacity;
   late final Animation<double> _rotation;
   late final Offset _endOffset;
-  final List<GridParticle> _particles = [];
-  final Random _random = Random();
-  bool _hasBurst = false;
 
   @override
   void initState() {
@@ -127,67 +120,26 @@ class _GhostDiverState extends State<GhostDiver>
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.palette;
-
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
-        if (_controller.value >= 0.9 && !_hasBurst) {
-          _hasBurst = true;
-          _spawnBurst(_endOffset.dx, _endOffset.dy, palette);
-        }
-
-        for (final p in _particles) {
-          p.update(0.016, gravity: 200.0, drag: 0.95);
-        }
-        _particles.removeWhere((p) => p.life <= 0);
-
-        return Stack(
-          children: [
-            if (_particles.isNotEmpty)
-              Positioned.fill(
-                child: CustomPaint(
-                  painter: ParticleCanvPainter(_particles, isCircular: true),
-                ),
-              ),
-            Transform.translate(
-              offset: _position.value,
-              child: Opacity(
-                opacity: _opacity.value.clamp(0.0, 1.0),
-                child: Transform.rotate(
-                  angle: _rotation.value,
-                  child: Transform.scale(
-                    scale: _scale.value.clamp(0.0, 2.0),
-                    child: EmojiWidget.lottie(
-                      path: DiveBehavior.emoji.lottie,
-                      size: widget.tileWidth * ghostScaleFactor,
-                    ),
-                  ),
+        return Transform.translate(
+          offset: _position.value,
+          child: Opacity(
+            opacity: _opacity.value.clamp(0.0, 1.0),
+            child: Transform.rotate(
+              angle: _rotation.value,
+              child: Transform.scale(
+                scale: _scale.value.clamp(0.0, 2.0),
+                child: EmojiWidget.lottie(
+                  path: DiveBehavior.emoji.lottie,
+                  size: widget.tileWidth * ghostScaleFactor,
                 ),
               ),
             ),
-          ],
+          ),
         );
       },
     );
-  }
-
-  void _spawnBurst(double x, double y, Palette palette) {
-    final List<Color> colors = [palette.mist, palette.crimson, palette.dusk];
-    for (int i = 0; i < 50; i++) {
-      final angle = _random.nextDouble() * 2 * pi;
-      final velocity = 150.0 + _random.nextDouble() * 250.0;
-      _particles.add(
-        GridParticle(
-          x: x,
-          y: y,
-          vx: cos(angle) * velocity,
-          vy: sin(angle) * velocity - 80.0,
-          size: 8.0 + _random.nextDouble() * 12.0,
-          color: colors[_random.nextInt(colors.length)],
-          maxLife: 0.4 + _random.nextDouble() * 0.3,
-        ),
-      );
-    }
   }
 }
