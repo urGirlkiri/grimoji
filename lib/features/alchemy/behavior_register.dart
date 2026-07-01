@@ -1,6 +1,7 @@
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/behaviors/behavior.dart';
 import 'package:grimoji/features/alchemy/behaviors/clear.dart';
+import 'package:grimoji/features/alchemy/behaviors/dive.dart';
 import 'package:grimoji/features/alchemy/behaviors/swallow.dart';
 import 'package:grimoji/features/alchemy/behaviors/virus.dart';
 import 'package:grimoji/features/alchemy/behaviors/prank.dart';
@@ -13,6 +14,7 @@ class BehaviorRegister {
     SwallowBehavior.emoji: () => SwallowBehavior(),
     ClearBehavior.emoji: () => ClearBehavior(isHorizontal: true),
     WheelBehavior.emoji: () => WheelBehavior(),
+    DiveBehavior.emoji: () => DiveBehavior(),
   };
 
   static EmojiBehavior? getBehaviorFor(GameEmoji emoji) {
@@ -27,4 +29,9 @@ class BehaviorRegister {
   static List<GameEmoji> getAllEmojisWithBehaviors() {
     return _behaviors.keys.toList();
   }
+
+  static Set<GameEmoji> get intrusiveEmojis => _behaviors.entries
+      .where((e) => e.value().isIntrusive)
+      .map((e) => e.key)
+      .toSet();
 }
