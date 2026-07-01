@@ -46,7 +46,7 @@ class NavItem extends StatelessWidget {
                   width: width,
                   child: Image.asset(dest.imagePath, fit: BoxFit.contain),
                 ),
-                
+
                 Positioned(
                   top: -5,
                   right: 0,

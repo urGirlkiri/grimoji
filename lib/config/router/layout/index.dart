@@ -32,68 +32,73 @@ class LayoutScaffold extends StatelessWidget {
         body: Column(
           children: [
             GameBar(
-              backgroundColor: isMap ? const Color(0xFF48484f) : palette.midnight,
+              backgroundColor: isMap
+                  ? const Color(0xFF48484f)
+                  : palette.midnight,
             ),
             Expanded(child: navigationShell),
           ],
         ),
         bottomNavigationBar: Container(
-        height: navHeight,
-        decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(
-              color: palette.twilight.withValues(alpha: 0.25),
-              width: 2.0,
+          height: navHeight,
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(
+                color: palette.twilight.withValues(alpha: 0.25),
+                width: 2.0,
+              ),
+            ),
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                palette.voidBlack.withValues(alpha: 0.8),
+                palette.midnight,
+                palette.midnight,
+              ],
+              stops: const [0.0, 0.2, 1.0],
             ),
           ),
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              palette.voidBlack.withValues(alpha: 0.8),
-              palette.midnight,
-              palette.midnight,
-            ],
-            stops: const [0.0, 0.2, 1.0],
-          ),
-        ),
-        child: RepaintBoundary(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: destinations.asMap().entries.map((entry) {
-              final int index = entry.key;
-              final Destination dest = entry.value;
-              final bool isSelected = navigationShell.currentIndex == index;
+          child: RepaintBoundary(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: destinations.asMap().entries.map((entry) {
+                final int index = entry.key;
+                final Destination dest = entry.value;
+                final bool isSelected = navigationShell.currentIndex == index;
 
-              return Expanded(
-                child: GestureDetector(
-                  key: index ==
+                return Expanded(
+                  child: GestureDetector(
+                    key:
+                        index ==
+                            destinations.indexWhere(
+                              (dest) =>
+                                  dest.label.toLowerCase().contains('grim'),
+                            )
+                        ? AppKeys.grimoireNavKey
+                        : null,
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {
+                      context.readAudio.playSfx(SfxType.buttonTap);
+                      navigationShell.goBranch(index);
+                    },
+                    child: NavItem(
+                      dest: dest,
+                      isSelected: isSelected,
+                      width: isSelected ? iconSelectedSize : iconBaseSize,
+                      navHeight: navHeight,
+                      context: context,
+                      isGrim:
+                          index ==
                           destinations.indexWhere(
                             (dest) => dest.label.toLowerCase().contains('grim'),
-                          )
-                      ? AppKeys.grimoireNavKey
-                      : null,
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () {
-                    context.readAudio.playSfx(SfxType.buttonTap);
-                    navigationShell.goBranch(index);
-                  },
-                  child: NavItem(
-                    dest: dest,
-                    isSelected: isSelected,
-                    width: isSelected ? iconSelectedSize : iconBaseSize,
-                    navHeight: navHeight,
-                    context: context,
-                    isGrim: index ==
-                        destinations.indexWhere(
-                          (dest) => dest.label.toLowerCase().contains('grim'),
-                        ),
+                          ),
+                    ),
                   ),
-                ),
-              );
-            }).toList(),
+                );
+              }).toList(),
+            ),
           ),
-        ),
         ),
       ),
     );

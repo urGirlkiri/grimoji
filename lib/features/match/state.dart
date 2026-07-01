@@ -11,7 +11,7 @@ class GameState extends ChangeNotifier {
   bool isPaused = false;
   bool isDisposed = false;
   bool isGameOver = false;
-  
+
   bool isFeverTime = false;
   bool isFeverComplete = false;
   int feverBombCount = 0;

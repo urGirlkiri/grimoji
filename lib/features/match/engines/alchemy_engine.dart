@@ -12,15 +12,19 @@ import 'package:grimoji/features/match/utils/match_detector.dart';
 import 'package:logging/logging.dart';
 
 typedef BehaviorInitCallback = void Function(Tile tile);
+typedef TileBlastedCallback =
+    void Function(Tile tile, int x, int y, ReactionType reactionType);
 
 class AlchemyEngine {
   final BoardManager boardManager;
   final void Function(SfxType) playSfx;
   final List<Recipe>? Function(GameEmoji) getRecipes;
   final Reaction? Function(GameEmoji) getReactionFor;
-  final Map<GameEmoji, GameEmoji> Function(ReactionType) getTransformationsForType;
+  final Map<GameEmoji, GameEmoji> Function(ReactionType)
+  getTransformationsForType;
   final int Function(ReactionType) getAoERadiusForType;
   final BehaviorInitCallback? initializeBehavior;
+  final TileBlastedCallback? onTileBlasted;
 
   final Logger _log = Logger('AlchemyEngine');
 
@@ -32,6 +36,7 @@ class AlchemyEngine {
     required this.getTransformationsForType,
     required this.getAoERadiusForType,
     this.initializeBehavior,
+    this.onTileBlasted,
   });
 
   CascadeStepResult processCascadeStep({
@@ -43,41 +48,48 @@ class AlchemyEngine {
     final Set<TileCoordinate> tilesToDestroy = {};
     final Set<TileCoordinate> transmutedTiles = {};
     final Set<TileCoordinate> transformed = {};
-    
+
     int mergedEmojis = 0;
 
     for (var group in matchedGroups) {
       final emoji = group.emoji;
       final coords = group.coordinates;
 
-      bool isAlreadyTriggered = coords.any((c) => boardManager.gridTiles[c.row][c.col].isTriggered);
+      bool isAlreadyTriggered = coords.any(
+        (c) => boardManager.gridTiles[c.row][c.col].isTriggered,
+      );
       bool mergeHappened = false;
 
       if (!isAlreadyTriggered) {
         final rawRecipes = getRecipes(emoji);
         if (rawRecipes != null && rawRecipes.isNotEmpty) {
-          
           final recipes = List<Recipe>.from(rawRecipes);
           recipes.sort((a, b) => b.requiredAmount.compareTo(a.requiredAmount));
-          
+
           for (var recipe in recipes) {
             if (coords.length >= recipe.requiredAmount) {
-              final TileCoordinate spawnPoint = coords.contains(targetCoordinate) && isFirstMatch
+              final TileCoordinate spawnPoint =
+                  coords.contains(targetCoordinate) && isFirstMatch
                   ? targetCoordinate
                   : coords.first;
 
-              final Tile targetTile = boardManager.gridTiles[spawnPoint.row][spawnPoint.col];
+              final Tile targetTile =
+                  boardManager.gridTiles[spawnPoint.row][spawnPoint.col];
               targetTile.emoji = recipe.yields;
               targetTile.reset();
 
               if (recipe.yields == boardManager.level.targetEmoji) {
-                collectedEmojis.add(CollectedEmoji(emoji: recipe.yields, count: 1));
+                collectedEmojis.add(
+                  CollectedEmoji(emoji: recipe.yields, count: 1),
+                );
                 targetTile.isFlying = true;
               }
 
-              final Set<TileCoordinate> sources = coords.where((c) => c != spawnPoint).toSet();
+              final Set<TileCoordinate> sources = coords
+                  .where((c) => c != spawnPoint)
+                  .toSet();
               tilesToDestroy.addAll(sources);
-              
+
               transformed.add(spawnPoint);
 
               mergedEmojis++;
@@ -102,25 +114,42 @@ class AlchemyEngine {
             }
             _log.info('Matched explosives primed at $coords');
           } else {
-            collectedEmojis.add(CollectedEmoji(emoji: emoji, count: coords.length));
+            collectedEmojis.add(
+              CollectedEmoji(emoji: emoji, count: coords.length),
+            );
             tilesToDestroy.addAll(coords);
             final transformations = getTransformationsForType(reaction.type);
             final aoeRadius = reaction.aoeRadius;
 
             for (var centerCoord in coords) {
-              for (int r = centerCoord.row - aoeRadius; r <= centerCoord.row + aoeRadius; r++) {
-                for (int c = centerCoord.col - aoeRadius; c <= centerCoord.col + aoeRadius; c++) {
-                  if (r >= 0 && r < BoardManager.rows && c >= 0 && c < BoardManager.cols) {
+              for (
+                int r = centerCoord.row - aoeRadius;
+                r <= centerCoord.row + aoeRadius;
+                r++
+              ) {
+                for (
+                  int c = centerCoord.col - aoeRadius;
+                  c <= centerCoord.col + aoeRadius;
+                  c++
+                ) {
+                  if (r >= 0 &&
+                      r < BoardManager.rows &&
+                      c >= 0 &&
+                      c < BoardManager.cols) {
                     final rowDist = (r - centerCoord.row).abs();
                     final colDist = (c - centerCoord.col).abs();
-                    if (rowDist + colDist > aoeRadius) continue; 
+                    if (rowDist + colDist > aoeRadius) continue;
 
                     final Tile targetTile = boardManager.gridTiles[r][c];
-                    final TileCoordinate targetCoord = TileCoordinate(row: r, col: c);
-                    
+                    final TileCoordinate targetCoord = TileCoordinate(
+                      row: r,
+                      col: c,
+                    );
+
                     if (coords.contains(targetCoord)) continue;
-                    
-                    final GameEmoji? resultingEmoji = transformations[targetTile.emoji];
+
+                    final GameEmoji? resultingEmoji =
+                        transformations[targetTile.emoji];
 
                     if (resultingEmoji != null) {
                       targetTile.emoji = resultingEmoji;
@@ -131,10 +160,11 @@ class AlchemyEngine {
                       if (initializeBehavior != null) {
                         initializeBehavior!(targetTile);
                       }
-                    } else if (!coords.contains(targetCoord) && !transmutedTiles.contains(targetCoord)) {
+                    } else if (!coords.contains(targetCoord) &&
+                        !transmutedTiles.contains(targetCoord)) {
                       final targetReaction = getReactionFor(targetTile.emoji);
-                      if (targetReaction != null && targetReaction.type == ReactionType.explosive) {
-                      }
+                      if (targetReaction != null &&
+                          targetReaction.type == ReactionType.explosive) {}
                     }
                   }
                 }
@@ -142,7 +172,9 @@ class AlchemyEngine {
             }
           }
         } else {
-          collectedEmojis.add(CollectedEmoji(emoji: emoji, count: coords.length));
+          collectedEmojis.add(
+            CollectedEmoji(emoji: emoji, count: coords.length),
+          );
           tilesToDestroy.addAll(group.coordinates);
         }
       }
@@ -150,14 +182,21 @@ class AlchemyEngine {
 
     final bool anyMerge = mergedEmojis > 0;
     if (!anyMerge) {
-      final Set<TileCoordinate> allMatchedCoords = matchedGroups.expand((g) => g.coordinates).toSet();
+      final Set<TileCoordinate> allMatchedCoords = matchedGroups
+          .expand((g) => g.coordinates)
+          .toSet();
       for (var match in allMatchedCoords) {
         final neighbors = boardManager.getAdjacentTiles(match.row, match.col);
         for (var neighbor in neighbors) {
           final reaction = getReactionFor(neighbor.emoji);
-          final bool isPartOfMatch = allMatchedCoords.contains(neighbor.coordinate);
+          final bool isPartOfMatch = allMatchedCoords.contains(
+            neighbor.coordinate,
+          );
 
-          if (!isPartOfMatch && reaction != null && reaction.type == ReactionType.explosive && !neighbor.isTriggered) {
+          if (!isPartOfMatch &&
+              reaction != null &&
+              reaction.type == ReactionType.explosive &&
+              !neighbor.isTriggered) {
             neighbor.isTriggered = true;
             playSfx(SfxType.trigger);
           }
@@ -177,7 +216,7 @@ class AlchemyEngine {
       hasTriggeredBombs: hasTriggeredBombs,
     );
   }
-  
+
   DetonationStepResult processDetonationStep() {
     final List<CollectedEmoji> collectedEmojis = [];
     final Set<TileCoordinate> allBlastedCoords = {};
@@ -190,11 +229,12 @@ class AlchemyEngine {
       final currentBombs = List<Tile>.from(primedBombs);
       playSfx(SfxType.explosion);
 
-
       for (Tile activeBomb in currentBombs) {
         if (!activeBomb.isTriggered) continue;
         if (activeBomb.emoji == boardManager.level.targetEmoji) {
-          collectedEmojis.add(CollectedEmoji(emoji: activeBomb.emoji, count: 1));
+          collectedEmojis.add(
+            CollectedEmoji(emoji: activeBomb.emoji, count: 1),
+          );
         }
 
         activeBomb.isTriggered = false;
@@ -214,7 +254,8 @@ class AlchemyEngine {
     );
   }
 
-  ({Set<TileCoordinate> destroyed, Set<TileCoordinate> transformed}) _executeBlastRadius(TileCoordinate center) {
+  ({Set<TileCoordinate> destroyed, Set<TileCoordinate> transformed})
+  _executeBlastRadius(TileCoordinate center) {
     final Set<TileCoordinate> destroyedTiles = {};
     final Set<TileCoordinate> transformedTiles = {};
     final transformations = getTransformationsForType(ReactionType.explosive);
@@ -230,20 +271,31 @@ class AlchemyEngine {
 
         final tile = boardManager.gridTiles[r][c];
         final reaction = getReactionFor(tile.emoji);
-        final isExplosive = reaction != null && reaction.type == ReactionType.explosive;
+        final isExplosive =
+            reaction != null && reaction.type == ReactionType.explosive;
 
         if (isExplosive && (r != center.row || c != center.col)) {
           if (!tile.isExploding) {
             tile.isTriggered = true;
           }
         } else {
+          if (tile.behavior != null) {
+            onTileBlasted?.call(
+              tile,
+              r,
+              c,
+              centerReaction?.type ?? ReactionType.explosive,
+            );
+          }
+
           final resultingEmoji = transformations[tile.emoji];
           if (resultingEmoji != null) {
             tile.emoji = resultingEmoji;
             tile.reset();
             tile.isTransmuting = true;
             transformedTiles.add(TileCoordinate(row: r, col: c));
-          } else {
+
+          } else if (!tile.isSwallowTarget && !tile.isSwallowTrigger) {
             tile.isExploding = true;
             destroyedTiles.add(TileCoordinate(row: r, col: c));
           }

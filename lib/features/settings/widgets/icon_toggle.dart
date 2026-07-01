@@ -37,7 +37,7 @@ class IconToggle extends StatelessWidget {
               label!,
               style: context.theme.textTheme.bodySmall?.copyWith(
                 color: context.theme.colorScheme.surfaceContainer,
-                fontWeight: FontWeight.w600
+                fontWeight: FontWeight.w600,
               ),
             ),
         ],

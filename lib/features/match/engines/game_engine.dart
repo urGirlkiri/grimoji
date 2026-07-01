@@ -1,9 +1,9 @@
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/levels/game_level.dart';
+import 'package:grimoji/features/alchemy/models/behavior_action.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/alchemy/behavior_register.dart';
-import 'package:grimoji/features/alchemy/behaviors/behavior.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
@@ -29,6 +29,7 @@ class GameEngine {
     required this.playSfx,
   }) {
     _behavior = BehaviorEngine(
+      level: level,
       boardManager: boardManager,
       getBehavior: BehaviorRegister.getBehaviorFor,
     );
@@ -41,6 +42,7 @@ class GameEngine {
       getTransformationsForType: RecipeBook.getTransformationsForType,
       getAoERadiusForType: RecipeBook.getAoERadiusForType,
       initializeBehavior: _behavior.initializeBehavior,
+      onTileBlasted: _behavior.processBlastBehavior,
     );
   }
 
@@ -62,6 +64,7 @@ class GameEngine {
       dCoord: dCoord,
       tCoord: tCoord,
       getSwipeBehaviors: _behavior.processSwipedWithBehavior,
+      hasSwipeBehavior: _behavior.hasSwipeBehavior,
     );
 
     if (decision.type != SwipeResult.invalid) {
@@ -175,6 +178,7 @@ class GameEngine {
             dCoord: TileCoordinate(row: r, col: c),
             tCoord: TileCoordinate(row: r, col: c + 1),
             getSwipeBehaviors: _behavior.processSwipedWithBehavior,
+            hasSwipeBehavior: _behavior.hasSwipeBehavior,
             quickCheckOnly: true,
           );
           if (d.type != SwipeResult.invalid) return true;
@@ -185,6 +189,7 @@ class GameEngine {
             dCoord: TileCoordinate(row: r, col: c),
             tCoord: TileCoordinate(row: r + 1, col: c),
             getSwipeBehaviors: _behavior.processSwipedWithBehavior,
+            hasSwipeBehavior: _behavior.hasSwipeBehavior,
             quickCheckOnly: true,
           );
           if (d.type != SwipeResult.invalid) return true;
@@ -206,6 +211,7 @@ class GameEngine {
             dCoord: t1,
             tCoord: t2,
             getSwipeBehaviors: _behavior.processSwipedWithBehavior,
+            hasSwipeBehavior: _behavior.hasSwipeBehavior,
             quickCheckOnly: true,
           );
           if (d.type != SwipeResult.invalid) {
@@ -220,6 +226,7 @@ class GameEngine {
             dCoord: t1,
             tCoord: t2,
             getSwipeBehaviors: _behavior.processSwipedWithBehavior,
+            hasSwipeBehavior: _behavior.hasSwipeBehavior,
             quickCheckOnly: true,
           );
           if (d.type != SwipeResult.invalid) {
@@ -269,5 +276,27 @@ class GameEngine {
     GameEmoji targetEmoji,
   ) {
     return _behavior.processSwipedWithBehavior(tile, x, y, targetEmoji);
+  }
+
+  List<BehaviorAction> processTappedBehavior(Tile tile, int x, int y) {
+    return _behavior.processTappedBehavior(tile, x, y);
+  }
+
+  bool get hasPendingBlastBehaviors => _behavior.hasPendingBlastBehaviors;
+
+  void processPendingBlasts() => _behavior.processPendingBlasts();
+
+  bool hasTapBehavior(Tile tile, int x, int y) {
+    return _behavior.hasTapBehavior(tile, x, y);
+  }
+
+  void initializeBehaviors() {
+    for (int r = 0; r < BoardManager.rows; r++) {
+      for (int c = 0; c < BoardManager.cols; c++) {
+        if (grid[r][c].behavior == null) {
+          _behavior.initializeBehavior(grid[r][c]);
+        }
+      }
+    }
   }
 }

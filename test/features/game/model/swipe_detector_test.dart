@@ -1,13 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:grimoji/config/emojis/index.dart';
-import 'package:grimoji/features/alchemy/behaviors/behavior.dart';
+import 'package:grimoji/features/alchemy/models/action_type.dart';
+import 'package:grimoji/features/alchemy/models/behavior_action.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
 import 'package:grimoji/features/match/utils/swipe_detector.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
 
 void main() {
   group('SwipeDetector Test', () {
-    
     List<List<Tile>> createTestGrid() {
       return List.generate(
         3,
@@ -22,13 +22,14 @@ void main() {
     }
 
     test('Should return invalid if no match or behavior is found ', () {
-      final grid = createTestGrid(); 
-      
+      final grid = createTestGrid();
+
       final decision = SwipeDetector.evaluate(
         grid: grid,
         dCoord: TileCoordinate(row: 0, col: 0),
         tCoord: TileCoordinate(row: 0, col: 1),
         getSwipeBehaviors: (_, _, _, _) => [],
+        hasSwipeBehavior: (_, _, _, _) => false,
       );
 
       expect(decision.type, equals(SwipeResult.invalid));
@@ -38,18 +39,23 @@ void main() {
       final grid = createTestGrid();
       grid[0][0].emoji = Emojis.fire;
       grid[0][1].emoji = Emojis.fire;
-      grid[1][2].emoji = Emojis.fire; 
+      grid[1][2].emoji = Emojis.fire;
 
       final decision = SwipeDetector.evaluate(
         grid: grid,
         dCoord: TileCoordinate(row: 0, col: 2),
         tCoord: TileCoordinate(row: 1, col: 2),
         getSwipeBehaviors: (_, _, _, _) => [],
-        quickCheckOnly: true, 
+        hasSwipeBehavior: (_, _, _, _) => false,
+        quickCheckOnly: true,
       );
 
       expect(decision.type, equals(SwipeResult.match));
-      expect(decision.matches, isEmpty, reason: 'QuickCheck doesn\'t return group data');
+      expect(
+        decision.matches,
+        isEmpty,
+        reason: 'QuickCheck doesn\'t return group data',
+      );
     });
 
     test('Should return invalid using quickCheckOnly: true if move fails', () {
@@ -59,6 +65,7 @@ void main() {
         dCoord: TileCoordinate(row: 0, col: 0),
         tCoord: TileCoordinate(row: 0, col: 1),
         getSwipeBehaviors: (_, _, _, _) => [],
+        hasSwipeBehavior: (_, _, _, _) => false,
         quickCheckOnly: true,
       );
 
@@ -70,13 +77,14 @@ void main() {
       grid[0][0].emoji = Emojis.fire;
       grid[0][1].emoji = Emojis.fire;
       grid[0][2].emoji = Emojis.rock;
-      grid[1][2].emoji = Emojis.fire; 
+      grid[1][2].emoji = Emojis.fire;
 
       final decision = SwipeDetector.evaluate(
         grid: grid,
         dCoord: TileCoordinate(row: 0, col: 2),
         tCoord: TileCoordinate(row: 1, col: 2),
         getSwipeBehaviors: (_, _, _, _) => [],
+        hasSwipeBehavior: (_, _, _, _) => false,
       );
 
       expect(decision.type, equals(SwipeResult.match));
@@ -96,6 +104,7 @@ void main() {
         dCoord: TileCoordinate(row: 2, col: 0),
         tCoord: TileCoordinate(row: 2, col: 1),
         getSwipeBehaviors: (_, _, _, _) => [],
+        hasSwipeBehavior: (_, _, _, _) => false,
       );
 
       expect(decision.type, equals(SwipeResult.match));
@@ -116,10 +125,15 @@ void main() {
         getSwipeBehaviors: (tile, r, c, emoji) {
           return [const BehaviorAction(type: ActionType.doNothing, x: 0, y: 0)];
         },
+        hasSwipeBehavior: (_, _, _, _) => true,
       );
 
-      expect(decision.type, equals(SwipeResult.specialBehavior), 
-        reason: 'Behaviors should intercept the evaluation before matches are checked');
+      expect(
+        decision.type,
+        equals(SwipeResult.specialBehavior),
+        reason:
+            'Behaviors should intercept the evaluation before matches are checked',
+      );
       expect(decision.actions, isNotEmpty);
       expect(decision.matches, isEmpty);
     });
@@ -134,10 +148,19 @@ void main() {
         dCoord: TileCoordinate(row: 0, col: 0),
         tCoord: TileCoordinate(row: 0, col: 1),
         getSwipeBehaviors: (_, _, _, _) => [],
+        hasSwipeBehavior: (_, _, _, _) => false,
       );
 
-      expect(grid[0][0].emoji, equals(Emojis.fire), reason: 'Tile should be back to original after evaluation');
-      expect(grid[0][1].emoji, equals(Emojis.rock), reason: 'Tile should be back to original after evaluation');
+      expect(
+        grid[0][0].emoji,
+        equals(Emojis.fire),
+        reason: 'Tile should be back to original after evaluation',
+      );
+      expect(
+        grid[0][1].emoji,
+        equals(Emojis.rock),
+        reason: 'Tile should be back to original after evaluation',
+      );
     });
   });
 }

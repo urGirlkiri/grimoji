@@ -5,7 +5,8 @@ class TempNode extends StatefulWidget {
   final VoidCallback onTap;
   final bool isCursorMode;
 
-  const TempNode({super.key, 
+  const TempNode({
+    super.key,
     required this.child,
     required this.onTap,
     required this.isCursorMode,
@@ -23,10 +24,12 @@ class TempNodeState extends State<TempNode> {
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovering = true),
       onExit: (_) => setState(() => _isHovering = false),
-      cursor: widget.isCursorMode ? SystemMouseCursors.click : SystemMouseCursors.basic,
+      cursor: widget.isCursorMode
+          ? SystemMouseCursors.click
+          : SystemMouseCursors.basic,
       child: GestureDetector(
         onTap: widget.isCursorMode ? widget.onTap : null,
-        child: AbsorbPointer( 
+        child: AbsorbPointer(
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 150),
             decoration: BoxDecoration(
@@ -34,17 +37,17 @@ class TempNodeState extends State<TempNode> {
               boxShadow: (_isHovering && widget.isCursorMode)
                   ? [
                       BoxShadow(
-                        color: Colors.red.withValues(alpha:0.8),
+                        color: Colors.red.withValues(alpha: 0.8),
                         blurRadius: 15,
                         spreadRadius: 2,
-                      )
+                      ),
                     ]
                   : [],
             ),
             foregroundDecoration: BoxDecoration(
               shape: BoxShape.circle,
               color: (_isHovering && widget.isCursorMode)
-                  ? Colors.red.withValues(alpha:0.5)
+                  ? Colors.red.withValues(alpha: 0.5)
                   : Colors.transparent,
             ),
             child: Opacity(

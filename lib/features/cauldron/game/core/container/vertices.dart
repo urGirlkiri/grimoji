@@ -1,6 +1,5 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 
-
 final List<Vector2> vertices = [
   Vector2(-3.89, -3.75),
   Vector2(-4.01, -3.58),

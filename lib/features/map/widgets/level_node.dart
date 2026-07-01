@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/level/widgets/dialogs/cauldron_dialog.dart';
-import 'package:grimoji/features/level/widgets/dialogs/start_dialog.dart';
+import 'package:grimoji/features/level/widgets/dialogs/start_dialog/index.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animations/dialog.dart';
 
 class LevelNode extends StatelessWidget {
   final GameLevel level;
   final int stars;
-  final double cacheSize; 
+  final double cacheSize;
   final bool isUnlocked;
 
   const LevelNode({
-    super.key, 
-    required this.level, 
+    super.key,
+    required this.level,
     required this.stars,
     required this.cacheSize,
     required this.isUnlocked,
@@ -34,7 +34,7 @@ class LevelNode extends StatelessWidget {
       _ => "assets/images/map/level.png",
     };
 
-    return RepaintBoundary( 
+    return RepaintBoundary(
       child: InkWell(
         borderRadius: BorderRadius.circular(100),
         onTap: () => _showLevelDialog(context),

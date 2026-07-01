@@ -1,5 +1,5 @@
 import 'package:grimoji/config/emojis/index.dart';
-import 'package:grimoji/features/alchemy/behaviors/behavior.dart';
+import 'package:grimoji/features/alchemy/models/behavior_action.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
 import 'package:grimoji/features/match/utils/match_detector.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
@@ -10,8 +10,16 @@ class SwipeDecision {
   final SwipeResult type;
   final List<MatchGroup> matches;
   final List<BehaviorAction> actions;
+  final int triggerRow;
+  final int triggerCol;
 
-  SwipeDecision({required this.type, this.matches = const [], this.actions = const []});
+  SwipeDecision({
+    required this.type,
+    this.matches = const [],
+    this.actions = const [],
+    this.triggerRow = 0,
+    this.triggerCol = 0,
+  });
 }
 
 class SwipeDetector {
@@ -19,16 +27,45 @@ class SwipeDetector {
     required List<List<Tile>> grid,
     required TileCoordinate dCoord,
     required TileCoordinate tCoord,
-    required List<BehaviorAction> Function(Tile, int, int, GameEmoji) getSwipeBehaviors,
+    required List<BehaviorAction> Function(Tile, int, int, GameEmoji)
+    getSwipeBehaviors,
+    required bool Function(Tile, int, int, GameEmoji) hasSwipeBehavior,
     bool quickCheckOnly = false,
   }) {
     final tileD = grid[dCoord.row][dCoord.col];
     final tileT = grid[tCoord.row][tCoord.col];
 
-    final actionsD = getSwipeBehaviors(tileT, dCoord.row, dCoord.col, tileD.emoji);
-    final actionsT = getSwipeBehaviors(tileD, tCoord.row, tCoord.col, tileT.emoji);
+    final hasBehaviorD = hasSwipeBehavior.call(
+      tileT,
+      dCoord.row,
+      dCoord.col,
+      tileD.emoji,
+    );
 
-    if (actionsD.isNotEmpty || actionsT.isNotEmpty) {
+    final hasBehaviorT = hasSwipeBehavior.call(
+      tileD,
+      tCoord.row,
+      tCoord.col,
+      tileT.emoji,
+    );
+
+    if (hasBehaviorD || hasBehaviorT) {
+      if (quickCheckOnly) {
+        return SwipeDecision(type: SwipeResult.specialBehavior);
+      }
+
+      final actionsD = getSwipeBehaviors(
+        tileT,
+        dCoord.row,
+        dCoord.col,
+        tileD.emoji,
+      );
+      final actionsT = getSwipeBehaviors(
+        tileD,
+        tCoord.row,
+        tCoord.col,
+        tileT.emoji,
+      );
       return SwipeDecision(
         type: SwipeResult.specialBehavior,
         actions: [...actionsD, ...actionsT],
@@ -40,8 +77,9 @@ class SwipeDetector {
     SwipeDecision decision;
 
     if (quickCheckOnly) {
-      final hasMatch = MatchDetector.hasMatchAt(grid, dCoord.row, dCoord.col) ||
-                       MatchDetector.hasMatchAt(grid, tCoord.row, tCoord.col);
+      final hasMatch =
+          MatchDetector.hasMatchAt(grid, dCoord.row, dCoord.col) ||
+          MatchDetector.hasMatchAt(grid, tCoord.row, tCoord.col);
 
       decision = hasMatch
           ? SwipeDecision(type: SwipeResult.match)
@@ -58,7 +96,11 @@ class SwipeDetector {
     return decision;
   }
 
-  static void _tempSwap(List<List<Tile>> grid, TileCoordinate a, TileCoordinate b) {
+  static void _tempSwap(
+    List<List<Tile>> grid,
+    TileCoordinate a,
+    TileCoordinate b,
+  ) {
     final temp = grid[a.row][a.col];
     grid[a.row][a.col] = grid[b.row][b.col];
     grid[b.row][b.col] = temp;

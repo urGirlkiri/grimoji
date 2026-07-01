@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/utils/context_data.dart';
 
+enum ScrollType {
+  fullyOpenHorizontal,
+  fullyOpenVertical,
+  horizontalLong,
+  horizontalShort,
+  verticalShort,
+  verticalWideLong,
+  verticalThinLong,
+}
+
 class ScrollDialog extends StatelessWidget {
   final Widget child;
   final Widget? rightButton;
   final Widget? leftButton;
   final EdgeInsets? padding;
+  final ScrollType? scrollType;
 
   const ScrollDialog({
     super.key,
@@ -13,7 +24,42 @@ class ScrollDialog extends StatelessWidget {
     this.rightButton,
     this.leftButton,
     this.padding,
+    this.scrollType = ScrollType.verticalWideLong,
   });
+
+  String _getScrollImage(ScrollType type) {
+    switch (type) {
+      case ScrollType.verticalWideLong:
+        return 'verticalWideLong';
+      case ScrollType.fullyOpenHorizontal:
+        return 'fullyOpenHorizontal';
+      case ScrollType.horizontalShort:
+        return 'horizontalShort';
+      case ScrollType.horizontalLong:
+        return 'horizontalLong';
+      default:
+        return 'verticalWideLong';
+    }
+  }
+
+  Size _getDialogSize(ScrollType type, bool isLarge, double maxWidth, double maxHeight) {
+    switch (type) {
+      case ScrollType.horizontalShort:
+        final w = isLarge ? 500.0 : maxWidth.clamp(280.0, 500.0);
+        return Size(w, w * 0.75);
+      case ScrollType.horizontalLong:
+        final w = isLarge ? 600.0 : maxWidth.clamp(280.0, 600.0);
+        return Size(w, w * .84);
+      case ScrollType.fullyOpenHorizontal:
+        final w = isLarge ? 550.0 : maxWidth.clamp(300.0, 550.0);
+        return Size(w, (w * (isLarge ? 1.32 : 1.5) ).clamp(180.0, maxHeight));
+      case ScrollType.verticalWideLong:
+      default:
+        final w = isLarge ? 677.0 : maxWidth.clamp(280.0, 677.0);
+        final h = isLarge ? 900.0 : maxHeight.clamp(400.0, 818.0);
+        return Size(w, h);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +68,11 @@ class ScrollDialog extends StatelessWidget {
     final screenWidth = context.screenWidth;
     final maxDialogWidth = screenWidth * 0.9;
     final maxDialogHeight = screenSize.height * 0.8;
-    final dialogWidth = isLarge ? 677.0 : maxDialogWidth.clamp(280.0, 677.0);
-    final dialogHeight = isLarge ? 900.0 : maxDialogHeight.clamp(400.0, 818.0);
+    final size = _getDialogSize(scrollType!, isLarge, maxDialogWidth, maxDialogHeight);
+    final dialogWidth = size.width;
+    final dialogHeight = size.height;
+    final String scrollImage =
+        'assets/images/scrolls/${_getScrollImage(scrollType!)}.png';
 
     return ConstrainedBox(
       constraints: BoxConstraints(
@@ -35,7 +84,7 @@ class ScrollDialog extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           Image.asset(
-            'assets/images/scroll.png',
+            scrollImage,
             fit: BoxFit.fill,
             width: dialogWidth,
             height: dialogHeight,

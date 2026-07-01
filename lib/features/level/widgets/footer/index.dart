@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/levels/game_level.dart';
-import 'package:grimoji/config/emojis/index.dart';
+import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/level/widgets/dialogs/pause_dialog.dart';
+import 'package:grimoji/features/level/widgets/dialogs/purchase_dialog/index.dart';
 import 'package:grimoji/features/level/widgets/footer/powerup.dart';
+import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animations/dialog.dart';
 import 'package:grimoji/widgets/custom/app_icon.dart';
@@ -24,7 +26,7 @@ class _FooterState extends State<Footer> {
   void initState() {
     super.initState();
     _levelState = context.read<LevelState>();
-    
+
     _levelState.gameState.addListener(_onStateChanged);
   }
 
@@ -47,14 +49,11 @@ class _FooterState extends State<Footer> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
 
-      showAnimatedDialog(
-        context, 
-        PauseDialog(level: levelNumber)
-      ).then((_) {
+      showAnimatedDialog(context, PauseDialog(level: levelNumber)).then((_) {
         if (!mounted) return;
-        
+
         _isPauseDialogOpen = false;
-        
+
         if (_levelState.gameState.isPaused) {
           _levelState.coordinator.togglePause();
         }
@@ -86,10 +85,25 @@ class _FooterState extends State<Footer> {
     );
   }
 
+  Future<void> _handlePowerupTap(BuildContext context, Powerup powerup) async {
+    final profile = context.read<ProfileController>();
+    final count = profile.getPowerupCount(powerup.id);
+    if (count > 0) {
+      _showSnackbar(context);
+    } else {
+      _levelState.pauseTimer();
+      await showBoostPurchase(context, powerup);
+      _levelState.resumeTimerOnly();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final isPaused = context.watch<LevelState>().gameState.isPaused;
-    
+
+    final profile = context.watch<ProfileController>();
+    final bottomPowerups = Powerup.bottom;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: ShapeDecoration(
@@ -108,30 +122,17 @@ class _FooterState extends State<Footer> {
               enableAnimation: false,
             ),
             const SizedBox(width: 12),
-            PowerupBtn(
-              assetPath: Emojis.hourglassNotDone.svg,
-              onTap: () => _showSnackbar(context),
-            ),
-            const SizedBox(width: 12),
-            PowerupBtn(
-              assetPath: Emojis.testTube.svg,
-              onTap: () => _showSnackbar(context),
-            ),
-            const SizedBox(width: 12),
-            PowerupBtn(
-              assetPath: Emojis.boxingGlove.svg,
-              onTap: () => _showSnackbar(context),
-            ),
-            const SizedBox(width: 12),
-            PowerupBtn(
-              assetPath: Emojis.flyingSaucer.svg,
-              onTap: () => _showSnackbar(context),
-            ),
-            const SizedBox(width: 12),
-            PowerupBtn(
-              assetPath: Emojis.comet.svg,
-              onTap: () => _showSnackbar(context),
-            ),
+            ...bottomPowerups.expand((powerup) {
+              final count = profile.getPowerupCount(powerup.id);
+              return [
+                PowerupBtn(
+                  assetPath: powerup.iconPath,
+                  count: count,
+                  onTap: () => _handlePowerupTap(context, powerup),
+                ),
+                const SizedBox(width: 12),
+              ];
+            }).toList()..removeLast(),
           ],
         ),
       ),

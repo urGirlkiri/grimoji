@@ -14,7 +14,9 @@ class PillButton extends StatelessWidget {
   final double borderRadius;
   final Color? borderColor;
   final double? borderWidth;
+  final double? fontSize;
   final bool enableAnimation;
+  final Widget? leading;
 
   const PillButton({
     super.key,
@@ -27,7 +29,9 @@ class PillButton extends StatelessWidget {
     this.borderRadius = 40,
     this.borderColor,
     this.borderWidth,
+    this.fontSize,
     this.enableAnimation = true,
+    this.leading,
   });
 
   @override
@@ -44,6 +48,8 @@ class PillButton extends StatelessWidget {
       style: GoogleFonts.eagleLake(
         color: effectiveTextColor,
         fontWeight: FontWeight.bold,
+        fontSize: fontSize,
+        decoration: TextDecoration.none,
         shadows: [
           Shadow(
             color: palette.voidBlack.withValues(alpha: 0.5),
@@ -63,7 +69,12 @@ class PillButton extends StatelessWidget {
         pressedScale: 0.95,
         child: Container(
           width: fullWidth ? double.infinity : null,
-          padding:  padding ??  EdgeInsets.symmetric(horizontal: 24, vertical: fullWidth? 14: 12),
+          padding:
+              padding ??
+              EdgeInsets.symmetric(
+                horizontal: 24,
+                vertical: fullWidth ? 14 : 12,
+              ),
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(borderRadius),
@@ -92,7 +103,29 @@ class PillButton extends StatelessWidget {
               ),
             ],
           ),
-          child: fullWidth ? Center(child: innerText) : innerText,
+          child: fullWidth
+              ? Center(
+                  child: leading != null
+                      ? Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            leading!,
+                            const SizedBox(width: 8),
+                            innerText,
+                          ],
+                        )
+                      : innerText,
+                )
+              : leading != null
+              ? Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    leading!,
+                    const SizedBox(width: 8),
+                    innerText,
+                  ],
+                )
+              : innerText,
         ),
       ),
     );

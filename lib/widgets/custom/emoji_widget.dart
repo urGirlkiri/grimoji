@@ -33,14 +33,14 @@ class EmojiWidget extends StatelessWidget {
     Color shadowColor = const Color(0x660E0E12),
     bool useDropShadow = false,
   }) : this(
-          key: key,
-          assetPath: path,
-          size: size,
-          blurRadius: blurRadius,
-          shadowOffset: shadowOffset,
-          shadowColor: shadowColor,
-          useDropShadow: useDropShadow,
-        );
+         key: key,
+         assetPath: path,
+         size: size,
+         blurRadius: blurRadius,
+         shadowOffset: shadowOffset,
+         shadowColor: shadowColor,
+         useDropShadow: useDropShadow,
+       );
 
   /// Named constructor for SVG images
   const EmojiWidget.svg({
@@ -52,29 +52,26 @@ class EmojiWidget extends StatelessWidget {
     Color shadowColor = const Color(0x660E0E12),
     bool useDropShadow = false,
   }) : this(
-          key: key,
-          assetPath: path,
-          size: size,
-          blurRadius: blurRadius,
-          shadowOffset: shadowOffset,
-          shadowColor: shadowColor,
-          useDropShadow: useDropShadow,
-        );
+         key: key,
+         assetPath: path,
+         size: size,
+         blurRadius: blurRadius,
+         shadowOffset: shadowOffset,
+         shadowColor: shadowColor,
+         useDropShadow: useDropShadow,
+       );
 
   /// Named constructor for text emojis
-  const EmojiWidget.text({
-    Key? key,
-    required String emoji,
-    double size = 80,
-  }) : this(
-          key: key,
-          assetPath: emoji,
-          size: size,
-          blurRadius: 0,
-          shadowOffset: Offset.zero,
-          shadowColor: Colors.transparent,
-          useDropShadow: false,
-        );
+  const EmojiWidget.text({Key? key, required String emoji, double size = 80})
+    : this(
+        key: key,
+        assetPath: emoji,
+        size: size,
+        blurRadius: 0,
+        shadowOffset: Offset.zero,
+        shadowColor: Colors.transparent,
+        useDropShadow: false,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -116,10 +113,7 @@ class EmojiWidget extends StatelessWidget {
       }
       return child;
     } else {
-      return Text(
-        assetPath,
-        style: TextStyle(fontSize: size),
-      );
+      return Text(assetPath, style: TextStyle(fontSize: size));
     }
   }
 }

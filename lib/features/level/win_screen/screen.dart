@@ -8,7 +8,6 @@ import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
-import 'package:grimoji/features/level/widgets/confetti.dart';
 import 'package:grimoji/features/level/win_screen/flying_star.dart';
 import 'package:grimoji/utils/context_data.dart';
 
@@ -95,7 +94,6 @@ class _WinGameScreenState extends State<WinGameScreen> {
         body: SafeArea(
           child: Stack(
             children: [
-              const SizedBox.expand(child: Confetti(isStopped: false)),
 
               Center(
                 child: Padding(
@@ -106,7 +104,7 @@ class _WinGameScreenState extends State<WinGameScreen> {
                       Text(
                         'VICTORY!!',
                         style: context.theme.textTheme.headlineLarge!.copyWith(
-                          color: palette.magicCyan
+                          color: palette.magicCyan,
                         ),
                       ).animate().scale(
                         duration: const Duration(milliseconds: 800),
@@ -114,9 +112,9 @@ class _WinGameScreenState extends State<WinGameScreen> {
                         begin: const Offset(0.0, 0.0),
                         end: const Offset(1.0, 1.0),
                       ),
-                  
+
                       const SizedBox(height: 40),
-                  
+
                       SizedBox(
                         height: 200,
                         width: double.infinity,
@@ -128,7 +126,7 @@ class _WinGameScreenState extends State<WinGameScreen> {
                           ],
                         ),
                       ),
-                  
+
                       Flexible(
                         child: Image.asset(
                           "assets/mascot/celebration.webp",
@@ -136,7 +134,7 @@ class _WinGameScreenState extends State<WinGameScreen> {
                           gaplessPlayback: true,
                         ),
                       ),
-                  
+
                       const SizedBox(height: 32),
                     ],
                   ),

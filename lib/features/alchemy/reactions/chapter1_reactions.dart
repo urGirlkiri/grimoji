@@ -14,4 +14,4 @@ class Chapter1Reactions {
   );
 
   static List<Reaction> get all => [explosive];
-} 
+}

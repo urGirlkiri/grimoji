@@ -26,26 +26,30 @@ class SettingsController {
 
   ValueNotifier<double> sfxVolume = ValueNotifier(1.0);
 
-  ValueNotifier<double> musicVolume = ValueNotifier(0.4); 
+  ValueNotifier<double> musicVolume = ValueNotifier(0.4);
 
   /// Creates a new instance of [SettingsController] backed by [store].
   ///
   /// By default, settings are persisted using [HiveSettingsPersistence].
   SettingsController({SettingsPersistence? store})
-    : _store = store ?? HiveSettingsPersistence(
-        box: Hive.box<SettingsData>('settings'),
-      ) {
+    : _store =
+          store ??
+          HiveSettingsPersistence(box: Hive.box<SettingsData>('settings')) {
     initialized = _loadStateFromPersistence();
   }
 
   void toggleAudioOn() {
     final newValue = !audioOn.value;
     audioOn.value = newValue;
-    
+
     if (!newValue) {
       soundsOn.value = false;
       musicOn.value = false;
-      _store.saveAllSettings(audioOn: newValue, soundsOn: false, musicOn: false);
+      _store.saveAllSettings(
+        audioOn: newValue,
+        soundsOn: false,
+        musicOn: false,
+      );
     } else {
       soundsOn.value = true;
       musicOn.value = true;
@@ -91,8 +95,12 @@ class SettingsController {
       _store
           .getMusicOn(defaultValue: true)
           .then((value) => musicOn.value = value),
-      _store.getSfxVolume(defaultValue: 1.0).then((value) => sfxVolume.value = value),
-      _store.getMusicVolume(defaultValue: 0.4).then((value) => musicVolume.value = value),
+      _store
+          .getSfxVolume(defaultValue: 1.0)
+          .then((value) => sfxVolume.value = value),
+      _store
+          .getMusicVolume(defaultValue: 0.4)
+          .then((value) => musicVolume.value = value),
     ]);
 
     _log.fine(() => 'Loaded settings: $loadedValues');

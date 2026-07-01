@@ -68,8 +68,11 @@ class ProfileController extends ChangeNotifier {
   void unlockRecipe(String recipeId) {
     if (_profile != null) {
       if (!_profile!.unlockedRecipeIds.contains(recipeId)) {
-        _profile?.unlockedRecipeIds = [..._profile!.unlockedRecipeIds, recipeId];        
-        _profile?.unreadRecipeIds =  [..._profile!.unreadRecipeIds, recipeId];
+        _profile?.unlockedRecipeIds = [
+          ..._profile!.unlockedRecipeIds,
+          recipeId,
+        ];
+        _profile?.unreadRecipeIds = [..._profile!.unreadRecipeIds, recipeId];
         _profileVersion++;
         _save();
       }
@@ -174,7 +177,6 @@ class ProfileController extends ChangeNotifier {
   }
 
   Duration timeUntilNextCauldron() {
-
     if (_profile == null ||
         _profile!.cauldrons >= _maxCauldrons ||
         _profile!.lastCauldronRegenTime == 0) {
@@ -208,7 +210,7 @@ class ProfileController extends ChangeNotifier {
 
   int getPowerupCount(String itemId) {
     if (_profile == null) return 0;
-    return _profile!.inventory[itemId] ?? 0; 
+    return _profile!.inventory[itemId] ?? 0;
   }
 
   void updatePowerupCount(String itemId, int change) {
@@ -219,10 +221,26 @@ class ProfileController extends ChangeNotifier {
     }
   }
 
-  void _save() {
+  Future<void> _save() async {
     if (_profile != null) {
-      _persistence.saveProfile(_profile!);
+      await _persistence.saveProfile(_profile!);
       notifyListeners();
     }
+  }
+
+  Future<void> reset() async {
+    if (_profile == null) {
+      await load();
+    }
+    if (_profile == null) return;
+
+    _profile!.isFirstTime = true;
+    _profile!.cauldrons = _maxCauldrons;
+    _profile!.lastCauldronRegenTime = 0;
+    _profile!.lastPlayedGameTime = 0;
+    _profile!.unlockedRecipeIds = [];
+    _profile!.unreadRecipeIds = [];
+    _profileVersion++;
+    await _save();
   }
 }

@@ -1,7 +1,7 @@
 class LevelNde {
   final int level;
-  final double x; 
-  final double y; 
+  final double x;
+  final double y;
 
   LevelNde({required this.level, required this.x, required this.y});
 
@@ -15,7 +15,7 @@ class LevelNde {
 
   Map<String, dynamic> toJson() => {
     'level': level,
-    'x': double.parse(x.toStringAsFixed(3)), 
+    'x': double.parse(x.toStringAsFixed(3)),
     'y': double.parse(y.toStringAsFixed(3)),
   };
 }

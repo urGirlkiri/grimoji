@@ -3,7 +3,7 @@ description:  A gothic alchemy game for mixing and collecting emojis.
 
 publish_to: 'none'
 
-version: 0.1.4+14
+version: 0.1.5+15
 
 environment:
   sdk: ^3.8.0
@@ -63,6 +63,7 @@ flutter:
     - .env
     - assets/data/
     - assets/images/
+    - assets/images/scrolls/
     - assets/images/map/
     - assets/images/tab/
     - assets/images/level/

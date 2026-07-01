@@ -17,7 +17,8 @@ class GridParticle {
     required this.size,
     required this.color,
     required this.maxLife,
-  }) : life = maxLife, alpha = 1.0;
+  }) : life = maxLife,
+       alpha = 1.0;
 
   void update(double dt, {double gravity = 0.0, double drag = 1.0}) {
     life -= dt;

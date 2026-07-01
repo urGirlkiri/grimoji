@@ -107,7 +107,7 @@ final List<GameLevel> chapter4Levels = [
     ],
     skipAutoPlayer: true,
   ),
-  
+
   GameLevel(
     number: 56,
     timeLimit: 260,
@@ -115,15 +115,9 @@ final List<GameLevel> chapter4Levels = [
     targetEmoji: Emojis.cloud,
     goal: 'Clear the skies of invasive bugs',
     description: 'Turbulence - The wind stirs',
-    availableEmojis: [
-      Emojis.windFace,
-      Emojis.droplet,
-      Emojis.rock,
-      Emojis.bug,
-    ],
+    availableEmojis: [Emojis.windFace, Emojis.droplet, Emojis.rock, Emojis.bug],
   ),
 
-  
   GameLevel(
     number: 57,
     timeLimit: 280,
@@ -139,7 +133,6 @@ final List<GameLevel> chapter4Levels = [
     ],
   ),
 
-  
   GameLevel(
     number: 58,
     timeLimit: 300,
@@ -156,7 +149,6 @@ final List<GameLevel> chapter4Levels = [
     skipAutoPlayer: true,
   ),
 
-  
   GameLevel(
     number: 59,
     timeLimit: 250,
@@ -173,7 +165,6 @@ final List<GameLevel> chapter4Levels = [
     skipAutoPlayer: true,
   ),
 
-  
   GameLevel(
     number: 60,
     timeLimit: 300,
@@ -189,7 +180,6 @@ final List<GameLevel> chapter4Levels = [
     ],
   ),
 
-  
   GameLevel(
     number: 61,
     timeLimit: 280,
@@ -205,7 +195,6 @@ final List<GameLevel> chapter4Levels = [
     ],
   ),
 
-  
   GameLevel(
     number: 62,
     timeLimit: 240,
@@ -221,7 +210,6 @@ final List<GameLevel> chapter4Levels = [
     ],
   ),
 
-  
   GameLevel(
     number: 63,
     timeLimit: 320,
@@ -237,7 +225,6 @@ final List<GameLevel> chapter4Levels = [
     ],
   ),
 
-  
   GameLevel(
     number: 64,
     timeLimit: 300,
@@ -253,7 +240,6 @@ final List<GameLevel> chapter4Levels = [
     ],
   ),
 
-  
   GameLevel(
     number: 65,
     timeLimit: 280,
@@ -269,7 +255,6 @@ final List<GameLevel> chapter4Levels = [
     ],
   ),
 
-  
   GameLevel(
     number: 66,
     timeLimit: 260,
@@ -285,7 +270,6 @@ final List<GameLevel> chapter4Levels = [
     ],
   ),
 
-  
   GameLevel(
     number: 67,
     timeLimit: 300,
@@ -301,7 +285,6 @@ final List<GameLevel> chapter4Levels = [
     ],
   ),
 
-  
   GameLevel(
     number: 68,
     timeLimit: 450,
@@ -316,6 +299,6 @@ final List<GameLevel> chapter4Levels = [
       Emojis.tornado,
       Emojis.rock,
     ],
-    skipAutoPlayer: true
+    skipAutoPlayer: true,
   ),
 ];

@@ -1,10 +1,20 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:grimoji/config/cauldrons.dart';
+import 'package:grimoji/config/powerups.dart';
+import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/market/widgets/daily_reward/index.dart';
-import 'package:grimoji/features/market/widgets/shop_item.dart';
+import 'package:grimoji/features/market/widgets/powerups/index.dart';
+import 'package:grimoji/features/market/widgets/powerups/item.dart';
 import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/widgets/custom/pill_button.dart';
 
 class MarketScreen extends StatelessWidget {
   const MarketScreen({super.key});
+
+  void playPurchaseSfx(BuildContext context) {
+    context.readAudio.playSfx(SfxType.purchase);
+  }
 
   void _showSnackbar(
     BuildContext context,
@@ -51,6 +61,21 @@ class MarketScreen extends StatelessWidget {
           padding: EdgeInsets.all(24.0 * scale),
           physics: const BouncingScrollPhysics(),
           children: [
+            if (kDebugMode)
+              Padding(
+                padding: EdgeInsets.only(bottom: 16 * scale),
+                child: PillButton(
+                  text: 'Add +1000 Dice',
+                  color: context.palette.crimson.withValues(alpha: 0.25),
+                  textColor: context.palette.crimson,
+                  borderWidth: 1,
+                  onTap: () {
+                    playPurchaseSfx(context);
+                    context.readProfile.addDice(1000);
+                    _showSnackbar(context, '+1000 dice', isError: false);
+                  },
+                ),
+              ),
             Text(
               "Daily Offerings",
               style: context.theme.textTheme.titleMedium?.copyWith(
@@ -74,17 +99,14 @@ class MarketScreen extends StatelessWidget {
             ShopItemCard(
               title: "Restore Cauldron",
               description: "Instantly restore 1 Cauldron.",
-              cost: 30,
-              iconPath: 'assets/images/cauldron.png',
+              cost: CauldronPrice.restoreOne,
+              iconPath: CauldronPrice.iconPath,
               onTap: () {
                 final profile = context.readProfile;
-                if (profile.spendDice(30)) {
+                if (profile.spendDice(CauldronPrice.restoreOne)) {
+                  playPurchaseSfx(context);
                   profile.refillCauldrons();
-                  _showSnackbar(
-                    context,
-                    "Cauldron Restored!",
-                    isError: false,
-                  );
+                  _showSnackbar(context, "Cauldron Restored!", isError: false);
                 } else {
                   _showSnackbar(
                     context,
@@ -98,17 +120,14 @@ class MarketScreen extends StatelessWidget {
             ShopItemCard(
               title: "Cauldron Refill",
               description: "Instantly restore all 5 Cauldrons.",
-              cost: 150,
-              iconPath: 'assets/images/cauldrons.png',
+              cost: CauldronPrice.refillAll,
+              iconPath: CauldronPrice.iconPath3,
               onTap: () {
                 final profile = context.readProfile;
-                if (profile.spendDice(150)) {
+                if (profile.spendDice(CauldronPrice.refillAll)) {
+                  playPurchaseSfx(context);
                   profile.refillCauldrons();
-                  _showSnackbar(
-                    context,
-                    "Cauldrons refilled!",
-                    isError: false,
-                  );
+                  _showSnackbar(context, "Cauldrons refilled!", isError: false);
                 } else {
                   _showSnackbar(
                     context,
@@ -117,6 +136,18 @@ class MarketScreen extends StatelessWidget {
                   );
                 }
               },
+            ),
+            SizedBox(height: 40 * scale),
+            PowerupSection(
+              title: 'Boosters',
+              subtitle: 'Equip before a level starts for a tactical advantage.',
+              items: Powerup.prelevel,
+            ),
+            SizedBox(height: 40 * scale),
+            PowerupSection(
+              title: 'Powerups',
+              subtitle: 'Have an extra edge during play.',
+              items: Powerup.bottom,
             ),
             SizedBox(height: 40 * scale),
           ],

@@ -24,8 +24,13 @@ import 'package:logging/logging.dart' hide Level;
 
 class LevelScreen extends StatefulWidget {
   final GameLevel level;
+  final List<String> startingBoosters;
 
-  const LevelScreen({super.key, required this.level});
+  const LevelScreen({
+    super.key,
+    required this.level,
+    this.startingBoosters = const [],
+  });
 
   @override
   State<LevelScreen> createState() => _LevelScreenState();
@@ -123,11 +128,15 @@ class _LevelScreenState extends State<LevelScreen> {
       level: widget.level,
       audio: context.readAudio,
       lifecycleNotifier: context.read<AppLifecycleStateNotifier>(),
+      startingBoosters: widget.startingBoosters,
     );
     _boardMetrics = BoardMetrics();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.readProfile.markGamePlayed();
+      for (final boosterId in widget.startingBoosters) {
+        context.readProfile.updatePowerupCount(boosterId, -1);
+      }
     });
   }
 
@@ -218,8 +227,8 @@ class _LevelScreenState extends State<LevelScreen> {
 
                     if (kDebugMode)
                       Positioned(
-                        bottom: 100,
-                        left: 16,
+                        top: 200,
+                        left: 90,
                         child: PillButton(
                           text: 'FORCE FEVER',
                           color: Colors.red,

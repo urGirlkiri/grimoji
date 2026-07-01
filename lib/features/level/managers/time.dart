@@ -11,7 +11,7 @@ class TimeManager {
   Timer? _ticker;
   bool _isDisposed = false;
   int _lastNotifiedSeconds = -1;
-  
+
   int _timeModifiers = 0;
 
   TimeManager({
@@ -20,7 +20,8 @@ class TimeManager {
     required this.onTimeUp,
   });
 
-  int get secondsRemaining => max(0, timeLimit - _stopwatch.elapsed.inSeconds - _timeModifiers);
+  int get secondsRemaining =>
+      max(0, timeLimit - _stopwatch.elapsed.inSeconds - _timeModifiers);
 
   void start() {
     if (_isDisposed) return;
@@ -54,7 +55,7 @@ class TimeManager {
 
   void removeTime(int sec) {
     if (_isDisposed) return;
-    
+
     _timeModifiers += sec;
     final current = secondsRemaining;
 

@@ -87,7 +87,9 @@ void main() async {
   codeBuffer.writeln('import \'package:flame_forge2d/flame_forge2d.dart\';');
   codeBuffer.writeln();
   codeBuffer.writeln('/// GENERATED FILE - DO NOT EDIT MANUALLY');
-  codeBuffer.writeln('/// Run lib/features/cauldron/game/core/container/svg_to_forge.dart');
+  codeBuffer.writeln(
+    '/// Run lib/features/cauldron/game/core/container/svg_to_forge.dart',
+  );
   codeBuffer.writeln('/// To Generate');
   codeBuffer.writeln();
   codeBuffer.writeln('final List<Vector2> vertices = [');

@@ -1,8 +1,22 @@
 # Local Development
 
-## Mascot Animations
+## Audio
 
-### Setup 
+### Add Assets
+
+Add .wav or .mp3 to assets and run
+
+
+```bash
+find assets/ -type f \( -name "*.wav" -o -name "*.mp3" \) -not -path "*/screenshots/*" | while read -r file; do   if ffmpeg -nostdin -i "$file" -c:a aac -b:a 48k -ac 1 -y "${file%.*}.m4a" > /dev/null 2>&1; then     rm "$file";     echo "Converted to M4A: $file";   else     echo "Failed: $file";   fi; done
+```
+
+### Confirmation
+
+
+`Converted to M4A: assets/sfx/cha-ching.mp3`
+
+## Mascot Animations
 
 ### Step 0: Get The img2webp
 

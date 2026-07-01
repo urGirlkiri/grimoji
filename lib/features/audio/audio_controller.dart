@@ -67,8 +67,9 @@ class AudioController {
         (i) => AudioPlayer(playerId: 'sfxPlayer#$i'),
       ).toList(growable: false),
       _playlist = Queue.of(List<Song>.of(menuSongs)..shuffle()) {
-    _musicCompleteSubscription =
-        _musicPlayer.onPlayerComplete.listen(_handleSongFinished);
+    _musicCompleteSubscription = _musicPlayer.onPlayerComplete.listen(
+      _handleSongFinished,
+    );
 
     final audioContext = AudioContext(
       android: const AudioContextAndroid(
@@ -132,7 +133,7 @@ class AudioController {
 
     _log.fine(() => 'Playing sound: $type');
     final options = soundTypeToFilename(type);
-    if(options.isEmpty){
+    if (options.isEmpty) {
       _log.warning("No Sfx found for $type");
       return;
     }
@@ -306,7 +307,8 @@ class AudioController {
 
   Future<void> _playCurrentSongInPlaylist({double? initialVolume}) async {
     _log.info(() => 'Playing ${_playlist.first} now.');
-    final double targetVolume = initialVolume ?? _settings?.musicVolume.value ?? 1.0;
+    final double targetVolume =
+        initialVolume ?? _settings?.musicVolume.value ?? 1.0;
     try {
       await _musicPlayer.play(
         AssetSource('music/${_playlist.first.filename}'),
@@ -361,16 +363,16 @@ class AudioController {
   }
 
   void playMenuMusic() {
-    if (_currentPlaylist == PlaylistType.menu) return; 
-    
+    if (_currentPlaylist == PlaylistType.menu) return;
+
     _log.info('Switching to menu music.');
     _currentPlaylist = PlaylistType.menu;
     _transitionToPlaylist(List.of(menuSongs)..shuffle());
   }
 
   void playLevelMusic() {
-    if (_currentPlaylist == PlaylistType.level) return; 
-    
+    if (_currentPlaylist == PlaylistType.level) return;
+
     _log.info('Switching to level music.');
     _currentPlaylist = PlaylistType.level;
     _transitionToPlaylist(List.of(levelSongs)..shuffle());
@@ -381,9 +383,9 @@ class AudioController {
 
     if (_musicPlayer.state == PlayerState.playing) {
       await _fadeOutMusic(transitionId);
-      if (transitionId != _activeTransitionId) return; 
+      if (transitionId != _activeTransitionId) return;
     }
-    
+
     _playlist.clear();
     _playlist.addAll(songs);
 
@@ -398,14 +400,14 @@ class AudioController {
     const steps = 10;
     const stepDuration = Duration(milliseconds: 30);
     final currentVolume = _settings?.musicVolume.value ?? 1.0;
-    
+
     for (int i = 0; i <= steps; i++) {
       if (transitionId != _activeTransitionId) return; // Abort if overridden
       final volume = currentVolume * (1 - i / steps);
       await _musicPlayer.setVolume(volume.clamp(0.0, 1.0));
       await Future.delayed(stepDuration);
     }
-    
+
     _musicPlayer.stop();
   }
 
@@ -413,9 +415,9 @@ class AudioController {
     const steps = 10;
     const stepDuration = Duration(milliseconds: 30);
     final targetVolume = _settings?.musicVolume.value ?? 1.0;
-    
+
     for (int i = 0; i <= steps; i++) {
-      if (transitionId != _activeTransitionId) return; 
+      if (transitionId != _activeTransitionId) return;
       final volume = targetVolume * i / steps;
       await _musicPlayer.setVolume(volume.clamp(0.0, 1.0));
       await Future.delayed(stepDuration);

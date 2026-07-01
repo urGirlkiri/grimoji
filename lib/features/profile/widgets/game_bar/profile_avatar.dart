@@ -3,13 +3,8 @@ import 'package:grimoji/utils/context_data.dart';
 
 class ProfileAvatar extends StatelessWidget {
   final String avatar;
-  final VoidCallback onTap;
 
-  const ProfileAvatar({
-    super.key,
-    required this.avatar,
-    required this.onTap,
-  });
+  const ProfileAvatar({super.key, required this.avatar});
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +13,7 @@ class ProfileAvatar extends StatelessWidget {
 
     return Transform.translate(
       offset: Offset(0, -10 * scale),
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
+      child: Container(
           width: 75 * scale,
           height: 80 * scale,
           margin: EdgeInsets.symmetric(horizontal: 10 * scale),
@@ -45,7 +38,6 @@ class ProfileAvatar extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-        ),
       ),
     );
   }

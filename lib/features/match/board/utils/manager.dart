@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/emojis/index.dart';
+import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
@@ -311,5 +312,44 @@ class BoardManager {
       }
     }
     return count;
+  }
+
+  void placeStartingBoosters(List<String> boosterIds) {
+    final List<TileCoordinate> positions = [];
+    
+    for (int r = 0; r < rows; r++) {
+      for (int c = 0; c < cols; c++) {
+        if (gridTiles[r][c].behavior == null) {
+          positions.add(TileCoordinate(row: r, col: c));
+        }
+      }
+    }
+
+    positions.shuffle(_random);
+
+    final Set<String> placed = {};
+    int posIndex = 0;
+
+    for (final id in boosterIds) {
+      if (placed.contains(id)) continue;
+      final List<GameEmoji> emojis;
+      if (id == 'board_sweep') {
+        emojis = [Emojis.barberPole, Emojis.bomb];
+      } else {
+        final emoji = Powerup.emojiForId(id);
+        emojis = emoji != null ? [emoji] : [];
+      }
+      if (emojis.isEmpty) continue;
+      if (posIndex + emojis.length > positions.length) break;
+
+      for (final emoji in emojis) {
+        final coord = positions[posIndex++];
+        final tile = gridTiles[coord.row][coord.col];
+        tile.emoji = emoji;
+        tile.reset();
+        tile.clearBehavior();
+      }
+      placed.add(id);
+    }
   }
 }

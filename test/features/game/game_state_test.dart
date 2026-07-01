@@ -90,7 +90,7 @@ void main() {
 
       gameState.incrementComboMultiplier();
       expect(gameState.currentComboMultiplier, 1);
-      
+
       gameState.incrementComboMultiplier();
       expect(gameState.currentComboMultiplier, 2);
     });

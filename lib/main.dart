@@ -63,8 +63,8 @@ void main() async {
 
   if (kDebugMode) {
     AISuggestionService.instance.enabled = false;
-    
-    AISuggestionService.instance.apiKey =  dotenv.env['GEMINI_API_KEY'];
+
+    AISuggestionService.instance.apiKey = dotenv.env['GEMINI_API_KEY'];
   }
 
   runApp(Grimoji(profileController: profileController));

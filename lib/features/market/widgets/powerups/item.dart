@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/animated_button.dart';
+import 'package:grimoji/widgets/custom/emoji_widget.dart';
 
 class ShopItemCard extends StatelessWidget {
   final String title;
@@ -9,6 +10,10 @@ class ShopItemCard extends StatelessWidget {
   final String iconPath;
   final VoidCallback onTap;
 
+  final bool isEmoji;
+  final String? amount;
+  final int? ownedCount;
+
   const ShopItemCard({
     super.key,
     required this.title,
@@ -16,6 +21,9 @@ class ShopItemCard extends StatelessWidget {
     required this.cost,
     required this.iconPath,
     required this.onTap,
+    this.isEmoji = false,
+    this.amount,
+    this.ownedCount,
   });
 
   @override
@@ -32,14 +40,23 @@ class ShopItemCard extends StatelessWidget {
           color: context.palette.slate.withValues(alpha: 0.1),
           width: 1,
         ),
-        image: DecorationImage(
-          image: const AssetImage('assets/images/goth_emo.png'),
-          fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(
-            context.palette.voidBlack.withValues(alpha: 0.05),
-            BlendMode.dstATop,
-          ),
-        ),
+        image: isEmoji
+            ? DecorationImage(
+                image: const AssetImage('assets/images/vertical_lines.png'),
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                  context.palette.midnight.withValues(alpha: 0.05),
+                  BlendMode.dstATop,
+                ),
+              )
+            : DecorationImage(
+                image: const AssetImage('assets/images/goth_emo.png'),
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                  context.palette.voidBlack.withValues(alpha: 0.05),
+                  BlendMode.dstATop,
+                ),
+              ),
         boxShadow: [
           BoxShadow(
             color: context.palette.voidBlack,
@@ -69,7 +86,10 @@ class ShopItemCard extends StatelessWidget {
               AnimatedButton(
                 onTap: onTap,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12 * scale, vertical: 6 * scale),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12 * scale,
+                    vertical: 6 * scale,
+                  ),
                   decoration: BoxDecoration(
                     color: context.palette.twilight,
                     borderRadius: BorderRadius.circular(12 * scale),
@@ -81,7 +101,7 @@ class ShopItemCard extends StatelessWidget {
                       BoxShadow(
                         color: context.palette.voidBlack,
                         offset: Offset(0, 4 * scale),
-                        blurRadius: 0, 
+                        blurRadius: 0,
                       ),
                     ],
                   ),
@@ -111,16 +131,62 @@ class ShopItemCard extends StatelessWidget {
           SizedBox(height: 12 * scale),
 
           Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(iconPath, width: 45 * scale, height: 45 * scale),
+              Stack(
+                clipBehavior: Clip.none,
+                alignment: Alignment.center,
+                children: [
+                  isEmoji
+                      ? EmojiWidget.svg(path: iconPath, size: 45 * scale)
+                      : Image.asset(
+                          iconPath,
+                          width: 45 * scale,
+                          height: 45 * scale,
+                        ),
+                ],
+              ),
               SizedBox(width: 16 * scale),
               Expanded(
-                child: Text(
-                  description,
-                  style: context.theme.textTheme.bodyMedium?.copyWith(
-                    color: context.palette.mist,
-                    fontSize: 13 * scale,
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      description,
+                      style: context.theme.textTheme.bodyMedium?.copyWith(
+                        color: context.palette.mist,
+                        fontSize: 13 * scale,
+                      ),
+                    ),
+                    SizedBox(height: 4 * scale),
+                    Row(
+                      children: [
+                        if (ownedCount != null) ...[
+                          Text(
+                            'Owned: $ownedCount',
+                            style: TextStyle(
+                              color: ownedCount! > 0
+                                  ? context.palette.magicCyanDeep
+                                  : context.palette.dusk,
+                              fontSize: 11 * scale,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                        const Spacer(),
+                        if (amount != null)
+                          Text(
+                            amount!,
+                            style: context.theme.textTheme.bodyLarge?.copyWith(
+                              color: context.palette.slate,
+                              fontSize: 20 * scale,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ],

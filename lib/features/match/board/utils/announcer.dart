@@ -5,7 +5,7 @@ import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/voices/dialog.dart';
 import 'package:grimoji/features/match/state.dart';
 
-enum TurnEvent { merge, explosion, legendaryEmoji }
+enum TurnEvent { merge, explosion, legendaryEmoji, blackHole }
 
 class BoardAnnouncer {
   static final _log = Logger('BoardAnnouncer');
@@ -57,8 +57,9 @@ class BoardAnnouncer {
     required int tilesCleared,
   }) {
     final isLegendary = events.contains(TurnEvent.legendaryEmoji);
+    final isBlackHole = events.contains(TurnEvent.blackHole);
 
-    if (combo < 3 && tilesCleared < 10 && !isLegendary) return;
+    if (combo < 3 && tilesCleared < 10 && !isLegendary && !isBlackHole) return;
 
     int tileHype = tilesCleared >= 18
         ? 5
@@ -69,11 +70,13 @@ class BoardAnnouncer {
         : tilesCleared >= 10
         ? 1
         : 0;
-        
+
     int hypeScore = max(combo, tileHype).clamp(1, 6);
 
     Dialog selectedVoice = isLegendary
         ? Dialog.catastrophicMasterpiece
+        : isBlackHole
+        ? Dialog.masterfulAlchemy
         : events.contains(TurnEvent.explosion)
         ? _calamityVoices[hypeScore]
         : _alchemyVoices[hypeScore];

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
+import 'package:grimoji/features/alchemy/behaviors/clear.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/tile/tile_content/hint.dart';
+import 'package:grimoji/utils/math.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
 
 class TileDisp extends StatelessWidget {
@@ -11,7 +13,8 @@ class TileDisp extends StatelessWidget {
   final double tWidth;
   final double tHeight;
 
-  const TileDisp({super.key, 
+  const TileDisp({
+    super.key,
     required this.tile,
     required this.displayEmoji,
     required this.tWidth,
@@ -42,11 +45,18 @@ class TileDisp extends StatelessWidget {
           }
           return transition;
         },
-        child: EmojiWidget.svg(
-          key: ValueKey(displayEmoji.visual),
-          path: displayEmoji.svg,
-          size: tWidth * 0.8,
-        ),
+        child: () {
+          final emojiWidget = EmojiWidget.svg(
+            key: ValueKey(displayEmoji.visual),
+            path: displayEmoji.svg,
+            size: tWidth * 0.8,
+          );
+          final behavior = tile.behavior;
+          if (behavior is ClearBehavior) {
+            return Transform.rotate(angle: behavior.isHorizontal ? 0 : degToRad(90), child: emojiWidget);
+          }
+          return emojiWidget;
+        }(),
       ),
     );
   }

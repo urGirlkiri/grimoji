@@ -11,19 +11,24 @@ class HiveSettingsPersistence extends SettingsPersistence {
   SettingsData get _currentData => _box.get('settings') ?? const SettingsData();
 
   @override
-  Future<bool> getAudioOn({required bool defaultValue}) async => _currentData.audioOn;
+  Future<bool> getAudioOn({required bool defaultValue}) async =>
+      _currentData.audioOn;
 
   @override
-  Future<bool> getMusicOn({required bool defaultValue}) async => _currentData.musicOn;
+  Future<bool> getMusicOn({required bool defaultValue}) async =>
+      _currentData.musicOn;
 
   @override
-  Future<bool> getSoundsOn({required bool defaultValue}) async => _currentData.soundsOn;
+  Future<bool> getSoundsOn({required bool defaultValue}) async =>
+      _currentData.soundsOn;
 
   @override
-  Future<double> getSfxVolume({required double defaultValue}) async => _currentData.sfxVolume;
+  Future<double> getSfxVolume({required double defaultValue}) async =>
+      _currentData.sfxVolume;
 
   @override
-  Future<double> getMusicVolume({required double defaultValue}) async => _currentData.musicVolume;
+  Future<double> getMusicVolume({required double defaultValue}) async =>
+      _currentData.musicVolume;
 
   @override
   Future<void> saveAudioOn(bool value) async {
@@ -59,12 +64,15 @@ class HiveSettingsPersistence extends SettingsPersistence {
     double? musicVolume,
   }) async {
     final current = _currentData;
-    await _box.put('settings', current.copyWith(
-      audioOn: audioOn,
-      soundsOn: soundsOn,
-      musicOn: musicOn,
-      sfxVolume: sfxVolume,
-      musicVolume: musicVolume,
-    ));
+    await _box.put(
+      'settings',
+      current.copyWith(
+        audioOn: audioOn,
+        soundsOn: soundsOn,
+        musicOn: musicOn,
+        sfxVolume: sfxVolume,
+        musicVolume: musicVolume,
+      ),
+    );
   }
 }

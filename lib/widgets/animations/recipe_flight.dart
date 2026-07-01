@@ -38,23 +38,32 @@ class RecipeFlightAnimator {
           curve: Curves.linear,
           onEnd: () {
             entry.remove();
-              onComplete?.call();
+            onComplete?.call();
           },
           builder: (context, value, child) {
-
-            final double pauseProgress = (value < 0.083) ? 0.0 : ((value - 0.083) / 0.917).clamp(0.0, 1.0);
-            final double pausedFlightProgress = Curves.easeInOut.transform(pauseProgress);
+            final double pauseProgress = (value < 0.083)
+                ? 0.0
+                : ((value - 0.083) / 0.917).clamp(0.0, 1.0);
+            final double pausedFlightProgress = Curves.easeInOut.transform(
+              pauseProgress,
+            );
             final double currentX =
-                startOffset.dx + ((endOffset.dx - startOffset.dx) * pausedFlightProgress);
+                startOffset.dx +
+                ((endOffset.dx - startOffset.dx) * pausedFlightProgress);
             final double rawY =
-                startOffset.dy + ((endOffset.dy - startOffset.dy) * pausedFlightProgress);
+                startOffset.dy +
+                ((endOffset.dy - startOffset.dy) * pausedFlightProgress);
             final double arcOffset = sin(pausedFlightProgress * pi) * 80.0;
             final double currentY = rawY - arcOffset;
 
             final double scale = 1.25 + ((0.0001 - 1.25) * pauseProgress);
             final double spin = pauseProgress * 4 * pi;
-            final double glowProgress = Curves.easeOut.transform((1.0 - pauseProgress).clamp(0.0, 1.0));
-            final Color glowColor = context.palette.magicCyan.withValues(alpha: 0.9 * glowProgress);
+            final double glowProgress = Curves.easeOut.transform(
+              (1.0 - pauseProgress).clamp(0.0, 1.0),
+            );
+            final Color glowColor = context.palette.magicCyan.withValues(
+              alpha: 0.9 * glowProgress,
+            );
             final double glowBlur = 12 + (64 * glowProgress);
             final double glowSpread = 1 + (4 * glowProgress);
 
@@ -82,10 +91,7 @@ class RecipeFlightAnimator {
                       ],
                     ),
                     child: Center(
-                      child: EmojiWidget.svg(
-                        path: unlockedEmoji.svg,
-                        size: 56,
-                      ),
+                      child: EmojiWidget.svg(path: unlockedEmoji.svg, size: 56),
                     ),
                   ),
                 ),

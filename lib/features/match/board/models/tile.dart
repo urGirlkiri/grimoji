@@ -5,26 +5,40 @@ import 'package:uuid/uuid.dart';
 
 class Tile {
   final String id;
+
   TileCoordinate coordinate;
   TileCoordinate? hintPartner;
+
   GameEmoji emoji;
-  
+  GameEmoji? morphTarget;
+
   EmojiBehavior? behavior;
 
-  bool isExploding = false; 
+  bool isTriggered = false;
+  bool isExploding = false;
+
   bool isMerging = false;
   bool isMergePoint = false;
-  
-  bool isTriggered = false;
+
   bool isTransmuting = false;
 
+  bool isSwallowTrigger = false;
+  bool isSwallowTarget = false;
+
+  bool isLineClearTrigger = false;
+  bool isLineClearTarget = false;
+
   bool hasFlown = false;
-  bool isFlying = false; 
+  bool isFlying = false;
+
   bool isHinting = false;
-  GameEmoji? morphTarget;
-  
-  Tile({required this.coordinate, required this.emoji, String? id, this.behavior})
-    : id = id ?? const Uuid().v4();
+
+  Tile({
+    required this.coordinate,
+    required this.emoji,
+    String? id,
+    this.behavior,
+  }) : id = id ?? const Uuid().v4();
 
   Tile copyWith({
     TileCoordinate? coordinate,
@@ -37,32 +51,52 @@ class Tile {
       emoji: emoji ?? this.emoji,
       behavior: behavior ?? this.behavior,
     );
-    
+
     newTile.isExploding = isExploding;
-    newTile.isMerging = isMerging;
     newTile.isTriggered = isTriggered;
-    newTile.isTransmuting = isTransmuting; 
+
+    newTile.isMerging = isMerging;
+    newTile.isMergePoint = isMergePoint;
+
+    newTile.isTransmuting = isTransmuting;
+    newTile.morphTarget = morphTarget;
+
     newTile.hasFlown = hasFlown;
     newTile.isFlying = isFlying;
+
     newTile.isHinting = isHinting;
     newTile.hintPartner = hintPartner;
-    newTile.isMergePoint = isMergePoint;
-    newTile.morphTarget = morphTarget;
-    
+
+    newTile.isSwallowTarget = isSwallowTarget;
+    newTile.isSwallowTrigger = isSwallowTrigger;
+
+    newTile.isLineClearTrigger = isLineClearTrigger;
+    newTile.isLineClearTarget = isLineClearTarget;
+
     return newTile;
   }
 
   void reset() {
     isExploding = false;
+    isTriggered = false;
+
     isMerging = false;
     isMergePoint = false;
-    isTriggered = false;
+
     isTransmuting = false;
-    hasFlown = false; 
-    isFlying = false; 
-    isHinting = false;   
+    morphTarget = null;
+
+    hasFlown = false;
+    isFlying = false;
+
+    isHinting = false;
     hintPartner = null;
-    morphTarget = null;  
+
+    isSwallowTarget = false;
+    isSwallowTrigger = false;
+
+    isLineClearTrigger = false;
+    isLineClearTarget = false;
   }
 
   void clearBehavior() {
@@ -70,5 +104,6 @@ class Tile {
   }
 
   @override
-  String toString() => 'Tile(${coordinate.row}, ${coordinate.col}: ${emoji.visual})';
+  String toString() =>
+      'Tile(${coordinate.row}, ${coordinate.col}: ${emoji.visual})';
 }

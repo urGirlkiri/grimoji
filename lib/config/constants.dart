@@ -1,11 +1,13 @@
 const double tileSpacingGap = 2.0;
 
-const Duration swapAnimationTime = Duration(milliseconds: 400); 
+const Duration swapAnimationTime = Duration(milliseconds: 400);
 
-const Duration clearAnimationTime = Duration(milliseconds: 500); 
+const Duration clearAnimationTime = Duration(milliseconds: 500);
 
 const Duration gravityAnimationTime = Duration(milliseconds: 400);
 
 const Duration shuffleWipeTime = Duration(milliseconds: 400);
 
 const Duration boardSparksTime = Duration(milliseconds: 800);
+
+const Duration lineWaveAnimDuration = Duration(milliseconds: 150);
