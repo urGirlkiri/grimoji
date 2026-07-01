@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:flutter/animation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
@@ -16,7 +16,9 @@ import 'package:grimoji/features/match/state.dart';
 import 'package:grimoji/features/match/utils/swipe_detector.dart';
 import 'package:grimoji/features/alchemy/behaviors/clear.dart';
 import 'package:grimoji/config/emojis/index.dart';
+import 'package:grimoji/features/match/board/models/ghost_dive.dart';
 import 'package:grimoji/features/match/board/models/roll.dart';
+import 'package:grimoji/features/match/utils/ghost_evaluator.dart';
 import 'package:logging/logging.dart';
 
 class GameCoordinator {
@@ -28,6 +30,7 @@ class GameCoordinator {
   final Future<bool> Function() onComboFinished;
   void Function(int row, int col, bool isHorizontal)? onLineClear;
   Future<void> Function(RollEffect)? onWheelRoll;
+  Future<void> Function(GhostDiveEffect)? onGhostDive;
   final Logger _log = Logger('GameCoordinator');
 
   Timer? _hintTimer;
@@ -95,6 +98,11 @@ class GameCoordinator {
         isWrapping: true,
         triggerCoord: coord,
       );
+      if (state.isDisposed) return;
+    }
+
+    if (_anyGhostPending()) {
+      await _executeGhostPhase();
       if (state.isDisposed) return;
     }
 
@@ -335,6 +343,67 @@ class GameCoordinator {
         engine.grid[r][c].isWheelTrigger = false;
       }
     }
+  }
+
+  bool _anyGhostPending() {
+    for (int r = 0; r < BoardManager.rows; r++) {
+      for (int c = 0; c < BoardManager.cols; c++) {
+        if (engine.grid[r][c].isGhostTrigger) return true;
+      }
+    }
+    return false;
+  }
+
+  Future<void> _executeGhostPhase() async {
+    final List<TileCoordinate> triggers = [];
+    for (int r = 0; r < BoardManager.rows; r++) {
+      for (int c = 0; c < BoardManager.cols; c++) {
+        if (engine.grid[r][c].isGhostTrigger) {
+          engine.grid[r][c].isGhostTrigger = false;
+          engine.grid[r][c].clearBehavior();
+          triggers.add(TileCoordinate(row: r, col: c));
+        }
+      }
+    }
+    if (triggers.isEmpty) return;
+
+    final Set<TileCoordinate> destroyed = {};
+
+    for (final origin in triggers) {
+      final target = await GhostEvaluator.findTarget(
+        grid: engine.grid,
+        targetEmoji: engine.level.targetEmoji,
+      );
+      if (state.isDisposed) return;
+      if (target == null) continue;
+
+      engine.grid[origin.row][origin.col].isGhostOrigin = true;
+      if (kDebugMode) {
+        engine.grid[target.row][target.col].isGhostTarget = true;
+      }
+      state.updateUI();
+
+      final effect = GhostDiveEffect(origin: origin, target: target);
+      final diveAnimation = onGhostDive?.call(effect);
+
+      await Future.delayed(ghostDiveDuration);
+      if (state.isDisposed) return;
+
+      await diveAnimation;
+      if (state.isDisposed) return;
+
+      if (kDebugMode) {
+        engine.grid[target.row][target.col].isGhostTarget = true;
+      }
+      destroyed.add(origin);
+      destroyed.add(target);
+    }
+
+    if (destroyed.isEmpty) return;
+
+    boardManager.flagFlyingTargetEmojis(destroyed);
+    state.updateUI();
+    await _settleBoard(destroyed);
   }
 
   bool _anyWheelPending() {
@@ -588,6 +657,12 @@ class GameCoordinator {
           isWrapping: true,
           triggerCoord: focusCoordinate,
         );
+        if (state.isDisposed) return;
+        continue;
+      }
+
+      if (_anyGhostPending()) {
+        await _executeGhostPhase();
         if (state.isDisposed) return;
         continue;
       }

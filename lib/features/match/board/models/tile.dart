@@ -32,6 +32,7 @@ class Tile {
   bool isWheelOrigin = false;
 
   bool isGhostTrigger = false;
+  bool isGhostOrigin = false;
   bool isGhostTarget = false;
 
   bool hasFlown = false;
@@ -108,6 +109,7 @@ class Tile {
     isWheelOrigin = false;
 
     isGhostTrigger = false;
+    isGhostOrigin = false;
     isGhostTarget = false;
   }
 

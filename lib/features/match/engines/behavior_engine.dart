@@ -121,8 +121,9 @@ class BehaviorEngine {
           break;
 
         case ActionType.clearRow:
-          if (boardManager.gridTiles[centerX].any((t) => t.isLineClearTrigger))
+          if (boardManager.gridTiles[centerX].any((t) => t.isLineClearTrigger)) {
             break;
+          }
           boardManager.gridTiles[centerX][centerY].isLineClearTrigger = true;
           for (int c = 0; c < BoardManager.cols; c++) {
             if (c != centerY) {

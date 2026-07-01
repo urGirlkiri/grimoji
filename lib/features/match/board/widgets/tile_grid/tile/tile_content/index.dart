@@ -67,6 +67,24 @@ class TileContent extends StatelessWidget {
           .fadeOut(duration: 1.ms);
     }
 
+    if (tile.isGhostOrigin) {
+      return disp
+          .animate()
+          .scaleXY(
+            begin: 1.0,
+            end: ghostScaleFactor,
+            duration: ghostDiveDuration * 0.2,
+            curve: Curves.easeOut,
+          )
+          .then()
+           .scaleXY(
+            begin: 1.0,
+            end: 0,
+            duration: 0.microseconds,
+            curve: Curves.easeOut,
+          );
+    }
+
     return AnimatedOpacity(
       opacity: targetOpacity,
       duration: 300.ms,

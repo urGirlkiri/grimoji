@@ -93,3 +93,11 @@ const Duration wheelSpinTotalDuration = Duration(milliseconds: 1100);
 
 /// How much bigger the rolling wheel element scales visually relative to the tile size underneath it.
 const double wheelVisualScaleFactor = 1.3;
+
+// ─── Ghost Diver ─────────────────────────────────────────────────────────────
+
+/// How much smaller  the  diving ghost scales visually relative to the tile size underneath it.
+const double ghostScaleFactor = .9;
+
+/// Total time for the ghost dive animation — travel + target destruction.
+const Duration ghostDiveDuration = Duration(milliseconds: 600);

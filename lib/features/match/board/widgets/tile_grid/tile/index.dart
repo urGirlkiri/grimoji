@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:grimoji/features/match/constants.dart';
@@ -81,6 +82,15 @@ class TileWidget extends StatelessWidget {
       );
     }
 
+    if (tile.isGhostTarget) {
+      content = content.animate().scaleXY(
+        begin: 1.0,
+        end: 0,
+        duration: ghostDiveDuration * 0.1,
+        curve: Curves.easeInExpo,
+      );
+    }
+
     return AnimatedPositioned(
       duration: swapSpeed,
       curve: Curves.easeOutCubic,
@@ -114,6 +124,16 @@ class TileWidget extends StatelessWidget {
                     child: EmojiWidget.lottie(
                       path: tile.emoji.lottie,
                       size: tWidth * 0.8,
+                    ),
+                  ),
+
+                if (kDebugMode && tile.isGhostTarget)
+                  Container(
+                    width: tWidth,
+                    height: tHeight,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.red, width: 3),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                   ),
               ],
