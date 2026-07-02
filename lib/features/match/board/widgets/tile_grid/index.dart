@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
-import 'package:grimoji/features/match/board/utils/metrics.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/shuffle.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/flight.dart';
@@ -16,8 +15,15 @@ class TileGrid extends StatefulWidget {
   static const shuffleDuration = Duration(milliseconds: 600);
 
   final String? activeTileId;
+  final double tWidth;
+  final double tHeight;
 
-  const TileGrid({super.key, this.activeTileId});
+  const TileGrid({
+    super.key,
+    this.activeTileId,
+    required this.tWidth,
+    required this.tHeight,
+  });
 
   @override
   State<TileGrid> createState() => _TileGridState();
@@ -77,25 +83,18 @@ class _TileGridState extends State<TileGrid> {
 
   @override
   Widget build(BuildContext context) {
-    final metrics = context.select<BoardMetrics, BoardMetrics?>(
-      (m) => m.isReady ? m : null,
-    );
     final targetEmoji = context.select<LevelState, GameEmoji>(
       (s) => s.level.targetEmoji,
     );
 
     context.select<LevelState, int>((s) => s.gameState.updateToken);
 
-    if (metrics == null) {
-      return const SizedBox.shrink();
-    }
-
     final levelState = context.read<LevelState>();
 
     _initialFall(levelState);
 
-    final double tWidth = metrics.tileWidth!;
-    final double tHeight = metrics.tileHeight!;
+    final double tWidth = widget.tWidth;
+    final double tHeight = widget.tHeight;
     final grid = levelState.boardManager.gridTiles;
 
     List<Widget> tileWidgets = [];

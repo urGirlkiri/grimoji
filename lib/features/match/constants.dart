@@ -3,6 +3,18 @@
 /// Pixel gap between adjacent tiles in the grid.
 const double tileSpacingGap = 2.0;
 
+/// Emoji size relative to tile width.
+const double emojiSizeFactor = 0.67;
+
+/// Board width percentage for large screens when screen exceeds max allowed width.
+const double largeScreenBoardWidthFactor = 0.9;
+
+/// Board width percentage for non-large screens.
+const double smallScreenBoardWidthFactor = 0.975;
+
+/// Board height multiplier relative to width.
+const double boardHeightMultiplier = 1.12;
+
 // ==== Tile Grid Motion ===
 
 /// How fast swapped tiles animate into their new positions.

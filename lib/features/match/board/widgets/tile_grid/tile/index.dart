@@ -123,7 +123,7 @@ class TileWidget extends StatelessWidget {
                     opacity: tile.isTransmuting ? 1.0 : 0.0,
                     child: EmojiWidget.lottie(
                       path: tile.emoji.lottie,
-                      size: tWidth * 0.8,
+                      size: tWidth * emojiSizeFactor,
                     ),
                   ),
 

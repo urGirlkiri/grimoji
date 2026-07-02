@@ -259,18 +259,18 @@ class _GameBoardState extends State<GameBoard> {
 
     return LayoutBuilder(
       builder: (context, screenConstraints) {
-        final double screenWidth = screenConstraints.maxWidth;
-        final double screenHeight = screenConstraints.maxHeight;
-        final bool isSmallScreen = screenWidth < 360 || screenHeight < 600;
+        final screenWidth = context.screenWidth;
+        final isLargeSCreen = context.isLargeScreen;
 
-        final double constrainedBoardWidth = isSmallScreen
-            ? screenWidth * 0.95
-            : (screenWidth > maxAllowedBoardWidth
+        final double constrainedBoardWidth = isLargeSCreen
+            ? (screenWidth > maxAllowedBoardWidth
                   ? maxAllowedBoardWidth
-                  : screenWidth * 0.9);
+                  : screenWidth * largeScreenBoardWidthFactor)
+            : screenWidth * smallScreenBoardWidthFactor;
 
         final double proportionalBoardHeight =
-            (constrainedBoardWidth * gridRows) / gridColumns;
+            ((constrainedBoardWidth * gridRows) / gridColumns) *
+            boardHeightMultiplier;
 
         return Center(
           child: SizedBox(
@@ -281,7 +281,7 @@ class _GameBoardState extends State<GameBoard> {
               alignment: Alignment.center,
               children: [
                 Container(
-                  padding: EdgeInsets.all(isSmallScreen ? 6.0 : 8.0),
+                  padding: EdgeInsets.all(isLargeSCreen ? 8.0 : 6.0),
                   clipBehavior: Clip.hardEdge,
                   decoration: ShapeDecoration(
                     color: palette.mist,
@@ -326,6 +326,8 @@ class _GameBoardState extends State<GameBoard> {
                               builder: (context, _) {
                                 return TileGrid(
                                   activeTileId: _activeTileIdNotifier.value,
+                                  tWidth: calculatedSingleTileWidth,
+                                  tHeight: calculatedSingleTileHeight,
                                 );
                               },
                             ),

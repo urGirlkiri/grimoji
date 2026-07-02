@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
 import 'package:grimoji/features/alchemy/behaviors/clear.dart';
+import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/tile/tile_content/hint.dart';
 import 'package:grimoji/utils/math.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
@@ -49,7 +50,7 @@ class TileDisp extends StatelessWidget {
           final emojiWidget = EmojiWidget.svg(
             key: ValueKey(displayEmoji.visual),
             path: displayEmoji.svg,
-            size: tWidth * 0.8,
+            size: tWidth * emojiSizeFactor,
           );
           final behavior = tile.behavior;
           if (behavior is ClearBehavior) {
