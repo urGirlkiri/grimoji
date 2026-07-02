@@ -22,7 +22,7 @@ class NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final profile = context.readProfile;
+    final profile = context.watchProfile;
     final hasUnread = isGrim && profile.unreadRecipeCount > 0;
 
     final scale = hasUnread ? 1.0 : 0.0;
