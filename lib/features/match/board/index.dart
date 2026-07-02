@@ -10,7 +10,6 @@ import 'package:grimoji/features/match/board/widgets/overlays/wheel_roll/index.d
 import 'package:grimoji/features/match/board/widgets/announcer/index.dart';
 import 'package:grimoji/features/match/board/widgets/overlays/line_clear/index.dart';
 import 'package:grimoji/features/match/board/widgets/board_grid/index.dart';
-import 'package:grimoji/features/match/board/utils/metrics.dart';
 import 'package:grimoji/features/match/board/widgets/overlays/sparkle.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/index.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
@@ -35,6 +34,9 @@ class _GameBoardState extends State<GameBoard> {
   Tile? _draggedTile;
   Offset? _dragStartPosition;
 
+  double? _tileWidth;
+  double? _tileHeight;
+
   final ValueNotifier<List<SparkleEffect>> _sparklesNotifier = ValueNotifier(
     [],
   );
@@ -55,9 +57,6 @@ class _GameBoardState extends State<GameBoard> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _measureBoard();
-    });
   }
 
   @override
@@ -87,25 +86,6 @@ class _GameBoardState extends State<GameBoard> {
     _levelState?.coordinator.onWheelRoll = null;
     _levelState?.coordinator.onGhostDive = null;
     super.dispose();
-  }
-
-  void _measureBoard() {
-    if (!mounted) return;
-
-    final boardContext = _boardKey.currentContext;
-    final cellContext = _tileKey.currentContext;
-
-    if (boardContext != null && cellContext != null) {
-      final boardBox = boardContext.findRenderObject() as RenderBox;
-      final cellBox = cellContext.findRenderObject() as RenderBox;
-      final boardRect = boardBox.localToGlobal(Offset.zero) & boardBox.size;
-
-      context.read<BoardMetrics>().updateMetrics(
-        cellBox.size.width,
-        cellBox.size.height,
-        boardRect,
-      );
-    }
   }
 
   Future<void> triggerWheelRoll(RollEffect effect) async {
@@ -159,18 +139,17 @@ class _GameBoardState extends State<GameBoard> {
   }
 
   void onTapped(TapUpDetails details, BuildContext context) {
-    final metrics = context.read<BoardMetrics>();
     final levelState = context.read<LevelState>();
 
-    if (!metrics.isReady) return;
+    if (_tileWidth == null || _tileHeight == null) return;
 
     if (levelState.gameState.isProcessing || levelState.gameState.isShuffling) {
       _triggerSparkle(details.localPosition);
       return;
     }
 
-    int col = (details.localPosition.dx / metrics.tileWidth!).floor();
-    int row = (details.localPosition.dy / metrics.tileHeight!).floor();
+    int col = (details.localPosition.dx / _tileWidth!).floor();
+    int row = (details.localPosition.dy / _tileHeight!).floor();
 
     if (row >= 0 &&
         row < levelState.boardManager.gridTiles.length &&
@@ -187,18 +166,17 @@ class _GameBoardState extends State<GameBoard> {
   }
 
   void onPanStart(DragStartDetails details, BuildContext context) {
-    final metrics = context.read<BoardMetrics>();
     final levelState = context.read<LevelState>();
 
-    if (!metrics.isReady) return;
+    if (_tileWidth == null || _tileHeight == null) return;
 
     if (levelState.gameState.isProcessing || levelState.gameState.isShuffling) {
       _triggerSparkle(details.localPosition);
       return;
     }
 
-    int col = (details.localPosition.dx / metrics.tileWidth!).floor();
-    int row = (details.localPosition.dy / metrics.tileHeight!).floor();
+    int col = (details.localPosition.dx / _tileWidth!).floor();
+    int row = (details.localPosition.dy / _tileHeight!).floor();
 
     if (row >= 0 &&
         row < levelState.boardManager.gridTiles.length &&
@@ -302,6 +280,9 @@ class _GameBoardState extends State<GameBoard> {
                           (gridAreaConstraints.maxHeight -
                               (tileSpacingGap * verticalGapsCount)) /
                           gridRows;
+
+                      _tileWidth = calculatedSingleTileWidth;
+                      _tileHeight = calculatedSingleTileHeight;
 
                       return GestureDetector(
                         onTapUp: (details) => onTapped(details, context),

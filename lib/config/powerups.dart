@@ -39,7 +39,7 @@ class Powerup {
     ),
     Powerup(
       id: 'ghost',
-      name: 'Haunting Ghost Clearer',
+      name: 'Haunting Ghost',
       iconPath: Emojis.ghost.svg,
       description: 'Dives into an emoji and destroys it.',
       isPrelevel: true,
