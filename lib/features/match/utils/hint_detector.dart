@@ -79,12 +79,36 @@ List<int>? _hintScanIsolate(_HintScanArgs args) {
   for (int r = 0; r < rows; r++) {
     for (int c = 0; c < cols; c++) {
       if (c < cols - 1) {
-        final score = _scoreHintMove(g, r, c, r, c + 1, rows, cols, args, unmatchable);
-        if (score != null) validMoves.add((coords: [r, c, r, c + 1], score: score));
+        final score = _scoreHintMove(
+          g,
+          r,
+          c,
+          r,
+          c + 1,
+          rows,
+          cols,
+          args,
+          unmatchable,
+        );
+        if (score != null) {
+          validMoves.add((coords: [r, c, r, c + 1], score: score));
+        }
       }
       if (r < rows - 1) {
-        final score = _scoreHintMove(g, r, c, r + 1, c, rows, cols, args, unmatchable);
-        if (score != null) validMoves.add((coords: [r, c, r + 1, c], score: score));
+        final score = _scoreHintMove(
+          g,
+          r,
+          c,
+          r + 1,
+          c,
+          rows,
+          cols,
+          args,
+          unmatchable,
+        );
+        if (score != null) {
+          validMoves.add((coords: [r, c, r + 1, c], score: score));
+        }
       }
     }
   }
@@ -98,8 +122,12 @@ List<int>? _hintScanIsolate(_HintScanArgs args) {
 
 int? _scoreHintMove(
   List<List<String>> g,
-  int r1, int c1, int r2, int c2,
-  int rows, int cols,
+  int r1,
+  int c1,
+  int r2,
+  int c2,
+  int rows,
+  int cols,
   _HintScanArgs args,
   Set<String> unmatchable,
 ) {
@@ -122,8 +150,10 @@ int? _scoreHintMove(
       args.targetIngredients.contains(g[r2][c2])) {
     score += 50;
   }
-  if (matched.any((m) => m.emoji == args.targetVisual)) score += 100;
-  score += (r1 > r2 ? r1 : r2);
+  if (matched.any((m) => m.emoji == args.targetVisual)) {
+    score += 10000;
+  }
+  score += (r1 > r2 ? r1 : r2) * 4;
   return score;
 }
 
@@ -146,9 +176,17 @@ List<_IsoGroup> _scanMatchGroups(
   for (int r = 0; r < rows; r++) {
     int streak = 1;
     for (int c = 1; c <= cols; c++) {
-      final same = c < cols && g[r][c] == g[r][c - 1] && !unmatchable.contains(g[r][c]);
+      final same =
+          c < cols && g[r][c] == g[r][c - 1] && !unmatchable.contains(g[r][c]);
       if (!same) {
-        if (streak >= 3) hRuns.add((emoji: g[r][c - 1], row: r, startCol: c - streak, len: streak));
+        if (streak >= 3) {
+          hRuns.add((
+            emoji: g[r][c - 1],
+            row: r,
+            startCol: c - streak,
+            len: streak,
+          ));
+        }
         streak = 1;
       } else {
         streak++;
@@ -159,9 +197,17 @@ List<_IsoGroup> _scanMatchGroups(
   for (int c = 0; c < cols; c++) {
     int streak = 1;
     for (int r = 1; r <= rows; r++) {
-      final same = r < rows && g[r][c] == g[r - 1][c] && !unmatchable.contains(g[r][c]);
+      final same =
+          r < rows && g[r][c] == g[r - 1][c] && !unmatchable.contains(g[r][c]);
       if (!same) {
-        if (streak >= 3) vRuns.add((emoji: g[r - 1][c], col: c, startRow: r - streak, len: streak));
+        if (streak >= 3) {
+          vRuns.add((
+            emoji: g[r - 1][c],
+            col: c,
+            startRow: r - streak,
+            len: streak,
+          ));
+        }
         streak = 1;
       } else {
         streak++;
@@ -185,7 +231,9 @@ List<_IsoGroup> _scanMatchGroups(
   }
 
   for (final v in vRuns) {
-    final alreadyCovered = groups.any((grp) => grp.isSpecial && grp.emoji == v.emoji);
+    final alreadyCovered = groups.any(
+      (grp) => grp.isSpecial && grp.emoji == v.emoji,
+    );
     if (!alreadyCovered) groups.add(_IsoGroup(v.emoji));
   }
 
