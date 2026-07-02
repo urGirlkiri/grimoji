@@ -38,6 +38,6 @@ class ProfileAvatar extends StatelessWidget {
             fit: BoxFit.cover,
           ),
       ),
-    );
+    ));
   }
 }

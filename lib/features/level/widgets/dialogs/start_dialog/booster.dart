@@ -36,8 +36,8 @@ class BoosterButton extends StatelessWidget {
           children: [
             AnimatedContainer(
               duration: const Duration(milliseconds: 150),
-              width: 64 * scale,
-              height: 64 * scale,
+              width: 72 * scale,
+              height: 72 * scale,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(32),
                 color: palette.twilight,
