@@ -45,8 +45,8 @@ void main() {
         expect(explosiveTransformations, isNotNull);
         expect(explosiveTransformations, isA<Map<GameEmoji, GameEmoji>>());
 
-        expect(explosiveTransformations.containsKey(Emojis.bone), isTrue);
-        expect(explosiveTransformations[Emojis.bone], equals(Emojis.ghost));
+        expect(explosiveTransformations.containsKey(Emojis.skull), isTrue);
+        expect(explosiveTransformations[Emojis.skull], equals(Emojis.ghost));
       },
     );
 

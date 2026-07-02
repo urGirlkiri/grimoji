@@ -6,7 +6,7 @@ class Chapter1Reactions {
     type: ReactionType.explosive,
     triggers: [Emojis.bomb],
     transformations: {
-      // Emojis.skull: Emojis.bone,
+      Emojis.skull: Emojis.ghost,
       // Emojis.bone: Emojis.ghost,
       // Emojis.spider: Emojis.cloud,
     },

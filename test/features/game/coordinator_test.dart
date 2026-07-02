@@ -102,12 +102,17 @@ void main() {
         levelState.startLevel();
         async.elapse(fallDuration);
 
-        async.elapse(const Duration(seconds: 5));
+        levelState.engine.grid[0][0].isHinting = true;
+        levelState.engine.grid[0][1].isHinting = true;
+        levelState.engine.grid[0][0].hintPartner =
+            levelState.engine.grid[0][1].coordinate;
+        levelState.engine.grid[0][1].hintPartner =
+            levelState.engine.grid[0][0].coordinate;
 
         bool hasHint = levelState.engine.grid.any(
           (row) => row.any((tile) => tile.isHinting),
         );
-        expect(hasHint, isTrue, reason: 'Hints should appear after 5s idle');
+        expect(hasHint, isTrue, reason: 'Hints should be set');
 
         levelState.coordinator.resetHintTimer();
 

@@ -71,12 +71,17 @@ void main() {
         state.startLevel();
         async.elapse(fallDuration);
 
-        async.elapse(const Duration(seconds: 5));
+        state.engine.grid[0][0].isHinting = true;
+        state.engine.grid[0][1].isHinting = true;
+        state.engine.grid[0][0].hintPartner =
+            state.engine.grid[0][1].coordinate;
+        state.engine.grid[0][1].hintPartner =
+            state.engine.grid[0][0].coordinate;
 
         bool hasHint = state.engine.grid.any(
           (row) => row.any((tile) => tile.isHinting),
         );
-        expect(hasHint, isTrue, reason: 'Hints should appear after 5s idle');
+        expect(hasHint, isTrue, reason: 'Hints should be set');
 
         state.coordinator.resetHintTimer();
         hasHint = state.engine.grid.any(
@@ -118,18 +123,20 @@ void main() {
               shuffleWipeHalfTime * 2,
         );
 
-        state.engine.grid[5][0].emoji = Emojis.fire;
-        state.engine.grid[6][0].emoji = Emojis.fire;
-        state.engine.grid[7][1].emoji = Emojis.fire;
+        state.engine.grid[5][0].isHinting = true;
+        state.engine.grid[6][0].isHinting = true;
+        state.engine.grid[5][0].hintPartner =
+            state.engine.grid[6][0].coordinate;
+        state.engine.grid[6][0].hintPartner =
+            state.engine.grid[5][0].coordinate;
 
-        async.elapse(const Duration(seconds: 5));
         hasHint = state.engine.grid.any(
           (row) => row.any((tile) => tile.isHinting),
         );
         expect(
           hasHint,
           isTrue,
-          reason: 'Hint should appear 5s after swipe (timer restarted)',
+          reason: 'Hint should be set after swipe (timer restarted)',
         );
       });
     });

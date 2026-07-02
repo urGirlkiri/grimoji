@@ -223,10 +223,8 @@ class GameCoordinator {
     }
 
     clearHint();
-    if (!state.isProcessing && !state.isShuffling) {
-      _hintTimer?.cancel();
-      _hintTimer = Timer(const Duration(seconds: 5), _triggerHint);
-    }
+    _hintTimer?.cancel();
+    _hintTimer = Timer(const Duration(seconds: 5), _triggerHint);
   }
 
   void clearHint() {
