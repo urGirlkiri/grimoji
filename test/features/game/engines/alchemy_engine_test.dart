@@ -229,17 +229,27 @@ void main() {
     );
 
     test('Should NOT merge when match size is LESS than requiredAmount', () {
-      final largeRecipe = RecipeBook.allRecipes.firstWhere(
-        (r) =>
-            r.requiredAmount > 3 &&
-            !(RecipeBook.getRecipesFor(
-              r.ingredient,
-            )!.any((other) => other.requiredAmount <= 3)) &&
-            RecipeBook.getReactionFor(r.ingredient) == null,
-        orElse: () => throw Exception(
+      final candidates = RecipeBook.allRecipes
+          .where(
+            (r) =>
+                r.requiredAmount > 3 &&
+                !(RecipeBook.getRecipesFor(
+                  r.ingredient,
+                )!.any((other) => other.requiredAmount <= 3)) &&
+                RecipeBook.getReactionFor(r.ingredient) == null,
+          )
+          .toList();
+
+      if (candidates.isEmpty) {
+        throw Exception(
           'No recipes requiring > 3 items found with no smaller alternatives and no reaction',
-        ),
+        );
+      }
+
+      candidates.sort(
+        (a, b) => a.ingredient.visual.compareTo(b.ingredient.visual),
       );
+      final largeRecipe = candidates.first;
 
       final matchSize = largeRecipe.requiredAmount - 1;
 
