@@ -3,6 +3,8 @@ import 'package:grimoji/features/alchemy/models/behavior_action.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 
 abstract class EmojiBehavior {
+  bool get isIntrusive => false;
+
   List<BehaviorAction> onTurnEnd(int x, int y) => [];
 
   List<BehaviorAction> onMatched(int x, int y) => [];

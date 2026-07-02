@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/match/board/models/particle.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/tile/tile_v_f_x/painter.dart';
 
@@ -23,10 +24,7 @@ class _TileMatchState extends State<TileMatch>
   @override
   void initState() {
     super.initState();
-    _ticker = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 600),
-    );
+    _ticker = AnimationController(vsync: this, duration: popPuffDuration);
 
     _spawnPuff();
     _ticker.addListener(_onFrameTick);

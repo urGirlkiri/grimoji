@@ -94,7 +94,6 @@ class _WinGameScreenState extends State<WinGameScreen> {
         body: SafeArea(
           child: Stack(
             children: [
-
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 100.0),

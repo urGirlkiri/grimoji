@@ -17,73 +17,80 @@ class LevelFailDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final palette = context.palette;
 
-    return Dialog(
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      insetPadding: const EdgeInsets.all(0),
-      child: Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.center,
-        children: [
-          ScrollDialog(
-            rightButton: CorkScrewCloseButton(
-              onTap: () {
-                GoRouter.of(context).pop();
-                GoRouter.of(context).replaceNamed(Routes.map);
-              },
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    '-1',
-                    textAlign: TextAlign.center,
-                    style: context.theme.textTheme.displayLarge?.copyWith(
-                      color: palette.crimson,
-                      fontWeight: FontWeight.bold,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        GoRouter.of(context).pop();
+        GoRouter.of(context).replaceNamed(Routes.map);
+      },
+      child: Dialog(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        insetPadding: const EdgeInsets.all(0),
+        child: Stack(
+          clipBehavior: Clip.none,
+          alignment: Alignment.center,
+          children: [
+            ScrollDialog(
+              rightButton: CorkScrewCloseButton(
+                onTap: () {
+                  GoRouter.of(context).pop();
+                  GoRouter.of(context).replaceNamed(Routes.map);
+                },
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      '-1',
+                      textAlign: TextAlign.center,
+                      style: context.theme.textTheme.displayLarge?.copyWith(
+                        color: palette.crimson,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  Image.asset('assets/images/cauldron_explosion.png'),
-                  const SizedBox(height: 12),
-                  Text(
-                    'The Cauldron exploded!',
-                    textAlign: TextAlign.center,
-                    style: context.theme.textTheme.bodyLarge?.copyWith(
-                      color: palette.twilight,
-                      fontWeight: FontWeight.bold,
+                    Image.asset('assets/images/cauldron_explosion.png'),
+                    const SizedBox(height: 12),
+                    Text(
+                      'The Cauldron exploded!',
+                      textAlign: TextAlign.center,
+                      style: context.theme.textTheme.bodyLarge?.copyWith(
+                        color: palette.twilight,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 30),
+                    const SizedBox(height: 30),
 
-                  PillButton(
-                    text: 'Retry Level $level',
-                    color: palette.crimson,
-                    textColor: palette.trueWhite,
-                    fullWidth: false,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 32,
-                      vertical: 12,
+                    PillButton(
+                      text: 'Retry Level $level',
+                      color: palette.crimson,
+                      textColor: palette.trueWhite,
+                      fullWidth: false,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 32,
+                        vertical: 12,
+                      ),
+                      borderRadius: 20,
+                      borderColor: palette.midnight,
+                      borderWidth: 3,
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        context
+                            .read<LevelDataController>()
+                            .triggerAutoOpenLevel(level, null);
+                        GoRouter.of(context).replaceNamed(Routes.map);
+                      },
                     ),
-                    borderRadius: 20,
-                    borderColor: palette.midnight,
-                    borderWidth: 3,
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      context.read<LevelDataController>().triggerAutoOpenLevel(
-                        level,
-                        null,
-                      );
-                      GoRouter.of(context).replaceNamed(Routes.map);
-                    },
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -7,7 +7,6 @@ import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/level/widgets/footer/skip_btn.dart';
 import 'package:grimoji/features/level/widgets/overlays/level_complete.dart';
-import 'package:grimoji/features/match/board/utils/metrics.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/level/widgets/confetti.dart';
 import 'package:grimoji/features/match/board/index.dart';
@@ -40,7 +39,6 @@ class _LevelScreenState extends State<LevelScreen> {
   bool _duringCelebration = false;
   bool _isQuitDialogOpen = false;
   late final LevelState _levelState;
-  late final BoardMetrics _boardMetrics;
 
   static final _log = Logger('LevelScreen');
   static const _celebrationDuration = Duration(milliseconds: 2000);
@@ -130,7 +128,6 @@ class _LevelScreenState extends State<LevelScreen> {
       lifecycleNotifier: context.read<AppLifecycleStateNotifier>(),
       startingBoosters: widget.startingBoosters,
     );
-    _boardMetrics = BoardMetrics();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.readProfile.markGamePlayed();
@@ -143,7 +140,6 @@ class _LevelScreenState extends State<LevelScreen> {
   @override
   void dispose() {
     _levelState.dispose();
-    _boardMetrics.dispose();
     super.dispose();
   }
 
@@ -153,7 +149,6 @@ class _LevelScreenState extends State<LevelScreen> {
       providers: [
         Provider.value(value: widget.level),
         ChangeNotifierProvider.value(value: _levelState),
-        ChangeNotifierProvider.value(value: _boardMetrics),
       ],
       child: Builder(
         builder: (context) {

@@ -23,15 +23,18 @@ class LevelComOverlay extends StatelessWidget {
             right: 0,
             child: Center(
               child:
-                  Text(
-                    'LEVEL COMPLETE!',
-                    textAlign: TextAlign.center,
-                    style: context.theme.textTheme.headlineMedium,
-                  ).animate().scale(
-                    duration: const Duration(milliseconds: 1000),
-                    curve: Curves.easeOutBack,
-                    begin: const Offset(0.8, 0.8),
-                    end: const Offset(1.0, 1.0),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'LEVEL COMPLETE!',
+                      textAlign: TextAlign.center,
+                      style: context.theme.textTheme.headlineMedium,
+                    ).animate().scale(
+                      duration: const Duration(milliseconds: 1000),
+                      curve: Curves.easeOutBack,
+                      begin: const Offset(0.8, 0.8),
+                      end: const Offset(1.0, 1.0),
+                    ),
                   ),
             ),
           ),

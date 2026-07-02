@@ -1,12 +1,15 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:grimoji/config/constants.dart';
+import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/match/board/models/line_clear.dart';
 import 'package:grimoji/features/match/board/models/sparkle_effect.dart';
+import 'package:grimoji/features/match/board/models/ghost_dive.dart';
+import 'package:grimoji/features/match/board/models/roll.dart';
+import 'package:grimoji/features/match/board/widgets/overlays/ghost_dive/index.dart';
+import 'package:grimoji/features/match/board/widgets/overlays/wheel_roll/index.dart';
 import 'package:grimoji/features/match/board/widgets/announcer/index.dart';
 import 'package:grimoji/features/match/board/widgets/overlays/line_clear/index.dart';
 import 'package:grimoji/features/match/board/widgets/board_grid/index.dart';
-import 'package:grimoji/features/match/board/utils/metrics.dart';
 import 'package:grimoji/features/match/board/widgets/overlays/sparkle.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/index.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
@@ -31,23 +34,29 @@ class _GameBoardState extends State<GameBoard> {
   Tile? _draggedTile;
   Offset? _dragStartPosition;
 
+  double? _tileWidth;
+  double? _tileHeight;
+
   final ValueNotifier<List<SparkleEffect>> _sparklesNotifier = ValueNotifier(
     [],
   );
   final ValueNotifier<String?> _activeTileIdNotifier = ValueNotifier<String?>(
     null,
   );
+
   final ValueNotifier<List<LineClearEffect>> _lineClearNotifier = ValueNotifier(
     [],
   );
+  final ValueNotifier<List<RollEffect>> _wheelRollNotifier = ValueNotifier([]);
+  final ValueNotifier<List<GhostDiveEffect>> _ghostDiveNotifier = ValueNotifier(
+    [],
+  );
+
   bool _isDisposed = false;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _measureBoard();
-    });
   }
 
   @override
@@ -56,8 +65,12 @@ class _GameBoardState extends State<GameBoard> {
     final newLevelState = context.read<LevelState>();
     if (_levelState != newLevelState) {
       _levelState?.coordinator.onLineClear = null;
+      _levelState?.coordinator.onWheelRoll = null;
+      _levelState?.coordinator.onGhostDive = null;
       _levelState = newLevelState;
       _levelState!.coordinator.onLineClear = triggerLineClear;
+      _levelState!.coordinator.onWheelRoll = triggerWheelRoll;
+      _levelState!.coordinator.onGhostDive = triggerGhostDive;
     }
   }
 
@@ -67,27 +80,32 @@ class _GameBoardState extends State<GameBoard> {
     _sparklesNotifier.dispose();
     _activeTileIdNotifier.dispose();
     _lineClearNotifier.dispose();
+    _wheelRollNotifier.dispose();
+    _ghostDiveNotifier.dispose();
     _levelState?.coordinator.onLineClear = null;
+    _levelState?.coordinator.onWheelRoll = null;
+    _levelState?.coordinator.onGhostDive = null;
     super.dispose();
   }
 
-  void _measureBoard() {
-    if (!mounted) return;
+  Future<void> triggerWheelRoll(RollEffect effect) async {
+    if (_isDisposed) return;
+    _wheelRollNotifier.value = [..._wheelRollNotifier.value, effect];
+    await Future.delayed(const Duration(milliseconds: 1200));
+    if (_isDisposed) return;
+    _wheelRollNotifier.value = _wheelRollNotifier.value
+        .where((e) => e.id != effect.id)
+        .toList();
+  }
 
-    final boardContext = _boardKey.currentContext;
-    final cellContext = _tileKey.currentContext;
-
-    if (boardContext != null && cellContext != null) {
-      final boardBox = boardContext.findRenderObject() as RenderBox;
-      final cellBox = cellContext.findRenderObject() as RenderBox;
-      final boardRect = boardBox.localToGlobal(Offset.zero) & boardBox.size;
-
-      context.read<BoardMetrics>().updateMetrics(
-        cellBox.size.width,
-        cellBox.size.height,
-        boardRect,
-      );
-    }
+  Future<void> triggerGhostDive(GhostDiveEffect effect) async {
+    if (_isDisposed) return;
+    _ghostDiveNotifier.value = [..._ghostDiveNotifier.value, effect];
+    await Future.delayed(ghostDiveDuration);
+    if (_isDisposed) return;
+    _ghostDiveNotifier.value = _ghostDiveNotifier.value
+        .where((e) => e.id != effect.id)
+        .toList();
   }
 
   void triggerLineClear(int row, int col, bool isHorizontal) {
@@ -112,7 +130,7 @@ class _GameBoardState extends State<GameBoard> {
     final sparkle = SparkleEffect(position: localPosition);
     _sparklesNotifier.value = [..._sparklesNotifier.value, sparkle];
 
-    Future.delayed(boardSparksTime, () {
+    Future.delayed(sparkleLifetime, () {
       if (_isDisposed) return;
       _sparklesNotifier.value = _sparklesNotifier.value
           .where((s) => s.id != sparkle.id)
@@ -121,18 +139,17 @@ class _GameBoardState extends State<GameBoard> {
   }
 
   void onTapped(TapUpDetails details, BuildContext context) {
-    final metrics = context.read<BoardMetrics>();
     final levelState = context.read<LevelState>();
 
-    if (!metrics.isReady) return;
+    if (_tileWidth == null || _tileHeight == null) return;
 
     if (levelState.gameState.isProcessing || levelState.gameState.isShuffling) {
       _triggerSparkle(details.localPosition);
       return;
     }
 
-    int col = (details.localPosition.dx / metrics.tileWidth!).floor();
-    int row = (details.localPosition.dy / metrics.tileHeight!).floor();
+    int col = (details.localPosition.dx / _tileWidth!).floor();
+    int row = (details.localPosition.dy / _tileHeight!).floor();
 
     if (row >= 0 &&
         row < levelState.boardManager.gridTiles.length &&
@@ -149,18 +166,17 @@ class _GameBoardState extends State<GameBoard> {
   }
 
   void onPanStart(DragStartDetails details, BuildContext context) {
-    final metrics = context.read<BoardMetrics>();
     final levelState = context.read<LevelState>();
 
-    if (!metrics.isReady) return;
+    if (_tileWidth == null || _tileHeight == null) return;
 
     if (levelState.gameState.isProcessing || levelState.gameState.isShuffling) {
       _triggerSparkle(details.localPosition);
       return;
     }
 
-    int col = (details.localPosition.dx / metrics.tileWidth!).floor();
-    int row = (details.localPosition.dy / metrics.tileHeight!).floor();
+    int col = (details.localPosition.dx / _tileWidth!).floor();
+    int row = (details.localPosition.dy / _tileHeight!).floor();
 
     if (row >= 0 &&
         row < levelState.boardManager.gridTiles.length &&
@@ -221,18 +237,18 @@ class _GameBoardState extends State<GameBoard> {
 
     return LayoutBuilder(
       builder: (context, screenConstraints) {
-        final double screenWidth = screenConstraints.maxWidth;
-        final double screenHeight = screenConstraints.maxHeight;
-        final bool isSmallScreen = screenWidth < 360 || screenHeight < 600;
+        final screenWidth = context.screenWidth;
+        final isLargeSCreen = context.isLargeScreen;
 
-        final double constrainedBoardWidth = isSmallScreen
-            ? screenWidth * 0.95
-            : (screenWidth > maxAllowedBoardWidth
+        final double constrainedBoardWidth = isLargeSCreen
+            ? (screenWidth > maxAllowedBoardWidth
                   ? maxAllowedBoardWidth
-                  : screenWidth * 0.9);
+                  : screenWidth * largeScreenBoardWidthFactor)
+            : screenWidth * smallScreenBoardWidthFactor;
 
         final double proportionalBoardHeight =
-            (constrainedBoardWidth * gridRows) / gridColumns;
+            ((constrainedBoardWidth * gridRows) / gridColumns) *
+            boardHeightMultiplier;
 
         return Center(
           child: SizedBox(
@@ -243,7 +259,7 @@ class _GameBoardState extends State<GameBoard> {
               alignment: Alignment.center,
               children: [
                 Container(
-                  padding: EdgeInsets.all(isSmallScreen ? 6.0 : 8.0),
+                  padding: EdgeInsets.all(isLargeSCreen ? 8.0 : 6.0),
                   clipBehavior: Clip.hardEdge,
                   decoration: ShapeDecoration(
                     color: palette.mist,
@@ -264,6 +280,9 @@ class _GameBoardState extends State<GameBoard> {
                           (gridAreaConstraints.maxHeight -
                               (tileSpacingGap * verticalGapsCount)) /
                           gridRows;
+
+                      _tileWidth = calculatedSingleTileWidth;
+                      _tileHeight = calculatedSingleTileHeight;
 
                       return GestureDetector(
                         onTapUp: (details) => onTapped(details, context),
@@ -288,6 +307,8 @@ class _GameBoardState extends State<GameBoard> {
                               builder: (context, _) {
                                 return TileGrid(
                                   activeTileId: _activeTileIdNotifier.value,
+                                  tWidth: calculatedSingleTileWidth,
+                                  tHeight: calculatedSingleTileHeight,
                                 );
                               },
                             ),
@@ -303,6 +324,28 @@ class _GameBoardState extends State<GameBoard> {
                                   tileHeight: calculatedSingleTileHeight,
                                   cols: gridColumns,
                                   rows: gridRows,
+                                ),
+                              ),
+                            ),
+
+                            OverflowBox(
+                              maxWidth: constrainedBoardWidth,
+                              child: IgnorePointer(
+                                child: WheelRollOverlay(
+                                  notifier: _wheelRollNotifier,
+                                  tileWidth: calculatedSingleTileWidth,
+                                  tileHeight: calculatedSingleTileHeight,
+                                ),
+                              ),
+                            ),
+
+                            OverflowBox(
+                              maxWidth: constrainedBoardWidth,
+                              child: IgnorePointer(
+                                child: GhostDiveOverlay(
+                                  notifier: _ghostDiveNotifier,
+                                  tileWidth: calculatedSingleTileWidth,
+                                  tileHeight: calculatedSingleTileHeight,
                                 ),
                               ),
                             ),

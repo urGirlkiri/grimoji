@@ -15,10 +15,16 @@ import 'package:provider/provider.dart';
 class CauldronDialog extends StatelessWidget {
   const CauldronDialog({super.key});
 
-  void _showSnackbar(BuildContext context, String message, {bool isError = false}) {
+  void _showSnackbar(
+    BuildContext context,
+    String message, {
+    bool isError = false,
+  }) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: isError ? context.palette.crimson : context.palette.dusk,
+        backgroundColor: isError
+            ? context.palette.crimson
+            : context.palette.dusk,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         content: Text(
@@ -60,7 +66,8 @@ class CauldronDialog extends StatelessWidget {
     final scale = context.globalScale;
 
     return Selector<ProfileController, ({int cauldrons, int dices})>(
-      selector: (_, profile) => (cauldrons: profile.cauldrons, dices: profile.dices),
+      selector: (_, profile) =>
+          (cauldrons: profile.cauldrons, dices: profile.dices),
       builder: (context, data, _) {
         final isFull = data.cauldrons >= 5;
         final hasDice = data.dices > 0;
@@ -145,14 +152,16 @@ class CauldronDialog extends StatelessWidget {
 
                           if (hasDice) ...[
                             _BuyButton(
-                              label: '${CauldronPrice.restoreOneLabel}  •  ${CauldronPrice.restoreOne}',
+                              label:
+                                  '${CauldronPrice.restoreOneLabel}  •  ${CauldronPrice.restoreOne}',
                               cost: CauldronPrice.restoreOne,
                               dices: data.dices,
                               onTap: () => _buyOne(context),
                             ),
                             const SizedBox(height: 10),
                             _BuyButton(
-                              label: '${CauldronPrice.refillAllLabel}  •  ${CauldronPrice.refillAll}',
+                              label:
+                                  '${CauldronPrice.refillAllLabel}  •  ${CauldronPrice.refillAll}',
                               cost: CauldronPrice.refillAll,
                               dices: data.dices,
                               onTap: () => _buyAll(context),

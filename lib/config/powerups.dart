@@ -39,7 +39,7 @@ class Powerup {
     ),
     Powerup(
       id: 'ghost',
-      name: 'Haunting Ghost Clearer',
+      name: 'Haunting Ghost',
       iconPath: Emojis.ghost.svg,
       description: 'Dives into an emoji and destroys it.',
       isPrelevel: true,
@@ -53,15 +53,15 @@ class Powerup {
       isPrelevel: true,
       price: 35,
     ),
-    Powerup(
-      id: 'crystal_ball',
-      name: 'Insight',
-      iconPath: Emojis.crystalBall.svg,
-      description: 'Reveals a hidden path or optimal match.',
-      isPrelevel: true,
-      price: 20,
-    ),
 
+    // Powerup(
+    //   id: 'crystal_ball',
+    //   name: 'Insight',
+    //   iconPath: Emojis.crystalBall.svg,
+    //   description: 'Reveals a hidden path or optimal match.',
+    //   isPrelevel: true,
+    //   price: 20,
+    // ),
     Powerup(
       id: 'hourglass',
       name: 'Extra Time',

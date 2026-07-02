@@ -36,8 +36,8 @@ class BoosterButton extends StatelessWidget {
           children: [
             AnimatedContainer(
               duration: const Duration(milliseconds: 150),
-              width: 64 * scale,
-              height: 64 * scale,
+              width: 72 * scale,
+              height: 72 * scale,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(32),
                 color: palette.twilight,
@@ -110,11 +110,7 @@ class BoosterButton extends StatelessWidget {
                     ],
                   ),
                   child: Center(
-                    child: Icon(
-                      Icons.add,
-                      color: palette.moonlight,
-                      size: 18,
-                    ),
+                    child: Icon(Icons.add, color: palette.moonlight, size: 18),
                   ),
                 ),
               )
@@ -137,11 +133,7 @@ class BoosterButton extends StatelessWidget {
                     ),
                   ),
                   child: isSelected
-                      ? Icon(
-                          Icons.check,
-                          color: palette.mist,
-                          size: 20 * scale,
-                        )
+                      ? Icon(Icons.check, color: palette.mist, size: 20 * scale)
                       : Text(
                           count.toString(),
                           style: context.theme.textTheme.labelMedium!.copyWith(

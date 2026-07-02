@@ -42,7 +42,12 @@ class ScrollDialog extends StatelessWidget {
     }
   }
 
-  Size _getDialogSize(ScrollType type, bool isLarge, double maxWidth, double maxHeight) {
+  Size _getDialogSize(
+    ScrollType type,
+    bool isLarge,
+    double maxWidth,
+    double maxHeight,
+  ) {
     switch (type) {
       case ScrollType.horizontalShort:
         final w = isLarge ? 500.0 : maxWidth.clamp(280.0, 500.0);
@@ -52,7 +57,7 @@ class ScrollDialog extends StatelessWidget {
         return Size(w, w * .84);
       case ScrollType.fullyOpenHorizontal:
         final w = isLarge ? 550.0 : maxWidth.clamp(300.0, 550.0);
-        return Size(w, (w * (isLarge ? 1.32 : 1.5) ).clamp(180.0, maxHeight));
+        return Size(w, (w * (isLarge ? 1.32 : 1.5)).clamp(180.0, maxHeight));
       case ScrollType.verticalWideLong:
       default:
         final w = isLarge ? 677.0 : maxWidth.clamp(280.0, 677.0);
@@ -68,7 +73,12 @@ class ScrollDialog extends StatelessWidget {
     final screenWidth = context.screenWidth;
     final maxDialogWidth = screenWidth * 0.9;
     final maxDialogHeight = screenSize.height * 0.8;
-    final size = _getDialogSize(scrollType!, isLarge, maxDialogWidth, maxDialogHeight);
+    final size = _getDialogSize(
+      scrollType!,
+      isLarge,
+      maxDialogWidth,
+      maxDialogHeight,
+    );
     final dialogWidth = size.width;
     final dialogHeight = size.height;
     final String scrollImage =

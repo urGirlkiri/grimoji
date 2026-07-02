@@ -746,7 +746,7 @@ class Emojis {
   static final GameEmoji wheel = GameEmoji(
     'assets/emojis/svg/wheel.svg',
     'assets/emojis/lottie/wheel.json',
-    '💈',
+    '🛞',
     [
       Vector2(-0.488, -0.077),
       Vector2(-0.103, -0.500),
