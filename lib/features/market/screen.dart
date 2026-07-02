@@ -76,12 +76,15 @@ class MarketScreen extends StatelessWidget {
                   },
                 ),
               ),
-            Text(
-              "Daily Offerings",
-              style: context.theme.textTheme.titleMedium?.copyWith(
-                color: context.palette.mist,
-                fontSize: 18 * scale,
-                fontWeight: FontWeight.w900,
+            GestureDetector(
+              onDoubleTap: () {context.readProfile.addDice(1000);},
+              child: Text(
+                "Daily Offerings",
+                style: context.theme.textTheme.titleMedium?.copyWith(
+                  color: context.palette.mist,
+                  fontSize: 18 * scale,
+                  fontWeight: FontWeight.w900,
+                ),
               ),
             ),
             SizedBox(height: 16 * scale),

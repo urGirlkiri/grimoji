@@ -52,7 +52,7 @@ class LayoutScaffold extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                palette.voidBlack.withValues(alpha: 0.8),
+                palette.twilight.withValues(alpha: 0.8),
                 palette.midnight,
                 palette.midnight,
               ],

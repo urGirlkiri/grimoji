@@ -19,7 +19,7 @@ class _ScreenTickerState extends State<ScreenTicker> {
 
   @override
   Widget build(BuildContext context) {
-    final profile = context.readProfile;
+    final profile = context.watchProfile;
     final isGrimoireTab =
         ShellTabScope.maybeOf(context)?.isBranchActive(1) ?? true;
 

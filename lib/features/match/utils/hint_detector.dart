@@ -116,7 +116,14 @@ List<int>? _hintScanIsolate(_HintScanArgs args) {
   if (validMoves.isEmpty) return null;
   validMoves.sort((a, b) => b.score.compareTo(a.score));
   final topScore = validMoves.first.score;
-  final best = validMoves.where((m) => m.score == topScore).toList()..shuffle();
+  final best = validMoves.where((m) => m.score == topScore).toList();
+  if (best.length > 1) {
+    best.sort(
+      (a, b) => (b.coords[0] * cols + b.coords[1]).compareTo(
+        a.coords[0] * cols + a.coords[1],
+      ),
+    );
+  }
   return best.first.coords;
 }
 
