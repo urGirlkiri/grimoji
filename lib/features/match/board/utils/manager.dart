@@ -57,6 +57,20 @@ class BoardManager {
           gridTiles[row - 2][col].emoji == candidate) {
         isSafe = false;
       }
+      if (row > 0 &&
+          col > 0 &&
+          gridTiles[row - 1][col - 1].emoji == candidate &&
+          gridTiles[row - 1][col].emoji == candidate &&
+          gridTiles[row][col - 1].emoji == candidate) {
+        isSafe = false;
+      }
+      if (row > 0 &&
+          col < cols - 1 &&
+          gridTiles[row - 1][col + 1].emoji == candidate &&
+          gridTiles[row - 1][col].emoji == candidate &&
+          gridTiles[row][col + 1].emoji == candidate) {
+        isSafe = false;
+      }
     }
     return candidate;
   }
