@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/config/emojis/index.dart';
-import 'package:grimoji/features/match/board/effects/roll.dart';
+import 'package:grimoji/features/match/board/effects/wheel_roll/effect.dart';
 
 class WheelRoller extends StatefulWidget {
   final RollEffect effect;

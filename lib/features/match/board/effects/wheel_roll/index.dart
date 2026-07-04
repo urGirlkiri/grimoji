@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/features/match/constants.dart';
-import 'package:grimoji/features/match/board/effects/roll.dart';
-import 'package:grimoji/features/match/board/widgets/overlays/wheel_roll/roller.dart';
+import 'package:grimoji/features/match/board/effects/wheel_roll/effect.dart';
+import 'package:grimoji/features/match/board/effects/wheel_roll/animation.dart';
 
 class WheelRollOverlay extends StatelessWidget {
   final ValueNotifier<List<RollEffect>> notifier;
