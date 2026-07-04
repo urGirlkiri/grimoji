@@ -214,7 +214,10 @@ class _LevelScreenState extends State<LevelScreen> {
                         });
 
                         if (isFirstTime && !isFeverTime) {
-                          return const LevelComOverlay();
+                          return const Material(
+                            type: MaterialType.transparency,
+                            child: LevelComOverlay(),
+                          );
                         }
                         return const SizedBox.shrink();
                       },
