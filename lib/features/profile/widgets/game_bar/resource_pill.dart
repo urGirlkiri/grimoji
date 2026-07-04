@@ -30,7 +30,7 @@ class ResourcePill extends StatelessWidget {
           clipBehavior: Clip.none,
           children: [
             Positioned(
-              left: 20 * scale,
+              left: 27 * scale,
               right: 0,
               child: Container(
                 height: 28 * scale,
@@ -66,7 +66,7 @@ class ResourcePill extends StatelessWidget {
               ),
             ),
             Positioned(
-              left: 2 * scale,
+              left: .1 * scale,
               child: Image.asset(
                 iconPath,
                 width: 45 * scale,
