@@ -1,5 +1,5 @@
 import 'package:grimoji/config/emojis/index.dart';
-import 'package:grimoji/features/match/engines/game_engine.dart';
+import 'package:grimoji/features/match/engines/game.dart';
 
 class TestHelpers {
   static void genDeadLockGrid(GameEngine engine) {

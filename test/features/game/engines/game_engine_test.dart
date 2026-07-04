@@ -3,7 +3,7 @@ import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/match/board/utils/manager.dart';
-import 'package:grimoji/features/match/engines/game_engine.dart';
+import 'package:grimoji/features/match/engines/game.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
 import 'package:grimoji/features/match/utils/swipe_detector.dart';
 

@@ -13,8 +13,8 @@ import 'package:grimoji/features/match/model/detonation_step_result.dart';
 import 'package:grimoji/features/match/utils/swipe_detector.dart';
 import 'package:grimoji/features/match/utils/match_detector.dart';
 import 'package:grimoji/features/match/utils/hint_detector.dart';
-import 'alchemy_engine.dart';
-import 'behavior_engine.dart';
+import 'alchemy.dart';
+import 'behavior.dart';
 
 class GameEngine {
   final GameLevel level;

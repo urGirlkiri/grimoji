@@ -8,7 +8,7 @@ import 'package:grimoji/features/alchemy/models/action_type.dart';
 import 'package:grimoji/features/alchemy/models/behavior_action.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:grimoji/features/match/board/utils/manager.dart';
-import 'package:grimoji/features/match/engines/behavior_engine.dart';
+import 'package:grimoji/features/match/engines/behavior.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
 

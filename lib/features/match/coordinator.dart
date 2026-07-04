@@ -9,7 +9,7 @@ import 'package:grimoji/features/match/board/models/coordinate.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
 import 'package:grimoji/features/match/board/utils/manager.dart';
 import 'package:grimoji/features/match/board/utils/announcer.dart';
-import 'package:grimoji/features/match/engines/game_engine.dart';
+import 'package:grimoji/features/match/engines/game.dart';
 import 'package:grimoji/features/match/model/collected_emoji.dart';
 import 'package:grimoji/features/match/utils/match_detector.dart';
 import 'package:grimoji/features/match/state.dart';
