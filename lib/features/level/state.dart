@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grimoji/app/lifecycle.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
-import 'package:grimoji/features/match/board/utils/manager.dart';
+import 'package:grimoji/features/match/utils/manager.dart';
 import 'package:grimoji/features/match/engines/game.dart';
 import 'package:grimoji/features/match/coordinator.dart';
 import 'package:grimoji/features/match/state.dart';

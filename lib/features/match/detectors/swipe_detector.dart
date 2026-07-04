@@ -1,7 +1,7 @@
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/models/behavior_action.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
-import 'package:grimoji/features/match/utils/match_detector.dart';
+import 'package:grimoji/features/match/detectors/match_detector.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
 
 enum SwipeResult { match, specialBehavior, invalid }
