@@ -10,9 +10,9 @@ import 'package:grimoji/features/match/board/models/tile.dart';
 import 'package:grimoji/features/match/utils/manager.dart';
 import 'package:grimoji/features/match/model/cascade_step_result.dart';
 import 'package:grimoji/features/match/model/detonation_step_result.dart';
-import 'package:grimoji/features/match/detectors/swipe_detector.dart';
-import 'package:grimoji/features/match/detectors/match_detector.dart';
-import 'package:grimoji/features/match/detectors/hint_detector.dart';
+import 'package:grimoji/features/match/detectors/swipe.dart';
+import 'package:grimoji/features/match/detectors/match.dart';
+import 'package:grimoji/features/match/detectors/hint.dart';
 import 'alchemy.dart';
 import 'behavior.dart';
 

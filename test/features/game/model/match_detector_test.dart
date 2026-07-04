@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
-import 'package:grimoji/features/match/detectors/match_detector.dart';
+import 'package:grimoji/features/match/detectors/match.dart';
 
 void main() {
   group('MatchDetector  Tests', () {

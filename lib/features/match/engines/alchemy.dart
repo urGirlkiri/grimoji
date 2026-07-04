@@ -9,7 +9,7 @@ import 'package:grimoji/features/match/utils/manager.dart';
 import 'package:grimoji/features/match/model/cascade_step_result.dart';
 import 'package:grimoji/features/match/model/collected_emoji.dart';
 import 'package:grimoji/features/match/model/detonation_step_result.dart';
-import 'package:grimoji/features/match/detectors/match_detector.dart';
+import 'package:grimoji/features/match/detectors/match.dart';
 import 'package:logging/logging.dart';
 
 typedef BehaviorInitCallback = void Function(Tile tile);

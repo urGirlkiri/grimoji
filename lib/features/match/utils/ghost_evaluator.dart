@@ -4,7 +4,7 @@ import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
 import 'package:grimoji/features/match/utils/manager.dart';
-import 'package:grimoji/features/match/detectors/match_detector.dart';
+import 'package:grimoji/features/match/detectors/match.dart';
 import 'package:grimoji/config/emojis/index.dart';
 
 class GhostEvaluator {

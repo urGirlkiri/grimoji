@@ -5,7 +5,7 @@ import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
 import 'package:grimoji/features/match/utils/manager.dart';
-import 'package:grimoji/features/match/detectors/hint_detector.dart';
+import 'package:grimoji/features/match/detectors/hint.dart';
 
 void main() {
   group('HintDetector Tests', () {
