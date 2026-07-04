@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/features/match/constants.dart';
-import 'package:grimoji/features/match/board/effects/ghost_dive.dart';
-import 'package:grimoji/features/match/board/widgets/overlays/ghost_dive/diver.dart';
+import 'package:grimoji/features/match/board/effects/ghost_dive/effect.dart';
+import 'package:grimoji/features/match/board/effects/ghost_dive/animation.dart';
 
 class GhostDiveOverlay extends StatelessWidget {
   final ValueNotifier<List<GhostDiveEffect>> notifier;
