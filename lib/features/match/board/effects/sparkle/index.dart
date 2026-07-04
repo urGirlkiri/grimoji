@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:grimoji/features/match/board/effects/sparkle.dart';
+import 'package:grimoji/features/match/board/effects/sparkle/effect.dart';
 
 class SparkleOverlay extends StatelessWidget {
   final ValueNotifier<List<SparkleEffect>> sparklesNotifier;
