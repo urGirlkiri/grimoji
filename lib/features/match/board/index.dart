@@ -10,6 +10,7 @@ import 'package:grimoji/features/match/board/widgets/overlays/wheel_roll/index.d
 import 'package:grimoji/features/match/board/widgets/announcer/index.dart';
 import 'package:grimoji/features/match/board/widgets/overlays/line_clear/index.dart';
 import 'package:grimoji/features/match/board/widgets/board_grid/index.dart';
+import 'package:grimoji/features/match/board/effects/manager.dart';
 import 'package:grimoji/features/match/board/widgets/overlays/sparkle.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/index.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
@@ -37,19 +38,13 @@ class _GameBoardState extends State<GameBoard> {
   double? _tileWidth;
   double? _tileHeight;
 
-  final ValueNotifier<List<SparkleEffect>> _sparklesNotifier = ValueNotifier(
-    [],
-  );
+  late final EffectManager<SparkleEffect> _sparkleManager;
+  late final EffectManager<LineClearEffect> _lineClearManager;
+  late final EffectManager<RollEffect> _wheelRollManager;
+  late final EffectManager<GhostDiveEffect> _ghostDiveManager;
+
   final ValueNotifier<String?> _activeTileIdNotifier = ValueNotifier<String?>(
     null,
-  );
-
-  final ValueNotifier<List<LineClearEffect>> _lineClearNotifier = ValueNotifier(
-    [],
-  );
-  final ValueNotifier<List<RollEffect>> _wheelRollNotifier = ValueNotifier([]);
-  final ValueNotifier<List<GhostDiveEffect>> _ghostDiveNotifier = ValueNotifier(
-    [],
   );
 
   bool _isDisposed = false;
@@ -57,6 +52,14 @@ class _GameBoardState extends State<GameBoard> {
   @override
   void initState() {
     super.initState();
+    _sparkleManager = EffectManager(lifetime: sparkleLifetime);
+    _lineClearManager = EffectManager(
+      lifetime: const Duration(milliseconds: 300),
+    );
+    _wheelRollManager = EffectManager(
+      lifetime: const Duration(milliseconds: 1200),
+    );
+    _ghostDiveManager = EffectManager(lifetime: ghostDiveDuration);
   }
 
   @override
@@ -77,11 +80,11 @@ class _GameBoardState extends State<GameBoard> {
   @override
   void dispose() {
     _isDisposed = true;
-    _sparklesNotifier.dispose();
+    _sparkleManager.dispose();
     _activeTileIdNotifier.dispose();
-    _lineClearNotifier.dispose();
-    _wheelRollNotifier.dispose();
-    _ghostDiveNotifier.dispose();
+    _lineClearManager.dispose();
+    _wheelRollManager.dispose();
+    _ghostDiveManager.dispose();
     _levelState?.coordinator.onLineClear = null;
     _levelState?.coordinator.onWheelRoll = null;
     _levelState?.coordinator.onGhostDive = null;
@@ -90,22 +93,12 @@ class _GameBoardState extends State<GameBoard> {
 
   Future<void> triggerWheelRoll(RollEffect effect) async {
     if (_isDisposed) return;
-    _wheelRollNotifier.value = [..._wheelRollNotifier.value, effect];
-    await Future.delayed(const Duration(milliseconds: 1200));
-    if (_isDisposed) return;
-    _wheelRollNotifier.value = _wheelRollNotifier.value
-        .where((e) => e.id != effect.id)
-        .toList();
+    _wheelRollManager.trigger(effect);
   }
 
   Future<void> triggerGhostDive(GhostDiveEffect effect) async {
     if (_isDisposed) return;
-    _ghostDiveNotifier.value = [..._ghostDiveNotifier.value, effect];
-    await Future.delayed(ghostDiveDuration);
-    if (_isDisposed) return;
-    _ghostDiveNotifier.value = _ghostDiveNotifier.value
-        .where((e) => e.id != effect.id)
-        .toList();
+    _ghostDiveManager.trigger(effect);
   }
 
   void triggerLineClear(int row, int col, bool isHorizontal) {
@@ -115,27 +108,13 @@ class _GameBoardState extends State<GameBoard> {
       col: col,
       isHorizontal: isHorizontal,
     );
-    _lineClearNotifier.value = [..._lineClearNotifier.value, effect];
-    Future.delayed(const Duration(milliseconds: 300), () {
-      if (_isDisposed) return;
-      _lineClearNotifier.value = _lineClearNotifier.value
-          .where((e) => e.id != effect.id)
-          .toList();
-    });
+    _lineClearManager.trigger(effect);
   }
 
   void _triggerSparkle(Offset localPosition) {
     if (_isDisposed) return;
-
     final sparkle = SparkleEffect(position: localPosition);
-    _sparklesNotifier.value = [..._sparklesNotifier.value, sparkle];
-
-    Future.delayed(sparkleLifetime, () {
-      if (_isDisposed) return;
-      _sparklesNotifier.value = _sparklesNotifier.value
-          .where((s) => s.id != sparkle.id)
-          .toList();
-    });
+    _sparkleManager.trigger(sparkle);
   }
 
   void onTapped(TapUpDetails details, BuildContext context) {
@@ -313,13 +292,15 @@ class _GameBoardState extends State<GameBoard> {
                               },
                             ),
 
-                            SparkleOverlay(sparklesNotifier: _sparklesNotifier),
+                            SparkleOverlay(
+                              sparklesNotifier: _sparkleManager.notifier,
+                            ),
 
                             OverflowBox(
                               maxWidth: constrainedBoardWidth,
                               child: IgnorePointer(
                                 child: LineClearOverlay(
-                                  notifier: _lineClearNotifier,
+                                  notifier: _lineClearManager.notifier,
                                   tileWidth: calculatedSingleTileWidth,
                                   tileHeight: calculatedSingleTileHeight,
                                   cols: gridColumns,
@@ -332,7 +313,7 @@ class _GameBoardState extends State<GameBoard> {
                               maxWidth: constrainedBoardWidth,
                               child: IgnorePointer(
                                 child: WheelRollOverlay(
-                                  notifier: _wheelRollNotifier,
+                                  notifier: _wheelRollManager.notifier,
                                   tileWidth: calculatedSingleTileWidth,
                                   tileHeight: calculatedSingleTileHeight,
                                 ),
@@ -343,7 +324,7 @@ class _GameBoardState extends State<GameBoard> {
                               maxWidth: constrainedBoardWidth,
                               child: IgnorePointer(
                                 child: GhostDiveOverlay(
-                                  notifier: _ghostDiveNotifier,
+                                  notifier: _ghostDiveManager.notifier,
                                   tileWidth: calculatedSingleTileWidth,
                                   tileHeight: calculatedSingleTileHeight,
                                 ),

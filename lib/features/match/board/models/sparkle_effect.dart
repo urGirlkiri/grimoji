@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/features/match/board/effects/manager.dart';
 
-class SparkleEffect {
-  final String id;
+class SparkleEffect extends BoardEffect {
   final Offset position;
-  SparkleEffect({required this.position}) : id = UniqueKey().toString();
+  SparkleEffect({required this.position}) : super();
 }

@@ -1,8 +1,7 @@
+import 'package:grimoji/features/match/board/effects/manager.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
-import 'package:uuid/uuid.dart';
 
-class RollEffect {
-  final String id;
+class RollEffect extends BoardEffect {
   final int startRow;
   final int startCol;
   final bool isHorizontal;
@@ -15,6 +14,5 @@ class RollEffect {
     required this.isHorizontal,
     required this.isWrapping,
     required this.steps,
-    String? id,
-  }) : id = id ?? const Uuid().v4();
+  }) : super();
 }

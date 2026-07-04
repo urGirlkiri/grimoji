@@ -1,7 +1,6 @@
-import 'package:uuid/uuid.dart';
+import 'package:grimoji/features/match/board/effects/manager.dart';
 
-class LineClearEffect {
-  final String id;
+class LineClearEffect extends BoardEffect {
   final int row;
   final int col;
   final bool isHorizontal;
@@ -10,6 +9,5 @@ class LineClearEffect {
     required this.row,
     required this.col,
     required this.isHorizontal,
-    String? id,
-  }) : id = id ?? const Uuid().v4();
+  }) : super();
 }
