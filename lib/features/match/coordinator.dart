@@ -18,7 +18,7 @@ import 'package:grimoji/features/alchemy/behaviors/clear.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/match/board/effects/ghost_dive/effect.dart';
 import 'package:grimoji/features/match/board/effects/wheel_roll/effect.dart';
-import 'package:grimoji/features/match/utils/ghost_evaluator.dart';
+import 'package:grimoji/features/match/utils/evaluator.dart';
 import 'package:logging/logging.dart';
 
 class GameCoordinator {
@@ -368,7 +368,7 @@ class GameCoordinator {
     final Set<TileCoordinate> destroyed = {};
 
     for (final origin in triggers) {
-      final target = await GhostEvaluator.findTarget(
+      final target = await BoardEvaluator.findTarget(
         grid: engine.grid,
         targetEmoji: engine.level.targetEmoji,
       );
