@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grimoji/features/match/board/models/line_clear.dart';
+import 'package:grimoji/features/match/board/effects/line_clear.dart';
 import 'package:grimoji/features/match/board/widgets/overlays/line_clear/beam.dart';
 
 class LineClearOverlay extends StatelessWidget {

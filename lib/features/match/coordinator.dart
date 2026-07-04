@@ -16,8 +16,8 @@ import 'package:grimoji/features/match/state.dart';
 import 'package:grimoji/features/match/utils/swipe_detector.dart';
 import 'package:grimoji/features/alchemy/behaviors/clear.dart';
 import 'package:grimoji/config/emojis/index.dart';
-import 'package:grimoji/features/match/board/models/ghost_dive.dart';
-import 'package:grimoji/features/match/board/models/roll.dart';
+import 'package:grimoji/features/match/board/effects/ghost_dive.dart';
+import 'package:grimoji/features/match/board/effects/roll.dart';
 import 'package:grimoji/features/match/utils/ghost_evaluator.dart';
 import 'package:logging/logging.dart';
 

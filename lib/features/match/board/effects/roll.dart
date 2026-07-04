@@ -1,4 +1,4 @@
-import 'package:grimoji/features/match/board/effects/manager.dart';
+import 'package:grimoji/features/match/board/effect/manager.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
 
 class RollEffect extends BoardEffect {

@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:grimoji/features/alchemy/behaviors/dive.dart';
-import 'package:grimoji/features/match/board/models/ghost_dive.dart';
+import 'package:grimoji/features/match/board/effects/ghost_dive.dart';
 import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
 

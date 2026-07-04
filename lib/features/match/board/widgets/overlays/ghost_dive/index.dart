@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/features/match/constants.dart';
-import 'package:grimoji/features/match/board/models/ghost_dive.dart';
+import 'package:grimoji/features/match/board/effects/ghost_dive.dart';
 import 'package:grimoji/features/match/board/widgets/overlays/ghost_dive/diver.dart';
 
 class GhostDiveOverlay extends StatelessWidget {
