@@ -9,7 +9,7 @@ import 'package:grimoji/features/match/board/effects/ghost_dive/index.dart';
 import 'package:grimoji/features/match/board/effects/wheel_roll/index.dart';
 import 'package:grimoji/features/match/board/widgets/announcer/index.dart';
 import 'package:grimoji/features/match/board/effects/line_clear/index.dart';
-import 'package:grimoji/features/match/board/widgets/board_grid/index.dart';
+import 'package:grimoji/features/match/board/widgets/board_grid.dart';
 import 'package:grimoji/features/match/board/effect/manager.dart';
 import 'package:grimoji/features/match/board/effects/sparkle/index.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/index.dart';
