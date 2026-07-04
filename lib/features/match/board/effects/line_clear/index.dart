@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:grimoji/features/match/board/effects/line_clear.dart';
-import 'package:grimoji/features/match/board/widgets/overlays/line_clear/beam.dart';
+import 'package:grimoji/features/match/board/effects/line_clear/effect.dart';
+import 'package:grimoji/features/match/board/effects/line_clear/animation.dart';
 
 class LineClearOverlay extends StatelessWidget {
   final ValueNotifier<List<LineClearEffect>> notifier;

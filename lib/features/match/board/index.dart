@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:grimoji/features/match/constants.dart';
-import 'package:grimoji/features/match/board/effects/line_clear.dart';
+import 'package:grimoji/features/match/board/effects/line_clear/effect.dart';
 import 'package:grimoji/features/match/board/effects/sparkle.dart';
 import 'package:grimoji/features/match/board/effects/ghost_dive/effect.dart';
 import 'package:grimoji/features/match/board/effects/roll.dart';
 import 'package:grimoji/features/match/board/effects/ghost_dive/index.dart';
 import 'package:grimoji/features/match/board/widgets/overlays/wheel_roll/index.dart';
 import 'package:grimoji/features/match/board/widgets/announcer/index.dart';
-import 'package:grimoji/features/match/board/widgets/overlays/line_clear/index.dart';
+import 'package:grimoji/features/match/board/effects/line_clear/index.dart';
 import 'package:grimoji/features/match/board/widgets/board_grid/index.dart';
 import 'package:grimoji/features/match/board/effect/manager.dart';
 import 'package:grimoji/features/match/board/widgets/overlays/sparkle.dart';
