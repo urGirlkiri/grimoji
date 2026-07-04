@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
-import 'package:grimoji/features/match/board/utils/announcer.dart';
+import 'package:grimoji/features/match/announcer.dart';
 
 class GameState extends ChangeNotifier {
   final BoardAnnouncer announcer;

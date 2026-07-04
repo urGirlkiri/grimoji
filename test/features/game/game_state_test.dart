@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:grimoji/features/match/state.dart';
-import 'package:grimoji/features/match/board/utils/announcer.dart';
+import 'package:grimoji/features/match/announcer.dart';
 import '../../mocks/mock_audio_controller.dart';
 
 void main() {

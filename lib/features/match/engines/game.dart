@@ -7,7 +7,7 @@ import 'package:grimoji/features/alchemy/behavior_register.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
-import 'package:grimoji/features/match/board/utils/manager.dart';
+import 'package:grimoji/features/match/utils/manager.dart';
 import 'package:grimoji/features/match/model/cascade_step_result.dart';
 import 'package:grimoji/features/match/model/detonation_step_result.dart';
 import 'package:grimoji/features/match/utils/swipe_detector.dart';
