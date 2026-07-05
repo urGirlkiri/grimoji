@@ -91,95 +91,104 @@ class _PurchaseDialog extends StatelessWidget {
 
     return Align(
       alignment: Alignment.topCenter,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+      child: Stack(
+        alignment: Alignment.center,
         children: [
-          CustomPaint(size: const Size(5, 180), painter: RopePainter()),
-          ScrollDialog(
-            scrollType: ScrollType.fullyOpenHorizontal,
-            rightButton: CorkScrewCloseButton(
-              onTap: () => Navigator.of(context).pop(false),
+          Positioned(
+            top: -50,
+            child: CustomPaint(
+              size: const Size(5, 500),
+              painter: RopePainter(),
             ),
-            padding: const EdgeInsets.all(0),
-            child: ListenableBuilder(
-              listenable: profile,
-              builder: (context, _) => Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(height: 50),
-                  Padding(
-                    padding: EdgeInsets.all(8 * scale),
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          left: 35,
-                          top: 10,
-                          child: BalancePill(dices: profile.dices),
-                        ),
-                        Center(
-                          child: SizedBox(
-                            width: starSize,
-                            height: starSize,
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                CustomPaint(
-                                  size: Size(starSize, starSize),
-                                  painter: StarPainter(
-                                    color: context.palette.twilight,
-                                    borderColor: context.palette.dusk,
+          ),
+          Positioned(
+            top: 200,
+            child: ScrollDialog(
+              scrollType: ScrollType.fullyOpenHorizontal,
+              rightButton: CorkScrewCloseButton(
+                onTap: () => Navigator.of(context).pop(false),
+              ),
+              padding: const EdgeInsets.all(0),
+              child: ListenableBuilder(
+                listenable: profile,
+                builder: (context, _) => Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(height: 50),
+                    Padding(
+                      padding: EdgeInsets.all(8 * scale),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            left: 25,
+                            top: 10,
+                            child: BalancePill(dices: profile.dices),
+                          ),
+                          Center(
+                            child: SizedBox(
+                              width: starSize,
+                              height: starSize,
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  CustomPaint(
+                                    size: Size(starSize, starSize),
+                                    painter: StarPainter(
+                                      color: context.palette.twilight,
+                                      borderColor: context.palette.dusk,
+                                    ),
                                   ),
-                                ),
-                                EmojiWidget.svg(
-                                  path: boost.iconPath,
-                                  size: 58 * scale,
-                                ),
-                              ],
+                                  EmojiWidget.svg(
+                                    path: boost.iconPath,
+                                    size: 58 * scale,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    boost.name,
-                    textAlign: TextAlign.center,
-                    style: context.theme.textTheme.headlineSmall,
-                  ),
-                  const SizedBox(height: 8),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 18.0 * scale),
-                    child: Text(
-                      boost.description,
-                      textAlign: TextAlign.center,
-                      style: context.theme.textTheme.bodyMedium?.copyWith(
-                        color: context.palette.mist,
+                        ],
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 24),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 50.0),
-                    child: Column(
-                      children: [
-                        BuyRow(
-                          boost: boost,
-                          qty: 1,
-                          profile: profile,
-                          onTap: () => _onBuy(context, 1),
-                        ),
-                        const SizedBox(height: 10),
-                        BuyRow(
-                          boost: boost,
-                          qty: boost.bundleAmount,
-                          profile: profile,
-                          onTap: () => _onBuy(context, boost.bundleAmount),
-                        ),
-                      ],
+                    const SizedBox(height: 16),
+                    Text(
+                      boost.name,
+                      textAlign: TextAlign.center,
+                      style: context.theme.textTheme.headlineSmall,
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 8),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 18.0 * scale),
+                      child: Text(
+                        boost.description,
+                        textAlign: TextAlign.center,
+                        style: context.theme.textTheme.bodyMedium?.copyWith(
+                          color: context.palette.mist,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                      child: Column(
+                        children: [
+                          BuyRow(
+                            boost: boost,
+                            qty: 1,
+                            profile: profile,
+                            onTap: () => _onBuy(context, 1),
+                          ),
+                          const SizedBox(height: 10),
+                          BuyRow(
+                            boost: boost,
+                            qty: boost.bundleAmount,
+                            profile: profile,
+                            onTap: () => _onBuy(context, boost.bundleAmount),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
