@@ -84,6 +84,7 @@ class LevelDataController extends ChangeNotifier {
   Future<void> reset() async {
     await _store.clearAllData();
     _levelData.clear();
+    await _getLatestFromStore();
     _mapVersion++;
     notifyListeners();
   }
