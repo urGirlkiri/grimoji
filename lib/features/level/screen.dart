@@ -109,11 +109,7 @@ class _LevelScreenState extends State<LevelScreen> {
   void _skipFever() {
     context.readAudio.playSfx(SfxType.congrats);
     final stars = _levelState.goalManager.calculateStars();
-
-    GoRouter.of(context).goNamed(
-      Routes.levelWon,
-      extra: {'level': widget.level.number, 'stars': stars},
-    );
+    _playerWon(stars);
   }
 
   @override
@@ -211,7 +207,7 @@ class _LevelScreenState extends State<LevelScreen> {
                         );
 
                         if (!_hasTriggeredFever) {
-                          _hasTriggeredFever = true; 
+                          _hasTriggeredFever = true;
                           WidgetsBinding.instance.addPostFrameCallback((_) {
                             _levelState.startFeverSequence();
                           });
