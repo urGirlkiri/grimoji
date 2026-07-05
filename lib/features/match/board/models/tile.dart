@@ -28,6 +28,9 @@ class Tile {
   bool isLineClearTrigger = false;
   bool isLineClearTarget = false;
 
+  bool isRowClearTrigger = false;
+  bool isColClearTrigger = false;
+
   bool isWheelTrigger = false;
   bool isWheelOrigin = false;
 
@@ -79,6 +82,8 @@ class Tile {
 
     newTile.isLineClearTrigger = isLineClearTrigger;
     newTile.isLineClearTarget = isLineClearTarget;
+    newTile.isRowClearTrigger = isRowClearTrigger;
+    newTile.isColClearTrigger = isColClearTrigger;
 
     return newTile;
   }
@@ -104,6 +109,8 @@ class Tile {
 
     isLineClearTrigger = false;
     isLineClearTarget = false;
+    isRowClearTrigger = false;
+    isColClearTrigger = false;
 
     isWheelTrigger = false;
     isWheelOrigin = false;

@@ -52,9 +52,12 @@ class BehaviorEngine {
     int centerY,
   ) {
     for (final action in actions) {
+      final x = action.x ?? centerX;
+      final y = action.y ?? centerY;
+
       switch (action.type) {
         case ActionType.placeEmoji:
-          final target = boardManager.findAdjacentEmptyTile(centerX, centerY);
+          final target = boardManager.findAdjacentEmptyTile(x, y);
           if (target != null && action.emoji != null) {
             boardManager.gridTiles[target.x][target.y].emoji = action.emoji!;
             initializeBehavior(boardManager.gridTiles[target.x][target.y]);
@@ -62,7 +65,7 @@ class BehaviorEngine {
           break;
 
         case ActionType.reactEmoji:
-          final target = boardManager.findAdjacentFilledTile(centerX, centerY);
+          final target = boardManager.findAdjacentFilledTile(x, y);
           if (target != null && action.emoji != null) {
             boardManager.gridTiles[target.x][target.y].emoji = action.emoji!;
             boardManager.gridTiles[target.x][target.y].clearBehavior();
@@ -70,8 +73,8 @@ class BehaviorEngine {
           break;
 
         case ActionType.consumeAllOfType:
-          boardManager.gridTiles[centerX][centerY].isSwallowTrigger = true;
-          boardManager.gridTiles[centerX][centerY].isSwallowTarget = true;
+          boardManager.gridTiles[x][y].isSwallowTrigger = true;
+          boardManager.gridTiles[x][y].isSwallowTarget = true;
 
           for (int r = 0; r < BoardManager.rows; r++) {
             for (int c = 0; c < BoardManager.cols; c++) {
@@ -92,13 +95,13 @@ class BehaviorEngine {
           final emojisOnBoard = <GameEmoji>{};
           for (int r = 0; r < BoardManager.rows; r++) {
             for (int c = 0; c < BoardManager.cols; c++) {
-              if (r == centerX && c == centerY) continue;
+              if (r == x && c == y) continue;
               emojisOnBoard.add(boardManager.gridTiles[r][c].emoji);
             }
           }
 
-          boardManager.gridTiles[centerX][centerY].isSwallowTrigger = true;
-          boardManager.gridTiles[centerX][centerY].isSwallowTarget = true;
+          boardManager.gridTiles[x][y].isSwallowTrigger = true;
+          boardManager.gridTiles[x][y].isSwallowTarget = true;
 
           if (emojisOnBoard.isEmpty) {
             break;
@@ -121,13 +124,14 @@ class BehaviorEngine {
           break;
 
         case ActionType.clearRow:
-          if (boardManager.gridTiles[centerX].any((t) => t.isLineClearTrigger)) {
+          if (boardManager.gridTiles[x].any((t) => t.isRowClearTrigger)) {
             break;
           }
-          boardManager.gridTiles[centerX][centerY].isLineClearTrigger = true;
+          boardManager.gridTiles[x][y].isLineClearTrigger = true;
+          boardManager.gridTiles[x][y].isRowClearTrigger = true;
           for (int c = 0; c < BoardManager.cols; c++) {
-            if (c != centerY) {
-              boardManager.gridTiles[centerX][c].isLineClearTarget = true;
+            if (c != y) {
+              boardManager.gridTiles[x][c].isLineClearTarget = true;
             }
           }
           break;
@@ -135,24 +139,25 @@ class BehaviorEngine {
         case ActionType.clearCol:
           if (List.generate(
             BoardManager.rows,
-            (r) => boardManager.gridTiles[r][centerY],
-          ).any((t) => t.isLineClearTrigger)) {
+            (r) => boardManager.gridTiles[r][y],
+          ).any((t) => t.isColClearTrigger)) {
             break;
           }
-          boardManager.gridTiles[centerX][centerY].isLineClearTrigger = true;
+          boardManager.gridTiles[x][y].isLineClearTrigger = true;
+          boardManager.gridTiles[x][y].isColClearTrigger = true;
           for (int r = 0; r < BoardManager.rows; r++) {
-            if (r != centerX) {
-              boardManager.gridTiles[r][centerY].isLineClearTarget = true;
+            if (r != x) {
+              boardManager.gridTiles[r][y].isLineClearTarget = true;
             }
           }
           break;
 
         case ActionType.wheelRoll:
-          boardManager.gridTiles[centerX][centerY].isWheelTrigger = true;
+          boardManager.gridTiles[x][y].isWheelTrigger = true;
           break;
 
         case ActionType.ghostDive:
-          boardManager.gridTiles[centerX][centerY].isGhostTrigger = true;
+          boardManager.gridTiles[x][y].isGhostTrigger = true;
           break;
       }
     }

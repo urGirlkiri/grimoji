@@ -605,6 +605,8 @@ class GameCoordinator {
       for (final coord in lineClearDestroyed) {
         engine.grid[coord.row][coord.col].isLineClearTrigger = false;
         engine.grid[coord.row][coord.col].isLineClearTarget = false;
+        engine.grid[coord.row][coord.col].isRowClearTrigger = false;
+        engine.grid[coord.row][coord.col].isColClearTrigger = false;
       }
 
       if (await _settleBoard(lineClearDestroyed) == null) {
@@ -894,6 +896,8 @@ class GameCoordinator {
         for (final coord in lineClearDestroyed) {
           engine.grid[coord.row][coord.col].isLineClearTrigger = false;
           engine.grid[coord.row][coord.col].isLineClearTarget = false;
+          engine.grid[coord.row][coord.col].isRowClearTrigger = false;
+          engine.grid[coord.row][coord.col].isColClearTrigger = false;
         }
 
         if (await _settleBoard(lineClearDestroyed) == null) return false;

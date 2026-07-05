@@ -22,7 +22,7 @@ class ClearBehavior extends EmojiBehavior {
 
   @override
   List<BehaviorAction> onSwipedWith(int x, int y, GameEmoji targetEmoji) => [
-    _action,
+    BehaviorAction(type: _action.type, x: x, y: y),
   ];
 
   @override
