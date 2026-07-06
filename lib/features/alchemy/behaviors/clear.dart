@@ -1,8 +1,8 @@
 import 'package:grimoji/features/alchemy/behaviors/behavior.dart';
 import 'package:grimoji/features/alchemy/models/action_type.dart';
 import 'package:grimoji/features/alchemy/models/behavior_action.dart';
-import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:grimoji/config/emojis/index.dart';
+import 'package:grimoji/features/match/utils/manager.dart';
 
 class ClearBehavior extends EmojiBehavior {
   static final emoji = Emojis.barberPole;
@@ -18,16 +18,34 @@ class ClearBehavior extends EmojiBehavior {
   List<BehaviorAction> onTapped(int x, int y) => [_action];
 
   @override
-  List<BehaviorAction> onMatched(int x, int y) => [_action];
+  List<BehaviorAction> onSwipedWith(int x, int y, GameEmoji targetEmoji) {
+    if (targetEmoji == Emojis.bomb) {
+      return _build3Clears(x, y);
+    }
+    return [BehaviorAction(type: _action.type, x: x, y: y)];
+  }
 
-  @override
-  List<BehaviorAction> onSwipedWith(int x, int y, GameEmoji targetEmoji) => [
-    BehaviorAction(type: _action.type, x: x, y: y),
-  ];
+  List<BehaviorAction> _build3Clears(int x, int y) {
+    final actions = <BehaviorAction>[];
 
-  @override
-  List<BehaviorAction> onBlastNearby(int x, int y, ReactionType reactionType) {
-    if (reactionType == ReactionType.explosive) return [_action];
-    return [];
+    if (isHorizontal) {
+      final rows = _threeConsecutives(x, BoardManager.rows);
+      for (final r in rows) {
+        actions.add(BehaviorAction(type: ActionType.clearRow, x: r, y: y));
+      }
+    } else {
+      final cols = _threeConsecutives(y, BoardManager.cols);
+      for (final c in cols) {
+        actions.add(BehaviorAction(type: ActionType.clearCol, x: x, y: c));
+      }
+    }
+
+    return actions;
+  }
+
+  List<int> _threeConsecutives(int center, int max) {
+    if (center == 0) return [0, 1, 2];
+    if (center == max - 1) return [max - 1, max - 2, max - 3];
+    return [center - 1, center, center + 1];
   }
 }
