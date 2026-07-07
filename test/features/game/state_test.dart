@@ -6,7 +6,7 @@ import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
 import 'package:flutter/widgets.dart';
-import 'package:grimoji/utils/test_helpers.dart';
+import '../../helpers/index.dart';
 import '../../mocks/mock_audio_controller.dart';
 
 void main() {

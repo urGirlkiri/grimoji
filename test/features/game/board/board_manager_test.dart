@@ -4,6 +4,7 @@ import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/match/utils/manager.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
 import 'package:grimoji/features/match/detectors/match.dart';
+import '../../../helpers/test_level.dart';
 
 void main() {
   group('BoardManager Tests', () {
@@ -11,14 +12,10 @@ void main() {
     late GameLevel testLevel;
 
     setUp(() {
-      testLevel = GameLevel(
-        number: 1,
-        timeLimit: 60,
+      testLevel = TestLevel.create(
         targetEmoji: Emojis.ocean,
         targetAmount: 1,
         availableEmojis: [Emojis.droplet, Emojis.fire, Emojis.rock],
-        goal: 'Test goal',
-        description: 'Test description',
       );
       boardManager = BoardManager(testLevel);
       boardManager.initialize();

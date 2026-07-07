@@ -3,7 +3,6 @@ import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/levels/chapters/chapter_1.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/alchemy/behaviors/behavior.dart';
-import 'package:grimoji/features/alchemy/behaviors/clear.dart';
 import 'package:grimoji/features/alchemy/models/action_type.dart';
 import 'package:grimoji/features/alchemy/models/behavior_action.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
@@ -173,32 +172,69 @@ void main() {
         },
       );
 
-      test(
-        'processMatchedBehavior executes onMatched actions and sets line-clear flags',
-        () {
-          boardManager.gridTiles[3][2].emoji = Emojis.barberPole;
-          boardManager.gridTiles[3][2].behavior = ClearBehavior(
-            isHorizontal: true,
-          );
+      test('executeBehaviorActions uses action.x/y when provided', () {
+        behaviorEngine.executeBehaviorActions(
+          [const BehaviorAction(type: ActionType.clearRow, x: 3, y: 2)],
+          0,
+          0,
+        );
 
-          behaviorEngine.processMatchedBehavior(
-            boardManager.gridTiles[3][2],
-            3,
-            2,
+        expect(
+          boardManager.gridTiles[3][2].isLineClearTrigger,
+          isTrue,
+          reason: 'Action coordinates should override the center',
+        );
+        for (int c = 0; c < BoardManager.cols; c++) {
+          if (c == 2) continue;
+          expect(
+            boardManager.gridTiles[3][c].isLineClearTarget,
+            isTrue,
+            reason: 'Other tiles in the action row should be marked as targets',
+          );
+        }
+        expect(
+          boardManager.gridTiles[0][0].isLineClearTrigger,
+          isFalse,
+          reason: 'Center coordinates should not be used',
+        );
+      });
+
+      test(
+        'executeBehaviorActions allows row and column clears in the same row',
+        () {
+          behaviorEngine.executeBehaviorActions(
+            [
+              const BehaviorAction(type: ActionType.clearRow, x: 2, y: 3),
+              const BehaviorAction(type: ActionType.clearCol, x: 2, y: 2),
+            ],
+            0,
+            0,
           );
 
           expect(
-            boardManager.gridTiles[3][2].isLineClearTrigger,
+            boardManager.gridTiles[2][3].isLineClearTrigger,
             isTrue,
-            reason: 'Barber pole should trigger a horizontal line clear',
+            reason: 'Horizontal clear trigger should be set',
+          );
+          expect(
+            boardManager.gridTiles[2][2].isLineClearTrigger,
+            isTrue,
+            reason: 'Vertical clear trigger should be set',
           );
           for (int c = 0; c < BoardManager.cols; c++) {
-            if (c == 2) continue;
+            if (c == 3) continue;
             expect(
-              boardManager.gridTiles[3][c].isLineClearTarget,
+              boardManager.gridTiles[2][c].isLineClearTarget,
               isTrue,
-              reason:
-                  'Other tiles in row 3 should be marked as line-clear target',
+              reason: 'Row 2 should be marked as targets',
+            );
+          }
+          for (int r = 0; r < BoardManager.rows; r++) {
+            if (r == 2) continue;
+            expect(
+              boardManager.gridTiles[r][2].isLineClearTarget,
+              isTrue,
+              reason: 'Column 2 should be marked as targets',
             );
           }
         },

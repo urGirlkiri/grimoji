@@ -7,12 +7,13 @@ import 'package:grimoji/features/match/engines/alchemy.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
 import 'package:grimoji/features/match/detectors/match.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
+import '../../../helpers/test_grid.dart';
 
 void main() {
   group('AlchemyEngine Tests', () {
     late BoardManager boardManager;
     late AlchemyEngine alchemyEngine;
-    late GameLevel level;
+    late TestGrid grid;
 
     setUp(() {
       RecipeBook.initialize();
@@ -22,7 +23,7 @@ void main() {
           .toSet()
           .toList();
 
-      level = GameLevel(
+      final level = GameLevel(
         number: 1,
         timeLimit: 60,
         targetEmoji: allKnownEmojis.isNotEmpty
@@ -36,6 +37,7 @@ void main() {
 
       boardManager = BoardManager(level);
       boardManager.initialize();
+      grid = TestGrid(boardManager);
 
       alchemyEngine = AlchemyEngine(
         boardManager: boardManager,
@@ -51,7 +53,7 @@ void main() {
       final mergeRecipe = RecipeBook.allRecipes.first;
 
       for (int i = 0; i < mergeRecipe.requiredAmount; i++) {
-        boardManager.gridTiles[0][i].emoji = mergeRecipe.ingredient;
+        grid.place(0, i, mergeRecipe.ingredient);
       }
 
       final matchGroups = MatchDetector.findMatchedGroups(
@@ -91,16 +93,12 @@ void main() {
       final targetEmoji = transmutationMap[sourceEmoji]!;
 
       final genericEmoji = RecipeBook.allRecipes.first.ingredient;
-      for (int r = 0; r < BoardManager.rows; r++) {
-        for (int c = 0; c < BoardManager.cols; c++) {
-          boardManager.gridTiles[r][c].emoji = genericEmoji;
-        }
-      }
+      grid.fill(genericEmoji);
 
-      boardManager.gridTiles[3][1].emoji = explosiveEmoji;
-      boardManager.gridTiles[3][2].emoji = explosiveEmoji;
-      boardManager.gridTiles[3][3].emoji = explosiveEmoji;
-      boardManager.gridTiles[3][4].emoji = sourceEmoji;
+      grid.place(3, 1, explosiveEmoji);
+      grid.place(3, 2, explosiveEmoji);
+      grid.place(3, 3, explosiveEmoji);
+      grid.place(3, 4, sourceEmoji);
       boardManager.triggerInitialFall();
 
       final matchGroups = MatchDetector.findMatchedGroups(
@@ -139,7 +137,7 @@ void main() {
       );
 
       for (int i = 0; i < explosiveRecipe.requiredAmount; i++) {
-        boardManager.gridTiles[0][i].emoji = explosiveRecipe.ingredient;
+        grid.place(0, i, explosiveRecipe.ingredient);
       }
 
       final matchGroups = MatchDetector.findMatchedGroups(
@@ -172,11 +170,11 @@ void main() {
             .yields;
 
         boardManager.triggerInitialFall();
-        boardManager.gridTiles[4][1].emoji = explosiveEmoji;
-        boardManager.gridTiles[4][2].emoji = explosiveEmoji;
-        boardManager.gridTiles[4][3].emoji = explosiveEmoji;
-        boardManager.gridTiles[4][0].emoji = Emojis.fire;
-        boardManager.gridTiles[3][1].emoji = explosiveEmoji;
+        grid.place(4, 1, explosiveEmoji);
+        grid.place(4, 2, explosiveEmoji);
+        grid.place(4, 3, explosiveEmoji);
+        grid.place(4, 0, Emojis.fire);
+        grid.place(3, 1, explosiveEmoji);
 
         final matchGroups = MatchDetector.findMatchedGroups(
           boardManager.gridTiles,
@@ -205,9 +203,9 @@ void main() {
       () {
         final nonRecipeEmoji = Emojis.avocado;
 
-        boardManager.gridTiles[0][0].emoji = nonRecipeEmoji;
-        boardManager.gridTiles[0][1].emoji = nonRecipeEmoji;
-        boardManager.gridTiles[0][2].emoji = nonRecipeEmoji;
+        grid.place(0, 0, nonRecipeEmoji);
+        grid.place(0, 1, nonRecipeEmoji);
+        grid.place(0, 2, nonRecipeEmoji);
 
         final matchGroups = MatchDetector.findMatchedGroups(
           boardManager.gridTiles,
@@ -254,7 +252,7 @@ void main() {
       final matchSize = largeRecipe.requiredAmount - 1;
 
       for (int i = 0; i < matchSize; i++) {
-        boardManager.gridTiles[0][i].emoji = largeRecipe.ingredient;
+        grid.place(0, i, largeRecipe.ingredient);
       }
 
       final matchGroups = MatchDetector.findMatchedGroups(
@@ -291,15 +289,11 @@ void main() {
       final radius = RecipeBook.getAoERadiusForType(reaction.type);
 
       final genericEmoji = RecipeBook.allRecipes.first.ingredient;
-      for (int r = 0; r < BoardManager.rows; r++) {
-        for (int c = 0; c < BoardManager.cols; c++) {
-          boardManager.gridTiles[r][c].emoji = genericEmoji;
-        }
-      }
+      grid.fill(genericEmoji);
 
       const centerRow = 4;
       const centerCol = 2;
-      boardManager.gridTiles[centerRow][centerCol].emoji = explosiveEmoji;
+      grid.place(centerRow, centerCol, explosiveEmoji);
 
       final matchGroups = MatchDetector.findMatchedGroups(
         boardManager.gridTiles,

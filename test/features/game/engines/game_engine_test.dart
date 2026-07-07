@@ -6,12 +6,14 @@ import 'package:grimoji/features/match/utils/manager.dart';
 import 'package:grimoji/features/match/engines/game.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
 import 'package:grimoji/features/match/detectors/swipe.dart';
+import '../../../helpers/test_grid.dart';
 
 void main() {
   group('GameEngine Tests', () {
     late BoardManager boardManager;
     late GameEngine gameEngine;
     late GameLevel level;
+    late TestGrid grid;
 
     setUp(() {
       RecipeBook.initialize();
@@ -33,6 +35,7 @@ void main() {
 
       boardManager = BoardManager(level);
       boardManager.initialize();
+      grid = TestGrid(boardManager);
 
       gameEngine = GameEngine(
         level: level,
@@ -51,19 +54,15 @@ void main() {
     test('Should evaluate swipe and return decision', () {
       gameEngine.initialize();
 
-      for (int r = 0; r < BoardManager.rows; r++) {
-        for (int c = 0; c < BoardManager.cols; c++) {
-          boardManager.gridTiles[r][c].emoji = [
-            Emojis.fire,
-            Emojis.rock,
-            Emojis.droplet,
-            Emojis.alien,
-          ][(r * 2 + c * 3) % 4];
-        }
-      }
-      boardManager.gridTiles[0][0].emoji = Emojis.fire;
-      boardManager.gridTiles[0][1].emoji = Emojis.fire;
-      boardManager.gridTiles[0][2].emoji = Emojis.fire;
+      grid.fillPattern([
+        Emojis.fire,
+        Emojis.rock,
+        Emojis.droplet,
+        Emojis.alien,
+      ]);
+      grid.place(0, 0, Emojis.fire);
+      grid.place(0, 1, Emojis.fire);
+      grid.place(0, 2, Emojis.fire);
 
       final decision = gameEngine.evaluateSwipe(
         TileCoordinate(row: 0, col: 0),
@@ -76,16 +75,12 @@ void main() {
     test('Should return invalid for non-matching swipe', () {
       gameEngine.initialize();
 
-      for (int r = 0; r < BoardManager.rows; r++) {
-        for (int c = 0; c < BoardManager.cols; c++) {
-          boardManager.gridTiles[r][c].emoji = [
-            Emojis.fire,
-            Emojis.rock,
-            Emojis.droplet,
-            Emojis.alien,
-          ][(r * 2 + c * 3) % 4];
-        }
-      }
+      grid.fillPattern([
+        Emojis.fire,
+        Emojis.rock,
+        Emojis.droplet,
+        Emojis.alien,
+      ]);
 
       final decision = gameEngine.evaluateSwipe(
         TileCoordinate(row: 0, col: 0),
@@ -98,19 +93,15 @@ void main() {
     test('Should detect possible moves', () {
       gameEngine.initialize();
 
-      for (int r = 0; r < BoardManager.rows; r++) {
-        for (int c = 0; c < BoardManager.cols; c++) {
-          boardManager.gridTiles[r][c].emoji = [
-            Emojis.fire,
-            Emojis.rock,
-            Emojis.droplet,
-            Emojis.alien,
-          ][(r * 2 + c * 3) % 4];
-        }
-      }
-      boardManager.gridTiles[0][0].emoji = Emojis.fire;
-      boardManager.gridTiles[0][1].emoji = Emojis.fire;
-      boardManager.gridTiles[0][2].emoji = Emojis.fire;
+      grid.fillPattern([
+        Emojis.fire,
+        Emojis.rock,
+        Emojis.droplet,
+        Emojis.alien,
+      ]);
+      grid.place(0, 0, Emojis.fire);
+      grid.place(0, 1, Emojis.fire);
+      grid.place(0, 2, Emojis.fire);
 
       expect(gameEngine.hasPossibleMoves(), isTrue);
     });
@@ -118,19 +109,15 @@ void main() {
     test('Should get hint move when moves available', () async {
       gameEngine.initialize();
 
-      for (int r = 0; r < BoardManager.rows; r++) {
-        for (int c = 0; c < BoardManager.cols; c++) {
-          boardManager.gridTiles[r][c].emoji = [
-            Emojis.fire,
-            Emojis.rock,
-            Emojis.droplet,
-            Emojis.alien,
-          ][(r * 2 + c * 3) % 4];
-        }
-      }
-      boardManager.gridTiles[0][0].emoji = Emojis.fire;
-      boardManager.gridTiles[0][1].emoji = Emojis.fire;
-      boardManager.gridTiles[0][2].emoji = Emojis.fire;
+      grid.fillPattern([
+        Emojis.fire,
+        Emojis.rock,
+        Emojis.droplet,
+        Emojis.alien,
+      ]);
+      grid.place(0, 0, Emojis.fire);
+      grid.place(0, 1, Emojis.fire);
+      grid.place(0, 2, Emojis.fire);
 
       final hint = await gameEngine.getHintMove();
       expect(hint, isNotNull);
@@ -140,16 +127,12 @@ void main() {
     test('Should return null hint when no moves available', () async {
       gameEngine.initialize();
 
-      for (int r = 0; r < BoardManager.rows; r++) {
-        for (int c = 0; c < BoardManager.cols; c++) {
-          boardManager.gridTiles[r][c].emoji = [
-            Emojis.fire,
-            Emojis.rock,
-            Emojis.droplet,
-            Emojis.alien,
-          ][(r * 2 + c * 3) % 4];
-        }
-      }
+      grid.fillPattern([
+        Emojis.fire,
+        Emojis.rock,
+        Emojis.droplet,
+        Emojis.alien,
+      ]);
 
       final hint = await gameEngine.getHintMove();
       expect(hint, isNull);

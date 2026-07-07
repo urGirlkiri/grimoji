@@ -6,12 +6,14 @@ import 'package:grimoji/features/match/board/models/coordinate.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
 import 'package:grimoji/features/match/utils/manager.dart';
 import 'package:grimoji/features/match/detectors/hint.dart';
+import '../../../helpers/test_grid.dart';
 
 void main() {
   group('HintDetector Tests', () {
     late BoardManager boardManager;
     late List<List<Tile>> grid;
     late GameLevel level;
+    late TestGrid testGrid;
 
     setUp(() {
       RecipeBook.initialize();
@@ -34,20 +36,17 @@ void main() {
       boardManager = BoardManager(level);
       boardManager.initialize();
       grid = boardManager.gridTiles;
+      testGrid = TestGrid(boardManager);
     });
-
-    void fillGrid(List<GameEmoji> pattern) {
-      for (int r = 0; r < BoardManager.rows; r++) {
-        for (int c = 0; c < BoardManager.cols; c++) {
-          grid[r][c].emoji =
-              pattern[(r * BoardManager.cols + c) % pattern.length];
-        }
-      }
-    }
 
     group('No moves', () {
       test('Should return null when no valid swipe produces a match', () async {
-        fillGrid([Emojis.fire, Emojis.rock, Emojis.droplet, Emojis.alien]);
+        testGrid.fillPattern([
+          Emojis.fire,
+          Emojis.rock,
+          Emojis.droplet,
+          Emojis.alien,
+        ]);
 
         final hint = await HintDetector.findBestMove(
           grid: grid,
@@ -60,10 +59,15 @@ void main() {
 
     group('Basic match detection', () {
       test('Should return two coordinates when a match exists', () async {
-        fillGrid([Emojis.fire, Emojis.rock, Emojis.droplet, Emojis.alien]);
-        grid[0][0].emoji = Emojis.fire;
-        grid[0][1].emoji = Emojis.fire;
-        grid[0][2].emoji = Emojis.fire;
+        testGrid.fillPattern([
+          Emojis.fire,
+          Emojis.rock,
+          Emojis.droplet,
+          Emojis.alien,
+        ]);
+        testGrid.place(0, 0, Emojis.fire);
+        testGrid.place(0, 1, Emojis.fire);
+        testGrid.place(0, 2, Emojis.fire);
 
         final hint = await HintDetector.findBestMove(
           grid: grid,
@@ -75,10 +79,15 @@ void main() {
       });
 
       test('Should return valid board coordinates', () async {
-        fillGrid([Emojis.fire, Emojis.rock, Emojis.droplet, Emojis.alien]);
-        grid[0][0].emoji = Emojis.fire;
-        grid[0][1].emoji = Emojis.fire;
-        grid[0][2].emoji = Emojis.fire;
+        testGrid.fillPattern([
+          Emojis.fire,
+          Emojis.rock,
+          Emojis.droplet,
+          Emojis.alien,
+        ]);
+        testGrid.place(0, 0, Emojis.fire);
+        testGrid.place(0, 1, Emojis.fire);
+        testGrid.place(0, 2, Emojis.fire);
 
         final hint = await HintDetector.findBestMove(
           grid: grid,
@@ -94,7 +103,12 @@ void main() {
       test(
         'Should return adjacent tiles (differ by exactly 1 in row or col)',
         () async {
-          fillGrid([Emojis.fire, Emojis.rock, Emojis.droplet, Emojis.alien]);
+          testGrid.fillPattern([
+            Emojis.fire,
+            Emojis.rock,
+            Emojis.droplet,
+            Emojis.alien,
+          ]);
           grid[0][0].emoji = Emojis.fire;
           grid[0][1].emoji = Emojis.fire;
           grid[0][2].emoji = Emojis.fire;
@@ -117,7 +131,12 @@ void main() {
       test(
         'Should prefer a move that matches target ingredient over a plain match',
         () async {
-          fillGrid([Emojis.alien, Emojis.rock, Emojis.droplet, Emojis.alien]);
+          testGrid.fillPattern([
+            Emojis.alien,
+            Emojis.rock,
+            Emojis.droplet,
+            Emojis.alien,
+          ]);
 
           grid[0][0].emoji = Emojis.fire;
           grid[0][1].emoji = Emojis.fire;
@@ -193,17 +212,20 @@ void main() {
 
     group('Scoring — shape match preference', () {
       test('Should prefer an L-shape move over a plain 3-match', () async {
-        fillGrid([Emojis.rock, Emojis.droplet, Emojis.alien, Emojis.rock]);
-
-        grid[0][0].emoji = Emojis.fire;
-        grid[0][1].emoji = Emojis.fire;
-        grid[0][2].emoji = Emojis.fire;
-        grid[1][2].emoji = Emojis.fire;
-        grid[2][2].emoji = Emojis.fire;
-
-        grid[7][0].emoji = Emojis.rock;
-        grid[7][1].emoji = Emojis.rock;
-        grid[7][2].emoji = Emojis.rock;
+        testGrid.fillPattern([
+          Emojis.rock,
+          Emojis.droplet,
+          Emojis.alien,
+          Emojis.rock,
+        ]);
+        testGrid.place(0, 0, Emojis.fire);
+        testGrid.place(0, 1, Emojis.fire);
+        testGrid.place(0, 2, Emojis.fire);
+        testGrid.place(1, 2, Emojis.fire);
+        testGrid.place(2, 2, Emojis.fire);
+        testGrid.place(7, 0, Emojis.rock);
+        testGrid.place(7, 1, Emojis.rock);
+        testGrid.place(7, 2, Emojis.rock);
 
         final hint = await HintDetector.findBestMove(
           grid: grid,
@@ -222,10 +244,15 @@ void main() {
 
     group('Edge cases', () {
       test('Should not suggest swapping a tile with itself', () async {
-        fillGrid([Emojis.fire, Emojis.rock, Emojis.droplet, Emojis.alien]);
-        grid[0][0].emoji = Emojis.fire;
-        grid[0][1].emoji = Emojis.fire;
-        grid[0][2].emoji = Emojis.fire;
+        testGrid.fillPattern([
+          Emojis.fire,
+          Emojis.rock,
+          Emojis.droplet,
+          Emojis.alien,
+        ]);
+        testGrid.place(0, 0, Emojis.fire);
+        testGrid.place(0, 1, Emojis.fire);
+        testGrid.place(0, 2, Emojis.fire);
 
         final hint = await HintDetector.findBestMove(
           grid: grid,
@@ -236,13 +263,18 @@ void main() {
       });
 
       test('Should not match hole emoji', () async {
-        fillGrid([Emojis.fire, Emojis.rock, Emojis.droplet, Emojis.alien]);
-        grid[3][0].emoji = Emojis.hole;
-        grid[3][1].emoji = Emojis.hole;
-        grid[3][2].emoji = Emojis.hole;
-        grid[0][0].emoji = Emojis.fire;
-        grid[0][1].emoji = Emojis.fire;
-        grid[0][2].emoji = Emojis.fire;
+        testGrid.fillPattern([
+          Emojis.fire,
+          Emojis.rock,
+          Emojis.droplet,
+          Emojis.alien,
+        ]);
+        testGrid.place(3, 0, Emojis.hole);
+        testGrid.place(3, 1, Emojis.hole);
+        testGrid.place(3, 2, Emojis.hole);
+        testGrid.place(0, 0, Emojis.fire);
+        testGrid.place(0, 1, Emojis.fire);
+        testGrid.place(0, 2, Emojis.fire);
 
         final hint = await HintDetector.findBestMove(
           grid: grid,
@@ -265,11 +297,7 @@ void main() {
       test(
         'Should handle a fully uniform board of one emoji gracefully',
         () async {
-          for (int r = 0; r < BoardManager.rows; r++) {
-            for (int c = 0; c < BoardManager.cols; c++) {
-              grid[r][c].emoji = Emojis.fire;
-            }
-          }
+          testGrid.fill(Emojis.fire);
 
           final hint = await HintDetector.findBestMove(
             grid: grid,
