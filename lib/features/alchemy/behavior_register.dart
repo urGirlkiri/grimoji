@@ -8,6 +8,7 @@ import 'package:grimoji/features/alchemy/behaviors/swallow.dart';
 import 'package:grimoji/features/alchemy/behaviors/virus.dart';
 import 'package:grimoji/features/alchemy/behaviors/prank.dart';
 import 'package:grimoji/features/alchemy/behaviors/wheel.dart';
+import 'package:grimoji/features/alchemy/behaviors/clown.dart';
 
 class BehaviorRegister {
   static final _random = Random();
@@ -19,6 +20,7 @@ class BehaviorRegister {
     ClearBehavior.emoji: () => ClearBehavior(isHorizontal: _random.nextBool()),
     WheelBehavior.emoji: () => WheelBehavior(),
     DiveBehavior.emoji: () => DiveBehavior(),
+    ClownBehavior.emoji: () => ClownBehavior(),
   };
 
   static EmojiBehavior? getBehaviorFor(GameEmoji emoji) {

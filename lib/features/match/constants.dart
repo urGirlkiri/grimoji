@@ -92,7 +92,7 @@ const Duration feverClockTickInterval = Duration(milliseconds: 150);
 /// The pause between fever ending and the win screen nav.
 const Duration postFeverResultsDelay = Duration(milliseconds: 500);
 
-// ====  Wheel Behavior ====
+// ====  Wheel Roll  ====
 
 /// The dramatic wind-up time where the center tile swells in size before generating the wheel overlay.
 const Duration wheelWindUpDuration = Duration(milliseconds: 180);
