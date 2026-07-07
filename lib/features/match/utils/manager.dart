@@ -101,7 +101,7 @@ class BoardManager {
   }
 
   bool collectFlyingTiles() {
-    Set<TileCoordinate> collected = {};
+    TileSet collected = {};
     for (int r = 0; r < rows; r++) {
       for (int c = 0; c < cols; c++) {
         if (gridTiles[r][c].isFlying) {
@@ -117,9 +117,7 @@ class BoardManager {
     return true;
   }
 
-  GravityResult applyGravity(
-    Set<TileCoordinate> tilesToDestroy,
-  ) {
+  GravityResult applyGravity(TileSet tilesToDestroy) {
     final Set<int> affectedColumns = {};
     final Set<int> affectedRows = {};
 
@@ -245,7 +243,7 @@ class BoardManager {
     return adjacent;
   }
 
-  void flagFlyingTargetEmojis(Set<TileCoordinate> coordinates) {
+  void flagFlyingTargetEmojis(TileSet coordinates) {
     for (var coord in coordinates) {
       if (gridTiles[coord.row][coord.col].emoji == level.targetEmoji) {
         gridTiles[coord.row][coord.col].isFlying = true;

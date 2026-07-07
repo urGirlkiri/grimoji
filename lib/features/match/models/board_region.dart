@@ -1,7 +1,8 @@
 import 'package:grimoji/features/match/models/coordinate.dart';
+import 'package:grimoji/features/match/types.dart';
 
 class BoardRegion {
-  final Set<TileCoordinate> coordinates;
+  final TileSet coordinates;
 
   BoardRegion(this.coordinates);
 

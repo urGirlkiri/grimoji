@@ -1,12 +1,12 @@
-import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:grimoji/features/match/models/collected_emoji.dart';
 import 'package:grimoji/features/match/models/match_group.dart';
+import 'package:grimoji/features/match/types.dart';
 
 class CascadeStepResult {
   final List<MatchGroup> matchedGroups;
-  final Set<TileCoordinate> tilesToDestroy;
-  final Set<TileCoordinate> transmutedTiles;
-  final Set<TileCoordinate> transformed;
+  final TileSet tilesToDestroy;
+  final TileSet transmutedTiles;
+  final TileSet transformed;
   final List<CollectedEmoji> collectedEmojis;
   final bool hasTriggeredBombs;
 

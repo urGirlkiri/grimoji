@@ -11,6 +11,7 @@ import 'package:grimoji/features/match/models/cascade_step_result.dart';
 import 'package:grimoji/features/match/models/collected_emoji.dart';
 import 'package:grimoji/features/match/models/detonation_step_result.dart';
 import 'package:grimoji/features/match/detectors/match.dart';
+import 'package:grimoji/features/match/types.dart';
 import 'package:logging/logging.dart';
 
 typedef BehaviorInitCallback = void Function(Tile tile);
@@ -50,9 +51,9 @@ class AlchemyEngine {
     required bool isFirstMatch,
   }) {
     final List<CollectedEmoji> collectedEmojis = [];
-    final Set<TileCoordinate> tilesToDestroy = {};
-    final Set<TileCoordinate> transmutedTiles = {};
-    final Set<TileCoordinate> transformed = {};
+    final TileSet tilesToDestroy = {};
+    final TileSet transmutedTiles = {};
+    final TileSet transformed = {};
 
     _log.info(
       'Cascade step: ${matchedGroups.length} groups, tilesToDestroy=${tilesToDestroy.length}, transformed=${transformed.length}',
@@ -81,9 +82,7 @@ class AlchemyEngine {
           targetTile.isFlying = true;
         }
 
-        final Set<TileCoordinate> sources = coords
-            .where((c) => c != spawnPoint)
-            .toSet();
+        final TileSet sources = coords.where((c) => c != spawnPoint).toSet();
         tilesToDestroy.addAll(sources);
 
         transformed.add(spawnPoint);
@@ -126,7 +125,7 @@ class AlchemyEngine {
                 targetTile.isFlying = true;
               }
 
-              final Set<TileCoordinate> sources = coords
+              final TileSet sources = coords
                   .where((c) => c != spawnPoint)
                   .toSet();
               tilesToDestroy.addAll(sources);
@@ -227,7 +226,7 @@ class AlchemyEngine {
 
     final bool anyMerge = mergedEmojis > 0;
     if (!anyMerge) {
-      final Set<TileCoordinate> allMatchedCoords = matchedGroups
+      final TileSet allMatchedCoords = matchedGroups
           .expand((g) => g.coordinates)
           .toSet();
       for (var match in allMatchedCoords) {
@@ -264,8 +263,8 @@ class AlchemyEngine {
 
   DetonationStepResult processDetonationStep() {
     final List<CollectedEmoji> collectedEmojis = [];
-    final Set<TileCoordinate> allBlastedCoords = {};
-    final Set<TileCoordinate> allTransformedCoords = {};
+    final TileSet allBlastedCoords = {};
+    final TileSet allTransformedCoords = {};
 
     List<Tile> primedBombs = boardManager.getTriggeredEmojis();
     bool chainReaction = primedBombs.isNotEmpty;
@@ -299,10 +298,11 @@ class AlchemyEngine {
     );
   }
 
-  ({Set<TileCoordinate> destroyed, Set<TileCoordinate> transformed})
-  _executeBlastRadius(TileCoordinate center) {
-    final Set<TileCoordinate> destroyedTiles = {};
-    final Set<TileCoordinate> transformedTiles = {};
+  ({TileSet destroyed, TileSet transformed}) _executeBlastRadius(
+    TileCoordinate center,
+  ) {
+    final TileSet destroyedTiles = {};
+    final TileSet transformedTiles = {};
     final transformations = getTransformationsForType(ReactionType.explosive);
 
     final centerTile = boardManager.gridTiles[center.row][center.col];

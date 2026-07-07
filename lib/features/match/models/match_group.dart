@@ -1,10 +1,11 @@
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/match/models/board_region.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
+import 'package:grimoji/features/match/types.dart';
 
 class MatchGroup {
   final GameEmoji emoji;
-  final Set<TileCoordinate> coordinates;
+  final TileSet coordinates;
 
   final GameEmoji? yields;
   final TileCoordinate? pivot;
@@ -25,6 +26,5 @@ extension MatchGroupListExtension on Iterable<MatchGroup> {
   BoardRegion get combinedRegion =>
       BoardRegion(expand((g) => g.coordinates).toSet());
 
-  Set<TileCoordinate> get combinedCoordinates =>
-      expand((g) => g.coordinates).toSet();
+  TileSet get combinedCoordinates => expand((g) => g.coordinates).toSet();
 }

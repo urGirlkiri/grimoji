@@ -2,6 +2,7 @@ import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/match/models/match_group.dart';
 import 'package:grimoji/features/match/models/tile.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
+import 'package:grimoji/features/match/types.dart';
 
 class MatchDetector {
   static final Set<GameEmoji> unmatchableEmojis = {Emojis.hole};
@@ -115,7 +116,7 @@ class MatchDetector {
     return groups;
   }
 
-  static TileCoordinate _runPivot(Set<TileCoordinate> coords) {
+  static TileCoordinate _runPivot(TileSet coords) {
     final sorted = coords.toList()
       ..sort((a, b) {
         final rowCompare = a.row.compareTo(b.row);
@@ -185,7 +186,7 @@ class MatchDetector {
 
   static List<MatchGroup> _scanRemainingRuns({
     required List<List<Tile>> grid,
-    required Set<TileCoordinate> consumed,
+    required TileSet consumed,
     required bool isHorizontal,
   }) {
     final groups = <MatchGroup>[];

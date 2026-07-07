@@ -1,9 +1,9 @@
-import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:grimoji/features/match/models/collected_emoji.dart';
+import 'package:grimoji/features/match/types.dart';
 
 class DetonationStepResult {
-  final Set<TileCoordinate> destroyed;
-  final Set<TileCoordinate> transformed;
+  final TileSet destroyed;
+  final TileSet transformed;
   final List<CollectedEmoji> collectedEmojis;
   final bool hasChainReaction;
 
