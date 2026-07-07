@@ -22,6 +22,8 @@ import 'package:grimoji/features/match/utils/evaluator.dart';
 import 'package:grimoji/features/match/processors/settlement.dart';
 import 'package:logging/logging.dart';
 
+typedef TileSet = Set<TileCoordinate>;
+
 class GameCoordinator {
   final GameEngine engine;
   final GameState state;
@@ -391,13 +393,13 @@ class GameCoordinator {
     return triggers;
   }
 
-  Future<({Set<TileCoordinate> destroyed, Set<TileCoordinate> newBombs})>
+  Future<({TileSet destroyed, TileSet newBombs})>
   _handleGhostDive(
     List<({TileCoordinate origin, bool isBomb, TileCoordinate? bombOrigin})>
     triggers,
   ) async {
-    final Set<TileCoordinate> destroyed = {};
-    final Set<TileCoordinate> newBombs = {};
+    final TileSet destroyed = {};
+    final TileSet newBombs = {};
 
     for (final trigger in triggers) {
       final origin = trigger.origin;
@@ -463,8 +465,8 @@ class GameCoordinator {
   }
 
   Future<void> _handleGhostSettlement(
-    Set<TileCoordinate> destroyed,
-    Set<TileCoordinate> newBombs,
+    TileSet destroyed,
+    TileSet newBombs,
   ) async {
     if (destroyed.isNotEmpty) {
       boardManager.flagFlyingTargetEmojis(destroyed);
@@ -561,7 +563,7 @@ class GameCoordinator {
     }
     state.updateUI();
 
-    final Set<TileCoordinate> staleOrigins = {for (final w in wheels) w.origin};
+    final TileSet staleOrigins = {for (final w in wheels) w.origin};
     await _settlement.settleBoard(BoardRegion(staleOrigins));
   }
 
@@ -584,14 +586,14 @@ class GameCoordinator {
 
   Future<
     ({
-      Set<TileCoordinate> swallowDestroyed,
-      Set<TileCoordinate> lineClearDestroyed,
+      TileSet swallowDestroyed,
+      TileSet lineClearDestroyed,
       bool didAnything,
     })
   >
   _removeBehaviorFlags() async {
-    Set<TileCoordinate> swallowDestroyed = {};
-    Set<TileCoordinate> lineClearDestroyed = {};
+    TileSet swallowDestroyed = {};
+    TileSet lineClearDestroyed = {};
     final List<({int row, int col, bool isHorizontal})> lineClearTriggers = [];
 
     for (int r = 0; r < BoardManager.rows; r++) {
@@ -781,7 +783,7 @@ class GameCoordinator {
       await Future.delayed(matchFreezeDuration);
       if (state.isDisposed) return false;
 
-      final Set<TileCoordinate> blastDestroyed = {
+      final TileSet blastDestroyed = {
         ...stepResult.destroyed,
         ...targetFlyingTransforms,
       };
@@ -948,7 +950,7 @@ class GameCoordinator {
     return !state.isDisposed;
   }
 
-  Set<TileCoordinate> _collectFlyingTargets({Set<TileCoordinate>? excluding}) {
+  TileSet _collectFlyingTargets({TileSet? excluding}) {
     final result = <TileCoordinate>{};
 
     _forEachTile((r, c, tile) {
@@ -970,8 +972,8 @@ class GameCoordinator {
     return drainResult.didAnything;
   }
 
-  Set<TileCoordinate> _handleTargetFlyingTransforms(
-    Set<TileCoordinate> transformed,
+  TileSet _handleTargetFlyingTransforms(
+    TileSet transformed,
   ) {
     final targetFlyingTransforms = <TileCoordinate>{};
     for (var coord in transformed) {
@@ -985,9 +987,9 @@ class GameCoordinator {
     return targetFlyingTransforms;
   }
 
-  Future<Set<TileCoordinate>> _handleFlyingTargets(
+  Future<TileSet> _handleFlyingTargets(
     List<CollectedEmoji> collectedEmojis,
-    Set<TileCoordinate> tilesToDestroy,
+    TileSet tilesToDestroy,
   ) async {
     _resolveCollectedEmojis(collectedEmojis);
     boardManager.flagFlyingTargetEmojis(tilesToDestroy);
@@ -1050,13 +1052,13 @@ class GameCoordinator {
   }
 
   ({
-    Set<TileCoordinate> swallowDestroyed,
-    Set<TileCoordinate> lineClearDestroyed,
+    TileSet swallowDestroyed,
+    TileSet lineClearDestroyed,
     bool didAnything,
   })
   _emptyDrainResult(
-    Set<TileCoordinate> swallow,
-    Set<TileCoordinate> lineClear,
+    TileSet swallow,
+    TileSet lineClear,
   ) => (
     swallowDestroyed: swallow,
     lineClearDestroyed: lineClear,

@@ -3,9 +3,8 @@ import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/match/detectors/match.dart';
 import 'package:grimoji/features/match/engines/game.dart';
 import 'package:grimoji/features/match/state.dart';
+import 'package:grimoji/features/match/types.dart';
 import 'package:grimoji/features/match/utils/manager.dart';
-
-typedef GravityResult = ({Set<int> cols, Set<int> rows});
 
 class SettlementProcessor {
   final GameEngine engine;

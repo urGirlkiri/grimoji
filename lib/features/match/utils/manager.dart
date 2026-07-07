@@ -5,6 +5,7 @@ import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
+import 'package:grimoji/features/match/types.dart';
 import 'package:logging/logging.dart';
 
 class BoardManager {
@@ -116,7 +117,7 @@ class BoardManager {
     return true;
   }
 
-  ({Set<int> cols, Set<int> rows}) applyGravity(
+  GravityResult applyGravity(
     Set<TileCoordinate> tilesToDestroy,
   ) {
     final Set<int> affectedColumns = {};
