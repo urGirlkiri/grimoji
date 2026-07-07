@@ -44,6 +44,16 @@ class TileDisp extends StatelessWidget {
               child: transition,
             );
           }
+
+          if (tile.isShuffling) {
+            transition = ScaleTransition(
+              scale: Tween<double>(begin: 0.0, end: 1.0).animate(
+                CurvedAnimation(parent: animation, curve: Curves.elasticOut),
+              ),
+              child: transition,
+            );
+          }
+
           return transition;
         },
         child: () {

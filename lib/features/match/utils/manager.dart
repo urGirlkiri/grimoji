@@ -122,6 +122,20 @@ class BoardManager {
     final Set<int> affectedColumns = {};
     final Set<int> affectedRows = {};
 
+    bool clownOnBoard = false;
+    for (int r = 0; r < rows; r++) {
+      for (int c = 0; c < cols; c++) {
+        if (gridTiles[r][c].emoji == Emojis.clown) {
+          clownOnBoard = true;
+          break;
+        }
+      }
+      if (clownOnBoard) break;
+    }
+
+    final shouldSpawnClown =
+        !clownOnBoard && level.number % 2 == 0 && _random.nextDouble() < 0.5;
+
     for (int c = 0; c < cols; c++) {
       List<Tile> remainingTiles = [];
       int destroyedCount = 0;
@@ -155,10 +169,16 @@ class BoardManager {
       playSfx?.call(SfxType.fall);
 
       List<Tile> skyTiles = List.generate(destroyedCount, (i) {
+        GameEmoji emoji;
+        if (shouldSpawnClown && i == 0) {
+          emoji = Emojis.clown;
+        } else {
+          emoji = level
+              .availableEmojis[_random.nextInt(level.availableEmojis.length)];
+        }
         final tile = Tile(
           coordinate: TileCoordinate(row: -destroyedCount + i, col: c),
-          emoji: level
-              .availableEmojis[_random.nextInt(level.availableEmojis.length)],
+          emoji: emoji,
         );
         return tile;
       });
@@ -234,6 +254,14 @@ class BoardManager {
     for (int r = 0; r < rows; r++) {
       for (int c = 0; c < cols; c++) {
         gridTiles[r][c].isTransmuting = false;
+      }
+    }
+  }
+
+  void clearShufflingFlags() {
+    for (int r = 0; r < rows; r++) {
+      for (int c = 0; c < cols; c++) {
+        gridTiles[r][c].isShuffling = false;
       }
     }
   }
