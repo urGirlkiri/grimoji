@@ -37,6 +37,7 @@ class Tile {
   bool isGhostTrigger = false;
   bool isGhostOrigin = false;
   bool isGhostTarget = false;
+  bool isGhostBombTrigger = false;
 
   bool hasFlown = false;
   bool isFlying = false;
@@ -85,6 +86,11 @@ class Tile {
     newTile.isRowClearTrigger = isRowClearTrigger;
     newTile.isColClearTrigger = isColClearTrigger;
 
+    newTile.isGhostTrigger = isGhostTrigger;
+    newTile.isGhostOrigin = isGhostOrigin;
+    newTile.isGhostTarget = isGhostTarget;
+    newTile.isGhostBombTrigger = isGhostBombTrigger;
+
     return newTile;
   }
 
@@ -118,6 +124,7 @@ class Tile {
     isGhostTrigger = false;
     isGhostOrigin = false;
     isGhostTarget = false;
+    isGhostBombTrigger = false;
   }
 
   void clearBehavior() {

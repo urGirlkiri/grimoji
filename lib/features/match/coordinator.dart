@@ -345,28 +345,36 @@ class GameCoordinator {
   bool _anyGhostPending() {
     for (int r = 0; r < BoardManager.rows; r++) {
       for (int c = 0; c < BoardManager.cols; c++) {
-        if (engine.grid[r][c].isGhostTrigger) return true;
+        final tile = engine.grid[r][c];
+        if (tile.isGhostTrigger || tile.isGhostBombTrigger) return true;
       }
     }
     return false;
   }
 
   Future<void> _executeGhostPhase() async {
-    final List<TileCoordinate> triggers = [];
+    final List<({TileCoordinate origin, bool isBomb})> triggers = [];
     for (int r = 0; r < BoardManager.rows; r++) {
       for (int c = 0; c < BoardManager.cols; c++) {
-        if (engine.grid[r][c].isGhostTrigger) {
-          engine.grid[r][c].isGhostTrigger = false;
-          engine.grid[r][c].clearBehavior();
-          triggers.add(TileCoordinate(row: r, col: c));
+        final tile = engine.grid[r][c];
+        if (tile.isGhostTrigger || tile.isGhostBombTrigger) {
+          triggers.add((
+            origin: TileCoordinate(row: r, col: c),
+            isBomb: tile.isGhostBombTrigger,
+          ));
+          tile.isGhostTrigger = false;
+          tile.isGhostBombTrigger = false;
+          tile.clearBehavior();
         }
       }
     }
     if (triggers.isEmpty) return;
 
     final Set<TileCoordinate> destroyed = {};
+    final Set<TileCoordinate> newBombs = {};
 
-    for (final origin in triggers) {
+    for (final trigger in triggers) {
+      final origin = trigger.origin;
       final target = await BoardEvaluator.findTarget(
         grid: engine.grid,
         targetEmoji: engine.level.targetEmoji,
@@ -390,17 +398,41 @@ class GameCoordinator {
       if (state.isDisposed) return;
 
       if (kDebugMode) {
-        engine.grid[target.row][target.col].isGhostTarget = true;
+        engine.grid[target.row][target.col].isGhostTarget = false;
       }
+
       destroyed.add(origin);
-      destroyed.add(target);
+
+      if (trigger.isBomb) {
+        final targetTile = engine.grid[target.row][target.col];
+        if (targetTile.emoji == engine.level.targetEmoji) {
+          _resolveCollectedEmojis([
+            CollectedEmoji(emoji: targetTile.emoji, count: 1),
+          ]);
+        }
+        newBombs.add(target);
+      } else {
+        destroyed.add(target);
+      }
     }
 
-    if (destroyed.isEmpty) return;
+    if (destroyed.isNotEmpty) {
+      boardManager.flagFlyingTargetEmojis(destroyed);
+    }
 
-    boardManager.flagFlyingTargetEmojis(destroyed);
+    for (final coord in newBombs) {
+      final tile = engine.grid[coord.row][coord.col];
+      tile.isTriggered = true;
+      tile.clearBehavior();
+    }
+
     state.updateUI();
-    await _settleBoard(destroyed);
+
+    if (destroyed.isNotEmpty) {
+      await _settleBoard(destroyed);
+    } else {
+      await Future.delayed(preShatterDelay);
+    }
   }
 
   bool _anyWheelPending() {
