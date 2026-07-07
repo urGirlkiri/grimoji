@@ -90,22 +90,15 @@ class GameCoordinator {
     state.updateUI();
 
     if (_anySwallowPending()) {
-      await Future.delayed(swallowAnimationLock);
-      if (state.isDisposed) return;
+      if (!await _safeDelay(swallowAnimationLock)) return;
     }
 
-    if (_anyWheelPending()) {
-      await _executeWheelPhase(
-        isHorizontal: true,
-        isWrapping: true,
-        triggerCoord: coord,
-      );
-      if (state.isDisposed) return;
-    }
-
-    if (_anyGhostPending()) {
-      await _executeGhostPhase();
-      if (state.isDisposed) return;
+    if (!await _processEffects(
+      isHorizontal: true,
+      isWrapping: true,
+      triggerCoord: coord,
+    )) {
+      return;
     }
 
     await _executeEmojiBehaviors();
@@ -136,8 +129,7 @@ class GameCoordinator {
       boardManager.swapTiles(dCoord, tCoord);
       state.updateUI();
 
-      await Future.delayed(swapSpeed);
-      if (state.isDisposed) return;
+      if (!await _safeDelay(swapSpeed)) return;
 
       boardManager.swapTiles(tCoord, dCoord);
       state.updateUI();
@@ -151,8 +143,7 @@ class GameCoordinator {
     audio.playSfx(SfxType.swipe);
 
     state.updateUI();
-    await Future.delayed(postSwipeScanDelay);
-    if (state.isDisposed) return;
+    if (!await _safeDelay(postSwipeScanDelay)) return;
 
     if (decision.type == SwipeResult.specialBehavior) {
       final TileCoordinate triggerCoord = dtile.behavior != null
@@ -173,17 +164,15 @@ class GameCoordinator {
 
       final hasSwallow = _anySwallowPending();
       if (hasSwallow) {
-        await Future.delayed(swallowAnimationLock);
-        if (state.isDisposed) return;
+        if (!await _safeDelay(swallowAnimationLock)) return;
       }
 
-      if (_anyWheelPending()) {
-        await _executeWheelPhase(
-          isHorizontal: isHorizontal,
-          isWrapping: isPositive,
-          triggerCoord: triggerCoord,
-        );
-        if (state.isDisposed) return;
+      if (!await _processEffects(
+        isHorizontal: isHorizontal,
+        isWrapping: isPositive,
+        triggerCoord: triggerCoord,
+      )) {
+        return;
       }
 
       await _executeEmojiBehaviors();
@@ -200,16 +189,14 @@ class GameCoordinator {
     state.setShuffleProgress(0.0);
     state.setShuffling(true);
 
-    await Future.delayed(shuffleWipeHalfTime);
-    if (state.isDisposed) return;
+    if (!await _safeDelay(shuffleWipeHalfTime)) return;
 
     engine.shuffleGrid();
 
     state.setShuffleProgress(1.0);
     state.updateUI();
 
-    await Future.delayed(shuffleWipeHalfTime);
-    if (state.isDisposed) return;
+    if (!await _safeDelay(shuffleWipeHalfTime)) return;
 
     state.setShuffling(false);
 
@@ -236,12 +223,10 @@ class GameCoordinator {
     _hintTimer?.cancel();
     _currentHints = null;
 
-    for (int r = 0; r < BoardManager.rows; r++) {
-      for (int c = 0; c < BoardManager.cols; c++) {
-        engine.grid[r][c].isHinting = false;
-        engine.grid[r][c].hintPartner = null;
-      }
-    }
+    _forEachTile((_, _, tile) {
+      tile.isHinting = false;
+      tile.hintPartner = null;
+    });
     state.updateUI();
   }
 
@@ -343,22 +328,13 @@ class GameCoordinator {
   }
 
   void _clearWheelTriggers() {
-    for (int r = 0; r < BoardManager.rows; r++) {
-      for (int c = 0; c < BoardManager.cols; c++) {
-        engine.grid[r][c].isWheelTrigger = false;
-      }
-    }
+    _forEachTile((_, _, tile) {
+      tile.isWheelTrigger = false;
+    });
   }
 
-  bool _anyGhostPending() {
-    for (int r = 0; r < BoardManager.rows; r++) {
-      for (int c = 0; c < BoardManager.cols; c++) {
-        final tile = engine.grid[r][c];
-        if (tile.isGhostTrigger || tile.isGhostOrigin) return true;
-      }
-    }
-    return false;
-  }
+  bool _anyGhostPending() =>
+      _hasTileWhere((t) => t.isGhostTrigger || t.isGhostOrigin);
 
   Future<void> _executeGhostPhase() async {
     final List<
@@ -423,8 +399,7 @@ class GameCoordinator {
       final diveAnimation = onGhostDive?.call(effect);
 
       if (!trigger.isBomb) {
-        await Future.delayed(ghostDiveDuration);
-        if (state.isDisposed) return;
+        if (!await _safeDelay(ghostDiveDuration)) return;
       }
 
       await diveAnimation;
@@ -476,14 +451,7 @@ class GameCoordinator {
     }
   }
 
-  bool _anyWheelPending() {
-    for (int r = 0; r < BoardManager.rows; r++) {
-      for (int c = 0; c < BoardManager.cols; c++) {
-        if (engine.grid[r][c].isWheelTrigger) return true;
-      }
-    }
-    return false;
-  }
+  bool _anyWheelPending() => _hasTileWhere((t) => t.isWheelTrigger);
 
   Future<void> _executeWheelPhase({
     required bool isHorizontal,
@@ -516,27 +484,19 @@ class GameCoordinator {
             }
             steps.add(TileCoordinate(row: sr, col: sc));
           }
-          _log.info(
-            'WheelPhase: found trigger at (${origin.row},${origin.col}) '
-            'isHorizontal=$isHorizontal isWrapping=$isWrapping '
-            'steps=${steps.map((s) => "(${s.row},${s.col})").join(",")}',
-          );
           wheels.add((origin: origin, steps: steps));
         }
       }
     }
-    _log.info('WheelPhase: total wheels found = ${wheels.length}');
     if (wheels.isEmpty) return;
 
     for (final w in wheels) {
-      _log.info('WheelPhase: hiding origin (${w.origin.row},${w.origin.col})');
       engine.grid[w.origin.row][w.origin.col].isWheelOrigin = true;
       engine.grid[w.origin.row][w.origin.col].clearBehavior();
     }
     state.updateUI();
 
-    await Future.delayed(wheelWindUpDuration);
-    if (state.isDisposed) return;
+    if (!await _safeDelay(wheelWindUpDuration)) return;
 
     for (final w in wheels) {
       final effect = RollEffect(
@@ -546,16 +506,11 @@ class GameCoordinator {
         isWrapping: isWrapping,
         steps: w.steps,
       );
-      _log.info(
-        'WheelPhase: firing overlay id=${effect.id} '
-        'start=(${effect.startRow},${effect.startCol})',
-      );
       onWheelRoll?.call(effect);
     }
 
     for (int i = 0; i < stepCount; i++) {
-      await Future.delayed(stepDelay);
-      if (state.isDisposed) return;
+      if (!await _safeDelay(stepDelay)) return;
 
       for (final w in wheels) {
         final step = w.steps[i];
@@ -565,8 +520,7 @@ class GameCoordinator {
       state.updateUI();
     }
 
-    await Future.delayed(tailDelay);
-    if (state.isDisposed) return;
+    if (!await _safeDelay(tailDelay)) return;
 
     for (final w in wheels) {
       for (final step in w.steps) {
@@ -579,15 +533,8 @@ class GameCoordinator {
     await _settleBoard(staleOrigins);
   }
 
-  bool _anySwallowPending() {
-    for (int r = 0; r < BoardManager.rows; r++) {
-      for (int c = 0; c < BoardManager.cols; c++) {
-        final tile = engine.grid[r][c];
-        if (tile.isSwallowTrigger || tile.isSwallowTarget) return true;
-      }
-    }
-    return false;
-  }
+  bool _anySwallowPending() =>
+      _hasTileWhere((t) => t.isSwallowTrigger || t.isSwallowTarget);
 
   Future<bool> _executeEmojiBehaviors() async {
     final drained = await _removeBehaviorFlags();
@@ -642,24 +589,13 @@ class GameCoordinator {
 
     if (swallowDestroyed.isNotEmpty) {
       if (await _settleBoard(swallowDestroyed) == null) {
-        return (
-          swallowDestroyed: swallowDestroyed,
-          lineClearDestroyed: lineClearDestroyed,
-          didAnything: false,
-        );
+        return _emptyDrainResult(swallowDestroyed, lineClearDestroyed);
       }
     }
 
     if (lineClearDestroyed.isNotEmpty) {
-      state.updateUI();
-
-      await Future.delayed(lineClearBeamDuration);
-      if (state.isDisposed) {
-        return (
-          swallowDestroyed: swallowDestroyed,
-          lineClearDestroyed: lineClearDestroyed,
-          didAnything: false,
-        );
+      if (!await _refreshAndWait(lineClearBeamDuration)) {
+        return _emptyDrainResult(swallowDestroyed, lineClearDestroyed);
       }
 
       for (final trigger in lineClearTriggers) {
@@ -668,11 +604,7 @@ class GameCoordinator {
 
       await Future.delayed(preShatterDelay);
       if (state.isDisposed) {
-        return (
-          swallowDestroyed: swallowDestroyed,
-          lineClearDestroyed: lineClearDestroyed,
-          didAnything: false,
-        );
+        return _emptyDrainResult(swallowDestroyed, lineClearDestroyed);
       }
 
       for (final coord in lineClearDestroyed) {
@@ -683,11 +615,7 @@ class GameCoordinator {
       }
 
       if (await _settleBoard(lineClearDestroyed) == null) {
-        return (
-          swallowDestroyed: swallowDestroyed,
-          lineClearDestroyed: lineClearDestroyed,
-          didAnything: false,
-        );
+        return _emptyDrainResult(swallowDestroyed, lineClearDestroyed);
       }
     }
 
@@ -750,10 +678,7 @@ class GameCoordinator {
         isFirstMatch,
         targetCoordinate,
       );
-      state.updateUI();
-
-      await Future.delayed(matchFreezeDuration);
-      if (state.isDisposed) return false;
+      if (!await _refreshAndWait(matchFreezeDuration)) return false;
 
       final stepResult = engine.processCascadeStep(
         matchedGroups: matchedGroups,
@@ -766,18 +691,9 @@ class GameCoordinator {
       await _removeBehaviorFlags();
       if (state.isDisposed) return false;
 
-      Set<TileCoordinate> mergedFlyingTargets = {};
-      for (int r = 0; r < BoardManager.rows; r++) {
-        for (int c = 0; c < BoardManager.cols; c++) {
-          final tile = engine.grid[r][c];
-          if (tile.isFlying &&
-              !stepResult.tilesToDestroy.any(
-                (cd) => cd.row == r && cd.col == c,
-              )) {
-            mergedFlyingTargets.add(TileCoordinate(row: r, col: c));
-          }
-        }
-      }
+      final mergedFlyingTargets = _collectFlyingTargets(
+        excluding: stepResult.tilesToDestroy,
+      );
       state.updateUI();
 
       int tilesCleared =
@@ -892,19 +808,16 @@ class GameCoordinator {
 
     _clearWheelTriggers();
 
-    _log.info('Processing After Turn Emoji Behaviors...');
     engine.processTurnEndBehaviors();
     state.updateUI();
 
-    await Future.delayed(clownShuffleDuration);
-    if (state.isDisposed) return;
+    if (!await _safeDelay(clownShuffleDuration)) return;
     boardManager.clearShufflingFlags();
 
     await _processClownMatches();
     if (state.isDisposed) return;
 
-    await Future.delayed(turnEndInputUnlockDelay);
-    if (state.isDisposed) return;
+    if (!await _safeDelay(turnEndInputUnlockDelay)) return;
 
     state.setHasTargetCombo(false);
     state.setProcessing(false);
@@ -931,35 +844,21 @@ class GameCoordinator {
       bool cascadeOccurred = await _executeCascadePhase(focusCoordinate);
       if (state.isDisposed) return;
 
-      if (cascadeOccurred) {
-        events.add(TurnEvent.merge);
-      }
-      if (state.hasLegendaryEmoji) {
-        events.add(TurnEvent.legendaryEmoji);
-        state.setLegendaryEmoji(false);
-      }
-
       bool detonationOccurred = await _executeDetonatorPhase();
       if (state.isDisposed) return;
 
-      if (detonationOccurred) {
-        events.add(TurnEvent.explosion);
-      }
+      _recordTurnEvents(
+        events: events,
+        cascadeOccurred: cascadeOccurred,
+        detonationOccurred: detonationOccurred,
+      );
 
-      if (_anyWheelPending()) {
-        await _executeWheelPhase(
-          isHorizontal: true,
-          isWrapping: true,
-          triggerCoord: focusCoordinate,
-        );
-        if (state.isDisposed) return;
-        continue;
-      }
-
-      if (_anyGhostPending()) {
-        await _executeGhostPhase();
-        if (state.isDisposed) return;
-        continue;
+      if (!await _processEffects(
+        isHorizontal: true,
+        isWrapping: true,
+        triggerCoord: focusCoordinate,
+      )) {
+        return;
       }
 
       if (!cascadeOccurred && !detonationOccurred) {
@@ -999,30 +898,12 @@ class GameCoordinator {
     bool clearFlyingFlags = false,
   }) async {
     final deltas = boardManager.applyGravity(destroyed);
-    final dirtyAfterGravity = engine.grid
-        .expand((row) => row)
-        .where(
-          (t) =>
-              t.isMerging || t.isMergePoint || t.isExploding || t.isTriggered,
-        )
-        .toList();
-    if (dirtyAfterGravity.isNotEmpty) {
-      _log.warning(
-        'Dirty flags after gravity: ${dirtyAfterGravity.map((t) => '${t.emoji.visual}(${t.coordinate.row},${t.coordinate.col}) M=${t.isMerging} P=${t.isMergePoint} E=${t.isExploding} T=${t.isTriggered}').join(', ')}',
-      );
-    }
     engine.initializeBehaviors();
     if (clearFlyingFlags) boardManager.clearAllFlyingFlags();
-    state.updateUI();
-
-    await Future.delayed(postFallSettleDelay);
-    if (state.isDisposed) return null;
+    if (!await _refreshAndWait(postFallSettleDelay)) return null;
 
     boardManager.triggerInitialFall();
-    state.updateUI();
-
-    await Future.delayed(fallDuration);
-    if (state.isDisposed) return null;
+    if (!await _refreshAndWait(fallDuration)) return null;
 
     return deltas;
   }
@@ -1056,4 +937,104 @@ class GameCoordinator {
       shuffleBoard();
     }
   }
+  
+  bool _hasTileWhere(bool Function(Tile tile) predicate) {
+    for (final row in engine.grid) {
+      for (final tile in row) {
+        if (predicate(tile)) return true;
+      }
+    }
+    return false;
+  }
+
+  void _forEachTile(void Function(int row, int col, Tile tile) action) {
+    for (int r = 0; r < BoardManager.rows; r++) {
+      for (int c = 0; c < BoardManager.cols; c++) {
+        action(r, c, engine.grid[r][c]);
+      }
+    }
+  }
+
+  Future<bool> _safeDelay(Duration duration) async {
+    await Future.delayed(duration);
+    return !state.isDisposed;
+  }
+
+  Future<bool> _refreshAndWait(Duration duration) async {
+    state.updateUI();
+    await Future.delayed(duration);
+    return !state.isDisposed;
+  }
+
+  Set<TileCoordinate> _collectFlyingTargets({Set<TileCoordinate>? excluding}) {
+    final result = <TileCoordinate>{};
+
+    _forEachTile((r, c, tile) {
+      if (!tile.isFlying) return;
+
+      if (excluding?.contains(TileCoordinate(row: r, col: c)) ?? false) {
+        return;
+      }
+
+      result.add(TileCoordinate(row: r, col: c));
+    });
+
+    return result;
+  }
+
+
+  void _recordTurnEvents({
+    required Set<TurnEvent> events,
+    required bool cascadeOccurred,
+    required bool detonationOccurred,
+  }) {
+    if (cascadeOccurred) {
+      events.add(TurnEvent.merge);
+    }
+
+    if (detonationOccurred) {
+      events.add(TurnEvent.explosion);
+    }
+
+    if (state.hasLegendaryEmoji) {
+      events.add(TurnEvent.legendaryEmoji);
+      state.setLegendaryEmoji(false);
+    }
+  }
+
+  Future<bool> _processEffects({
+    required bool isHorizontal,
+    required bool isWrapping,
+    required TileCoordinate triggerCoord,
+  }) async {
+    if (_anyWheelPending()) {
+      await _executeWheelPhase(
+        isHorizontal: isHorizontal,
+        isWrapping: isWrapping,
+        triggerCoord: triggerCoord,
+      );
+      if (state.isDisposed) return false;
+    }
+
+    if (_anyGhostPending()) {
+      await _executeGhostPhase();
+      if (state.isDisposed) return false;
+    }
+
+    return true;
+  }
+
+  ({
+    Set<TileCoordinate> swallowDestroyed,
+    Set<TileCoordinate> lineClearDestroyed,
+    bool didAnything,
+  })
+  _emptyDrainResult(
+    Set<TileCoordinate> swallow,
+    Set<TileCoordinate> lineClear,
+  ) => (
+    swallowDestroyed: swallow,
+    lineClearDestroyed: lineClear,
+    didAnything: false,
+  );
 }
