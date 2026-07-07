@@ -192,7 +192,9 @@ class BehaviorEngine {
                   c < BoardManager.cols) {
                 final rowDist = (r - x).abs();
                 final colDist = (c - y).abs();
-                if (rowDist + colDist <= radius && (r != x || c != y)) {
+                if (rowDist <= radius &&
+                    colDist <= radius &&
+                    (r != x || c != y)) {
                   surroundingTiles.add((
                     x: r,
                     y: c,
