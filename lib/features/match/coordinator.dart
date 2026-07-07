@@ -5,6 +5,7 @@ import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
+import 'package:grimoji/features/match/board/models/board_region.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
 import 'package:grimoji/features/match/utils/manager.dart';
@@ -478,7 +479,7 @@ class GameCoordinator {
     state.updateUI();
 
     if (destroyed.isNotEmpty) {
-      await _settlement.settleBoard(destroyed);
+      await _settlement.settleBoard(BoardRegion(destroyed));
     } else {
       await Future.delayed(preShatterDelay);
     }
@@ -561,7 +562,7 @@ class GameCoordinator {
     state.updateUI();
 
     final Set<TileCoordinate> staleOrigins = {for (final w in wheels) w.origin};
-    await _settlement.settleBoard(staleOrigins);
+    await _settlement.settleBoard(BoardRegion(staleOrigins));
   }
 
   bool _anySwallowPending() =>
@@ -619,7 +620,8 @@ class GameCoordinator {
         swallowDestroyed.isNotEmpty || lineClearDestroyed.isNotEmpty;
 
     if (swallowDestroyed.isNotEmpty) {
-      if (await _settlement.settleBoard(swallowDestroyed) == null) {
+      if (await _settlement.settleBoard(BoardRegion(swallowDestroyed)) ==
+          null) {
         return _emptyDrainResult(swallowDestroyed, lineClearDestroyed);
       }
     }
@@ -645,7 +647,8 @@ class GameCoordinator {
         engine.grid[coord.row][coord.col].isColClearTrigger = false;
       }
 
-      if (await _settlement.settleBoard(lineClearDestroyed) == null) {
+      if (await _settlement.settleBoard(BoardRegion(lineClearDestroyed)) ==
+          null) {
         return _emptyDrainResult(swallowDestroyed, lineClearDestroyed);
       }
     }
@@ -736,8 +739,8 @@ class GameCoordinator {
       }
 
       final gravityDeltas = await _settlement.afterCascade(
-        stepResult.tilesToDestroy,
-        mergedFlyingTargets,
+        BoardRegion(stepResult.tilesToDestroy),
+        BoardRegion(mergedFlyingTargets),
         matchedGroups,
       );
       if (gravityDeltas == null) return false;
@@ -783,7 +786,7 @@ class GameCoordinator {
         ...targetFlyingTransforms,
       };
 
-      if (!await _settlement.afterDetonation(blastDestroyed)) {
+      if (!await _settlement.afterDetonation(BoardRegion(blastDestroyed))) {
         return false;
       }
 

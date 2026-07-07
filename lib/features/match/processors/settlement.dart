@@ -1,4 +1,4 @@
-import 'package:grimoji/features/match/board/models/coordinate.dart';
+import 'package:grimoji/features/match/board/models/board_region.dart';
 import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/match/detectors/match.dart';
 import 'package:grimoji/features/match/engines/game.dart';
@@ -19,13 +19,13 @@ class SettlementProcessor {
   });
 
   Future<GravityResult?> settleBoard(
-    Set<TileCoordinate> destroyed, {
+    BoardRegion toDestroy, {
     bool clearFlyingFlags = false,
   }) async {
-    final deltas = boardManager.applyGravity(destroyed);
-  
+    final deltas = boardManager.applyGravity(toDestroy.coordinates);
+
     engine.initializeBehaviors();
-  
+
     if (clearFlyingFlags) boardManager.clearAllFlyingFlags();
     if (!await _delay(postFallSettleDelay)) return null;
 
@@ -36,16 +36,16 @@ class SettlementProcessor {
   }
 
   Future<GravityResult?> afterCascade(
-    Set<TileCoordinate> tilesToDestroy,
-    Set<TileCoordinate> flyingTargets,
+    BoardRegion toDestroy,
+    BoardRegion toCollect,
     List<MatchGroup> matchedGroups,
   ) async {
-    final Set<TileCoordinate> matches = matchedGroups
-        .expand((g) => g.coordinates)
-        .toSet();
+    final BoardRegion matches = BoardRegion(
+      matchedGroups.expand((g) => g.coordinates).toSet(),
+    );
 
-    bool hasAoE = tilesToDestroy.any(
-      (coord) => !matches.any((c) => c.row == coord.row && c.col == coord.col),
+    bool hasAoE = toDestroy.coordinates.any(
+      (coord) => !matches.contains(coord),
     );
     bool hasTransmutations = engine.grid.any(
       (row) => row.any((t) => t.isTransmuting),
@@ -58,16 +58,13 @@ class SettlementProcessor {
       await Future.delayed(emptyTransmuteDelay);
     }
 
-    final Set<TileCoordinate> allDestroyed = {
-      ...tilesToDestroy,
-      ...flyingTargets,
-    };
+    final BoardRegion alltoDestroy = toDestroy.merge(toCollect);
 
-    return await settleBoard(allDestroyed, clearFlyingFlags: true);
+    return await settleBoard(alltoDestroy, clearFlyingFlags: true);
   }
 
-  Future<bool> afterDetonation(Set<TileCoordinate> blastDestroyed) async {
-    if (await settleBoard(blastDestroyed, clearFlyingFlags: true) == null) {
+  Future<bool> afterDetonation(BoardRegion blasttoDestroy) async {
+    if (await settleBoard(blasttoDestroy, clearFlyingFlags: true) == null) {
       return false;
     }
     engine.processPendingBlasts();
