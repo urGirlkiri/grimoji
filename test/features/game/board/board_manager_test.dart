@@ -3,7 +3,6 @@ import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/match/utils/manager.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
-import 'package:grimoji/features/match/models/board_region.dart';
 import 'package:grimoji/features/match/detectors/match.dart';
 import '../../../helpers/test_level.dart';
 
@@ -75,9 +74,9 @@ void main() {
       () {
         final tileAbove = boardManager.gridTiles[6][0].emoji;
 
-        final tilesToDestroy = BoardRegion({TileCoordinate(row: 7, col: 0)});
+        final tilesToDestroy = {TileCoordinate(row: 7, col: 0)};
 
-        boardManager.applyGravity(tilesToDestroy.coordinates);
+        boardManager.applyGravity(tilesToDestroy);
 
         expect(
           boardManager.gridTiles[7][0].emoji,

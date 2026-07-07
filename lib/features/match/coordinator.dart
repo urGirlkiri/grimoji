@@ -22,6 +22,7 @@ import 'package:grimoji/features/match/board/effects/ghost_dive/effect.dart';
 import 'package:grimoji/features/match/board/effects/wheel_roll/effect.dart';
 import 'package:grimoji/features/match/utils/evaluator.dart';
 import 'package:grimoji/features/match/processors/settlement.dart';
+import 'package:grimoji/features/match/controllers/hint.dart';
 import 'package:logging/logging.dart';
 
 class GameCoordinator {
@@ -36,9 +37,8 @@ class GameCoordinator {
   Future<void> Function(GhostDiveEffect)? onGhostDive;
   final Logger _log = Logger('GameCoordinator');
 
-  Timer? _hintTimer;
-  List<TileCoordinate>? _currentHints;
   late final SettlementProcessor _settlement;
+  late final HintController _hint;
 
   GameCoordinator({
     required this.engine,
@@ -54,18 +54,20 @@ class GameCoordinator {
       state: state,
       boardManager: boardManager,
     );
+
+    _hint = HintController(engine: engine, state: state, audio: audio);
     state.setHintsEnabled(startingBoosters.contains('crystal_ball'));
   }
 
   void initialize() {
     engine.initialize();
-    resetHintTimer();
+    _hint.reset();
   }
 
   void startInitialDrop() {
     boardManager.triggerInitialFall();
     state.updateUI();
-    resetHintTimer();
+    _hint.reset();
   }
 
   Future<void> resolveTap(TileCoordinate coord) async {
@@ -79,7 +81,7 @@ class GameCoordinator {
 
     if (isExplosive && !tile.isTriggered) {
       state.setProcessing(true);
-      clearHint();
+      _hint.clear();
       audio.playSfx(SfxType.trigger);
       tile.isTriggered = true;
       state.updateUI();
@@ -92,7 +94,7 @@ class GameCoordinator {
     if (actions.isEmpty) return;
 
     state.setProcessing(true);
-    clearHint();
+    _hint.clear();
 
     audio.playSfx(SfxType.swipe);
 
@@ -130,7 +132,7 @@ class GameCoordinator {
     if (state.isGameOver || state.isPaused) return;
 
     state.setProcessing(true);
-    clearHint();
+    _hint.clear();
 
     final decision = engine.evaluateSwipe(dCoord, tCoord);
 
@@ -146,7 +148,7 @@ class GameCoordinator {
 
       state.setHasTargetCombo(false);
       state.setProcessing(false);
-      resetHintTimer();
+      _hint.reset();
       return;
     }
 
@@ -211,37 +213,8 @@ class GameCoordinator {
     state.setShuffling(false);
 
     if (!state.isFeverTime) {
-      resetHintTimer();
+      _hint.reset();
     }
-  }
-
-  void resetHintTimer() {
-    if (state.isDisposed ||
-        state.isGameOver ||
-        state.isFeverTime ||
-        !state.hintsEnabled) {
-      _hintTimer?.cancel();
-      return;
-    }
-
-    clearHint();
-    _hintTimer?.cancel();
-    _hintTimer = Timer(const Duration(seconds: 2), _triggerHint);
-  }
-
-  void clearHint() {
-    _hintTimer?.cancel();
-    _currentHints = null;
-
-    _forEachTile((_, _, tile) {
-      tile.isHinting = false;
-      tile.hintPartner = null;
-    });
-    state.updateUI();
-  }
-
-  void cancelHintTimer() {
-    _hintTimer?.cancel();
   }
 
   void togglePause() {
@@ -256,8 +229,8 @@ class GameCoordinator {
     state.setFeverBombCount(bonusBombs);
     state.setReFeverBombs(bonusBombs);
     state.setFeverTimer(bonusBombs);
-    cancelHintTimer();
-    clearHint();
+    _hint.cancel();
+    _hint.clear();
 
     while (state.isProcessing && !state.isDisposed) {
       await Future.delayed(flagPollingInterval);
@@ -319,7 +292,7 @@ class GameCoordinator {
     await Future.delayed(postFeverResultsDelay);
 
     if (!state.isDisposed) {
-      clearHint();
+      _hint.clear();
     }
   }
 
@@ -329,13 +302,17 @@ class GameCoordinator {
     state.setFeverBombCount(0);
     state.setReFeverBombs(0);
     state.setFeverTimer(0);
-    clearHint();
+    _hint.clear();
   }
 
   void dispose() {
-    cancelHintTimer();
+    _hint.dispose();
     state.dispose();
   }
+
+  void resetHintTimer() => _hint.reset();
+  void clearHint() => _hint.clear();
+  void cancelHintTimer() => _hint.cancel();
 
   void _clearWheelTriggers() {
     _forEachTile((_, _, tile) {
@@ -818,7 +795,7 @@ class GameCoordinator {
 
     if (!state.isDisposed) {
       state.updateUI();
-      resetHintTimer();
+      _hint.reset();
       await onComboFinished();
     }
   }
@@ -884,36 +861,6 @@ class GameCoordinator {
   Future<void> _waitIfPaused() async {
     while (state.isPaused && !state.isDisposed) {
       await Future.delayed(postSwipeScanDelay);
-    }
-  }
-
-  Future<void> _triggerHint() async {
-    if (state.isProcessing ||
-        state.isShuffling ||
-        state.isDisposed ||
-        state.isGameOver ||
-        state.isPaused ||
-        state.isFeverTime) {
-      return;
-    }
-
-    _currentHints = await engine.getHintMove();
-
-    if (state.isDisposed) return;
-
-    if (_currentHints != null) {
-      audio.playSfx(SfxType.hint);
-      Tile tileA = engine.grid[_currentHints![0].row][_currentHints![0].col];
-      Tile tileB = engine.grid[_currentHints![1].row][_currentHints![1].col];
-
-      tileA.isHinting = true;
-      tileA.hintPartner = tileB.coordinate;
-      tileB.isHinting = true;
-      tileB.hintPartner = tileA.coordinate;
-
-      state.updateUI();
-    } else {
-      shuffleBoard();
     }
   }
 
