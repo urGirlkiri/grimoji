@@ -84,14 +84,11 @@ List<int>? _evaluateBoardForBestTarget(_GhostScanArgs args) {
   for (int row = 0; row < rows; row++) {
     for (int col = 0; col < cols; col++) {
       final String currentVisual = board[row][col];
-      final bool hasActiveBehavior = args.hasBehavior[row][col];
 
       int threatScore = 0;
 
       if (args.intrusiveVisuals.contains(currentVisual)) {
         threatScore += 300;
-      } else if (hasActiveBehavior) {
-        threatScore += 100;
       } else if (args.unmatchableVisuals.contains(currentVisual)) {
         threatScore += 150;
       } else {
@@ -109,9 +106,20 @@ List<int>? _evaluateBoardForBestTarget(_GhostScanArgs args) {
           args.unmatchableVisuals,
         );
 
-        threatScore += (predictedMatches * 50);
+        final nearMisses = _countNearMisses(
+          simulatedBoard,
+          rows,
+          cols,
+          args.unmatchableVisuals,
+        );
 
-        if (args.targetIngredients.contains(currentVisual)) threatScore += 50;
+        threatScore += (predictedMatches * 50);
+        threatScore += (nearMisses * 20).toInt();
+
+        if (args.targetIngredients.contains(currentVisual)) {
+          threatScore += 50;
+          if (nearMisses > 0) threatScore += 30;
+        }
 
         if (_willDropCreateLevelGoal(
           simulatedBoard,
@@ -120,7 +128,7 @@ List<int>? _evaluateBoardForBestTarget(_GhostScanArgs args) {
           args.targetVisual,
           args.unmatchableVisuals,
         )) {
-          threatScore += 100;
+          threatScore += 150;
         }
       }
 
@@ -206,6 +214,52 @@ int _countMatches(
     }
   }
   return totalMatchesFound;
+}
+
+int _countNearMisses(
+  List<List<String>> board,
+  int rows,
+  int cols,
+  Set<String> unmatchable,
+) {
+  int nearMissesFound = 0;
+
+  for (int row = 0; row < rows; row++) {
+    int streak = 1;
+    for (int col = 1; col <= cols; col++) {
+      final isMatchingNeighbor =
+          col < cols &&
+          board[row][col].isNotEmpty &&
+          board[row][col] == board[row][col - 1] &&
+          !unmatchable.contains(board[row][col]);
+
+      if (!isMatchingNeighbor) {
+        if (streak == 2) nearMissesFound++;
+        streak = 1;
+      } else {
+        streak++;
+      }
+    }
+  }
+
+  for (int col = 0; col < cols; col++) {
+    int streak = 1;
+    for (int row = 1; row <= rows; row++) {
+      final isMatchingNeighbor =
+          row < rows &&
+          board[row][col].isNotEmpty &&
+          board[row][col] == board[row - 1][col] &&
+          !unmatchable.contains(board[row][col]);
+
+      if (!isMatchingNeighbor) {
+        if (streak == 2) nearMissesFound++;
+        streak = 1;
+      } else {
+        streak++;
+      }
+    }
+  }
+  return nearMissesFound;
 }
 
 bool _willDropCreateLevelGoal(

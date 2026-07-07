@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/config/emojis/index.dart';
+import 'package:grimoji/features/alchemy/behaviors/dive.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/tile/tile_content/disp.dart';
+import 'package:grimoji/widgets/custom/emoji_widget.dart';
 
 class TileContent extends StatelessWidget {
   final Tile tile;
@@ -25,8 +27,25 @@ class TileContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (tile.isFusing || tile.isGhostOrigin || tile.isGhostBomb) {
+    if (tile.isGhostBomb) {
       return const SizedBox.shrink();
+    }
+
+    if (tile.isGhostOrigin) {
+      final ghostSize = tWidth * ghostScaleFactor;
+      return Stack(
+        clipBehavior: Clip.none,
+        children: [
+          EmojiWidget.svg(path: DiveBehavior.emoji.svg, size: ghostSize),
+          Padding(
+            padding: EdgeInsets.only(left: tWidth * 0.3, top: tHeight * 0.3),
+            child: EmojiWidget.svg(
+              path: Emojis.bomb.svg,
+              size: ghostSize * fusionBombScaleFactor,
+            ),
+          ),
+        ],
+      );
     }
 
     final targetScale = tile.isExploding
@@ -81,7 +100,7 @@ class TileContent extends StatelessWidget {
             curve: Curves.easeOut,
           )
           .then()
-           .scaleXY(
+          .scaleXY(
             begin: 1.0,
             end: 0,
             duration: 0.microseconds,
