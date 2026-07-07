@@ -24,7 +24,6 @@ import 'package:grimoji/features/match/utils/evaluator.dart';
 import 'package:grimoji/features/match/processors/settlement.dart';
 import 'package:logging/logging.dart';
 
-
 class GameCoordinator {
   final GameEngine engine;
   final GameState state;
@@ -80,7 +79,7 @@ class GameCoordinator {
 
     if (isExplosive && !tile.isTriggered) {
       state.setProcessing(true);
-      resetHintTimer();
+      clearHint();
       audio.playSfx(SfxType.trigger);
       tile.isTriggered = true;
       state.updateUI();
@@ -93,7 +92,7 @@ class GameCoordinator {
     if (actions.isEmpty) return;
 
     state.setProcessing(true);
-    resetHintTimer();
+    clearHint();
 
     audio.playSfx(SfxType.swipe);
 
@@ -131,7 +130,7 @@ class GameCoordinator {
     if (state.isGameOver || state.isPaused) return;
 
     state.setProcessing(true);
-    resetHintTimer();
+    clearHint();
 
     final decision = engine.evaluateSwipe(dCoord, tCoord);
 
@@ -394,8 +393,7 @@ class GameCoordinator {
     return triggers;
   }
 
-  Future<({TileSet destroyed, TileSet newBombs})>
-  _handleGhostDive(
+  Future<({TileSet destroyed, TileSet newBombs})> _handleGhostDive(
     List<({TileCoordinate origin, bool isBomb, TileCoordinate? bombOrigin})>
     triggers,
   ) async {
@@ -586,11 +584,7 @@ class GameCoordinator {
   }
 
   Future<
-    ({
-      TileSet swallowDestroyed,
-      TileSet lineClearDestroyed,
-      bool didAnything,
-    })
+    ({TileSet swallowDestroyed, TileSet lineClearDestroyed, bool didAnything})
   >
   _removeBehaviorFlags() async {
     TileSet swallowDestroyed = {};
@@ -973,9 +967,7 @@ class GameCoordinator {
     return drainResult.didAnything;
   }
 
-  TileSet _handleTargetFlyingTransforms(
-    TileSet transformed,
-  ) {
+  TileSet _handleTargetFlyingTransforms(TileSet transformed) {
     final targetFlyingTransforms = <TileCoordinate>{};
     for (var coord in transformed) {
       final tile = engine.grid[coord.row][coord.col];
@@ -1052,15 +1044,8 @@ class GameCoordinator {
     return true;
   }
 
-  ({
-    TileSet swallowDestroyed,
-    TileSet lineClearDestroyed,
-    bool didAnything,
-  })
-  _emptyDrainResult(
-    TileSet swallow,
-    TileSet lineClear,
-  ) => (
+  ({TileSet swallowDestroyed, TileSet lineClearDestroyed, bool didAnything})
+  _emptyDrainResult(TileSet swallow, TileSet lineClear) => (
     swallowDestroyed: swallow,
     lineClearDestroyed: lineClear,
     didAnything: false,
