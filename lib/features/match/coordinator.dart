@@ -337,10 +337,21 @@ class GameCoordinator {
       _hasTileWhere((t) => t.isGhostTrigger || t.isGhostOrigin);
 
   Future<void> _executeGhostPhase() async {
-    final List<
-      ({TileCoordinate origin, bool isBomb, TileCoordinate? bombOrigin})
-    >
-    triggers = [];
+    final triggers = _handleGhostTriggers();
+    if (triggers.isEmpty) return;
+
+    final result = await _handleGhostDive(triggers);
+    if (state.isDisposed) return;
+
+    await _handleGhostSettlement(result.destroyed, result.newBombs);
+  }
+
+  bool _anyWheelPending() => _hasTileWhere((t) => t.isWheelTrigger);
+
+  List<({TileCoordinate origin, bool isBomb, TileCoordinate? bombOrigin})>
+  _handleGhostTriggers() {
+    final triggers =
+        <({TileCoordinate origin, bool isBomb, TileCoordinate? bombOrigin})>[];
     for (int r = 0; r < BoardManager.rows; r++) {
       for (int c = 0; c < BoardManager.cols; c++) {
         final tile = engine.grid[r][c];
@@ -369,8 +380,14 @@ class GameCoordinator {
         }
       }
     }
-    if (triggers.isEmpty) return;
+    return triggers;
+  }
 
+  Future<({Set<TileCoordinate> destroyed, Set<TileCoordinate> newBombs})>
+  _handleGhostDive(
+    List<({TileCoordinate origin, bool isBomb, TileCoordinate? bombOrigin})>
+    triggers,
+  ) async {
     final Set<TileCoordinate> destroyed = {};
     final Set<TileCoordinate> newBombs = {};
 
@@ -380,7 +397,7 @@ class GameCoordinator {
         grid: engine.grid,
         targetEmoji: engine.level.targetEmoji,
       );
-      if (state.isDisposed) return;
+      if (state.isDisposed) return (destroyed: destroyed, newBombs: newBombs);
       if (target == null) continue;
 
       engine.grid[origin.row][origin.col].isGhostOrigin = true;
@@ -399,11 +416,13 @@ class GameCoordinator {
       final diveAnimation = onGhostDive?.call(effect);
 
       if (!trigger.isBomb) {
-        if (!await _safeDelay(ghostDiveDuration)) return;
+        if (!await _safeDelay(ghostDiveDuration)) {
+          return (destroyed: destroyed, newBombs: newBombs);
+        }
       }
 
       await diveAnimation;
-      if (state.isDisposed) return;
+      if (state.isDisposed) return (destroyed: destroyed, newBombs: newBombs);
 
       if (kDebugMode) {
         engine.grid[target.row][target.col].isGhostTarget = false;
@@ -432,6 +451,13 @@ class GameCoordinator {
       }
     }
 
+    return (destroyed: destroyed, newBombs: newBombs);
+  }
+
+  Future<void> _handleGhostSettlement(
+    Set<TileCoordinate> destroyed,
+    Set<TileCoordinate> newBombs,
+  ) async {
     if (destroyed.isNotEmpty) {
       boardManager.flagFlyingTargetEmojis(destroyed);
     }
@@ -450,8 +476,6 @@ class GameCoordinator {
       await Future.delayed(preShatterDelay);
     }
   }
-
-  bool _anyWheelPending() => _hasTileWhere((t) => t.isWheelTrigger);
 
   Future<void> _executeWheelPhase({
     required bool isHorizontal,
@@ -673,12 +697,13 @@ class GameCoordinator {
         state.incrementComboMultiplier();
       }
 
-      engine.categorizeAnimations(
+      if (!await _handleMatchAnimations(
         matchedGroups,
         isFirstMatch,
         targetCoordinate,
-      );
-      if (!await _refreshAndWait(matchFreezeDuration)) return false;
+      )) {
+        return false;
+      }
 
       final stepResult = engine.processCascadeStep(
         matchedGroups: matchedGroups,
@@ -686,17 +711,13 @@ class GameCoordinator {
         isFirstMatch: isFirstMatch,
       );
 
-      _resolveCollectedEmojis(stepResult.collectedEmojis);
-      boardManager.flagFlyingTargetEmojis(stepResult.tilesToDestroy);
-      await _removeBehaviorFlags();
+      final mergedFlyingTargets = await _handleFlyingTargets(
+        stepResult.collectedEmojis,
+        stepResult.tilesToDestroy,
+      );
       if (state.isDisposed) return false;
 
-      final mergedFlyingTargets = _collectFlyingTargets(
-        excluding: stepResult.tilesToDestroy,
-      );
-      state.updateUI();
-
-      int tilesCleared =
+      final tilesCleared =
           stepResult.tilesToDestroy.length + mergedFlyingTargets.length;
       state.addTilesCleared(tilesCleared);
 
@@ -707,33 +728,10 @@ class GameCoordinator {
         }
       }
 
-      final Set<TileCoordinate> matches = matchedGroups
-          .expand((g) => g.coordinates)
-          .toSet();
-
-      bool hasAoE = stepResult.tilesToDestroy.any(
-        (coord) =>
-            !matches.any((c) => c.row == coord.row && c.col == coord.col),
-      );
-      bool hasTransmutations = engine.grid.any(
-        (row) => row.any((t) => t.isTransmuting),
-      );
-
-      if (hasAoE || hasTransmutations) {
-        await Future.delayed(matchFreezeDuration);
-        boardManager.clearTransmutingFlags();
-      } else {
-        await Future.delayed(emptyTransmuteDelay);
-      }
-
-      final Set<TileCoordinate> allDestroyed = {
-        ...stepResult.tilesToDestroy,
-        ...mergedFlyingTargets,
-      };
-
-      final gravityDeltas = await _settleBoard(
-        allDestroyed,
-        clearFlyingFlags: true,
+      final gravityDeltas = await _handleBoardSettlement(
+        stepResult.tilesToDestroy,
+        mergedFlyingTargets,
+        matchedGroups,
       );
       if (gravityDeltas == null) return false;
       affectedColumns = gravityDeltas.cols;
@@ -763,15 +761,9 @@ class GameCoordinator {
       final stepResult = engine.processDetonationStep();
       _resolveCollectedEmojis(stepResult.collectedEmojis);
 
-      Set<TileCoordinate> targetFlyingTransforms = {};
-      for (var coord in stepResult.transformed) {
-        final tile = engine.grid[coord.row][coord.col];
-        _resolveCollectedEmojis([CollectedEmoji(emoji: tile.emoji, count: 1)]);
-        if (tile.emoji == engine.level.targetEmoji) {
-          tile.isFlying = true;
-          targetFlyingTransforms.add(coord);
-        }
-      }
+      final targetFlyingTransforms = _handleTargetFlyingTransforms(
+        stepResult.transformed,
+      );
 
       boardManager.flagFlyingTargetEmojis(stepResult.destroyed);
       state.updateUI();
@@ -784,16 +776,11 @@ class GameCoordinator {
         ...targetFlyingTransforms,
       };
 
-      if (await _settleBoard(blastDestroyed, clearFlyingFlags: true) == null) {
+      if (!await _handleDetonationSettlement(blastDestroyed)) {
         return false;
       }
 
-      engine.processPendingBlasts();
-
-      final drainResult = await _removeBehaviorFlags();
-      if (state.isDisposed) return false;
-
-      if (drainResult.didAnything) {
+      if (await _handleDetonationBehaviorDrain()) {
         continue;
       }
     }
@@ -937,7 +924,7 @@ class GameCoordinator {
       shuffleBoard();
     }
   }
-  
+
   bool _hasTileWhere(bool Function(Tile tile) predicate) {
     for (final row in engine.grid) {
       for (final tile in row) {
@@ -982,6 +969,90 @@ class GameCoordinator {
     return result;
   }
 
+  Future<bool> _handleDetonationSettlement(
+    Set<TileCoordinate> blastDestroyed,
+  ) async {
+    if (await _settleBoard(blastDestroyed, clearFlyingFlags: true) == null) {
+      return false;
+    }
+    engine.processPendingBlasts();
+    return true;
+  }
+
+  Future<bool> _handleDetonationBehaviorDrain() async {
+    final drainResult = await _removeBehaviorFlags();
+    if (state.isDisposed) return false;
+    return drainResult.didAnything;
+  }
+
+  Set<TileCoordinate> _handleTargetFlyingTransforms(
+    Set<TileCoordinate> transformed,
+  ) {
+    final targetFlyingTransforms = <TileCoordinate>{};
+    for (var coord in transformed) {
+      final tile = engine.grid[coord.row][coord.col];
+      _resolveCollectedEmojis([CollectedEmoji(emoji: tile.emoji, count: 1)]);
+      if (tile.emoji == engine.level.targetEmoji) {
+        tile.isFlying = true;
+        targetFlyingTransforms.add(coord);
+      }
+    }
+    return targetFlyingTransforms;
+  }
+
+  Future<({Set<int> cols, Set<int> rows})?> _handleBoardSettlement(
+    Set<TileCoordinate> tilesToDestroy,
+    Set<TileCoordinate> flyingTargets,
+    List<MatchGroup> matchedGroups,
+  ) async {
+    final Set<TileCoordinate> matches = matchedGroups
+        .expand((g) => g.coordinates)
+        .toSet();
+
+    bool hasAoE = tilesToDestroy.any(
+      (coord) => !matches.any((c) => c.row == coord.row && c.col == coord.col),
+    );
+    bool hasTransmutations = engine.grid.any(
+      (row) => row.any((t) => t.isTransmuting),
+    );
+
+    if (hasAoE || hasTransmutations) {
+      await Future.delayed(matchFreezeDuration);
+      boardManager.clearTransmutingFlags();
+    } else {
+      await Future.delayed(emptyTransmuteDelay);
+    }
+
+    final Set<TileCoordinate> allDestroyed = {
+      ...tilesToDestroy,
+      ...flyingTargets,
+    };
+
+    return await _settleBoard(allDestroyed, clearFlyingFlags: true);
+  }
+
+  Future<Set<TileCoordinate>> _handleFlyingTargets(
+    List<CollectedEmoji> collectedEmojis,
+    Set<TileCoordinate> tilesToDestroy,
+  ) async {
+    _resolveCollectedEmojis(collectedEmojis);
+    boardManager.flagFlyingTargetEmojis(tilesToDestroy);
+    await _removeBehaviorFlags();
+    final mergedFlyingTargets = _collectFlyingTargets(
+      excluding: tilesToDestroy,
+    );
+    state.updateUI();
+    return mergedFlyingTargets;
+  }
+
+  Future<bool> _handleMatchAnimations(
+    List<MatchGroup> matchedGroups,
+    bool isFirstMatch,
+    TileCoordinate targetCoordinate,
+  ) async {
+    engine.categorizeAnimations(matchedGroups, isFirstMatch, targetCoordinate);
+    return await _refreshAndWait(matchFreezeDuration);
+  }
 
   void _recordTurnEvents({
     required Set<TurnEvent> events,
