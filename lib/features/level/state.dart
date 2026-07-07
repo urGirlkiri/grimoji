@@ -80,6 +80,10 @@ class LevelState extends ChangeNotifier {
       if (!gameState.isPaused && !gameState.isGameOver) {
         coordinator.togglePause();
       }
+    } else if (state == AppLifecycleState.resumed) {
+      if (gameState.isPaused && !gameState.isGameOver) {
+        coordinator.togglePause();
+      }
     }
   }
 

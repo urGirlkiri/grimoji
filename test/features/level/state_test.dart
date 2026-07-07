@@ -396,5 +396,56 @@ void main() {
         expect(state.secondsRemaining, inInclusiveRange(0, 60));
       });
     });
+
+    test('Should pause on lifecycle inactive and resume on resumed', () {
+      fakeAsync((async) {
+        final lifecycleNotifier = ValueNotifier<AppLifecycleState>(
+          AppLifecycleState.resumed,
+        );
+        final state = LevelState(
+          level: level,
+          onWin: (_) {},
+          onLose: () {},
+          audio: mockAudio,
+          lifecycleNotifier: lifecycleNotifier,
+        );
+
+        state.startLevel();
+        async.elapse(fallDuration);
+
+        expect(state.gameState.isPaused, isFalse);
+
+        lifecycleNotifier.value = AppLifecycleState.inactive;
+        expect(state.gameState.isPaused, isTrue);
+
+        lifecycleNotifier.value = AppLifecycleState.resumed;
+        expect(state.gameState.isPaused, isFalse);
+      });
+    });
+
+    test('Should not resume if game is over', () {
+      fakeAsync((async) {
+        final lifecycleNotifier = ValueNotifier<AppLifecycleState>(
+          AppLifecycleState.resumed,
+        );
+        final state = LevelState(
+          level: level,
+          onWin: (_) {},
+          onLose: () {},
+          audio: mockAudio,
+          lifecycleNotifier: lifecycleNotifier,
+        );
+
+        state.startLevel();
+        async.elapse(fallDuration);
+
+        state.gameState.setGameOver();
+        lifecycleNotifier.value = AppLifecycleState.inactive;
+        expect(state.gameState.isPaused, isFalse);
+
+        lifecycleNotifier.value = AppLifecycleState.resumed;
+        expect(state.gameState.isPaused, isFalse);
+      });
+    });
   });
 }
