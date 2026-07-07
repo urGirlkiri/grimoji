@@ -1,7 +1,5 @@
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/levels/game_level.dart';
-import 'package:grimoji/features/alchemy/behaviors/clear.dart';
-import 'package:grimoji/features/alchemy/models/action_type.dart';
 import 'package:grimoji/features/alchemy/models/behavior_action.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
@@ -73,46 +71,6 @@ class GameEngine {
 
     if (decision.type != SwipeResult.invalid) {
       boardManager.swapTiles(dCoord, tCoord);
-    }
-
-    if (decision.type == SwipeResult.specialBehavior) {
-      
-      final dragTile = grid[dCoord.row][dCoord.col];
-      final targetTile = grid[tCoord.row][tCoord.col];
-     
-      if (dragTile.emoji == Emojis.barberPole &&
-          targetTile.emoji == Emojis.barberPole) {
-       
-        final behaviorD = dragTile.behavior;
-        final behaviorT = targetTile.behavior;
-       
-        if (behaviorD is ClearBehavior && behaviorT is ClearBehavior) {
-         
-          var isHorizontalD = behaviorD.isHorizontal;
-          final isHorizontalT = behaviorT.isHorizontal;
-
-          if (isHorizontalD == isHorizontalT) {
-            isHorizontalD = !isHorizontalD;
-            dragTile.behavior = ClearBehavior(isHorizontal: isHorizontalD);
-          }
-
-          return SwipeDecision(
-            type: SwipeResult.specialBehavior,
-            actions: [
-              BehaviorAction(
-                type: isHorizontalD ? ActionType.clearRow : ActionType.clearCol,
-                x: dCoord.row,
-                y: dCoord.col,
-              ),
-              BehaviorAction(
-                type: isHorizontalT ? ActionType.clearRow : ActionType.clearCol,
-                x: tCoord.row,
-                y: tCoord.col,
-              ),
-            ],
-          );
-        }
-      }
     }
 
     return decision;
