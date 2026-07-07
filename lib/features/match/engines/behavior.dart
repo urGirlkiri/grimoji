@@ -124,11 +124,18 @@ class BehaviorEngine {
           break;
 
         case ActionType.clearRow:
-          if (boardManager.gridTiles[x].any((t) => t.isRowClearTrigger)) {
-            break;
+          bool rowAlreadyTriggered = false;
+          for (int c = 0; c < BoardManager.cols; c++) {
+            if (boardManager.gridTiles[x][c].isRowClearTrigger) {
+              rowAlreadyTriggered = true;
+              break;
+            }
           }
+          if (rowAlreadyTriggered) break;
+
           boardManager.gridTiles[x][y].isLineClearTrigger = true;
           boardManager.gridTiles[x][y].isRowClearTrigger = true;
+
           for (int c = 0; c < BoardManager.cols; c++) {
             if (c != y) {
               boardManager.gridTiles[x][c].isLineClearTarget = true;
@@ -137,14 +144,18 @@ class BehaviorEngine {
           break;
 
         case ActionType.clearCol:
-          if (List.generate(
-            BoardManager.rows,
-            (r) => boardManager.gridTiles[r][y],
-          ).any((t) => t.isColClearTrigger)) {
-            break;
+          bool colAlreadyTriggered = false;
+          for (int r = 0; r < BoardManager.rows; r++) {
+            if (boardManager.gridTiles[r][y].isColClearTrigger) {
+              colAlreadyTriggered = true;
+              break;
+            }
           }
+          if (colAlreadyTriggered) break;
+
           boardManager.gridTiles[x][y].isLineClearTrigger = true;
           boardManager.gridTiles[x][y].isColClearTrigger = true;
+
           for (int r = 0; r < BoardManager.rows; r++) {
             if (r != x) {
               boardManager.gridTiles[r][y].isLineClearTarget = true;

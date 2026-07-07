@@ -14,7 +14,6 @@ import 'package:grimoji/features/match/model/collected_emoji.dart';
 import 'package:grimoji/features/match/detectors/match.dart';
 import 'package:grimoji/features/match/state.dart';
 import 'package:grimoji/features/match/detectors/swipe.dart';
-import 'package:grimoji/features/alchemy/behaviors/clear.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/match/board/effects/ghost_dive/effect.dart';
 import 'package:grimoji/features/match/board/effects/wheel_roll/effect.dart';
@@ -551,13 +550,14 @@ class GameCoordinator {
           engine.grid[r][c].isSwallowTarget = false;
           engine.grid[r][c].isSwallowTrigger = false;
         }
-        if (tile.isLineClearTrigger) {
-          lineClearTriggers.add((
-            row: r,
-            col: c,
-            isHorizontal: _isHorizontalClear(tile),
-          ));
+
+        if (tile.isRowClearTrigger) {
+          lineClearTriggers.add((row: r, col: c, isHorizontal: true));
         }
+        if (tile.isColClearTrigger) {
+          lineClearTriggers.add((row: r, col: c, isHorizontal: false));
+        }
+
         if (tile.isLineClearTrigger || tile.isLineClearTarget) {
           lineClearDestroyed.add(TileCoordinate(row: r, col: c));
         }
@@ -882,9 +882,14 @@ class GameCoordinator {
       for (int r = 0; r < BoardManager.rows; r++) {
         for (int c = 0; c < BoardManager.cols; c++) {
           final tile = engine.grid[r][c];
-          if (tile.isLineClearTrigger) {
-            onLineClear?.call(r, c, _isHorizontalClear(tile));
+
+          if (tile.isRowClearTrigger) {
+            onLineClear?.call(r, c, true);
           }
+          if (tile.isColClearTrigger) {
+            onLineClear?.call(r, c, false);
+          }
+
           if (tile.isLineClearTrigger || tile.isLineClearTarget) {
             lineClearDestroyed.add(TileCoordinate(row: r, col: c));
           }
@@ -946,10 +951,6 @@ class GameCoordinator {
       await Future.delayed(postSwipeScanDelay);
     }
   }
-
-  bool _isHorizontalClear(Tile tile) =>
-      tile.behavior is ClearBehavior &&
-      (tile.behavior as ClearBehavior).isHorizontal;
 
   Future<({Set<int> cols, Set<int> rows})?> _settleBoard(
     Set<TileCoordinate> destroyed, {
