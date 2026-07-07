@@ -22,20 +22,20 @@ class ClearBehavior extends EmojiBehavior {
   @override
   List<BehaviorAction> onSwipedWith(int x, int y, GameEmoji targetEmoji) {
     if (targetEmoji == waveTrigger) {
-      return _build3Clears(x, y);
+      return _build3Clears(x, y); 
     }
     
     if (targetEmoji == emoji) {
-      return _buildCross(x, y);
+      return _buildCross(); 
     }
     
-    return [BehaviorAction(type: _action.type, x: x, y: y)];
+    return [_action]; 
   }
 
-  List<BehaviorAction> _buildCross(int x, int y) {
+  List<BehaviorAction> _buildCross() {
     return [
-      BehaviorAction(type: ActionType.clearRow, x: x, y: y),
-      BehaviorAction(type: ActionType.clearCol, x: x, y: y),
+      const BehaviorAction(type: ActionType.clearRow),
+      const BehaviorAction(type: ActionType.clearCol),
     ];
   }
 
