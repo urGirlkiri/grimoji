@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:grimoji/features/match/board/models/coordinate.dart';
+import 'package:grimoji/features/match/models/coordinate.dart';
 
 void main() {
   test("Should Correctly parse equality between coordinate", () {

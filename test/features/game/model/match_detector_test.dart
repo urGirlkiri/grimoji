@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:grimoji/config/emojis/index.dart';
-import 'package:grimoji/features/match/board/models/coordinate.dart';
-import 'package:grimoji/features/match/board/models/tile.dart';
+import 'package:grimoji/features/match/models/coordinate.dart';
+import 'package:grimoji/features/match/models/tile.dart';
 import 'package:grimoji/features/match/detectors/match.dart';
 import '../../../helpers/index.dart';
 

@@ -1,6 +1,6 @@
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/behaviors/behavior.dart';
-import 'package:grimoji/features/match/board/models/coordinate.dart';
+import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:uuid/uuid.dart';
 
 class Tile {

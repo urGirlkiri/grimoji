@@ -1,4 +1,4 @@
-import 'package:grimoji/features/match/board/models/coordinate.dart';
+import 'package:grimoji/features/match/models/coordinate.dart';
 
 class BoardRegion {
   final Set<TileCoordinate> coordinates;

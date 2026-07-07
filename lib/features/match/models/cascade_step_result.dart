@@ -1,4 +1,4 @@
-import 'package:grimoji/features/match/board/models/coordinate.dart';
+import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:grimoji/features/match/models/collected_emoji.dart';
 import 'package:grimoji/features/match/detectors/match.dart';
 

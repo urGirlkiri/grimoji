@@ -1,4 +1,4 @@
-import 'package:grimoji/features/match/board/models/board_region.dart';
+import 'package:grimoji/features/match/models/board_region.dart';
 import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/match/detectors/match.dart';
 import 'package:grimoji/features/match/engines/game.dart';

@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:grimoji/features/match/constants.dart';
-import 'package:grimoji/features/match/board/models/coordinate.dart';
+import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:grimoji/utils/context_data.dart';
 
 class HintNudge extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/behaviors/clear.dart';
-import 'package:grimoji/features/match/board/models/tile.dart';
+import 'package:grimoji/features/match/models/tile.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/tile/tile_content/display/shuffler.dart';
 import 'package:grimoji/utils/math.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';

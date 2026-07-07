@@ -4,7 +4,7 @@ import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/match/utils/manager.dart';
 import 'package:grimoji/features/match/engines/alchemy.dart';
-import 'package:grimoji/features/match/board/models/coordinate.dart';
+import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:grimoji/features/match/detectors/match.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import '../../../helpers/test_grid.dart';

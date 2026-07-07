@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/match/board/controllers/v_f_x.dart';
-import 'package:grimoji/features/match/board/models/coordinate.dart';
-import 'package:grimoji/features/match/board/models/tile.dart';
+import 'package:grimoji/features/match/models/coordinate.dart';
+import 'package:grimoji/features/match/models/tile.dart';
 import 'package:grimoji/features/match/utils/manager.dart';
 
 class GestureController {

@@ -8,8 +8,8 @@ import 'package:grimoji/features/alchemy/models/behavior_action.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:grimoji/features/match/utils/manager.dart';
 import 'package:grimoji/features/match/engines/behavior.dart';
-import 'package:grimoji/features/match/board/models/coordinate.dart';
-import 'package:grimoji/features/match/board/models/tile.dart';
+import 'package:grimoji/features/match/models/coordinate.dart';
+import 'package:grimoji/features/match/models/tile.dart';
 
 class SpyBehavior extends EmojiBehavior {
   bool matchedCalled = false;

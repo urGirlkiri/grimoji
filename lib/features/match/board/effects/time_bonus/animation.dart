@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:grimoji/features/match/board/effects/time_bonus/effect.dart';
-import 'package:grimoji/features/match/board/models/particle.dart';
+import 'package:grimoji/features/match/models/particle.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/tile/tile_v_f_x/painter.dart';
 import 'package:grimoji/utils/context_data.dart';
 

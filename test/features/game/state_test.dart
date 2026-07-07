@@ -4,7 +4,7 @@ import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/level/state.dart';
-import 'package:grimoji/features/match/board/models/coordinate.dart';
+import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:flutter/widgets.dart';
 import '../../helpers/index.dart';
 import '../../mocks/mock_audio_controller.dart';

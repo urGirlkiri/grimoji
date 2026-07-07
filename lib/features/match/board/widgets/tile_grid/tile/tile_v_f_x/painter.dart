@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:grimoji/features/match/board/models/particle.dart';
+import 'package:grimoji/features/match/models/particle.dart';
 
 class ParticleCanvPainter extends CustomPainter {
   final List<GridParticle> particles;

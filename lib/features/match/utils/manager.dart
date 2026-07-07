@@ -3,8 +3,8 @@ import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
-import 'package:grimoji/features/match/board/models/tile.dart';
-import 'package:grimoji/features/match/board/models/coordinate.dart';
+import 'package:grimoji/features/match/models/tile.dart';
+import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:grimoji/features/match/types.dart';
 import 'package:logging/logging.dart';
 

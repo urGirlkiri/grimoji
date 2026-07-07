@@ -1,6 +1,6 @@
 import 'package:grimoji/features/match/engines/game.dart';
 import 'package:grimoji/features/match/state.dart';
-import 'package:grimoji/features/match/board/models/coordinate.dart';
+import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:grimoji/features/match/detectors/match.dart';
 
 class CascadeProcessor {
