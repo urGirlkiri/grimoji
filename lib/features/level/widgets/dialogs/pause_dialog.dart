@@ -42,8 +42,8 @@ class PauseDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              EmojiWidget.lottie(
-                path: Emojis.alienMonster.lottie,
+              EmojiWidget.svg(
+                path: Emojis.alienMonster.svg,
                 useDropShadow: true,
                 size: isLarge ? 100 : 70,
               ),
@@ -73,6 +73,7 @@ class PauseDialog extends StatelessWidget {
                 children: [
                   PillButton(
                     text: "Quit",
+                    enableAnimation: false,
                     color: palette.crimson,
                     textColor: palette.trueWhite,
                     fullWidth: false,
