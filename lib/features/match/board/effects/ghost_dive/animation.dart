@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/behaviors/dive.dart';
 import 'package:grimoji/features/match/board/effects/ghost_dive/effect.dart';
 import 'package:grimoji/features/match/constants.dart';
@@ -123,22 +124,73 @@ class _GhostDiverState extends State<GhostDiver>
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
-        return Transform.translate(
-          offset: _position.value,
-          child: Opacity(
-            opacity: _opacity.value.clamp(0.0, 1.0),
-            child: Transform.rotate(
-              angle: _rotation.value,
-              child: Transform.scale(
-                scale: _scale.value.clamp(0.0, 2.0),
-                child: EmojiWidget.lottie(
-                  path: DiveBehavior.emoji.lottie,
-                  size: widget.tileWidth * ghostScaleFactor,
+        if (widget.effect.isBomb) {
+          return Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Transform.translate(
+                offset: _position.value,
+                child: Opacity(
+                  opacity: _opacity.value.clamp(0.0, 1.0),
+                  child: Transform.rotate(
+                    angle: _rotation.value,
+                    child: Transform.scale(
+                      scale: _scale.value.clamp(0.0, 2.0),
+                      child: widget.effect.isBomb
+                          ? EmojiWidget.svg(
+                              path: DiveBehavior.emoji.svg,
+                              size: widget.tileWidth * ghostScaleFactor,
+                            )
+                          : EmojiWidget.lottie(
+                              path: DiveBehavior.emoji.lottie,
+                              size: widget.tileWidth * ghostScaleFactor,
+                            ),
+                    ),
+                  ),
+                ),
+              ),
+              Transform.translate(
+                offset: _position.value,
+                child: Transform.rotate(
+                  angle: _rotation.value,
+                  child: Transform.scale(
+                    scale: _scale.value.clamp(0.0, 2.0),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: widget.tileWidth * 0.3,
+                        top: widget.tileHeight * 0.3,
+                      ),
+                      child: EmojiWidget.svg(
+                        path: Emojis.bomb.svg,
+                        size:
+                            widget.tileWidth *
+                            ghostScaleFactor *
+                            fusionBombScaleFactor,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        } else {
+          return Transform.translate(
+            offset: _position.value,
+            child: Opacity(
+              opacity: _opacity.value.clamp(0.0, 1.0),
+              child: Transform.rotate(
+                angle: _rotation.value,
+                child: Transform.scale(
+                  scale: _scale.value.clamp(0.0, 2.0),
+                  child: EmojiWidget.lottie(
+                    path: DiveBehavior.emoji.lottie,
+                    size: widget.tileWidth * ghostScaleFactor,
+                  ),
                 ),
               ),
             ),
-          ),
-        );
+          );
+        }
       },
     );
   }

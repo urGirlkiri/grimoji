@@ -113,3 +113,14 @@ const double ghostScaleFactor = .9;
 
 /// Total time for the ghost dive animation — travel + target destruction.
 const Duration ghostDiveDuration = Duration(milliseconds: 600);
+
+// ─── Ghost + Bomb  ───────────────────────────────────────────────────────
+
+/// Duration for the negative swap phase (ghost and bomb move to midpoint).
+const Duration fusionSwapDuration = Duration(milliseconds: 300);
+
+/// Duration of the blinding light flash at midpoint.
+const Duration fusionFlashDuration = Duration(milliseconds: 300);
+
+/// How much the bomb scales down when attached to ghost after fusion.
+const double fusionBombScaleFactor = 0.5;

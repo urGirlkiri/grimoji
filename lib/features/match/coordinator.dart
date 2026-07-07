@@ -346,24 +346,41 @@ class GameCoordinator {
     for (int r = 0; r < BoardManager.rows; r++) {
       for (int c = 0; c < BoardManager.cols; c++) {
         final tile = engine.grid[r][c];
-        if (tile.isGhostTrigger || tile.isGhostBombTrigger) return true;
+        if (tile.isGhostTrigger || tile.isGhostBomb) return true;
       }
     }
     return false;
   }
 
   Future<void> _executeGhostPhase() async {
-    final List<({TileCoordinate origin, bool isBomb})> triggers = [];
+    final List<
+      ({TileCoordinate origin, bool isBomb, TileCoordinate? bombOrigin})
+    >
+    triggers = [];
     for (int r = 0; r < BoardManager.rows; r++) {
       for (int c = 0; c < BoardManager.cols; c++) {
         final tile = engine.grid[r][c];
-        if (tile.isGhostTrigger || tile.isGhostBombTrigger) {
+        if (tile.isGhostTrigger || tile.isGhostBomb) {
+          TileCoordinate? bombOrigin;
+          if (tile.isGhostBomb) {
+            final adjacents = boardManager.getAdjacentTiles(r, c);
+            for (var adj in adjacents) {
+              if (adj.emoji == Emojis.bomb) {
+                bombOrigin = adj.coordinate;
+                adj.isFusing = true;
+                break;
+              }
+            }
+          }
+
           triggers.add((
             origin: TileCoordinate(row: r, col: c),
-            isBomb: tile.isGhostBombTrigger,
+            isBomb: tile.isGhostBomb,
+            bombOrigin: bombOrigin,
           ));
+
           tile.isGhostTrigger = false;
-          tile.isGhostBombTrigger = false;
+          tile.isGhostBomb = false;
           tile.clearBehavior();
         }
       }
@@ -388,17 +405,31 @@ class GameCoordinator {
       }
       state.updateUI();
 
-      final effect = GhostDiveEffect(origin: origin, target: target);
+      final effect = GhostDiveEffect(
+        origin: origin,
+        target: target,
+        bombOrigin: trigger.bombOrigin,
+        isBomb: trigger.isBomb,
+      );
+
       final diveAnimation = onGhostDive?.call(effect);
 
-      await Future.delayed(ghostDiveDuration);
-      if (state.isDisposed) return;
+      if (!trigger.isBomb) {
+        await Future.delayed(ghostDiveDuration);
+        if (state.isDisposed) return;
+      }
 
       await diveAnimation;
       if (state.isDisposed) return;
 
       if (kDebugMode) {
         engine.grid[target.row][target.col].isGhostTarget = false;
+      }
+
+      if (trigger.isBomb && trigger.bombOrigin != null) {
+        engine.grid[trigger.bombOrigin!.row][trigger.bombOrigin!.col].isFusing =
+            false;
+        destroyed.add(trigger.bombOrigin!);
       }
 
       destroyed.add(origin);
