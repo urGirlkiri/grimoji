@@ -6,7 +6,7 @@ import 'package:grimoji/features/match/utils/manager.dart';
 
 class ClearBehavior extends EmojiBehavior {
   static final emoji = Emojis.barberPole;
-  static final waveTrigger = Emojis.smile;
+  static final waveTrigger = Emojis.bomb;
 
   final bool isHorizontal;
 
