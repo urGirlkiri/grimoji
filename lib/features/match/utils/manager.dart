@@ -354,6 +354,10 @@ class BoardManager {
 
     for (final id in boosterIds) {
       if (placed.contains(id)) continue;
+      if (id == 'crystal_ball') {
+        placed.add(id);
+        continue;
+      }
       final List<GameEmoji> emojis;
       if (id == 'board_sweep') {
         emojis = [Emojis.barberPole, Emojis.bomb];

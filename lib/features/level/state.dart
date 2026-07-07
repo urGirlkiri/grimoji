@@ -65,6 +65,7 @@ class LevelState extends ChangeNotifier {
       audio: audio,
       onTargetAcquired: _incrementCollectedAmnt,
       onComboFinished: () async => false,
+      startingBoosters: startingBoosters,
     );
 
     gameState.addListener(notifyListeners);

@@ -42,7 +42,10 @@ class GameCoordinator {
     required this.audio,
     required this.onTargetAcquired,
     required this.onComboFinished,
-  });
+    required List<String> startingBoosters,
+  }) {
+    state.setHintsEnabled(startingBoosters.contains('crystal_ball'));
+  }
 
   void initialize() {
     engine.initialize();
@@ -216,7 +219,10 @@ class GameCoordinator {
   }
 
   void resetHintTimer() {
-    if (state.isDisposed || state.isGameOver || state.isFeverTime) {
+    if (state.isDisposed ||
+        state.isGameOver ||
+        state.isFeverTime ||
+        !state.hintsEnabled) {
       _hintTimer?.cancel();
       return;
     }
@@ -1002,7 +1008,6 @@ class GameCoordinator {
 
     if (!state.isDisposed) {
       state.updateUI();
-      unawaited(_triggerHint());
       resetHintTimer();
       await onComboFinished();
     }

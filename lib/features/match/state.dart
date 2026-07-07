@@ -18,6 +18,8 @@ class GameState extends ChangeNotifier {
   int remainingFeverBombs = 0;
   int feverTimer = 0;
 
+  bool hintsEnabled = false;
+
   int currentComboMultiplier = 0;
   int tilesCleared = 0;
   bool hasLegendaryEmoji = false;
@@ -142,6 +144,13 @@ class GameState extends ChangeNotifier {
   void decrementFeverTimer() {
     feverTimer--;
     _notify();
+  }
+
+  void setHintsEnabled(bool value) {
+    if (hintsEnabled != value) {
+      hintsEnabled = value;
+      _notify();
+    }
   }
 
   void updateUI() {
