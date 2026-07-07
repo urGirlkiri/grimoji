@@ -113,6 +113,18 @@ void main() {
         }
       },
     );
+
+    test('All recipes MUST NOT have more than 4 ingredients', () {
+      for (final recipe in RecipeBook.allRecipes) {
+        expect(
+          recipe.requiredAmount,
+          lessThanOrEqualTo(4),
+          reason:
+              'Recipe for ${recipe.yields.visual} requires ${recipe.requiredAmount} ${recipe.ingredient.visual}. '
+              'Maximum is 4 ingredients.',
+        );
+      }
+    });
     group('Tier System Tests', () {
       test(
         'Base emojis (items never yielded by any recipe) MUST be Tier 1',
