@@ -3,19 +3,10 @@ import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/match/board/models/coordinate.dart';
 import 'package:grimoji/features/match/board/models/tile.dart';
 import 'package:grimoji/features/match/detectors/match.dart';
+import '../../../helpers/index.dart';
 
 void main() {
   group('MatchDetector  Tests', () {
-    List<Tile> buildRow(int rowIdx, List<GameEmoji> emojis) {
-      return List.generate(
-        emojis.length,
-        (colIdx) => Tile(
-          coordinate: TileCoordinate(row: rowIdx, col: colIdx),
-          emoji: emojis[colIdx],
-        ),
-      );
-    }
-
     group('Testing _scanGrid', () {
       test('Should detect matches ending at the rim', () {
         final grid = [
