@@ -346,7 +346,7 @@ class GameCoordinator {
     for (int r = 0; r < BoardManager.rows; r++) {
       for (int c = 0; c < BoardManager.cols; c++) {
         final tile = engine.grid[r][c];
-        if (tile.isGhostTrigger || tile.isGhostBomb) return true;
+        if (tile.isGhostTrigger || tile.isGhostOrigin) return true;
       }
     }
     return false;
@@ -360,14 +360,14 @@ class GameCoordinator {
     for (int r = 0; r < BoardManager.rows; r++) {
       for (int c = 0; c < BoardManager.cols; c++) {
         final tile = engine.grid[r][c];
-        if (tile.isGhostTrigger || tile.isGhostBomb) {
+        if (tile.isGhostTrigger || tile.isGhostOrigin) {
           TileCoordinate? bombOrigin;
-          if (tile.isGhostBomb) {
+          if (tile.isGhostOrigin) {
             final adjacents = boardManager.getAdjacentTiles(r, c);
             for (var adj in adjacents) {
               if (adj.emoji == Emojis.bomb) {
                 bombOrigin = adj.coordinate;
-                adj.isFusing = true;
+                adj.isGhostBomb = true;
                 break;
               }
             }
@@ -375,12 +375,12 @@ class GameCoordinator {
 
           triggers.add((
             origin: TileCoordinate(row: r, col: c),
-            isBomb: tile.isGhostBomb,
+            isBomb: tile.isGhostOrigin,
             bombOrigin: bombOrigin,
           ));
 
           tile.isGhostTrigger = false;
-          tile.isGhostBomb = false;
+          tile.isGhostOrigin = false;
           tile.clearBehavior();
         }
       }
@@ -427,7 +427,7 @@ class GameCoordinator {
       }
 
       if (trigger.isBomb && trigger.bombOrigin != null) {
-        engine.grid[trigger.bombOrigin!.row][trigger.bombOrigin!.col].isFusing =
+        engine.grid[trigger.bombOrigin!.row][trigger.bombOrigin!.col].isGhostBomb =
             false;
         destroyed.add(trigger.bombOrigin!);
       }

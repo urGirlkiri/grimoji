@@ -37,9 +37,8 @@ class Tile {
   bool isGhostTrigger = false;
   bool isGhostOrigin = false;
   bool isGhostTarget = false;
-  bool isGhostBomb = false;
 
-  bool isFusing = false;
+  bool isGhostBomb = false;
 
   bool hasFlown = false;
   bool isFlying = false;
@@ -91,8 +90,8 @@ class Tile {
     newTile.isGhostTrigger = isGhostTrigger;
     newTile.isGhostOrigin = isGhostOrigin;
     newTile.isGhostTarget = isGhostTarget;
+    newTile.isGhostOrigin = isGhostOrigin;
     newTile.isGhostBomb = isGhostBomb;
-    newTile.isFusing = isFusing;
 
     return newTile;
   }
@@ -127,8 +126,8 @@ class Tile {
     isGhostTrigger = false;
     isGhostOrigin = false;
     isGhostTarget = false;
+    isGhostOrigin = false;
     isGhostBomb = false;
-    isFusing = false;
   }
 
   void clearBehavior() {
