@@ -699,62 +699,7 @@ class GameCoordinator {
   }
 
   Future<void> _cascadeSequence(TileCoordinate focusCoordinate) async {
-    state.announcer.clear();
-    state.setComboMultiplier(0);
-    state.resetTilesCleared();
-
-    final Set<TurnEvent> events = {};
-
-    while (true) {
-      bool cascadeOccurred = await _executeCascadePhase(focusCoordinate);
-      if (state.isDisposed) return;
-
-      if (cascadeOccurred) {
-        events.add(TurnEvent.merge);
-      }
-      if (state.hasLegendaryEmoji) {
-        events.add(TurnEvent.legendaryEmoji);
-        state.setLegendaryEmoji(false);
-      }
-
-      bool detonationOccurred = await _executeDetonatorPhase();
-      if (state.isDisposed) return;
-
-      if (detonationOccurred) {
-        events.add(TurnEvent.explosion);
-      }
-
-      if (_anyWheelPending()) {
-        await _executeWheelPhase(
-          isHorizontal: true,
-          isWrapping: true,
-          triggerCoord: focusCoordinate,
-        );
-        if (state.isDisposed) return;
-        continue;
-      }
-
-      if (_anyGhostPending()) {
-        await _executeGhostPhase();
-        if (state.isDisposed) return;
-        continue;
-      }
-
-      if (!cascadeOccurred && !detonationOccurred) {
-        break;
-      }
-    }
-
-    state.announcer.evaluateTurn(
-      events: events,
-      combo: state.currentComboMultiplier,
-      tilesCleared: state.tilesCleared,
-    );
-
-    if (state.announcer.isSpeaking) {
-      state.announcer.startCooldown();
-    }
-
+    await _runCoreCascadeLoop(focusCoordinate);
     await _finalizeTurnLifecycle();
   }
 
@@ -929,56 +874,11 @@ class GameCoordinator {
 
       engine.processPendingBlasts();
 
-      Set<TileCoordinate> behaviorDestroyed = {};
-      for (int r = 0; r < BoardManager.rows; r++) {
-        for (int c = 0; c < BoardManager.cols; c++) {
-          final tile = engine.grid[r][c];
-          if (tile.isSwallowTarget || tile.isSwallowTrigger) {
-            behaviorDestroyed.add(TileCoordinate(row: r, col: c));
-          }
-        }
-      }
+      final drainResult = await _removeBehaviorFlags();
+      if (state.isDisposed) return false;
 
-      if (behaviorDestroyed.isNotEmpty) {
-        state.updateUI();
-        await Future.delayed(dynamicBehaviorLock);
-        if (state.isDisposed) return false;
-        for (final coord in behaviorDestroyed) {
-          engine.grid[coord.row][coord.col].isSwallowTarget = false;
-          engine.grid[coord.row][coord.col].isSwallowTrigger = false;
-        }
-
-        if (await _settleBoard(behaviorDestroyed) == null) return false;
-      }
-
-      Set<TileCoordinate> lineClearDestroyed = {};
-      for (int r = 0; r < BoardManager.rows; r++) {
-        for (int c = 0; c < BoardManager.cols; c++) {
-          final tile = engine.grid[r][c];
-
-          if (tile.isRowClearTrigger) {
-            onLineClear?.call(r, c, true);
-          }
-          if (tile.isColClearTrigger) {
-            onLineClear?.call(r, c, false);
-          }
-
-          if (tile.isLineClearTrigger || tile.isLineClearTarget) {
-            lineClearDestroyed.add(TileCoordinate(row: r, col: c));
-          }
-        }
-      }
-
-      if (lineClearDestroyed.isNotEmpty) {
-        state.updateUI();
-        for (final coord in lineClearDestroyed) {
-          engine.grid[coord.row][coord.col].isLineClearTrigger = false;
-          engine.grid[coord.row][coord.col].isLineClearTarget = false;
-          engine.grid[coord.row][coord.col].isRowClearTrigger = false;
-          engine.grid[coord.row][coord.col].isColClearTrigger = false;
-        }
-
-        if (await _settleBoard(lineClearDestroyed) == null) return false;
+      if (drainResult.didAnything) {
+        continue;
       }
     }
 
@@ -1000,6 +900,9 @@ class GameCoordinator {
     if (state.isDisposed) return;
     boardManager.clearShufflingFlags();
 
+    await _processClownMatches();
+    if (state.isDisposed) return;
+
     await Future.delayed(turnEndInputUnlockDelay);
     if (state.isDisposed) return;
 
@@ -1010,6 +913,68 @@ class GameCoordinator {
       state.updateUI();
       resetHintTimer();
       await onComboFinished();
+    }
+  }
+
+  Future<void> _processClownMatches() async {
+    await _runCoreCascadeLoop(TileCoordinate(row: 3, col: 2));
+  }
+
+  Future<void> _runCoreCascadeLoop(TileCoordinate focusCoordinate) async {
+    state.announcer.clear();
+    state.setComboMultiplier(0);
+    state.resetTilesCleared();
+
+    final Set<TurnEvent> events = {};
+
+    while (true) {
+      bool cascadeOccurred = await _executeCascadePhase(focusCoordinate);
+      if (state.isDisposed) return;
+
+      if (cascadeOccurred) {
+        events.add(TurnEvent.merge);
+      }
+      if (state.hasLegendaryEmoji) {
+        events.add(TurnEvent.legendaryEmoji);
+        state.setLegendaryEmoji(false);
+      }
+
+      bool detonationOccurred = await _executeDetonatorPhase();
+      if (state.isDisposed) return;
+
+      if (detonationOccurred) {
+        events.add(TurnEvent.explosion);
+      }
+
+      if (_anyWheelPending()) {
+        await _executeWheelPhase(
+          isHorizontal: true,
+          isWrapping: true,
+          triggerCoord: focusCoordinate,
+        );
+        if (state.isDisposed) return;
+        continue;
+      }
+
+      if (_anyGhostPending()) {
+        await _executeGhostPhase();
+        if (state.isDisposed) return;
+        continue;
+      }
+
+      if (!cascadeOccurred && !detonationOccurred) {
+        break;
+      }
+    }
+
+    state.announcer.evaluateTurn(
+      events: events,
+      combo: state.currentComboMultiplier,
+      tilesCleared: state.tilesCleared,
+    );
+
+    if (state.announcer.isSpeaking) {
+      state.announcer.startCooldown();
     }
   }
 
