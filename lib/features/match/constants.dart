@@ -129,3 +129,14 @@ const double fusionBombScaleFactor = 0.5;
 
 /// The lifetime of the time bonus effect animation.
 const Duration timeBonusDuration = Duration(milliseconds: 1000);
+
+// ─── Clown Shuffle ─────────────────────────────────────────────────────────
+
+/// Total duration of the clown shuffle animation cycle.
+const Duration clownShuffleDuration = Duration(milliseconds: 2000);
+
+/// Duration for each emoji cycle during shuffle animation.
+const Duration clownEmojiCycleDuration = Duration(milliseconds: 150);
+
+/// Duration of the glow effect on the clown during shuffle.
+const Duration clownGlowDuration = Duration(milliseconds: 2000);

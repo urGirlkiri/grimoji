@@ -996,7 +996,7 @@ class GameCoordinator {
     engine.processTurnEndBehaviors();
     state.updateUI();
 
-    await Future.delayed(const Duration(milliseconds: 400));
+    await Future.delayed(clownShuffleDuration);
     if (state.isDisposed) return;
     boardManager.clearShufflingFlags();
 

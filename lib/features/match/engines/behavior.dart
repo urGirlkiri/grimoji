@@ -209,6 +209,8 @@ class BehaviorEngine {
                 .toList();
             shuffledEmojis.shuffle();
 
+            centerTile.isClownShuffling = true;
+
             for (int i = 0; i < surroundingTiles.length; i++) {
               final tileCoord = surroundingTiles[i];
               boardManager.gridTiles[tileCoord.x][tileCoord.y].emoji =

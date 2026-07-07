@@ -262,6 +262,7 @@ class BoardManager {
     for (int r = 0; r < rows; r++) {
       for (int c = 0; c < cols; c++) {
         gridTiles[r][c].isShuffling = false;
+        gridTiles[r][c].isClownShuffling = false;
       }
     }
   }

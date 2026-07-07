@@ -46,6 +46,7 @@ class Tile {
   bool isHinting = false;
 
   bool isShuffling = false;
+  bool isClownShuffling = false;
 
   Tile({
     required this.coordinate,
@@ -96,6 +97,7 @@ class Tile {
     newTile.isGhostBomb = isGhostBomb;
 
     newTile.isShuffling = isShuffling;
+    newTile.isClownShuffling = isClownShuffling;
 
     return newTile;
   }
@@ -134,6 +136,7 @@ class Tile {
     isGhostBomb = false;
 
     isShuffling = false;
+    isClownShuffling = false;
   }
 
   void clearBehavior() {
