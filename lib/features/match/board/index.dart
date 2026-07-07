@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:grimoji/features/match/board/controllers/gesture.dart';
 import 'package:grimoji/features/match/board/controllers/v_f_x.dart';
+import 'package:grimoji/features/match/board/effects/time_bonus/index.dart';
 import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/match/board/effects/ghost_dive/index.dart';
 import 'package:grimoji/features/match/board/effects/wheel_roll/index.dart';
@@ -101,6 +101,7 @@ class _GameBoardState extends State<GameBoard> {
                     builder: (context, gridAreaConstraints) {
                       _tileWidth = (gridAreaConstraints.maxWidth - (tileSpacingGap * (gridColumns - 1))) / gridColumns;
                       _tileHeight = (gridAreaConstraints.maxHeight - (tileSpacingGap * (gridRows - 1))) / gridRows;
+                      _vfx.setBoardDimensions(gridAreaConstraints.maxWidth, gridAreaConstraints.maxHeight);
 
                       return GestureDetector(
                         onTapUp: (details) => _gestures.onTapped(details, _tileWidth!, _tileHeight!, levelState, _vfx),
@@ -132,7 +133,16 @@ class _GameBoardState extends State<GameBoard> {
                             ),
 
                             SparkleOverlay(sparklesNotifier: _vfx.sparkleManager.notifier),
-                            
+
+                            OverflowBox(
+                              maxWidth: constrainedBoardWidth,
+                              child: IgnorePointer(
+                                child: TimeBonusOverlay(
+                                  effectsNotifier:
+                                      _vfx.timeBonusManager.notifier,
+                                ),
+                              ),
+                            ),
                             OverflowBox(
                               maxWidth: constrainedBoardWidth,
                               child: IgnorePointer(
