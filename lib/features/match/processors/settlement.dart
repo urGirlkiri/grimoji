@@ -39,9 +39,7 @@ class SettlementProcessor {
     BoardRegion toCollect,
     List<MatchGroup> matchedGroups,
   ) async {
-    final BoardRegion matches = BoardRegion(
-      matchedGroups.expand((g) => g.coordinates).toSet(),
-    );
+    final BoardRegion matches = matchedGroups.combinedRegion;
 
     bool hasAoE = toDestroy.coordinates.any(
       (coord) => !matches.contains(coord),
