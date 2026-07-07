@@ -11,7 +11,7 @@ import 'package:grimoji/features/match/board/models/tile.dart';
 import 'package:grimoji/features/match/utils/manager.dart';
 import 'package:grimoji/features/match/announcer.dart';
 import 'package:grimoji/features/match/engines/game.dart';
-import 'package:grimoji/features/match/model/collected_emoji.dart';
+import 'package:grimoji/features/match/models/collected_emoji.dart';
 import 'package:grimoji/features/match/detectors/match.dart';
 import 'package:grimoji/features/match/state.dart';
 import 'package:grimoji/features/match/detectors/swipe.dart';

@@ -6,9 +6,9 @@ import 'package:grimoji/features/match/board/models/coordinate.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:grimoji/features/match/utils/manager.dart';
-import 'package:grimoji/features/match/model/cascade_step_result.dart';
-import 'package:grimoji/features/match/model/collected_emoji.dart';
-import 'package:grimoji/features/match/model/detonation_step_result.dart';
+import 'package:grimoji/features/match/models/cascade_step_result.dart';
+import 'package:grimoji/features/match/models/collected_emoji.dart';
+import 'package:grimoji/features/match/models/detonation_step_result.dart';
 import 'package:grimoji/features/match/detectors/match.dart';
 import 'package:logging/logging.dart';
 
