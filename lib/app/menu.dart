@@ -6,8 +6,8 @@ import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/app_icon.dart';
 import 'package:grimoji/widgets/neon_logo.dart';
 
-import '../widgets/custom/pill_button.dart';
-import '../widgets/responsive_screen.dart';
+import 'package:grimoji/widgets/custom/pill_button.dart';
+import 'package:grimoji/widgets/responsive_screen.dart';
 
 class MainMenuScreen extends StatefulWidget {
   const MainMenuScreen({super.key});

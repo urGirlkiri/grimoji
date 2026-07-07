@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/router/layout/shell_tab.dart';
 import 'package:grimoji/utils/context_data.dart';
-import 'content.dart';
+import 'package:grimoji/features/grimoire/content.dart';
 
 class ScreenTicker extends StatefulWidget {
   const ScreenTicker({super.key});

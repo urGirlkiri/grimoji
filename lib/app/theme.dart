@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'palette.dart';
+import 'package:grimoji/app/palette.dart';
 
 class AppTheme {
   static ThemeData buildTheme(Palette palette, double scale) {

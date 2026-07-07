@@ -7,8 +7,8 @@ import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/features/level/models/level_data.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import 'models/data_persistence.dart';
-import 'models/hive_data_persistence.dart';
+import 'package:grimoji/features/level/models/data_persistence.dart';
+import 'package:grimoji/features/level/models/hive_data_persistence.dart';
 
 class LevelDataController extends ChangeNotifier {
   final LevelDataPersistence _store;

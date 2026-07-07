@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
-import 'level_data.dart';
-import 'data_persistence.dart';
+import 'package:grimoji/features/level/models/level_data.dart';
+import 'package:grimoji/features/level/models/data_persistence.dart';
 
 /// An implementation of [LevelDataPersistence] that uses Hive.
 class HiveLevelDataPersistence extends LevelDataPersistence {

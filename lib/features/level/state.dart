@@ -6,8 +6,8 @@ import 'package:grimoji/features/match/utils/manager.dart';
 import 'package:grimoji/features/match/engines/game.dart';
 import 'package:grimoji/features/match/coordinator.dart';
 import 'package:grimoji/features/match/state.dart';
-import 'managers/time.dart';
-import 'managers/goal.dart';
+import 'package:grimoji/features/level/managers/time.dart';
+import 'package:grimoji/features/level/managers/goal.dart';
 
 class LevelState extends ChangeNotifier {
   final void Function(int stars) onWin;

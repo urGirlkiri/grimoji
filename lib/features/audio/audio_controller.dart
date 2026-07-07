@@ -14,10 +14,10 @@ import 'package:grimoji/features/audio/voices/index.dart';
 import 'package:grimoji/features/audio/voices/dialog.dart';
 import 'package:logging/logging.dart';
 
-import '../../app/lifecycle.dart';
-import '../settings/controller.dart';
-import 'songs.dart';
-import 'sounds/index.dart';
+import 'package:grimoji/app/lifecycle.dart';
+import 'package:grimoji/features/settings/controller.dart';
+import 'package:grimoji/features/audio/songs.dart';
+import 'package:grimoji/features/audio/sounds/index.dart';
 
 enum PlaylistType { none, menu, level }
 

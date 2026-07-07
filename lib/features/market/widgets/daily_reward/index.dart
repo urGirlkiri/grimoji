@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/features/profile/controller.dart';
 import 'package:provider/provider.dart';
-import 'state.dart';
+import 'package:grimoji/features/market/widgets/daily_reward/state.dart';
 
 class DailyRewardCard extends StatelessWidget {
   const DailyRewardCard({super.key});

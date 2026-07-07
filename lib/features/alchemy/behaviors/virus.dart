@@ -2,7 +2,7 @@ import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/models/action_type.dart';
 import 'package:grimoji/features/alchemy/models/behavior_action.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
-import 'behavior.dart';
+import 'package:grimoji/features/alchemy/behaviors/behavior.dart';
 
 class VirusBehavior extends EmojiBehavior {
   static final emoji = Emojis.microbe;

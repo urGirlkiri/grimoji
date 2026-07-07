@@ -6,9 +6,9 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart' hide PointerMoveEvent;
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/cauldron/game/core/container/front.dart';
-import 'core/prediction_line.dart';
-import 'core/container/index.dart';
-import 'core/emoji_body.dart';
+import 'package:grimoji/features/cauldron/game/core/prediction_line.dart';
+import 'package:grimoji/features/cauldron/game/core/container/index.dart';
+import 'package:grimoji/features/cauldron/game/core/emoji_body.dart';
 
 class CauldronGame extends Forge2DGame
     with TapCallbacks, PointerMoveCallbacks, DragCallbacks {

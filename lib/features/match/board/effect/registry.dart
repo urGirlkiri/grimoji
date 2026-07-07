@@ -1,4 +1,4 @@
-import 'manager.dart';
+import 'package:grimoji/features/match/board/effect/manager.dart';
 
 enum EffectType {
   sparkle,

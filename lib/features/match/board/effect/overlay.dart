@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'manager.dart';
+import 'package:grimoji/features/match/board/effect/manager.dart';
 
 class EffectOverlay<T extends BoardEffect> extends StatelessWidget {
   final EffectManager<T> manager;
