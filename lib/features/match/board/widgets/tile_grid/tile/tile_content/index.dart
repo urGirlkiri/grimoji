@@ -25,6 +25,10 @@ class TileContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (tile.isFusing || tile.isGhostOrigin || tile.isGhostBomb) {
+      return const SizedBox.shrink();
+    }
+
     final targetScale = tile.isExploding
         ? 0.0
         : tile.isMerging
