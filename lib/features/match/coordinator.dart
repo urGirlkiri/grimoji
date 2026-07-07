@@ -18,6 +18,7 @@ import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/match/board/effects/ghost_dive/effect.dart';
 import 'package:grimoji/features/match/board/effects/wheel_roll/effect.dart';
 import 'package:grimoji/features/match/utils/evaluator.dart';
+import 'package:grimoji/features/match/processors/settlement.dart';
 import 'package:logging/logging.dart';
 
 class GameCoordinator {
@@ -34,6 +35,7 @@ class GameCoordinator {
 
   Timer? _hintTimer;
   List<TileCoordinate>? _currentHints;
+  late final SettlementProcessor _settlement;
 
   GameCoordinator({
     required this.engine,
@@ -44,6 +46,11 @@ class GameCoordinator {
     required this.onComboFinished,
     required List<String> startingBoosters,
   }) {
+    _settlement = SettlementProcessor(
+      engine: engine,
+      state: state,
+      boardManager: boardManager,
+    );
     state.setHintsEnabled(startingBoosters.contains('crystal_ball'));
   }
 
@@ -471,7 +478,7 @@ class GameCoordinator {
     state.updateUI();
 
     if (destroyed.isNotEmpty) {
-      await _settleBoard(destroyed);
+      await _settlement.settleBoard(destroyed);
     } else {
       await Future.delayed(preShatterDelay);
     }
@@ -554,7 +561,7 @@ class GameCoordinator {
     state.updateUI();
 
     final Set<TileCoordinate> staleOrigins = {for (final w in wheels) w.origin};
-    await _settleBoard(staleOrigins);
+    await _settlement.settleBoard(staleOrigins);
   }
 
   bool _anySwallowPending() =>
@@ -612,7 +619,7 @@ class GameCoordinator {
         swallowDestroyed.isNotEmpty || lineClearDestroyed.isNotEmpty;
 
     if (swallowDestroyed.isNotEmpty) {
-      if (await _settleBoard(swallowDestroyed) == null) {
+      if (await _settlement.settleBoard(swallowDestroyed) == null) {
         return _emptyDrainResult(swallowDestroyed, lineClearDestroyed);
       }
     }
@@ -638,7 +645,7 @@ class GameCoordinator {
         engine.grid[coord.row][coord.col].isColClearTrigger = false;
       }
 
-      if (await _settleBoard(lineClearDestroyed) == null) {
+      if (await _settlement.settleBoard(lineClearDestroyed) == null) {
         return _emptyDrainResult(swallowDestroyed, lineClearDestroyed);
       }
     }
@@ -728,7 +735,7 @@ class GameCoordinator {
         }
       }
 
-      final gravityDeltas = await _handleBoardSettlement(
+      final gravityDeltas = await _settlement.afterCascade(
         stepResult.tilesToDestroy,
         mergedFlyingTargets,
         matchedGroups,
@@ -776,7 +783,7 @@ class GameCoordinator {
         ...targetFlyingTransforms,
       };
 
-      if (!await _handleDetonationSettlement(blastDestroyed)) {
+      if (!await _settlement.afterDetonation(blastDestroyed)) {
         return false;
       }
 
@@ -880,21 +887,6 @@ class GameCoordinator {
     }
   }
 
-  Future<({Set<int> cols, Set<int> rows})?> _settleBoard(
-    Set<TileCoordinate> destroyed, {
-    bool clearFlyingFlags = false,
-  }) async {
-    final deltas = boardManager.applyGravity(destroyed);
-    engine.initializeBehaviors();
-    if (clearFlyingFlags) boardManager.clearAllFlyingFlags();
-    if (!await _refreshAndWait(postFallSettleDelay)) return null;
-
-    boardManager.triggerInitialFall();
-    if (!await _refreshAndWait(fallDuration)) return null;
-
-    return deltas;
-  }
-
   Future<void> _triggerHint() async {
     if (state.isProcessing ||
         state.isShuffling ||
@@ -969,16 +961,6 @@ class GameCoordinator {
     return result;
   }
 
-  Future<bool> _handleDetonationSettlement(
-    Set<TileCoordinate> blastDestroyed,
-  ) async {
-    if (await _settleBoard(blastDestroyed, clearFlyingFlags: true) == null) {
-      return false;
-    }
-    engine.processPendingBlasts();
-    return true;
-  }
-
   Future<bool> _handleDetonationBehaviorDrain() async {
     final drainResult = await _removeBehaviorFlags();
     if (state.isDisposed) return false;
@@ -998,37 +980,6 @@ class GameCoordinator {
       }
     }
     return targetFlyingTransforms;
-  }
-
-  Future<({Set<int> cols, Set<int> rows})?> _handleBoardSettlement(
-    Set<TileCoordinate> tilesToDestroy,
-    Set<TileCoordinate> flyingTargets,
-    List<MatchGroup> matchedGroups,
-  ) async {
-    final Set<TileCoordinate> matches = matchedGroups
-        .expand((g) => g.coordinates)
-        .toSet();
-
-    bool hasAoE = tilesToDestroy.any(
-      (coord) => !matches.any((c) => c.row == coord.row && c.col == coord.col),
-    );
-    bool hasTransmutations = engine.grid.any(
-      (row) => row.any((t) => t.isTransmuting),
-    );
-
-    if (hasAoE || hasTransmutations) {
-      await Future.delayed(matchFreezeDuration);
-      boardManager.clearTransmutingFlags();
-    } else {
-      await Future.delayed(emptyTransmuteDelay);
-    }
-
-    final Set<TileCoordinate> allDestroyed = {
-      ...tilesToDestroy,
-      ...flyingTargets,
-    };
-
-    return await _settleBoard(allDestroyed, clearFlyingFlags: true);
   }
 
   Future<Set<TileCoordinate>> _handleFlyingTargets(
