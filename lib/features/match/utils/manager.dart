@@ -135,6 +135,7 @@ class BoardManager {
 
     final shouldSpawnClown =
         !clownOnBoard && level.number % 2 == 0 && _random.nextDouble() < 0.5;
+    bool clownSpawned = false;
 
     for (int c = 0; c < cols; c++) {
       List<Tile> remainingTiles = [];
@@ -170,8 +171,9 @@ class BoardManager {
 
       List<Tile> skyTiles = List.generate(destroyedCount, (i) {
         GameEmoji emoji;
-        if (shouldSpawnClown && i == 0) {
+        if (shouldSpawnClown && !clownSpawned && i == 0) {
           emoji = Emojis.clown;
+          clownSpawned = true;
         } else {
           emoji = level
               .availableEmojis[_random.nextInt(level.availableEmojis.length)];
