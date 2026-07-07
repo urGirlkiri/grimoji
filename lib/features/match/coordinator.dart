@@ -9,6 +9,7 @@ import 'package:grimoji/features/match/models/board_region.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:grimoji/features/match/models/match_group.dart';
 import 'package:grimoji/features/match/models/tile.dart';
+import 'package:grimoji/features/match/types.dart';
 import 'package:grimoji/features/match/utils/manager.dart';
 import 'package:grimoji/features/match/announcer.dart';
 import 'package:grimoji/features/match/engines/game.dart';
@@ -23,7 +24,6 @@ import 'package:grimoji/features/match/utils/evaluator.dart';
 import 'package:grimoji/features/match/processors/settlement.dart';
 import 'package:logging/logging.dart';
 
-typedef TileSet = Set<TileCoordinate>;
 
 class GameCoordinator {
   final GameEngine engine;
