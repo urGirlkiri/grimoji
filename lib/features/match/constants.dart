@@ -70,6 +70,9 @@ const Duration lineClearBeamDuration = Duration(milliseconds: 150);
 /// A micro-pause after the beam passes through, giving the player an instant to register the cut before tiles shatter.
 const Duration preShatterDelay = Duration(milliseconds: 120);
 
+/// The lifetime of the line clear effect animation.
+const Duration lineClearDuration = Duration(milliseconds: 300);
+
 // ==== Black Hole Swallow ===
 
 /// The pacing lock that pauses the board logic while a black hole spins and sucks an emoji down.
@@ -103,6 +106,9 @@ const Duration wheelPostDropPause = Duration(milliseconds: 200);
 /// The full lifetime of the rolling overlay graphic spinning over the grid.
 const Duration wheelSpinTotalDuration = Duration(milliseconds: 1100);
 
+/// The lifetime of the wheel roll effect animation.
+const Duration wheelRollDuration = Duration(milliseconds: 1200);
+
 /// How much bigger the rolling wheel element scales visually relative to the tile size underneath it.
 const double wheelVisualScaleFactor = 1.3;
 
@@ -118,3 +124,8 @@ const Duration ghostDiveDuration = Duration(milliseconds: 600);
 
 /// How much the bomb scales down when attached to ghost after fusion.
 const double fusionBombScaleFactor = 0.5;
+
+// ─── Time Bonus ───────────────────────────────────────────────────────────
+
+/// The lifetime of the time bonus effect animation.
+const Duration timeBonusDuration = Duration(milliseconds: 1000);

@@ -13,16 +13,16 @@ class VFXController {
     lifetime: sparkleLifetime,
   );
   final lineClearManager = EffectManager<LineClearEffect>(
-    lifetime: const Duration(milliseconds: 300),
+    lifetime: lineClearDuration,
   );
   final wheelRollManager = EffectManager<RollEffect>(
-    lifetime: const Duration(milliseconds: 1200),
+    lifetime: wheelRollDuration,
   );
   final ghostDiveManager = EffectManager<GhostDiveEffect>(
     lifetime: ghostDiveDuration,
   );
   final timeBonusManager = EffectManager<TimeBonusEffect>(
-    lifetime: const Duration(milliseconds: 1000),
+    lifetime: timeBonusDuration,
   );
 
   bool _isDisposed = false;
