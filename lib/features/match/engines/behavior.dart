@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/alchemy/behaviors/behavior.dart';
+import 'package:grimoji/features/alchemy/behaviors/clown.dart';
 import 'package:grimoji/features/alchemy/models/action_type.dart';
 import 'package:grimoji/features/alchemy/models/behavior_action.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
@@ -172,6 +173,52 @@ class BehaviorEngine {
             boardManager.gridTiles[x][y].isGhostOrigin = true;
           } else {
             boardManager.gridTiles[x][y].isGhostTrigger = true;
+          }
+          break;
+
+        case ActionType.shuffleSurrounding:
+          final centerTile = boardManager.gridTiles[x][y];
+          int radius = 1;
+          if (centerTile.behavior is ClownBehavior) {
+            radius = (centerTile.behavior as ClownBehavior).shuffleRadius;
+          }
+
+          final List<({int x, int y, GameEmoji emoji})> surroundingTiles = [];
+          for (int r = x - radius; r <= x + radius; r++) {
+            for (int c = y - radius; c <= y + radius; c++) {
+              if (r >= 0 &&
+                  r < BoardManager.rows &&
+                  c >= 0 &&
+                  c < BoardManager.cols) {
+                final rowDist = (r - x).abs();
+                final colDist = (c - y).abs();
+                if (rowDist + colDist <= radius && (r != x || c != y)) {
+                  surroundingTiles.add((
+                    x: r,
+                    y: c,
+                    emoji: boardManager.gridTiles[r][c].emoji,
+                  ));
+                }
+              }
+            }
+          }
+
+          if (surroundingTiles.isNotEmpty) {
+            final shuffledEmojis = surroundingTiles
+                .map((t) => t.emoji)
+                .toList();
+            shuffledEmojis.shuffle();
+
+            for (int i = 0; i < surroundingTiles.length; i++) {
+              final tileCoord = surroundingTiles[i];
+              boardManager.gridTiles[tileCoord.x][tileCoord.y].emoji =
+                  shuffledEmojis[i];
+              boardManager.gridTiles[tileCoord.x][tileCoord.y].isShuffling =
+                  true;
+              initializeBehavior(
+                boardManager.gridTiles[tileCoord.x][tileCoord.y],
+              );
+            }
           }
           break;
       }

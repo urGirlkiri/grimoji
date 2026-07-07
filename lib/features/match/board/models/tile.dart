@@ -45,6 +45,8 @@ class Tile {
 
   bool isHinting = false;
 
+  bool isShuffling = false;
+
   Tile({
     required this.coordinate,
     required this.emoji,
@@ -93,6 +95,8 @@ class Tile {
     newTile.isGhostOrigin = isGhostOrigin;
     newTile.isGhostBomb = isGhostBomb;
 
+    newTile.isShuffling = isShuffling;
+
     return newTile;
   }
 
@@ -128,6 +132,8 @@ class Tile {
     isGhostTarget = false;
     isGhostOrigin = false;
     isGhostBomb = false;
+
+    isShuffling = false;
   }
 
   void clearBehavior() {

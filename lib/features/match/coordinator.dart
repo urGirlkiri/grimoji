@@ -990,6 +990,10 @@ class GameCoordinator {
     engine.processTurnEndBehaviors();
     state.updateUI();
 
+    await Future.delayed(const Duration(milliseconds: 400));
+    if (state.isDisposed) return;
+    boardManager.clearShufflingFlags();
+
     await Future.delayed(turnEndInputUnlockDelay);
     if (state.isDisposed) return;
 
