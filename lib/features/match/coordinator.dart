@@ -223,7 +223,7 @@ class GameCoordinator {
 
     clearHint();
     _hintTimer?.cancel();
-    _hintTimer = Timer(const Duration(seconds: 5), _triggerHint);
+    _hintTimer = Timer(const Duration(seconds: 2), _triggerHint);
   }
 
   void clearHint() {
@@ -427,7 +427,9 @@ class GameCoordinator {
       }
 
       if (trigger.isBomb && trigger.bombOrigin != null) {
-        engine.grid[trigger.bombOrigin!.row][trigger.bombOrigin!.col].isGhostBomb =
+        engine
+                .grid[trigger.bombOrigin!.row][trigger.bombOrigin!.col]
+                .isGhostBomb =
             false;
         destroyed.add(trigger.bombOrigin!);
       }
@@ -994,6 +996,7 @@ class GameCoordinator {
 
     if (!state.isDisposed) {
       state.updateUI();
+      unawaited(_triggerHint());
       resetHintTimer();
       await onComboFinished();
     }

@@ -138,8 +138,6 @@ int? _scoreHintMove(
   _HintScanArgs args,
   Set<String> unmatchable,
 ) {
-  if (args.hasBehavior[r1][c1] || args.hasBehavior[r2][c2]) return 50;
-
   final tmp = g[r1][c1];
   g[r1][c1] = g[r2][c2];
   g[r2][c2] = tmp;
