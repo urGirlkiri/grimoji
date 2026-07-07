@@ -169,6 +169,14 @@ class LevelState extends ChangeNotifier {
     if (!gameState.isPaused && !gameState.isGameOver) timeManager.resume();
   }
 
+  void addTime(int seconds) {
+    timeManager.addTime(seconds);
+    onTimeBonus?.call(seconds);
+    notifyListeners();
+  }
+
+  void Function(int amount)? onTimeBonus;
+
   bool get isGoalComplete => goalManager.isComplete;
 
   int get secondsRemaining => timeManager.secondsRemaining;

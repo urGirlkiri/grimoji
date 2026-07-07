@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/powerups.dart';
+import 'package:grimoji/features/level/managers/time.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/level/widgets/dialogs/pause_dialog.dart';
 import 'package:grimoji/features/level/widgets/dialogs/purchase_dialog/index.dart';
@@ -89,7 +90,12 @@ class _FooterState extends State<Footer> {
     final profile = context.read<ProfileController>();
     final count = profile.getPowerupCount(powerup.id);
     if (count > 0) {
-      _showSnackbar(context);
+      if (powerup.id == 'hourglass') {
+        profile.updatePowerupCount(powerup.id, -1);
+        _levelState.addTime(TimeManager.timeBonus);
+      } else {
+        _showSnackbar(context);
+      }
     } else {
       _levelState.pauseTimer();
       await showBoostPurchase(context, powerup);
