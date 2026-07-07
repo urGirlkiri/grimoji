@@ -256,6 +256,7 @@ class GameCoordinator {
     state.setReFeverBombs(bonusBombs);
     state.setFeverTimer(bonusBombs);
     cancelHintTimer();
+    clearHint();
 
     while (state.isProcessing && !state.isDisposed) {
       await Future.delayed(flagPollingInterval);
@@ -327,6 +328,7 @@ class GameCoordinator {
     state.setFeverBombCount(0);
     state.setReFeverBombs(0);
     state.setFeverTimer(0);
+    clearHint();
   }
 
   void dispose() {
