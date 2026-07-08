@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
@@ -7,6 +9,15 @@ import 'package:grimoji/features/match/models/tile.dart';
 import 'package:grimoji/features/match/utils/manager.dart';
 import 'package:grimoji/features/match/detectors/match.dart';
 import 'package:grimoji/config/emojis/index.dart';
+
+const _baseScore = 100;
+const _matchSizeBonus = 25;
+const _specialMatchBonus = 75;
+const _ghostYieldBonus = 150;
+const _bombYieldBonus = 200;
+const _holeYieldBonus = 100;
+const _targetIngredientBonus = 1000;
+const _targetCraftingBonus = 1e10; 
 
 class HintDetector {
   static Future<List<TileCoordinate>?> findBestMove({
@@ -134,7 +145,14 @@ List<int>? isolate(HintScanArgs args) {
   final topScore = validMoves.first.score;
   final best = validMoves.where((m) => m.score == topScore).toList();
   if (best.length > 1) {
-    best.sort((a, b) => b.completingRow.compareTo(a.completingRow));
+    // For target matches, prefer higher swap rows (closer to bottom)
+    best.sort((a, b) {
+      final aMaxRow = max(a.coords[0], a.coords[2]);
+      final bMaxRow = max(b.coords[0], b.coords[2]);
+      final cmp = bMaxRow.compareTo(aMaxRow);
+      if (cmp != 0) return cmp;
+      return b.coords[0].compareTo(a.coords[0]);
+    });
   }
   final selected = best.first;
   return [
@@ -242,47 +260,33 @@ int? scoreHintMove(
 
   if (matched.isEmpty) return null;
 
-  int score = 100;
+  int score = _baseScore;
 
   final totalMatchSize = matched.fold<int>(0, (sum, group) => sum + group.size);
 
-  score += (totalMatchSize - 3) * 25;
+  score += (totalMatchSize - 3) * _matchSizeBonus;
 
   if (matched.any((m) => m.isSpecial)) {
-    score += 75;
+    score += _specialMatchBonus;
   }
 
   for (final group in matched) {
     if (group.yieldEmoji == Emojis.ghost.visual) {
-      score += 150;
+      score += _ghostYieldBonus;
     } else if (group.yieldEmoji == Emojis.bomb.visual) {
-      score += 200;
+      score += _bombYieldBonus;
     } else if (group.yieldEmoji == Emojis.hole.visual) {
-      score += 100;
+      score += _holeYieldBonus;
     }
   }
 
   if (args.targetIngredients.contains(g[r1][c1]) ||
       args.targetIngredients.contains(g[r2][c2])) {
-    score += 1000;
+    score += _targetIngredientBonus;
   }
 
   if (matched.any((m) => m.emoji == args.targetVisual)) {
-    score += double.infinity.toInt();
-    final targetRows = <int>[];
-    for (int r = 0; r < rows; r++) {
-      for (int c = 0; c < cols; c++) {
-        if (g[r][c] == args.targetVisual) {
-          targetRows.add(r);
-        }
-      }
-    }
-    if (targetRows.isNotEmpty) {
-      final avgTargetRow =
-          targetRows.reduce((a, b) => a + b) / targetRows.length;
-      final swapAvgRow = (r1 + r2) / 2;
-      (swapAvgRow - avgTargetRow).abs();
-    }
+    score += _targetCraftingBonus.toInt();
   }
 
   return score;
