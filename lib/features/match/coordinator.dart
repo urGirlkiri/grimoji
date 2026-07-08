@@ -31,7 +31,7 @@ class GameCoordinator {
   final BoardManager boardManager;
   final AudioController audio;
   final BoardAnnouncer announcer;
-  
+
   final void Function(int) onTargetAcquired;
   final Future<bool> Function() onComboFinished;
   void Function(int row, int col, bool isHorizontal)? onLineClear;
@@ -284,9 +284,7 @@ class GameCoordinator {
     state.setFeverComplete(true);
     state.setGameOver();
 
-    while ((state.isProcessing ||
-            announcer.isSpeaking ||
-            state.isShuffling) &&
+    while ((state.isProcessing || announcer.isSpeaking || state.isShuffling) &&
         !state.isDisposed) {
       await Future.delayed(flagPollingInterval);
     }
@@ -785,7 +783,9 @@ class GameCoordinator {
     engine.processTurnEndBehaviors();
     state.updateUI();
 
-    if (!await _safeDelay(clownShuffleDuration)) return;
+    if (boardManager.hasClownShuffling()) {
+      if (!await _safeDelay(clownShuffleDuration)) return;
+    }
     boardManager.clearShufflingFlags();
 
     await _processClownMatches();

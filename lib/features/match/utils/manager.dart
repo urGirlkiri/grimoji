@@ -284,6 +284,15 @@ class BoardManager {
     }
   }
 
+  bool hasClownShuffling() {
+    for (int r = 0; r < rows; r++) {
+      for (int c = 0; c < cols; c++) {
+        if (gridTiles[r][c].isClownShuffling) return true;
+      }
+    }
+    return false;
+  }
+
   void clearShufflingFlags() {
     for (int r = 0; r < rows; r++) {
       for (int c = 0; c < cols; c++) {
