@@ -75,7 +75,7 @@ void main() {
         );
 
         expect(hint, isNotNull);
-        expect(hint!.length, 2);
+        expect(hint!.length, 3);
       });
 
       test('Should return valid board coordinates', () async {
@@ -167,7 +167,7 @@ void main() {
           expect(
             hint[2].col,
             equals(3),
-            reason: "Completing tile col should be 3 (the Fire)",
+            reason: "Completing tile col should be 3",
           );
         },
       );
@@ -209,8 +209,8 @@ void main() {
           );
           expect(
             hint[2].col,
-            equals(0),
-            reason: "Completing tile col should be 0 (the Fire)",
+            equals(1),
+            reason: "Completing tile col should be 1 (the Rock being swapped)",
           );
         },
       );
@@ -248,7 +248,7 @@ void main() {
           expect(
             hint![2].row,
             equals(3),
-            reason: "Completing tile row should be 3 (the Fire)",
+            reason: "Completing tile row should be 3",
           );
           expect(
             hint[2].col,
@@ -290,8 +290,8 @@ void main() {
           expect(hint, isNotNull);
           expect(
             hint![2].row,
-            equals(0),
-            reason: "Completing tile row should be 0 (the Fire)",
+            equals(1),
+            reason: "Completing tile row should be 1 (the Rock being swapped)",
           );
           expect(
             hint[2].col,
@@ -487,7 +487,7 @@ void main() {
           );
           expect(
             hint!.length,
-            2,
+            3,
             reason:
                 'Every swap is valid; we just want no crash and valid coords',
           );
