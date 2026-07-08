@@ -16,7 +16,7 @@ class PrankBehavior extends EmojiBehavior {
   @override
   bool get isIntrusive => true;
 
-  static const double randomChance = 1;
+  static const double randomChance = .1;
 
   @override
   Future<List<BehaviorAction>> onTurnEndWithBoard(
