@@ -9,4 +9,5 @@ enum ActionType {
   wheelRoll,
   ghostDive,
   shuffleSurrounding,
+  spawnPoop,
 }

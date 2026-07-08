@@ -232,7 +232,7 @@ class GameEngine {
   Future<List<TileCoordinate>?> getHintMove() =>
       HintDetector.findBestMove(grid: grid, targetEmoji: level.targetEmoji);
 
-  void processTurnEndBehaviors() => _behavior.processTurnEndBehaviors();
+  Future<void> processTurnEndBehaviors() => _behavior.processTurnEndBehaviors();
 
   void executeBehaviorActions(List<BehaviorAction> actions, int row, int col) {
     _behavior.executeBehaviorActions(actions, row, col);

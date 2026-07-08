@@ -35,13 +35,21 @@ class BehaviorEngine {
     }
   }
 
-  void processTurnEndBehaviors() {
+  Future<void> processTurnEndBehaviors() async {
     for (int r = 0; r < BoardManager.rows; r++) {
       for (int c = 0; c < BoardManager.cols; c++) {
         final tile = boardManager.gridTiles[r][c];
         if (tile.behavior != null) {
           final actions = tile.behavior!.onTurnEnd(r, c);
           executeBehaviorActions(actions, r, c);
+
+          final boardActions = await tile.behavior!.onTurnEndWithBoard(
+            r,
+            c,
+            boardManager.gridTiles,
+            level,
+          );
+          executeBehaviorActions(boardActions, r, c);
         }
       }
     }
@@ -224,6 +232,11 @@ class BehaviorEngine {
               );
             }
           }
+          break;
+
+        case ActionType.spawnPoop:
+          boardManager.gridTiles[x][y].emoji = Emojis.poop;
+          initializeBehavior(boardManager.gridTiles[x][y]);
           break;
       }
     }
