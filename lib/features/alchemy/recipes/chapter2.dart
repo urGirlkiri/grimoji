@@ -3,7 +3,8 @@ import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 
 final List<Recipe> chapter2Recipes = [
   Recipe(ingredient: Emojis.bug, requiredAmount: 4, yields: Emojis.spider),
-  Recipe(ingredient: Emojis.bug, requiredAmount: 5, yields: Emojis.snake),
+  Recipe(ingredient: Emojis.bug, requiredAmount: 4, yields: Emojis.snake),
+  Recipe(ingredient: Emojis.rock, requiredAmount: 3, yields: Emojis.snake),
 
   Recipe(ingredient: Emojis.spider, requiredAmount: 4, yields: Emojis.bat),
 
@@ -17,7 +18,7 @@ final List<Recipe> chapter2Recipes = [
   ),
 
   Recipe(ingredient: Emojis.leafyGreen, requiredAmount: 3, yields: Emojis.herb),
-  Recipe(ingredient: Emojis.hotFace, requiredAmount: 5, yields: Emojis.melting),
+  Recipe(ingredient: Emojis.hotFace, requiredAmount: 4, yields: Emojis.melting),
   Recipe(
     ingredient: Emojis.kissingCat,
     requiredAmount: 3,

@@ -8,4 +8,6 @@ enum ActionType {
   clearCol,
   wheelRoll,
   ghostDive,
+  shuffleSurrounding,
+  spawnPoop,
 }

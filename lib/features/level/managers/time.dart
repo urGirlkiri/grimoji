@@ -13,6 +13,7 @@ class TimeManager {
   int _lastNotifiedSeconds = -1;
 
   int _timeModifiers = 0;
+  static const int timeBonus = 15;
 
   TimeManager({
     required this.timeLimit,
@@ -66,6 +67,18 @@ class TimeManager {
 
     if (current <= 0) {
       onTimeUp();
+    }
+  }
+
+  void addTime(int sec) {
+    if (_isDisposed) return;
+
+    _timeModifiers -= sec;
+    final current = secondsRemaining;
+
+    if (current != _lastNotifiedSeconds) {
+      _lastNotifiedSeconds = current;
+      onTick();
     }
   }
 

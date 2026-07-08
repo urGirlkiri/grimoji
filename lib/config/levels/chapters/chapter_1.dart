@@ -9,7 +9,12 @@ final List<GameLevel> chapter1Levels = [
     targetEmoji: Emojis.ocean,
     goal: 'Collect water',
     description: 'The Awakening - Super easy, introducing basic matches',
-    availableEmojis: [Emojis.droplet, Emojis.fire, Emojis.rock, Emojis.spider],
+    availableEmojis: [
+      Emojis.droplet, 
+      Emojis.fire, 
+      Emojis.rock, 
+      Emojis.spider
+      ],
   ),
 
   GameLevel(
@@ -20,10 +25,10 @@ final List<GameLevel> chapter1Levels = [
     goal: 'The first alchemical yield!',
     description: 'Spark of Life - Focus on nature',
     availableEmojis: [
-      Emojis.droplet,
       Emojis.leafyGreen,
-      Emojis.fire,
-      Emojis.rock,
+      Emojis.bone,
+      Emojis.worm,
+      Emojis.poultryLeg,
     ],
   ),
 
@@ -35,11 +40,10 @@ final List<GameLevel> chapter1Levels = [
     goal: 'Matches the graveyard theme',
     description: 'Unearthing the Dead - Introducing Skulls',
     availableEmojis: [
-      Emojis.bone,
-      // Emojis.droplet,
-      Emojis.rock,
-      Emojis.spider,
-    ],
+      Emojis.droplet, 
+      Emojis.fire, 
+      Emojis.rock, 
+      Emojis.spider],
   ),
 
   GameLevel(
@@ -50,11 +54,10 @@ final List<GameLevel> chapter1Levels = [
     goal: 'Players must craft bombs!',
     description: "The Alchemist's Fire",
     availableEmojis: [
-      Emojis.fire,
+      Emojis.leaflessTree,
       Emojis.leafyGreen,
-      Emojis.rock,
-      Emojis.skull,
-      Emojis.spider,
+      Emojis.bone,
+      Emojis.worm,
     ],
   ),
 
@@ -66,8 +69,8 @@ final List<GameLevel> chapter1Levels = [
     goal: 'Collect bones',
     description: 'Graveyard Shift',
     availableEmojis: [
-      Emojis.skull,
       Emojis.rock,
+      Emojis.droplet,
       Emojis.fire,
       Emojis.poultryLeg,
     ],
@@ -81,11 +84,10 @@ final List<GameLevel> chapter1Levels = [
     goal: 'Collect bugs',
     description: 'Toxic Soils',
     availableEmojis: [
-      Emojis.worm,
-      Emojis.leafyGreen,
+      Emojis.bone,
+      Emojis.skull,
       Emojis.spider,
-      Emojis.droplet,
-      Emojis.rock,
+      Emojis.leafyGreen,
     ],
   ),
 
@@ -98,9 +100,9 @@ final List<GameLevel> chapter1Levels = [
     description: 'Will-o\'-the-Wisp',
     availableEmojis: [
       Emojis.leaflessTree,
-      Emojis.skull,
       Emojis.droplet,
-      Emojis.leafyGreen,
+      Emojis.rock,
+      Emojis.worm,
     ],
   ),
 
@@ -113,11 +115,10 @@ final List<GameLevel> chapter1Levels = [
     goal: 'Collect crystal balls',
     description: 'The Ritual Begins',
     availableEmojis: [
-      // Emojis.fire,
-      Emojis.rock,
-      Emojis.droplet,
       Emojis.sparkles,
-      // Emojis.skull,
+      Emojis.fire,
+      Emojis.leafyGreen,
+      Emojis.bone,
     ],
   ),
 
@@ -129,12 +130,10 @@ final List<GameLevel> chapter1Levels = [
     goal: 'A complex recipe requirement!',
     description: 'Guardian of the Gate - Boss Level before the Cauldron',
     availableEmojis: [
-      Emojis.bone,
+      Emojis.droplet,
       Emojis.skull,
-      // Emojis.fire,
-      // Emojis.droplet,
-      Emojis.leafyGreen,
       Emojis.spider,
+      Emojis.poultryLeg,
     ],
   ),
 ];

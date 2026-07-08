@@ -4,8 +4,8 @@ import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
-import 'package:grimoji/features/match/board/models/tile.dart';
-import 'package:grimoji/features/match/board/widgets/tile_grid/tile/tile_content/disp.dart';
+import 'package:grimoji/features/match/models/tile.dart';
+import 'package:grimoji/features/match/board/widgets/tile_grid/tile/tile_content/display/index.dart';
 
 class TileContent extends StatelessWidget {
   final Tile tile;
@@ -25,6 +25,10 @@ class TileContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (tile.isGhostBomb || tile.isGhostOrigin) {
+      return const SizedBox.shrink();
+    }
+
     final targetScale = tile.isExploding
         ? 0.0
         : tile.isMerging
@@ -77,7 +81,7 @@ class TileContent extends StatelessWidget {
             curve: Curves.easeOut,
           )
           .then()
-           .scaleXY(
+          .scaleXY(
             begin: 1.0,
             end: 0,
             duration: 0.microseconds,

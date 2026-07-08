@@ -23,7 +23,10 @@ final List<Recipe> chapter1Recipes = [
 
   Recipe(
     ingredient: Emojis.bone,
-    requiredAmount: 5,
+    requiredAmount: 4,
     yields: Emojis.anatomicalHeart,
   ),
+
+  Recipe(ingredient: Emojis.rock, requiredAmount: 3, yields: Emojis.skull),
+  Recipe(ingredient: Emojis.spider, requiredAmount: 3, yields: Emojis.bug),
 ];

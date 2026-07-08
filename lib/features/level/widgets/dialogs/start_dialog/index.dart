@@ -72,47 +72,51 @@ class _LevelStartDialogState extends State<LevelStartDialog> {
                 const SizedBox(height: 50),
 
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: Wrap(
-                    alignment: WrapAlignment.center,
-                    spacing: 16,
-                    runSpacing: 16,
-                    children: prelevelItems.map((item) {
-                      final count = profile.getPowerupCount(item.id);
-                      final hasInventory = count > 0;
-                      final isSelected = _selectedPowerupIds.contains(item.id);
-                  
-                      return BoosterButton(
-                        item: item,
-                        count: count,
-                        isSelected: isSelected,
-                        onTap: () async {
-                          if (!hasInventory) {
-                            final purchased = await showBoostPurchase(
-                              context,
-                              item,
-                            );
-                            if (purchased == null) {
-                              if (!context.mounted) return;
-                              Navigator.of(context).pop();
+                  padding: EdgeInsets.symmetric(horizontal: 4.0 * context.globalScale),
+                  child: SingleChildScrollView(
+                    child: Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 16,
+                      runSpacing: 16,
+                      children: prelevelItems.map((item) {
+                        final count = profile.getPowerupCount(item.id);
+                        final hasInventory = count > 0;
+                        final isSelected = _selectedPowerupIds.contains(
+                          item.id,
+                        );
+
+                        return BoosterButton(
+                          item: item,
+                          count: count,
+                          isSelected: isSelected,
+                          onTap: () async {
+                            if (!hasInventory) {
+                              final purchased = await showBoostPurchase(
+                                context,
+                                item,
+                              );
+                              if (purchased == null) {
+                                if (!context.mounted) return;
+                                Navigator.of(context).pop();
+                                return;
+                              }
+                              if (purchased == true) {
+                                setState(() {});
+                              }
                               return;
                             }
-                            if (purchased == true) {
-                              setState(() {});
-                            }
-                            return;
-                          }
-                  
-                          setState(() {
-                            if (isSelected) {
-                              _selectedPowerupIds.remove(item.id);
-                            } else {
-                              _selectedPowerupIds.add(item.id);
-                            }
-                          });
-                        },
-                      );
-                    }).toList(),
+
+                            setState(() {
+                              if (isSelected) {
+                                _selectedPowerupIds.remove(item.id);
+                              } else {
+                                _selectedPowerupIds.add(item.id);
+                              }
+                            });
+                          },
+                        );
+                      }).toList(),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 32),

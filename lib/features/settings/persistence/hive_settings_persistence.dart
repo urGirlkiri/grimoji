@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
-import '../models/settings_data.dart';
-import 'settings_persistence.dart';
+import 'package:grimoji/features/settings/models/settings_data.dart';
+import 'package:grimoji/features/settings/persistence/settings_persistence.dart';
 
 /// An implementation of [SettingsPersistence] that uses Hive.
 class HiveSettingsPersistence extends SettingsPersistence {

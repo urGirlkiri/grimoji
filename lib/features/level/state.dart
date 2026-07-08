@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:grimoji/app/lifecycle.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
-import 'package:grimoji/features/match/board/utils/manager.dart';
-import 'package:grimoji/features/match/engines/game_engine.dart';
+import 'package:grimoji/features/match/utils/manager.dart';
+import 'package:grimoji/features/match/engines/game.dart';
 import 'package:grimoji/features/match/coordinator.dart';
 import 'package:grimoji/features/match/state.dart';
-import 'managers/time.dart';
-import 'managers/goal.dart';
+import 'package:grimoji/features/match/announcer.dart';
+import 'package:grimoji/features/level/managers/time.dart';
+import 'package:grimoji/features/level/managers/goal.dart';
 
 class LevelState extends ChangeNotifier {
   final void Function(int stars) onWin;
@@ -26,6 +27,7 @@ class LevelState extends ChangeNotifier {
   late final BoardManager boardManager;
   late final GameEngine engine;
   late final GameState gameState;
+  late final BoardAnnouncer announcer;
   late final GameCoordinator coordinator;
 
   bool _isDisposed = false;
@@ -57,14 +59,19 @@ class LevelState extends ChangeNotifier {
       engine.initializeBehaviors();
     }
 
-    gameState = GameState(audio);
+    gameState = GameState();
+    announcer = BoardAnnouncer(audio);
+    announcer.addListener(notifyListeners);
+
     coordinator = GameCoordinator(
       engine: engine,
       state: gameState,
       boardManager: boardManager,
       audio: audio,
+      announcer: announcer,
       onTargetAcquired: _incrementCollectedAmnt,
       onComboFinished: () async => false,
+      startingBoosters: startingBoosters,
     );
 
     gameState.addListener(notifyListeners);
@@ -78,6 +85,10 @@ class LevelState extends ChangeNotifier {
         state == AppLifecycleState.hidden ||
         state == AppLifecycleState.paused) {
       if (!gameState.isPaused && !gameState.isGameOver) {
+        coordinator.togglePause();
+      }
+    } else if (state == AppLifecycleState.resumed) {
+      if (gameState.isPaused && !gameState.isGameOver) {
         coordinator.togglePause();
       }
     }
@@ -147,7 +158,7 @@ class LevelState extends ChangeNotifier {
     notifyListeners();
 
     while (gameState.isProcessing ||
-        gameState.announcer.isSpeaking ||
+        announcer.isSpeaking ||
         gameState.isShuffling) {
       await Future.delayed(const Duration(milliseconds: 250));
     }
@@ -164,6 +175,14 @@ class LevelState extends ChangeNotifier {
   void resumeTimerOnly() {
     if (!gameState.isPaused && !gameState.isGameOver) timeManager.resume();
   }
+
+  void addTime(int seconds) {
+    timeManager.addTime(seconds);
+    onTimeBonus?.call(seconds);
+    notifyListeners();
+  }
+
+  void Function(int amount)? onTimeBonus;
 
   bool get isGoalComplete => goalManager.isComplete;
 

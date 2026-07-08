@@ -4,10 +4,9 @@ import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/level/state.dart';
-import 'package:grimoji/features/match/board/models/coordinate.dart';
+import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:flutter/widgets.dart';
-import 'package:grimoji/utils/test_helpers.dart';
-
+import '../../helpers/index.dart';
 import '../../mocks/mock_audio_controller.dart';
 
 void main() {
@@ -394,6 +393,57 @@ void main() {
         async.elapse(fallDuration);
 
         expect(state.secondsRemaining, inInclusiveRange(0, 60));
+      });
+    });
+
+    test('Should pause on lifecycle inactive and resume on resumed', () {
+      fakeAsync((async) {
+        final lifecycleNotifier = ValueNotifier<AppLifecycleState>(
+          AppLifecycleState.resumed,
+        );
+        final state = LevelState(
+          level: level,
+          onWin: (_) {},
+          onLose: () {},
+          audio: mockAudio,
+          lifecycleNotifier: lifecycleNotifier,
+        );
+
+        state.startLevel();
+        async.elapse(fallDuration);
+
+        expect(state.gameState.isPaused, isFalse);
+
+        lifecycleNotifier.value = AppLifecycleState.inactive;
+        expect(state.gameState.isPaused, isTrue);
+
+        lifecycleNotifier.value = AppLifecycleState.resumed;
+        expect(state.gameState.isPaused, isFalse);
+      });
+    });
+
+    test('Should not resume if game is over', () {
+      fakeAsync((async) {
+        final lifecycleNotifier = ValueNotifier<AppLifecycleState>(
+          AppLifecycleState.resumed,
+        );
+        final state = LevelState(
+          level: level,
+          onWin: (_) {},
+          onLose: () {},
+          audio: mockAudio,
+          lifecycleNotifier: lifecycleNotifier,
+        );
+
+        state.startLevel();
+        async.elapse(fallDuration);
+
+        state.gameState.setGameOver();
+        lifecycleNotifier.value = AppLifecycleState.inactive;
+        expect(state.gameState.isPaused, isFalse);
+
+        lifecycleNotifier.value = AppLifecycleState.resumed;
+        expect(state.gameState.isPaused, isFalse);
       });
     });
   });

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
-import 'package:grimoji/features/match/board/models/tile.dart';
+import 'package:grimoji/features/match/models/tile.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/tile/tile_v_f_x/explosion.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/tile/tile_v_f_x/match.dart';
 import 'package:grimoji/utils/context_data.dart';

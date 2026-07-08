@@ -2,9 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:grimoji/utils/context_data.dart';
 
-class LevelComOverlay extends StatelessWidget {
-  const LevelComOverlay({super.key});
+class LevelComOverlay {
+  static OverlayEntry? _currentEntry;
 
+  static void show(BuildContext context) {
+    _currentEntry?.remove();
+
+    _currentEntry = OverlayEntry(
+      builder: (context) => _LevelComOverlayWidget(),
+    );
+
+    if (_currentEntry != null) {
+      Overlay.of(context).insert(_currentEntry!);
+    }
+  }
+
+  static void hide() {
+    _currentEntry?.remove();
+    _currentEntry = null;
+  }
+}
+
+class _LevelComOverlayWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
@@ -22,10 +41,10 @@ class LevelComOverlay extends StatelessWidget {
             left: 0,
             right: 0,
             child: Center(
-              child:
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child:
+                    Text(
                       'LEVEL COMPLETE!',
                       textAlign: TextAlign.center,
                       style: context.theme.textTheme.headlineMedium,
@@ -35,7 +54,7 @@ class LevelComOverlay extends StatelessWidget {
                       begin: const Offset(0.8, 0.8),
                       end: const Offset(1.0, 1.0),
                     ),
-                  ),
+              ),
             ),
           ),
 

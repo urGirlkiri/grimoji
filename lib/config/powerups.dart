@@ -49,19 +49,19 @@ class Powerup {
       id: 'wheel',
       name: 'Wheel',
       iconPath: Emojis.wheel.svg,
-      description: 'Converts first 3 candies in its path into bombs.',
+      description: 'Converts first 3 emojis in its path into bombs.',
       isPrelevel: true,
       price: 35,
     ),
 
-    // Powerup(
-    //   id: 'crystal_ball',
-    //   name: 'Insight',
-    //   iconPath: Emojis.crystalBall.svg,
-    //   description: 'Reveals a hidden path or optimal match.',
-    //   isPrelevel: true,
-    //   price: 20,
-    // ),
+    Powerup(
+      id: 'crystal_ball',
+      name: 'Insight',
+      iconPath: Emojis.crystalBall.svg,
+      description: 'Gives you helpful hints during play.',
+      isPrelevel: true,
+      price: 20,
+    ),
     Powerup(
       id: 'hourglass',
       name: 'Extra Time',
@@ -81,7 +81,7 @@ class Powerup {
       id: 'test_tube',
       name: 'The Potion',
       iconPath: Emojis.testTube.svg,
-      description: 'Transforms a target tile into a specific desired emoji.',
+      description: 'Transforms a target tile into a Drop it on a tile to complete a match.',
       price: 35,
     ),
     Powerup(
@@ -103,7 +103,7 @@ class Powerup {
       id: 'comet',
       name: 'Meteor',
       iconPath: Emojis.comet.svg,
-      description: 'Crashes down to utterly destroy a targeted 3x3 area.',
+      description: 'Crashes down to destroy a targeted area.',
       price: 55,
     ),
   ];

@@ -38,6 +38,7 @@ class LevelScreen extends StatefulWidget {
 class _LevelScreenState extends State<LevelScreen> {
   bool _duringCelebration = false;
   bool _isQuitDialogOpen = false;
+  bool _hasTriggeredFever = false;
   late final LevelState _levelState;
 
   static final _log = Logger('LevelScreen');
@@ -108,11 +109,7 @@ class _LevelScreenState extends State<LevelScreen> {
   void _skipFever() {
     context.readAudio.playSfx(SfxType.congrats);
     final stars = _levelState.goalManager.calculateStars();
-
-    GoRouter.of(context).goNamed(
-      Routes.levelWon,
-      extra: {'level': widget.level.number, 'stars': stars},
-    );
+    _playerWon(stars);
   }
 
   @override
@@ -139,6 +136,7 @@ class _LevelScreenState extends State<LevelScreen> {
 
   @override
   void dispose() {
+    LevelComOverlay.hide();
     _levelState.dispose();
     super.dispose();
   }
@@ -209,12 +207,17 @@ class _LevelScreenState extends State<LevelScreen> {
                           widget.level.number,
                         );
 
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          _levelState.startFeverSequence();
-                        });
+                        if (!_hasTriggeredFever) {
+                          _hasTriggeredFever = true;
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            _levelState.startFeverSequence();
+                          });
+                        }
 
                         if (isFirstTime && !isFeverTime) {
-                          return const LevelComOverlay();
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            LevelComOverlay.show(context);
+                          });
                         }
                         return const SizedBox.shrink();
                       },

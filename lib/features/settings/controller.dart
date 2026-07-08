@@ -5,9 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logging/logging.dart';
 
-import 'persistence/hive_settings_persistence.dart';
-import 'models/settings_data.dart';
-import 'persistence/settings_persistence.dart';
+import 'package:grimoji/features/settings/persistence/hive_settings_persistence.dart';
+import 'package:grimoji/features/settings/models/settings_data.dart';
+import 'package:grimoji/features/settings/persistence/settings_persistence.dart';
 
 /// An class that holds settings like [musicOn],
 /// and saves them to an injected persistence store.

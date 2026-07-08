@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/router/layout/shell_tab.dart';
 import 'package:grimoji/utils/context_data.dart';
-import 'content.dart';
+import 'package:grimoji/features/market/widgets/daily_reward/content.dart';
 
 class RewardTicker extends StatefulWidget {
   final bool canClaim;

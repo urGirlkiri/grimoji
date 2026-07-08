@@ -176,6 +176,38 @@ void main() {
             ? 'Too complex for AutoPlayer algorithm, skipping.'
             : false,
       );
+
+
+      test('Level ${level.number} should respect design constraints', () {
+        expect(
+          level.availableEmojis.length,
+          lessThanOrEqualTo(4),
+          reason:
+              'Level ${level.number} has ${level.availableEmojis.length} starting emojis. Max is 4.',
+        );
+
+        if (level.number > 1) {
+          final previousLevel = gameLevels.firstWhere(
+            (l) => l.number == level.number - 1,
+          );
+          final shared = level.availableEmojis.toSet().intersection(
+            previousLevel.availableEmojis.toSet(),
+          );
+
+          final sharedExcludingTarget = shared
+              .where((e) => e != previousLevel.targetEmoji)
+              .toList();
+
+          expect(
+            sharedExcludingTarget.length,
+            lessThan(1),
+            reason:
+                'Level ${level.number} reuses base emojis from level ${level.number - 1} '
+                'that are not the target reward. Shared: ${sharedExcludingTarget.map(((e) => e.visual))}',
+          );
+        }
+      });
+
     }
   });
 

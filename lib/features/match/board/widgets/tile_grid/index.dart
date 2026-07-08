@@ -8,7 +8,7 @@ import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/flight.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/tile/index.dart';
 import 'package:grimoji/features/level/state.dart';
-import 'package:grimoji/features/match/board/models/tile.dart';
+import 'package:grimoji/features/match/models/tile.dart';
 import 'package:provider/provider.dart';
 
 class TileGrid extends StatefulWidget {
