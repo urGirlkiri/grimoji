@@ -6,11 +6,9 @@ import '../../mocks/mock_audio_controller.dart';
 void main() {
   group('GameState tests', () {
     late GameState gameState;
-    late MockAudioController mockAudio;
 
     setUp(() {
-      mockAudio = MockAudioController();
-      gameState = GameState(mockAudio);
+      gameState = GameState();
     });
 
     tearDown(() {
@@ -122,38 +120,69 @@ void main() {
     });
 
     test('Should set isDisposed to true on dispose', () {
-      final testState = GameState(mockAudio);
+      final testState = GameState();
       testState.dispose();
       expect(testState.isDisposed, isTrue);
     });
 
     test('Should not notify after disposed', () {
-      final testState = GameState(mockAudio);
+      final testState = GameState();
       testState.dispose();
 
       expect(testState.isDisposed, isTrue);
     });
+  });
 
-    test('Should provide activeAnnouncement from announcer', () {
-      expect(gameState.activeAnnouncement, isNull);
+  group('BoardAnnouncer tests', () {
+    late BoardAnnouncer announcer;
+    late MockAudioController mockAudio;
 
-      gameState.announcer.evaluateTurn(
-        events: {TurnEvent.merge},
-        combo: 2,
-        tilesCleared: 10,
-      );
-      expect(gameState.activeAnnouncement, "Wicked Alchemy!");
+    setUp(() {
+      mockAudio = MockAudioController();
+      announcer = BoardAnnouncer(mockAudio);
     });
 
-    test('Should provide announcementToken from announcer', () {
-      expect(gameState.announcementToken, 0);
+    tearDown(() {
+      announcer.dispose();
+    });
 
-      gameState.announcer.evaluateTurn(
+    test('Should initialize with no active announcement', () {
+      expect(announcer.activeAnnouncement, isNull);
+      expect(announcer.announcementToken, 0);
+    });
+
+    test('Should queue and process announcements', () {
+      announcer.evaluateTurn(
         events: {TurnEvent.merge},
         combo: 2,
         tilesCleared: 10,
       );
-      expect(gameState.announcementToken, 1);
+      expect(announcer.activeAnnouncement?.text, "Wicked Alchemy!");
+      expect(announcer.announcementToken, 1);
+    });
+
+    test('Should notify listeners when announcement changes', () {
+      bool notified = false;
+      announcer.addListener(() => notified = true);
+
+      announcer.evaluateTurn(
+        events: {TurnEvent.merge},
+        combo: 2,
+        tilesCleared: 10,
+      );
+      expect(notified, isTrue);
+    });
+
+    test('Should clear announcements', () {
+      announcer.evaluateTurn(
+        events: {TurnEvent.merge},
+        combo: 2,
+        tilesCleared: 10,
+      );
+      expect(announcer.activeAnnouncement, isNotNull);
+
+      announcer.clear();
+      expect(announcer.activeAnnouncement, isNull);
     });
   });
 }

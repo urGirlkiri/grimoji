@@ -22,10 +22,10 @@ class _IsolatedAnnouncerLeaf extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final phrase = context.select<LevelState, String?>(
-      (s) => s.gameState.activeAnnouncement,
+      (s) => s.announcer.activeAnnouncement?.text,
     );
     final token = context.select<LevelState, int>(
-      (s) => s.gameState.announcementToken,
+      (s) => s.announcer.announcementToken,
     );
 
     if (phrase == null) {
