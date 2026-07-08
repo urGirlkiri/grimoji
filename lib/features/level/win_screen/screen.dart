@@ -94,6 +94,12 @@ class _WinGameScreenState extends State<WinGameScreen> {
         body: SafeArea(
           child: Stack(
             children: [
+              Positioned.fill(
+                child: Image.asset(
+                  'assets/images/emo.png',
+                  fit: BoxFit.cover,
+                ),
+              ),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 100.0),
