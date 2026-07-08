@@ -86,7 +86,7 @@ class TileWidget extends StatelessWidget {
       content = content.animate().scaleXY(
         begin: 1.0,
         end: 0,
-        duration: ghostDiveDuration * 0.1,
+        duration: ghostDiveDuration,
         curve: Curves.easeInExpo,
       );
     }
