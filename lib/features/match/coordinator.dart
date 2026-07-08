@@ -780,7 +780,7 @@ class GameCoordinator {
 
     _clearWheelTriggers();
 
-    engine.processTurnEndBehaviors();
+    await engine.processTurnEndBehaviors();
     state.updateUI();
 
     if (boardManager.hasClownShuffling()) {
