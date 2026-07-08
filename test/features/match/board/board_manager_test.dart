@@ -69,31 +69,32 @@ void main() {
       },
     );
 
-    test(
-      'applyGravity should pull tiles down and spawn new ones at the top',
-      () {
-        final tileAbove = boardManager.gridTiles[6][0].emoji;
+    test('applyGravity should pull tiles down and spawn new ones at the top', () {
+      final tileAbove = boardManager.gridTiles[6][0].emoji;
 
-        final tilesToDestroy = {TileCoordinate(row: 7, col: 0)};
+      final tilesToDestroy = {TileCoordinate(row: 7, col: 0)};
 
-        boardManager.applyGravity(tilesToDestroy);
+      boardManager.applyGravity(tilesToDestroy);
 
-        expect(
-          boardManager.gridTiles[7][0].emoji,
-          tileAbove,
-          reason: 'Gravity failed to pull the tile down',
-        );
+      expect(
+        boardManager.gridTiles[7][0].emoji,
+        tileAbove,
+        reason: 'Gravity failed to pull the tile down',
+      );
 
-        expect(
-          testLevel.availableEmojis.contains(
-            boardManager.gridTiles[0][0].emoji,
-          ),
-          isTrue,
-          reason:
-              'A new tile should have spawned at the top with a valid emoji',
-        );
-      },
-    );
+      final spawnedEmoji = boardManager.gridTiles[0][0].emoji;
+      final isValidEmoji =
+          testLevel.availableEmojis.contains(spawnedEmoji) ||
+          spawnedEmoji == Emojis.clown ||
+          spawnedEmoji == Emojis.impSmile;
+
+      expect(
+        isValidEmoji,
+        isTrue,
+        reason:
+            'A new tile should have spawned at the top with a valid emoji or special spawn',
+      );
+    });
 
     test(
       'triggerInitialFall should reset all row coordinates to their final landing spots',

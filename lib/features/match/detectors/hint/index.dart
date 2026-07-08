@@ -134,19 +134,16 @@ List<int>? isolate(HintScanArgs args) {
   final topScore = validMoves.first.score;
   final best = validMoves.where((m) => m.score == topScore).toList();
   if (best.length > 1) {
-    best.sort(
-      (a, b) => (b.coords[0] * cols + b.coords[1]).compareTo(
-        a.coords[0] * cols + a.coords[1],
-      ),
-    );
+    best.sort((a, b) => b.completingRow.compareTo(a.completingRow));
   }
+  final selected = best.first;
   return [
-    best.first.coords[0],
-    best.first.coords[1],
-    best.first.coords[2],
-    best.first.coords[3],
-    best.first.completingRow,
-    best.first.completingCol,
+    selected.coords[0],
+    selected.coords[1],
+    selected.coords[2],
+    selected.coords[3],
+    selected.completingRow,
+    selected.completingCol,
   ];
 }
 
@@ -267,14 +264,26 @@ int? scoreHintMove(
 
   if (args.targetIngredients.contains(g[r1][c1]) ||
       args.targetIngredients.contains(g[r2][c2])) {
-    score += 50;
+    score += 1000;
   }
 
   if (matched.any((m) => m.emoji == args.targetVisual)) {
-    score += 10000;
+    score += double.infinity.toInt();
+    final targetRows = <int>[];
+    for (int r = 0; r < rows; r++) {
+      for (int c = 0; c < cols; c++) {
+        if (g[r][c] == args.targetVisual) {
+          targetRows.add(r);
+        }
+      }
+    }
+    if (targetRows.isNotEmpty) {
+      final avgTargetRow =
+          targetRows.reduce((a, b) => a + b) / targetRows.length;
+      final swapAvgRow = (r1 + r2) / 2;
+      (swapAvgRow - avgTargetRow).abs();
+    }
   }
-
-  score += (r1 > r2 ? r1 : r2) * 4;
 
   return score;
 }
