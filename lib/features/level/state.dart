@@ -6,6 +6,7 @@ import 'package:grimoji/features/match/utils/manager.dart';
 import 'package:grimoji/features/match/engines/game.dart';
 import 'package:grimoji/features/match/coordinator.dart';
 import 'package:grimoji/features/match/state.dart';
+import 'package:grimoji/features/match/announcer.dart';
 import 'package:grimoji/features/level/managers/time.dart';
 import 'package:grimoji/features/level/managers/goal.dart';
 
@@ -26,6 +27,7 @@ class LevelState extends ChangeNotifier {
   late final BoardManager boardManager;
   late final GameEngine engine;
   late final GameState gameState;
+  late final BoardAnnouncer announcer;
   late final GameCoordinator coordinator;
 
   bool _isDisposed = false;
@@ -57,12 +59,16 @@ class LevelState extends ChangeNotifier {
       engine.initializeBehaviors();
     }
 
-    gameState = GameState(audio);
+    gameState = GameState();
+    announcer = BoardAnnouncer(audio);
+    announcer.addListener(notifyListeners);
+
     coordinator = GameCoordinator(
       engine: engine,
       state: gameState,
       boardManager: boardManager,
       audio: audio,
+      announcer: announcer,
       onTargetAcquired: _incrementCollectedAmnt,
       onComboFinished: () async => false,
       startingBoosters: startingBoosters,
@@ -152,7 +158,7 @@ class LevelState extends ChangeNotifier {
     notifyListeners();
 
     while (gameState.isProcessing ||
-        gameState.announcer.isSpeaking ||
+        announcer.isSpeaking ||
         gameState.isShuffling) {
       await Future.delayed(const Duration(milliseconds: 250));
     }

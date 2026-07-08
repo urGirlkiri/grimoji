@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/voices/dialog.dart';
-import 'package:grimoji/features/match/state.dart';
 
 enum TurnEvent { merge, explosion, legendaryEmoji, blackHole }
 
-class BoardAnnouncer {
+class BoardAnnouncer extends ChangeNotifier {
   static final _log = Logger('BoardAnnouncer');
   static const Duration voiceTime = Duration(milliseconds: 1500);
   static const Duration cooldownTime = Duration(seconds: 5);
@@ -32,7 +32,7 @@ class BoardAnnouncer {
   ];
 
   final AudioController _audio;
-  late final GameState _state;
+  bool _isDisposed = false;
 
   Dialog? activeAnnouncement;
   int announcementToken = 0;
@@ -45,8 +45,6 @@ class BoardAnnouncer {
   int _lastPriority = 0;
 
   BoardAnnouncer(this._audio);
-
-  set gameState(GameState state) => _state = state;
 
   bool get isSpeaking => activeAnnouncement != null || _queue.isNotEmpty;
   bool get isInCooldown => _cooldownTimer?.isActive == true;
@@ -98,11 +96,11 @@ class BoardAnnouncer {
     if (_queue.contains(voice)) return;
 
     _queue.add(voice);
-    _state.updateUI();
+    notifyListeners();
 
     _displayTimer?.cancel();
     _displayTimer = Timer(voiceTime, () {
-      if (_queue.isEmpty && !_state.isDisposed) clear();
+      if (_queue.isEmpty && !_isDisposed) clear();
     });
 
     if (!_isLoopActive) _runPlaybackLoop();
@@ -111,7 +109,7 @@ class BoardAnnouncer {
   Future<void> _runPlaybackLoop() async {
     _isLoopActive = true;
 
-    while (_queue.isNotEmpty && !_state.isDisposed) {
+    while (_queue.isNotEmpty && !_isDisposed) {
       final nextVoice = _queue.removeAt(0);
 
       activeAnnouncement = nextVoice;
@@ -120,13 +118,13 @@ class BoardAnnouncer {
       _lastPriority = nextVoice.priority;
 
       startCooldown();
-      _state.updateUI();
+      notifyListeners();
       _audio.playVoice(nextVoice);
 
       await Future.delayed(voiceTime);
     }
 
-    if (!_state.isDisposed) clear();
+    if (!_isDisposed) clear();
     _isLoopActive = false;
   }
 
@@ -134,7 +132,7 @@ class BoardAnnouncer {
     _displayTimer?.cancel();
     _queue.clear();
     activeAnnouncement = null;
-    _state.updateUI();
+    notifyListeners();
   }
 
   void startCooldown() {
@@ -142,8 +140,11 @@ class BoardAnnouncer {
     _cooldownTimer = Timer(cooldownTime, () {});
   }
 
+  @override
   void dispose() {
+    _isDisposed = true;
     _displayTimer?.cancel();
     _cooldownTimer?.cancel();
+    super.dispose();
   }
 }

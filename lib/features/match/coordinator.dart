@@ -30,6 +30,8 @@ class GameCoordinator {
   final GameState state;
   final BoardManager boardManager;
   final AudioController audio;
+  final BoardAnnouncer announcer;
+  
   final void Function(int) onTargetAcquired;
   final Future<bool> Function() onComboFinished;
   void Function(int row, int col, bool isHorizontal)? onLineClear;
@@ -45,6 +47,7 @@ class GameCoordinator {
     required this.state,
     required this.boardManager,
     required this.audio,
+    required this.announcer,
     required this.onTargetAcquired,
     required this.onComboFinished,
     required List<String> startingBoosters,
@@ -282,7 +285,7 @@ class GameCoordinator {
     state.setGameOver();
 
     while ((state.isProcessing ||
-            state.announcer.isSpeaking ||
+            announcer.isSpeaking ||
             state.isShuffling) &&
         !state.isDisposed) {
       await Future.delayed(flagPollingInterval);
@@ -550,7 +553,7 @@ class GameCoordinator {
     final drained = await _removeBehaviorFlags();
 
     if (drained.swallowDestroyed.isNotEmpty) {
-      state.announcer.evaluateTurn(
+      announcer.evaluateTurn(
         events: {TurnEvent.blackHole},
         combo: state.currentComboMultiplier,
         tilesCleared: drained.swallowDestroyed.length,
@@ -805,7 +808,7 @@ class GameCoordinator {
   }
 
   Future<void> _runCoreCascadeLoop(TileCoordinate focusCoordinate) async {
-    state.announcer.clear();
+    announcer.clear();
     state.setComboMultiplier(0);
     state.resetTilesCleared();
 
@@ -837,14 +840,14 @@ class GameCoordinator {
       }
     }
 
-    state.announcer.evaluateTurn(
+    announcer.evaluateTurn(
       events: events,
       combo: state.currentComboMultiplier,
       tilesCleared: state.tilesCleared,
     );
 
-    if (state.announcer.isSpeaking) {
-      state.announcer.startCooldown();
+    if (announcer.isSpeaking) {
+      announcer.startCooldown();
     }
   }
 

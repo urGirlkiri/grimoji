@@ -1,10 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:grimoji/features/audio/audio_controller.dart';
-import 'package:grimoji/features/match/announcer.dart';
 
 class GameState extends ChangeNotifier {
-  final BoardAnnouncer announcer;
-
   bool isProcessing = false;
   bool hasTargetCombo = false;
   bool isShuffling = false;
@@ -27,13 +23,7 @@ class GameState extends ChangeNotifier {
 
   int updateToken = 0;
 
-  GameState([AudioController? audio])
-    : announcer = BoardAnnouncer(audio ?? AudioController()) {
-    announcer.gameState = this;
-  }
-
-  String? get activeAnnouncement => announcer.activeAnnouncement?.text;
-  int get announcementToken => announcer.announcementToken;
+  GameState();
 
   void setProcessing(bool value) {
     if (isProcessing != value) {
@@ -168,7 +158,6 @@ class GameState extends ChangeNotifier {
   void dispose() {
     isDisposed = true;
     isProcessing = false;
-    announcer.dispose();
     super.dispose();
   }
 }
