@@ -136,6 +136,7 @@ class _LevelScreenState extends State<LevelScreen> {
 
   @override
   void dispose() {
+    LevelComOverlay.hide();
     _levelState.dispose();
     super.dispose();
   }
@@ -214,10 +215,9 @@ class _LevelScreenState extends State<LevelScreen> {
                         }
 
                         if (isFirstTime && !isFeverTime) {
-                          return const Material(
-                            type: MaterialType.transparency,
-                            child: LevelComOverlay(),
-                          );
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            LevelComOverlay.show(context);
+                          });
                         }
                         return const SizedBox.shrink();
                       },
