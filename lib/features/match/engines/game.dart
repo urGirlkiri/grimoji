@@ -13,7 +13,7 @@ import 'package:grimoji/features/match/models/cascade_step_result.dart';
 import 'package:grimoji/features/match/models/detonation_step_result.dart';
 import 'package:grimoji/features/match/detectors/swipe.dart';
 import 'package:grimoji/features/match/detectors/match.dart';
-import 'package:grimoji/features/match/detectors/hint.dart';
+import 'package:grimoji/features/match/detectors/hint/index.dart';
 import 'package:grimoji/features/match/engines/alchemy.dart';
 import 'package:grimoji/features/match/engines/behavior.dart';
 

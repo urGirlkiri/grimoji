@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
+import 'package:grimoji/features/match/models/hint_scan_args.dart';
+import 'package:grimoji/features/match/models/iso_group.dart';
 import 'package:grimoji/features/match/models/tile.dart';
 import 'package:grimoji/features/match/utils/manager.dart';
 import 'package:grimoji/features/match/detectors/match.dart';
@@ -26,8 +28,8 @@ class HintDetector {
         .toSet();
 
     final result = await compute(
-      _hintScanIsolate,
-      _HintScanArgs(
+      isolate,
+      HintScanArgs(
         gridVisuals: gridSnapshot,
         hasBehavior: hasBehaviorGrid,
         rows: BoardManager.rows,
@@ -47,27 +49,7 @@ class HintDetector {
   }
 }
 
-class _HintScanArgs {
-  final List<List<String>> gridVisuals;
-  final List<List<bool>> hasBehavior;
-  final int rows;
-  final int cols;
-  final String targetVisual;
-  final Set<String> targetIngredients;
-  final Set<String> unmatchableVisuals;
-
-  _HintScanArgs({
-    required this.gridVisuals,
-    required this.hasBehavior,
-    required this.rows,
-    required this.cols,
-    required this.targetVisual,
-    required this.targetIngredients,
-    required this.unmatchableVisuals,
-  });
-}
-
-List<int>? _hintScanIsolate(_HintScanArgs args) {
+List<int>? isolate(HintScanArgs args) {
   final rows = args.rows;
   final cols = args.cols;
   final g = List<List<String>>.from(
@@ -83,7 +65,7 @@ List<int>? _hintScanIsolate(_HintScanArgs args) {
   for (int r = 0; r < rows; r++) {
     for (int c = 0; c < cols; c++) {
       if (c < cols - 1) {
-        final score = _scoreHintMove(
+        final score = scoreHintMove(
           g,
           r,
           c,
@@ -95,7 +77,7 @@ List<int>? _hintScanIsolate(_HintScanArgs args) {
           unmatchable,
         );
         if (score != null) {
-          final completingInfo = _findCompletingTile(
+          final completingInfo = findCompletingTile(
             g,
             r,
             c,
@@ -114,7 +96,7 @@ List<int>? _hintScanIsolate(_HintScanArgs args) {
         }
       }
       if (r < rows - 1) {
-        final score = _scoreHintMove(
+        final score = scoreHintMove(
           g,
           r,
           c,
@@ -126,7 +108,7 @@ List<int>? _hintScanIsolate(_HintScanArgs args) {
           unmatchable,
         );
         if (score != null) {
-          final completingInfo = _findCompletingTile(
+          final completingInfo = findCompletingTile(
             g,
             r,
             c,
@@ -168,7 +150,7 @@ List<int>? _hintScanIsolate(_HintScanArgs args) {
   ];
 }
 
-(int, int) _findCompletingTile(
+(int, int) findCompletingTile(
   List<List<String>> g,
   int r1,
   int c1,
@@ -241,7 +223,7 @@ List<int>? _hintScanIsolate(_HintScanArgs args) {
   return (r2, c2);
 }
 
-int? _scoreHintMove(
+int? scoreHintMove(
   List<List<String>> g,
   int r1,
   int c1,
@@ -249,14 +231,14 @@ int? _scoreHintMove(
   int c2,
   int rows,
   int cols,
-  _HintScanArgs args,
+  HintScanArgs args,
   Set<String> unmatchable,
 ) {
   final tmp = g[r1][c1];
   g[r1][c1] = g[r2][c2];
   g[r2][c2] = tmp;
 
-  final matched = _scanMatchGroups(g, rows, cols, unmatchable);
+  final matched = scanMatchGroups(g, rows, cols, unmatchable);
 
   g[r2][c2] = g[r1][c1];
   g[r1][c1] = tmp;
@@ -264,31 +246,46 @@ int? _scoreHintMove(
   if (matched.isEmpty) return null;
 
   int score = 100;
-  if (matched.any((m) => m.isSpecial)) score += 75;
+
+  final totalMatchSize = matched.fold<int>(0, (sum, group) => sum + group.size);
+
+  score += (totalMatchSize - 3) * 25;
+
+  if (matched.any((m) => m.isSpecial)) {
+    score += 75;
+  }
+
+  for (final group in matched) {
+    if (group.yieldEmoji == Emojis.ghost.visual) {
+      score += 150;
+    } else if (group.yieldEmoji == Emojis.bomb.visual) {
+      score += 200;
+    } else if (group.yieldEmoji == Emojis.hole.visual) {
+      score += 100;
+    }
+  }
+
   if (args.targetIngredients.contains(g[r1][c1]) ||
       args.targetIngredients.contains(g[r2][c2])) {
     score += 50;
   }
+
   if (matched.any((m) => m.emoji == args.targetVisual)) {
     score += 10000;
   }
+
   score += (r1 > r2 ? r1 : r2) * 4;
+
   return score;
 }
 
-class _IsoGroup {
-  final String emoji;
-  final bool isSpecial;
-  const _IsoGroup(this.emoji, {this.isSpecial = false});
-}
-
-List<_IsoGroup> _scanMatchGroups(
+List<IsoGroup> scanMatchGroups(
   List<List<String>> g,
   int rows,
   int cols,
   Set<String> unmatchable,
 ) {
-  final groups = <_IsoGroup>[];
+  final groups = <IsoGroup>[];
   final hRuns = <({String emoji, int row, int startCol, int len})>[];
   final vRuns = <({String emoji, int col, int startRow, int len})>[];
 
@@ -341,19 +338,42 @@ List<_IsoGroup> _scanMatchGroups(
       final hCols = List.generate(h.len, (i) => h.startCol + i).toSet();
       final vRows = List.generate(v.len, (i) => v.startRow + i).toSet();
       if (hCols.contains(v.col) && vRows.contains(h.row)) {
-        groups.add(_IsoGroup(h.emoji, isSpecial: true));
+        final totalSize = h.len + v.len - 1;
+
+        String? yieldEmoji;
+        if (totalSize >= 5) {
+          yieldEmoji = Emojis.bomb.visual;
+        } else {
+          yieldEmoji = Emojis.ghost.visual;
+        }
+        groups.add(
+          IsoGroup(
+            h.emoji,
+            isSpecial: true,
+            size: totalSize,
+            yieldEmoji: yieldEmoji,
+          ),
+        );
         foundIntersect = true;
         break;
       }
     }
-    if (!foundIntersect) groups.add(_IsoGroup(h.emoji));
+    if (!foundIntersect) {
+      groups.add(IsoGroup(h.emoji, size: h.len));
+    }
   }
 
   for (final v in vRuns) {
     final alreadyCovered = groups.any(
       (grp) => grp.isSpecial && grp.emoji == v.emoji,
     );
-    if (!alreadyCovered) groups.add(_IsoGroup(v.emoji));
+    if (!alreadyCovered) {
+      String? yieldEmoji;
+      if (v.len >= 5) {
+        yieldEmoji = Emojis.hole.visual;
+      }
+      groups.add(IsoGroup(v.emoji, size: v.len, yieldEmoji: yieldEmoji));
+    }
   }
 
   return groups;
