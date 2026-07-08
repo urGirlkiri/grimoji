@@ -11,9 +11,9 @@ final List<GameLevel> chapter3Levels = [
     description: 'The Iron Gates - Learn Corrosive Magic',
     availableEmojis: [
       Emojis.snake,
-      Emojis.rock,
+      Emojis.bone,
       Emojis.leafyGreen,
-      Emojis.droplet,
+      Emojis.rock,
     ],
   ),
 
@@ -40,7 +40,12 @@ final List<GameLevel> chapter3Levels = [
     targetEmoji: Emojis.metal,
     goal: 'Melt the shields into scrap metal',
     description: 'The Armory - Defend the keep',
-    availableEmojis: [Emojis.shield, Emojis.guitar, Emojis.chains, Emojis.fire],
+    availableEmojis: [
+      Emojis.shield,
+      Emojis.guitar,
+      Emojis.skull,
+      Emojis.droplet,
+    ],
     skipAutoPlayer: true,
   ),
 
@@ -54,7 +59,7 @@ final List<GameLevel> chapter3Levels = [
     availableEmojis: [
       Emojis.chains,
       Emojis.snake,
-      Emojis.skull,
+      Emojis.metal,
       Emojis.whiteFlag,
     ],
     skipAutoPlayer: true,
@@ -67,7 +72,7 @@ final List<GameLevel> chapter3Levels = [
     targetEmoji: Emojis.volcano,
     goal: 'Craft Seismic Bombs to bring down the towers',
     description: 'Tremors - The earth awakens',
-    availableEmojis: [Emojis.rock, Emojis.fire, Emojis.chains, Emojis.bone],
+    availableEmojis: [Emojis.rock, Emojis.fire, Emojis.droplet, Emojis.bone],
   ),
 
   GameLevel(
@@ -78,10 +83,10 @@ final List<GameLevel> chapter3Levels = [
     goal: 'Use Volcanoes to shatter the board',
     description: 'Crumbling Towers - The fortress falls',
     availableEmojis: [
-      Emojis.mountain,
-      Emojis.rock,
-      Emojis.snake,
-      Emojis.chains,
+      Emojis.windFace,
+      Emojis.cloud,
+      Emojis.cyclone,
+      Emojis.leaflessTree,
     ],
     skipAutoPlayer: true,
   ),
@@ -93,7 +98,12 @@ final List<GameLevel> chapter3Levels = [
     targetEmoji: Emojis.ghost,
     goal: 'Free the ghosts from the dungeon',
     description: 'The Dungeon - Captives in chains',
-    availableEmojis: [Emojis.locked, Emojis.snake, Emojis.bone, Emojis.skull],
+    availableEmojis: [
+      Emojis.locked,
+      Emojis.whiteFlag,
+      Emojis.fire,
+      Emojis.rock,
+    ],
   ),
 
   GameLevel(
@@ -104,10 +114,10 @@ final List<GameLevel> chapter3Levels = [
     goal: 'Burn holes in the floor with acid',
     description: 'Acid Rain - The siege begins',
     availableEmojis: [
-      Emojis.snake,
       Emojis.blackHeart,
-      Emojis.rock,
-      Emojis.spider,
+      Emojis.cloud,
+      Emojis.droplet,
+      Emojis.snake,
     ],
   ),
 
@@ -119,11 +129,10 @@ final List<GameLevel> chapter3Levels = [
     goal: 'Claim the fallen King\'s Crown',
     description: 'The Keep\'s Core - The final challenge',
     availableEmojis: [
-      Emojis.locked,
-      Emojis.chains,
       Emojis.treasure,
-      Emojis.rock,
-      Emojis.fire,
+      Emojis.whiteFlag,
+      Emojis.shield,
+      Emojis.windFace,
     ],
   ),
 
@@ -134,7 +143,7 @@ final List<GameLevel> chapter3Levels = [
     targetEmoji: Emojis.bat,
     goal: 'Craft bats from spiders',
     description: 'The Gargoyle\'s Perch - Night falls on the keep',
-    availableEmojis: [Emojis.rock, Emojis.spider, Emojis.chains, Emojis.skull],
+    availableEmojis: [Emojis.spider, Emojis.rock, Emojis.guitar, Emojis.metal],
   ),
 
   GameLevel(
@@ -146,10 +155,9 @@ final List<GameLevel> chapter3Levels = [
     description: 'The Iron Maiden - Execution awaits',
     availableEmojis: [
       Emojis.chains,
-      Emojis.locked,
+      Emojis.treasure,
       Emojis.linkedPaperclips,
-      Emojis.fire,
-      Emojis.rock,
+      Emojis.bone,
     ],
     skipAutoPlayer: true,
   ),
@@ -161,7 +169,7 @@ final List<GameLevel> chapter3Levels = [
     targetEmoji: Emojis.ghost,
     goal: 'Free the ghosts from the locked catacombs',
     description: 'The Catacombs - Ancient dead sleep below',
-    availableEmojis: [Emojis.bone, Emojis.locked, Emojis.snake, Emojis.skull],
+    availableEmojis: [Emojis.rock, Emojis.snake, Emojis.skull, Emojis.droplet],
     skipAutoPlayer: true,
   ),
 
@@ -172,12 +180,7 @@ final List<GameLevel> chapter3Levels = [
     targetEmoji: Emojis.biohazard,
     goal: 'Craft massive amounts of acid to cross the moat',
     description: 'Toxic Moat - The fortress\'s final defense',
-    availableEmojis: [
-      Emojis.snake,
-      Emojis.droplet,
-      Emojis.leafyGreen,
-      Emojis.skull,
-    ],
+    availableEmojis: [Emojis.bug, Emojis.leafyGreen, Emojis.worm, Emojis.bone],
     skipAutoPlayer: true,
   ),
 
@@ -188,7 +191,12 @@ final List<GameLevel> chapter3Levels = [
     targetEmoji: Emojis.volcano,
     goal: 'Master the Earthquake magic to bring down the inner keep',
     description: 'Tremors II - The earth shakes with fury',
-    availableEmojis: [Emojis.rock, Emojis.chains, Emojis.mountain, Emojis.fire],
+    availableEmojis: [
+      Emojis.rock,
+      Emojis.fire,
+      Emojis.droplet,
+      Emojis.blackHeart,
+    ],
     skipAutoPlayer: true,
   ),
 
@@ -201,10 +209,9 @@ final List<GameLevel> chapter3Levels = [
     description: 'The Derelict House - Ruins within ruins',
     availableEmojis: [
       Emojis.leaflessTree,
-      Emojis.rock,
-      Emojis.chains,
+      Emojis.cloud,
+      Emojis.windFace,
       Emojis.bone,
-      Emojis.spider,
     ],
     skipAutoPlayer: true,
   ),
@@ -216,12 +223,7 @@ final List<GameLevel> chapter3Levels = [
     targetEmoji: Emojis.debris,
     goal: 'Use Volcanoes to bring down the derelict house',
     description: 'Shattered Foundations - The keep collapses',
-    availableEmojis: [
-      Emojis.derelictHouse,
-      Emojis.rock,
-      Emojis.fire,
-      Emojis.cloud,
-    ],
+    availableEmojis: [Emojis.cyclone, Emojis.fire, Emojis.rock, Emojis.droplet],
     skipAutoPlayer: true,
   ),
 
@@ -232,7 +234,12 @@ final List<GameLevel> chapter3Levels = [
     targetEmoji: Emojis.coin,
     goal: 'Loot the keep and melt metal into coins',
     description: 'The King\'s Ransom - Treasure awaits',
-    availableEmojis: [Emojis.metal, Emojis.fire, Emojis.locked, Emojis.snake],
+    availableEmojis: [
+      Emojis.metal,
+      Emojis.locked,
+      Emojis.snake,
+      Emojis.whiteFlag,
+    ],
   ),
 
   GameLevel(
@@ -243,10 +250,10 @@ final List<GameLevel> chapter3Levels = [
     goal: 'Craft crocodiles from snakes',
     description: 'Dragon Scales - The dragon awakens',
     availableEmojis: [
-      Emojis.snake,
-      Emojis.rock,
+      Emojis.bug,
       Emojis.leafyGreen,
-      Emojis.droplet,
+      Emojis.bone,
+      Emojis.leaflessTree,
     ],
     skipAutoPlayer: true,
   ),
@@ -258,13 +265,7 @@ final List<GameLevel> chapter3Levels = [
     targetEmoji: Emojis.volcano,
     goal: 'Total destruction with seismic bombs',
     description: 'The Keep Collapses - All hands on deck',
-    availableEmojis: [
-      Emojis.rock,
-      Emojis.derelictHouse,
-      Emojis.locked,
-      Emojis.snake,
-      Emojis.chains,
-    ],
+    availableEmojis: [Emojis.shield, Emojis.droplet, Emojis.fire, Emojis.cloud],
     skipAutoPlayer: true,
   ),
 
@@ -278,9 +279,8 @@ final List<GameLevel> chapter3Levels = [
     availableEmojis: [
       Emojis.snake,
       Emojis.crocodile,
-      Emojis.rock,
       Emojis.chains,
-      Emojis.fire,
+      Emojis.bone,
     ],
   ),
 ];

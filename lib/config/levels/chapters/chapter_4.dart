@@ -27,7 +27,7 @@ final List<GameLevel> chapter4Levels = [
     availableEmojis: [
       Emojis.babyChick,
       Emojis.windFace,
-      Emojis.cloud,
+      Emojis.fire,
       Emojis.leafyGreen,
     ],
   ),
@@ -42,7 +42,7 @@ final List<GameLevel> chapter4Levels = [
     availableEmojis: [
       Emojis.blackBird,
       Emojis.cloudWithLightning,
-      Emojis.windFace,
+      Emojis.rock,
       Emojis.bone,
     ],
   ),
@@ -55,10 +55,10 @@ final List<GameLevel> chapter4Levels = [
     goal: 'Combine 4 crows to form a giant eagle',
     description: 'The Apex Predator - King of the skies',
     availableEmojis: [
-      Emojis.blackBird,
+      Emojis.babyChick,
       Emojis.windFace,
-      Emojis.rock,
-      Emojis.bone,
+      Emojis.fire,
+      Emojis.cloud,
     ],
   ),
 
@@ -71,9 +71,9 @@ final List<GameLevel> chapter4Levels = [
     description: 'Category 5 - The storm arrives',
     availableEmojis: [
       Emojis.cloudWithLightning,
-      Emojis.windFace,
       Emojis.derelictHouse,
       Emojis.cyclone,
+      Emojis.rock,
     ],
   ),
 
@@ -87,8 +87,8 @@ final List<GameLevel> chapter4Levels = [
     availableEmojis: [
       Emojis.tornado,
       Emojis.droplet,
-      Emojis.rock,
       Emojis.windFace,
+      Emojis.fire,
     ],
   ),
 
@@ -102,8 +102,8 @@ final List<GameLevel> chapter4Levels = [
     availableEmojis: [
       Emojis.cloudWithLightning,
       Emojis.eagle,
-      Emojis.windFace,
-      Emojis.fire,
+      Emojis.cloud,
+      Emojis.rock,
     ],
     skipAutoPlayer: true,
   ),
@@ -115,7 +115,12 @@ final List<GameLevel> chapter4Levels = [
     targetEmoji: Emojis.cloud,
     goal: 'Clear the skies of invasive bugs',
     description: 'Turbulence - The wind stirs',
-    availableEmojis: [Emojis.windFace, Emojis.droplet, Emojis.rock, Emojis.bug],
+    availableEmojis: [
+      Emojis.windFace,
+      Emojis.coldFace,
+      Emojis.cyclone,
+      Emojis.fire,
+    ],
   ),
 
   GameLevel(
@@ -127,8 +132,8 @@ final List<GameLevel> chapter4Levels = [
     description: 'The Lightning Rod - Conductivity test',
     availableEmojis: [
       Emojis.robot,
-      Emojis.cloudWithLightning,
-      Emojis.windFace,
+      Emojis.electricity,
+      Emojis.cloud,
       Emojis.fireworks,
     ],
   ),
@@ -140,12 +145,7 @@ final List<GameLevel> chapter4Levels = [
     targetEmoji: Emojis.tornado,
     goal: 'Survive the eye of the storm',
     description: 'Eye of the Storm - The calm within',
-    availableEmojis: [
-      Emojis.cloud,
-      Emojis.windFace,
-      Emojis.rock,
-      Emojis.cyclone,
-    ],
+    availableEmojis: [Emojis.droplet, Emojis.fire, Emojis.rock, Emojis.cyclone],
     skipAutoPlayer: true,
   ),
 
@@ -158,8 +158,8 @@ final List<GameLevel> chapter4Levels = [
     description: 'Static Charge - The storm\'s heart',
     availableEmojis: [
       Emojis.cloudWithLightning,
-      Emojis.fire,
-      Emojis.droplet,
+      Emojis.skull,
+      Emojis.bone,
       Emojis.robot,
     ],
     skipAutoPlayer: true,
@@ -172,12 +172,7 @@ final List<GameLevel> chapter4Levels = [
     targetEmoji: Emojis.snowflake,
     goal: 'Bring back ice magic with freezing winds',
     description: 'Freezing Winds - The cold arrives',
-    availableEmojis: [
-      Emojis.cloud,
-      Emojis.windFace,
-      Emojis.droplet,
-      Emojis.spider,
-    ],
+    availableEmojis: [Emojis.cloud, Emojis.fire, Emojis.droplet, Emojis.spider],
   ),
 
   GameLevel(
@@ -189,7 +184,7 @@ final List<GameLevel> chapter4Levels = [
     description: 'The Aviary - Wings of the sky',
     availableEmojis: [
       Emojis.blackBird,
-      Emojis.windFace,
+      Emojis.skull,
       Emojis.leafyGreen,
       Emojis.bone,
     ],
@@ -203,10 +198,10 @@ final List<GameLevel> chapter4Levels = [
     goal: 'Use lightning to cook the chickens',
     description: 'Fried Chicken - The feast begins',
     availableEmojis: [
-      Emojis.blackBird,
+      Emojis.droplet,
       Emojis.eagle,
       Emojis.cloudWithLightning,
-      Emojis.bone,
+      Emojis.rock,
     ],
   ),
 
@@ -218,8 +213,8 @@ final List<GameLevel> chapter4Levels = [
     goal: 'Destroy the derelict house with hurricanes',
     description: 'Hurricane - The storm\'s fury',
     availableEmojis: [
-      Emojis.cloudWithLightning,
-      Emojis.windFace,
+      Emojis.fire,
+      Emojis.cloud,
       Emojis.derelictHouse,
       Emojis.cyclone,
     ],
@@ -232,12 +227,7 @@ final List<GameLevel> chapter4Levels = [
     targetEmoji: Emojis.biohazard,
     goal: 'Create acid rain to unlock the facility',
     description: 'Acid Rain II - The chemical storm',
-    availableEmojis: [
-      Emojis.snake,
-      Emojis.cloud,
-      Emojis.droplet,
-      Emojis.locked,
-    ],
+    availableEmojis: [Emojis.snake, Emojis.bone, Emojis.droplet, Emojis.locked],
   ),
 
   GameLevel(
@@ -266,7 +256,7 @@ final List<GameLevel> chapter4Levels = [
       Emojis.rock,
       Emojis.tornado,
       Emojis.mountain,
-      Emojis.windFace,
+      Emojis.cloud,
     ],
   ),
 
@@ -279,9 +269,9 @@ final List<GameLevel> chapter4Levels = [
     description: 'The Nest - A home in the sky',
     availableEmojis: [
       Emojis.blackBird,
-      Emojis.windFace,
-      Emojis.rock,
-      Emojis.cloud,
+      Emojis.cloudWithLightning,
+      Emojis.bone,
+      Emojis.droplet,
     ],
   ),
 
@@ -292,13 +282,7 @@ final List<GameLevel> chapter4Levels = [
     targetEmoji: Emojis.phoenix,
     goal: 'Combine 5 eagles to form a phoenix',
     description: 'Rebirth in the Sky - The final storm',
-    availableEmojis: [
-      Emojis.eagle,
-      Emojis.fire,
-      Emojis.cloudWithLightning,
-      Emojis.tornado,
-      Emojis.rock,
-    ],
+    availableEmojis: [Emojis.eagle, Emojis.fire, Emojis.skull, Emojis.tornado],
     skipAutoPlayer: true,
   ),
 ];

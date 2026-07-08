@@ -24,12 +24,7 @@ final List<GameLevel> chapter5Levels = [
     targetEmoji: Emojis.glowingStar,
     goal: 'Create brilliant glowing stars',
     description: 'Celestial Light - The stars shine bright',
-    availableEmojis: [
-      Emojis.sparkles,
-      Emojis.star,
-      Emojis.cloud,
-      Emojis.droplet,
-    ],
+    availableEmojis: [Emojis.droplet, Emojis.fire, Emojis.rock, Emojis.bone],
     skipAutoPlayer: true,
   ),
 
@@ -42,9 +37,9 @@ final List<GameLevel> chapter5Levels = [
     description: 'The Cosmic Messenger - Fear and wonder',
     availableEmojis: [
       Emojis.glowingStar,
-      Emojis.sparkles,
+      Emojis.skull,
+      Emojis.star,
       Emojis.cloud,
-      Emojis.fire,
     ],
   ),
 
@@ -57,9 +52,9 @@ final List<GameLevel> chapter5Levels = [
     description: 'The Night Sky - A thousand twinkling lights',
     availableEmojis: [
       Emojis.sparkles,
-      Emojis.cloud,
-      Emojis.droplet,
       Emojis.rock,
+      Emojis.droplet,
+      Emojis.fire,
     ],
   ),
 
@@ -71,10 +66,10 @@ final List<GameLevel> chapter5Levels = [
     goal: 'Activate the mystical crystal ball',
     description: 'The Oracle\'s Tool - Visions of the future',
     availableEmojis: [
-      Emojis.sparkles,
       Emojis.glowingStar,
+      Emojis.skull,
+      Emojis.star,
       Emojis.cloud,
-      Emojis.droplet,
     ],
     skipAutoPlayer: true,
   ),
@@ -88,9 +83,9 @@ final List<GameLevel> chapter5Levels = [
     description: 'Fate\'s Decree - The die is cast',
     availableEmojis: [
       Emojis.crystalBall,
+      Emojis.bone,
       Emojis.sparkles,
-      Emojis.fire,
-      Emojis.rock,
+      Emojis.droplet,
     ],
   ),
 
@@ -102,10 +97,10 @@ final List<GameLevel> chapter5Levels = [
     goal: 'Summon alien creatures from beyond',
     description: 'The Outer Realm - Entities from the void',
     availableEmojis: [
-      Emojis.sparkles,
       Emojis.glowingStar,
       Emojis.alien,
-      Emojis.rock,
+      Emojis.skull,
+      Emojis.cloud,
     ],
   ),
 
@@ -118,8 +113,8 @@ final List<GameLevel> chapter5Levels = [
     description: 'The Flying Saucer - Interstellar travel',
     availableEmojis: [
       Emojis.alienMonster,
-      Emojis.sparkles,
-      Emojis.cloud,
+      Emojis.droplet,
+      Emojis.rock,
       Emojis.fire,
     ],
   ),
@@ -131,7 +126,7 @@ final List<GameLevel> chapter5Levels = [
     targetEmoji: Emojis.comet,
     goal: 'Hurl cosmic comets at the fortress',
     description: 'The Cosmic Siege - From the depths of space',
-    availableEmojis: [Emojis.glowingStar, Emojis.sparkles, Emojis.rock],
+    availableEmojis: [Emojis.glowingStar, Emojis.skull, Emojis.bone],
   ),
 
   GameLevel(
@@ -141,7 +136,12 @@ final List<GameLevel> chapter5Levels = [
     targetEmoji: Emojis.crystalBall,
     goal: 'Master the ultimate divination',
     description: 'The Grand Oracle - Seeing all futures',
-    availableEmojis: [Emojis.glowingStar, Emojis.comet, Emojis.sparkles],
+    availableEmojis: [
+      Emojis.sparkles,
+      Emojis.cloud,
+      Emojis.rock,
+      Emojis.droplet,
+    ],
   ),
 
   GameLevel(
@@ -151,7 +151,7 @@ final List<GameLevel> chapter5Levels = [
     targetEmoji: Emojis.star,
     goal: 'Create a galaxy of stars',
     description: 'The Galactic Field - Infinite possibilities',
-    availableEmojis: [Emojis.sparkles, Emojis.glowingStar, Emojis.cloud],
+    availableEmojis: [Emojis.comet, Emojis.glowingStar, Emojis.fire],
   ),
 
   GameLevel(
@@ -161,7 +161,7 @@ final List<GameLevel> chapter5Levels = [
     targetEmoji: Emojis.alienMonster,
     goal: 'Command the alien legions',
     description: 'The Cosmic Army - Forces unseen',
-    availableEmojis: [Emojis.alien, Emojis.sparkles, Emojis.fire],
+    availableEmojis: [Emojis.alien, Emojis.bone, Emojis.rock],
   ),
 
   GameLevel(
@@ -171,7 +171,7 @@ final List<GameLevel> chapter5Levels = [
     targetEmoji: Emojis.comet,
     goal: 'Summon the ultimate cosmic weapon',
     description: 'The Stellar Cannon - Destruction incarnate',
-    availableEmojis: [Emojis.glowingStar, Emojis.crystalBall, Emojis.sparkles],
+    availableEmojis: [Emojis.glowingStar, Emojis.crystalBall, Emojis.skull],
   ),
 
   GameLevel(
@@ -182,10 +182,10 @@ final List<GameLevel> chapter5Levels = [
     goal: 'Break fate itself',
     description: 'The End of Prophecy - No destiny can stop you',
     availableEmojis: [
-      Emojis.crystalBall,
+      Emojis.sparkles,
       Emojis.comet,
       Emojis.alienMonster,
-      Emojis.fire,
+      Emojis.droplet,
     ],
   ),
 
@@ -196,7 +196,7 @@ final List<GameLevel> chapter5Levels = [
     targetEmoji: Emojis.flyingSaucer,
     goal: 'Launch a fleet of UFOs',
     description: 'The Interstellar Fleet - Conquest begins',
-    availableEmojis: [Emojis.alienMonster, Emojis.sparkles, Emojis.cloud],
+    availableEmojis: [Emojis.alien, Emojis.cloud, Emojis.skull],
   ),
 
   GameLevel(
@@ -206,7 +206,12 @@ final List<GameLevel> chapter5Levels = [
     targetEmoji: Emojis.glowingStar,
     goal: 'Create a supernova of light',
     description: 'The Stellar Explosion - The galaxy shines',
-    availableEmojis: [Emojis.comet, Emojis.sparkles, Emojis.fire],
+    availableEmojis: [
+      Emojis.sparkles,
+      Emojis.droplet,
+      Emojis.fire,
+      Emojis.rock,
+    ],
   ),
 
   GameLevel(
@@ -216,12 +221,6 @@ final List<GameLevel> chapter5Levels = [
     targetEmoji: Emojis.crystalBall,
     goal: 'Master all cosmic magic',
     description: 'The Cosmic Ascension - Become a god of the stars',
-    availableEmojis: [
-      Emojis.glowingStar,
-      Emojis.comet,
-      Emojis.flyingSaucer,
-      Emojis.alienMonster,
-      Emojis.sparkles,
-    ],
+    availableEmojis: [Emojis.cloud, Emojis.star, Emojis.bone, Emojis.skull],
   ),
 ];
