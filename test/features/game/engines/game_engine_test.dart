@@ -121,7 +121,7 @@ void main() {
 
       final hint = await gameEngine.getHintMove();
       expect(hint, isNotNull);
-      expect(hint!.length, 2);
+      expect(hint!.length, 3);
     });
 
     test('Should return null hint when no moves available', () async {

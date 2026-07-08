@@ -51,9 +51,9 @@ class PrankBehavior extends EmojiBehavior {
       'At ($x, $y): hint move found at (${hintMove[0].row}, ${hintMove[0].col}) -> (${hintMove[1].row}, ${hintMove[1].col})',
     );
 
-    final target = hintMove[0];
+    final target = hintMove[2];
     _log.info(
-      'At ($x, $y): selected hint partner (${target.row}, ${target.col}) for poop transmutation',
+      'At ($x, $y): selected completing tile (${target.row}, ${target.col}) for poop transmutation',
     );
 
     return [

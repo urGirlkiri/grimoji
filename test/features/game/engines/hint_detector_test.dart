@@ -127,6 +127,181 @@ void main() {
       );
     });
 
+    group('Completing tile accuracy', () {
+      test(
+        'Should identify completing tile at right end of horizontal match',
+        () async {
+          final fireLevel = GameLevel(
+            number: 1,
+            timeLimit: 60,
+            targetEmoji: Emojis.fire,
+            targetAmount: 10,
+            availableEmojis: [Emojis.fire, Emojis.rock],
+            goal: 'test',
+            description: 'test',
+          );
+
+          testGrid.fillPattern([
+            Emojis.droplet,
+            Emojis.spider,
+            Emojis.bone,
+            Emojis.worm,
+          ]);
+          testGrid.place(0, 0, Emojis.fire);
+          testGrid.place(0, 1, Emojis.fire);
+          testGrid.place(0, 2, Emojis.rock);
+          testGrid.place(0, 3, Emojis.fire);
+
+          final hint = await HintDetector.findBestMove(
+            grid: grid,
+            targetEmoji: fireLevel.targetEmoji,
+          );
+
+          expect(hint, isNotNull);
+          expect(hint!.length, 3);
+          expect(
+            hint[2].row,
+            equals(0),
+            reason: "Completing tile row should be 0",
+          );
+          expect(
+            hint[2].col,
+            equals(3),
+            reason: "Completing tile col should be 3 (the Fire)",
+          );
+        },
+      );
+
+      test(
+        'Should identify completing tile at left end of horizontal match',
+        () async {
+          final fireLevel = GameLevel(
+            number: 1,
+            timeLimit: 60,
+            targetEmoji: Emojis.fire,
+            targetAmount: 10,
+            availableEmojis: [Emojis.fire, Emojis.rock],
+            goal: 'test',
+            description: 'test',
+          );
+
+          testGrid.fillPattern([
+            Emojis.droplet,
+            Emojis.spider,
+            Emojis.bone,
+            Emojis.worm,
+          ]);
+          testGrid.place(0, 0, Emojis.fire);
+          testGrid.place(0, 1, Emojis.rock);
+          testGrid.place(0, 2, Emojis.fire);
+          testGrid.place(0, 3, Emojis.fire);
+
+          final hint = await HintDetector.findBestMove(
+            grid: grid,
+            targetEmoji: fireLevel.targetEmoji,
+          );
+
+          expect(hint, isNotNull);
+          expect(
+            hint![2].row,
+            equals(0),
+            reason: "Completing tile row should be 0",
+          );
+          expect(
+            hint[2].col,
+            equals(0),
+            reason: "Completing tile col should be 0 (the Fire)",
+          );
+        },
+      );
+
+      test(
+        'Should identify completing tile at bottom of vertical match',
+        () async {
+          final fireLevel = GameLevel(
+            number: 1,
+            timeLimit: 60,
+            targetEmoji: Emojis.fire,
+            targetAmount: 10,
+            availableEmojis: [Emojis.fire, Emojis.rock],
+            goal: 'test',
+            description: 'test',
+          );
+
+          testGrid.fillPattern([
+            Emojis.droplet,
+            Emojis.spider,
+            Emojis.bone,
+            Emojis.worm,
+          ]);
+          testGrid.place(0, 0, Emojis.fire);
+          testGrid.place(1, 0, Emojis.fire);
+          testGrid.place(2, 0, Emojis.rock);
+          testGrid.place(3, 0, Emojis.fire);
+
+          final hint = await HintDetector.findBestMove(
+            grid: grid,
+            targetEmoji: fireLevel.targetEmoji,
+          );
+
+          expect(hint, isNotNull);
+          expect(
+            hint![2].row,
+            equals(3),
+            reason: "Completing tile row should be 3 (the Fire)",
+          );
+          expect(
+            hint[2].col,
+            equals(0),
+            reason: "Completing tile col should be 0",
+          );
+        },
+      );
+
+      test(
+        'Should identify completing tile at top of vertical match',
+        () async {
+          final fireLevel = GameLevel(
+            number: 1,
+            timeLimit: 60,
+            targetEmoji: Emojis.fire,
+            targetAmount: 10,
+            availableEmojis: [Emojis.fire, Emojis.rock],
+            goal: 'test',
+            description: 'test',
+          );
+
+          testGrid.fillPattern([
+            Emojis.droplet,
+            Emojis.spider,
+            Emojis.bone,
+            Emojis.worm,
+          ]);
+          testGrid.place(0, 0, Emojis.fire);
+          testGrid.place(1, 0, Emojis.rock);
+          testGrid.place(2, 0, Emojis.fire);
+          testGrid.place(3, 0, Emojis.fire);
+
+          final hint = await HintDetector.findBestMove(
+            grid: grid,
+            targetEmoji: fireLevel.targetEmoji,
+          );
+
+          expect(hint, isNotNull);
+          expect(
+            hint![2].row,
+            equals(0),
+            reason: "Completing tile row should be 0 (the Fire)",
+          );
+          expect(
+            hint[2].col,
+            equals(0),
+            reason: "Completing tile col should be 0",
+          );
+        },
+      );
+    });
+
     group('Scoring — target ingredient preference', () {
       test(
         'Should prefer a move that matches target ingredient over a plain match',
