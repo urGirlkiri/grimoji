@@ -37,6 +37,12 @@ class BoardManager {
         gridTiles[r][c].emoji = getRandomSafeEmoji(r, c);
       }
     }
+
+    if (level.number == 3) {
+      final prankRow = _random.nextInt(rows);
+      final prankCol = _random.nextInt(cols);
+      gridTiles[prankRow][prankCol].emoji = Emojis.impSmile;
+    }
   }
 
   GameEmoji getRandomSafeEmoji(int row, int col) {
@@ -120,8 +126,12 @@ class BoardManager {
   GravityResult applyGravity(TileSet tilesToDestroy) {
     final Set<int> affectedColumns = {};
     final Set<int> affectedRows = {};
-
     bool clownOnBoard = false;
+    bool clownSpawned = false;
+
+    bool pranksterOnBoard = false;
+    bool pranksterSpawned = false;
+
     for (int r = 0; r < rows; r++) {
       for (int c = 0; c < cols; c++) {
         if (gridTiles[r][c].emoji == Emojis.clown) {
@@ -132,9 +142,21 @@ class BoardManager {
       if (clownOnBoard) break;
     }
 
+    for (int r = 0; r < rows; r++) {
+      for (int c = 0; c < cols; c++) {
+        if (gridTiles[r][c].emoji == Emojis.impSmile) {
+          pranksterOnBoard = true;
+          break;
+        }
+      }
+      if (pranksterOnBoard) break;
+    }
+
     final shouldSpawnClown =
         !clownOnBoard && level.number % 2 == 0 && _random.nextDouble() < 0.5;
-    bool clownSpawned = false;
+
+    final shouldSpawnPrankster =
+        !pranksterOnBoard && _random.nextDouble() < 0.1;
 
     for (int c = 0; c < cols; c++) {
       List<Tile> remainingTiles = [];
@@ -173,6 +195,9 @@ class BoardManager {
         if (shouldSpawnClown && !clownSpawned && i == 0) {
           emoji = Emojis.clown;
           clownSpawned = true;
+        } else if (shouldSpawnPrankster && !pranksterSpawned && i == 0) {
+          emoji = Emojis.impSmile;
+          pranksterSpawned = true;
         } else {
           emoji = level
               .availableEmojis[_random.nextInt(level.availableEmojis.length)];
