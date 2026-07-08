@@ -10,11 +10,11 @@ final List<Recipe> chapter4Recipes = [
 
   Recipe(ingredient: Emojis.blackBird, requiredAmount: 4, yields: Emojis.eagle),
 
-  Recipe(ingredient: Emojis.eagle, requiredAmount: 5, yields: Emojis.phoenix),
+  Recipe(ingredient: Emojis.eagle, requiredAmount: 4, yields: Emojis.phoenix),
 
   Recipe(
     ingredient: Emojis.cloudWithLightning,
-    requiredAmount: 5,
+    requiredAmount: 4,
     yields: Emojis.electricity,
   ),
   Recipe(
