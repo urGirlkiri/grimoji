@@ -3,11 +3,11 @@ import 'package:grimoji/features/alchemy/behavior_register.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:grimoji/features/match/models/tile.dart';
-import 'package:grimoji/features/match/utils/manager.dart';
+import 'package:grimoji/features/match/board/manager.dart';
 import 'package:grimoji/features/match/detectors/match.dart';
 import 'package:grimoji/config/emojis/index.dart';
 
-class BoardEvaluator {
+class ThreatEvaluator {
   static Future<TileCoordinate?> findTarget({
     required List<List<Tile>> grid,
     required GameEmoji targetEmoji,

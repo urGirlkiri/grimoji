@@ -6,7 +6,7 @@ import 'package:grimoji/features/match/detectors/hint/isolate.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:grimoji/features/match/models/hint_scan_args.dart';
 import 'package:grimoji/features/match/models/tile.dart';
-import 'package:grimoji/features/match/utils/manager.dart';
+import 'package:grimoji/features/match/board/manager.dart';
 import 'package:grimoji/features/match/detectors/match.dart';
 
 class HintDetector {

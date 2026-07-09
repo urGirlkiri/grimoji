@@ -1,5 +1,5 @@
 import 'package:grimoji/config/emojis/index.dart';
-import 'package:grimoji/features/match/utils/manager.dart';
+import 'package:grimoji/features/match/board/manager.dart';
 
 class TestGrid {
   final BoardManager board;

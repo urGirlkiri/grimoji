@@ -4,7 +4,7 @@ import 'package:grimoji/features/match/engines/game.dart';
 import 'package:grimoji/features/match/models/match_group.dart';
 import 'package:grimoji/features/match/state.dart';
 import 'package:grimoji/features/match/types.dart';
-import 'package:grimoji/features/match/utils/manager.dart';
+import 'package:grimoji/features/match/board/manager.dart';
 
 class SettlementProcessor {
   final GameEngine engine;

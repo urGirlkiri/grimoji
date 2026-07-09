@@ -11,7 +11,7 @@ import 'package:grimoji/features/match/board/widgets/board_grid.dart';
 import 'package:grimoji/features/match/board/effects/sparkle/index.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/index.dart';
 import 'package:grimoji/features/level/state.dart';
-import 'package:grimoji/features/match/utils/manager.dart';
+import 'package:grimoji/features/match/board/manager.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:provider/provider.dart';
 

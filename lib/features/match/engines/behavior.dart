@@ -7,7 +7,7 @@ import 'package:grimoji/features/alchemy/behaviors/clown.dart';
 import 'package:grimoji/features/alchemy/models/action_type.dart';
 import 'package:grimoji/features/alchemy/models/behavior_action.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
-import 'package:grimoji/features/match/utils/manager.dart';
+import 'package:grimoji/features/match/board/manager.dart';
 import 'package:grimoji/features/match/models/tile.dart';
 import 'package:logging/logging.dart';
 

@@ -1,5 +1,5 @@
 import 'package:grimoji/config/levels/game_level.dart';
-import 'package:grimoji/features/match/utils/manager.dart';
+import 'package:grimoji/features/match/board/manager.dart';
 import 'test_level.dart';
 
 class TestBoard {
