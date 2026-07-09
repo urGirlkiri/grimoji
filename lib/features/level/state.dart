@@ -142,14 +142,6 @@ class LevelState extends ChangeNotifier {
     onWin.call(goalManager.calculateStars());
   }
 
-  void triggerFeverForTesting() {
-    if (gameState.isFeverTime || gameState.isGameOver) return;
-    timeManager.stop();
-    goalManager.add(level.targetAmount);
-    notifyListeners();
-    startFeverSequence();
-  }
-
   void _handleTimeUp() async {
     if (gameState.isFeverTime || goalManager.isComplete) return;
 

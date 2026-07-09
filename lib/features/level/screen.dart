@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/app/lifecycle.dart' show AppLifecycleStateNotifier;
@@ -16,7 +15,6 @@ import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/level/widgets/dialogs/quit_dialog.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animations/dialog.dart';
-import 'package:grimoji/widgets/custom/pill_button.dart';
 import 'package:grimoji/widgets/responsive_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:logging/logging.dart' hide Level;
@@ -194,10 +192,12 @@ class _LevelScreenState extends State<LevelScreen> {
                     Selector<LevelState, Map<String, bool>>(
                       selector: (_, state) => {
                         'isGoalComplete': state.isGoalComplete,
+                        'isProcessing': state.gameState.isProcessing,
                         'isFeverTime': state.gameState.isFeverTime,
                       },
                       builder: (context, stateMap, child) {
                         final isGoalComplete = stateMap['isGoalComplete']!;
+                        final isProcessing = stateMap['isProcessing']!;
                         final isFeverTime = stateMap['isFeverTime']!;
 
                         if (!isGoalComplete) return const SizedBox.shrink();
@@ -222,18 +222,6 @@ class _LevelScreenState extends State<LevelScreen> {
                         return const SizedBox.shrink();
                       },
                     ),
-
-                    if (kDebugMode)
-                      Positioned(
-                        top: 200,
-                        left: 90,
-                        child: PillButton(
-                          text: 'FORCE FEVER',
-                          color: Colors.red,
-                          onTap: () => _levelState.triggerFeverForTesting(),
-                          fullWidth: false,
-                        ),
-                      ),
                   ],
                 ),
               ),
