@@ -1,4 +1,3 @@
-const intrusiveEmojiScore = 300;
 const unmatchableObstacleScore = 150;
 const matchScoreMultiplier = 50;
 const nearMissScoreMultiplier = 20;

@@ -7,7 +7,6 @@ int scoreThreatTarget(
   int col,
   int rows,
   int cols,
-  Set<String> intrusiveVisuals,
   Set<String> unmatchableVisuals,
   String targetVisual,
   Set<String> targetIngredients,
@@ -15,9 +14,7 @@ int scoreThreatTarget(
   final String currentVisual = board[row][col];
   int threatScore = 0;
 
-  if (intrusiveVisuals.contains(currentVisual)) {
-    threatScore += intrusiveEmojiScore;
-  } else if (unmatchableVisuals.contains(currentVisual)) {
+  if (unmatchableVisuals.contains(currentVisual)) {
     threatScore += unmatchableObstacleScore;
   } else {
     final simulatedBoard = simulateBoardAfterGhostImpact(

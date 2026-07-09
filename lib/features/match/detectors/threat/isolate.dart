@@ -6,6 +6,14 @@ List<int>? isolate(ThreatScan args) {
   final int cols = args.cols;
   final List<List<String>> board = args.gridVisuals;
 
+  final intrusiveTarget = _findTopmostLeftmostIntrusive(
+    board,
+    rows,
+    cols,
+    args.intrusiveVisuals,
+  );
+  if (intrusiveTarget != null) return intrusiveTarget;
+
   final List<({List<int> coordinates, int threatScore})> potentialTargets = [];
 
   for (int row = 0; row < rows; row++) {
@@ -16,7 +24,6 @@ List<int>? isolate(ThreatScan args) {
         col,
         rows,
         cols,
-        args.intrusiveVisuals,
         args.unmatchableVisuals,
         args.targetVisual,
         args.targetIngredients,
@@ -37,4 +44,20 @@ List<int>? isolate(ThreatScan args) {
           .toList()
         ..shuffle();
   return bestOptions.first.coordinates;
+}
+
+List<int>? _findTopmostLeftmostIntrusive(
+  List<List<String>> board,
+  int rows,
+  int cols,
+  Set<String> intrusiveVisuals,
+) {
+  for (int row = 0; row < rows; row++) {
+    for (int col = 0; col < cols; col++) {
+      if (intrusiveVisuals.contains(board[row][col])) {
+        return [row, col];
+      }
+    }
+  }
+  return null;
 }
