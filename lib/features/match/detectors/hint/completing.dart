@@ -64,9 +64,13 @@
   final position1Matched = matchedCells.contains((r1, c1));
   final position2Matched = matchedCells.contains((r2, c2));
 
-  if (position1Matched && !position2Matched) {}
+  if (position1Matched && !position2Matched) {
+    return (r2, c2);
+  }
 
-  if (position2Matched && !position1Matched) {}
+  if (position2Matched && !position1Matched) {
+    return (r1, c1);
+  }
 
   return (r2, c2);
 }

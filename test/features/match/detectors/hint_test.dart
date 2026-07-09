@@ -191,7 +191,7 @@ void main() {
             Emojis.bone,
             Emojis.worm,
           ]);
-          testGrid.place(0, 0, Emojis.fire);
+          testGrid.place(0, 0, Emojis.fire); 
           testGrid.place(0, 1, Emojis.rock);
           testGrid.place(0, 2, Emojis.fire);
           testGrid.place(0, 3, Emojis.fire);
@@ -209,8 +209,8 @@ void main() {
           );
           expect(
             hint[2].col,
-            equals(1),
-            reason: "Completing tile col should be 1 (the Rock being swapped)",
+            equals(0),
+            reason: "Completing tile col should be 0 (the Fire moving in)",
           );
         },
       );
@@ -290,8 +290,8 @@ void main() {
           expect(hint, isNotNull);
           expect(
             hint![2].row,
-            equals(1),
-            reason: "Completing tile row should be 1 (the Rock being swapped)",
+            equals(0),
+            reason: "Completing tile row should be 0 (the Fire moving in)",
           );
           expect(
             hint[2].col,
