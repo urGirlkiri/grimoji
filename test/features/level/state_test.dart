@@ -213,6 +213,8 @@ void main() {
           safeTimeLimit--;
         }
 
+        async.elapse(const Duration(seconds: 3));
+
         expect(
           state.gameState.isProcessing,
           isFalse,
