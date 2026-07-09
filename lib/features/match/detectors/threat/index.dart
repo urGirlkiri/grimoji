@@ -7,7 +7,7 @@ import 'package:grimoji/features/match/board/manager.dart';
 import 'package:grimoji/features/match/detectors/match.dart';
 import 'package:grimoji/config/emojis/index.dart';
 
-class ThreatEvaluator {
+class ThreatDetector {
   static Future<TileCoordinate?> findTarget({
     required List<List<Tile>> grid,
     required GameEmoji targetEmoji,

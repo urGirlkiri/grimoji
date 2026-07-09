@@ -20,7 +20,7 @@ import 'package:grimoji/features/match/detectors/swipe.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/match/board/effects/ghost_dive/effect.dart';
 import 'package:grimoji/features/match/board/effects/wheel_roll/effect.dart';
-import 'package:grimoji/features/match/utils/evaluator/index.dart';
+import 'package:grimoji/features/match/detectors/threat/index.dart';
 import 'package:grimoji/features/match/processors/settlement.dart';
 import 'package:grimoji/features/match/controllers/hint.dart';
 import 'package:logging/logging.dart';
@@ -380,7 +380,7 @@ class GameCoordinator {
 
     for (final trigger in triggers) {
       final origin = trigger.origin;
-      final target = await ThreatEvaluator.findTarget(
+      final target = await ThreatDetector.findTarget(
         grid: engine.grid,
         targetEmoji: engine.level.targetEmoji,
       );
