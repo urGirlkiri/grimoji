@@ -13,8 +13,7 @@ final List<GameLevel> chapter1Levels = [
       Emojis.droplet, 
       Emojis.fire, 
       Emojis.rock, 
-      Emojis.spider
-      ],
+    ],
   ),
 
   GameLevel(
@@ -26,9 +25,9 @@ final List<GameLevel> chapter1Levels = [
     description: 'Spark of Life - Focus on nature',
     availableEmojis: [
       Emojis.leafyGreen,
-      Emojis.bone,
-      Emojis.worm,
-      Emojis.poultryLeg,
+      Emojis.avocado,
+      Emojis.herb,
+      Emojis.leaves,
     ],
   ),
 
@@ -40,10 +39,10 @@ final List<GameLevel> chapter1Levels = [
     goal: 'Matches the graveyard theme',
     description: 'Unearthing the Dead - Introducing Skulls',
     availableEmojis: [
-      Emojis.droplet, 
-      Emojis.fire, 
-      Emojis.rock, 
-      Emojis.spider],
+      Emojis.bone,
+      Emojis.rock,
+      Emojis.bat
+    ],
   ),
 
   GameLevel(
@@ -54,10 +53,10 @@ final List<GameLevel> chapter1Levels = [
     goal: 'Players must craft bombs!',
     description: "The Alchemist's Fire",
     availableEmojis: [
+      Emojis.fire,
       Emojis.leaflessTree,
-      Emojis.leafyGreen,
-      Emojis.bone,
-      Emojis.worm,
+      Emojis.fireworks,
+      Emojis.mapleLeaf,
     ],
   ),
 
@@ -69,9 +68,9 @@ final List<GameLevel> chapter1Levels = [
     goal: 'Collect bones',
     description: 'Graveyard Shift',
     availableEmojis: [
+      Emojis.skull,
       Emojis.rock,
-      Emojis.droplet,
-      Emojis.fire,
+      Emojis.ghost,
       Emojis.poultryLeg,
     ],
   ),
@@ -84,10 +83,10 @@ final List<GameLevel> chapter1Levels = [
     goal: 'Collect bugs',
     description: 'Toxic Soils',
     availableEmojis: [
-      Emojis.bone,
-      Emojis.skull,
-      Emojis.spider,
-      Emojis.leafyGreen,
+      Emojis.worm,
+      Emojis.wiltedFlower,
+      Emojis.scared,
+      Emojis.rooster,
     ],
   ),
 
@@ -100,14 +99,12 @@ final List<GameLevel> chapter1Levels = [
     description: 'Will-o\'-the-Wisp',
     availableEmojis: [
       Emojis.leaflessTree,
-      Emojis.droplet,
-      Emojis.rock,
-      Emojis.worm,
+      Emojis.windFace,
+      Emojis.hotFace,
     ],
   ),
 
   GameLevel(
-    skipAutoPlayer: true,
     number: 8,
     timeLimit: 240,
     targetAmount: 4,
@@ -116,9 +113,9 @@ final List<GameLevel> chapter1Levels = [
     description: 'The Ritual Begins',
     availableEmojis: [
       Emojis.sparkles,
-      Emojis.fire,
-      Emojis.leafyGreen,
-      Emojis.bone,
+      Emojis.books,
+      Emojis.bitingLip,
+      Emojis.nerdFace
     ],
   ),
 
@@ -130,10 +127,10 @@ final List<GameLevel> chapter1Levels = [
     goal: 'A complex recipe requirement!',
     description: 'Guardian of the Gate - Boss Level before the Cauldron',
     availableEmojis: [
-      Emojis.droplet,
-      Emojis.skull,
-      Emojis.spider,
-      Emojis.poultryLeg,
+      Emojis.bandagedHeart,
+      Emojis.bandageFace,
+      Emojis.dottedLineFace,
+      Emojis.hearNoEvilMonkey,
     ],
   ),
 ];
