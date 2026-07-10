@@ -315,6 +315,20 @@ class GameCoordinator {
   void clearHint() => _hint.clear();
   void cancelHintTimer() => _hint.cancel();
 
+  Future<void> punchTile(TileCoordinate coord) async {
+    if (state.isGameOver || state.isPaused || state.isProcessing) return;
+
+    state.setProcessing(true);
+
+    final tile = engine.grid[coord.row][coord.col];
+    if (tile.emoji == engine.level.targetEmoji) {
+      _resolveCollectedEmojis([CollectedEmoji(emoji: tile.emoji, count: 1)]);
+    }
+
+    await _settlement.settleBoard(BoardRegion({coord}));
+    await _finalizeTurnLifecycle();
+  }
+
   void _clearWheelTriggers() {
     _forEachTile((_, _, tile) {
       tile.isWheelTrigger = false;

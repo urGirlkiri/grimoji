@@ -28,9 +28,16 @@ class GestureController {
     int col = (details.localPosition.dx / tWidth).floor();
     int row = (details.localPosition.dy / tHeight).floor();
 
-    if (_isValidCoordinate(row, col, levelState)) {
-      levelState.coordinator.resolveTap(TileCoordinate(row: row, col: col));
+    if (!_isValidCoordinate(row, col, levelState)) return;
+
+    final coordinate = TileCoordinate(row: row, col: col);
+
+    if (levelState.isPowerupSelecting) {
+      levelState.onPowerTileTapped(coordinate);
+      return;
     }
+
+    levelState.coordinator.resolveTap(coordinate);
   }
 
   void onPanStart(

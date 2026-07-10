@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:grimoji/app/lifecycle.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/match/board/manager.dart';
+import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:grimoji/features/match/engines/game.dart';
 import 'package:grimoji/features/match/coordinator.dart';
 import 'package:grimoji/features/match/state.dart';
@@ -31,6 +34,7 @@ class LevelState extends ChangeNotifier {
   late final GameCoordinator coordinator;
 
   bool _isDisposed = false;
+  Completer<TileCoordinate>? _powerupSelectionCompleter;
 
   LevelState({
     required this.onWin,
@@ -162,6 +166,19 @@ class LevelState extends ChangeNotifier {
     audio.playMenuMusic();
     onLose.call();
   }
+
+  bool get isPowerupSelecting => _powerupSelectionCompleter != null;
+
+  Future<TileCoordinate> awaitPowerupTile() {
+    _powerupSelectionCompleter = Completer<TileCoordinate>();
+    return _powerupSelectionCompleter!.future;
+  }
+
+  void onPowerTileTapped(TileCoordinate coord) {
+    _powerupSelectionCompleter?.complete(coord);
+    _powerupSelectionCompleter = null;
+  }
+
 
   void pauseTimer() => timeManager.pause();
   void resumeTimerOnly() {
