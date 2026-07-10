@@ -197,7 +197,6 @@ class _LevelScreenState extends State<LevelScreen> {
                       },
                       builder: (context, stateMap, child) {
                         final isGoalComplete = stateMap['isGoalComplete']!;
-                        final isProcessing = stateMap['isProcessing']!;
                         final isFeverTime = stateMap['isFeverTime']!;
 
                         if (!isGoalComplete) return const SizedBox.shrink();
