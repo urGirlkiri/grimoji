@@ -45,7 +45,7 @@ class GameBar extends StatelessWidget {
             size: 30 * scale,
             onTap: () => onNotifTap(context),
           ),
-          const SizedBox(width: 8),
+          SizedBox(width: 8 * scale),
           Selector<ProfileController, String>(
             selector: (_, profile) =>
                 profile.cauldrons >= 5 ? 'Full' : profile.cauldrons.toString(),
@@ -70,7 +70,7 @@ class GameBar extends StatelessWidget {
               onTap: () => GoRouter.of(context).goNamed(Routes.market),
             ),
           ),
-          const SizedBox(width: 8),
+          SizedBox(width: 8 * scale),
           AppIcon(
             fileName: 'settings',
             size: 30 * scale,
