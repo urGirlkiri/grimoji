@@ -2,12 +2,11 @@ import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 
 final List<Recipe> chapter3Recipes = [
-  Recipe(ingredient: Emojis.snake, requiredAmount: 4, yields: Emojis.biohazard),
+  Recipe(ingredient: Emojis.splatter, requiredAmount: 4, yields: Emojis.biohazard),
 
   Recipe(ingredient: Emojis.chains, requiredAmount: 4, yields: Emojis.locked),
 
-  Recipe(ingredient: Emojis.rock, requiredAmount: 4, yields: Emojis.volcano),
-  Recipe(ingredient: Emojis.fire, requiredAmount: 3, yields: Emojis.volcano),
+  Recipe(ingredient: Emojis.fireHeart, requiredAmount: 4, yields: Emojis.volcano),
 
   Recipe(ingredient: Emojis.metal, requiredAmount: 4, yields: Emojis.coin),
   Recipe(
@@ -37,15 +36,6 @@ final List<Recipe> chapter3Recipes = [
   Recipe(ingredient: Emojis.cyclone, requiredAmount: 4, yields: Emojis.tornado),
   Recipe(ingredient: Emojis.rock, requiredAmount: 4, yields: Emojis.debris),
   Recipe(ingredient: Emojis.skull, requiredAmount: 4, yields: Emojis.ghost),
-  Recipe(ingredient: Emojis.locked, requiredAmount: 3, yields: Emojis.ghost),
-  Recipe(ingredient: Emojis.droplet, requiredAmount: 3, yields: Emojis.ghost),
-  Recipe(ingredient: Emojis.fire, requiredAmount: 3, yields: Emojis.ghost),
-  Recipe(
-    ingredient: Emojis.leaflessTree,
-    requiredAmount: 3,
-    yields: Emojis.ghost,
-  ),
-
   Recipe(
     ingredient: Emojis.leaflessTree,
     requiredAmount: 4,

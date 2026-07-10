@@ -3,10 +3,6 @@ import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 
 final List<Recipe> chapter5Recipes = [
   Recipe(ingredient: Emojis.sparkles, requiredAmount: 3, yields: Emojis.star),
-  Recipe(ingredient: Emojis.droplet, requiredAmount: 3, yields: Emojis.star),
-  Recipe(ingredient: Emojis.fire, requiredAmount: 3, yields: Emojis.star),
-  Recipe(ingredient: Emojis.rock, requiredAmount: 3, yields: Emojis.star),
-  Recipe(ingredient: Emojis.bone, requiredAmount: 3, yields: Emojis.star),
 
   Recipe(
     ingredient: Emojis.droplet,
@@ -29,31 +25,6 @@ final List<Recipe> chapter5Recipes = [
   Recipe(
     ingredient: Emojis.sparkles,
     requiredAmount: 4,
-    yields: Emojis.crystalBall,
-  ),
-  Recipe(
-    ingredient: Emojis.skull,
-    requiredAmount: 3,
-    yields: Emojis.crystalBall,
-  ),
-  Recipe(
-    ingredient: Emojis.fire,
-    requiredAmount: 3,
-    yields: Emojis.crystalBall,
-  ),
-  Recipe(
-    ingredient: Emojis.rock,
-    requiredAmount: 3,
-    yields: Emojis.crystalBall,
-  ),
-  Recipe(
-    ingredient: Emojis.bone,
-    requiredAmount: 3,
-    yields: Emojis.crystalBall,
-  ),
-  Recipe(
-    ingredient: Emojis.cloud,
-    requiredAmount: 3,
     yields: Emojis.crystalBall,
   ),
 
