@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:grimoji/features/cauldron/game/core/prediction_line.dart';
 import 'package:grimoji/features/map/models/level_node.dart';
 import 'package:grimoji/features/map/widgets/engine.dart';
 import 'package:logging/logging.dart';
@@ -176,9 +177,9 @@ class _MapBuilderScreenState extends State<MapBuilderScreen> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(
-        backgroundColor: Colors.black,
-        body: Center(child: CircularProgressIndicator()),
+      return Scaffold(
+        backgroundColor: palette.voidBlack,
+        body: const Center(child: CircularProgressIndicator()),
       );
     }
 

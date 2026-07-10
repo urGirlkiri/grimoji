@@ -23,6 +23,8 @@ class Avatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scale = context.globalScale;
+    final palette = context.palette;
+
     return AnimatedButton(
       onTap: onTap ?? () {},
       child: Container(
@@ -36,13 +38,13 @@ class Avatar extends StatelessWidget {
           border: border,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.3),
+              color: palette.voidBlack.withValues(alpha: 0.3),
               blurRadius: 4,
               spreadRadius: 1,
               offset: Offset(0, 5 * scale),
             ),
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.5),
+              color: palette.voidBlack.withValues(alpha: 0.5),
               offset: Offset(0, 4 * scale),
               blurRadius: 0,
             ),
