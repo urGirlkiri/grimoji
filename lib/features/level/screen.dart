@@ -217,6 +217,8 @@ class _LevelScreenState extends State<LevelScreen> {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
                             LevelComOverlay.show(context);
                           });
+                        } else if (isFeverTime) {
+                          LevelComOverlay.hide();
                         }
                         return const SizedBox.shrink();
                       },
