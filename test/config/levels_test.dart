@@ -177,7 +177,6 @@ void main() {
             : false,
       );
 
-
       test('Level ${level.number} should respect design constraints', () {
         expect(
           level.availableEmojis.length,
@@ -207,7 +206,6 @@ void main() {
           );
         }
       });
-
     }
   });
 
@@ -226,6 +224,26 @@ void main() {
       duplicateNumbers,
       isEmpty,
       reason: 'Duplicate level numbers found: $duplicateNumbers',
+    );
+  });
+
+  test('No two levels should have the same target emoji', () {
+    final targetToLevels = <GameEmoji, List<int>>{};
+    for (var level in gameLevels) {
+      targetToLevels.putIfAbsent(level.targetEmoji, () => []).add(level.number);
+    }
+    final duplicates = targetToLevels.entries
+        .where((e) => e.value.length > 1)
+        .toList();
+
+    final duplicateInfo = duplicates
+        .map((e) => '${e.key.visual}: levels ${e.value.join(", ")}')
+        .join('\n');
+
+    expect(
+      duplicates,
+      isEmpty,
+      reason: 'Duplicate target emojis found:\n$duplicateInfo',
     );
   });
 }

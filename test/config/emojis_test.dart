@@ -1,8 +1,29 @@
 import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:grimoji/config/emojis/index.dart';
 
 void main() {
   group('Emojis Test', () {
+    test('No two emojis should share the same visual', () {
+      final visualToEmojis = <String, List<String>>{};
+      for (var emoji in Emojis.all) {
+        visualToEmojis.putIfAbsent(emoji.visual, () => []).add(emoji.svg);
+      }
+      final duplicates = visualToEmojis.entries
+          .where((e) => e.value.length > 1)
+          .toList();
+
+      final duplicateInfo = duplicates
+          .map((e) => '${e.key}:\n  ${e.value.join("\n  ")}')
+          .join('\n');
+
+      expect(
+        duplicates,
+        isEmpty,
+        reason: 'Duplicate visual emojis found:\n$duplicateInfo',
+      );
+    });
+
     test('All SVGs and Lotties mentioned in emojis.dart MUST exist', () {
       final file = File('lib/config/emojis/index.dart');
       expect(
