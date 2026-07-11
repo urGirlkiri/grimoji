@@ -26,8 +26,8 @@ final List<GameLevel> chapter1Levels = [
     availableEmojis: [
       Emojis.leafyGreen,
       Emojis.avocado,
-      Emojis.herb,
-      Emojis.leaves,
+      Emojis.grin,
+      Emojis.beans,
     ],
   ),
 
@@ -114,7 +114,6 @@ final List<GameLevel> chapter1Levels = [
     availableEmojis: [
       Emojis.sparkles,
       Emojis.books,
-      Emojis.bitingLip,
       Emojis.nerdFace
     ],
   ),
@@ -122,7 +121,7 @@ final List<GameLevel> chapter1Levels = [
   GameLevel(
     number: 9,
     timeLimit: 300,
-    targetAmount: 1,
+    targetAmount: 10,
     targetEmoji: Emojis.anatomicalHeart,
     goal: 'A complex recipe requirement!',
     description: 'Guardian of the Gate - Boss Level before the Cauldron',
