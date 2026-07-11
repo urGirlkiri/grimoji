@@ -6,6 +6,7 @@ import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/level/widgets/footer/skip_btn.dart';
 import 'package:grimoji/features/level/widgets/overlays/level_complete.dart';
+import 'package:grimoji/features/level/widgets/overlays/powerup_selection/index.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/level/widgets/confetti.dart';
 import 'package:grimoji/features/match/board/index.dart';
@@ -38,6 +39,7 @@ class _LevelScreenState extends State<LevelScreen> {
   bool _isQuitDialogOpen = false;
   bool _hasTriggeredFever = false;
   late final LevelState _levelState;
+  final _boardKey = GlobalKey();
 
   static final _log = Logger('LevelScreen');
   static const _celebrationDuration = Duration(milliseconds: 2000);
@@ -166,7 +168,10 @@ class _LevelScreenState extends State<LevelScreen> {
                   children: [
                     ResponsiveScreen(
                       topMessageArea: const Header(),
-                      squarishMainArea: const GameBoard(),
+                      squarishMainArea: Container(
+                        key: _boardKey,
+                        child: const GameBoard(),
+                      ),
                       rectangularMenuArea: Selector<LevelState, bool>(
                         selector: (_, state) => state.gameState.isFeverTime,
                         builder: (context, isFeverTime, child) => isFeverTime
@@ -188,6 +193,8 @@ class _LevelScreenState extends State<LevelScreen> {
                         ),
                       ),
                     ),
+
+                    PowerupSelectionOverlay(boardKey: _boardKey),
 
                     Selector<LevelState, Map<String, bool>>(
                       selector: (_, state) => {
