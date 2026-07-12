@@ -235,14 +235,14 @@ final List<GameLevel> chapter2Levels = [
     number: 26,
     timeLimit: 280,
     targetAmount: 3,
-    targetEmoji: Emojis.bomb,
-    goal: 'Mix fire and ice for explosive effect',
-    description: 'Thermal Shock - Opposites create chaos',
+    targetEmoji: Emojis.rage,
+    goal: 'First Emotion',
+    description: 'Rage',
     availableEmojis: [
-      Emojis.fire, 
+      Emojis.cursing, 
       Emojis.ogre, 
-      Emojis.hotSprings, 
-      Emojis.collision
+      Emojis.fuelPump, 
+      Emojis.racingCar
     ],
   ),
 
@@ -265,14 +265,13 @@ final List<GameLevel> chapter2Levels = [
     number: 28,
     timeLimit: 400,
     targetAmount: 1,
-    targetEmoji: Emojis.crystalBall,
+    targetEmoji: Emojis.television,
     goal: 'Hard to craft amidst chaos',
     description: 'The Swamp Witch - The final trial of Chapter 2',
     availableEmojis: [
       Emojis.sparkles,
       Emojis.wand,
       Emojis.screamCat,
-      Emojis.television,
     ],
   ),
 ];
