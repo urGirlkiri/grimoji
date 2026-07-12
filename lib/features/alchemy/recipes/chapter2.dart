@@ -10,6 +10,7 @@ final List<Recipe> chapter2Recipes = [
   Recipe(ingredient: Emojis.cloud, requiredAmount: 4, yields: Emojis.snowflake),
 
   Recipe(ingredient: Emojis.fallenLeaf, requiredAmount: 4, yields: Emojis.rock),
+  Recipe(ingredient: Emojis.lizard, requiredAmount: 4, yields: Emojis.tRex),
   Recipe(
     ingredient: Emojis.evergreenTree,
     requiredAmount: 4,
