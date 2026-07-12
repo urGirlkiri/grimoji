@@ -66,10 +66,15 @@ final List<GameLevel> chapter2Levels = [
     number: 14,
     timeLimit: 260,
     targetAmount: 2,
-    targetEmoji: Emojis.bat,
-    goal: 'Requires merging Bugs -> Spiders -> Bats',
-    description: 'Creatures of the Night - The swarm evolves',
-    availableEmojis: [Emojis.crab, Emojis.spider, Emojis.rock, Emojis.concerned],
+    targetEmoji: Emojis.lobster,
+    goal: 'Heard of Crabs',
+    description: 'Creatures of the sea',
+    availableEmojis: [
+      Emojis.crab, 
+      Emojis.orca, 
+      Emojis.seal, 
+      Emojis.concerned
+    ],
   ),
 
   GameLevel(
@@ -91,10 +96,15 @@ final List<GameLevel> chapter2Levels = [
     number: 16,
     timeLimit: 300,
     targetAmount: 6,
-    targetEmoji: Emojis.testTube,
-    goal: 'Must brew multiple potions while bugs interfere',
-    description: 'Potion Master - Managing the chaos',
-    availableEmojis: [Emojis.droplet, Emojis.bug, Emojis.rock, Emojis.fire],
+    targetEmoji: Emojis.eyes,
+    goal: 'See',
+    description: 'Anatomy',
+    availableEmojis: [
+      Emojis.eye, 
+      Emojis.bug, 
+      Emojis.expressionless, 
+      Emojis.ear
+    ],
   ),
 
   GameLevel(
@@ -191,14 +201,14 @@ final List<GameLevel> chapter2Levels = [
     number: 23,
     timeLimit: 300,
     targetAmount: 4,
-    targetEmoji: Emojis.testTube,
+    targetEmoji: Emojis.selfie,
     goal: 'Keep bugs away from the potions',
     description: 'The Witch\'s Brew - Potions amid the storm',
     availableEmojis: [
-      Emojis.droplet, 
-      Emojis.herb, 
-      Emojis.bug, 
-      Emojis.fire
+      Emojis.bitingLip, 
+      Emojis.shushingFace, 
+      Emojis.cameraFlash, 
+      Emojis.sparklingHeart
       ],
   ),
 
@@ -206,14 +216,14 @@ final List<GameLevel> chapter2Levels = [
     number: 24,
     timeLimit: 260,
     targetAmount: 3,
-    targetEmoji: Emojis.bat,
+    targetEmoji: Emojis.stethoscope,
     goal: 'Combine Spiders to make Bats',
     description: 'Nightfall - The swarm evolves under cover of dark',
     availableEmojis: [
-      Emojis.stethoscope, 
-      Emojis.spider, 
-      Emojis.cloud, 
-      Emojis.ghost
+      Emojis.sick, 
+      Emojis.poop, 
+      Emojis.litter, 
+      Emojis.bandageFace
     ],
   ),
 

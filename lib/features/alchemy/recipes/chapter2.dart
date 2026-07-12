@@ -32,4 +32,8 @@ final List<Recipe> chapter2Recipes = [
   Recipe(ingredient: Emojis.plant, requiredAmount: 3, yields: Emojis.redApple),
   Recipe(ingredient: Emojis.cursing, requiredAmount: 4, yields: Emojis.rage),
   Recipe(ingredient: Emojis.wand, requiredAmount: 3, yields: Emojis.television),
+  Recipe(ingredient: Emojis.eye, requiredAmount: 3, yields: Emojis.eyes),
+  Recipe(ingredient: Emojis.cameraFlash, requiredAmount: 4, yields: Emojis.selfie),
+  Recipe(ingredient: Emojis.sick, requiredAmount: 4, yields: Emojis.stethoscope),
+  Recipe(ingredient: Emojis.poop, requiredAmount: 3, yields: Emojis.sick),
 ];
