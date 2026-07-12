@@ -100,7 +100,14 @@ class _FooterState extends State<Footer> {
       }
     } else {
       _levelState.pauseTimer();
-      await showBoostPurchase(context, powerup);
+      final purchased = await showBoostPurchase(context, powerup);
+      if (purchased == true && context.mounted) {
+        final handler = PowerupHandlerRegistry.get(powerup.id);
+        if (handler != null) {
+          profile.updatePowerupCount(powerup.id, -1);
+          await handler.execute(context, powerup, _levelState);
+        }
+      }
       _levelState.resumeTimerOnly();
     }
   }

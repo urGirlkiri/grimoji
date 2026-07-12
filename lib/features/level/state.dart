@@ -35,6 +35,7 @@ class LevelState extends ChangeNotifier {
 
   bool _isDisposed = false;
   Completer<TileCoordinate>? _powerupSelectionCompleter;
+  Powerup? _selectedPowerup;
 
   LevelState({
     required this.onWin,
@@ -168,17 +169,27 @@ class LevelState extends ChangeNotifier {
   }
 
   bool get isPowerupSelecting => _powerupSelectionCompleter != null;
+  Powerup? get selectedPowerup => _selectedPowerup;
 
-  Future<TileCoordinate> awaitPowerupTile() {
+  Future<TileCoordinate> awaitPowerupTile(Powerup powerup) {
+    _selectedPowerup = powerup;
     _powerupSelectionCompleter = Completer<TileCoordinate>();
+    notifyListeners();
     return _powerupSelectionCompleter!.future;
   }
 
   void onPowerTileTapped(TileCoordinate coord) {
     _powerupSelectionCompleter?.complete(coord);
     _powerupSelectionCompleter = null;
+    _selectedPowerup = null;
   }
 
+  void cancelPowerupSelection() {
+    _powerupSelectionCompleter?.completeError('Cancelled');
+    _powerupSelectionCompleter = null;
+    _selectedPowerup = null;
+    notifyListeners();
+  }
 
   void pauseTimer() => timeManager.pause();
   void resumeTimerOnly() {
