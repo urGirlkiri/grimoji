@@ -22,7 +22,7 @@ class Content extends StatelessWidget {
           bottom: 20,
         ),
         decoration: BoxDecoration(
-          color: palette.dusk,
+          color: palette.slate,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
@@ -41,7 +41,7 @@ class Content extends StatelessWidget {
                 EmojiWidget.svg(path: selectedPowerup.iconPath, size: 80),
               const SizedBox(height: 16),
               Text(
-                'Select a tile',
+                'Select an emoji',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -50,7 +50,7 @@ class Content extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                'Tap any tile to use the powerup',
+                'Tap any emoji to use powerup',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 14, color: palette.voidBlack),
               ),

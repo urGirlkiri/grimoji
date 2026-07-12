@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/features/level/state.dart';
-import 'package:grimoji/features/level/widgets/overlays/dim_overlay.dart';
+import 'package:grimoji/features/level/widgets/overlays/dim_clipper.dart';
 import 'package:grimoji/features/level/widgets/overlays/powerup_selection/content.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:logging/logging.dart';
@@ -41,26 +41,23 @@ class PowerupSelectionOverlay extends StatelessWidget {
             final double? left = isMobile ? 0 : null;
             const double right = 0;
             final double? width = isMobile ? null : size.width * 0.3;
-
+        
             return Stack(
               children: [
-                GestureDetector(
-                  onTapDown: (details) {
-                    final tap = details.globalPosition;
-                    if (!boardRect.contains(tap)) {
+                ClipPath(
+                  clipper: DimOverlayClipper(boardRect: boardRect),
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTapDown: (_) {
                       _log.fine('Tap outside board');
                       _log.fine('Cancelling powerup');
                       context.read<LevelState>().cancelPowerupSelection();
-                    } else {
-                      _log.fine('Tap inside board');
-                    }
-                  },
-                  child: CustomPaint(
-                    size: size,
-                    painter: DimOverlayPainter(
-                      boardRect: boardRect,
-                      dimColor: context.palette.voidBlack.withValues(
-                        alpha: 0.5,
+                    },
+                    child: Container(
+                      width: size.width,
+                      height: size.height,
+                      color: context.palette.voidBlack.withValues(
+                        alpha: 0.9,
                       ),
                     ),
                   ),
