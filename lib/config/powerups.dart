@@ -81,7 +81,7 @@ class Powerup {
       id: 'test_tube',
       name: 'The Potion',
       iconPath: Emojis.testTube.svg,
-      description: 'Transforms a target tile into a Drop it on a tile to complete a match.',
+      description: 'Drop it on a tile to complete a match.',
       price: 35,
     ),
     Powerup(

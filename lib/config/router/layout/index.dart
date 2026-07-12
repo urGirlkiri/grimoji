@@ -87,7 +87,6 @@ class LayoutScaffold extends StatelessWidget {
                       isSelected: isSelected,
                       width: isSelected ? iconSelectedSize : iconBaseSize,
                       navHeight: navHeight,
-                      context: context,
                       isGrim:
                           index ==
                           destinations.indexWhere(

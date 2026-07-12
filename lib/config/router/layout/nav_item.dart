@@ -9,7 +9,6 @@ class NavItem extends StatelessWidget {
     required this.isSelected,
     required this.width,
     required this.navHeight,
-    required this.context,
     required this.isGrim,
   });
 
@@ -17,7 +16,6 @@ class NavItem extends StatelessWidget {
   final bool isSelected;
   final double width;
   final double navHeight;
-  final BuildContext context;
   final bool isGrim;
 
   @override
@@ -47,9 +45,11 @@ class NavItem extends StatelessWidget {
                   child: Image.asset(dest.imagePath, fit: BoxFit.contain),
                 ),
 
-                Positioned(
-                  top: -5,
-                  right: 0,
+                AnimatedPositioned(
+                  duration: const Duration(milliseconds: 350),
+                  curve: Curves.easeInBack,
+                  top: hasUnread && isSelected ? 25 : -5,
+                  right: hasUnread && isSelected ? 10 : 0,
                   child: AnimatedScale(
                     scale: scale,
                     duration: const Duration(milliseconds: 200),
