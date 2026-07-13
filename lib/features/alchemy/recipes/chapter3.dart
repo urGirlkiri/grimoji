@@ -33,7 +33,6 @@ final List<Recipe> chapter3Recipes = [
     yields: Emojis.dragon,
   ),
   Recipe(ingredient: Emojis.blackHeart, requiredAmount: 4, yields: Emojis.hole),
-  Recipe(ingredient: Emojis.cyclone, requiredAmount: 4, yields: Emojis.tornado),
   Recipe(ingredient: Emojis.rock, requiredAmount: 4, yields: Emojis.debris),
   Recipe(ingredient: Emojis.rock, requiredAmount: 3, yields: Emojis.mountain),
   Recipe(ingredient: Emojis.skull, requiredAmount: 4, yields: Emojis.ghost),

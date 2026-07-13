@@ -8,8 +8,16 @@ final List<Recipe> chapter4Recipes = [
     yields: Emojis.cloudWithLightning,
   ),
 
+  Recipe(ingredient: Emojis.cloud, requiredAmount: 3, yields: Emojis.windFace),
+  Recipe(
+    ingredient: Emojis.cloud,
+    requiredAmount: 4,
+    yields: Emojis.faceInClouds,
+  ),
+
   Recipe(ingredient: Emojis.blackBird, requiredAmount: 4, yields: Emojis.eagle),
 
+  Recipe(ingredient: Emojis.eagle, requiredAmount: 3, yields: Emojis.peacock),
   Recipe(ingredient: Emojis.eagle, requiredAmount: 4, yields: Emojis.phoenix),
 
   Recipe(
@@ -34,4 +42,39 @@ final List<Recipe> chapter4Recipes = [
     yields: Emojis.coldFace,
   ),
   Recipe(ingredient: Emojis.windFace, requiredAmount: 4, yields: Emojis.cloud),
+
+  Recipe(
+    ingredient: Emojis.metal,
+    requiredAmount: 3,
+    yields: Emojis.laptopComputer,
+  ),
+  Recipe(
+    ingredient: Emojis.laptopComputer,
+    requiredAmount: 3,
+    yields: Emojis.robot,
+  ),
+
+  Recipe(
+    ingredient: Emojis.coldFace,
+    requiredAmount: 3,
+    yields: Emojis.iceCream,
+  ),
+  Recipe(
+    ingredient: Emojis.iceCream,
+    requiredAmount: 3,
+    yields: Emojis.coldFace,
+  ),
+
+  Recipe(ingredient: Emojis.herb, requiredAmount: 3, yields: Emojis.leafyGreen),
+
+  Recipe(ingredient: Emojis.tornado, requiredAmount: 4, yields: Emojis.cyclone),
+  Recipe(ingredient: Emojis.cyclone, requiredAmount: 3, yields: Emojis.tornado),
+
+  Recipe(
+    ingredient: Emojis.electricity,
+    requiredAmount: 4,
+    yields: Emojis.warning,
+  ),
+
+  Recipe(ingredient: Emojis.ocean, requiredAmount: 3, yields: Emojis.salt),
 ];
