@@ -8,6 +8,7 @@ int scoreThreatTarget(
   int rows,
   int cols,
   Set<String> unmatchableVisuals,
+  Set<String> obstacleVisuals,
   String targetVisual,
   Set<String> targetIngredients,
 ) {
@@ -16,6 +17,8 @@ int scoreThreatTarget(
 
   if (unmatchableVisuals.contains(currentVisual)) {
     threatScore += unmatchableObstacleScore;
+  } else if (obstacleVisuals.contains(currentVisual)) {
+    threatScore += obstacleScore;
   } else {
     final simulatedBoard = simulateBoardAfterGhostImpact(
       board,

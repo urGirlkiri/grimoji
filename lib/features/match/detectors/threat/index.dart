@@ -30,6 +30,8 @@ class ThreatDetector {
         .map((emoji) => emoji.visual)
         .toSet();
 
+    final obstacleVisuals = {Emojis.poop.visual};
+
     final ingredientsForLevelGoal = RecipeBook.allRecipes
         .where((recipe) => recipe.yields == targetEmoji)
         .map((recipe) => recipe.ingredient.visual)
@@ -44,6 +46,7 @@ class ThreatDetector {
         cols: BoardManager.cols,
         intrusiveVisuals: intrusiveEnemies,
         unmatchableVisuals: solidObstacles,
+        obstacleVisuals: obstacleVisuals,
         targetVisual: targetEmoji.visual,
         targetIngredients: ingredientsForLevelGoal,
       ),
