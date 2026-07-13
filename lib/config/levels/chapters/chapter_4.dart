@@ -112,13 +112,13 @@ final List<GameLevel> chapter4Levels = [
     timeLimit: 260,
     targetAmount: 8,
     targetEmoji: Emojis.salt,
-    goal: 'Harvest salt from the churning sea',
-    description: 'Salt Spray - The ocean churns',
+    goal: 'Harvest salt from the storm-swept sea',
+    description: 'Salt Spray - Brine on the wind',
     availableEmojis: [
-      Emojis.windFace, 
-      Emojis.ocean, 
-      Emojis.bug, 
-      Emojis.bone
+      Emojis.windFace,
+      Emojis.ocean,
+      Emojis.bug,
+      Emojis.bone,
     ],
   ),
 
@@ -145,10 +145,10 @@ final List<GameLevel> chapter4Levels = [
     goal: 'Survive the eye of the storm',
     description: 'Eye of the Storm - The calm within',
     availableEmojis: [
-      Emojis.cloud, 
-      Emojis.rainCloud, 
-      Emojis.rock, 
-      Emojis.fire
+      Emojis.cloud,
+      Emojis.rainCloud,
+      Emojis.rock,
+      Emojis.fire,
     ],
   ),
 
@@ -175,10 +175,10 @@ final List<GameLevel> chapter4Levels = [
     goal: 'Master ice magic with frozen blocks',
     description: 'Freezing Winds - The cold arrives',
     availableEmojis: [
-      Emojis.cloud, 
-      Emojis.coldFace, 
-      Emojis.rock, 
-      Emojis.bone
+      Emojis.cloud,
+      Emojis.coldFace,
+      Emojis.rock,
+      Emojis.bone,
     ],
   ),
 
@@ -202,8 +202,8 @@ final List<GameLevel> chapter4Levels = [
     timeLimit: 240,
     targetAmount: 15,
     targetEmoji: Emojis.peacock,
-    goal: 'Use lightning to summon majestic birds',
-    description: 'Storm Eagles - The hunt begins',
+    goal: 'Use lightning to summon a majestic peacock',
+    description: 'Storm Plumage - The hunt begins',
     availableEmojis: [
       Emojis.eagle,
       Emojis.cloudWithLightning,
@@ -232,8 +232,8 @@ final List<GameLevel> chapter4Levels = [
     timeLimit: 300,
     targetAmount: 8,
     targetEmoji: Emojis.warning,
-    goal: 'Create acid rain to unlock the facility',
-    description: 'Acid Rain II - The chemical storm',
+    goal: 'Charge the storm warning systems',
+    description: 'Storm Warning - The skies are not safe',
     availableEmojis: [
       Emojis.cloudWithLightning,
       Emojis.snake,
@@ -263,7 +263,7 @@ final List<GameLevel> chapter4Levels = [
     targetAmount: 8,
     targetEmoji: Emojis.coldFace,
     goal: 'Freeze the dust across the mountains',
-    description: 'Scattering Dust - The airborne plague',
+    description: 'Frozen Peaks - The cold settles',
     availableEmojis: [
       Emojis.iceCream,
       Emojis.rock,
