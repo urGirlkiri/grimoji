@@ -6,14 +6,14 @@ final List<Recipe> chapter3Recipes = [
 
   Recipe(ingredient: Emojis.chains, requiredAmount: 4, yields: Emojis.locked),
 
-  Recipe(ingredient: Emojis.fireHeart, requiredAmount: 4, yields: Emojis.volcano),
+  Recipe(
+    ingredient: Emojis.fireHeart,
+    requiredAmount: 4,
+    yields: Emojis.volcano,
+  ),
 
   Recipe(ingredient: Emojis.metal, requiredAmount: 4, yields: Emojis.coin),
-  Recipe(
-    ingredient: Emojis.whiteFlag,
-    requiredAmount: 4,
-    yields: Emojis.openLock,
-  ),
+  Recipe(ingredient: Emojis.locked, requiredAmount: 4, yields: Emojis.openLock),
   Recipe(
     ingredient: Emojis.linkedPaperclips,
     requiredAmount: 4,
@@ -42,7 +42,7 @@ final List<Recipe> chapter3Recipes = [
     requiredAmount: 4,
     yields: Emojis.derelictHouse,
   ),
-  Recipe(ingredient: Emojis.guitar, requiredAmount: 3, yields: Emojis.metal),
+  Recipe(ingredient: Emojis.shield, requiredAmount: 4, yields: Emojis.metal),
   Recipe(ingredient: Emojis.treasure, requiredAmount: 3, yields: Emojis.crown),
   Recipe(ingredient: Emojis.skull, requiredAmount: 3, yields: Emojis.ogre),
   Recipe(

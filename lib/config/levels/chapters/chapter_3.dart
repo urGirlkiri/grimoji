@@ -7,13 +7,13 @@ final List<GameLevel> chapter3Levels = [
     timeLimit: 250,
     targetAmount: 3,
     targetEmoji: Emojis.biohazard,
-    goal: 'Craft Acid Bombs to break through the iron gates',
+    goal: 'Coat the gates in corrosive acid',
     description: 'The Iron Gates - Learn Corrosive Magic',
     availableEmojis: [
       Emojis.splatter,
-      Emojis.blueberries,
-      Emojis.crossMark,
-      Emojis.faceInClouds,
+      Emojis.rock,
+      Emojis.shield,
+      Emojis.spider,
     ],
   ),
 
@@ -28,7 +28,7 @@ final List<GameLevel> chapter3Levels = [
       Emojis.chains,
       Emojis.metal,
       Emojis.linkedPaperclips,
-      Emojis.fire,
+      Emojis.biohazard,
     ],
   ),
 
@@ -41,7 +41,7 @@ final List<GameLevel> chapter3Levels = [
     description: 'The Armory - Defend the keep',
     availableEmojis: [
       Emojis.shield,
-      Emojis.guitar,
+      Emojis.fire,
       Emojis.spider,
       Emojis.skull,
     ],
@@ -52,10 +52,10 @@ final List<GameLevel> chapter3Levels = [
     timeLimit: 300,
     targetAmount: 3,
     targetEmoji: Emojis.openLock,
-    goal: 'Melt the padlocks to free the dungeon',
+    goal: 'Pick the padlocks to free the dungeon',
     description: 'The Locksmith - Secrets within',
     availableEmojis: [
-      Emojis.whiteFlag,
+      Emojis.locked,
       Emojis.chains,
       Emojis.snake,
       Emojis.metal,
@@ -105,7 +105,7 @@ final List<GameLevel> chapter3Levels = [
       Emojis.skull,
       Emojis.locked,
       Emojis.metal,
-      Emojis.whiteFlag,
+      Emojis.bone,
     ],
   ),
 
@@ -118,9 +118,9 @@ final List<GameLevel> chapter3Levels = [
     description: 'Acid Rain - The siege begins',
     availableEmojis: [
       Emojis.blackHeart,
-      Emojis.spider,
-      Emojis.bone,
+      Emojis.cryingCatFace,
       Emojis.droplet,
+      Emojis.rainCloud,
     ],
   ),
 
@@ -135,7 +135,7 @@ final List<GameLevel> chapter3Levels = [
       Emojis.locked,
       Emojis.chains,
       Emojis.treasure,
-      Emojis.rock,
+      Emojis.shield,
     ],
   ),
 
@@ -150,7 +150,7 @@ final List<GameLevel> chapter3Levels = [
       Emojis.spider,
       Emojis.bone,
       Emojis.skull,
-      Emojis.whiteFlag,
+      Emojis.blackHeart,
     ],
   ),
 
@@ -306,9 +306,9 @@ final List<GameLevel> chapter3Levels = [
     description: 'The Ruined King\'s Pet - The final boss',
     availableEmojis: [
       Emojis.crocodile,
-      Emojis.leaflessTree,
-      Emojis.bone,
-      Emojis.metal,
+      Emojis.lizard,
+      Emojis.kangaroo,
+      Emojis.dinosaur,
     ],
   ),
 ];
