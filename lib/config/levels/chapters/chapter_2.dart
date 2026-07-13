@@ -10,10 +10,10 @@ final List<GameLevel> chapter2Levels = [
     goal: 'Run across the bridge while being chased by a t-rex.',
     description: 'The Chase',
     availableEmojis: [
-      Emojis.wheel,
-      Emojis.victorySix,
-      Emojis.wolf,
       Emojis.lizard,
+      Emojis.dinosaur,
+      Emojis.pawPrints,
+      Emojis.wolf,
     ],
   ),
 
@@ -25,10 +25,10 @@ final List<GameLevel> chapter2Levels = [
     goal: 'Must merge 4 bugs to make Spiders',
     description: 'Arachnophobia - The swarm grows',
     availableEmojis: [
-      Emojis.bug,
-      Emojis.scorpion,
-      Emojis.lobster,
-      Emojis.gasp,
+      Emojis.bug, 
+      Emojis.ant, 
+      Emojis.cricket, 
+      Emojis.gasp
     ],
   ),
 
@@ -70,10 +70,10 @@ final List<GameLevel> chapter2Levels = [
     goal: 'Collect the sea lobsters',
     description: 'Creatures of the sea',
     availableEmojis: [
-      Emojis.crab,
-      Emojis.orca,
-      Emojis.seal,
-      Emojis.concerned,
+      Emojis.crab, 
+      Emojis.orca, 
+      Emojis.seal, 
+      Emojis.concerned
     ],
   ),
 
@@ -86,9 +86,9 @@ final List<GameLevel> chapter2Levels = [
     description: 'The Witch\'s Familiar - A feline companion',
     availableEmojis: [
       Emojis.kissingCat,
-      Emojis.crossedFingers,
       Emojis.beatingHeart,
-      Emojis.skull,
+      Emojis.poutingCat,
+      Emojis.smirkCat,
     ],
   ),
 
@@ -100,10 +100,10 @@ final List<GameLevel> chapter2Levels = [
     goal: 'See',
     description: 'Anatomy',
     availableEmojis: [
-      Emojis.eye,
-      Emojis.bug,
-      Emojis.expressionless,
-      Emojis.ear,
+      Emojis.eye, 
+      Emojis.ear, 
+      Emojis.nose, 
+      Emojis.mouthNone
     ],
   ),
 
@@ -131,9 +131,9 @@ final List<GameLevel> chapter2Levels = [
     description: 'The Poisoned Apple - The final test of the swamp',
     availableEmojis: [
       Emojis.evergreenTree,
-      Emojis.flagInHole,
       Emojis.frog,
       Emojis.plant,
+      Emojis.worm,
     ],
   ),
 
@@ -160,10 +160,10 @@ final List<GameLevel> chapter2Levels = [
     goal: 'Ice Cubes! Use freezing to stun replicating bugs',
     description: 'Pest Control - The swamp fights back with cold',
     availableEmojis: [
-      Emojis.iceCream,
-      Emojis.hotDog,
       Emojis.hotFace,
-      Emojis.bomb,
+      Emojis.iceCream,
+      Emojis.snowman,
+      Emojis.thermometer,
     ],
   ),
 
@@ -175,9 +175,9 @@ final List<GameLevel> chapter2Levels = [
     goal: 'Evolve crabs into venomous scorpions',
     description: 'The Stinging Tide - Sea creatures become dangerous',
     availableEmojis: [
-      Emojis.crab,
-      Emojis.dolphin,
-      Emojis.fish,
+      Emojis.crab, 
+      Emojis.fish, 
+      Emojis.concerned
     ],
   ),
 
@@ -204,9 +204,9 @@ final List<GameLevel> chapter2Levels = [
     goal: 'Keep bugs away from the potions',
     description: 'The Witch\'s Brew - Potions amid the storm',
     availableEmojis: [
-      Emojis.bitingLip,
-      Emojis.shushingFace,
       Emojis.cameraFlash,
+      Emojis.camera,
+      Emojis.film,
       Emojis.sparklingHeart,
     ],
   ),
@@ -234,9 +234,9 @@ final List<GameLevel> chapter2Levels = [
     goal: 'A new toxic familiar to manage',
     description: 'Cold Blooded - The serpent moves in frozen shadows',
     availableEmojis: [
-      Emojis.biohazard,
-      Emojis.mask,
-      Emojis.microbe,
+      Emojis.biohazard, 
+      Emojis.mask, 
+      Emojis.microbe
     ],
   ),
 
@@ -250,8 +250,8 @@ final List<GameLevel> chapter2Levels = [
     availableEmojis: [
       Emojis.cursing,
       Emojis.ogre,
-      Emojis.fuelPump,
-      Emojis.racingCar,
+      Emojis.angry,
+      Emojis.triumph,
     ],
   ),
 
@@ -278,9 +278,9 @@ final List<GameLevel> chapter2Levels = [
     goal: 'Hard to craft amidst chaos',
     description: 'The Swamp Witch - The final trial of Chapter 2',
     availableEmojis: [
-      Emojis.sparkles,
-      Emojis.wand,
-      Emojis.screamCat,
+      Emojis.sparkles, 
+      Emojis.wand, 
+      Emojis.screamCat
     ],
   ),
 ];
