@@ -36,4 +36,11 @@ final List<Recipe> chapter2Recipes = [
   Recipe(ingredient: Emojis.cameraFlash, requiredAmount: 4, yields: Emojis.selfie),
   Recipe(ingredient: Emojis.sick, requiredAmount: 4, yields: Emojis.stethoscope),
   Recipe(ingredient: Emojis.poop, requiredAmount: 3, yields: Emojis.sick),
+  Recipe(ingredient: Emojis.crab, requiredAmount: 4, yields: Emojis.lobster),
+  Recipe(ingredient: Emojis.lobster, requiredAmount: 3, yields: Emojis.scorpion),
+  Recipe(
+    ingredient: Emojis.testTube,
+    requiredAmount: 3,
+    yields: Emojis.bottleWithPoppingCork,
+  ),
 ];
