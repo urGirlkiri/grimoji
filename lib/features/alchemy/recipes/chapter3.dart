@@ -35,6 +35,7 @@ final List<Recipe> chapter3Recipes = [
   Recipe(ingredient: Emojis.blackHeart, requiredAmount: 4, yields: Emojis.hole),
   Recipe(ingredient: Emojis.cyclone, requiredAmount: 4, yields: Emojis.tornado),
   Recipe(ingredient: Emojis.rock, requiredAmount: 4, yields: Emojis.debris),
+  Recipe(ingredient: Emojis.rock, requiredAmount: 3, yields: Emojis.mountain),
   Recipe(ingredient: Emojis.skull, requiredAmount: 4, yields: Emojis.ghost),
   Recipe(
     ingredient: Emojis.leaflessTree,
@@ -43,4 +44,15 @@ final List<Recipe> chapter3Recipes = [
   ),
   Recipe(ingredient: Emojis.guitar, requiredAmount: 3, yields: Emojis.metal),
   Recipe(ingredient: Emojis.treasure, requiredAmount: 3, yields: Emojis.crown),
+  Recipe(ingredient: Emojis.skull, requiredAmount: 3, yields: Emojis.ogre),
+  Recipe(
+    ingredient: Emojis.moonFaceNew,
+    requiredAmount: 4,
+    yields: Emojis.moai,
+  ),
+  Recipe(
+    ingredient: Emojis.biohazard,
+    requiredAmount: 3,
+    yields: Emojis.radioactive,
+  ),
 ];
