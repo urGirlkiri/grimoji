@@ -165,7 +165,13 @@ class LevelState extends ChangeNotifier {
 
     coordinator.clearHint();
     audio.playMenuMusic();
-    onLose.call();
+
+    final starsEarned = goalManager.calculateStars();
+    if (starsEarned >= 1) {
+      onWin.call(starsEarned);
+    } else {
+      onLose.call();
+    }
   }
 
   bool get isPowerupSelecting => _powerupSelectionCompleter != null;
