@@ -60,7 +60,6 @@ final List<GameLevel> chapter3Levels = [
       Emojis.snake,
       Emojis.metal,
     ],
-    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -91,7 +90,6 @@ final List<GameLevel> chapter3Levels = [
       Emojis.snake,
       Emojis.chains,
     ],
-    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -167,7 +165,6 @@ final List<GameLevel> chapter3Levels = [
       Emojis.fire,
       Emojis.metal,
     ],
-    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -183,7 +180,6 @@ final List<GameLevel> chapter3Levels = [
       Emojis.snake,
       Emojis.locked,
     ],
-    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -199,7 +195,6 @@ final List<GameLevel> chapter3Levels = [
       Emojis.droplet,
       Emojis.blackHeart,
     ],
-    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -215,7 +210,6 @@ final List<GameLevel> chapter3Levels = [
       Emojis.fire,
       Emojis.metal,
     ],
-    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -231,7 +225,6 @@ final List<GameLevel> chapter3Levels = [
       Emojis.spider,
       Emojis.skull,
     ],
-    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -247,7 +240,6 @@ final List<GameLevel> chapter3Levels = [
       Emojis.fire,
       Emojis.cloud,
     ],
-    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -278,7 +270,6 @@ final List<GameLevel> chapter3Levels = [
       Emojis.droplet,
       Emojis.blackHeart,
     ],
-    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -294,7 +285,6 @@ final List<GameLevel> chapter3Levels = [
       Emojis.derelictHouse,
       Emojis.locked,
     ],
-    skipAutoPlayer: true,
   ),
 
   GameLevel(
