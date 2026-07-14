@@ -44,7 +44,7 @@ class _GameBoardState extends State<GameBoard> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     final newLevelState = context.read<LevelState>();
-    
+
     if (_levelState != newLevelState) {
       if (_levelState != null) _vfx.unbindState(_levelState!);
       _levelState = newLevelState;
@@ -64,7 +64,7 @@ class _GameBoardState extends State<GameBoard> {
   Widget build(BuildContext context) {
     final palette = context.palette;
     final levelState = context.read<LevelState>();
-    
+
     const int gridColumns = BoardManager.cols;
     const int gridRows = BoardManager.rows;
     const int totalTiles = gridColumns * gridRows;
@@ -76,10 +76,14 @@ class _GameBoardState extends State<GameBoard> {
         final isLargeSCreen = context.isLargeScreen;
 
         final double constrainedBoardWidth = isLargeSCreen
-            ? (screenWidth > maxAllowedBoardWidth ? maxAllowedBoardWidth : screenWidth * largeScreenBoardWidthFactor)
+            ? (screenWidth > maxAllowedBoardWidth
+                  ? maxAllowedBoardWidth
+                  : screenWidth * largeScreenBoardWidthFactor)
             : screenWidth * smallScreenBoardWidthFactor;
 
-        final double proportionalBoardHeight = ((constrainedBoardWidth * gridRows) / gridColumns) * boardHeightMultiplier;
+        final double proportionalBoardHeight =
+            ((constrainedBoardWidth * gridRows) / gridColumns) *
+            boardHeightMultiplier;
 
         return Center(
           child: SizedBox(
@@ -89,32 +93,59 @@ class _GameBoardState extends State<GameBoard> {
               clipBehavior: Clip.none,
               alignment: Alignment.center,
               children: [
-                
                 Container(
                   padding: EdgeInsets.all(isLargeSCreen ? 8.0 : 6.0),
                   clipBehavior: Clip.hardEdge,
                   decoration: ShapeDecoration(
                     color: palette.mist,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                   child: LayoutBuilder(
                     builder: (context, gridAreaConstraints) {
-                      _tileWidth = (gridAreaConstraints.maxWidth - (tileSpacingGap * (gridColumns - 1))) / gridColumns;
-                      _tileHeight = (gridAreaConstraints.maxHeight - (tileSpacingGap * (gridRows - 1))) / gridRows;
-                      _vfx.setBoardDimensions(gridAreaConstraints.maxWidth, gridAreaConstraints.maxHeight);
+                      _tileWidth =
+                          (gridAreaConstraints.maxWidth -
+                              (tileSpacingGap * (gridColumns - 1))) /
+                          gridColumns;
+                      _tileHeight =
+                          (gridAreaConstraints.maxHeight -
+                              (tileSpacingGap * (gridRows - 1))) /
+                          gridRows;
+                      _vfx.setBoardDimensions(
+                        gridAreaConstraints.maxWidth,
+                        gridAreaConstraints.maxHeight,
+                      );
 
                       return GestureDetector(
-                        onTapUp: (details) => _gestures.onTapped(details, _tileWidth!, _tileHeight!, levelState, _vfx),
-                        onPanStart: (details) => _gestures.onPanStart(details, _tileWidth!, _tileHeight!, levelState, _vfx),
-                        onPanUpdate: (details) => _gestures.onPanUpdate(details, levelState, _vfx),
+                        onTapUp: (details) => _gestures.onTapped(
+                          details,
+                          _tileWidth!,
+                          _tileHeight!,
+                          levelState,
+                          _vfx,
+                        ),
+                        onPanStart: (details) => _gestures.onPanStart(
+                          details,
+                          _tileWidth!,
+                          _tileHeight!,
+                          levelState,
+                          _vfx,
+                        ),
+                        onPanUpdate: (details) => _gestures.onPanUpdate(
+                          details,
+                          _tileWidth!,
+                          _tileHeight!,
+                          levelState,
+                          _vfx,
+                        ),
                         onPanEnd: (_) => _gestures.clearDrag(),
                         onPanCancel: () => _gestures.clearDrag(),
-                        
+
                         child: Stack(
                           key: _boardKey,
                           clipBehavior: Clip.none,
                           children: [
-                            
                             BoardGrid(
                               gridColumns: gridColumns,
                               totalTiles: totalTiles,
@@ -126,13 +157,16 @@ class _GameBoardState extends State<GameBoard> {
                             ListenableBuilder(
                               listenable: _gestures.activeTileIdNotifier,
                               builder: (context, _) => TileGrid(
-                                activeTileId: _gestures.activeTileIdNotifier.value,
+                                activeTileId:
+                                    _gestures.activeTileIdNotifier.value,
                                 tWidth: _tileWidth!,
                                 tHeight: _tileHeight!,
                               ),
                             ),
 
-                            SparkleOverlay(sparklesNotifier: _vfx.sparkleManager.notifier),
+                            SparkleOverlay(
+                              sparklesNotifier: _vfx.sparkleManager.notifier,
+                            ),
 
                             OverflowBox(
                               maxWidth: constrainedBoardWidth,

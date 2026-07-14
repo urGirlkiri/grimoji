@@ -4,8 +4,10 @@ import 'package:grimoji/features/match/board/controllers/v_f_x.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:grimoji/features/match/models/tile.dart';
 import 'package:grimoji/features/match/board/manager.dart';
+import 'package:logging/logging.dart';
 
 class GestureController {
+  static final _log = Logger('GestureController');
   final ValueNotifier<String?> activeTileIdNotifier = ValueNotifier<String?>(
     null,
   );
@@ -28,7 +30,10 @@ class GestureController {
     int col = (details.localPosition.dx / tWidth).floor();
     int row = (details.localPosition.dy / tHeight).floor();
 
-    if (!_isValidCoordinate(row, col, levelState)) return;
+    if (!_isValidCoordinate(row, col, levelState)) {
+      _log.warning('Tap resolved outside grid: row=$row, col=$col');
+      return;
+    }
 
     final coordinate = TileCoordinate(row: row, col: col);
 
@@ -52,6 +57,19 @@ class GestureController {
       return;
     }
 
+    if (levelState.isPowerupSelecting) {
+      int col = (details.localPosition.dx / tWidth).floor();
+      int row = (details.localPosition.dy / tHeight).floor();
+
+      if (_isValidCoordinate(row, col, levelState)) {
+        _log.fine('Powerup hover started: row=$row, col=$col');
+        levelState.updatePowerupHoverTarget(TileCoordinate(row: row, col: col));
+      } else {
+        _log.warning('Powerup pan started outside grid: row=$row, col=$col');
+      }
+      return;
+    }
+
     int col = (details.localPosition.dx / tWidth).floor();
     int row = (details.localPosition.dy / tHeight).floor();
 
@@ -65,9 +83,23 @@ class GestureController {
 
   void onPanUpdate(
     DragUpdateDetails details,
+    double tWidth,
+    double tHeight,
     LevelState levelState,
     VFXController vfx,
   ) {
+    if (levelState.isPowerupSelecting) {
+      final col = (details.localPosition.dx / tWidth).floor();
+      final row = (details.localPosition.dy / tHeight).floor();
+      if (_isValidCoordinate(row, col, levelState)) {
+        _log.fine('Powerup hover moved: row=$row, col=$col');
+        levelState.updatePowerupHoverTarget(TileCoordinate(row: row, col: col));
+      } else {
+        _log.warning('Powerup hover moved outside grid: row=$row, col=$col');
+      }
+      return;
+    }
+
     if (_draggedTile == null || _dragStartPosition == null) return;
 
     final dx = details.localPosition.dx - _dragStartPosition!.dx;

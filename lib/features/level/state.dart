@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:grimoji/app/lifecycle.dart';
 import 'package:grimoji/config/levels/game_level.dart';
+import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/match/board/manager.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
@@ -12,8 +13,10 @@ import 'package:grimoji/features/match/state.dart';
 import 'package:grimoji/features/match/announcer.dart';
 import 'package:grimoji/features/level/managers/time.dart';
 import 'package:grimoji/features/level/managers/goal.dart';
+import 'package:logging/logging.dart';
 
 class LevelState extends ChangeNotifier {
+  static final _log = Logger('LevelState.PowerupSelection');
   final void Function(int stars) onWin;
   final VoidCallback onLose;
   final GameLevel level;
@@ -35,7 +38,11 @@ class LevelState extends ChangeNotifier {
 
   bool _isDisposed = false;
   Completer<TileCoordinate>? _powerupSelectionCompleter;
+  TileCoordinate? _powerupHoverTarget;
   Powerup? _selectedPowerup;
+  int _powerupHoverToken = 0;
+
+  int get powerupHoverToken => _powerupHoverToken;
 
   LevelState({
     required this.onWin,
@@ -178,6 +185,7 @@ class LevelState extends ChangeNotifier {
   Powerup? get selectedPowerup => _selectedPowerup;
 
   Future<TileCoordinate> awaitPowerupTile(Powerup powerup) {
+    _log.fine('Starting tile selection for powerup=${powerup.id}');
     _selectedPowerup = powerup;
     _powerupSelectionCompleter = Completer<TileCoordinate>();
     notifyListeners();
@@ -185,12 +193,55 @@ class LevelState extends ChangeNotifier {
   }
 
   void onPowerTileTapped(TileCoordinate coord) {
-    _powerupSelectionCompleter?.complete(coord);
+    final completer = _powerupSelectionCompleter;
+    _log.fine(
+      'Tile selection received: row=${coord.row}, col=${coord.col}, '
+      'hasCompleter=${completer != null}, completed=${completer?.isCompleted}',
+    );
+    _clearPowerupTargetFlags();
+    if (completer == null || completer.isCompleted) {
+      _log.warning('Ignoring powerup tile tap without an active selection');
+      return;
+    }
+    completer.complete(coord);
     _powerupSelectionCompleter = null;
     _selectedPowerup = null;
+    notifyListeners();
+  }
+
+  void updatePowerupHoverTarget(TileCoordinate? coord) {
+    if (_powerupHoverTarget == coord) return;
+    _clearPowerupTargetFlags();
+    if (coord != null) {
+      _powerupHoverTarget = coord;
+      boardManager.gridTiles[coord.row][coord.col].isPowerupTarget = true;
+      _log.fine(
+        'Powerup target set: row=${coord.row}, col=${coord.col}, '
+        'token=${_powerupHoverToken + 1}',
+      );
+    } else {
+      _log.fine('Powerup target cleared');
+    }
+    _powerupHoverToken++;
+    notifyListeners();
+  }
+
+  void _clearPowerupTargetFlags() {
+    if (_powerupHoverTarget != null) {
+      boardManager
+              .gridTiles[_powerupHoverTarget!.row][_powerupHoverTarget!.col]
+              .isPowerupTarget =
+          false;
+      _powerupHoverTarget = null;
+    }
   }
 
   void cancelPowerupSelection() {
+    _log.fine(
+      'Cancelling powerup selection: powerup=${_selectedPowerup?.id}, '
+      'hasCompleter=${_powerupSelectionCompleter != null}',
+    );
+    _clearPowerupTargetFlags();
     _powerupSelectionCompleter?.completeError('Cancelled');
     _powerupSelectionCompleter = null;
     _selectedPowerup = null;
