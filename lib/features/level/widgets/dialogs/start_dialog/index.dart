@@ -72,7 +72,9 @@ class _LevelStartDialogState extends State<LevelStartDialog> {
                 const SizedBox(height: 50),
 
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4.0 * context.globalScale),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 4.0 * context.globalScale,
+                  ),
                   child: SingleChildScrollView(
                     child: Wrap(
                       alignment: WrapAlignment.center,
@@ -101,7 +103,9 @@ class _LevelStartDialogState extends State<LevelStartDialog> {
                                 return;
                               }
                               if (purchased == true) {
-                                setState(() {});
+                                setState(() {
+                                  _selectedPowerupIds.add(item.id);
+                                });
                               }
                               return;
                             }
