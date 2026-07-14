@@ -37,6 +37,7 @@ class GameCoordinator {
   void Function(int row, int col, bool isHorizontal)? onLineClear;
   Future<void> Function(RollEffect)? onWheelRoll;
   Future<void> Function(GhostDiveEffect)? onGhostDive;
+  void Function(TileCoordinate)? onPunch;
   final Logger _log = Logger('GameCoordinator');
 
   late final SettlementProcessor _settlement;
@@ -319,6 +320,10 @@ class GameCoordinator {
     if (state.isGameOver || state.isPaused || state.isProcessing) return;
 
     state.setProcessing(true);
+
+    onPunch?.call(coord);
+
+    await Future.delayed(const Duration(milliseconds: 320));
 
     final tile = engine.grid[coord.row][coord.col];
     if (tile.emoji == engine.level.targetEmoji) {

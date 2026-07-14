@@ -13,8 +13,6 @@ class PunchHandler implements PowerupHandler {
     Powerup powerup,
     LevelState levelState,
   ) async {
-    levelState.updatePowerupHoverTarget(null);
-
     try {
       final selected = await levelState.awaitPowerupTile(powerup);
 
@@ -27,6 +25,7 @@ class PunchHandler implements PowerupHandler {
       await levelState.coordinator.punchTile(selected);
     } catch (e) {
       _log.info('Cancelled: $e');
+      levelState.updatePowerupHoverTarget(null);
     }
   }
 }
