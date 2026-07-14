@@ -12,49 +12,52 @@ class Content extends StatelessWidget {
     final palette = context.palette;
     final selectedPowerup = context.watch<LevelState>().selectedPowerup;
 
-    return Container(
-      color: Colors.transparent,
+    return GestureDetector(
+      onTap: () => context.read<LevelState>().cancelPowerupSelection(),
       child: Container(
-        padding: const EdgeInsets.only(
-          left: 95,
-          right: 95,
-          top: 20,
-          bottom: 20,
-        ),
-        decoration: BoxDecoration(
-          color: palette.slate,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: palette.voidBlack.withValues(alpha: 0.3),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (selectedPowerup != null)
-                EmojiWidget.svg(path: selectedPowerup.iconPath, size: 80),
-              const SizedBox(height: 16),
-              Text(
-                'Select an emoji',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: palette.voidBlack,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Tap any emoji to use powerup',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14, color: palette.voidBlack),
+        color: Colors.transparent,
+        child: Container(
+          padding: const EdgeInsets.only(
+            left: 95,
+            right: 95,
+            top: 20,
+            bottom: 20,
+          ),
+          decoration: BoxDecoration(
+            color: palette.slate,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: palette.voidBlack.withValues(alpha: 0.3),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
               ),
             ],
+          ),
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (selectedPowerup != null)
+                  EmojiWidget.svg(path: selectedPowerup.iconPath, size: 80),
+                const SizedBox(height: 16),
+                Text(
+                  'Select an emoji',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: palette.voidBlack,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Tap any emoji to use powerup',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 14, color: palette.voidBlack),
+                ),
+              ],
+            ),
           ),
         ),
       ),

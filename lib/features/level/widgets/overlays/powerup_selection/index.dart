@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/features/level/state.dart';
-import 'package:grimoji/features/level/widgets/overlays/dim_clipper.dart';
 import 'package:grimoji/features/level/widgets/overlays/powerup_selection/content.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:logging/logging.dart';
@@ -41,24 +40,69 @@ class PowerupSelectionOverlay extends StatelessWidget {
             final double? left = isMobile ? 0 : null;
             const double right = 0;
             final double? width = isMobile ? null : size.width * 0.3;
-        
+
             return Stack(
               children: [
-                ClipPath(
-                  clipper: DimOverlayClipper(boardRect: boardRect),
+                Positioned.fromRect(
+                  rect: Rect.fromLTWH(0, 0, size.width, boardRect.top),
                   child: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTapDown: (_) {
-                      _log.fine('Tap outside board');
-                      _log.fine('Cancelling powerup');
+                    onTap: () {
+                      _log.fine('Tap above board — cancelling');
                       context.read<LevelState>().cancelPowerupSelection();
                     },
                     child: Container(
-                      width: size.width,
-                      height: size.height,
-                      color: context.palette.voidBlack.withValues(
-                        alpha: 0.9,
-                      ),
+                      color: context.palette.voidBlack.withValues(alpha: 0.9),
+                    ),
+                  ),
+                ),
+                Positioned.fromRect(
+                  rect: Rect.fromLTWH(
+                    0,
+                    boardRect.bottom,
+                    size.width,
+                    size.height - boardRect.bottom,
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      _log.fine('Tap below board — cancelling');
+                      context.read<LevelState>().cancelPowerupSelection();
+                    },
+                    child: Container(
+                      color: context.palette.voidBlack.withValues(alpha: 0.9),
+                    ),
+                  ),
+                ),
+                Positioned.fromRect(
+                  rect: Rect.fromLTWH(
+                    0,
+                    boardRect.top,
+                    boardRect.left,
+                    boardRect.height,
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      _log.fine('Tap left of board — cancelling');
+                      context.read<LevelState>().cancelPowerupSelection();
+                    },
+                    child: Container(
+                      color: context.palette.voidBlack.withValues(alpha: 0.9),
+                    ),
+                  ),
+                ),
+                Positioned.fromRect(
+                  rect: Rect.fromLTWH(
+                    boardRect.right,
+                    boardRect.top,
+                    size.width - boardRect.right,
+                    boardRect.height,
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      _log.fine('Tap right of board — cancelling');
+                      context.read<LevelState>().cancelPowerupSelection();
+                    },
+                    child: Container(
+                      color: context.palette.voidBlack.withValues(alpha: 0.9),
                     ),
                   ),
                 ),
