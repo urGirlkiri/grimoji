@@ -3,7 +3,6 @@ import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/match/board/effect/manager.dart';
 import 'package:grimoji/features/match/board/effects/ghost_dive/effect.dart';
 import 'package:grimoji/features/match/board/effects/line_clear/effect.dart';
-import 'package:grimoji/features/match/board/effects/punch/effect.dart';
 import 'package:grimoji/features/match/board/effects/sparkle/effect.dart';
 import 'package:grimoji/features/match/board/effects/time_bonus/effect.dart';
 import 'package:grimoji/features/match/board/effects/wheel_roll/effect.dart';
@@ -21,9 +20,6 @@ class VFXController {
   );
   final ghostDiveManager = EffectManager<GhostDiveEffect>(
     lifetime: ghostDiveDuration,
-  );
-  final punchManager = EffectManager<PunchEffect>(
-    lifetime: const Duration(milliseconds: 400),
   );
   final timeBonusManager = EffectManager<TimeBonusEffect>(
     lifetime: timeBonusDuration,
@@ -53,9 +49,6 @@ class VFXController {
     state.coordinator.onGhostDive = (effect) {
       if (!_isDisposed) ghostDiveManager.trigger(effect);
       return Future.delayed(const Duration(microseconds: 0));
-    };
-    state.coordinator.onPunch = (coord) {
-      if (!_isDisposed) punchManager.trigger(PunchEffect(target: coord));
     };
     state.onTimeBonus = (amount) {
       if (!_isDisposed && _boardWidth != null && _boardHeight != null) {
@@ -96,7 +89,6 @@ class VFXController {
     lineClearManager.dispose();
     wheelRollManager.dispose();
     ghostDiveManager.dispose();
-    punchManager.dispose();
     timeBonusManager.dispose();
   }
 }

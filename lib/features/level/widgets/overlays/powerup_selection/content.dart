@@ -5,7 +5,9 @@ import 'package:grimoji/widgets/custom/emoji_widget.dart';
 import 'package:provider/provider.dart';
 
 class Content extends StatelessWidget {
-  const Content({super.key});
+  final bool isAnimating;
+
+  const Content({super.key, this.isAnimating = false});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,9 @@ class Content extends StatelessWidget {
     final selectedPowerup = context.watch<LevelState>().selectedPowerup;
 
     return GestureDetector(
-      onTap: () => context.read<LevelState>().cancelPowerupSelection(),
+      onTap: isAnimating
+          ? null
+          : () => context.read<LevelState>().cancelPowerupSelection(),
       child: Container(
         color: Colors.transparent,
         child: Container(
@@ -39,8 +43,12 @@ class Content extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                if (selectedPowerup != null)
-                  EmojiWidget.svg(path: selectedPowerup.iconPath, size: 80),
+                if (selectedPowerup != null && !isAnimating)
+                  EmojiWidget.svg(
+                    key: context.read<LevelState>().powerupIconKey,
+                    path: selectedPowerup.iconPath,
+                    size: 80,
+                  ),
                 const SizedBox(height: 16),
                 Text(
                   'Select an emoji',

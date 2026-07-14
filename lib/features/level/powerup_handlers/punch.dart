@@ -22,6 +22,11 @@ class PunchHandler implements PowerupHandler {
 
       _log.info('Selected tile: ${selected.row}, ${selected.col}');
 
+      final animationFuture = levelState.startPowerupAnimation();
+      await animationFuture;
+
+      await Future.delayed(const Duration(milliseconds: 300));
+
       await levelState.coordinator.punchTile(selected);
     } catch (e) {
       _log.info('Cancelled: $e');

@@ -25,6 +25,10 @@ class LevelState extends ChangeNotifier {
   final List<String> startingBoosters;
 
   final GlobalKey targetIconKey = GlobalKey();
+  final GlobalKey powerupIconKey = GlobalKey();
+  Offset? _powerupIconPosition;
+
+  Offset? get powerupIconPosition => _powerupIconPosition;
 
   late final TimeManager timeManager;
   late final GoalManager goalManager;
@@ -41,8 +45,14 @@ class LevelState extends ChangeNotifier {
   TileCoordinate? _powerupHoverTarget;
   Powerup? _selectedPowerup;
   int _powerupHoverToken = 0;
+  bool _isPowerupAnimating = false;
+  TileCoordinate? _punchTarget;
+  Completer<void>? _punchAnimationCompleter;
 
   int get powerupHoverToken => _powerupHoverToken;
+
+  bool get isPowerupAnimating => _isPowerupAnimating;
+  TileCoordinate? get punchTarget => _punchTarget;
 
   LevelState({
     required this.onWin,
@@ -198,14 +208,55 @@ class LevelState extends ChangeNotifier {
       'Tile selection received: row=${coord.row}, col=${coord.col}, '
       'hasCompleter=${completer != null}, completed=${completer?.isCompleted}',
     );
-    _clearPowerupTargetFlags();
     if (completer == null || completer.isCompleted) {
       _log.warning('Ignoring powerup tile tap without an active selection');
       return;
     }
+    _capturePowerupPosition();
+    _punchTarget = coord;
+    boardManager.gridTiles[coord.row][coord.col].isPowerupTarget = true;
     completer.complete(coord);
     _powerupSelectionCompleter = null;
     _selectedPowerup = null;
+    notifyListeners();
+  }
+
+  void _capturePowerupPosition() {
+    final renderBox =
+        powerupIconKey.currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox != null) {
+      final position = renderBox.localToGlobal(Offset.zero);
+      _powerupIconPosition =
+          position +
+          Offset(renderBox.size.width / 2, renderBox.size.height / 2);
+      _log.fine('Captured powerup icon position: $_powerupIconPosition');
+    } else {
+      _powerupIconPosition = null;
+    }
+  }
+
+  Future<void> startPowerupAnimation() {
+    _isPowerupAnimating = true;
+    _punchAnimationCompleter = Completer<void>();
+    notifyListeners();
+    return _punchAnimationCompleter!.future;
+  }
+
+  void markPunchImpact() {
+    final target = _punchTarget;
+    if (target != null) {
+      boardManager.gridTiles[target.row][target.col].isExploding = true;
+      gameState.updateUI();
+      notifyListeners();
+    }
+  }
+
+  void completePowerupAnimation() {
+    _isPowerupAnimating = false;
+    _powerupIconPosition = null;
+    _punchTarget = null;
+    _punchAnimationCompleter?.complete();
+    _punchAnimationCompleter = null;
     notifyListeners();
   }
 

@@ -8,7 +8,6 @@ import 'package:grimoji/features/match/board/effects/wheel_roll/index.dart';
 import 'package:grimoji/features/match/board/widgets/announcer/index.dart';
 import 'package:grimoji/features/match/board/effects/line_clear/index.dart';
 import 'package:grimoji/features/match/board/widgets/board_grid.dart';
-import 'package:grimoji/features/match/board/effects/punch/index.dart';
 import 'package:grimoji/features/match/board/effects/sparkle/index.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/index.dart';
 import 'package:grimoji/features/level/state.dart';
@@ -207,17 +206,6 @@ class _GameBoardState extends State<GameBoard> {
                               child: IgnorePointer(
                                 child: GhostDiveOverlay(
                                   notifier: _vfx.ghostDiveManager.notifier,
-                                  tileWidth: _tileWidth!,
-                                  tileHeight: _tileHeight!,
-                                ),
-                              ),
-                            ),
-
-                            OverflowBox(
-                              maxWidth: constrainedBoardWidth,
-                              child: IgnorePointer(
-                                child: PunchOverlay(
-                                  notifier: _vfx.punchManager.notifier,
                                   tileWidth: _tileWidth!,
                                   tileHeight: _tileHeight!,
                                 ),
