@@ -112,9 +112,10 @@ final List<GameLevel> chapter1Levels = [
     goal: 'Collect crystal balls',
     description: 'The Ritual Begins',
     availableEmojis: [
+      Emojis.graduationCap,
       Emojis.sparkles,
-      Emojis.books,
-      Emojis.nerdFace
+      Emojis.writingHand,
+      Emojis.yawn
     ],
   ),
 
