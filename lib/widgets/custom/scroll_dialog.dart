@@ -23,7 +23,7 @@ class ScrollDialog extends StatelessWidget {
     required this.child,
     this.rightButton,
     this.leftButton,
-    this.padding,
+    this.padding ,
     this.scrollType = ScrollType.verticalWideLong,
   });
 
@@ -99,7 +99,32 @@ class ScrollDialog extends StatelessWidget {
             width: dialogWidth,
             height: dialogHeight,
           ),
-          SizedBox.expand(child: child),
+          Positioned.fill(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 12.0, bottom: 12),
+              child: ClipRect(
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return ScrollConfiguration(
+                      behavior: ScrollConfiguration.of(
+                        context,
+                      ).copyWith(scrollbars: false, overscroll: false),
+                      child: SingleChildScrollView(
+                        padding: padding,
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight:
+                                constraints.maxHeight - (padding?.vertical ?? 0),
+                          ),
+                          child: child,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
           if (rightButton != null)
             Positioned(
               top: isLarge ? -15 : -8,
