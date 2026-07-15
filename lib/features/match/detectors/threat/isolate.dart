@@ -5,12 +5,14 @@ List<int>? isolate(ThreatScan args) {
   final int rows = args.rows;
   final int cols = args.cols;
   final List<List<String>> board = args.gridVisuals;
+  final excluded = args.excludedPositions;
 
   final intrusiveTarget = _findTopmostLeftmostIntrusive(
     board,
     rows,
     cols,
     args.intrusiveVisuals,
+    excluded,
   );
   if (intrusiveTarget != null) return intrusiveTarget;
 
@@ -19,6 +21,7 @@ List<int>? isolate(ThreatScan args) {
     rows,
     cols,
     args.obstacleVisuals,
+    excluded,
   );
   if (obstacleTarget != null) return obstacleTarget;
 
@@ -26,6 +29,8 @@ List<int>? isolate(ThreatScan args) {
 
   for (int row = 0; row < rows; row++) {
     for (int col = 0; col < cols; col++) {
+      if (excluded.contains('$row,$col')) continue;
+
       final threatScore = scoreThreatTarget(
         board,
         row,
@@ -60,9 +65,11 @@ List<int>? _findTopmostLeftmostIntrusive(
   int rows,
   int cols,
   Set<String> intrusiveVisuals,
+  Set<String> excluded,
 ) {
   for (int row = 0; row < rows; row++) {
     for (int col = 0; col < cols; col++) {
+      if (excluded.contains('$row,$col')) continue;
       if (intrusiveVisuals.contains(board[row][col])) {
         return [row, col];
       }
@@ -76,9 +83,11 @@ List<int>? _findTopmostLeftmostObstacle(
   int rows,
   int cols,
   Set<String> obstacleVisuals,
+  Set<String> excluded,
 ) {
   for (int row = 0; row < rows; row++) {
     for (int col = 0; col < cols; col++) {
+      if (excluded.contains('$row,$col')) continue;
       if (obstacleVisuals.contains(board[row][col])) {
         return [row, col];
       }

@@ -8,6 +8,7 @@ class ThreatScan {
   final Set<String> obstacleVisuals;
   final String targetVisual;
   final Set<String> targetIngredients;
+  final Set<String> excludedPositions;
 
   ThreatScan({
     required this.gridVisuals,
@@ -19,5 +20,6 @@ class ThreatScan {
     required this.obstacleVisuals,
     required this.targetVisual,
     required this.targetIngredients,
+    this.excludedPositions = const {},
   });
 }

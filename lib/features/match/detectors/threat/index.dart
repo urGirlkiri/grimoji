@@ -13,6 +13,7 @@ class ThreatDetector {
   static Future<TileCoordinate?> findTarget({
     required List<List<Tile>> grid,
     required GameEmoji targetEmoji,
+    Set<TileCoordinate> excluded = const {},
   }) async {
     final gridVisuals = grid
         .map((row) => row.map((tile) => tile.emoji.visual).toList())
@@ -37,6 +38,10 @@ class ThreatDetector {
         .map((recipe) => recipe.ingredient.visual)
         .toSet();
 
+    final excludedPositions = excluded
+        .map((coord) => '${coord.row},${coord.col}')
+        .toSet();
+
     final targetCoordinates = await compute(
       isolate,
       ThreatScan(
@@ -49,6 +54,7 @@ class ThreatDetector {
         obstacleVisuals: obstacleVisuals,
         targetVisual: targetEmoji.visual,
         targetIngredients: ingredientsForLevelGoal,
+        excludedPositions: excludedPositions,
       ),
     );
 
