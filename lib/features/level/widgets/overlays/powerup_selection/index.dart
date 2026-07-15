@@ -143,8 +143,7 @@ class PowerupSelectionOverlay extends StatelessWidget {
                         width: width,
                         child: const Content(),
                       ),
-                    if (isAnimating)
-                      PunchingOverlay(boardRect: boardRect),
+                    if (isAnimating) PunchingOverlay(boardRect: boardRect),
                   ],
                 );
               },
