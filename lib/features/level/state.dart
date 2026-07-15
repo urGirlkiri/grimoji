@@ -334,6 +334,7 @@ class LevelState extends ChangeNotifier {
     gameState.removeListener(_onGameStateChanged);
     lifecycleNotifier.removeListener(_onLifecycleChanged);
     coordinator.dispose();
+    announcer.removeListener(notifyListeners);
     super.dispose();
   }
 }
