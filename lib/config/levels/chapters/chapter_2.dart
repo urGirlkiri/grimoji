@@ -6,10 +6,15 @@ final List<GameLevel> chapter2Levels = [
     number: 10,
     timeLimit: 200,
     targetAmount: 5,
-    targetEmoji: Emojis.bug,
-    goal: 'Collect bugs before they overrun the board',
-    description: 'The Swamp\'s Edge - Introducing the replicating Bugs',
-    availableEmojis: [Emojis.fire, Emojis.leafyGreen, Emojis.worm, Emojis.bone],
+    targetEmoji: Emojis.tRex,
+    goal: 'Run across the bridge while being chased by a t-rex.',
+    description: 'The Chase',
+    availableEmojis: [
+      Emojis.lizard,
+      Emojis.dinosaur,
+      Emojis.pawPrints,
+      Emojis.wolf,
+    ],
   ),
 
   GameLevel(
@@ -20,10 +25,10 @@ final List<GameLevel> chapter2Levels = [
     goal: 'Must merge 4 bugs to make Spiders',
     description: 'Arachnophobia - The swarm grows',
     availableEmojis: [
-      Emojis.droplet,
-      Emojis.rock,
-      Emojis.poultryLeg,
-      Emojis.bug,
+      Emojis.bug, 
+      Emojis.ant, 
+      Emojis.cricket, 
+      Emojis.gasp
     ],
   ),
 
@@ -34,8 +39,12 @@ final List<GameLevel> chapter2Levels = [
     targetEmoji: Emojis.testTube,
     goal: 'Must merge 4 Droplets into Potions',
     description: 'First Brew - Distilling the swamp waters',
-    availableEmojis: [Emojis.fire, Emojis.spider, Emojis.bone, Emojis.cloud],
-    skipAutoPlayer: true,
+    availableEmojis: [
+      Emojis.droplet,
+      Emojis.ocean,
+      Emojis.salt,
+      Emojis.anxiousWithSweat,
+    ],
   ),
 
   GameLevel(
@@ -47,9 +56,9 @@ final List<GameLevel> chapter2Levels = [
     description: 'Toxic Overgrowth - The swamp fights back',
     availableEmojis: [
       Emojis.leafyGreen,
-      Emojis.worm,
-      Emojis.poultryLeg,
-      Emojis.rock,
+      Emojis.bug,
+      Emojis.mushroom,
+      Emojis.greenSalad,
     ],
   ),
 
@@ -57,10 +66,15 @@ final List<GameLevel> chapter2Levels = [
     number: 14,
     timeLimit: 260,
     targetAmount: 2,
-    targetEmoji: Emojis.bat,
-    goal: 'Requires merging Bugs -> Spiders -> Bats',
-    description: 'Creatures of the Night - The swarm evolves',
-    availableEmojis: [Emojis.spider, Emojis.bone, Emojis.ghost, Emojis.droplet],
+    targetEmoji: Emojis.lobster,
+    goal: 'Collect the sea lobsters',
+    description: 'Creatures of the sea',
+    availableEmojis: [
+      Emojis.crab, 
+      Emojis.orca, 
+      Emojis.seal, 
+      Emojis.concerned
+    ],
   ),
 
   GameLevel(
@@ -72,9 +86,9 @@ final List<GameLevel> chapter2Levels = [
     description: 'The Witch\'s Familiar - A feline companion',
     availableEmojis: [
       Emojis.kissingCat,
-      Emojis.bat,
-      Emojis.testTube,
-      Emojis.rock,
+      Emojis.beatingHeart,
+      Emojis.poutingCat,
+      Emojis.smirkCat,
     ],
   ),
 
@@ -82,11 +96,15 @@ final List<GameLevel> chapter2Levels = [
     number: 16,
     timeLimit: 300,
     targetAmount: 6,
-    targetEmoji: Emojis.testTube,
-    goal: 'Must brew multiple potions while bugs interfere',
-    description: 'Potion Master - Managing the chaos',
-    availableEmojis: [Emojis.fire, Emojis.spider, Emojis.bone, Emojis.droplet],
-    skipAutoPlayer: true,
+    targetEmoji: Emojis.eyes,
+    goal: 'See',
+    description: 'Anatomy',
+    availableEmojis: [
+      Emojis.eye, 
+      Emojis.ear, 
+      Emojis.nose, 
+      Emojis.mouthNone
+    ],
   ),
 
   GameLevel(
@@ -98,8 +116,8 @@ final List<GameLevel> chapter2Levels = [
     description: 'Cauldron Bubble - The brew reaches a boil',
     availableEmojis: [
       Emojis.testTube,
-      Emojis.leafyGreen,
-      Emojis.rock,
+      Emojis.clinkingGlasses,
+      Emojis.dizzyFace,
       Emojis.clinkingBeerMugs,
     ],
   ),
@@ -112,10 +130,10 @@ final List<GameLevel> chapter2Levels = [
     goal: 'A rare item to collect amidst chaos',
     description: 'The Poisoned Apple - The final test of the swamp',
     availableEmojis: [
+      Emojis.evergreenTree,
+      Emojis.frog,
       Emojis.plant,
       Emojis.worm,
-      Emojis.poultryLeg,
-      Emojis.droplet,
     ],
   ),
 
@@ -126,7 +144,12 @@ final List<GameLevel> chapter2Levels = [
     targetEmoji: Emojis.snowflake,
     goal: 'Player must craft Snowflakes from Clouds',
     description: 'A Sudden Chill - Introducing Ice Magic',
-    availableEmojis: [Emojis.cloud, Emojis.fire, Emojis.bone, Emojis.rock],
+    availableEmojis: [
+      Emojis.cloud,
+      Emojis.penguin,
+      Emojis.iceSkate,
+      Emojis.iceHockey,
+    ],
   ),
 
   GameLevel(
@@ -137,22 +160,25 @@ final List<GameLevel> chapter2Levels = [
     goal: 'Ice Cubes! Use freezing to stun replicating bugs',
     description: 'Pest Control - The swamp fights back with cold',
     availableEmojis: [
-      Emojis.skull,
       Emojis.hotFace,
-      Emojis.droplet,
-      Emojis.leafyGreen,
+      Emojis.iceCream,
+      Emojis.snowman,
+      Emojis.thermometer,
     ],
-    skipAutoPlayer: true,
   ),
 
   GameLevel(
     number: 21,
     timeLimit: 240,
     targetAmount: 5,
-    targetEmoji: Emojis.spider,
-    goal: 'Balance ice magic with biological threats',
-    description: 'The Frozen Swamp - Cold traps the swarm',
-    availableEmojis: [Emojis.bug, Emojis.worm, Emojis.fire, Emojis.ghost],
+    targetEmoji: Emojis.scorpion,
+    goal: 'Evolve crabs into venomous scorpions',
+    description: 'The Stinging Tide - Sea creatures become dangerous',
+    availableEmojis: [
+      Emojis.crab, 
+      Emojis.fish, 
+      Emojis.concerned
+    ],
   ),
 
   GameLevel(
@@ -163,10 +189,10 @@ final List<GameLevel> chapter2Levels = [
     goal: 'Created by freezing LeafyGreens',
     description: 'Decay - Nature withers in the frost',
     availableEmojis: [
-      Emojis.evergreenTree,
       Emojis.leafyGreen,
-      Emojis.poultryLeg,
-      Emojis.rock,
+      Emojis.evergreenTree,
+      Emojis.tomato,
+      Emojis.tulip,
     ],
   ),
 
@@ -174,21 +200,30 @@ final List<GameLevel> chapter2Levels = [
     number: 23,
     timeLimit: 300,
     targetAmount: 4,
-    targetEmoji: Emojis.testTube,
+    targetEmoji: Emojis.selfie,
     goal: 'Keep bugs away from the potions',
     description: 'The Witch\'s Brew - Potions amid the storm',
-    availableEmojis: [Emojis.herb, Emojis.bug, Emojis.hotFace, Emojis.droplet],
-    skipAutoPlayer: true,
+    availableEmojis: [
+      Emojis.cameraFlash,
+      Emojis.camera,
+      Emojis.film,
+      Emojis.sparklingHeart,
+    ],
   ),
 
   GameLevel(
     number: 24,
     timeLimit: 260,
     targetAmount: 3,
-    targetEmoji: Emojis.bat,
+    targetEmoji: Emojis.stethoscope,
     goal: 'Combine Spiders to make Bats',
     description: 'Nightfall - The swarm evolves under cover of dark',
-    availableEmojis: [Emojis.worm, Emojis.spider, Emojis.cloud, Emojis.fire],
+    availableEmojis: [
+      Emojis.sick,
+      Emojis.poop,
+      Emojis.litter,
+      Emojis.bandageFace,
+    ],
   ),
 
   GameLevel(
@@ -199,10 +234,9 @@ final List<GameLevel> chapter2Levels = [
     goal: 'A new toxic familiar to manage',
     description: 'Cold Blooded - The serpent moves in frozen shadows',
     availableEmojis: [
-      Emojis.leafyGreen,
-      Emojis.droplet,
-      Emojis.poultryLeg,
-      Emojis.rock,
+      Emojis.biohazard, 
+      Emojis.mask, 
+      Emojis.microbe
     ],
   ),
 
@@ -210,14 +244,14 @@ final List<GameLevel> chapter2Levels = [
     number: 26,
     timeLimit: 280,
     targetAmount: 3,
-    targetEmoji: Emojis.bomb,
-    goal: 'Mix fire and ice for explosive effect',
-    description: 'Thermal Shock - Opposites create chaos',
+    targetEmoji: Emojis.rage,
+    goal: 'First Emotion',
+    description: 'Rage',
     availableEmojis: [
-      Emojis.leaflessTree,
-      Emojis.skull,
-      Emojis.fire,
-      Emojis.bone,
+      Emojis.cursing,
+      Emojis.ogre,
+      Emojis.angry,
+      Emojis.triumph,
     ],
   ),
 
@@ -225,14 +259,14 @@ final List<GameLevel> chapter2Levels = [
     number: 27,
     timeLimit: 250,
     targetAmount: 15,
-    targetEmoji: Emojis.bubbles,
-    goal: 'Manage the bubbling brew',
+    targetEmoji: Emojis.bottleWithPoppingCork,
+    goal: 'Master the ultimate brew',
     description: 'The Cauldron Bubbles - The final simmer',
     availableEmojis: [
-      Emojis.clinkingBeerMugs,
       Emojis.testTube,
-      Emojis.leafyGreen,
-      Emojis.rock,
+      Emojis.blood,
+      Emojis.noEntry,
+      Emojis.clinkingBeerMugs,
     ],
   ),
 
@@ -240,14 +274,13 @@ final List<GameLevel> chapter2Levels = [
     number: 28,
     timeLimit: 400,
     targetAmount: 1,
-    targetEmoji: Emojis.crystalBall,
+    targetEmoji: Emojis.television,
     goal: 'Hard to craft amidst chaos',
     description: 'The Swamp Witch - The final trial of Chapter 2',
     availableEmojis: [
-      Emojis.sparkles,
-      Emojis.cloud,
-      Emojis.poultryLeg,
-      Emojis.droplet,
+      Emojis.sparkles, 
+      Emojis.wand, 
+      Emojis.screamCat
     ],
   ),
 ];

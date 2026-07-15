@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
+import 'package:grimoji/features/level/widgets/overlays/level_complete.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
 
@@ -60,6 +61,12 @@ class TargetFlightAnimator {
       },
     );
 
-    Overlay.of(context).insert(entry);
+    final levelComEntry = LevelComOverlay.currentEntry;
+    
+    if (levelComEntry != null) {
+      Overlay.of(context).insert(entry, below: levelComEntry);
+    } else {
+      Overlay.of(context).insert(entry);
+    }
   }
 }

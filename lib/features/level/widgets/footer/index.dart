@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/powerups.dart';
-import 'package:grimoji/features/level/managers/time.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/level/widgets/dialogs/pause_dialog.dart';
 import 'package:grimoji/features/level/widgets/dialogs/purchase_dialog/index.dart';
 import 'package:grimoji/features/level/widgets/footer/powerup.dart';
+import 'package:grimoji/features/level/powerup_handlers/index.dart';
 import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animations/dialog.dart';
@@ -89,16 +89,25 @@ class _FooterState extends State<Footer> {
   Future<void> _handlePowerupTap(BuildContext context, Powerup powerup) async {
     final profile = context.read<ProfileController>();
     final count = profile.getPowerupCount(powerup.id);
+
     if (count > 0) {
-      if (powerup.id == 'hourglass') {
+      final handler = PowerupHandlerRegistry.get(powerup.id);
+      if (handler != null) {
         profile.updatePowerupCount(powerup.id, -1);
-        _levelState.addTime(TimeManager.timeBonus);
+        await handler.execute(context, powerup, _levelState);
       } else {
         _showSnackbar(context);
       }
     } else {
       _levelState.pauseTimer();
-      await showBoostPurchase(context, powerup);
+      final purchased = await showBoostPurchase(context, powerup);
+      if (purchased == true && context.mounted) {
+        final handler = PowerupHandlerRegistry.get(powerup.id);
+        if (handler != null) {
+          profile.updatePowerupCount(powerup.id, -1);
+          await handler.execute(context, powerup, _levelState);
+        }
+      }
       _levelState.resumeTimerOnly();
     }
   }

@@ -30,7 +30,7 @@ class ResourcePill extends StatelessWidget {
           clipBehavior: Clip.none,
           children: [
             Positioned(
-              left: 27 * scale,
+              left: 18 * scale,
               right: 0,
               child: Container(
                 height: 28 * scale,
@@ -50,27 +50,30 @@ class ResourcePill extends StatelessWidget {
                   ],
                 ),
                 alignment: Alignment.center,
-                padding: EdgeInsets.only(left: 20 * scale, right: 8 * scale),
-                child: Text(
-                  value,
-                  style: TextStyle(
-                    color: palette.twilight,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'EagleLake',
-                    fontSize: 16 * scale,
-                    letterSpacing: 1.0,
+                padding: EdgeInsets.only(left: 20 * scale, right: 2 * scale),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.center,
+                  child: Text(
+                    value,
+                    style: TextStyle(
+                      color: palette.twilight,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'EagleLake',
+                      fontSize: 16 * scale,
+                      letterSpacing: 0.5,
+                    ),
+                    maxLines: 1,
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ),
             Positioned(
-              left: .1 * scale,
+              left: 0,
               child: Image.asset(
                 iconPath,
-                width: 45 * scale,
-                height: 45 * scale,
+                width: 38 * scale,
+                height: 38 * scale,
                 fit: BoxFit.contain,
               ),
             ),

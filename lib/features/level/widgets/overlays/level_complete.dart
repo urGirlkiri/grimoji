@@ -5,6 +5,8 @@ import 'package:grimoji/utils/context_data.dart';
 class LevelComOverlay {
   static OverlayEntry? _currentEntry;
 
+  static OverlayEntry? get currentEntry => _currentEntry;
+
   static void show(BuildContext context) {
     _currentEntry?.remove();
 

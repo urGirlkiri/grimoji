@@ -83,6 +83,8 @@ void main() {
           safeTimeLimit--;
         }
 
+        async.elapse(const Duration(seconds: 3));
+
         expect(levelState.gameState.isProcessing, isFalse);
       });
     });

@@ -315,7 +315,7 @@ class Emojis {
   static final GameEmoji anguished = GameEmoji(
     'assets/emojis/svg/anguished.svg',
     'assets/emojis/lottie/anguished.json',
-    '😩',
+    '😧',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.455, -0.230),
@@ -360,7 +360,7 @@ class Emojis {
   static final GameEmoji aquarius = GameEmoji(
     'assets/emojis/svg/aquarius.svg',
     'assets/emojis/lottie/aquarius.json',
-    '♒️',
+    '♒',
     [
       Vector2(-0.482, -0.174),
       Vector2(-0.366, -0.348),
@@ -375,7 +375,7 @@ class Emojis {
   static final GameEmoji aries = GameEmoji(
     'assets/emojis/svg/aries.svg',
     'assets/emojis/lottie/aries.json',
-    '♈️',
+    '♈',
     [
       Vector2(-0.482, -0.174),
       Vector2(-0.366, -0.348),
@@ -390,7 +390,7 @@ class Emojis {
   static final GameEmoji armMechanical = GameEmoji(
     'assets/emojis/svg/arm_mechanical.svg',
     'assets/emojis/lottie/arm_mechanical.json',
-    '🤖',
+    '🦾',
     [
       Vector2(-0.500, 0.257),
       Vector2(-0.309, -0.335),
@@ -465,7 +465,7 @@ class Emojis {
   static final GameEmoji babyChick = GameEmoji(
     'assets/emojis/svg/baby_chick.svg',
     'assets/emojis/lottie/baby_chick.json',
-    '🐥',
+    '🐤',
     [
       Vector2(-0.500, -0.220),
       Vector2(-0.318, -0.412),
@@ -495,7 +495,7 @@ class Emojis {
   static final GameEmoji backHandTwo = GameEmoji(
     'assets/emojis/svg/back_hand_2.svg',
     'assets/emojis/lottie/back_hand_2.json',
-    '🤚',
+    '🤚🏻',
     [
       Vector2(-0.269, 0.170),
       Vector2(0.049, -0.474),
@@ -510,7 +510,7 @@ class Emojis {
   static final GameEmoji backHandThree = GameEmoji(
     'assets/emojis/svg/back_hand_3.svg',
     'assets/emojis/lottie/back_hand_3.json',
-    '🤚',
+    '🤚🏼',
     [
       Vector2(-0.269, 0.170),
       Vector2(0.049, -0.474),
@@ -525,7 +525,7 @@ class Emojis {
   static final GameEmoji backHandFour = GameEmoji(
     'assets/emojis/svg/back_hand_4.svg',
     'assets/emojis/lottie/back_hand_4.json',
-    '🖐️',
+    '🤚🏽',
     [
       Vector2(-0.269, 0.170),
       Vector2(0.049, -0.474),
@@ -540,7 +540,7 @@ class Emojis {
   static final GameEmoji backHandFive = GameEmoji(
     'assets/emojis/svg/back_hand_5.svg',
     'assets/emojis/lottie/back_hand_5.json',
-    '✋',
+    '🤚🏾',
     [
       Vector2(-0.269, 0.170),
       Vector2(0.049, -0.474),
@@ -555,7 +555,7 @@ class Emojis {
   static final GameEmoji backHandSix = GameEmoji(
     'assets/emojis/svg/back_hand_6.svg',
     'assets/emojis/lottie/back_hand_6.json',
-    '🤚',
+    '🤚🏿',
     [
       Vector2(-0.269, 0.170),
       Vector2(0.049, -0.474),
@@ -645,7 +645,7 @@ class Emojis {
   static final GameEmoji balloonTwo = GameEmoji(
     'assets/emojis/svg/balloon_2.svg',
     'assets/emojis/lottie/balloon_2.json',
-    '🎈',
+    '🎈🏻',
     [
       Vector2(-0.345, -0.233),
       Vector2(-0.217, -0.441),
@@ -705,7 +705,7 @@ class Emojis {
   static final GameEmoji banjo = GameEmoji(
     'assets/emojis/svg/banjo.svg',
     'assets/emojis/lottie/banjo.json',
-    '🎸',
+    '🪕',
     [
       Vector2(-0.500, 0.141),
       Vector2(-0.425, 0.014),
@@ -821,7 +821,7 @@ class Emojis {
   static final GameEmoji batteryLow = GameEmoji(
     'assets/emojis/svg/battery_low.svg',
     'assets/emojis/lottie/battery_low.json',
-    '🔋',
+    '🪫',
     [
       Vector2(-0.255, -0.366),
       Vector2(-0.183, -0.471),
@@ -836,7 +836,7 @@ class Emojis {
   static final GameEmoji beans = GameEmoji(
     'assets/emojis/svg/beans.svg',
     'assets/emojis/lottie/beans.json',
-    '🌱',
+    '🫘',
     [
       Vector2(-0.436, -0.268),
       Vector2(0.026, -0.441),
@@ -941,7 +941,7 @@ class Emojis {
   static final GameEmoji beverageBox = GameEmoji(
     'assets/emojis/svg/beverage_box.svg',
     'assets/emojis/lottie/beverage_box.json',
-    '📦',
+    '🧃',
     [
       Vector2(-0.326, -0.254),
       Vector2(-0.315, -0.271),
@@ -971,7 +971,7 @@ class Emojis {
   static final GameEmoji bigFrown = GameEmoji(
     'assets/emojis/svg/big_frown.svg',
     'assets/emojis/lottie/big_frown.json',
-    '😞',
+    '😦',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.455, -0.230),
@@ -1031,7 +1031,7 @@ class Emojis {
   static final GameEmoji bitingLip = GameEmoji(
     'assets/emojis/svg/biting_lip.svg',
     'assets/emojis/lottie/biting_lip.json',
-    '😏',
+    '🫦',
     [
       Vector2(-0.370, -0.165),
       Vector2(-0.158, -0.273),
@@ -1046,7 +1046,7 @@ class Emojis {
   static final GameEmoji blackBird = GameEmoji(
     'assets/emojis/svg/black_bird.svg',
     'assets/emojis/lottie/black_bird.json',
-    '🐦',
+    '🐦‍⬛',
     [
       Vector2(-0.421, -0.342),
       Vector2(-0.186, -0.412),
@@ -1106,7 +1106,7 @@ class Emojis {
   static final GameEmoji blossom = GameEmoji(
     'assets/emojis/svg/blossom.svg',
     'assets/emojis/lottie/blossom.json',
-    '🌸',
+    '🌼',
     [
       Vector2(-0.474, -0.263),
       Vector2(-0.278, -0.470),
@@ -1271,7 +1271,7 @@ class Emojis {
   static final GameEmoji bouquetTwo = GameEmoji(
     'assets/emojis/svg/bouquet_2.svg',
     'assets/emojis/lottie/bouquet_2.json',
-    '💐',
+    '💐🏻',
     [
       Vector2(-0.391, -0.301),
       Vector2(-0.270, -0.500),
@@ -1451,7 +1451,7 @@ class Emojis {
   static final GameEmoji bug = GameEmoji(
     'assets/emojis/svg/bug.svg',
     'assets/emojis/lottie/bug.json',
-    '🐞',
+    '🐛',
     [
       Vector2(-0.258, -0.500),
       Vector2(-0.114, -0.471),
@@ -1541,7 +1541,7 @@ class Emojis {
   static final GameEmoji callMeHandTwo = GameEmoji(
     'assets/emojis/svg/call_me_hand_2.svg',
     'assets/emojis/lottie/call_me_hand_2.json',
-    '🤙',
+    '🤙🏻',
     [
       Vector2(-0.460, -0.071),
       Vector2(-0.099, -0.493),
@@ -1556,7 +1556,7 @@ class Emojis {
   static final GameEmoji callMeHandThree = GameEmoji(
     'assets/emojis/svg/call_me_hand_3.svg',
     'assets/emojis/lottie/call_me_hand_3.json',
-    '🤙',
+    '🤙🏼',
     [
       Vector2(-0.460, -0.071),
       Vector2(-0.099, -0.493),
@@ -1571,7 +1571,7 @@ class Emojis {
   static final GameEmoji callMeHandFour = GameEmoji(
     'assets/emojis/svg/call_me_hand_4.svg',
     'assets/emojis/lottie/call_me_hand_4.json',
-    '🤙',
+    '🤙🏽',
     [
       Vector2(-0.460, -0.071),
       Vector2(-0.099, -0.493),
@@ -1586,7 +1586,7 @@ class Emojis {
   static final GameEmoji callMeHandFive = GameEmoji(
     'assets/emojis/svg/call_me_hand_5.svg',
     'assets/emojis/lottie/call_me_hand_5.json',
-    '🤚',
+    '🤙🏾',
     [
       Vector2(-0.460, -0.071),
       Vector2(-0.099, -0.493),
@@ -1601,7 +1601,7 @@ class Emojis {
   static final GameEmoji callMeHandSix = GameEmoji(
     'assets/emojis/svg/call_me_hand_6.svg',
     'assets/emojis/lottie/call_me_hand_6.json',
-    '🤙',
+    '🤙🏿',
     [
       Vector2(-0.460, -0.071),
       Vector2(-0.099, -0.493),
@@ -1706,7 +1706,7 @@ class Emojis {
   static final GameEmoji carouselHorse = GameEmoji(
     'assets/emojis/svg/carousel_horse.svg',
     'assets/emojis/lottie/carousel_horse.json',
-    '🐎',
+    '🎠',
     [
       Vector2(-0.406, -0.201),
       Vector2(-0.380, -0.495),
@@ -1773,7 +1773,7 @@ class Emojis {
   static final GameEmoji checkMark = GameEmoji(
     'assets/emojis/svg/check_mark.svg',
     'assets/emojis/lottie/check_mark.json',
-    '✅',
+    '✔️',
     [
       Vector2(-0.500, -0.437),
       Vector2(-0.437, -0.500),
@@ -1818,7 +1818,7 @@ class Emojis {
   static final GameEmoji chequeredFlagTwo = GameEmoji(
     'assets/emojis/svg/chequered_flag_2.svg',
     'assets/emojis/lottie/chequered_flag_2.json',
-    '🏁',
+    '🏁🏻',
     [
       Vector2(-0.475, -0.392),
       Vector2(0.239, -0.436),
@@ -1923,7 +1923,7 @@ class Emojis {
   static final GameEmoji clapTwo = GameEmoji(
     'assets/emojis/svg/clap_2.svg',
     'assets/emojis/lottie/clap_2.json',
-    '👏',
+    '👏🏻',
     [
       Vector2(-0.491, 0.243),
       Vector2(-0.363, -0.313),
@@ -1938,7 +1938,7 @@ class Emojis {
   static final GameEmoji clapThree = GameEmoji(
     'assets/emojis/svg/clap_3.svg',
     'assets/emojis/lottie/clap_3.json',
-    '👏',
+    '👏🏼',
     [
       Vector2(-0.491, 0.243),
       Vector2(-0.363, -0.313),
@@ -1953,7 +1953,7 @@ class Emojis {
   static final GameEmoji clapFour = GameEmoji(
     'assets/emojis/svg/clap_4.svg',
     'assets/emojis/lottie/clap_4.json',
-    '👏',
+    '👏🏽',
     [
       Vector2(-0.491, 0.243),
       Vector2(-0.363, -0.313),
@@ -1968,7 +1968,7 @@ class Emojis {
   static final GameEmoji clapFive = GameEmoji(
     'assets/emojis/svg/clap_5.svg',
     'assets/emojis/lottie/clap_5.json',
-    '👏',
+    '👏🏾',
     [
       Vector2(-0.491, 0.243),
       Vector2(-0.363, -0.313),
@@ -1983,7 +1983,7 @@ class Emojis {
   static final GameEmoji clapSix = GameEmoji(
     'assets/emojis/svg/clap_6.svg',
     'assets/emojis/lottie/clap_6.json',
-    '👏',
+    '👏🏿',
     [
       Vector2(-0.491, 0.243),
       Vector2(-0.363, -0.313),
@@ -2088,7 +2088,7 @@ class Emojis {
   static final GameEmoji cockroach = GameEmoji(
     'assets/emojis/svg/cockroach.svg',
     'assets/emojis/lottie/cockroach.json',
-    '🐜',
+    '🪳',
     [
       Vector2(-0.500, -0.125),
       Vector2(-0.125, -0.500),
@@ -2163,7 +2163,7 @@ class Emojis {
   static final GameEmoji concerned = GameEmoji(
     'assets/emojis/svg/concerned.svg',
     'assets/emojis/lottie/concerned.json',
-    '😟',
+    '☹️',
     [
       Vector2(-0.500, 0.242),
       Vector2(-0.446, -0.228),
@@ -2178,7 +2178,7 @@ class Emojis {
   static final GameEmoji confettiBall = GameEmoji(
     'assets/emojis/svg/confetti_ball.svg',
     'assets/emojis/lottie/confetti_ball.json',
-    '🎉',
+    '🎊',
     [
       Vector2(-0.482, 0.292),
       Vector2(-0.413, -0.321),
@@ -2238,7 +2238,7 @@ class Emojis {
   static final GameEmoji cool = GameEmoji(
     'assets/emojis/svg/cool.svg',
     'assets/emojis/lottie/cool.json',
-    '😎',
+    '🆒',
     [
       Vector2(-0.500, -0.438),
       Vector2(-0.438, -0.500),
@@ -2298,7 +2298,7 @@ class Emojis {
   static final GameEmoji cricket = GameEmoji(
     'assets/emojis/svg/cricket.svg',
     'assets/emojis/lottie/cricket.json',
-    '🏏',
+    '🦗',
     [
       Vector2(-0.500, -0.395),
       Vector2(0.180, -0.258),
@@ -2373,7 +2373,7 @@ class Emojis {
   static final GameEmoji crossedFingersTwo = GameEmoji(
     'assets/emojis/svg/crossed_fingers_2.svg',
     'assets/emojis/lottie/crossed_fingers_2.json',
-    '🤞',
+    '🤞🏻',
     [
       Vector2(-0.323, -0.087),
       Vector2(-0.041, -0.471),
@@ -2388,7 +2388,7 @@ class Emojis {
   static final GameEmoji crossedFingersThree = GameEmoji(
     'assets/emojis/svg/crossed_fingers_3.svg',
     'assets/emojis/lottie/crossed_fingers_3.json',
-    '🤞',
+    '🤞🏼',
     [
       Vector2(-0.323, -0.087),
       Vector2(-0.041, -0.471),
@@ -2403,7 +2403,7 @@ class Emojis {
   static final GameEmoji crossedFingersFour = GameEmoji(
     'assets/emojis/svg/crossed_fingers_4.svg',
     'assets/emojis/lottie/crossed_fingers_4.json',
-    '🤞',
+    '🤞🏽',
     [
       Vector2(-0.323, -0.087),
       Vector2(-0.041, -0.471),
@@ -2418,7 +2418,7 @@ class Emojis {
   static final GameEmoji crossedFingersFive = GameEmoji(
     'assets/emojis/svg/crossed_fingers_5.svg',
     'assets/emojis/lottie/crossed_fingers_5.json',
-    '🤞',
+    '🤞🏾',
     [
       Vector2(-0.323, -0.087),
       Vector2(-0.041, -0.471),
@@ -2433,7 +2433,7 @@ class Emojis {
   static final GameEmoji crossedFingersSix = GameEmoji(
     'assets/emojis/svg/crossed_fingers_6.svg',
     'assets/emojis/lottie/crossed_fingers_6.json',
-    '🤞',
+    '🤞🏿',
     [
       Vector2(-0.323, -0.087),
       Vector2(-0.041, -0.471),
@@ -2553,7 +2553,7 @@ class Emojis {
   static final GameEmoji cyclone = GameEmoji(
     'assets/emojis/svg/cyclone.svg',
     'assets/emojis/lottie/cyclone.json',
-    '🌪️',
+    '🌀',
     [
       Vector2(-0.489, 0.063),
       Vector2(-0.250, -0.431),
@@ -2583,7 +2583,7 @@ class Emojis {
   static final GameEmoji dancerWomanTwo = GameEmoji(
     'assets/emojis/svg/dancer_woman_2.svg',
     'assets/emojis/lottie/dancer_woman_2.json',
-    '👯‍♀️',
+    '👯‍♀️🏻',
     [
       Vector2(-0.360, 0.425),
       Vector2(-0.280, -0.245),
@@ -2598,7 +2598,7 @@ class Emojis {
   static final GameEmoji dancerWomanThree = GameEmoji(
     'assets/emojis/svg/dancer_woman_3.svg',
     'assets/emojis/lottie/dancer_woman_3.json',
-    '💃',
+    '💃🏼',
     [
       Vector2(-0.360, 0.425),
       Vector2(-0.280, -0.245),
@@ -2613,7 +2613,7 @@ class Emojis {
   static final GameEmoji dancerWomanFour = GameEmoji(
     'assets/emojis/svg/dancer_woman_4.svg',
     'assets/emojis/lottie/dancer_woman_4.json',
-    '💃',
+    '💃🏽',
     [
       Vector2(-0.360, 0.425),
       Vector2(-0.280, -0.245),
@@ -2628,7 +2628,7 @@ class Emojis {
   static final GameEmoji dancerWomanFive = GameEmoji(
     'assets/emojis/svg/dancer_woman_5.svg',
     'assets/emojis/lottie/dancer_woman_5.json',
-    '💃',
+    '💃🏾',
     [
       Vector2(-0.360, 0.425),
       Vector2(-0.280, -0.245),
@@ -2643,7 +2643,7 @@ class Emojis {
   static final GameEmoji dancerWomanSix = GameEmoji(
     'assets/emojis/svg/dancer_woman_6.svg',
     'assets/emojis/lottie/dancer_woman_6.json',
-    '💃',
+    '💃🏿',
     [
       Vector2(-0.360, 0.425),
       Vector2(-0.280, -0.245),
@@ -2673,7 +2673,7 @@ class Emojis {
   static final GameEmoji debris = GameEmoji(
     'assets/emojis/svg/debris.svg',
     'assets/emojis/lottie/debris.json',
-    '🌪️',
+    '🧱',
     [
       Vector2(-0.444, 0.287),
       Vector2(-0.335, 0.065),
@@ -2718,7 +2718,7 @@ class Emojis {
   static final GameEmoji diagonalMouth = GameEmoji(
     'assets/emojis/svg/diagonal_mouth.svg',
     'assets/emojis/lottie/diagonal_mouth.json',
-    '😐',
+    '🫤',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.455, -0.230),
@@ -2748,7 +2748,7 @@ class Emojis {
   static final GameEmoji dinosaur = GameEmoji(
     'assets/emojis/svg/dinosaur.svg',
     'assets/emojis/lottie/dinosaur.json',
-    '🦖',
+    '🦕',
     [
       Vector2(-0.460, -0.394),
       Vector2(-0.255, -0.500),
@@ -2793,7 +2793,7 @@ class Emojis {
   static final GameEmoji distortedFace = GameEmoji(
     'assets/emojis/svg/distorted_face.svg',
     'assets/emojis/lottie/distorted_face.json',
-    '😵‍💫',
+    '🫠',
     [
       Vector2(-0.500, -0.115),
       Vector2(-0.339, -0.376),
@@ -2808,7 +2808,7 @@ class Emojis {
   static final GameEmoji distraught = GameEmoji(
     'assets/emojis/svg/distraught.svg',
     'assets/emojis/lottie/distraught.json',
-    '😢',
+    '😥',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.455, -0.230),
@@ -3018,7 +3018,7 @@ class Emojis {
   static final GameEmoji earTwo = GameEmoji(
     'assets/emojis/svg/ear_2.svg',
     'assets/emojis/lottie/ear_2.json',
-    '👂',
+    '👂🏻',
     [
       Vector2(-0.355, 0.351),
       Vector2(-0.323, -0.190),
@@ -3033,7 +3033,7 @@ class Emojis {
   static final GameEmoji earThree = GameEmoji(
     'assets/emojis/svg/ear_3.svg',
     'assets/emojis/lottie/ear_3.json',
-    '👂',
+    '👂🏼',
     [
       Vector2(-0.355, 0.351),
       Vector2(-0.323, -0.190),
@@ -3048,7 +3048,7 @@ class Emojis {
   static final GameEmoji earFour = GameEmoji(
     'assets/emojis/svg/ear_4.svg',
     'assets/emojis/lottie/ear_4.json',
-    '👂',
+    '👂🏽',
     [
       Vector2(-0.355, 0.351),
       Vector2(-0.323, -0.190),
@@ -3063,7 +3063,7 @@ class Emojis {
   static final GameEmoji earFive = GameEmoji(
     'assets/emojis/svg/ear_5.svg',
     'assets/emojis/lottie/ear_5.json',
-    '👂',
+    '👂🏾',
     [
       Vector2(-0.355, 0.351),
       Vector2(-0.323, -0.190),
@@ -3078,7 +3078,7 @@ class Emojis {
   static final GameEmoji earSix = GameEmoji(
     'assets/emojis/svg/ear_6.svg',
     'assets/emojis/lottie/ear_6.json',
-    '👂',
+    '👂🏿',
     [
       Vector2(-0.355, 0.351),
       Vector2(-0.323, -0.190),
@@ -3183,7 +3183,7 @@ class Emojis {
   static final GameEmoji exclamationQuestionMark = GameEmoji(
     'assets/emojis/svg/exclamation_question_mark.svg',
     'assets/emojis/lottie/exclamation_question_mark.json',
-    '❓',
+    '⁉️',
     [
       Vector2(-0.413, -0.466),
       Vector2(0.133, -0.500),
@@ -3213,7 +3213,7 @@ class Emojis {
   static final GameEmoji expressionless = GameEmoji(
     'assets/emojis/svg/expressionless.svg',
     'assets/emojis/lottie/expressionless.json',
-    '😐',
+    '😑',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.455, -0.230),
@@ -3288,7 +3288,7 @@ class Emojis {
   static final GameEmoji fan = GameEmoji(
     'assets/emojis/svg/fan.svg',
     'assets/emojis/lottie/fan.json',
-    '🌀',
+    '🪭',
     [
       Vector2(-0.416, -0.176),
       Vector2(-0.164, -0.333),
@@ -3333,7 +3333,7 @@ class Emojis {
   static final GameEmoji fight = GameEmoji(
     'assets/emojis/svg/fight.svg',
     'assets/emojis/lottie/fight.json',
-    '👊',
+    '🥊',
     [
       Vector2(-0.500, 0.270),
       Vector2(-0.497, -0.017),
@@ -3348,7 +3348,7 @@ class Emojis {
   static final GameEmoji film = GameEmoji(
     'assets/emojis/svg/film.svg',
     'assets/emojis/lottie/film.json',
-    '🎬',
+    '🎞️',
     [
       Vector2(-0.500, -0.496),
       Vector2(0.500, -0.496),
@@ -3363,7 +3363,7 @@ class Emojis {
   static final GameEmoji fingerprint = GameEmoji(
     'assets/emojis/svg/fingerprint.svg',
     'assets/emojis/lottie/fingerprint.json',
-    '🖐️',
+    '🫆',
     [
       Vector2(-0.488, -0.325),
       Vector2(-0.165, -0.500),
@@ -3468,7 +3468,7 @@ class Emojis {
   static final GameEmoji fistTwo = GameEmoji(
     'assets/emojis/svg/fist_2.svg',
     'assets/emojis/lottie/fist_2.json',
-    '✊',
+    '✊🏻',
     [
       Vector2(-0.500, -0.236),
       Vector2(0.023, -0.460),
@@ -3483,7 +3483,7 @@ class Emojis {
   static final GameEmoji fistThree = GameEmoji(
     'assets/emojis/svg/fist_3.svg',
     'assets/emojis/lottie/fist_3.json',
-    '✊',
+    '✊🏼',
     [
       Vector2(-0.500, -0.236),
       Vector2(0.023, -0.460),
@@ -3498,7 +3498,7 @@ class Emojis {
   static final GameEmoji fistFour = GameEmoji(
     'assets/emojis/svg/fist_4.svg',
     'assets/emojis/lottie/fist_4.json',
-    '✋',
+    '✊🏽',
     [
       Vector2(-0.500, -0.236),
       Vector2(0.023, -0.460),
@@ -3513,7 +3513,7 @@ class Emojis {
   static final GameEmoji fistFive = GameEmoji(
     'assets/emojis/svg/fist_5.svg',
     'assets/emojis/lottie/fist_5.json',
-    '✋',
+    '✊🏾',
     [
       Vector2(-0.500, -0.236),
       Vector2(0.023, -0.460),
@@ -3528,7 +3528,7 @@ class Emojis {
   static final GameEmoji fistSix = GameEmoji(
     'assets/emojis/svg/fist_6.svg',
     'assets/emojis/lottie/fist_6.json',
-    '✋',
+    '✊🏿',
     [
       Vector2(-0.500, -0.236),
       Vector2(0.023, -0.460),
@@ -3543,7 +3543,7 @@ class Emojis {
   static final GameEmoji fistLeftwards = GameEmoji(
     'assets/emojis/svg/fist_leftwards.svg',
     'assets/emojis/lottie/fist_leftwards.json',
-    '👊',
+    '🤛',
     [
       Vector2(-0.500, 0.203),
       Vector2(-0.490, -0.263),
@@ -3558,7 +3558,7 @@ class Emojis {
   static final GameEmoji fistLeftwardsTwo = GameEmoji(
     'assets/emojis/svg/fist_leftwards_2.svg',
     'assets/emojis/lottie/fist_leftwards_2.json',
-    '👊',
+    '🤛🏻',
     [
       Vector2(-0.500, 0.203),
       Vector2(-0.490, -0.263),
@@ -3573,7 +3573,7 @@ class Emojis {
   static final GameEmoji fistLeftwardsThree = GameEmoji(
     'assets/emojis/svg/fist_leftwards_3.svg',
     'assets/emojis/lottie/fist_leftwards_3.json',
-    '👊',
+    '🤛🏼',
     [
       Vector2(-0.500, 0.203),
       Vector2(-0.490, -0.263),
@@ -3588,7 +3588,7 @@ class Emojis {
   static final GameEmoji fistLeftwardsFour = GameEmoji(
     'assets/emojis/svg/fist_leftwards_4.svg',
     'assets/emojis/lottie/fist_leftwards_4.json',
-    '👊',
+    '🤛🏽',
     [
       Vector2(-0.500, 0.203),
       Vector2(-0.490, -0.263),
@@ -3603,7 +3603,7 @@ class Emojis {
   static final GameEmoji fistLeftwardsFive = GameEmoji(
     'assets/emojis/svg/fist_leftwards_5.svg',
     'assets/emojis/lottie/fist_leftwards_5.json',
-    '👊',
+    '🤛🏾',
     [
       Vector2(-0.500, 0.203),
       Vector2(-0.490, -0.263),
@@ -3618,7 +3618,7 @@ class Emojis {
   static final GameEmoji fistLeftwardsSix = GameEmoji(
     'assets/emojis/svg/fist_leftwards_6.svg',
     'assets/emojis/lottie/fist_leftwards_6.json',
-    '👊',
+    '🤛🏿',
     [
       Vector2(-0.500, 0.203),
       Vector2(-0.490, -0.263),
@@ -3633,7 +3633,7 @@ class Emojis {
   static final GameEmoji fistRightwards = GameEmoji(
     'assets/emojis/svg/fist_rightwards.svg',
     'assets/emojis/lottie/fist_rightwards.json',
-    '👉',
+    '🤜',
     [
       Vector2(-0.500, -0.362),
       Vector2(0.196, -0.379),
@@ -3648,7 +3648,7 @@ class Emojis {
   static final GameEmoji fistRightwardsTwo = GameEmoji(
     'assets/emojis/svg/fist_rightwards_2.svg',
     'assets/emojis/lottie/fist_rightwards_2.json',
-    '🤜',
+    '🤜🏻',
     [
       Vector2(-0.500, -0.362),
       Vector2(0.196, -0.379),
@@ -3663,7 +3663,7 @@ class Emojis {
   static final GameEmoji fistRightwardsThree = GameEmoji(
     'assets/emojis/svg/fist_rightwards_3.svg',
     'assets/emojis/lottie/fist_rightwards_3.json',
-    '✊',
+    '🤜🏼',
     [
       Vector2(-0.500, -0.362),
       Vector2(0.196, -0.379),
@@ -3678,7 +3678,7 @@ class Emojis {
   static final GameEmoji fistRightwardsFour = GameEmoji(
     'assets/emojis/svg/fist_rightwards_4.svg',
     'assets/emojis/lottie/fist_rightwards_4.json',
-    '👊',
+    '🤜🏽',
     [
       Vector2(-0.500, -0.362),
       Vector2(0.196, -0.379),
@@ -3693,7 +3693,7 @@ class Emojis {
   static final GameEmoji fistRightwardsFive = GameEmoji(
     'assets/emojis/svg/fist_rightwards_5.svg',
     'assets/emojis/lottie/fist_rightwards_5.json',
-    '✋',
+    '🤜🏾',
     [
       Vector2(-0.500, -0.362),
       Vector2(0.196, -0.379),
@@ -3708,7 +3708,7 @@ class Emojis {
   static final GameEmoji fistRightwardsSix = GameEmoji(
     'assets/emojis/svg/fist_rightwards_6.svg',
     'assets/emojis/lottie/fist_rightwards_6.json',
-    '✊',
+    '🤜🏿',
     [
       Vector2(-0.500, -0.362),
       Vector2(0.196, -0.379),
@@ -3783,7 +3783,7 @@ class Emojis {
   static final GameEmoji flyingDisc = GameEmoji(
     'assets/emojis/svg/flying_disc.svg',
     'assets/emojis/lottie/flying_disc.json',
-    '🛸',
+    '🥏',
     [
       Vector2(-0.448, -0.063),
       Vector2(-0.035, -0.500),
@@ -3828,7 +3828,7 @@ class Emojis {
   static final GameEmoji foldedHandsTwo = GameEmoji(
     'assets/emojis/svg/folded_hands_2.svg',
     'assets/emojis/lottie/folded_hands_2.json',
-    '🙏',
+    '🙏🏻',
     [
       Vector2(-0.428, 0.249),
       Vector2(-0.089, -0.500),
@@ -3843,7 +3843,7 @@ class Emojis {
   static final GameEmoji foldedHandsThree = GameEmoji(
     'assets/emojis/svg/folded_hands_3.svg',
     'assets/emojis/lottie/folded_hands_3.json',
-    '🙏',
+    '🙏🏼',
     [
       Vector2(-0.428, 0.249),
       Vector2(-0.089, -0.500),
@@ -3858,7 +3858,7 @@ class Emojis {
   static final GameEmoji foldedHandsFour = GameEmoji(
     'assets/emojis/svg/folded_hands_4.svg',
     'assets/emojis/lottie/folded_hands_4.json',
-    '🙏',
+    '🙏🏽',
     [
       Vector2(-0.428, 0.249),
       Vector2(-0.089, -0.500),
@@ -3873,7 +3873,7 @@ class Emojis {
   static final GameEmoji foldedHandsFive = GameEmoji(
     'assets/emojis/svg/folded_hands_5.svg',
     'assets/emojis/lottie/folded_hands_5.json',
-    '🙏',
+    '🙏🏾',
     [
       Vector2(-0.428, 0.249),
       Vector2(-0.089, -0.500),
@@ -3888,7 +3888,7 @@ class Emojis {
   static final GameEmoji foldedHandsSix = GameEmoji(
     'assets/emojis/svg/folded_hands_6.svg',
     'assets/emojis/lottie/folded_hands_6.json',
-    '🙏',
+    '🙏🏿',
     [
       Vector2(-0.428, 0.249),
       Vector2(-0.089, -0.500),
@@ -3918,7 +3918,7 @@ class Emojis {
   static final GameEmoji footTwo = GameEmoji(
     'assets/emojis/svg/foot_2.svg',
     'assets/emojis/lottie/foot_2.json',
-    '👣',
+    '🦶🏻',
     [
       Vector2(-0.500, 0.337),
       Vector2(-0.477, 0.239),
@@ -3933,7 +3933,7 @@ class Emojis {
   static final GameEmoji footThree = GameEmoji(
     'assets/emojis/svg/foot_3.svg',
     'assets/emojis/lottie/foot_3.json',
-    '👣',
+    '🦶🏼',
     [
       Vector2(-0.500, 0.337),
       Vector2(-0.477, 0.239),
@@ -3948,7 +3948,7 @@ class Emojis {
   static final GameEmoji footFour = GameEmoji(
     'assets/emojis/svg/foot_4.svg',
     'assets/emojis/lottie/foot_4.json',
-    '👣',
+    '🦶🏽',
     [
       Vector2(-0.500, 0.337),
       Vector2(-0.477, 0.239),
@@ -3963,7 +3963,7 @@ class Emojis {
   static final GameEmoji footFive = GameEmoji(
     'assets/emojis/svg/foot_5.svg',
     'assets/emojis/lottie/foot_5.json',
-    '👣',
+    '🦶🏾',
     [
       Vector2(-0.500, 0.337),
       Vector2(-0.477, 0.239),
@@ -3978,7 +3978,7 @@ class Emojis {
   static final GameEmoji footSix = GameEmoji(
     'assets/emojis/svg/foot_6.svg',
     'assets/emojis/lottie/foot_6.json',
-    '👣',
+    '🦶🏿',
     [
       Vector2(-0.500, 0.337),
       Vector2(-0.477, 0.239),
@@ -4068,7 +4068,7 @@ class Emojis {
   static final GameEmoji frown = GameEmoji(
     'assets/emojis/svg/frown.svg',
     'assets/emojis/lottie/frown.json',
-    '😞',
+    '🙁',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.455, -0.230),
@@ -4113,7 +4113,7 @@ class Emojis {
   static final GameEmoji gasp = GameEmoji(
     'assets/emojis/svg/gasp.svg',
     'assets/emojis/lottie/gasp.json',
-    '😮',
+    '😶',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.455, -0.230),
@@ -4158,7 +4158,7 @@ class Emojis {
   static final GameEmoji gemini = GameEmoji(
     'assets/emojis/svg/gemini.svg',
     'assets/emojis/lottie/gemini.json',
-    '♊️',
+    '♊',
     [
       Vector2(-0.482, -0.174),
       Vector2(-0.366, -0.348),
@@ -4203,7 +4203,7 @@ class Emojis {
   static final GameEmoji ginger = GameEmoji(
     'assets/emojis/svg/ginger.svg',
     'assets/emojis/lottie/ginger.json',
-    '🧡',
+    '🫚',
     [
       Vector2(-0.498, -0.194),
       Vector2(-0.419, -0.395),
@@ -4398,7 +4398,7 @@ class Emojis {
   static final GameEmoji greyHeart = GameEmoji(
     'assets/emojis/svg/grey_heart.svg',
     'assets/emojis/lottie/grey_heart.json',
-    '🖤',
+    '🩶',
     [
       Vector2(-0.452, -0.399),
       Vector2(-0.246, -0.491),
@@ -4428,7 +4428,7 @@ class Emojis {
   static final GameEmoji grin = GameEmoji(
     'assets/emojis/svg/grin.svg',
     'assets/emojis/lottie/grin.json',
-    '😄',
+    '😁',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.455, -0.230),
@@ -4503,7 +4503,7 @@ class Emojis {
   static final GameEmoji hairyCreature = GameEmoji(
     'assets/emojis/svg/hairy_creature.svg',
     'assets/emojis/lottie/hairy_creature.json',
-    '🐻',
+    '🧌',
     [
       Vector2(-0.352, -0.022),
       Vector2(-0.166, -0.472),
@@ -4518,7 +4518,7 @@ class Emojis {
   static final GameEmoji halo = GameEmoji(
     'assets/emojis/svg/halo.svg',
     'assets/emojis/lottie/halo.json',
-    '👋',
+    '😇',
     [
       Vector2(-0.500, -0.371),
       Vector2(-0.194, -0.488),
@@ -4578,7 +4578,7 @@ class Emojis {
   static final GameEmoji handWithIndexFingerAndThumbCrossed = GameEmoji(
     'assets/emojis/svg/hand_with_index_finger_and_thumb_crossed.svg',
     'assets/emojis/lottie/hand_with_index_finger_and_thumb_crossed.json',
-    '🤞',
+    '🫰',
     [
       Vector2(-0.375, 0.009),
       Vector2(-0.199, -0.500),
@@ -4593,7 +4593,7 @@ class Emojis {
   static final GameEmoji handWithIndexFingerAndThumbCrossedTwo = GameEmoji(
     'assets/emojis/svg/hand_with_index_finger_and_thumb_crossed_2.svg',
     'assets/emojis/lottie/hand_with_index_finger_and_thumb_crossed_2.json',
-    '🤞',
+    '🫰🏻',
     [
       Vector2(-0.375, 0.009),
       Vector2(-0.199, -0.500),
@@ -4608,7 +4608,7 @@ class Emojis {
   static final GameEmoji handWithIndexFingerAndThumbCrossedThree = GameEmoji(
     'assets/emojis/svg/hand_with_index_finger_and_thumb_crossed_3.svg',
     'assets/emojis/lottie/hand_with_index_finger_and_thumb_crossed_3.json',
-    '🤞',
+    '🫰🏼',
     [
       Vector2(-0.375, 0.009),
       Vector2(-0.199, -0.500),
@@ -4623,7 +4623,7 @@ class Emojis {
   static final GameEmoji handWithIndexFingerAndThumbCrossedFour = GameEmoji(
     'assets/emojis/svg/hand_with_index_finger_and_thumb_crossed_4.svg',
     'assets/emojis/lottie/hand_with_index_finger_and_thumb_crossed_4.json',
-    '🤞',
+    '🫰🏽',
     [
       Vector2(-0.375, 0.009),
       Vector2(-0.199, -0.500),
@@ -4638,7 +4638,7 @@ class Emojis {
   static final GameEmoji handWithIndexFingerAndThumbCrossedFive = GameEmoji(
     'assets/emojis/svg/hand_with_index_finger_and_thumb_crossed_5.svg',
     'assets/emojis/lottie/hand_with_index_finger_and_thumb_crossed_5.json',
-    '🤞',
+    '🫰🏾',
     [
       Vector2(-0.375, 0.009),
       Vector2(-0.199, -0.500),
@@ -4653,7 +4653,7 @@ class Emojis {
   static final GameEmoji handWithIndexFingerAndThumbCrossedSix = GameEmoji(
     'assets/emojis/svg/hand_with_index_finger_and_thumb_crossed_6.svg',
     'assets/emojis/lottie/hand_with_index_finger_and_thumb_crossed_6.json',
-    '🤞',
+    '🫰🏿',
     [
       Vector2(-0.375, 0.009),
       Vector2(-0.199, -0.500),
@@ -4683,7 +4683,7 @@ class Emojis {
   static final GameEmoji handshake10 = GameEmoji(
     'assets/emojis/svg/handshake_10.svg',
     'assets/emojis/lottie/handshake_10.json',
-    '🤝',
+    '🧑🏽‍🤝‍🧑🏽',
     [
       Vector2(-0.500, -0.041),
       Vector2(-0.460, -0.382),
@@ -4698,7 +4698,7 @@ class Emojis {
   static final GameEmoji handshake11 = GameEmoji(
     'assets/emojis/svg/handshake_11.svg',
     'assets/emojis/lottie/handshake_11.json',
-    '🤝',
+    '🧑🏾‍🤝‍🧑🏾',
     [
       Vector2(-0.500, -0.041),
       Vector2(-0.460, -0.382),
@@ -4713,7 +4713,7 @@ class Emojis {
   static final GameEmoji handshake12 = GameEmoji(
     'assets/emojis/svg/handshake_12.svg',
     'assets/emojis/lottie/handshake_12.json',
-    '🤝',
+    '🧑🏿‍🤝‍🧑🏿',
     [
       Vector2(-0.500, -0.041),
       Vector2(-0.460, -0.382),
@@ -4728,7 +4728,7 @@ class Emojis {
   static final GameEmoji handshake13 = GameEmoji(
     'assets/emojis/svg/handshake_13.svg',
     'assets/emojis/lottie/handshake_13.json',
-    '🤝',
+    '👫',
     [
       Vector2(-0.500, -0.041),
       Vector2(-0.460, -0.382),
@@ -4743,7 +4743,7 @@ class Emojis {
   static final GameEmoji handshake14 = GameEmoji(
     'assets/emojis/svg/handshake_14.svg',
     'assets/emojis/lottie/handshake_14.json',
-    '🤝',
+    '👫🏻',
     [
       Vector2(-0.500, -0.041),
       Vector2(-0.460, -0.382),
@@ -4758,7 +4758,7 @@ class Emojis {
   static final GameEmoji handshake15 = GameEmoji(
     'assets/emojis/svg/handshake_15.svg',
     'assets/emojis/lottie/handshake_15.json',
-    '🤝',
+    '👫🏼',
     [
       Vector2(-0.500, -0.041),
       Vector2(-0.460, -0.382),
@@ -4773,7 +4773,7 @@ class Emojis {
   static final GameEmoji handshake16 = GameEmoji(
     'assets/emojis/svg/handshake_16.svg',
     'assets/emojis/lottie/handshake_16.json',
-    '🤝',
+    '👫🏽',
     [
       Vector2(-0.500, -0.041),
       Vector2(-0.460, -0.382),
@@ -4788,7 +4788,7 @@ class Emojis {
   static final GameEmoji handshake17 = GameEmoji(
     'assets/emojis/svg/handshake_17.svg',
     'assets/emojis/lottie/handshake_17.json',
-    '🤝',
+    '👫🏾',
     [
       Vector2(-0.500, -0.041),
       Vector2(-0.460, -0.382),
@@ -4803,7 +4803,7 @@ class Emojis {
   static final GameEmoji handshake18 = GameEmoji(
     'assets/emojis/svg/handshake_18.svg',
     'assets/emojis/lottie/handshake_18.json',
-    '🤝',
+    '👫🏿',
     [
       Vector2(-0.500, -0.041),
       Vector2(-0.460, -0.382),
@@ -4818,7 +4818,7 @@ class Emojis {
   static final GameEmoji handshake19 = GameEmoji(
     'assets/emojis/svg/handshake_19.svg',
     'assets/emojis/lottie/handshake_19.json',
-    '🤝',
+    '👬',
     [
       Vector2(-0.500, -0.041),
       Vector2(-0.460, -0.382),
@@ -4833,7 +4833,7 @@ class Emojis {
   static final GameEmoji handshakeTwo = GameEmoji(
     'assets/emojis/svg/handshake_2.svg',
     'assets/emojis/lottie/handshake_2.json',
-    '🤝',
+    '🤝🏻🏻',
     [
       Vector2(-0.500, -0.041),
       Vector2(-0.460, -0.382),
@@ -4848,7 +4848,7 @@ class Emojis {
   static final GameEmoji handshake20 = GameEmoji(
     'assets/emojis/svg/handshake_20.svg',
     'assets/emojis/lottie/handshake_20.json',
-    '🤝',
+    '👬🏻',
     [
       Vector2(-0.500, -0.041),
       Vector2(-0.460, -0.382),
@@ -4863,7 +4863,7 @@ class Emojis {
   static final GameEmoji handshake21 = GameEmoji(
     'assets/emojis/svg/handshake_21.svg',
     'assets/emojis/lottie/handshake_21.json',
-    '🤝',
+    '👬🏼',
     [
       Vector2(-0.500, -0.041),
       Vector2(-0.460, -0.382),
@@ -4878,7 +4878,7 @@ class Emojis {
   static final GameEmoji handshake22 = GameEmoji(
     'assets/emojis/svg/handshake_22.svg',
     'assets/emojis/lottie/handshake_22.json',
-    '🤝',
+    '👬🏽',
     [
       Vector2(-0.500, -0.041),
       Vector2(-0.460, -0.382),
@@ -4893,7 +4893,7 @@ class Emojis {
   static final GameEmoji handshake23 = GameEmoji(
     'assets/emojis/svg/handshake_23.svg',
     'assets/emojis/lottie/handshake_23.json',
-    '🤝',
+    '👬🏾',
     [
       Vector2(-0.500, -0.041),
       Vector2(-0.460, -0.382),
@@ -4908,7 +4908,7 @@ class Emojis {
   static final GameEmoji handshake24 = GameEmoji(
     'assets/emojis/svg/handshake_24.svg',
     'assets/emojis/lottie/handshake_24.json',
-    '🤝',
+    '👬🏿',
     [
       Vector2(-0.500, -0.041),
       Vector2(-0.460, -0.382),
@@ -4923,7 +4923,7 @@ class Emojis {
   static final GameEmoji handshake25 = GameEmoji(
     'assets/emojis/svg/handshake_25.svg',
     'assets/emojis/lottie/handshake_25.json',
-    '🤝',
+    '👭',
     [
       Vector2(-0.500, -0.041),
       Vector2(-0.460, -0.382),
@@ -4938,7 +4938,7 @@ class Emojis {
   static final GameEmoji handshake26 = GameEmoji(
     'assets/emojis/svg/handshake_26.svg',
     'assets/emojis/lottie/handshake_26.json',
-    '🤝',
+    '👭🏻',
     [
       Vector2(-0.500, -0.041),
       Vector2(-0.460, -0.382),
@@ -4953,7 +4953,7 @@ class Emojis {
   static final GameEmoji handshakeThree = GameEmoji(
     'assets/emojis/svg/handshake_3.svg',
     'assets/emojis/lottie/handshake_3.json',
-    '🤝',
+    '🤝🏼🏼',
     [
       Vector2(-0.500, -0.041),
       Vector2(-0.460, -0.382),
@@ -4968,7 +4968,7 @@ class Emojis {
   static final GameEmoji handshakeFour = GameEmoji(
     'assets/emojis/svg/handshake_4.svg',
     'assets/emojis/lottie/handshake_4.json',
-    '🤝',
+    '🤝🏽🏽',
     [
       Vector2(-0.500, -0.041),
       Vector2(-0.460, -0.382),
@@ -4983,7 +4983,7 @@ class Emojis {
   static final GameEmoji handshakeFive = GameEmoji(
     'assets/emojis/svg/handshake_5.svg',
     'assets/emojis/lottie/handshake_5.json',
-    '🤝',
+    '🤝🏾🏾',
     [
       Vector2(-0.500, -0.041),
       Vector2(-0.460, -0.382),
@@ -4998,7 +4998,7 @@ class Emojis {
   static final GameEmoji handshakeSix = GameEmoji(
     'assets/emojis/svg/handshake_6.svg',
     'assets/emojis/lottie/handshake_6.json',
-    '🤝',
+    '🤝🏿🏿',
     [
       Vector2(-0.500, -0.041),
       Vector2(-0.460, -0.382),
@@ -5013,7 +5013,7 @@ class Emojis {
   static final GameEmoji handshakeSeven = GameEmoji(
     'assets/emojis/svg/handshake_7.svg',
     'assets/emojis/lottie/handshake_7.json',
-    '🤝',
+    '🧑‍🤝‍🧑',
     [
       Vector2(-0.500, -0.041),
       Vector2(-0.460, -0.382),
@@ -5028,7 +5028,7 @@ class Emojis {
   static final GameEmoji handshakeEight = GameEmoji(
     'assets/emojis/svg/handshake_8.svg',
     'assets/emojis/lottie/handshake_8.json',
-    '🤝',
+    '🧑🏻‍🤝‍🧑🏻',
     [
       Vector2(-0.500, -0.041),
       Vector2(-0.460, -0.382),
@@ -5043,7 +5043,7 @@ class Emojis {
   static final GameEmoji handshakeNine = GameEmoji(
     'assets/emojis/svg/handshake_9.svg',
     'assets/emojis/lottie/handshake_9.json',
-    '🤝',
+    '🧑🏼‍🤝‍🧑🏼',
     [
       Vector2(-0.500, -0.041),
       Vector2(-0.460, -0.382),
@@ -5058,7 +5058,7 @@ class Emojis {
   static final GameEmoji happyCry = GameEmoji(
     'assets/emojis/svg/happy_cry.svg',
     'assets/emojis/lottie/happy_cry.json',
-    '😢',
+    '🥲',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.455, -0.230),
@@ -5088,7 +5088,7 @@ class Emojis {
   static final GameEmoji hatchedChick = GameEmoji(
     'assets/emojis/svg/hatched_chick.svg',
     'assets/emojis/lottie/hatched_chick.json',
-    '🐣',
+    '🐥',
     [
       Vector2(-0.500, 0.098),
       Vector2(-0.215, -0.387),
@@ -5148,7 +5148,7 @@ class Emojis {
   static final GameEmoji hearNoEvilMonkey = GameEmoji(
     'assets/emojis/svg/hear_no_evil_monkey.svg',
     'assets/emojis/lottie/hear_no_evil_monkey.json',
-    '🙊',
+    '🙉',
     [
       Vector2(-0.500, 0.252),
       Vector2(-0.404, -0.157),
@@ -5178,7 +5178,7 @@ class Emojis {
   static final GameEmoji hearingAidTwo = GameEmoji(
     'assets/emojis/svg/hearing_aid_2.svg',
     'assets/emojis/lottie/hearing_aid_2.json',
-    '🎧',
+    '🎧🏻',
     [
       Vector2(-0.390, -0.190),
       Vector2(-0.202, -0.478),
@@ -5193,7 +5193,7 @@ class Emojis {
   static final GameEmoji hearingAidThree = GameEmoji(
     'assets/emojis/svg/hearing_aid_3.svg',
     'assets/emojis/lottie/hearing_aid_3.json',
-    '🎧',
+    '🎧🏼',
     [
       Vector2(-0.390, -0.190),
       Vector2(-0.202, -0.478),
@@ -5208,7 +5208,7 @@ class Emojis {
   static final GameEmoji hearingAidFour = GameEmoji(
     'assets/emojis/svg/hearing_aid_4.svg',
     'assets/emojis/lottie/hearing_aid_4.json',
-    '🎧',
+    '🎧🏽',
     [
       Vector2(-0.390, -0.190),
       Vector2(-0.202, -0.478),
@@ -5223,7 +5223,7 @@ class Emojis {
   static final GameEmoji hearingAidFive = GameEmoji(
     'assets/emojis/svg/hearing_aid_5.svg',
     'assets/emojis/lottie/hearing_aid_5.json',
-    '🦻',
+    '🦻🏾',
     [
       Vector2(-0.390, -0.190),
       Vector2(-0.202, -0.478),
@@ -5238,7 +5238,7 @@ class Emojis {
   static final GameEmoji hearingAidSix = GameEmoji(
     'assets/emojis/svg/hearing_aid_6.svg',
     'assets/emojis/lottie/hearing_aid_6.json',
-    '🎧',
+    '🎧🏿',
     [
       Vector2(-0.390, -0.190),
       Vector2(-0.202, -0.478),
@@ -5268,7 +5268,7 @@ class Emojis {
   static final GameEmoji heartBox = GameEmoji(
     'assets/emojis/svg/heart_box.svg',
     'assets/emojis/lottie/heart_box.json',
-    '💖',
+    '💝',
     [
       Vector2(-0.500, -0.438),
       Vector2(-0.438, -0.500),
@@ -5283,7 +5283,7 @@ class Emojis {
   static final GameEmoji heartExclamationPoint = GameEmoji(
     'assets/emojis/svg/heart_exclamation_point.svg',
     'assets/emojis/lottie/heart_exclamation_point.json',
-    '❤️‍🔥',
+    '❣️',
     [
       Vector2(-0.380, -0.426),
       Vector2(-0.215, -0.500),
@@ -5328,7 +5328,7 @@ class Emojis {
   static final GameEmoji heartFace = GameEmoji(
     'assets/emojis/svg/heart_face.svg',
     'assets/emojis/lottie/heart_face.json',
-    '😍',
+    '🥰',
     [
       Vector2(-0.442, -0.196),
       Vector2(-0.183, -0.420),
@@ -5343,7 +5343,7 @@ class Emojis {
   static final GameEmoji heartGrow = GameEmoji(
     'assets/emojis/svg/heart_grow.svg',
     'assets/emojis/lottie/heart_grow.json',
-    '❤️',
+    '💗',
     [
       Vector2(-0.452, -0.399),
       Vector2(-0.246, -0.491),
@@ -5358,7 +5358,7 @@ class Emojis {
   static final GameEmoji heartHands = GameEmoji(
     'assets/emojis/svg/heart_hands.svg',
     'assets/emojis/lottie/heart_hands.json',
-    '🤲',
+    '🫶',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.379, -0.177),
@@ -5373,7 +5373,7 @@ class Emojis {
   static final GameEmoji heartHandsTwo = GameEmoji(
     'assets/emojis/svg/heart_hands_2.svg',
     'assets/emojis/lottie/heart_hands_2.json',
-    '🤲',
+    '🫶🏻',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.379, -0.177),
@@ -5388,7 +5388,7 @@ class Emojis {
   static final GameEmoji heartHandsThree = GameEmoji(
     'assets/emojis/svg/heart_hands_3.svg',
     'assets/emojis/lottie/heart_hands_3.json',
-    '🤲',
+    '🫶🏼',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.379, -0.177),
@@ -5403,7 +5403,7 @@ class Emojis {
   static final GameEmoji heartHandsFour = GameEmoji(
     'assets/emojis/svg/heart_hands_4.svg',
     'assets/emojis/lottie/heart_hands_4.json',
-    '🫶',
+    '🫶🏽',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.379, -0.177),
@@ -5418,7 +5418,7 @@ class Emojis {
   static final GameEmoji heartHandsFive = GameEmoji(
     'assets/emojis/svg/heart_hands_5.svg',
     'assets/emojis/lottie/heart_hands_5.json',
-    '🤲',
+    '🫶🏾',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.379, -0.177),
@@ -5433,7 +5433,7 @@ class Emojis {
   static final GameEmoji heartHandsSix = GameEmoji(
     'assets/emojis/svg/heart_hands_6.svg',
     'assets/emojis/lottie/heart_hands_6.json',
-    '🤲',
+    '🫶🏿',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.379, -0.177),
@@ -5493,7 +5493,7 @@ class Emojis {
   static final GameEmoji holdingBackTears = GameEmoji(
     'assets/emojis/svg/holding_back_tears.svg',
     'assets/emojis/lottie/holding_back_tears.json',
-    '😢',
+    '🥹',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.455, -0.230),
@@ -5553,7 +5553,7 @@ class Emojis {
   static final GameEmoji hotFace = GameEmoji(
     'assets/emojis/svg/hot_face.svg',
     'assets/emojis/lottie/hot_face.json',
-    '😅',
+    '🥵',
     [
       Vector2(-0.500, 0.242),
       Vector2(-0.449, -0.202),
@@ -5583,7 +5583,7 @@ class Emojis {
   static final GameEmoji hourglassDone = GameEmoji(
     'assets/emojis/svg/hourglass_done.svg',
     'assets/emojis/lottie/hourglass_done.json',
-    '⏳',
+    '⌛',
     [
       Vector2(-0.340, -0.449),
       Vector2(-0.000, -0.500),
@@ -5643,7 +5643,7 @@ class Emojis {
   static final GameEmoji hugging = GameEmoji(
     'assets/emojis/svg/hugging.svg',
     'assets/emojis/lottie/hugging.json',
-    '🤗',
+    '🫂',
     [
       Vector2(-0.471, 0.285),
       Vector2(-0.311, -0.357),
@@ -5658,7 +5658,7 @@ class Emojis {
   static final GameEmoji hyacinth = GameEmoji(
     'assets/emojis/svg/hyacinth.svg',
     'assets/emojis/lottie/hyacinth.json',
-    '💐',
+    '🪻',
     [
       Vector2(-0.283, 0.185),
       Vector2(-0.162, -0.361),
@@ -5673,7 +5673,7 @@ class Emojis {
   static final GameEmoji iceCream = GameEmoji(
     'assets/emojis/svg/ice_cream.svg',
     'assets/emojis/lottie/ice_cream.json',
-    '🍦',
+    '🍨',
     [
       Vector2(-0.347, -0.168),
       Vector2(-0.062, -0.500),
@@ -5718,7 +5718,7 @@ class Emojis {
   static final GameEmoji impFrown = GameEmoji(
     'assets/emojis/svg/imp_frown.svg',
     'assets/emojis/lottie/imp_frown.json',
-    '😞',
+    '👿',
     [
       Vector2(-0.485, -0.486),
       Vector2(0.500, -0.483),
@@ -5733,7 +5733,7 @@ class Emojis {
   static final GameEmoji impSmile = GameEmoji(
     'assets/emojis/svg/imp_smile.svg',
     'assets/emojis/lottie/imp_smile.json',
-    '😃',
+    '😈',
     [
       Vector2(-0.485, -0.486),
       Vector2(0.500, -0.483),
@@ -5748,7 +5748,7 @@ class Emojis {
   static final GameEmoji indexFinger = GameEmoji(
     'assets/emojis/svg/index_finger.svg',
     'assets/emojis/lottie/index_finger.json',
-    '👉',
+    '👆',
     [
       Vector2(-0.330, 0.064),
       Vector2(-0.310, -0.080),
@@ -5763,7 +5763,7 @@ class Emojis {
   static final GameEmoji indexFingerTwo = GameEmoji(
     'assets/emojis/svg/index_finger_2.svg',
     'assets/emojis/lottie/index_finger_2.json',
-    '👉',
+    '👆🏻',
     [
       Vector2(-0.330, 0.064),
       Vector2(-0.310, -0.080),
@@ -5778,7 +5778,7 @@ class Emojis {
   static final GameEmoji indexFingerThree = GameEmoji(
     'assets/emojis/svg/index_finger_3.svg',
     'assets/emojis/lottie/index_finger_3.json',
-    '🖐️',
+    '👆🏼',
     [
       Vector2(-0.330, 0.064),
       Vector2(-0.310, -0.080),
@@ -5793,7 +5793,7 @@ class Emojis {
   static final GameEmoji indexFingerFour = GameEmoji(
     'assets/emojis/svg/index_finger_4.svg',
     'assets/emojis/lottie/index_finger_4.json',
-    '🖐️',
+    '👆🏽',
     [
       Vector2(-0.330, 0.064),
       Vector2(-0.310, -0.080),
@@ -5808,7 +5808,7 @@ class Emojis {
   static final GameEmoji indexFingerFive = GameEmoji(
     'assets/emojis/svg/index_finger_5.svg',
     'assets/emojis/lottie/index_finger_5.json',
-    '🖐️',
+    '👆🏾',
     [
       Vector2(-0.330, 0.064),
       Vector2(-0.310, -0.080),
@@ -5823,7 +5823,7 @@ class Emojis {
   static final GameEmoji indexFingerSix = GameEmoji(
     'assets/emojis/svg/index_finger_6.svg',
     'assets/emojis/lottie/index_finger_6.json',
-    '🖐️',
+    '👆🏿',
     [
       Vector2(-0.330, 0.064),
       Vector2(-0.310, -0.080),
@@ -5853,7 +5853,7 @@ class Emojis {
   static final GameEmoji jellyfish = GameEmoji(
     'assets/emojis/svg/jellyfish.svg',
     'assets/emojis/lottie/jellyfish.json',
-    '🐙',
+    '🪼',
     [
       Vector2(-0.424, -0.359),
       Vector2(-0.275, -0.500),
@@ -5868,7 +5868,7 @@ class Emojis {
   static final GameEmoji joy = GameEmoji(
     'assets/emojis/svg/joy.svg',
     'assets/emojis/lottie/joy.json',
-    '😄',
+    '😂',
     [
       Vector2(-0.437, -0.212),
       Vector2(-0.174, -0.439),
@@ -5883,7 +5883,7 @@ class Emojis {
   static final GameEmoji joyCat = GameEmoji(
     'assets/emojis/svg/joy_cat.svg',
     'assets/emojis/lottie/joy_cat.json',
-    '😺',
+    '😹',
     [
       Vector2(-0.426, -0.389),
       Vector2(-0.364, -0.465),
@@ -5928,7 +5928,7 @@ class Emojis {
   static final GameEmoji kissing = GameEmoji(
     'assets/emojis/svg/kissing.svg',
     'assets/emojis/lottie/kissing.json',
-    '💋',
+    '😗',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.455, -0.230),
@@ -5988,7 +5988,7 @@ class Emojis {
   static final GameEmoji kissingSmilingEyes = GameEmoji(
     'assets/emojis/svg/kissing_smiling_eyes.svg',
     'assets/emojis/lottie/kissing_smiling_eyes.json',
-    '😗',
+    '😙',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.455, -0.230),
@@ -6033,7 +6033,7 @@ class Emojis {
   static final GameEmoji lacrosse = GameEmoji(
     'assets/emojis/svg/lacrosse.svg',
     'assets/emojis/lottie/lacrosse.json',
-    '🏑',
+    '🥍',
     [
       Vector2(-0.495, 0.433),
       Vector2(-0.485, -0.351),
@@ -6078,7 +6078,7 @@ class Emojis {
   static final GameEmoji laughing = GameEmoji(
     'assets/emojis/svg/laughing.svg',
     'assets/emojis/lottie/laughing.json',
-    '😂',
+    '😆',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.455, -0.230),
@@ -6108,7 +6108,7 @@ class Emojis {
   static final GameEmoji leafyGreen = GameEmoji(
     'assets/emojis/svg/leafy_green.svg',
     'assets/emojis/lottie/leafy_green.json',
-    '🍃',
+    '🥬',
     [
       Vector2(-0.422, 0.368),
       Vector2(-0.327, -0.196),
@@ -6138,7 +6138,7 @@ class Emojis {
   static final GameEmoji leftwardsHand = GameEmoji(
     'assets/emojis/svg/leftwards_hand.svg',
     'assets/emojis/lottie/leftwards_hand.json',
-    '👈',
+    '🫲',
     [
       Vector2(-0.500, 0.292),
       Vector2(-0.435, -0.112),
@@ -6153,7 +6153,7 @@ class Emojis {
   static final GameEmoji leftwardsHandTwo = GameEmoji(
     'assets/emojis/svg/leftwards_hand_2.svg',
     'assets/emojis/lottie/leftwards_hand_2.json',
-    '👈',
+    '🫲🏻',
     [
       Vector2(-0.500, 0.292),
       Vector2(-0.435, -0.112),
@@ -6168,7 +6168,7 @@ class Emojis {
   static final GameEmoji leftwardsHandThree = GameEmoji(
     'assets/emojis/svg/leftwards_hand_3.svg',
     'assets/emojis/lottie/leftwards_hand_3.json',
-    '🤚',
+    '🫲🏼',
     [
       Vector2(-0.500, 0.292),
       Vector2(-0.435, -0.112),
@@ -6183,7 +6183,7 @@ class Emojis {
   static final GameEmoji leftwardsHandFour = GameEmoji(
     'assets/emojis/svg/leftwards_hand_4.svg',
     'assets/emojis/lottie/leftwards_hand_4.json',
-    '👈',
+    '🫲🏽',
     [
       Vector2(-0.500, 0.292),
       Vector2(-0.435, -0.112),
@@ -6198,7 +6198,7 @@ class Emojis {
   static final GameEmoji leftwardsHandFive = GameEmoji(
     'assets/emojis/svg/leftwards_hand_5.svg',
     'assets/emojis/lottie/leftwards_hand_5.json',
-    '👋',
+    '🫲🏾',
     [
       Vector2(-0.500, 0.292),
       Vector2(-0.435, -0.112),
@@ -6213,7 +6213,7 @@ class Emojis {
   static final GameEmoji leftwardsHandSix = GameEmoji(
     'assets/emojis/svg/leftwards_hand_6.svg',
     'assets/emojis/lottie/leftwards_hand_6.json',
-    '🤚',
+    '🫲🏿',
     [
       Vector2(-0.500, 0.292),
       Vector2(-0.435, -0.112),
@@ -6243,7 +6243,7 @@ class Emojis {
   static final GameEmoji legTwo = GameEmoji(
     'assets/emojis/svg/leg_2.svg',
     'assets/emojis/lottie/leg_2.json',
-    '🦵',
+    '🦵🏻',
     [
       Vector2(-0.463, 0.404),
       Vector2(-0.307, -0.325),
@@ -6258,7 +6258,7 @@ class Emojis {
   static final GameEmoji legThree = GameEmoji(
     'assets/emojis/svg/leg_3.svg',
     'assets/emojis/lottie/leg_3.json',
-    '🦵',
+    '🦵🏼',
     [
       Vector2(-0.463, 0.404),
       Vector2(-0.307, -0.325),
@@ -6273,7 +6273,7 @@ class Emojis {
   static final GameEmoji legFour = GameEmoji(
     'assets/emojis/svg/leg_4.svg',
     'assets/emojis/lottie/leg_4.json',
-    '🦵',
+    '🦵🏽',
     [
       Vector2(-0.463, 0.404),
       Vector2(-0.307, -0.325),
@@ -6288,7 +6288,7 @@ class Emojis {
   static final GameEmoji legFive = GameEmoji(
     'assets/emojis/svg/leg_5.svg',
     'assets/emojis/lottie/leg_5.json',
-    '🦵',
+    '🦵🏾',
     [
       Vector2(-0.463, 0.404),
       Vector2(-0.307, -0.325),
@@ -6303,7 +6303,7 @@ class Emojis {
   static final GameEmoji legSix = GameEmoji(
     'assets/emojis/svg/leg_6.svg',
     'assets/emojis/lottie/leg_6.json',
-    '🦵',
+    '🦵🏿',
     [
       Vector2(-0.463, 0.404),
       Vector2(-0.307, -0.325),
@@ -6318,7 +6318,7 @@ class Emojis {
   static final GameEmoji legMechanical = GameEmoji(
     'assets/emojis/svg/leg_mechanical.svg',
     'assets/emojis/lottie/leg_mechanical.json',
-    '🦵',
+    '🦿',
     [
       Vector2(-0.322, -0.216),
       Vector2(0.047, -0.498),
@@ -6393,7 +6393,7 @@ class Emojis {
   static final GameEmoji lightBlueHeart = GameEmoji(
     'assets/emojis/svg/light_blue_heart.svg',
     'assets/emojis/lottie/light_blue_heart.json',
-    '💙',
+    '🩵',
     [
       Vector2(-0.452, -0.399),
       Vector2(-0.246, -0.491),
@@ -6453,7 +6453,7 @@ class Emojis {
   static final GameEmoji litter = GameEmoji(
     'assets/emojis/svg/litter.svg',
     'assets/emojis/lottie/litter.json',
-    '🗑️',
+    '🚮',
     [
       Vector2(-0.500, -0.438),
       Vector2(-0.438, -0.500),
@@ -6528,7 +6528,7 @@ class Emojis {
   static final GameEmoji lotus = GameEmoji(
     'assets/emojis/svg/lotus.svg',
     'assets/emojis/lottie/lotus.json',
-    '🌸',
+    '🪷',
     [
       Vector2(-0.500, -0.165),
       Vector2(-0.277, -0.357),
@@ -6573,7 +6573,7 @@ class Emojis {
   static final GameEmoji loveYouGesture = GameEmoji(
     'assets/emojis/svg/love_you_gesture.svg',
     'assets/emojis/lottie/love_you_gesture.json',
-    '❤️',
+    '🤟',
     [
       Vector2(-0.466, -0.280),
       Vector2(-0.429, -0.335),
@@ -6588,7 +6588,7 @@ class Emojis {
   static final GameEmoji loveYouGestureTwo = GameEmoji(
     'assets/emojis/svg/love_you_gesture_2.svg',
     'assets/emojis/lottie/love_you_gesture_2.json',
-    '💖',
+    '🤟🏻',
     [
       Vector2(-0.466, -0.280),
       Vector2(-0.429, -0.335),
@@ -6603,7 +6603,7 @@ class Emojis {
   static final GameEmoji loveYouGestureThree = GameEmoji(
     'assets/emojis/svg/love_you_gesture_3.svg',
     'assets/emojis/lottie/love_you_gesture_3.json',
-    '🤟',
+    '🤟🏼',
     [
       Vector2(-0.466, -0.280),
       Vector2(-0.429, -0.335),
@@ -6618,7 +6618,7 @@ class Emojis {
   static final GameEmoji loveYouGestureFour = GameEmoji(
     'assets/emojis/svg/love_you_gesture_4.svg',
     'assets/emojis/lottie/love_you_gesture_4.json',
-    '💖',
+    '🤟🏽',
     [
       Vector2(-0.466, -0.280),
       Vector2(-0.429, -0.335),
@@ -6633,7 +6633,7 @@ class Emojis {
   static final GameEmoji loveYouGestureFive = GameEmoji(
     'assets/emojis/svg/love_you_gesture_5.svg',
     'assets/emojis/lottie/love_you_gesture_5.json',
-    '🖐️',
+    '🤟🏾',
     [
       Vector2(-0.466, -0.280),
       Vector2(-0.429, -0.335),
@@ -6648,7 +6648,7 @@ class Emojis {
   static final GameEmoji loveYouGestureSix = GameEmoji(
     'assets/emojis/svg/love_you_gesture_6.svg',
     'assets/emojis/lottie/love_you_gesture_6.json',
-    '🤟',
+    '🤟🏿',
     [
       Vector2(-0.466, -0.280),
       Vector2(-0.429, -0.335),
@@ -6768,7 +6768,7 @@ class Emojis {
   static final GameEmoji mate = GameEmoji(
     'assets/emojis/svg/mate.svg',
     'assets/emojis/lottie/mate.json',
-    '🤝',
+    '🧉',
     [
       Vector2(-0.386, 0.101),
       Vector2(-0.271, -0.153),
@@ -6843,7 +6843,7 @@ class Emojis {
   static final GameEmoji metalTwo = GameEmoji(
     'assets/emojis/svg/metal_2.svg',
     'assets/emojis/lottie/metal_2.json',
-    '⚙️',
+    '⚙️🏻',
     [
       Vector2(-0.364, -0.280),
       Vector2(-0.328, -0.339),
@@ -6858,7 +6858,7 @@ class Emojis {
   static final GameEmoji metalThree = GameEmoji(
     'assets/emojis/svg/metal_3.svg',
     'assets/emojis/lottie/metal_3.json',
-    '⚙️',
+    '⚙️🏼',
     [
       Vector2(-0.364, -0.280),
       Vector2(-0.328, -0.339),
@@ -6873,7 +6873,7 @@ class Emojis {
   static final GameEmoji metalFour = GameEmoji(
     'assets/emojis/svg/metal_4.svg',
     'assets/emojis/lottie/metal_4.json',
-    '⚙️',
+    '⚙️🏽',
     [
       Vector2(-0.364, -0.280),
       Vector2(-0.328, -0.339),
@@ -6888,7 +6888,7 @@ class Emojis {
   static final GameEmoji metalFive = GameEmoji(
     'assets/emojis/svg/metal_5.svg',
     'assets/emojis/lottie/metal_5.json',
-    '🪙',
+    '🪙🏾',
     [
       Vector2(-0.364, -0.280),
       Vector2(-0.328, -0.339),
@@ -6903,7 +6903,7 @@ class Emojis {
   static final GameEmoji metalSix = GameEmoji(
     'assets/emojis/svg/metal_6.svg',
     'assets/emojis/lottie/metal_6.json',
-    '⚙️',
+    '⚙️🏿',
     [
       Vector2(-0.364, -0.280),
       Vector2(-0.328, -0.339),
@@ -6948,7 +6948,7 @@ class Emojis {
   static final GameEmoji middleFingerTwo = GameEmoji(
     'assets/emojis/svg/middle_finger_2.svg',
     'assets/emojis/lottie/middle_finger_2.json',
-    '🖕',
+    '🖕🏻',
     [
       Vector2(-0.348, 0.001),
       Vector2(-0.082, -0.497),
@@ -6963,7 +6963,7 @@ class Emojis {
   static final GameEmoji middleFingerThree = GameEmoji(
     'assets/emojis/svg/middle_finger_3.svg',
     'assets/emojis/lottie/middle_finger_3.json',
-    '🖕',
+    '🖕🏼',
     [
       Vector2(-0.348, 0.001),
       Vector2(-0.082, -0.497),
@@ -6978,7 +6978,7 @@ class Emojis {
   static final GameEmoji middleFingerFour = GameEmoji(
     'assets/emojis/svg/middle_finger_4.svg',
     'assets/emojis/lottie/middle_finger_4.json',
-    '🖕',
+    '🖕🏽',
     [
       Vector2(-0.348, 0.001),
       Vector2(-0.082, -0.497),
@@ -6993,7 +6993,7 @@ class Emojis {
   static final GameEmoji middleFingerFive = GameEmoji(
     'assets/emojis/svg/middle_finger_5.svg',
     'assets/emojis/lottie/middle_finger_5.json',
-    '🖕',
+    '🖕🏾',
     [
       Vector2(-0.348, 0.001),
       Vector2(-0.082, -0.497),
@@ -7008,7 +7008,7 @@ class Emojis {
   static final GameEmoji middleFingerSix = GameEmoji(
     'assets/emojis/svg/middle_finger_6.svg',
     'assets/emojis/lottie/middle_finger_6.json',
-    '🖕',
+    '🖕🏿',
     [
       Vector2(-0.348, 0.001),
       Vector2(-0.082, -0.497),
@@ -7293,7 +7293,7 @@ class Emojis {
   static final GameEmoji muscleTwo = GameEmoji(
     'assets/emojis/svg/muscle_2.svg',
     'assets/emojis/lottie/muscle_2.json',
-    '💪',
+    '💪🏻',
     [
       Vector2(-0.430, 0.369),
       Vector2(-0.383, -0.053),
@@ -7308,7 +7308,7 @@ class Emojis {
   static final GameEmoji muscleThree = GameEmoji(
     'assets/emojis/svg/muscle_3.svg',
     'assets/emojis/lottie/muscle_3.json',
-    '💪',
+    '💪🏼',
     [
       Vector2(-0.430, 0.369),
       Vector2(-0.383, -0.053),
@@ -7323,7 +7323,7 @@ class Emojis {
   static final GameEmoji muscleFour = GameEmoji(
     'assets/emojis/svg/muscle_4.svg',
     'assets/emojis/lottie/muscle_4.json',
-    '💪',
+    '💪🏽',
     [
       Vector2(-0.430, 0.369),
       Vector2(-0.383, -0.053),
@@ -7338,7 +7338,7 @@ class Emojis {
   static final GameEmoji muscleFive = GameEmoji(
     'assets/emojis/svg/muscle_5.svg',
     'assets/emojis/lottie/muscle_5.json',
-    '💪',
+    '💪🏾',
     [
       Vector2(-0.430, 0.369),
       Vector2(-0.383, -0.053),
@@ -7353,7 +7353,7 @@ class Emojis {
   static final GameEmoji muscleSix = GameEmoji(
     'assets/emojis/svg/muscle_6.svg',
     'assets/emojis/lottie/muscle_6.json',
-    '💪',
+    '💪🏿',
     [
       Vector2(-0.430, 0.369),
       Vector2(-0.383, -0.053),
@@ -7413,7 +7413,7 @@ class Emojis {
   static final GameEmoji nailCareTwo = GameEmoji(
     'assets/emojis/svg/nail_care_2.svg',
     'assets/emojis/lottie/nail_care_2.json',
-    '💅',
+    '💅🏻',
     [
       Vector2(-0.497, -0.147),
       Vector2(-0.386, -0.204),
@@ -7428,7 +7428,7 @@ class Emojis {
   static final GameEmoji nailCareThree = GameEmoji(
     'assets/emojis/svg/nail_care_3.svg',
     'assets/emojis/lottie/nail_care_3.json',
-    '💅',
+    '💅🏼',
     [
       Vector2(-0.497, -0.147),
       Vector2(-0.386, -0.204),
@@ -7443,7 +7443,7 @@ class Emojis {
   static final GameEmoji nailCareFour = GameEmoji(
     'assets/emojis/svg/nail_care_4.svg',
     'assets/emojis/lottie/nail_care_4.json',
-    '💅',
+    '💅🏽',
     [
       Vector2(-0.497, -0.147),
       Vector2(-0.386, -0.204),
@@ -7458,7 +7458,7 @@ class Emojis {
   static final GameEmoji nailCareFive = GameEmoji(
     'assets/emojis/svg/nail_care_5.svg',
     'assets/emojis/lottie/nail_care_5.json',
-    '💅',
+    '💅🏾',
     [
       Vector2(-0.497, -0.147),
       Vector2(-0.386, -0.204),
@@ -7473,7 +7473,7 @@ class Emojis {
   static final GameEmoji nailCareSix = GameEmoji(
     'assets/emojis/svg/nail_care_6.svg',
     'assets/emojis/lottie/nail_care_6.json',
-    '💅',
+    '💅🏿',
     [
       Vector2(-0.497, -0.147),
       Vector2(-0.386, -0.204),
@@ -7533,7 +7533,7 @@ class Emojis {
   static final GameEmoji new_ = GameEmoji(
     'assets/emojis/svg/new.svg',
     'assets/emojis/lottie/new.json',
-    '✨',
+    '🆕',
     [
       Vector2(-0.500, -0.438),
       Vector2(-0.438, -0.500),
@@ -7563,7 +7563,7 @@ class Emojis {
   static final GameEmoji noseTwo = GameEmoji(
     'assets/emojis/svg/nose_2.svg',
     'assets/emojis/lottie/nose_2.json',
-    '👃',
+    '👃🏻',
     [
       Vector2(-0.347, 0.322),
       Vector2(-0.328, 0.178),
@@ -7578,7 +7578,7 @@ class Emojis {
   static final GameEmoji noseThree = GameEmoji(
     'assets/emojis/svg/nose_3.svg',
     'assets/emojis/lottie/nose_3.json',
-    '👃',
+    '👃🏼',
     [
       Vector2(-0.347, 0.322),
       Vector2(-0.328, 0.178),
@@ -7593,7 +7593,7 @@ class Emojis {
   static final GameEmoji noseFour = GameEmoji(
     'assets/emojis/svg/nose_4.svg',
     'assets/emojis/lottie/nose_4.json',
-    '👃',
+    '👃🏽',
     [
       Vector2(-0.347, 0.322),
       Vector2(-0.328, 0.178),
@@ -7608,7 +7608,7 @@ class Emojis {
   static final GameEmoji noseFive = GameEmoji(
     'assets/emojis/svg/nose_5.svg',
     'assets/emojis/lottie/nose_5.json',
-    '👃',
+    '👃🏾',
     [
       Vector2(-0.347, 0.322),
       Vector2(-0.328, 0.178),
@@ -7623,7 +7623,7 @@ class Emojis {
   static final GameEmoji noseSix = GameEmoji(
     'assets/emojis/svg/nose_6.svg',
     'assets/emojis/lottie/nose_6.json',
-    '👃',
+    '👃🏿',
     [
       Vector2(-0.347, 0.322),
       Vector2(-0.328, 0.178),
@@ -7698,7 +7698,7 @@ class Emojis {
   static final GameEmoji ok = GameEmoji(
     'assets/emojis/svg/ok.svg',
     'assets/emojis/lottie/ok.json',
-    '👍',
+    '👌',
     [
       Vector2(-0.303, 0.038),
       Vector2(-0.136, -0.369),
@@ -7713,7 +7713,7 @@ class Emojis {
   static final GameEmoji okTwo = GameEmoji(
     'assets/emojis/svg/ok_2.svg',
     'assets/emojis/lottie/ok_2.json',
-    '👌',
+    '👌🏻',
     [
       Vector2(-0.303, 0.038),
       Vector2(-0.136, -0.369),
@@ -7728,7 +7728,7 @@ class Emojis {
   static final GameEmoji okThree = GameEmoji(
     'assets/emojis/svg/ok_3.svg',
     'assets/emojis/lottie/ok_3.json',
-    '👌',
+    '👌🏼',
     [
       Vector2(-0.303, 0.038),
       Vector2(-0.136, -0.369),
@@ -7743,7 +7743,7 @@ class Emojis {
   static final GameEmoji okFour = GameEmoji(
     'assets/emojis/svg/ok_4.svg',
     'assets/emojis/lottie/ok_4.json',
-    '4️⃣',
+    '4️⃣🏽',
     [
       Vector2(-0.303, 0.038),
       Vector2(-0.136, -0.369),
@@ -7758,7 +7758,7 @@ class Emojis {
   static final GameEmoji okFive = GameEmoji(
     'assets/emojis/svg/ok_5.svg',
     'assets/emojis/lottie/ok_5.json',
-    '5️⃣',
+    '5️⃣🏾',
     [
       Vector2(-0.303, 0.038),
       Vector2(-0.136, -0.369),
@@ -7773,7 +7773,7 @@ class Emojis {
   static final GameEmoji okSix = GameEmoji(
     'assets/emojis/svg/ok_6.svg',
     'assets/emojis/lottie/ok_6.json',
-    '🆗',
+    '🆗🏿',
     [
       Vector2(-0.303, 0.038),
       Vector2(-0.136, -0.369),
@@ -7833,7 +7833,7 @@ class Emojis {
   static final GameEmoji openHandsTwo = GameEmoji(
     'assets/emojis/svg/open_hands_2.svg',
     'assets/emojis/lottie/open_hands_2.json',
-    '👐',
+    '👐🏻',
     [
       Vector2(-0.421, -0.262),
       Vector2(-0.280, -0.318),
@@ -7848,7 +7848,7 @@ class Emojis {
   static final GameEmoji openHandsThree = GameEmoji(
     'assets/emojis/svg/open_hands_3.svg',
     'assets/emojis/lottie/open_hands_3.json',
-    '👐',
+    '👐🏼',
     [
       Vector2(-0.421, -0.262),
       Vector2(-0.280, -0.318),
@@ -7863,7 +7863,7 @@ class Emojis {
   static final GameEmoji openHandsFour = GameEmoji(
     'assets/emojis/svg/open_hands_4.svg',
     'assets/emojis/lottie/open_hands_4.json',
-    '👐',
+    '👐🏽',
     [
       Vector2(-0.421, -0.262),
       Vector2(-0.280, -0.318),
@@ -7878,7 +7878,7 @@ class Emojis {
   static final GameEmoji openHandsFive = GameEmoji(
     'assets/emojis/svg/open_hands_5.svg',
     'assets/emojis/lottie/open_hands_5.json',
-    '👐',
+    '👐🏾',
     [
       Vector2(-0.421, -0.262),
       Vector2(-0.280, -0.318),
@@ -7893,7 +7893,7 @@ class Emojis {
   static final GameEmoji openHandsSix = GameEmoji(
     'assets/emojis/svg/open_hands_6.svg',
     'assets/emojis/lottie/open_hands_6.json',
-    '👐',
+    '👐🏿',
     [
       Vector2(-0.421, -0.262),
       Vector2(-0.280, -0.318),
@@ -7908,7 +7908,7 @@ class Emojis {
   static final GameEmoji ophiuchus = GameEmoji(
     'assets/emojis/svg/ophiuchus.svg',
     'assets/emojis/lottie/ophiuchus.json',
-    '♐',
+    '⛎',
     [
       Vector2(-0.482, -0.174),
       Vector2(-0.366, -0.348),
@@ -8058,7 +8058,7 @@ class Emojis {
   static final GameEmoji pagerTwo = GameEmoji(
     'assets/emojis/svg/pager_2.svg',
     'assets/emojis/lottie/pager_2.json',
-    '📞',
+    '📞🏻',
     [
       Vector2(-0.500, -0.177),
       Vector2(-0.334, -0.334),
@@ -8088,7 +8088,7 @@ class Emojis {
   static final GameEmoji palmTwo = GameEmoji(
     'assets/emojis/svg/palm_2.svg',
     'assets/emojis/lottie/palm_2.json',
-    '🌴',
+    '🌴🏻',
     [
       Vector2(-0.433, -0.238),
       Vector2(-0.229, -0.446),
@@ -8103,7 +8103,7 @@ class Emojis {
   static final GameEmoji palmThree = GameEmoji(
     'assets/emojis/svg/palm_3.svg',
     'assets/emojis/lottie/palm_3.json',
-    '🌴',
+    '🌴🏼',
     [
       Vector2(-0.433, -0.238),
       Vector2(-0.229, -0.446),
@@ -8118,7 +8118,7 @@ class Emojis {
   static final GameEmoji palmFour = GameEmoji(
     'assets/emojis/svg/palm_4.svg',
     'assets/emojis/lottie/palm_4.json',
-    '🌴',
+    '🌴🏽',
     [
       Vector2(-0.433, -0.238),
       Vector2(-0.229, -0.446),
@@ -8133,7 +8133,7 @@ class Emojis {
   static final GameEmoji palmFive = GameEmoji(
     'assets/emojis/svg/palm_5.svg',
     'assets/emojis/lottie/palm_5.json',
-    '🖐️',
+    '🌴🏾',
     [
       Vector2(-0.433, -0.238),
       Vector2(-0.229, -0.446),
@@ -8148,7 +8148,7 @@ class Emojis {
   static final GameEmoji palmSix = GameEmoji(
     'assets/emojis/svg/palm_6.svg',
     'assets/emojis/lottie/palm_6.json',
-    '🌴',
+    '🌴🏿',
     [
       Vector2(-0.433, -0.238),
       Vector2(-0.229, -0.446),
@@ -8163,7 +8163,7 @@ class Emojis {
   static final GameEmoji palmDown = GameEmoji(
     'assets/emojis/svg/palm_down.svg',
     'assets/emojis/lottie/palm_down.json',
-    '🖐️',
+    '🫳',
     [
       Vector2(-0.416, -0.282),
       Vector2(0.237, -0.355),
@@ -8178,7 +8178,7 @@ class Emojis {
   static final GameEmoji palmDownTwo = GameEmoji(
     'assets/emojis/svg/palm_down_2.svg',
     'assets/emojis/lottie/palm_down_2.json',
-    '🖐️',
+    '🫳🏻',
     [
       Vector2(-0.416, -0.282),
       Vector2(0.237, -0.355),
@@ -8193,7 +8193,7 @@ class Emojis {
   static final GameEmoji palmDownThree = GameEmoji(
     'assets/emojis/svg/palm_down_3.svg',
     'assets/emojis/lottie/palm_down_3.json',
-    '🖐️',
+    '🫳🏼',
     [
       Vector2(-0.416, -0.282),
       Vector2(0.237, -0.355),
@@ -8208,7 +8208,7 @@ class Emojis {
   static final GameEmoji palmDownFour = GameEmoji(
     'assets/emojis/svg/palm_down_4.svg',
     'assets/emojis/lottie/palm_down_4.json',
-    '🖐️',
+    '🫳🏽',
     [
       Vector2(-0.416, -0.282),
       Vector2(0.237, -0.355),
@@ -8223,7 +8223,7 @@ class Emojis {
   static final GameEmoji palmDownFive = GameEmoji(
     'assets/emojis/svg/palm_down_5.svg',
     'assets/emojis/lottie/palm_down_5.json',
-    '🖐️',
+    '🫳🏾',
     [
       Vector2(-0.416, -0.282),
       Vector2(0.237, -0.355),
@@ -8238,7 +8238,7 @@ class Emojis {
   static final GameEmoji palmDownSix = GameEmoji(
     'assets/emojis/svg/palm_down_6.svg',
     'assets/emojis/lottie/palm_down_6.json',
-    '🖐️',
+    '🫳🏿',
     [
       Vector2(-0.416, -0.282),
       Vector2(0.237, -0.355),
@@ -8253,7 +8253,7 @@ class Emojis {
   static final GameEmoji palmUp = GameEmoji(
     'assets/emojis/svg/palm_up.svg',
     'assets/emojis/lottie/palm_up.json',
-    '🫱',
+    '🫴',
     [
       Vector2(-0.500, 0.050),
       Vector2(-0.392, -0.095),
@@ -8268,7 +8268,7 @@ class Emojis {
   static final GameEmoji palmUpTwo = GameEmoji(
     'assets/emojis/svg/palm_up_2.svg',
     'assets/emojis/lottie/palm_up_2.json',
-    '👐',
+    '🫴🏻',
     [
       Vector2(-0.500, 0.050),
       Vector2(-0.392, -0.095),
@@ -8283,7 +8283,7 @@ class Emojis {
   static final GameEmoji palmUpThree = GameEmoji(
     'assets/emojis/svg/palm_up_3.svg',
     'assets/emojis/lottie/palm_up_3.json',
-    '🤲',
+    '🫴🏼',
     [
       Vector2(-0.500, 0.050),
       Vector2(-0.392, -0.095),
@@ -8298,7 +8298,7 @@ class Emojis {
   static final GameEmoji palmUpFour = GameEmoji(
     'assets/emojis/svg/palm_up_4.svg',
     'assets/emojis/lottie/palm_up_4.json',
-    '🖐️',
+    '🫴🏽',
     [
       Vector2(-0.500, 0.050),
       Vector2(-0.392, -0.095),
@@ -8313,7 +8313,7 @@ class Emojis {
   static final GameEmoji palmUpFive = GameEmoji(
     'assets/emojis/svg/palm_up_5.svg',
     'assets/emojis/lottie/palm_up_5.json',
-    '🖐️',
+    '🫴🏾',
     [
       Vector2(-0.500, 0.050),
       Vector2(-0.392, -0.095),
@@ -8328,7 +8328,7 @@ class Emojis {
   static final GameEmoji palmUpSix = GameEmoji(
     'assets/emojis/svg/palm_up_6.svg',
     'assets/emojis/lottie/palm_up_6.json',
-    '🖐️',
+    '🫴🏿',
     [
       Vector2(-0.500, 0.050),
       Vector2(-0.392, -0.095),
@@ -8343,7 +8343,7 @@ class Emojis {
   static final GameEmoji palmsUp = GameEmoji(
     'assets/emojis/svg/palms_up.svg',
     'assets/emojis/lottie/palms_up.json',
-    '🙌',
+    '🤲',
     [
       Vector2(-0.500, 0.127),
       Vector2(-0.446, -0.207),
@@ -8358,7 +8358,7 @@ class Emojis {
   static final GameEmoji palmsUpTwo = GameEmoji(
     'assets/emojis/svg/palms_up_2.svg',
     'assets/emojis/lottie/palms_up_2.json',
-    '🙌',
+    '🤲🏻',
     [
       Vector2(-0.500, 0.127),
       Vector2(-0.446, -0.207),
@@ -8373,7 +8373,7 @@ class Emojis {
   static final GameEmoji palmsUpThree = GameEmoji(
     'assets/emojis/svg/palms_up_3.svg',
     'assets/emojis/lottie/palms_up_3.json',
-    '🙌',
+    '🤲🏼',
     [
       Vector2(-0.500, 0.127),
       Vector2(-0.446, -0.207),
@@ -8388,7 +8388,7 @@ class Emojis {
   static final GameEmoji palmsUpFour = GameEmoji(
     'assets/emojis/svg/palms_up_4.svg',
     'assets/emojis/lottie/palms_up_4.json',
-    '🙌',
+    '🤲🏽',
     [
       Vector2(-0.500, 0.127),
       Vector2(-0.446, -0.207),
@@ -8403,7 +8403,7 @@ class Emojis {
   static final GameEmoji palmsUpFive = GameEmoji(
     'assets/emojis/svg/palms_up_5.svg',
     'assets/emojis/lottie/palms_up_5.json',
-    '🙌',
+    '🤲🏾',
     [
       Vector2(-0.500, 0.127),
       Vector2(-0.446, -0.207),
@@ -8418,7 +8418,7 @@ class Emojis {
   static final GameEmoji palmsUpSix = GameEmoji(
     'assets/emojis/svg/palms_up_6.svg',
     'assets/emojis/lottie/palms_up_6.json',
-    '🙌',
+    '🤲🏿',
     [
       Vector2(-0.500, 0.127),
       Vector2(-0.446, -0.207),
@@ -8478,7 +8478,7 @@ class Emojis {
   static final GameEmoji parachuteTwo = GameEmoji(
     'assets/emojis/svg/parachute_2.svg',
     'assets/emojis/lottie/parachute_2.json',
-    '🪂',
+    '🪂🏻',
     [
       Vector2(-0.493, -0.194),
       Vector2(-0.228, -0.437),
@@ -8553,7 +8553,7 @@ class Emojis {
   static final GameEmoji peaPod = GameEmoji(
     'assets/emojis/svg/pea_pod.svg',
     'assets/emojis/lottie/pea_pod.json',
-    '🌱',
+    '🫛',
     [
       Vector2(-0.483, 0.418),
       Vector2(-0.323, 0.114),
@@ -8568,7 +8568,7 @@ class Emojis {
   static final GameEmoji peace = GameEmoji(
     'assets/emojis/svg/peace.svg',
     'assets/emojis/lottie/peace.json',
-    '✌️',
+    '🕊️',
     [
       Vector2(-0.500, -0.322),
       Vector2(-0.355, -0.402),
@@ -8628,7 +8628,7 @@ class Emojis {
   static final GameEmoji peeking = GameEmoji(
     'assets/emojis/svg/peeking.svg',
     'assets/emojis/lottie/peeking.json',
-    '👀',
+    '🫣',
     [
       Vector2(-0.500, -0.074),
       Vector2(-0.322, -0.335),
@@ -8703,7 +8703,7 @@ class Emojis {
   static final GameEmoji phoenix = GameEmoji(
     'assets/emojis/svg/phoenix.svg',
     'assets/emojis/lottie/phoenix.json',
-    '🦅',
+    '🐦‍🔥',
     [
       Vector2(-0.436, -0.318),
       Vector2(-0.204, -0.500),
@@ -8733,7 +8733,7 @@ class Emojis {
   static final GameEmoji piata = GameEmoji(
     'assets/emojis/svg/piata.svg',
     'assets/emojis/lottie/piata.json',
-    '🎉',
+    '🪅',
     [
       Vector2(-0.490, 0.016),
       Vector2(-0.384, -0.326),
@@ -8793,7 +8793,7 @@ class Emojis {
   static final GameEmoji pinchTwo = GameEmoji(
     'assets/emojis/svg/pinch_2.svg',
     'assets/emojis/lottie/pinch_2.json',
-    '🤏',
+    '🤏🏻',
     [
       Vector2(-0.500, -0.263),
       Vector2(-0.127, -0.420),
@@ -8808,7 +8808,7 @@ class Emojis {
   static final GameEmoji pinchThree = GameEmoji(
     'assets/emojis/svg/pinch_3.svg',
     'assets/emojis/lottie/pinch_3.json',
-    '🤏',
+    '🤏🏼',
     [
       Vector2(-0.500, -0.263),
       Vector2(-0.127, -0.420),
@@ -8823,7 +8823,7 @@ class Emojis {
   static final GameEmoji pinchFour = GameEmoji(
     'assets/emojis/svg/pinch_4.svg',
     'assets/emojis/lottie/pinch_4.json',
-    '🤏',
+    '🤏🏽',
     [
       Vector2(-0.500, -0.263),
       Vector2(-0.127, -0.420),
@@ -8838,7 +8838,7 @@ class Emojis {
   static final GameEmoji pinchFive = GameEmoji(
     'assets/emojis/svg/pinch_5.svg',
     'assets/emojis/lottie/pinch_5.json',
-    '🤏',
+    '🤏🏾',
     [
       Vector2(-0.500, -0.263),
       Vector2(-0.127, -0.420),
@@ -8853,7 +8853,7 @@ class Emojis {
   static final GameEmoji pinchSix = GameEmoji(
     'assets/emojis/svg/pinch_6.svg',
     'assets/emojis/lottie/pinch_6.json',
-    '🤏',
+    '🤏🏿',
     [
       Vector2(-0.500, -0.263),
       Vector2(-0.127, -0.420),
@@ -8883,7 +8883,7 @@ class Emojis {
   static final GameEmoji pinchedFingersTwo = GameEmoji(
     'assets/emojis/svg/pinched_fingers_2.svg',
     'assets/emojis/lottie/pinched_fingers_2.json',
-    '🤌',
+    '🤌🏻',
     [
       Vector2(-0.413, 0.379),
       Vector2(-0.325, 0.053),
@@ -8898,7 +8898,7 @@ class Emojis {
   static final GameEmoji pinchedFingersThree = GameEmoji(
     'assets/emojis/svg/pinched_fingers_3.svg',
     'assets/emojis/lottie/pinched_fingers_3.json',
-    '🤌',
+    '🤌🏼',
     [
       Vector2(-0.413, 0.379),
       Vector2(-0.325, 0.053),
@@ -8913,7 +8913,7 @@ class Emojis {
   static final GameEmoji pinchedFingersFour = GameEmoji(
     'assets/emojis/svg/pinched_fingers_4.svg',
     'assets/emojis/lottie/pinched_fingers_4.json',
-    '🤌',
+    '🤌🏽',
     [
       Vector2(-0.413, 0.379),
       Vector2(-0.325, 0.053),
@@ -8928,7 +8928,7 @@ class Emojis {
   static final GameEmoji pinchedFingersFive = GameEmoji(
     'assets/emojis/svg/pinched_fingers_5.svg',
     'assets/emojis/lottie/pinched_fingers_5.json',
-    '🤌',
+    '🤌🏾',
     [
       Vector2(-0.413, 0.379),
       Vector2(-0.325, 0.053),
@@ -8943,7 +8943,7 @@ class Emojis {
   static final GameEmoji pinchedFingersSix = GameEmoji(
     'assets/emojis/svg/pinched_fingers_6.svg',
     'assets/emojis/lottie/pinched_fingers_6.json',
-    '🤌',
+    '🤌🏿',
     [
       Vector2(-0.413, 0.379),
       Vector2(-0.325, 0.053),
@@ -8988,7 +8988,7 @@ class Emojis {
   static final GameEmoji pinkHeart = GameEmoji(
     'assets/emojis/svg/pink_heart.svg',
     'assets/emojis/lottie/pink_heart.json',
-    '💖',
+    '🩷',
     [
       Vector2(-0.452, -0.399),
       Vector2(-0.246, -0.491),
@@ -9048,7 +9048,7 @@ class Emojis {
   static final GameEmoji pleading = GameEmoji(
     'assets/emojis/svg/pleading.svg',
     'assets/emojis/lottie/pleading.json',
-    '🙏',
+    '🥺',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.455, -0.230),
@@ -9093,7 +9093,7 @@ class Emojis {
   static final GameEmoji pointDownTwo = GameEmoji(
     'assets/emojis/svg/point_down_2.svg',
     'assets/emojis/lottie/point_down_2.json',
-    '👇',
+    '👇🏻',
     [
       Vector2(-0.468, -0.246),
       Vector2(-0.362, -0.500),
@@ -9108,7 +9108,7 @@ class Emojis {
   static final GameEmoji pointDownThree = GameEmoji(
     'assets/emojis/svg/point_down_3.svg',
     'assets/emojis/lottie/point_down_3.json',
-    '👇🏽',
+    '👇🏼',
     [
       Vector2(-0.468, -0.246),
       Vector2(-0.362, -0.500),
@@ -9123,7 +9123,7 @@ class Emojis {
   static final GameEmoji pointDownFour = GameEmoji(
     'assets/emojis/svg/point_down_4.svg',
     'assets/emojis/lottie/point_down_4.json',
-    '👇',
+    '👇🏽',
     [
       Vector2(-0.468, -0.246),
       Vector2(-0.362, -0.500),
@@ -9138,7 +9138,7 @@ class Emojis {
   static final GameEmoji pointDownFive = GameEmoji(
     'assets/emojis/svg/point_down_5.svg',
     'assets/emojis/lottie/point_down_5.json',
-    '👇',
+    '👇🏾',
     [
       Vector2(-0.468, -0.246),
       Vector2(-0.362, -0.500),
@@ -9153,7 +9153,7 @@ class Emojis {
   static final GameEmoji pointDownSix = GameEmoji(
     'assets/emojis/svg/point_down_6.svg',
     'assets/emojis/lottie/point_down_6.json',
-    '👇',
+    '👇🏿',
     [
       Vector2(-0.468, -0.246),
       Vector2(-0.362, -0.500),
@@ -9183,7 +9183,7 @@ class Emojis {
   static final GameEmoji pointLeftTwo = GameEmoji(
     'assets/emojis/svg/point_left_2.svg',
     'assets/emojis/lottie/point_left_2.json',
-    '⬅️',
+    '👈🏻',
     [
       Vector2(-0.477, -0.196),
       Vector2(0.044, -0.468),
@@ -9198,7 +9198,7 @@ class Emojis {
   static final GameEmoji pointLeftThree = GameEmoji(
     'assets/emojis/svg/point_left_3.svg',
     'assets/emojis/lottie/point_left_3.json',
-    '⬅️',
+    '👈🏼',
     [
       Vector2(-0.477, -0.196),
       Vector2(0.044, -0.468),
@@ -9213,7 +9213,7 @@ class Emojis {
   static final GameEmoji pointLeftFour = GameEmoji(
     'assets/emojis/svg/point_left_4.svg',
     'assets/emojis/lottie/point_left_4.json',
-    '⬅️',
+    '👈🏽',
     [
       Vector2(-0.477, -0.196),
       Vector2(0.044, -0.468),
@@ -9228,7 +9228,7 @@ class Emojis {
   static final GameEmoji pointLeftFive = GameEmoji(
     'assets/emojis/svg/point_left_5.svg',
     'assets/emojis/lottie/point_left_5.json',
-    '⬅️',
+    '👈🏾',
     [
       Vector2(-0.477, -0.196),
       Vector2(0.044, -0.468),
@@ -9243,7 +9243,7 @@ class Emojis {
   static final GameEmoji pointLeftSix = GameEmoji(
     'assets/emojis/svg/point_left_6.svg',
     'assets/emojis/lottie/point_left_6.json',
-    '⬅️',
+    '👈🏿',
     [
       Vector2(-0.477, -0.196),
       Vector2(0.044, -0.468),
@@ -9273,7 +9273,7 @@ class Emojis {
   static final GameEmoji pointRightTwo = GameEmoji(
     'assets/emojis/svg/point_right_2.svg',
     'assets/emojis/lottie/point_right_2.json',
-    '👉',
+    '👉🏻',
     [
       Vector2(-0.500, 0.362),
       Vector2(-0.487, -0.049),
@@ -9288,7 +9288,7 @@ class Emojis {
   static final GameEmoji pointRightThree = GameEmoji(
     'assets/emojis/svg/point_right_3.svg',
     'assets/emojis/lottie/point_right_3.json',
-    '👉',
+    '👉🏼',
     [
       Vector2(-0.500, 0.362),
       Vector2(-0.487, -0.049),
@@ -9303,7 +9303,7 @@ class Emojis {
   static final GameEmoji pointRightFour = GameEmoji(
     'assets/emojis/svg/point_right_4.svg',
     'assets/emojis/lottie/point_right_4.json',
-    '👉',
+    '👉🏽',
     [
       Vector2(-0.500, 0.362),
       Vector2(-0.487, -0.049),
@@ -9318,7 +9318,7 @@ class Emojis {
   static final GameEmoji pointRightFive = GameEmoji(
     'assets/emojis/svg/point_right_5.svg',
     'assets/emojis/lottie/point_right_5.json',
-    '👉',
+    '👉🏾',
     [
       Vector2(-0.500, 0.362),
       Vector2(-0.487, -0.049),
@@ -9333,7 +9333,7 @@ class Emojis {
   static final GameEmoji pointRightSix = GameEmoji(
     'assets/emojis/svg/point_right_6.svg',
     'assets/emojis/lottie/point_right_6.json',
-    '👉',
+    '👉🏿',
     [
       Vector2(-0.500, 0.362),
       Vector2(-0.487, -0.049),
@@ -9363,7 +9363,7 @@ class Emojis {
   static final GameEmoji pointUpTwo = GameEmoji(
     'assets/emojis/svg/point_up_2.svg',
     'assets/emojis/lottie/point_up_2.json',
-    '☝️',
+    '☝️🏻',
     [
       Vector2(-0.425, 0.051),
       Vector2(-0.150, -0.477),
@@ -9378,7 +9378,7 @@ class Emojis {
   static final GameEmoji pointUpThree = GameEmoji(
     'assets/emojis/svg/point_up_3.svg',
     'assets/emojis/lottie/point_up_3.json',
-    '☝️',
+    '☝️🏼',
     [
       Vector2(-0.425, 0.051),
       Vector2(-0.150, -0.477),
@@ -9393,7 +9393,7 @@ class Emojis {
   static final GameEmoji pointUpFour = GameEmoji(
     'assets/emojis/svg/point_up_4.svg',
     'assets/emojis/lottie/point_up_4.json',
-    '☝️',
+    '☝️🏽',
     [
       Vector2(-0.425, 0.051),
       Vector2(-0.150, -0.477),
@@ -9408,7 +9408,7 @@ class Emojis {
   static final GameEmoji pointUpFive = GameEmoji(
     'assets/emojis/svg/point_up_5.svg',
     'assets/emojis/lottie/point_up_5.json',
-    '☝️',
+    '☝️🏾',
     [
       Vector2(-0.425, 0.051),
       Vector2(-0.150, -0.477),
@@ -9423,7 +9423,7 @@ class Emojis {
   static final GameEmoji pointUpSix = GameEmoji(
     'assets/emojis/svg/point_up_6.svg',
     'assets/emojis/lottie/point_up_6.json',
-    '☝️',
+    '☝️🏿',
     [
       Vector2(-0.425, 0.051),
       Vector2(-0.150, -0.477),
@@ -9438,7 +9438,7 @@ class Emojis {
   static final GameEmoji pointing = GameEmoji(
     'assets/emojis/svg/pointing.svg',
     'assets/emojis/lottie/pointing.json',
-    '👉',
+    '🫵',
     [
       Vector2(-0.495, 0.074),
       Vector2(-0.302, -0.306),
@@ -9453,7 +9453,7 @@ class Emojis {
   static final GameEmoji pointingTwo = GameEmoji(
     'assets/emojis/svg/pointing_2.svg',
     'assets/emojis/lottie/pointing_2.json',
-    '👉👉',
+    '🫵🏻',
     [
       Vector2(-0.495, 0.074),
       Vector2(-0.302, -0.306),
@@ -9468,7 +9468,7 @@ class Emojis {
   static final GameEmoji pointingThree = GameEmoji(
     'assets/emojis/svg/pointing_3.svg',
     'assets/emojis/lottie/pointing_3.json',
-    '👉',
+    '🫵🏼',
     [
       Vector2(-0.495, 0.074),
       Vector2(-0.302, -0.306),
@@ -9483,7 +9483,7 @@ class Emojis {
   static final GameEmoji pointingFour = GameEmoji(
     'assets/emojis/svg/pointing_4.svg',
     'assets/emojis/lottie/pointing_4.json',
-    '👉',
+    '🫵🏽',
     [
       Vector2(-0.495, 0.074),
       Vector2(-0.302, -0.306),
@@ -9498,7 +9498,7 @@ class Emojis {
   static final GameEmoji pointingFive = GameEmoji(
     'assets/emojis/svg/pointing_5.svg',
     'assets/emojis/lottie/pointing_5.json',
-    '👉',
+    '🫵🏾',
     [
       Vector2(-0.495, 0.074),
       Vector2(-0.302, -0.306),
@@ -9513,7 +9513,7 @@ class Emojis {
   static final GameEmoji pointingSix = GameEmoji(
     'assets/emojis/svg/pointing_6.svg',
     'assets/emojis/lottie/pointing_6.json',
-    '👉',
+    '🫵🏿',
     [
       Vector2(-0.495, 0.074),
       Vector2(-0.302, -0.306),
@@ -9693,7 +9693,7 @@ class Emojis {
   static final GameEmoji pushLeftwards = GameEmoji(
     'assets/emojis/svg/push_leftwards.svg',
     'assets/emojis/lottie/push_leftwards.json',
-    '⬅️',
+    '🫷',
     [
       Vector2(-0.383, 0.097),
       Vector2(-0.335, -0.347),
@@ -9708,7 +9708,7 @@ class Emojis {
   static final GameEmoji pushLeftwardsTwo = GameEmoji(
     'assets/emojis/svg/push_leftwards_2.svg',
     'assets/emojis/lottie/push_leftwards_2.json',
-    '⬅️',
+    '🫷🏻',
     [
       Vector2(-0.383, 0.097),
       Vector2(-0.335, -0.347),
@@ -9723,7 +9723,7 @@ class Emojis {
   static final GameEmoji pushLeftwardsThree = GameEmoji(
     'assets/emojis/svg/push_leftwards_3.svg',
     'assets/emojis/lottie/push_leftwards_3.json',
-    '⬅️',
+    '🫷🏼',
     [
       Vector2(-0.383, 0.097),
       Vector2(-0.335, -0.347),
@@ -9738,7 +9738,7 @@ class Emojis {
   static final GameEmoji pushLeftwardsFour = GameEmoji(
     'assets/emojis/svg/push_leftwards_4.svg',
     'assets/emojis/lottie/push_leftwards_4.json',
-    '⬅️',
+    '🫷🏽',
     [
       Vector2(-0.383, 0.097),
       Vector2(-0.335, -0.347),
@@ -9753,7 +9753,7 @@ class Emojis {
   static final GameEmoji pushLeftwardsFive = GameEmoji(
     'assets/emojis/svg/push_leftwards_5.svg',
     'assets/emojis/lottie/push_leftwards_5.json',
-    '⬅️',
+    '🫷🏾',
     [
       Vector2(-0.383, 0.097),
       Vector2(-0.335, -0.347),
@@ -9768,7 +9768,7 @@ class Emojis {
   static final GameEmoji pushLeftwardsSix = GameEmoji(
     'assets/emojis/svg/push_leftwards_6.svg',
     'assets/emojis/lottie/push_leftwards_6.json',
-    '⬅️',
+    '🫷🏿',
     [
       Vector2(-0.383, 0.097),
       Vector2(-0.335, -0.347),
@@ -9783,7 +9783,7 @@ class Emojis {
   static final GameEmoji pushRightwards = GameEmoji(
     'assets/emojis/svg/push_rightwards.svg',
     'assets/emojis/lottie/push_rightwards.json',
-    '➡️',
+    '🫸',
     [
       Vector2(-0.383, 0.500),
       Vector2(-0.379, 0.356),
@@ -9798,7 +9798,7 @@ class Emojis {
   static final GameEmoji pushRightwardsTwo = GameEmoji(
     'assets/emojis/svg/push_rightwards_2.svg',
     'assets/emojis/lottie/push_rightwards_2.json',
-    '➡️',
+    '🫸🏻',
     [
       Vector2(-0.383, 0.500),
       Vector2(-0.379, 0.356),
@@ -9813,7 +9813,7 @@ class Emojis {
   static final GameEmoji pushRightwardsThree = GameEmoji(
     'assets/emojis/svg/push_rightwards_3.svg',
     'assets/emojis/lottie/push_rightwards_3.json',
-    '➡️',
+    '🫸🏼',
     [
       Vector2(-0.383, 0.500),
       Vector2(-0.379, 0.356),
@@ -9828,7 +9828,7 @@ class Emojis {
   static final GameEmoji pushRightwardsFour = GameEmoji(
     'assets/emojis/svg/push_rightwards_4.svg',
     'assets/emojis/lottie/push_rightwards_4.json',
-    '➡️',
+    '🫸🏽',
     [
       Vector2(-0.383, 0.500),
       Vector2(-0.379, 0.356),
@@ -9843,7 +9843,7 @@ class Emojis {
   static final GameEmoji pushRightwardsFive = GameEmoji(
     'assets/emojis/svg/push_rightwards_5.svg',
     'assets/emojis/lottie/push_rightwards_5.json',
-    '➡️',
+    '🫸🏾',
     [
       Vector2(-0.383, 0.500),
       Vector2(-0.379, 0.356),
@@ -9858,7 +9858,7 @@ class Emojis {
   static final GameEmoji pushRightwardsSix = GameEmoji(
     'assets/emojis/svg/push_rightwards_6.svg',
     'assets/emojis/lottie/push_rightwards_6.json',
-    '➡️',
+    '🫸🏿',
     [
       Vector2(-0.383, 0.500),
       Vector2(-0.379, 0.356),
@@ -10023,7 +10023,7 @@ class Emojis {
   static final GameEmoji raisedFist = GameEmoji(
     'assets/emojis/svg/raised_fist.svg',
     'assets/emojis/lottie/raised_fist.json',
-    '✊',
+    '👊',
     [
       Vector2(-0.479, 0.114),
       Vector2(-0.435, -0.301),
@@ -10038,7 +10038,7 @@ class Emojis {
   static final GameEmoji raisedFistTwo = GameEmoji(
     'assets/emojis/svg/raised_fist_2.svg',
     'assets/emojis/lottie/raised_fist_2.json',
-    '✊',
+    '👊🏻',
     [
       Vector2(-0.479, 0.114),
       Vector2(-0.435, -0.301),
@@ -10053,7 +10053,7 @@ class Emojis {
   static final GameEmoji raisedFistThree = GameEmoji(
     'assets/emojis/svg/raised_fist_3.svg',
     'assets/emojis/lottie/raised_fist_3.json',
-    '✊',
+    '👊🏼',
     [
       Vector2(-0.479, 0.114),
       Vector2(-0.435, -0.301),
@@ -10068,7 +10068,7 @@ class Emojis {
   static final GameEmoji raisedFistFour = GameEmoji(
     'assets/emojis/svg/raised_fist_4.svg',
     'assets/emojis/lottie/raised_fist_4.json',
-    '✊🏽',
+    '👊🏽',
     [
       Vector2(-0.479, 0.114),
       Vector2(-0.435, -0.301),
@@ -10083,7 +10083,7 @@ class Emojis {
   static final GameEmoji raisedFistFive = GameEmoji(
     'assets/emojis/svg/raised_fist_5.svg',
     'assets/emojis/lottie/raised_fist_5.json',
-    '✊🏽',
+    '👊🏾',
     [
       Vector2(-0.479, 0.114),
       Vector2(-0.435, -0.301),
@@ -10098,7 +10098,7 @@ class Emojis {
   static final GameEmoji raisedFistSix = GameEmoji(
     'assets/emojis/svg/raised_fist_6.svg',
     'assets/emojis/lottie/raised_fist_6.json',
-    '✊',
+    '👊🏿',
     [
       Vector2(-0.479, 0.114),
       Vector2(-0.435, -0.301),
@@ -10128,7 +10128,7 @@ class Emojis {
   static final GameEmoji raisedHandTwo = GameEmoji(
     'assets/emojis/svg/raised_hand_2.svg',
     'assets/emojis/lottie/raised_hand_2.json',
-    '✋',
+    '✋🏻',
     [
       Vector2(-0.377, -0.246),
       Vector2(-0.232, -0.438),
@@ -10143,7 +10143,7 @@ class Emojis {
   static final GameEmoji raisedHandThree = GameEmoji(
     'assets/emojis/svg/raised_hand_3.svg',
     'assets/emojis/lottie/raised_hand_3.json',
-    '✋',
+    '✋🏼',
     [
       Vector2(-0.377, -0.246),
       Vector2(-0.232, -0.438),
@@ -10158,7 +10158,7 @@ class Emojis {
   static final GameEmoji raisedHandFour = GameEmoji(
     'assets/emojis/svg/raised_hand_4.svg',
     'assets/emojis/lottie/raised_hand_4.json',
-    '✋',
+    '✋🏽',
     [
       Vector2(-0.377, -0.246),
       Vector2(-0.232, -0.438),
@@ -10173,7 +10173,7 @@ class Emojis {
   static final GameEmoji raisedHandFive = GameEmoji(
     'assets/emojis/svg/raised_hand_5.svg',
     'assets/emojis/lottie/raised_hand_5.json',
-    '✋',
+    '✋🏾',
     [
       Vector2(-0.377, -0.246),
       Vector2(-0.232, -0.438),
@@ -10188,7 +10188,7 @@ class Emojis {
   static final GameEmoji raisedHandSix = GameEmoji(
     'assets/emojis/svg/raised_hand_6.svg',
     'assets/emojis/lottie/raised_hand_6.json',
-    '✋',
+    '✋🏿',
     [
       Vector2(-0.377, -0.246),
       Vector2(-0.232, -0.438),
@@ -10218,7 +10218,7 @@ class Emojis {
   static final GameEmoji raisingHandsTwo = GameEmoji(
     'assets/emojis/svg/raising_hands_2.svg',
     'assets/emojis/lottie/raising_hands_2.json',
-    '🙌',
+    '🙌🏻',
     [
       Vector2(-0.500, -0.192),
       Vector2(-0.023, -0.471),
@@ -10233,7 +10233,7 @@ class Emojis {
   static final GameEmoji raisingHandsThree = GameEmoji(
     'assets/emojis/svg/raising_hands_3.svg',
     'assets/emojis/lottie/raising_hands_3.json',
-    '🙌',
+    '🙌🏼',
     [
       Vector2(-0.500, -0.192),
       Vector2(-0.023, -0.471),
@@ -10248,7 +10248,7 @@ class Emojis {
   static final GameEmoji raisingHandsFour = GameEmoji(
     'assets/emojis/svg/raising_hands_4.svg',
     'assets/emojis/lottie/raising_hands_4.json',
-    '🙌',
+    '🙌🏽',
     [
       Vector2(-0.500, -0.192),
       Vector2(-0.023, -0.471),
@@ -10263,7 +10263,7 @@ class Emojis {
   static final GameEmoji raisingHandsFive = GameEmoji(
     'assets/emojis/svg/raising_hands_5.svg',
     'assets/emojis/lottie/raising_hands_5.json',
-    '🙌',
+    '🙌🏾',
     [
       Vector2(-0.500, -0.192),
       Vector2(-0.023, -0.471),
@@ -10278,7 +10278,7 @@ class Emojis {
   static final GameEmoji raisingHandsSix = GameEmoji(
     'assets/emojis/svg/raising_hands_6.svg',
     'assets/emojis/lottie/raising_hands_6.json',
-    '🙌',
+    '🙌🏿',
     [
       Vector2(-0.500, -0.192),
       Vector2(-0.023, -0.471),
@@ -10320,21 +10320,6 @@ class Emojis {
       Vector2(-0.371, 0.357),
     ],
   );
-  static final GameEmoji redHeart = GameEmoji(
-    'assets/emojis/svg/red_heart.svg',
-    'assets/emojis/lottie/red_heart.json',
-    '❤️',
-    [
-      Vector2(-0.452, -0.399),
-      Vector2(-0.246, -0.491),
-      Vector2(0.289, -0.491),
-      Vector2(0.500, -0.399),
-      Vector2(0.436, 0.099),
-      Vector2(0.023, 0.491),
-      Vector2(-0.392, 0.099),
-      Vector2(-0.500, -0.107),
-    ],
-  );
   static final GameEmoji relieved = GameEmoji(
     'assets/emojis/svg/relieved.svg',
     'assets/emojis/lottie/relieved.json',
@@ -10368,7 +10353,7 @@ class Emojis {
   static final GameEmoji rightwardsHand = GameEmoji(
     'assets/emojis/svg/rightwards_hand.svg',
     'assets/emojis/lottie/rightwards_hand.json',
-    '👉',
+    '🫱',
     [
       Vector2(-0.500, -0.048),
       Vector2(-0.217, -0.270),
@@ -10383,7 +10368,7 @@ class Emojis {
   static final GameEmoji rightwardsHandTwo = GameEmoji(
     'assets/emojis/svg/rightwards_hand_2.svg',
     'assets/emojis/lottie/rightwards_hand_2.json',
-    '👉',
+    '🫱🏻',
     [
       Vector2(-0.500, -0.048),
       Vector2(-0.217, -0.270),
@@ -10398,7 +10383,7 @@ class Emojis {
   static final GameEmoji rightwardsHandThree = GameEmoji(
     'assets/emojis/svg/rightwards_hand_3.svg',
     'assets/emojis/lottie/rightwards_hand_3.json',
-    '👉🏽',
+    '🫱🏼',
     [
       Vector2(-0.500, -0.048),
       Vector2(-0.217, -0.270),
@@ -10413,7 +10398,7 @@ class Emojis {
   static final GameEmoji rightwardsHandFour = GameEmoji(
     'assets/emojis/svg/rightwards_hand_4.svg',
     'assets/emojis/lottie/rightwards_hand_4.json',
-    '👉',
+    '🫱🏽',
     [
       Vector2(-0.500, -0.048),
       Vector2(-0.217, -0.270),
@@ -10428,7 +10413,7 @@ class Emojis {
   static final GameEmoji rightwardsHandFive = GameEmoji(
     'assets/emojis/svg/rightwards_hand_5.svg',
     'assets/emojis/lottie/rightwards_hand_5.json',
-    '✋',
+    '🫱🏾',
     [
       Vector2(-0.500, -0.048),
       Vector2(-0.217, -0.270),
@@ -10443,7 +10428,7 @@ class Emojis {
   static final GameEmoji rightwardsHandSix = GameEmoji(
     'assets/emojis/svg/rightwards_hand_6.svg',
     'assets/emojis/lottie/rightwards_hand_6.json',
-    '👉',
+    '🫱🏿',
     [
       Vector2(-0.500, -0.048),
       Vector2(-0.217, -0.270),
@@ -10548,7 +10533,7 @@ class Emojis {
   static final GameEmoji rofl = GameEmoji(
     'assets/emojis/svg/rofl.svg',
     'assets/emojis/lottie/rofl.json',
-    '😂',
+    '🤣',
     [
       Vector2(-0.460, -0.197),
       Vector2(0.080, -0.500),
@@ -10623,7 +10608,7 @@ class Emojis {
   static final GameEmoji rootVegetable = GameEmoji(
     'assets/emojis/svg/root_vegetable.svg',
     'assets/emojis/lottie/root_vegetable.json',
-    '🥕',
+    '🍠',
     [
       Vector2(-0.406, -0.042),
       Vector2(-0.029, -0.401),
@@ -10683,7 +10668,7 @@ class Emojis {
   static final GameEmoji sad = GameEmoji(
     'assets/emojis/svg/sad.svg',
     'assets/emojis/lottie/sad.json',
-    '😢',
+    '😞',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.455, -0.230),
@@ -10773,7 +10758,7 @@ class Emojis {
   static final GameEmoji scared = GameEmoji(
     'assets/emojis/svg/scared.svg',
     'assets/emojis/lottie/scared.json',
-    '😱',
+    '😨',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.455, -0.230),
@@ -10833,7 +10818,7 @@ class Emojis {
   static final GameEmoji screamCat = GameEmoji(
     'assets/emojis/svg/scream_cat.svg',
     'assets/emojis/lottie/scream_cat.json',
-    '😱',
+    '🙀',
     [
       Vector2(-0.500, 0.043),
       Vector2(-0.367, -0.365),
@@ -10863,7 +10848,7 @@ class Emojis {
   static final GameEmoji scrunchedEyes = GameEmoji(
     'assets/emojis/svg/scrunched_eyes.svg',
     'assets/emojis/lottie/scrunched_eyes.json',
-    '😫',
+    '😣',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.455, -0.230),
@@ -10878,7 +10863,7 @@ class Emojis {
   static final GameEmoji scrunchedMouth = GameEmoji(
     'assets/emojis/svg/scrunched_mouth.svg',
     'assets/emojis/lottie/scrunched_mouth.json',
-    '😬',
+    '😖',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.455, -0.230),
@@ -10938,7 +10923,7 @@ class Emojis {
   static final GameEmoji selfieTwo = GameEmoji(
     'assets/emojis/svg/selfie_2.svg',
     'assets/emojis/lottie/selfie_2.json',
-    '📸',
+    '🤳🏻',
     [
       Vector2(-0.442, 0.223),
       Vector2(0.143, -0.500),
@@ -10953,7 +10938,7 @@ class Emojis {
   static final GameEmoji selfieThree = GameEmoji(
     'assets/emojis/svg/selfie_3.svg',
     'assets/emojis/lottie/selfie_3.json',
-    '🤳',
+    '🤳🏼',
     [
       Vector2(-0.442, 0.223),
       Vector2(0.143, -0.500),
@@ -10968,7 +10953,7 @@ class Emojis {
   static final GameEmoji selfieFour = GameEmoji(
     'assets/emojis/svg/selfie_4.svg',
     'assets/emojis/lottie/selfie_4.json',
-    '🤳',
+    '🤳🏽',
     [
       Vector2(-0.442, 0.223),
       Vector2(0.143, -0.500),
@@ -10983,7 +10968,7 @@ class Emojis {
   static final GameEmoji selfieFive = GameEmoji(
     'assets/emojis/svg/selfie_5.svg',
     'assets/emojis/lottie/selfie_5.json',
-    '🤳',
+    '🤳🏾',
     [
       Vector2(-0.442, 0.223),
       Vector2(0.143, -0.500),
@@ -10998,7 +10983,7 @@ class Emojis {
   static final GameEmoji selfieSix = GameEmoji(
     'assets/emojis/svg/selfie_6.svg',
     'assets/emojis/lottie/selfie_6.json',
-    '🤳',
+    '🤳🏿',
     [
       Vector2(-0.442, 0.223),
       Vector2(0.143, -0.500),
@@ -11028,7 +11013,7 @@ class Emojis {
   static final GameEmoji shakingFace = GameEmoji(
     'assets/emojis/svg/shaking_face.svg',
     'assets/emojis/lottie/shaking_face.json',
-    '😵‍💫',
+    '🫨',
     [
       Vector2(-0.478, -0.159),
       Vector2(-0.233, -0.354),
@@ -11103,7 +11088,7 @@ class Emojis {
   static final GameEmoji sick = GameEmoji(
     'assets/emojis/svg/sick.svg',
     'assets/emojis/lottie/sick.json',
-    '🤒',
+    '🤢',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.455, -0.230),
@@ -11193,7 +11178,7 @@ class Emojis {
   static final GameEmoji sleepy = GameEmoji(
     'assets/emojis/svg/sleepy.svg',
     'assets/emojis/lottie/sleepy.json',
-    '😴',
+    '😪',
     [
       Vector2(-0.500, -0.211),
       Vector2(-0.212, -0.459),
@@ -11208,7 +11193,7 @@ class Emojis {
   static final GameEmoji slightlyFrowning = GameEmoji(
     'assets/emojis/svg/slightly_frowning.svg',
     'assets/emojis/lottie/slightly_frowning.json',
-    '😟',
+    '😕',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.455, -0.230),
@@ -11223,7 +11208,7 @@ class Emojis {
   static final GameEmoji slightlyHappy = GameEmoji(
     'assets/emojis/svg/slightly_happy.svg',
     'assets/emojis/lottie/slightly_happy.json',
-    '😊',
+    '🙂',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.455, -0.230),
@@ -11283,7 +11268,7 @@ class Emojis {
   static final GameEmoji smileTwo = GameEmoji(
     'assets/emojis/svg/smile_2.svg',
     'assets/emojis/lottie/smile_2.json',
-    '😊',
+    '😊🏻',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.455, -0.230),
@@ -11343,7 +11328,7 @@ class Emojis {
   static final GameEmoji smilingEyesWithHandOverMouth = GameEmoji(
     'assets/emojis/svg/smiling_eyes_with_hand_over_mouth.svg',
     'assets/emojis/lottie/smiling_eyes_with_hand_over_mouth.json',
-    '😮‍💨',
+    '🫢',
     [
       Vector2(-0.500, -0.241),
       Vector2(-0.204, -0.496),
@@ -11448,7 +11433,7 @@ class Emojis {
   static final GameEmoji snowman = GameEmoji(
     'assets/emojis/svg/snowman.svg',
     'assets/emojis/lottie/snowman.json',
-    '☃️',
+    '⛄',
     [
       Vector2(-0.109, -0.500),
       Vector2(0.152, -0.486),
@@ -11568,7 +11553,7 @@ class Emojis {
   static final GameEmoji spadeTwo = GameEmoji(
     'assets/emojis/svg/spade_2.svg',
     'assets/emojis/lottie/spade_2.json',
-    '♠️🏽',
+    '♠️🏽🏻',
     [
       Vector2(-0.432, 0.071),
       Vector2(-0.298, -0.192),
@@ -11703,7 +11688,7 @@ class Emojis {
   static final GameEmoji squintingTongue = GameEmoji(
     'assets/emojis/svg/squinting_tongue.svg',
     'assets/emojis/lottie/squinting_tongue.json',
-    '😜',
+    '😝',
     [
       Vector2(-0.496, -0.040),
       Vector2(-0.451, -0.258),
@@ -11793,7 +11778,7 @@ class Emojis {
   static final GameEmoji stopSignTwo = GameEmoji(
     'assets/emojis/svg/stop_sign_2.svg',
     'assets/emojis/lottie/stop_sign_2.json',
-    '🛑🏽',
+    '🛑🏽🏻',
     [
       Vector2(-0.500, -0.207),
       Vector2(-0.207, -0.500),
@@ -11823,7 +11808,7 @@ class Emojis {
   static final GameEmoji strawberryTwo = GameEmoji(
     'assets/emojis/svg/strawberry_2.svg',
     'assets/emojis/lottie/strawberry_2.json',
-    '🍓🏽',
+    '🍓🏽🏻',
     [
       Vector2(-0.384, -0.457),
       Vector2(-0.316, -0.500),
@@ -11838,7 +11823,7 @@ class Emojis {
   static final GameEmoji stuckOutTongue = GameEmoji(
     'assets/emojis/svg/stuck_out_tongue.svg',
     'assets/emojis/lottie/stuck_out_tongue.json',
-    '😜',
+    '😛',
     [
       Vector2(-0.496, -0.040),
       Vector2(-0.451, -0.258),
@@ -11928,7 +11913,7 @@ class Emojis {
   static final GameEmoji surprised = GameEmoji(
     'assets/emojis/svg/surprised.svg',
     'assets/emojis/lottie/surprised.json',
-    '😲',
+    '😯',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.455, -0.230),
@@ -11943,7 +11928,7 @@ class Emojis {
   static final GameEmoji sweat = GameEmoji(
     'assets/emojis/svg/sweat.svg',
     'assets/emojis/lottie/sweat.json',
-    '💦',
+    '😓',
     [
       Vector2(-0.500, 0.001),
       Vector2(-0.318, -0.485),
@@ -12033,7 +12018,7 @@ class Emojis {
   static final GameEmoji teacupWithoutHandle = GameEmoji(
     'assets/emojis/svg/teacup_without_handle.svg',
     'assets/emojis/lottie/teacup_without_handle.json',
-    '☕',
+    '🍵',
     [
       Vector2(-0.313, -0.121),
       Vector2(0.065, -0.500),
@@ -12153,7 +12138,7 @@ class Emojis {
   static final GameEmoji thumbsDownTwo = GameEmoji(
     'assets/emojis/svg/thumbs_down_2.svg',
     'assets/emojis/lottie/thumbs_down_2.json',
-    '👎🏽',
+    '👎🏻',
     [
       Vector2(-0.489, -0.379),
       Vector2(0.034, -0.474),
@@ -12168,7 +12153,7 @@ class Emojis {
   static final GameEmoji thumbsDownThree = GameEmoji(
     'assets/emojis/svg/thumbs_down_3.svg',
     'assets/emojis/lottie/thumbs_down_3.json',
-    '👎🏽',
+    '👎🏼',
     [
       Vector2(-0.489, -0.379),
       Vector2(0.034, -0.474),
@@ -12183,7 +12168,7 @@ class Emojis {
   static final GameEmoji thumbsDownFour = GameEmoji(
     'assets/emojis/svg/thumbs_down_4.svg',
     'assets/emojis/lottie/thumbs_down_4.json',
-    '👎🏿',
+    '👎🏽',
     [
       Vector2(-0.489, -0.379),
       Vector2(0.034, -0.474),
@@ -12198,7 +12183,7 @@ class Emojis {
   static final GameEmoji thumbsDownFive = GameEmoji(
     'assets/emojis/svg/thumbs_down_5.svg',
     'assets/emojis/lottie/thumbs_down_5.json',
-    '👎🏿',
+    '👎🏾',
     [
       Vector2(-0.489, -0.379),
       Vector2(0.034, -0.474),
@@ -12243,7 +12228,7 @@ class Emojis {
   static final GameEmoji thumbsUpTwo = GameEmoji(
     'assets/emojis/svg/thumbs_up_2.svg',
     'assets/emojis/lottie/thumbs_up_2.json',
-    '👍🏽',
+    '👍🏻',
     [
       Vector2(-0.427, 0.046),
       Vector2(-0.054, -0.500),
@@ -12258,7 +12243,7 @@ class Emojis {
   static final GameEmoji thumbsUpThree = GameEmoji(
     'assets/emojis/svg/thumbs_up_3.svg',
     'assets/emojis/lottie/thumbs_up_3.json',
-    '👍🏽',
+    '👍🏼',
     [
       Vector2(-0.427, 0.046),
       Vector2(-0.054, -0.500),
@@ -12273,7 +12258,7 @@ class Emojis {
   static final GameEmoji thumbsUpFour = GameEmoji(
     'assets/emojis/svg/thumbs_up_4.svg',
     'assets/emojis/lottie/thumbs_up_4.json',
-    '👍🏾',
+    '👍🏽',
     [
       Vector2(-0.427, 0.046),
       Vector2(-0.054, -0.500),
@@ -12288,7 +12273,7 @@ class Emojis {
   static final GameEmoji thumbsUpFive = GameEmoji(
     'assets/emojis/svg/thumbs_up_5.svg',
     'assets/emojis/lottie/thumbs_up_5.json',
-    '👍🏽',
+    '👍🏾',
     [
       Vector2(-0.427, 0.046),
       Vector2(-0.054, -0.500),
@@ -12303,7 +12288,7 @@ class Emojis {
   static final GameEmoji thumbsUpSix = GameEmoji(
     'assets/emojis/svg/thumbs_up_6.svg',
     'assets/emojis/lottie/thumbs_up_6.json',
-    '👍🏽',
+    '👍🏿',
     [
       Vector2(-0.427, 0.046),
       Vector2(-0.054, -0.500),
@@ -12333,7 +12318,7 @@ class Emojis {
   static final GameEmoji tired = GameEmoji(
     'assets/emojis/svg/tired.svg',
     'assets/emojis/lottie/tired.json',
-    '😩',
+    '😫',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.455, -0.230),
@@ -12408,7 +12393,7 @@ class Emojis {
   static final GameEmoji treasure = GameEmoji(
     'assets/emojis/svg/treasure.svg',
     'assets/emojis/lottie/treasure.json',
-    '🪙',
+    '💰',
     [
       Vector2(-0.298, -0.357),
       Vector2(-0.094, -0.500),
@@ -12438,7 +12423,7 @@ class Emojis {
   static final GameEmoji triumph = GameEmoji(
     'assets/emojis/svg/triumph.svg',
     'assets/emojis/lottie/triumph.json',
-    '🏆',
+    '😤',
     [
       Vector2(-0.500, 0.285),
       Vector2(-0.440, -0.206),
@@ -12453,7 +12438,7 @@ class Emojis {
   static final GameEmoji trombone = GameEmoji(
     'assets/emojis/svg/trombone.svg',
     'assets/emojis/lottie/trombone.json',
-    '🎺',
+    '📯',
     [
       Vector2(-0.500, 0.441),
       Vector2(-0.370, -0.207),
@@ -12543,7 +12528,7 @@ class Emojis {
   static final GameEmoji twoHearts = GameEmoji(
     'assets/emojis/svg/two_hearts.svg',
     'assets/emojis/lottie/two_hearts.json',
-    '💖',
+    '💕',
     [
       Vector2(-0.497, 0.075),
       Vector2(-0.341, -0.282),
@@ -12663,7 +12648,7 @@ class Emojis {
   static final GameEmoji victoryTwo = GameEmoji(
     'assets/emojis/svg/victory_2.svg',
     'assets/emojis/lottie/victory_2.json',
-    '✌🏽',
+    '✌️🏻',
     [
       Vector2(-0.339, -0.051),
       Vector2(-0.089, -0.500),
@@ -12678,7 +12663,7 @@ class Emojis {
   static final GameEmoji victoryThree = GameEmoji(
     'assets/emojis/svg/victory_3.svg',
     'assets/emojis/lottie/victory_3.json',
-    '✌🏽',
+    '✌️🏼',
     [
       Vector2(-0.339, -0.051),
       Vector2(-0.089, -0.500),
@@ -12708,7 +12693,7 @@ class Emojis {
   static final GameEmoji victoryFive = GameEmoji(
     'assets/emojis/svg/victory_5.svg',
     'assets/emojis/lottie/victory_5.json',
-    '✌️🏽',
+    '✌️🏾',
     [
       Vector2(-0.339, -0.051),
       Vector2(-0.089, -0.500),
@@ -12723,7 +12708,7 @@ class Emojis {
   static final GameEmoji victorySix = GameEmoji(
     'assets/emojis/svg/victory_6.svg',
     'assets/emojis/lottie/victory_6.json',
-    '✌️🏽',
+    '✌️🏿',
     [
       Vector2(-0.339, -0.051),
       Vector2(-0.089, -0.500),
@@ -12813,7 +12798,7 @@ class Emojis {
   static final GameEmoji vulcanTwo = GameEmoji(
     'assets/emojis/svg/vulcan_2.svg',
     'assets/emojis/lottie/vulcan_2.json',
-    '🖖🏽',
+    '🖖🏻',
     [
       Vector2(-0.312, -0.408),
       Vector2(0.020, -0.500),
@@ -12828,7 +12813,7 @@ class Emojis {
   static final GameEmoji vulcanThree = GameEmoji(
     'assets/emojis/svg/vulcan_3.svg',
     'assets/emojis/lottie/vulcan_3.json',
-    '🖖🏽',
+    '🖖🏼',
     [
       Vector2(-0.312, -0.408),
       Vector2(0.020, -0.500),
@@ -12858,7 +12843,7 @@ class Emojis {
   static final GameEmoji vulcanFive = GameEmoji(
     'assets/emojis/svg/vulcan_5.svg',
     'assets/emojis/lottie/vulcan_5.json',
-    '🖖🏽',
+    '🖖🏾',
     [
       Vector2(-0.312, -0.408),
       Vector2(0.020, -0.500),
@@ -12873,7 +12858,7 @@ class Emojis {
   static final GameEmoji vulcanSix = GameEmoji(
     'assets/emojis/svg/vulcan_6.svg',
     'assets/emojis/lottie/vulcan_6.json',
-    '🖖🏽',
+    '🖖🏿',
     [
       Vector2(-0.312, -0.408),
       Vector2(0.020, -0.500),
@@ -12898,21 +12883,6 @@ class Emojis {
       Vector2(0.339, 0.064),
       Vector2(0.131, 0.313),
       Vector2(-0.448, 0.500),
-    ],
-  );
-  static final GameEmoji warmSmile = GameEmoji(
-    'assets/emojis/svg/warm_smile.svg',
-    'assets/emojis/lottie/warm_smile.json',
-    '😄',
-    [
-      Vector2(-0.500, -0.010),
-      Vector2(-0.455, -0.230),
-      Vector2(-0.172, -0.474),
-      Vector2(0.292, -0.431),
-      Vector2(0.500, -0.169),
-      Vector2(0.434, 0.280),
-      Vector2(0.111, 0.474),
-      Vector2(-0.346, 0.355),
     ],
   );
   static final GameEmoji warning = GameEmoji(
@@ -12978,7 +12948,7 @@ class Emojis {
   static final GameEmoji waveTwo = GameEmoji(
     'assets/emojis/svg/wave_2.svg',
     'assets/emojis/lottie/wave_2.json',
-    '👋🏽',
+    '👋🏻',
     [
       Vector2(-0.419, 0.184),
       Vector2(-0.336, -0.156),
@@ -12993,7 +12963,7 @@ class Emojis {
   static final GameEmoji waveThree = GameEmoji(
     'assets/emojis/svg/wave_3.svg',
     'assets/emojis/lottie/wave_3.json',
-    '👋🏽',
+    '👋🏼',
     [
       Vector2(-0.419, 0.184),
       Vector2(-0.336, -0.156),
@@ -13023,7 +12993,7 @@ class Emojis {
   static final GameEmoji waveFive = GameEmoji(
     'assets/emojis/svg/wave_5.svg',
     'assets/emojis/lottie/wave_5.json',
-    '👋🏽',
+    '👋🏾',
     [
       Vector2(-0.419, 0.184),
       Vector2(-0.336, -0.156),
@@ -13038,7 +13008,7 @@ class Emojis {
   static final GameEmoji waveSix = GameEmoji(
     'assets/emojis/svg/wave_6.svg',
     'assets/emojis/lottie/wave_6.json',
-    '👋🏽',
+    '👋🏿',
     [
       Vector2(-0.419, 0.184),
       Vector2(-0.336, -0.156),
@@ -13068,7 +13038,7 @@ class Emojis {
   static final GameEmoji whale = GameEmoji(
     'assets/emojis/svg/whale.svg',
     'assets/emojis/lottie/whale.json',
-    '🐋',
+    '🐳',
     [
       Vector2(-0.500, -0.038),
       Vector2(-0.241, -0.446),
@@ -13113,7 +13083,7 @@ class Emojis {
   static final GameEmoji wiltedFlower = GameEmoji(
     'assets/emojis/svg/wilted_flower.svg',
     'assets/emojis/lottie/wilted_flower.json',
-    '🌷',
+    '🥀',
     [
       Vector2(-0.422, -0.009),
       Vector2(-0.179, -0.426),
@@ -13203,7 +13173,7 @@ class Emojis {
   static final GameEmoji woozy = GameEmoji(
     'assets/emojis/svg/woozy.svg',
     'assets/emojis/lottie/woozy.json',
-    '😵‍💫',
+    '🥴',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.455, -0.230),
@@ -13218,7 +13188,7 @@ class Emojis {
   static final GameEmoji worm = GameEmoji(
     'assets/emojis/svg/worm.svg',
     'assets/emojis/lottie/worm.json',
-    '🐛',
+    '🪱',
     [
       Vector2(-0.500, 0.025),
       Vector2(-0.415, -0.072),
@@ -13278,7 +13248,7 @@ class Emojis {
   static final GameEmoji writingHandTwo = GameEmoji(
     'assets/emojis/svg/writing_hand_2.svg',
     'assets/emojis/lottie/writing_hand_2.json',
-    '✍🏽',
+    '✍️🏻',
     [
       Vector2(-0.379, -0.137),
       Vector2(0.228, -0.404),
@@ -13293,7 +13263,7 @@ class Emojis {
   static final GameEmoji writingHandThree = GameEmoji(
     'assets/emojis/svg/writing_hand_3.svg',
     'assets/emojis/lottie/writing_hand_3.json',
-    '✍🏽',
+    '✍️🏼',
     [
       Vector2(-0.379, -0.137),
       Vector2(0.228, -0.404),
@@ -13308,7 +13278,7 @@ class Emojis {
   static final GameEmoji writingHandFour = GameEmoji(
     'assets/emojis/svg/writing_hand_4.svg',
     'assets/emojis/lottie/writing_hand_4.json',
-    '✍🏾',
+    '✍️🏽',
     [
       Vector2(-0.379, -0.137),
       Vector2(0.228, -0.404),
@@ -13323,7 +13293,7 @@ class Emojis {
   static final GameEmoji writingHandFive = GameEmoji(
     'assets/emojis/svg/writing_hand_5.svg',
     'assets/emojis/lottie/writing_hand_5.json',
-    '🖊️',
+    '✍️🏾',
     [
       Vector2(-0.379, -0.137),
       Vector2(0.228, -0.404),
@@ -13338,7 +13308,7 @@ class Emojis {
   static final GameEmoji writingHandSix = GameEmoji(
     'assets/emojis/svg/writing_hand_6.svg',
     'assets/emojis/lottie/writing_hand_6.json',
-    '✍🏿',
+    '✍️🏿',
     [
       Vector2(-0.379, -0.137),
       Vector2(0.228, -0.404),
@@ -13353,7 +13323,7 @@ class Emojis {
   static final GameEmoji xEyes = GameEmoji(
     'assets/emojis/svg/x_eyes.svg',
     'assets/emojis/lottie/x_eyes.json',
-    '👀',
+    '😵',
     [
       Vector2(-0.500, -0.010),
       Vector2(-0.455, -0.230),
@@ -13368,7 +13338,7 @@ class Emojis {
   static final GameEmoji yawn = GameEmoji(
     'assets/emojis/svg/yawn.svg',
     'assets/emojis/lottie/yawn.json',
-    '😮‍💨',
+    '🥱',
     [
       Vector2(-0.492, -0.044),
       Vector2(-0.448, -0.260),
@@ -13455,7 +13425,6 @@ class Emojis {
       Vector2(-0.350, 0.345),
     ],
   );
-
   static final List<GameEmoji> all = [
     boxingGlove,
     mountain,
@@ -14145,7 +14114,6 @@ class Emojis {
     raisingHandsSix,
     rat,
     redApple,
-    redHeart,
     relieved,
     revolvingHearts,
     rightwardsHand,
@@ -14317,7 +14285,6 @@ class Emojis {
     vulcanFive,
     vulcanSix,
     wand,
-    warmSmile,
     warning,
     wastebasket,
     watermelon,

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/app/lifecycle.dart' show AppLifecycleStateNotifier;
@@ -7,6 +6,7 @@ import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/level/widgets/footer/skip_btn.dart';
 import 'package:grimoji/features/level/widgets/overlays/level_complete.dart';
+import 'package:grimoji/features/level/widgets/overlays/powerup_selection/index.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/level/widgets/confetti.dart';
 import 'package:grimoji/features/match/board/index.dart';
@@ -16,7 +16,6 @@ import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/level/widgets/dialogs/quit_dialog.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animations/dialog.dart';
-import 'package:grimoji/widgets/custom/pill_button.dart';
 import 'package:grimoji/widgets/responsive_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:logging/logging.dart' hide Level;
@@ -40,6 +39,7 @@ class _LevelScreenState extends State<LevelScreen> {
   bool _isQuitDialogOpen = false;
   bool _hasTriggeredFever = false;
   late final LevelState _levelState;
+  final _boardKey = GlobalKey();
 
   static final _log = Logger('LevelScreen');
   static const _celebrationDuration = Duration(milliseconds: 2000);
@@ -168,7 +168,10 @@ class _LevelScreenState extends State<LevelScreen> {
                   children: [
                     ResponsiveScreen(
                       topMessageArea: const Header(),
-                      squarishMainArea: const GameBoard(),
+                      squarishMainArea: Container(
+                        key: _boardKey,
+                        child: const GameBoard(),
+                      ),
                       rectangularMenuArea: Selector<LevelState, bool>(
                         selector: (_, state) => state.gameState.isFeverTime,
                         builder: (context, isFeverTime, child) => isFeverTime
@@ -191,9 +194,12 @@ class _LevelScreenState extends State<LevelScreen> {
                       ),
                     ),
 
+                    PowerupSelectionOverlay(boardKey: _boardKey),
+
                     Selector<LevelState, Map<String, bool>>(
                       selector: (_, state) => {
                         'isGoalComplete': state.isGoalComplete,
+                        'isProcessing': state.gameState.isProcessing,
                         'isFeverTime': state.gameState.isFeverTime,
                       },
                       builder: (context, stateMap, child) {
@@ -218,22 +224,12 @@ class _LevelScreenState extends State<LevelScreen> {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
                             LevelComOverlay.show(context);
                           });
+                        } else if (isFeverTime) {
+                          LevelComOverlay.hide();
                         }
                         return const SizedBox.shrink();
                       },
                     ),
-
-                    if (kDebugMode)
-                      Positioned(
-                        top: 200,
-                        left: 90,
-                        child: PillButton(
-                          text: 'FORCE FEVER',
-                          color: Colors.red,
-                          onTap: () => _levelState.triggerFeverForTesting(),
-                          fullWidth: false,
-                        ),
-                      ),
                   ],
                 ),
               ),

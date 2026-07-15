@@ -7,13 +7,13 @@ final List<GameLevel> chapter3Levels = [
     timeLimit: 250,
     targetAmount: 3,
     targetEmoji: Emojis.biohazard,
-    goal: 'Craft Acid Bombs to break through the iron gates',
+    goal: 'Coat the gates in corrosive acid',
     description: 'The Iron Gates - Learn Corrosive Magic',
     availableEmojis: [
-      Emojis.snake,
-      Emojis.bone,
-      Emojis.leafyGreen,
+      Emojis.splatter,
       Emojis.rock,
+      Emojis.shield,
+      Emojis.spider,
     ],
   ),
 
@@ -28,9 +28,8 @@ final List<GameLevel> chapter3Levels = [
       Emojis.chains,
       Emojis.metal,
       Emojis.linkedPaperclips,
-      Emojis.fire,
+      Emojis.biohazard,
     ],
-    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -42,11 +41,10 @@ final List<GameLevel> chapter3Levels = [
     description: 'The Armory - Defend the keep',
     availableEmojis: [
       Emojis.shield,
-      Emojis.guitar,
+      Emojis.fire,
+      Emojis.spider,
       Emojis.skull,
-      Emojis.droplet,
     ],
-    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -54,15 +52,14 @@ final List<GameLevel> chapter3Levels = [
     timeLimit: 300,
     targetAmount: 3,
     targetEmoji: Emojis.openLock,
-    goal: 'Melt the padlocks to free the dungeon',
+    goal: 'Pick the padlocks to free the dungeon',
     description: 'The Locksmith - Secrets within',
     availableEmojis: [
+      Emojis.locked,
       Emojis.chains,
       Emojis.snake,
       Emojis.metal,
-      Emojis.whiteFlag,
     ],
-    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -72,7 +69,12 @@ final List<GameLevel> chapter3Levels = [
     targetEmoji: Emojis.volcano,
     goal: 'Craft Seismic Bombs to bring down the towers',
     description: 'Tremors - The earth awakens',
-    availableEmojis: [Emojis.rock, Emojis.fire, Emojis.droplet, Emojis.bone],
+    availableEmojis: [
+      Emojis.fireHeart,
+      Emojis.bone,
+      Emojis.skull,
+      Emojis.spider,
+    ],
   ),
 
   GameLevel(
@@ -83,12 +85,11 @@ final List<GameLevel> chapter3Levels = [
     goal: 'Use Volcanoes to shatter the board',
     description: 'Crumbling Towers - The fortress falls',
     availableEmojis: [
-      Emojis.windFace,
-      Emojis.cloud,
-      Emojis.cyclone,
-      Emojis.leaflessTree,
+      Emojis.rock,
+      Emojis.fire,
+      Emojis.snake,
+      Emojis.chains,
     ],
-    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -99,10 +100,10 @@ final List<GameLevel> chapter3Levels = [
     goal: 'Free the ghosts from the dungeon',
     description: 'The Dungeon - Captives in chains',
     availableEmojis: [
+      Emojis.skull,
       Emojis.locked,
-      Emojis.whiteFlag,
-      Emojis.fire,
-      Emojis.rock,
+      Emojis.metal,
+      Emojis.bone,
     ],
   ),
 
@@ -115,9 +116,9 @@ final List<GameLevel> chapter3Levels = [
     description: 'Acid Rain - The siege begins',
     availableEmojis: [
       Emojis.blackHeart,
-      Emojis.cloud,
+      Emojis.cryingCatFace,
       Emojis.droplet,
-      Emojis.snake,
+      Emojis.rainCloud,
     ],
   ),
 
@@ -129,10 +130,10 @@ final List<GameLevel> chapter3Levels = [
     goal: 'Claim the fallen King\'s Crown',
     description: 'The Keep\'s Core - The final challenge',
     availableEmojis: [
+      Emojis.locked,
+      Emojis.chains,
       Emojis.treasure,
-      Emojis.whiteFlag,
       Emojis.shield,
-      Emojis.windFace,
     ],
   ),
 
@@ -143,61 +144,72 @@ final List<GameLevel> chapter3Levels = [
     targetEmoji: Emojis.bat,
     goal: 'Craft bats from spiders',
     description: 'The Gargoyle\'s Perch - Night falls on the keep',
-    availableEmojis: [Emojis.spider, Emojis.rock, Emojis.guitar, Emojis.metal],
+    availableEmojis: [
+      Emojis.spider,
+      Emojis.bone,
+      Emojis.skull,
+      Emojis.blackHeart,
+    ],
   ),
 
   GameLevel(
     number: 39,
     timeLimit: 300,
     targetAmount: 5,
-    targetEmoji: Emojis.brokenChain,
-    goal: 'Use Acid to rust the chains and melt the locks',
+    targetEmoji: Emojis.locked,
+    goal: 'Break through the locks to escape',
     description: 'The Iron Maiden - Execution awaits',
     availableEmojis: [
       Emojis.chains,
-      Emojis.treasure,
       Emojis.linkedPaperclips,
-      Emojis.bone,
+      Emojis.fire,
+      Emojis.metal,
     ],
-    skipAutoPlayer: true,
   ),
 
   GameLevel(
     number: 40,
     timeLimit: 280,
     targetAmount: 4,
-    targetEmoji: Emojis.ghost,
-    goal: 'Free the ghosts from the locked catacombs',
+    targetEmoji: Emojis.ogre,
+    goal: 'Summon ogres in the locked catacombs',
     description: 'The Catacombs - Ancient dead sleep below',
-    availableEmojis: [Emojis.rock, Emojis.snake, Emojis.skull, Emojis.droplet],
-    skipAutoPlayer: true,
+    availableEmojis: [
+      Emojis.skull,
+      Emojis.bone,
+      Emojis.snake,
+      Emojis.locked,
+    ],
   ),
 
   GameLevel(
     number: 41,
     timeLimit: 240,
     targetAmount: 12,
-    targetEmoji: Emojis.biohazard,
-    goal: 'Craft massive amounts of acid to cross the moat',
+    targetEmoji: Emojis.radioactive,
+    goal: 'Craft radioactive waste to cross the moat',
     description: 'Toxic Moat - The fortress\'s final defense',
-    availableEmojis: [Emojis.bug, Emojis.leafyGreen, Emojis.worm, Emojis.bone],
-    skipAutoPlayer: true,
+    availableEmojis: [
+      Emojis.biohazard,
+      Emojis.leafyGreen,
+      Emojis.droplet,
+      Emojis.blackHeart,
+    ],
   ),
 
   GameLevel(
     number: 42,
     timeLimit: 320,
     targetAmount: 4,
-    targetEmoji: Emojis.volcano,
-    goal: 'Master the Earthquake magic to bring down the inner keep',
+    targetEmoji: Emojis.mountain,
+    goal: 'Master the Earth magic to bring down the inner keep',
     description: 'Tremors II - The earth shakes with fury',
     availableEmojis: [
       Emojis.rock,
+      Emojis.chains,
       Emojis.fire,
-      Emojis.droplet,
-      Emojis.blackHeart,
+      Emojis.metal,
     ],
-    skipAutoPlayer: true,
   ),
 
   GameLevel(
@@ -209,22 +221,25 @@ final List<GameLevel> chapter3Levels = [
     description: 'The Derelict House - Ruins within ruins',
     availableEmojis: [
       Emojis.leaflessTree,
-      Emojis.cloud,
-      Emojis.windFace,
       Emojis.bone,
+      Emojis.spider,
+      Emojis.skull,
     ],
-    skipAutoPlayer: true,
   ),
 
   GameLevel(
     number: 44,
     timeLimit: 280,
     targetAmount: 20,
-    targetEmoji: Emojis.debris,
-    goal: 'Use Volcanoes to bring down the derelict house',
+    targetEmoji: Emojis.moai,
+    goal: 'Use shattered stone to raise ancient statues',
     description: 'Shattered Foundations - The keep collapses',
-    availableEmojis: [Emojis.cyclone, Emojis.fire, Emojis.rock, Emojis.droplet],
-    skipAutoPlayer: true,
+    availableEmojis: [
+      Emojis.moonFaceNew,
+      Emojis.rock,
+      Emojis.fire,
+      Emojis.cloud,
+    ],
   ),
 
   GameLevel(
@@ -237,8 +252,8 @@ final List<GameLevel> chapter3Levels = [
     availableEmojis: [
       Emojis.metal,
       Emojis.locked,
-      Emojis.snake,
-      Emojis.whiteFlag,
+      Emojis.spider,
+      Emojis.bone,
     ],
   ),
 
@@ -250,23 +265,26 @@ final List<GameLevel> chapter3Levels = [
     goal: 'Craft crocodiles from snakes',
     description: 'Dragon Scales - The dragon awakens',
     availableEmojis: [
-      Emojis.bug,
+      Emojis.snake,
       Emojis.leafyGreen,
-      Emojis.bone,
-      Emojis.leaflessTree,
+      Emojis.droplet,
+      Emojis.blackHeart,
     ],
-    skipAutoPlayer: true,
   ),
 
   GameLevel(
     number: 47,
     timeLimit: 350,
     targetAmount: 6,
-    targetEmoji: Emojis.volcano,
-    goal: 'Total destruction with seismic bombs',
+    targetEmoji: Emojis.rock,
+    goal: 'Crush the keep with petrified stone',
     description: 'The Keep Collapses - All hands on deck',
-    availableEmojis: [Emojis.shield, Emojis.droplet, Emojis.fire, Emojis.cloud],
-    skipAutoPlayer: true,
+    availableEmojis: [
+      Emojis.fallenLeaf,
+      Emojis.fire,
+      Emojis.derelictHouse,
+      Emojis.locked,
+    ],
   ),
 
   GameLevel(
@@ -277,10 +295,10 @@ final List<GameLevel> chapter3Levels = [
     goal: 'Summon the ultimate dragon from snakes',
     description: 'The Ruined King\'s Pet - The final boss',
     availableEmojis: [
-      Emojis.snake,
       Emojis.crocodile,
-      Emojis.chains,
-      Emojis.bone,
+      Emojis.lizard,
+      Emojis.kangaroo,
+      Emojis.dinosaur,
     ],
   ),
 ];

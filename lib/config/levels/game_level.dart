@@ -13,7 +13,6 @@ class GameLevel {
 
   final String? achievementIdIOS;
   final String? achievementIdAndroid;
-  final bool skipAutoPlayer;
 
   bool get awardsAchievement => achievementIdAndroid != null;
 
@@ -25,7 +24,6 @@ class GameLevel {
     required this.availableEmojis,
     required this.goal,
     required this.description,
-    this.skipAutoPlayer = false,
     this.achievementIdIOS,
     this.achievementIdAndroid,
   }) : assert(

@@ -10,7 +10,7 @@ import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:grimoji/features/match/models/match_group.dart';
 import 'package:grimoji/features/match/models/tile.dart';
 import 'package:grimoji/features/match/types.dart';
-import 'package:grimoji/features/match/utils/manager.dart';
+import 'package:grimoji/features/match/board/manager.dart';
 import 'package:grimoji/features/match/announcer.dart';
 import 'package:grimoji/features/match/engines/game.dart';
 import 'package:grimoji/features/match/models/collected_emoji.dart';
@@ -20,7 +20,7 @@ import 'package:grimoji/features/match/detectors/swipe.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/match/board/effects/ghost_dive/effect.dart';
 import 'package:grimoji/features/match/board/effects/wheel_roll/effect.dart';
-import 'package:grimoji/features/match/utils/evaluator.dart';
+import 'package:grimoji/features/match/detectors/threat/index.dart';
 import 'package:grimoji/features/match/processors/settlement.dart';
 import 'package:grimoji/features/match/controllers/hint.dart';
 import 'package:logging/logging.dart';
@@ -315,6 +315,20 @@ class GameCoordinator {
   void clearHint() => _hint.clear();
   void cancelHintTimer() => _hint.cancel();
 
+  Future<void> punchTile(TileCoordinate coord) async {
+    if (state.isGameOver || state.isPaused || state.isProcessing) return;
+
+    state.setProcessing(true);
+
+    final tile = engine.grid[coord.row][coord.col];
+    if (tile.emoji == engine.level.targetEmoji) {
+      _resolveCollectedEmojis([CollectedEmoji(emoji: tile.emoji, count: 1)]);
+    }
+
+    await _settlement.settleBoard(BoardRegion({coord}));
+    await _finalizeTurnLifecycle();
+  }
+
   void _clearWheelTriggers() {
     _forEachTile((_, _, tile) {
       tile.isWheelTrigger = false;
@@ -380,7 +394,7 @@ class GameCoordinator {
 
     for (final trigger in triggers) {
       final origin = trigger.origin;
-      final target = await BoardEvaluator.findTarget(
+      final target = await ThreatDetector.findTarget(
         grid: engine.grid,
         targetEmoji: engine.level.targetEmoji,
       );
