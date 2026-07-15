@@ -18,7 +18,7 @@ A gothic alchemy game for mixing and collecting emojis.
 [![Itch.io](https://img.shields.io/badge/Itch.io-FA5C5C?style=for-the-badge&logo=itch.io&logoColor=white)](https://urgirlkiri.itch.io/grimoji)
 
 
-<img src="assets/screenshots/demo.gif" width="800" alt="Gameplay Demo Video"/>
+https://github.com/user-attachments/assets/ceef5a8d-0b00-4a09-b38c-49777ac84560
 
 ### Documentation
 
