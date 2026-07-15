@@ -280,6 +280,9 @@ class GameCoordinator {
         }
         if (state.isDisposed) return;
 
+        await _executeFeverAutoTriggers();
+        if (state.isDisposed) return;
+
         state.setReFeverBombs(boardManager.countSafeBombs());
         state.decrementFeverTimer();
         state.updateUI();
@@ -598,11 +601,7 @@ class GameCoordinator {
     final triggers = _handleGhostTriggers();
     if (triggers.isEmpty) return;
 
-    final result = await _handleGhostDive(
-      triggers,
-      excluded: excluded,
-      simultaneous: true,
-    );
+    final result = await _handleGhostDive(triggers, excluded: excluded);
     if (state.isDisposed) return;
 
     await _handleGhostSettlement(result.destroyed, result.newBombs);
@@ -655,6 +654,9 @@ class GameCoordinator {
       );
     }
 
+    state.updateUI();
+    if (!await _safeDelay(swallowAnimationLock)) return;
+
     await _executeEmojiBehaviors();
   }
 
@@ -696,6 +698,8 @@ class GameCoordinator {
   }
 
   Future<void> _executeWheelFever() async {
+    engine.initializeBehaviors();
+
     final wheels = <TileCoordinate>[];
     for (int r = 0; r < BoardManager.rows; r++) {
       for (int c = 0; c < BoardManager.cols; c++) {
