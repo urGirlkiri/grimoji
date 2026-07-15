@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:grimoji/config/levels/game_level.dart';
+import 'package:grimoji/config/levels/difficulty.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
@@ -38,7 +39,7 @@ class BoardManager {
       }
     }
 
-    if (level.number == 3) {
+    if (_random.nextDouble() < LevelDifficulty.prankChanceFor(level.number)) {
       final prankRow = _random.nextInt(rows);
       final prankCol = _random.nextInt(cols);
       gridTiles[prankRow][prankCol].emoji = Emojis.impSmile;
@@ -153,10 +154,12 @@ class BoardManager {
     }
 
     final shouldSpawnClown =
-        !clownOnBoard && level.number % 2 == 0 && _random.nextDouble() < 0.5;
+        !clownOnBoard &&
+        _random.nextDouble() < LevelDifficulty.clownChanceFor(level.number);
 
     final shouldSpawnPrankster =
-        !pranksterOnBoard && _random.nextDouble() < 0.1;
+        !pranksterOnBoard &&
+        _random.nextDouble() < LevelDifficulty.prankChanceFor(level.number);
 
     for (int c = 0; c < cols; c++) {
       List<Tile> remainingTiles = [];
