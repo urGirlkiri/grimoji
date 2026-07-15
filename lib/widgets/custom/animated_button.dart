@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
@@ -5,7 +7,7 @@ import 'package:grimoji/utils/context_data.dart';
 
 class AnimatedButton extends StatefulWidget {
   final Widget child;
-  final VoidCallback? onTap;
+  final FutureOr<void> Function()? onTap;
   final bool enableSound;
   final double pressedScale;
 
@@ -23,12 +25,21 @@ class AnimatedButton extends StatefulWidget {
 
 class _AnimatedButtonState extends State<AnimatedButton> {
   bool _isPressed = false;
+  bool _isProcessing = false;
 
-  void _handleTap() {
-    if (widget.enableSound && mounted) {
-      context.readAudio.playSfx(SfxType.buttonTap);
+  Future<void> _handleTap() async {
+    if (_isProcessing) return;
+    _isProcessing = true;
+    try {
+      if (widget.enableSound && mounted) {
+        context.readAudio.playSfx(SfxType.buttonTap);
+      }
+      await widget.onTap?.call();
+    } finally {
+      if (mounted) {
+        setState(() => _isProcessing = false);
+      }
     }
-    widget.onTap?.call();
   }
 
   @override

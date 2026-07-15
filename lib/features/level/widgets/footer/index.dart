@@ -98,8 +98,11 @@ class _FooterState extends State<Footer> {
       } else {
         _showSnackbar(context);
       }
-    } else {
-      _levelState.pauseTimer();
+      return;
+    }
+
+    _levelState.pauseTimer();
+    try {
       final purchased = await showBoostPurchase(context, powerup);
       if (purchased == true && context.mounted) {
         final handler = PowerupHandlerRegistry.get(powerup.id);
@@ -108,6 +111,7 @@ class _FooterState extends State<Footer> {
           await handler.execute(context, powerup, _levelState);
         }
       }
+    } finally {
       _levelState.resumeTimerOnly();
     }
   }

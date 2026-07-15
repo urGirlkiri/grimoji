@@ -148,7 +148,7 @@ class ProfileController extends ChangeNotifier {
     int current = _profile!.dices;
     if (current < amount) return false;
     _profile!.dices = current - amount;
-    _profile!.inventory['dice'] = current - amount;
+    _log.fine('Spent $amount dice: $current -> ${_profile!.dices}');
     _save();
     return true;
   }
@@ -216,15 +216,17 @@ class ProfileController extends ChangeNotifier {
   void updatePowerupCount(String itemId, int change) {
     if (_profile != null) {
       int current = getPowerupCount(itemId);
-      _profile!.inventory[itemId] = (current + change).clamp(0, 999);
+      final newCount = (current + change).clamp(0, 999);
+      _profile!.inventory[itemId] = newCount;
+      _log.fine('Updated $itemId inventory: $current -> $newCount');
       _save();
     }
   }
 
   Future<void> _save() async {
     if (_profile != null) {
-      await _persistence.saveProfile(_profile!);
       notifyListeners();
+      await _persistence.saveProfile(_profile!);
     }
   }
 

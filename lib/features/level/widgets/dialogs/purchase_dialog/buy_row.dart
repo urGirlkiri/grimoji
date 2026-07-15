@@ -17,7 +17,7 @@ class BuyRow extends StatelessWidget {
   final Powerup boost;
   final int qty;
   final ProfileController profile;
-  final VoidCallback onTap;
+  final Future<void> Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
