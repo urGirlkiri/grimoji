@@ -19,16 +19,19 @@ class LevelDataController extends ChangeNotifier {
 
   int? autoOpenLvl;
   GameEmoji? unlockedEmoji;
+  String? unlockedRecipeId;
 
-  void triggerAutoOpenLevel(int level, GameEmoji? emoji) {
+  void triggerAutoOpenLevel(int level, GameEmoji? emoji, {String? recipeId}) {
     autoOpenLvl = level;
     unlockedEmoji = emoji;
+    unlockedRecipeId = recipeId;
     notifyListeners();
   }
 
   void clearAutoOpenLevel() {
     autoOpenLvl = null;
     unlockedEmoji = null;
+    unlockedRecipeId = null;
   }
 
   LevelDataController({LevelDataPersistence? store})

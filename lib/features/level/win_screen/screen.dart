@@ -47,6 +47,7 @@ class _WinGameScreenState extends State<WinGameScreen> {
         if (!context.readProfile.isRecipeUnlocked(recipe.id)) {
           _isNewUnlock = true;
           context.readProfile.unlockRecipe(recipe.id);
+          context.readProfile.stageRecipeCollection(recipe.id);
         }
       }
 
@@ -63,10 +64,15 @@ class _WinGameScreenState extends State<WinGameScreen> {
     final hasNextLevel = gameLevels.any((l) => l.number == nextLevelNumber);
 
     final level = gameLevels.firstWhere((l) => l.number == widget.level);
+    final recipe = RecipeBook.allRecipes.cast<Recipe?>().firstWhere(
+      (r) => r!.yields == level.targetEmoji,
+      orElse: () => null,
+    );
 
     context.read<LevelDataController>().triggerAutoOpenLevel(
       nextLevelNumber,
       _isNewUnlock ? level.targetEmoji : null,
+      recipeId: _isNewUnlock ? recipe?.id : null,
     );
 
     if (hasNextLevel) {

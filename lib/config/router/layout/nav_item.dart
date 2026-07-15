@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/config/router/layout/animated_count.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/utils/context_data.dart';
 
@@ -21,7 +22,8 @@ class NavItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final profile = context.watchProfile;
-    final hasUnread = isGrim && profile.unreadRecipeCount > 0;
+    final displayCount = isGrim ? profile.displayUnreadRecipeCount : 0;
+    final hasUnread = displayCount > 0;
 
     final scale = hasUnread ? 1.0 : 0.0;
 
@@ -61,13 +63,8 @@ class NavItem extends StatelessWidget {
                         color: context.palette.crimson,
                         shape: BoxShape.circle,
                       ),
-                      child: Text(
-                        profile.unreadRecipeCount.toString(),
-                        style: context.theme.textTheme.labelMedium?.copyWith(
-                          color: context.palette.trueWhite,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      child: AnimatedCount(
+                        count: displayCount,
                       ),
                     ),
                   ),

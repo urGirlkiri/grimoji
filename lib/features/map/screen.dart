@@ -109,6 +109,7 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
     _pendingAutoOpen = true;
     final levelNum = levelData.autoOpenLvl!;
     final unlockedEmoji = levelData.unlockedEmoji;
+    final unlockedRecipeId = levelData.unlockedRecipeId;
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<LevelDataController>().clearAutoOpenLevel();
@@ -137,6 +138,9 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
             onComplete: () {
               if (mounted) {
                 context.readAudio.playSfx(SfxType.recipeCollection);
+                if (unlockedRecipeId != null) {
+                  context.readProfile.completeRecipeCollection(unlockedRecipeId);
+                }
               }
               Future.delayed(const Duration(milliseconds: 200), () {
                 showLevelDialog();

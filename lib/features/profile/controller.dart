@@ -33,6 +33,26 @@ class ProfileController extends ChangeNotifier {
   List<String> get unreadRecipeIds => _profile?.unreadRecipeIds ?? [];
   int get unreadRecipeCount => _profile?.unreadRecipeIds.length ?? 0;
 
+  final Set<String> _pendingRecipeCollections = {};
+
+  int get displayUnreadRecipeCount {
+    final pendingInUnread = _pendingRecipeCollections
+        .where(unreadRecipeIds.contains)
+        .length;
+    return (unreadRecipeCount - pendingInUnread).clamp(0, unreadRecipeCount);
+  }
+
+  void stageRecipeCollection(String recipeId) {
+    _pendingRecipeCollections.add(recipeId);
+    notifyListeners();
+  }
+
+  void completeRecipeCollection(String recipeId) {
+    if (_pendingRecipeCollections.remove(recipeId)) {
+      notifyListeners();
+    }
+  }
+
   bool isRecipeUnlocked(String id) =>
       _profile?.unlockedRecipeIds.contains(id) ?? false;
   bool isRecipeUnread(String id) =>
