@@ -198,6 +198,7 @@ class LevelState extends ChangeNotifier {
     _log.fine('Starting tile selection for powerup=${powerup.id}');
     _selectedPowerup = powerup;
     _powerupSelectionCompleter = Completer<TileCoordinate>();
+    coordinator.clearHint();
     notifyListeners();
     return _powerupSelectionCompleter!.future;
   }
@@ -296,6 +297,7 @@ class LevelState extends ChangeNotifier {
     _powerupSelectionCompleter?.completeError('Cancelled');
     _powerupSelectionCompleter = null;
     _selectedPowerup = null;
+    coordinator.resetHintTimer();
     notifyListeners();
   }
 

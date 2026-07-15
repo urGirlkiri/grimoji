@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fake_async/fake_async.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/levels/game_level.dart';
+import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
@@ -446,6 +449,43 @@ void main() {
 
         lifecycleNotifier.value = AppLifecycleState.resumed;
         expect(state.gameState.isPaused, isFalse);
+      });
+    });
+
+    test('Should clear hints when starting powerup selection', () {
+      fakeAsync((async) {
+        final state = LevelState(
+          level: level,
+          onWin: (_) {},
+          onLose: () {},
+          audio: mockAudio,
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(
+            AppLifecycleState.resumed,
+          ),
+          startingBoosters: ['crystal_ball'],
+        );
+
+        state.startLevel();
+        async.elapse(fallDuration);
+
+        state.engine.grid[0][0].isHinting = true;
+        state.engine.grid[0][1].isHinting = true;
+        state.engine.grid[0][0].hintPartner =
+            state.engine.grid[0][1].coordinate;
+        state.engine.grid[0][1].hintPartner =
+            state.engine.grid[0][0].coordinate;
+
+        expect(state.isPowerupSelecting, isFalse);
+
+        final powerup = Powerup.byId('boxing_glove')!;
+        unawaited(state.awaitPowerupTile(powerup));
+
+        expect(state.isPowerupSelecting, isTrue);
+        expect(
+          state.engine.grid.any((row) => row.any((tile) => tile.isHinting)),
+          isFalse,
+          reason: 'Hints should be cleared when powerup selection starts',
+        );
       });
     });
   });
