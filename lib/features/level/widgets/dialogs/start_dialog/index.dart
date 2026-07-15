@@ -36,118 +36,111 @@ class _LevelStartDialogState extends State<LevelStartDialog> {
       insetPadding: const EdgeInsets.all(0),
       child: ScrollDialog(
         rightButton: const CorkScrewCloseButton(),
-        child: ScrollConfiguration(
-          behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Level ${widget.level.number}",
-                  textAlign: TextAlign.center,
-                  style: context.theme.textTheme.headlineLarge?.copyWith(
-                    color: palette.midnight,
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
-                  ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Level ${widget.level.number}",
+                textAlign: TextAlign.center,
+                style: context.theme.textTheme.headlineLarge?.copyWith(
+                  color: palette.midnight,
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
                 ),
-                const SizedBox(height: 16),
-                EmojiWidget.lottie(
-                  path: widget.level.targetEmoji.lottie,
-                  useDropShadow: true,
-                  size: 100,
+              ),
+              const SizedBox(height: 16),
+              EmojiWidget.lottie(
+                path: widget.level.targetEmoji.lottie,
+                useDropShadow: true,
+                size: 100,
+              ),
+              const SizedBox(height: 24),
+
+              Text(
+                "Select Boosters:",
+                style: context.theme.textTheme.titleMedium?.copyWith(
+                  color: palette.mist,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 1.5,
                 ),
-                const SizedBox(height: 24),
+              ),
+              const SizedBox(height: 50),
 
-                Text(
-                  "Select Boosters:",
-                  style: context.theme.textTheme.titleMedium?.copyWith(
-                    color: palette.mist,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 1.5,
-                  ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 4.0 * context.globalScale,
                 ),
-                const SizedBox(height: 50),
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: 16,
+                  runSpacing: 16,
+                  children: prelevelItems.map((item) {
+                    final count = profile.getPowerupCount(item.id);
+                    final hasInventory = count > 0;
+                    final isSelected = _selectedPowerupIds.contains(item.id);
 
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 4.0 * context.globalScale,
-                  ),
-                  child: SingleChildScrollView(
-                    child: Wrap(
-                      alignment: WrapAlignment.center,
-                      spacing: 16,
-                      runSpacing: 16,
-                      children: prelevelItems.map((item) {
-                        final count = profile.getPowerupCount(item.id);
-                        final hasInventory = count > 0;
-                        final isSelected = _selectedPowerupIds.contains(
-                          item.id,
-                        );
-
-                        return BoosterButton(
-                          item: item,
-                          count: count,
-                          isSelected: isSelected,
-                          onTap: () async {
-                            if (!hasInventory) {
-                              final purchased = await showBoostPurchase(
-                                context,
-                                item,
-                              );
-                              if (purchased == null) {
-                                if (!context.mounted) return;
-                                Navigator.of(context).pop();
-                                return;
-                              }
-                              if (purchased == true) {
-                                setState(() {
-                                  _selectedPowerupIds.add(item.id);
-                                });
-                              }
-                              return;
-                            }
-
+                    return BoosterButton(
+                      item: item,
+                      count: count,
+                      isSelected: isSelected,
+                      onTap: () async {
+                        if (!hasInventory) {
+                          final purchased = await showBoostPurchase(
+                            context,
+                            item,
+                          );
+                          if (purchased == null) {
+                            if (!context.mounted) return;
+                            Navigator.of(context).pop();
+                            return;
+                          }
+                          if (purchased == true) {
                             setState(() {
-                              if (isSelected) {
-                                _selectedPowerupIds.remove(item.id);
-                              } else {
-                                _selectedPowerupIds.add(item.id);
-                              }
+                              _selectedPowerupIds.add(item.id);
                             });
-                          },
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 32),
+                          }
+                          return;
+                        }
 
-                PillButton(
-                  text: "MIX IT",
-                  color: palette.twilight,
-                  textColor: palette.mist,
-                  fullWidth: false,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 32,
-                    vertical: 12,
-                  ),
-                  borderRadius: 20,
-                  borderColor: palette.twilight,
-                  borderWidth: 3,
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    GoRouter.of(context).replaceNamed(
-                      Routes.levelHint,
-                      pathParameters: {'level': widget.level.number.toString()},
-                      extra: {'startingBoosters': _selectedPowerupIds.toList()},
+                        setState(() {
+                          if (isSelected) {
+                            _selectedPowerupIds.remove(item.id);
+                          } else {
+                            _selectedPowerupIds.add(item.id);
+                          }
+                        });
+                      },
                     );
-                  },
+                  }).toList(),
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 32),
+
+              PillButton(
+                text: "MIX IT",
+                color: palette.twilight,
+                textColor: palette.mist,
+                fullWidth: false,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 12,
+                ),
+                borderRadius: 20,
+                borderColor: palette.twilight,
+                borderWidth: 3,
+                onTap: () {
+                  Navigator.of(context).pop();
+                  GoRouter.of(context).replaceNamed(
+                    Routes.levelHint,
+                    pathParameters: {'level': widget.level.number.toString()},
+                    extra: {'startingBoosters': _selectedPowerupIds.toList()},
+                  );
+                },
+              ),
+            ],
           ),
         ),
       ),
