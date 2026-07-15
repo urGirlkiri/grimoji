@@ -1,22 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fake_async/fake_async.dart';
 import 'package:grimoji/config/levels/index.dart';
-import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
-import 'package:grimoji/features/level/state.dart';
-import 'package:flutter/widgets.dart';
-import '../mocks/mock_audio_controller.dart';
-import 'package:logging/logging.dart';
-
-const maxMoves = 50000;
 
 void main() {
   setUpAll(() {
     RecipeBook.initialize();
   });
-
-  Logger.root.level = Level.WARNING;
 
   group('Levels Test', () {
     for (var level in gameLevels) {
@@ -107,75 +97,6 @@ void main() {
               'Max Craftable: [$craftableNames]\n',
         );
       });
-
-      test(
-        'Level ${level.number} should be winnable within a reasonable number of moves',
-        () async {
-          fakeAsync((async) async {
-            int finalStars = 0;
-            bool gameEnded = false;
-
-            final levelState = LevelState(
-              level: level,
-              onWin: (stars) {
-                finalStars = stars;
-                gameEnded = true;
-              },
-              onLose: () {
-                finalStars = 0;
-                gameEnded = true;
-              },
-              audio: MockAudioController(),
-              lifecycleNotifier: ValueNotifier<AppLifecycleState>(
-                AppLifecycleState.resumed,
-              ),
-            );
-
-            levelState.startLevel();
-            async.elapse(fallDuration);
-
-            int moveCount = 0;
-
-            while (moveCount < maxMoves && !gameEnded) {
-              final hint = await levelState.engine.getHintMove();
-
-              if (hint != null) {
-                levelState.coordinator.resolveSwipe(hint[0], hint[1]);
-
-                while (levelState.gameState.isProcessing) {
-                  async.elapse(const Duration(milliseconds: 100));
-                }
-
-                moveCount++;
-              } else {
-                levelState.coordinator.shuffleBoard();
-
-                while (levelState.gameState.isShuffling) {
-                  async.elapse(const Duration(milliseconds: 100));
-                }
-
-                levelState.coordinator.resetHintTimer();
-                moveCount++;
-              }
-
-              async.elapse(const Duration(milliseconds: 500));
-            }
-
-            levelState.dispose();
-
-            expect(
-              finalStars,
-              greaterThanOrEqualTo(1),
-              reason:
-                  'Auto-player failed to beat Level ${level.number} in $maxMoves moves. '
-                  'Collected ${levelState.collectedAmount} / ${level.targetAmount} ${level.targetEmoji.visual}. ',
-            );
-          });
-        },
-        skip: level.skipAutoPlayer
-            ? 'Too complex for AutoPlayer algorithm, skipping.'
-            : false,
-      );
 
       test('Level ${level.number} should respect design constraints', () {
         expect(

@@ -14,4 +14,6 @@ final List<Recipe> chapter1Recipes = [
   Recipe(ingredient: Emojis.bone, requiredAmount: 4, yields: Emojis.skull),
 
   Recipe(ingredient: Emojis.bandagedHeart, requiredAmount: 4, yields: Emojis.anatomicalHeart),
+  
+  Recipe(ingredient: Emojis.sparkles, requiredAmount: 4, yields: Emojis.crystalBall),
 ];
