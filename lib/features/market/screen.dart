@@ -65,19 +65,40 @@ class MarketScreen extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(bottom: 16 * scale),
                 child: PillButton(
-                  text: 'Add +1000 Dice',
+                  text: 'Trigger Daily Claim Notification',
                   color: context.palette.crimson.withValues(alpha: 0.25),
                   textColor: context.palette.crimson,
                   borderWidth: 1,
-                  onTap: () {
+                  onTap: () async {
                     playPurchaseSfx(context);
-                    context.readProfile.addDice(1000);
-                    _showSnackbar(context, '+1000 dice', isError: false);
+                    final reminder = context.readDailyClaimReminder;
+                    final granted = await reminder.requestPermission();
+                    if (!context.mounted) return;
+                    if (!granted) {
+                      _showSnackbar(
+                        context,
+                        'Notification permission denied',
+                        isError: true,
+                      );
+                      return;
+                    }
+                    await reminder.scheduleTestReminder(
+                      const Duration(seconds: 1),
+                    );
+                    await reminder.showDailyClaimNotification();
+                    if (!context.mounted) return;
+                    _showSnackbar(
+                      context,
+                      'Test notification shown and scheduled in 1s',
+                      isError: false,
+                    );
                   },
                 ),
               ),
             GestureDetector(
-              onDoubleTap: () {context.readProfile.addDice(1000);},
+              onDoubleTap: () {
+                context.readProfile.addDice(1000);
+              },
               child: Text(
                 "Daily Offerings",
                 style: context.theme.textTheme.titleMedium?.copyWith(

@@ -61,8 +61,15 @@ class _RewardTickerState extends State<RewardTicker> {
     return CardContent(
       canClaim: widget.canClaim,
       timeUntil: timeUntil,
-      onClaimPressed: () {
+      onClaimPressed: () async {
+        final isFirstClaim = profile.lastDailyClaimTime == 0;
         profile.claimDailyReward();
+        if (isFirstClaim) {
+          final reminder = context.readDailyClaimReminder;
+          await reminder.requestPermission();
+          await reminder.rescheduleFromProfile(profile);
+        }
+        if (!context.mounted) return;
         _showSnackBar(context, "Claimed +15 Dices!");
       },
       onLockedPressed: (String timeInTxt) {
