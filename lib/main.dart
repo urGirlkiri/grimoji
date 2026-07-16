@@ -8,7 +8,11 @@ import 'package:flutter_performance_optimizer/flutter_performance_optimizer.dart
 import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/features/profile/models/profile_data.dart';
 import 'package:grimoji/features/profile/persistance/hive.dart';
+import 'package:grimoji/features/settings/controller.dart';
 import 'package:grimoji/app/index.dart';
+import 'package:grimoji/config/router/index.dart';
+import 'package:grimoji/config/router/routes.dart';
+import 'package:grimoji/services/notifications/daily_claim.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logging/logging.dart';
 
@@ -48,10 +52,37 @@ void main() async {
   await Hive.openBox<ProfileData>('player_profile');
 
   final persistence = HiveProfilePersistence();
-  final profileController = ProfileController(persistence: persistence);
+  final settingsController = SettingsController();
+  await settingsController.initialized;
+
+  final reminder = DailyClaimReminder();
+  await reminder.initialize(
+    onTapPayload: (payload) {
+      if (payload == Routes.marketRoute) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          router.go(Routes.marketRoute);
+        });
+      }
+    },
+  );
+
+  final profileController = ProfileController(
+    persistence: persistence,
+    onDailyClaim: (nextClaimTime) {
+      if (settingsController.dailyClaimReminderOn.value) {
+        reminder.scheduleReminder(nextClaimTime);
+      } else {
+        reminder.cancelReminder();
+      }
+    },
+  );
 
   await profileController.load();
   profileController.checkCauldronRegen();
+
+  if (settingsController.dailyClaimReminderOn.value) {
+    await reminder.rescheduleFromProfile(profileController);
+  }
 
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   await SystemChrome.setPreferredOrientations([
@@ -67,5 +98,15 @@ void main() async {
     AISuggestionService.instance.apiKey = dotenv.env['GEMINI_API_KEY'];
   }
 
-  runApp(Grimoji(profileController: profileController));
+  runApp(
+    Grimoji(
+      profileController: profileController,
+      settingsController: settingsController,
+      dailyClaimReminder: reminder,
+    ),
+  );
+
+  WidgetsBinding.instance.addPostFrameCallback((_) async {
+    await reminder.handleLaunchNotification();
+  });
 }

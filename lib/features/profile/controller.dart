@@ -5,14 +5,18 @@ import 'package:logging/logging.dart';
 
 class ProfileController extends ChangeNotifier {
   final ProfilePersistence _persistence;
+  final void Function(DateTime nextClaimTime)? _onDailyClaim;
   final Logger _log = Logger('ProfileController');
   static const int _maxCauldrons = 5;
   static const Duration _regenDuration = Duration(hours: 1);
   int _profileVersion = 0;
   ProfileData? _profile;
 
-  ProfileController({required ProfilePersistence persistence})
-    : _persistence = persistence;
+  ProfileController({
+    required ProfilePersistence persistence,
+    void Function(DateTime nextClaimTime)? onDailyClaim,
+  }) : _persistence = persistence,
+       _onDailyClaim = onDailyClaim;
 
   Future<void> load() async {
     _log.info('Loading data...');
@@ -218,6 +222,11 @@ class ProfileController extends ChangeNotifier {
       _profile!.hasClaimedDaily = true;
       _profile!.lastDailyClaimTime = DateTime.now().millisecondsSinceEpoch;
       addDice(15);
+      _onDailyClaim?.call(
+        DateTime.fromMillisecondsSinceEpoch(
+          _profile!.lastDailyClaimTime,
+        ).add(const Duration(hours: 24)),
+      );
     }
   }
 

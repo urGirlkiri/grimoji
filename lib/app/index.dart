@@ -7,13 +7,22 @@ import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/features/settings/controller.dart';
+import 'package:grimoji/services/notifications/daily_claim.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_performance_optimizer/flutter_performance_optimizer.dart';
 
 class Grimoji extends StatelessWidget {
   final ProfileController profileController;
-  const Grimoji({super.key, required this.profileController});
+  final SettingsController settingsController;
+  final DailyClaimReminder dailyClaimReminder;
+
+  const Grimoji({
+    super.key,
+    required this.profileController,
+    required this.settingsController,
+    required this.dailyClaimReminder,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +31,8 @@ class Grimoji extends StatelessWidget {
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider.value(value: profileController),
-          Provider(create: (context) => SettingsController()),
+          Provider.value(value: settingsController),
+          Provider.value(value: dailyClaimReminder),
           Provider(create: (context) => Palette()),
           ChangeNotifierProvider(create: (context) => LevelDataController()),
           ProxyProvider2<

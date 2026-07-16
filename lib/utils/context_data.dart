@@ -3,6 +3,7 @@ import 'package:grimoji/app/palette.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/features/settings/controller.dart';
+import 'package:grimoji/services/notifications/daily_claim.dart';
 import 'package:provider/provider.dart';
 
 extension ContextData on BuildContext {
@@ -22,4 +23,6 @@ extension ContextData on BuildContext {
 
   AudioController get readAudio => read<AudioController>();
   AudioController get watchAudio => watch<AudioController>();
+
+  DailyClaimReminder get readDailyClaimReminder => read<DailyClaimReminder>();
 }

@@ -83,4 +83,27 @@ void main() {
       },
     );
   });
+
+  group('Daily Claim Reminder', () {
+    test('should invoke callback with next claim time when claiming', () async {
+      final persistence = _FakeProfilePersistence();
+      DateTime? capturedNextClaimTime;
+      final controller = ProfileController(
+        persistence: persistence,
+        onDailyClaim: (nextClaimTime) {
+          capturedNextClaimTime = nextClaimTime;
+        },
+      );
+      await controller.load();
+
+      final beforeClaim = DateTime.now();
+      controller.claimDailyReward();
+
+      expect(capturedNextClaimTime, isNotNull);
+      expect(
+        capturedNextClaimTime!.difference(beforeClaim),
+        greaterThanOrEqualTo(const Duration(hours: 23, minutes: 59)),
+      );
+    });
+  });
 }
