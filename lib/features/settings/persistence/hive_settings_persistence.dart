@@ -31,6 +31,10 @@ class HiveSettingsPersistence extends SettingsPersistence {
       _currentData.musicVolume;
 
   @override
+  Future<bool> getDailyClaimReminderOn({required bool defaultValue}) async =>
+      _currentData.dailyClaimReminderOn;
+
+  @override
   Future<void> saveAudioOn(bool value) async {
     await _box.put('settings', _currentData.copyWith(audioOn: value));
   }
@@ -56,12 +60,21 @@ class HiveSettingsPersistence extends SettingsPersistence {
   }
 
   @override
+  Future<void> saveDailyClaimReminderOn(bool value) async {
+    await _box.put(
+      'settings',
+      _currentData.copyWith(dailyClaimReminderOn: value),
+    );
+  }
+
+  @override
   Future<void> saveAllSettings({
     bool? audioOn,
     bool? soundsOn,
     bool? musicOn,
     double? sfxVolume,
     double? musicVolume,
+    bool? dailyClaimReminderOn,
   }) async {
     final current = _currentData;
     await _box.put(
@@ -72,6 +85,7 @@ class HiveSettingsPersistence extends SettingsPersistence {
         musicOn: musicOn,
         sfxVolume: sfxVolume,
         musicVolume: musicVolume,
+        dailyClaimReminderOn: dailyClaimReminderOn,
       ),
     );
   }

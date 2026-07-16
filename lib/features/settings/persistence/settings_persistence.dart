@@ -14,6 +14,8 @@ abstract class SettingsPersistence {
 
   Future<double> getMusicVolume({required double defaultValue});
 
+  Future<bool> getDailyClaimReminderOn({required bool defaultValue});
+
   Future<void> saveAudioOn(bool value);
 
   Future<void> saveMusicOn(bool value);
@@ -24,11 +26,14 @@ abstract class SettingsPersistence {
 
   Future<void> saveMusicVolume(double value);
 
+  Future<void> saveDailyClaimReminderOn(bool value);
+
   Future<void> saveAllSettings({
     bool? audioOn,
     bool? soundsOn,
     bool? musicOn,
     double? sfxVolume,
     double? musicVolume,
+    bool? dailyClaimReminderOn,
   });
 }

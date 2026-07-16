@@ -28,6 +28,8 @@ class SettingsController {
 
   ValueNotifier<double> musicVolume = ValueNotifier(0.4);
 
+  ValueNotifier<bool> dailyClaimReminderOn = ValueNotifier(true);
+
   /// Creates a new instance of [SettingsController] backed by [store].
   ///
   /// By default, settings are persisted using [HiveSettingsPersistence].
@@ -77,6 +79,11 @@ class SettingsController {
     _store.saveMusicVolume(value);
   }
 
+  void toggleDailyClaimReminderOn() {
+    dailyClaimReminderOn.value = !dailyClaimReminderOn.value;
+    _store.saveDailyClaimReminderOn(dailyClaimReminderOn.value);
+  }
+
   /// Asynchronously loads values from the injected persistence store.
   Future<void> _loadStateFromPersistence() async {
     final loadedValues = await Future.wait([
@@ -101,6 +108,9 @@ class SettingsController {
       _store
           .getMusicVolume(defaultValue: 0.4)
           .then((value) => musicVolume.value = value),
+      _store
+          .getDailyClaimReminderOn(defaultValue: true)
+          .then((value) => dailyClaimReminderOn.value = value),
     ]);
 
     _log.fine(() => 'Loaded settings: $loadedValues');

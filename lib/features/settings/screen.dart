@@ -158,6 +158,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           settings.audioOn,
                           settings.sfxVolume,
                           settings.musicVolume,
+                          settings.dailyClaimReminderOn,
                         ]),
                         builder: (context, child) {
                           return Column(
@@ -180,6 +181,48 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         settings.audioOn.value)
                                     ? (val) => settings.setMusicVolume(val)
                                     : null,
+                              ),
+                              const SizedBox(height: 16),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Daily Claim Reminder',
+                                      style: GoogleFonts.eagleLake(
+                                        color: context.palette.midnight,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Switch(
+                                      value:
+                                          settings.dailyClaimReminderOn.value,
+                                      onChanged: (_) async {
+                                        settings.toggleDailyClaimReminderOn();
+                                        final reminder =
+                                            context.readDailyClaimReminder;
+                                        final profile = context.readProfile;
+                                        if (settings
+                                            .dailyClaimReminderOn
+                                            .value) {
+                                          await reminder.requestPermission();
+                                          await reminder.rescheduleFromProfile(
+                                            profile,
+                                          );
+                                        } else {
+                                          await reminder.cancelReminder();
+                                        }
+                                      },
+                                      activeTrackColor: palette.mist,
+                                      activeThumbColor: palette.midnight,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           );
