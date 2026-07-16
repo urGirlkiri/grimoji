@@ -54,9 +54,15 @@ class DailyClaimReminder {
     );
   }
 
-  Future<bool> requestPermission() => _service.requestPermission();
+  Future<bool> requestPermission() async {
+    if (_isLinuxFallback) return true;
+    return _service.requestPermission();
+  }
 
-  Future<bool> areNotificationsEnabled() => _service.areNotificationsEnabled();
+  Future<bool> areNotificationsEnabled() async {
+    if (_isLinuxFallback) return true;
+    return _service.areNotificationsEnabled();
+  }
 
   Future<void> showDailyClaimNotification() async {
     await _service.show(
