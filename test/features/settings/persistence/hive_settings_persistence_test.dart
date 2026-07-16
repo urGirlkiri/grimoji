@@ -52,19 +52,31 @@ void main() {
         await persistence.saveSoundsOn(true);
         await persistence.saveSfxVolume(0.8);
         await persistence.saveMusicVolume(1.0);
+        await persistence.saveDailyClaimReminderOn(false);
 
         final audioOn = await persistence.getAudioOn(defaultValue: true);
         final musicOn = await persistence.getMusicOn(defaultValue: true);
         final soundsOn = await persistence.getSoundsOn(defaultValue: true);
         final sfxVol = await persistence.getSfxVolume(defaultValue: 1.0);
         final musicVol = await persistence.getMusicVolume(defaultValue: 1.0);
+        final dailyClaimReminderOn = await persistence.getDailyClaimReminderOn(
+          defaultValue: true,
+        );
 
         expect(audioOn, isFalse);
         expect(musicOn, isTrue);
         expect(soundsOn, isTrue);
         expect(sfxVol, 0.8);
         expect(musicVol, 1.0);
+        expect(dailyClaimReminderOn, isFalse);
       },
     );
+
+    test('should default daily claim reminder to true when unset', () async {
+      final dailyClaimReminderOn = await persistence.getDailyClaimReminderOn(
+        defaultValue: true,
+      );
+      expect(dailyClaimReminderOn, isTrue);
+    });
   });
 }
