@@ -204,79 +204,73 @@ void main() {
       });
     });
 
-    test(
-      'Black hole should auto trigger during fever',
-      () {
-        fakeAsync((async) {
-          levelState = LevelState(
-            level: level,
-            onWin: (_) {},
-            onLose: () {},
-            audio: mockAudio,
-            lifecycleNotifier: ValueNotifier<AppLifecycleState>(
-              AppLifecycleState.resumed,
-            ),
-          );
+    test('Black hole should auto trigger during fever', () {
+      fakeAsync((async) {
+        levelState = LevelState(
+          level: level,
+          onWin: (_) {},
+          onLose: () {},
+          audio: mockAudio,
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(
+            AppLifecycleState.resumed,
+          ),
+        );
 
-          levelState.startLevel();
-          async.elapse(fallDuration);
+        levelState.startLevel();
+        async.elapse(fallDuration);
 
-          TestHelpers.genDeadLockGrid(levelState.engine);
-          levelState.engine.initializeBehaviors();
+        TestHelpers.genDeadLockGrid(levelState.engine);
+        levelState.engine.initializeBehaviors();
 
-          levelState.engine.grid[0][0].emoji = Emojis.hole;
-          levelState.engine.grid[0][1].emoji = Emojis.fire;
-          levelState.engine.grid[1][0].emoji = Emojis.fire;
-          levelState.engine.grid[0][2].emoji = Emojis.bomb;
+        levelState.engine.grid[0][0].emoji = Emojis.hole;
+        levelState.engine.grid[0][1].emoji = Emojis.fire;
+        levelState.engine.grid[1][0].emoji = Emojis.fire;
+        levelState.engine.grid[0][2].emoji = Emojis.bomb;
 
-          unawaited(levelState.coordinator.executeFeverSequence(0, () {}));
-          async.elapse(const Duration(seconds: 2));
+        unawaited(levelState.coordinator.executeFeverSequence(0, () {}));
+        async.elapse(const Duration(seconds: 2));
 
-          expect(levelState.engine.grid[0][0].emoji, isNot(Emojis.hole));
-          expect(
-            levelState.engine.grid.any(
-              (row) => row.any((tile) => tile.emoji == Emojis.bomb),
-            ),
-            isTrue,
-          );
-          expect(levelState.gameState.isGameOver, isTrue);
-        });
-      },
-    );
+        expect(levelState.engine.grid[0][0].emoji, isNot(Emojis.hole));
+        expect(
+          levelState.engine.grid.any(
+            (row) => row.any((tile) => tile.emoji == Emojis.bomb),
+          ),
+          isTrue,
+        );
+        expect(levelState.gameState.isGameOver, isTrue);
+      });
+    });
 
-    test(
-      'Barber pole should auto trigger during fever',
-      () {
-        fakeAsync((async) {
-          levelState = LevelState(
-            level: level,
-            onWin: (_) {},
-            onLose: () {},
-            audio: mockAudio,
-            lifecycleNotifier: ValueNotifier<AppLifecycleState>(
-              AppLifecycleState.resumed,
-            ),
-          );
+    test('Barber pole should auto trigger during fever', () {
+      fakeAsync((async) {
+        levelState = LevelState(
+          level: level,
+          onWin: (_) {},
+          onLose: () {},
+          audio: mockAudio,
+          lifecycleNotifier: ValueNotifier<AppLifecycleState>(
+            AppLifecycleState.resumed,
+          ),
+        );
 
-          levelState.startLevel();
-          async.elapse(fallDuration);
+        levelState.startLevel();
+        async.elapse(fallDuration);
 
-          TestHelpers.genDeadLockGrid(levelState.engine);
-          levelState.engine.initializeBehaviors();
+        TestHelpers.genDeadLockGrid(levelState.engine);
+        levelState.engine.initializeBehaviors();
 
-          levelState.engine.grid[0][0].emoji = Emojis.barberPole;
-          levelState.engine.grid[0][0].behavior = ClearBehavior(
-            isHorizontal: true,
-          );
+        levelState.engine.grid[0][0].emoji = Emojis.barberPole;
+        levelState.engine.grid[0][0].behavior = ClearBehavior(
+          isHorizontal: true,
+        );
 
-          unawaited(levelState.coordinator.executeFeverSequence(0, () {}));
-          async.elapse(const Duration(seconds: 2));
+        unawaited(levelState.coordinator.executeFeverSequence(0, () {}));
+        async.elapse(const Duration(seconds: 2));
 
-          expect(levelState.engine.grid[0][0].emoji, isNot(Emojis.barberPole));
-          expect(levelState.gameState.isGameOver, isTrue);
-        });
-      },
-    );
+        expect(levelState.engine.grid[0][0].emoji, isNot(Emojis.barberPole));
+        expect(levelState.gameState.isGameOver, isTrue);
+      });
+    });
 
     test('Wheel should auto trigger during fever', () {
       fakeAsync((async) {
@@ -313,7 +307,7 @@ void main() {
     });
 
     test(
-      'Ghosts should auto trigger during fever with sequential dive animations',
+      'Ghosts should auto trigger during fever with simultaneous dive animations',
       () async {
         final ghostLevel = GameLevel(
           number: 1,

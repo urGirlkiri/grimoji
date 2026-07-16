@@ -481,16 +481,16 @@ class GameCoordinator {
         return (destroyed: destroyed, newBombs: newBombs);
       }
 
-      await Future.wait(dives.map((d) => d.animation ?? Future.value()));
-      if (state.isDisposed) return (destroyed: destroyed, newBombs: newBombs);
+      for (final d in dives) {
+        if (d.animation != null) {
+          await d.animation;
+        }
+        if (state.isDisposed) return (destroyed: destroyed, newBombs: newBombs);
 
-      if (kDebugMode) {
-        for (final d in dives) {
+        if (kDebugMode) {
           engine.grid[d.target.row][d.target.col].isGhostTarget = false;
         }
-      }
 
-      for (final d in dives) {
         _finalizeGhostDive(
           trigger: (
             origin: d.origin,
@@ -601,7 +601,11 @@ class GameCoordinator {
     final triggers = _handleGhostTriggers();
     if (triggers.isEmpty) return;
 
-    final result = await _handleGhostDive(triggers, excluded: excluded);
+    final result = await _handleGhostDive(
+      triggers,
+      excluded: excluded,
+      simultaneous: true,
+    );
     if (state.isDisposed) return;
 
     await _handleGhostSettlement(result.destroyed, result.newBombs);
