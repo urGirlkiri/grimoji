@@ -101,7 +101,7 @@ class ScrollDialog extends StatelessWidget {
           ),
           Positioned.fill(
             child: Padding(
-              padding: const EdgeInsets.only(top: 12.0, bottom: 12),
+              padding: const EdgeInsets.only(top: 12.0, bottom: 24, left: 20, right:  20),
               child: ClipRect(
                 child: LayoutBuilder(
                   builder: (context, constraints) {
