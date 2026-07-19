@@ -137,6 +137,7 @@ class RecipeBook {
   }
 
   static List<Recipe> get specialRecipes {
+    _ensureInitialized();
     if (_specialRecipesCache != null) return _specialRecipesCache!;
 
     final specialEmojis = <GameEmoji>{Emojis.ghost, Emojis.bomb, Emojis.hole};
