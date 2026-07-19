@@ -1,8 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/levels/index.dart';
+import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 import 'package:grimoji/features/level/controller.dart';
@@ -66,11 +68,11 @@ class _LevelHintScreenState extends State<LevelHintScreen> {
     await Future.delayed(Duration(milliseconds: delay));
     if (!mounted) return;
 
-    // context.replaceNamed(
-    //   Routes.levelPlay,
-    //   pathParameters: {'level': widget.level.toString()},
-    //   extra: {'startingBoosters': widget.startingBoosters},
-    // );
+    context.replaceNamed(
+      Routes.levelPlay,
+      pathParameters: {'level': widget.level.toString()},
+      extra: {'startingBoosters': widget.startingBoosters},
+    );
   }
 
   ShapeType _recipeShape(Recipe recipe) {
@@ -126,25 +128,28 @@ class _LevelHintScreenState extends State<LevelHintScreen> {
                 ),
                 const SizedBox(height: 100),
                 Padding(
-                  padding: const EdgeInsets.only(left: 40.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      MatchShape(shape: shape, recipe: _recipe!),
-                      const SizedBox(width: 16),
-                      Icon(
-                        Icons.double_arrow_rounded,
-                        color: palette.magicCyan,
-                        size: 32 * scale,
-                      ),
-                      const SizedBox(width: 16),
-                      EmojiWidget.lottie(
-                        path: _recipe!.yields.lottie,
-                        useDropShadow: true,
-                        size: 80 * scale,
-                      ),
-                    ],
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MatchShape(shape: shape, recipe: _recipe!),
+                        const SizedBox(width: 16),
+                        Icon(
+                          Icons.double_arrow_rounded,
+                          color: palette.magicCyan,
+                          size: 32 * scale,
+                        ),
+                        const SizedBox(width: 16),
+                        EmojiWidget.lottie(
+                          path: _recipe!.yields.lottie,
+                          useDropShadow: true,
+                          size: 80 * scale,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 40),

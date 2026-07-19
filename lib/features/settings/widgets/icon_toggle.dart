@@ -19,8 +19,8 @@ class IconToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 100,
-      height: 125,
+      width: 110,
+      height: 130,
       child: Column(
         children: [
           AppIcon(
