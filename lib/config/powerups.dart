@@ -96,7 +96,7 @@ class Powerup {
       id: 'blood',
       name: 'Immortal Blood',
       iconPath: Emojis.blood.svg,
-      description: 'Converts the emoji its dropped on into barbed poles.',
+      description: 'Converts the emoji its dropped on into barber pole.',
       price: 30,
     ),
     Powerup(
