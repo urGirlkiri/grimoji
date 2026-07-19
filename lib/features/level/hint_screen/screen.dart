@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/levels/index.dart';
@@ -25,8 +27,9 @@ class LevelHintScreen extends StatefulWidget {
 }
 
 class _LevelHintScreenState extends State<LevelHintScreen> {
-  bool _showTutorial = false;
-  Recipe? _tutorialRecipe;
+  Recipe? _recipe;
+  bool _isTargetRecipe = false;
+  static const delay = Duration(milliseconds: 1500);
 
   @override
   void initState() {
@@ -40,22 +43,26 @@ class _LevelHintScreenState extends State<LevelHintScreen> {
     final controller = context.read<LevelDataController>();
     final currentLevel = gameLevels[widget.level - 1];
 
-    _tutorialRecipe = RecipeBook.allRecipes.cast<Recipe?>().firstWhere(
+    _recipe = RecipeBook.allRecipes.cast<Recipe?>().firstWhere(
       (r) => r!.yields == currentLevel.targetEmoji,
       orElse: () => null,
     );
 
     final stars = controller.getStars(widget.level);
 
-    if (stars == 0 && _tutorialRecipe != null) {
+    if (stars == 0 && _recipe != null) {
       setState(() {
-        _showTutorial = true;
+        _isTargetRecipe = true;
+      });
+    } else if (RecipeBook.specialRecipes.isNotEmpty) {
+      _recipe = RecipeBook
+          .specialRecipes[Random().nextInt(RecipeBook.specialRecipes.length)];
+      setState(() {
+        _isTargetRecipe = false;
       });
     }
 
-    final delay = _showTutorial ? 2500 : 1500;
-
-    await Future.delayed(Duration(milliseconds: delay));
+    await Future.delayed(delay);
     if (!mounted) return;
 
     context.replaceNamed(
@@ -77,8 +84,8 @@ class _LevelHintScreenState extends State<LevelHintScreen> {
             child: Image.asset('assets/images/emo_2.png', fit: BoxFit.cover),
           ),
           Center(
-            child: _showTutorial
-                ? RecipeTutorial(recipe: _tutorialRecipe!)
+            child: _isTargetRecipe
+                ? RecipeTutorial(recipe: _recipe!)
                 : const Loading(),
           ),
         ],

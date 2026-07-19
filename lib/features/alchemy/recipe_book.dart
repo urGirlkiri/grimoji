@@ -1,4 +1,5 @@
 import 'package:grimoji/config/emojis/index.dart';
+import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:grimoji/features/alchemy/reactions/nature_explosions.dart';
 import 'package:grimoji/features/alchemy/reactions/chapter1_reactions.dart';
@@ -35,6 +36,7 @@ class RecipeBook {
   static final Map<GameEmoji, Reaction> _triggerCache = {};
   static final Map<GameEmoji, List<Recipe>> _yieldCache = {};
   static final Map<GameEmoji, int> _tierCache = {};
+  static List<Recipe>? _specialRecipesCache;
   static bool _isInitialized = false;
 
   static void _ensureInitialized() {
@@ -132,5 +134,22 @@ class RecipeBook {
 
   static bool isLegendary(GameEmoji emoji) {
     return getTier(emoji) >= 5;
+  }
+
+  static List<Recipe> get specialRecipes {
+    if (_specialRecipesCache != null) return _specialRecipesCache!;
+
+    final specialEmojis = <GameEmoji>{Emojis.ghost, Emojis.bomb, Emojis.hole};
+
+    for (final powerup in Powerup.all) {
+      final emoji = Powerup.emojiForId(powerup.id);
+      if (emoji != null) specialEmojis.add(emoji);
+    }
+
+    _specialRecipesCache = allRecipes
+        .where((recipe) => specialEmojis.contains(recipe.yields))
+        .toList();
+
+    return _specialRecipesCache!;
   }
 }

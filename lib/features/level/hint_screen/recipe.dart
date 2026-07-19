@@ -64,8 +64,8 @@ class RecipeTutorial extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            child: EmojiWidget.svg(
-                              path: recipe.ingredient.svg,
+                            child: EmojiWidget.lottie(
+                              path: recipe.ingredient.lottie,
                               size: 40,
                             ),
                           ),
