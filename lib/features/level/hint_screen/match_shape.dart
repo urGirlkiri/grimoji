@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/emojis/index.dart';
+import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/utils/math.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
@@ -7,11 +8,13 @@ import 'package:grimoji/widgets/custom/emoji_widget.dart';
 enum ShapeType { twoByTwo, lShape, tShape, line }
 
 class MatchShape extends StatelessWidget {
-  const MatchShape({super.key, required this.shape});
+  const MatchShape({super.key, required this.shape, required this.recipe});
   final ShapeType shape;
+  final Recipe recipe;
 
+  GameEmoji get _tileEmoji => recipe.ingredient;
 
-    List<List<bool>> _shapeGrid () {
+  List<List<bool>> _shapeGrid() {
     switch (shape) {
       case ShapeType.twoByTwo:
         return [
@@ -31,13 +34,7 @@ class MatchShape extends StatelessWidget {
           [false, true, false],
         ];
       case ShapeType.line:
-        return [
-          [true],
-          [true],
-          [true],
-          [true],
-          [true],
-        ];
+        return List.generate(recipe.requiredAmount, (_) => [true]);
     }
   }
 
@@ -49,7 +46,7 @@ class MatchShape extends StatelessWidget {
     final cols = grid[0].length;
 
     return Transform.rotate(
-      angle: degToRad(-15),
+      angle: degToRad(shape == ShapeType.line ? 0 : -15),
       child: Column(
         children: List.generate(rows, (row) {
           return Row(
@@ -78,7 +75,10 @@ class MatchShape extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: EmojiWidget.lottie(path: Emojis.fire.lottie, size: 48),
+                  child: EmojiWidget.lottie(
+                    path: _tileEmoji.lottie,
+                    size: 48 * context.globalScale,
+                  ),
                 ),
               );
             }),

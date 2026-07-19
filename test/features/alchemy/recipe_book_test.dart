@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:grimoji/config/emojis/index.dart';
+import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 
@@ -204,6 +205,61 @@ void main() {
           equals(tier2),
           reason:
               'Sequential tier checks should return identical results from cache',
+        );
+      });
+    });
+
+    group('Special Recipes Tests', () {
+      test('specialRecipes should not be empty', () {
+        RecipeBook.initialize();
+        expect(
+          RecipeBook.specialRecipes,
+          isNotEmpty,
+          reason: 'Game must have at least one special recipe',
+        );
+      });
+
+      test('specialRecipes should contain ghost, bomb, and hole recipes', () {
+        RecipeBook.initialize();
+        final specialYields = RecipeBook.specialRecipes
+            .map((r) => r.yields)
+            .toSet();
+
+        expect(
+          specialYields.contains(Emojis.ghost),
+          isTrue,
+          reason: 'specialRecipes should contain ghost',
+        );
+        expect(
+          specialYields.contains(Emojis.bomb),
+          isTrue,
+          reason: 'specialRecipes should contain bomb',
+        );
+        expect(
+          specialYields.contains(Emojis.hole),
+          isTrue,
+          reason: 'specialRecipes should contain hole',
+        );
+      });
+
+      test('specialRecipes should contain some powerup emojis', () {
+        RecipeBook.initialize();
+        final specialYields = RecipeBook.specialRecipes
+            .map((r) => r.yields)
+            .toSet();
+
+        var powerupInSpecialCount = 0;
+        for (final powerup in Powerup.all) {
+          final emoji = Powerup.emojiForId(powerup.id);
+          if (emoji != null && specialYields.contains(emoji)) {
+            powerupInSpecialCount++;
+          }
+        }
+
+        expect(
+          powerupInSpecialCount,
+          greaterThan(0),
+          reason: 'At least some powerup emojis should be in specialRecipes',
         );
       });
     });
