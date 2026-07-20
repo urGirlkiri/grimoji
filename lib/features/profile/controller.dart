@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/features/profile/models/profile_data.dart';
 import 'package:grimoji/features/profile/persistance/persistence.dart';
 import 'package:logging/logging.dart';
@@ -9,23 +10,6 @@ class ProfileController extends ChangeNotifier {
   final Logger _log = Logger('ProfileController');
   static const int _maxCauldrons = 5;
   static const Duration _regenDuration = Duration(hours: 1);
-  static const List<String> availableAvatars = [
-    'cyber_astronaut',
-    'cyber_goth',
-    'fairy_blade',
-    'fairy_mage',
-    'magma_golem',
-    'mecha_tank',
-    'paladin_green',
-    'paladin_silver',
-    'shinobi_blue',
-    'shinobi_purple',
-    'stealth_operative',
-    'toxic_punk',
-    'vr_bot_blue',
-    'vr_bot_silver',
-    'vr_hacker_orange',
-  ];
   int _profileVersion = 0;
   ProfileData? _profile;
 

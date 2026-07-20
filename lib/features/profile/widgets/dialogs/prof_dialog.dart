@@ -62,47 +62,55 @@ class ProfileDialog extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 16),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            AppIcon(
-                              fileName: 'edit',
-                              size: 50,
-                              onTap: () => showNameDialog(context),
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              profile.displayName,
-                              style: context.theme.textTheme.titleSmall
-                                  ?.copyWith(color: context.palette.mist),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            AnimatedButton(
-                              child: Icon(
-                                Icons.stars_rounded,
-                                color: context.palette.moonlight,
-                                size: 20,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              AppIcon(
+                                fileName: 'edit',
+                                size: 45,
+                                onTap: () => showNameDialog(context),
                               ),
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              "Lv ${level.currentLevel()}",
-                              style: context.theme.textTheme.bodyMedium
-                                  ?.copyWith(
-                                    color: context.palette.mist,
-                                    fontWeight: FontWeight.bold,
+                              const SizedBox(width: 6),
+                              Expanded(
+                                child: Text(
+                                  profile.displayName,
+                                  style: context.theme.textTheme.bodyMedium
+                                      ?.copyWith(color: context.palette.mist),
+                                  softWrap: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                AnimatedButton(
+                                  child: Icon(
+                                    Icons.stars_rounded,
+                                    color: context.palette.moonlight,
+                                    size: 20,
                                   ),
+                                ),
+                                const SizedBox(width: 6),
+                                Text(
+                                  "Lv ${level.currentLevel()}",
+                                  style: context.theme.textTheme.bodyMedium
+                                      ?.copyWith(
+                                        color: context.palette.mist,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ],
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

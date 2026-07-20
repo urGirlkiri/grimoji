@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grimoji/features/profile/controller.dart';
+import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
 import 'package:grimoji/widgets/custom/animated_button.dart';
@@ -86,10 +86,9 @@ class _AvatarPickerDialog extends StatelessWidget {
                             mainAxisSpacing: 12,
                             childAspectRatio: 0.9,
                           ),
-                      itemCount: ProfileController.availableAvatars.length,
+                      itemCount: availableAvatars.length,
                       itemBuilder: (context, index) {
-                        final avatar =
-                            ProfileController.availableAvatars[index];
+                        final avatar = availableAvatars[index];
                         final isSelected = avatar == profile.avatar;
 
                         return AnimatedButton(

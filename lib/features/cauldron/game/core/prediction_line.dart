@@ -3,7 +3,7 @@ import 'package:flame/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:grimoji/app/palette.dart';
 
-final Palette palette = Palette();
+const Palette palette = Palette();
 
 class PredictionLine extends PositionComponent {
   Vector2? start;

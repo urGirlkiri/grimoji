@@ -14,7 +14,7 @@ void main() {
 
     await tester.pumpWidget(
       Provider(
-        create: (_) => Palette(),
+        create: (_) => const Palette(),
         child: MaterialApp(
           scrollBehavior: const MaterialScrollBehavior().copyWith(
             overscroll: true,

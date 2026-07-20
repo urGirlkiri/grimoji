@@ -10,7 +10,6 @@ import 'package:grimoji/features/settings/controller.dart';
 import 'package:grimoji/services/notifications/daily_claim.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_performance_optimizer/flutter_performance_optimizer.dart';
 
 class Grimoji extends StatelessWidget {
   final ProfileController profileController;
@@ -33,7 +32,7 @@ class Grimoji extends StatelessWidget {
           ChangeNotifierProvider.value(value: profileController),
           Provider.value(value: settingsController),
           Provider.value(value: dailyClaimReminder),
-          Provider(create: (context) => Palette()),
+          Provider(create: (context) => const Palette()),
           ChangeNotifierProvider(create: (context) => LevelDataController()),
           ProxyProvider2<
             AppLifecycleStateNotifier,
@@ -59,14 +58,7 @@ class Grimoji extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               theme: AppTheme.buildTheme(palette, scale),
               routerConfig: router,
-              builder: (context, child) {
-                return PerformanceOptimizer(
-                  enabled: false,
-                  showDashboard: false,
-                  showHeatmap: false,
-                  child: child ?? const SizedBox.shrink(),
-                );
-              },
+              builder: (context, child) => child ?? const SizedBox.shrink(),
             );
           },
         ),

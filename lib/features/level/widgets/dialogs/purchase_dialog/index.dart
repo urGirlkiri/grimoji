@@ -94,10 +94,10 @@ class _PurchaseDialog extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Positioned(
+          const Positioned(
             top: -50,
             child: CustomPaint(
-              size: const Size(5, 500),
+              size: Size(5, 500),
               painter: RopePainter(),
             ),
           ),
