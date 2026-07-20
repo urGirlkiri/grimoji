@@ -37,6 +37,9 @@ class ProfileData extends HiveObject {
   @HiveField(10, defaultValue: 0)
   int lastDailyClaimTime;
 
+  @HiveField(11, defaultValue: 0)
+  int lastDailyCatchUpTime;
+
   ProfileData({
     this.isFirstTime = true,
     this.avatar = 'cyber_goth',
@@ -49,6 +52,7 @@ class ProfileData extends HiveObject {
     this.inventory = const {},
     this.hasClaimedDaily = false,
     this.lastDailyClaimTime = 0,
+    this.lastDailyCatchUpTime = 0,
   });
 
   @override

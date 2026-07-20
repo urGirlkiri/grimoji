@@ -180,6 +180,19 @@ class ProfileController extends ChangeNotifier {
   bool get hasClaimedDaily => _profile?.hasClaimedDaily ?? false;
   int get lastDailyClaimTime => _profile?.lastDailyClaimTime ?? 0;
 
+  bool get shouldCatchUpReminder =>
+      _profile != null &&
+      _profile!.hasClaimedDaily &&
+      canClaimDaily() &&
+      _profile!.lastDailyCatchUpTime !=
+          _profile!.lastDailyClaimTime;
+
+  Future<void> markCatchUpReminder() async {
+    if (_profile == null) return;
+    _profile!.lastDailyCatchUpTime = _profile!.lastDailyClaimTime;
+    await _save();
+  }
+
   bool canClaimDaily() {
     if (_profile == null) return true;
     if (!_profile!.hasClaimedDaily) return true;
@@ -221,6 +234,7 @@ class ProfileController extends ChangeNotifier {
     if (_profile != null) {
       _profile!.hasClaimedDaily = true;
       _profile!.lastDailyClaimTime = DateTime.now().millisecondsSinceEpoch;
+      _profile!.lastDailyCatchUpTime = 0;
       addDice(15);
       _onDailyClaim?.call(
         DateTime.fromMillisecondsSinceEpoch(

@@ -28,13 +28,16 @@ class ProfileDataAdapter extends TypeAdapter<ProfileData> {
       inventory: (fields[6] as Map).cast<String, int>(),
       hasClaimedDaily: fields[9] == null ? false : fields[9] as bool,
       lastDailyClaimTime: fields[10] == null ? 0 : fields[10] as int,
+      lastDailyCatchUpTime: fields[11] == null
+          ? 0
+          : fields[11] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, ProfileData obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(12)
       ..writeByte(0)
       ..write(obj.isFirstTime)
       ..writeByte(1)
@@ -56,7 +59,9 @@ class ProfileDataAdapter extends TypeAdapter<ProfileData> {
       ..writeByte(9)
       ..write(obj.hasClaimedDaily)
       ..writeByte(10)
-      ..write(obj.lastDailyClaimTime);
+      ..write(obj.lastDailyClaimTime)
+      ..writeByte(11)
+      ..write(obj.lastDailyCatchUpTime);
   }
 
   @override

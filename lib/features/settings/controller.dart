@@ -79,9 +79,13 @@ class SettingsController {
     _store.saveMusicVolume(value);
   }
 
+  Future<void> setDailyClaimReminderOn(bool value) async {
+    dailyClaimReminderOn.value = value;
+    await _store.saveDailyClaimReminderOn(value);
+  }
+
   void toggleDailyClaimReminderOn() {
-    dailyClaimReminderOn.value = !dailyClaimReminderOn.value;
-    _store.saveDailyClaimReminderOn(dailyClaimReminderOn.value);
+    setDailyClaimReminderOn(!dailyClaimReminderOn.value);
   }
 
   /// Asynchronously loads values from the injected persistence store.
@@ -109,7 +113,7 @@ class SettingsController {
           .getMusicVolume(defaultValue: 0.4)
           .then((value) => musicVolume.value = value),
       _store
-          .getDailyClaimReminderOn(defaultValue: true)
+          .getDailyClaimReminderOn(defaultValue: false)
           .then((value) => dailyClaimReminderOn.value = value),
     ]);
 

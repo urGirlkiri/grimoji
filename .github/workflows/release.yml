@@ -237,6 +237,8 @@ jobs:
         run: |
           echo HACKAI_API_KEY=${{ secrets.HACKAI_API_KEY }} > .env
           echo MAP_BUILDER_MODE=${{ secrets.MAP_BUILDER_MODE }} >> .env
+          echo WINDOWS_USER_MODEL_ID=${{ secrets.WINDOWS_USER_MODEL_ID }} >> .env
+          echo WINDOWS_NOTIFICATION_GUID=${{ secrets.WINDOWS_NOTIFICATION_GUID }} >> .env
 
       - name: Build MSIX
         run: |
