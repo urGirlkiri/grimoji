@@ -35,6 +35,10 @@ class AudioController {
   /// concurrent [setSource] calls on the same [AudioPlayer].
   late final List<Future<void>> _sfxPlayerFutures;
 
+  /// A queue for the single voice player so overlapping voice calls don't race
+  /// on [setSource].
+  Future<void> _voicePlayerFuture = Future<void>.value();
+
   int _currentSfxPlayer = 0;
 
   final Queue<Song> _playlist;
@@ -188,7 +192,15 @@ class AudioController {
     }
   }
 
-  void playVoice(Dialog type) async {
+  Future<void> _playVoiceAsset(String file, double volume) async {
+    try {
+      await _voicePlayer.play(AssetSource('voice/$file'), volume: volume);
+    } catch (e, stack) {
+      _log.warning('Failed to play voice $file', e, stack);
+    }
+  }
+
+  void playVoice(Dialog type) {
     if (_settings == null) {
       _log.warning('Settings not attached, cannot play voice');
       return;
@@ -216,10 +228,11 @@ class AudioController {
     final voice = voices[_random.nextInt(voices.length)];
     final double currentVolume = _settings?.sfxVolume.value ?? 1.0;
 
-    await _voicePlayer.play(
-      AssetSource('voice/${voice.file}'),
-      volume: currentVolume,
-    );
+    _voicePlayerFuture = _voicePlayerFuture
+        .then((_) => _playVoiceAsset(voice.file, currentVolume))
+        .catchError((Object e, StackTrace s) {
+          _log.warning('Voice playback failed', e, s);
+        });
   }
 
   /// Enables the [AudioController] to listen to [AppLifecycleState] events,
