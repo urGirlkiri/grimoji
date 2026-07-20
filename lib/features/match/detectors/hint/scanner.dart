@@ -15,7 +15,10 @@ List<IsoGroup> scanMatchGroups(
     int streak = 1;
     for (int c = 1; c <= cols; c++) {
       final same =
-          c < cols && g[r][c] == g[r][c - 1] && !unmatchable.contains(g[r][c]);
+          c < cols &&
+          g[r][c].isNotEmpty &&
+          g[r][c] == g[r][c - 1] &&
+          !unmatchable.contains(g[r][c]);
       if (!same) {
         if (streak >= 3) {
           hRuns.add((
@@ -36,7 +39,10 @@ List<IsoGroup> scanMatchGroups(
     int streak = 1;
     for (int r = 1; r <= rows; r++) {
       final same =
-          r < rows && g[r][c] == g[r - 1][c] && !unmatchable.contains(g[r][c]);
+          r < rows &&
+          g[r][c].isNotEmpty &&
+          g[r][c] == g[r - 1][c] &&
+          !unmatchable.contains(g[r][c]);
       if (!same) {
         if (streak >= 3) {
           vRuns.add((

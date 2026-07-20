@@ -7,7 +7,7 @@ class ThreatScan {
   final Set<String> unmatchableVisuals;
   final Set<String> obstacleVisuals;
   final String targetVisual;
-  final Set<String> targetIngredients;
+  final Map<String, int> recipeChainSteps;
   final Set<String> excludedPositions;
 
   ThreatScan({
@@ -19,7 +19,7 @@ class ThreatScan {
     required this.unmatchableVisuals,
     required this.obstacleVisuals,
     required this.targetVisual,
-    required this.targetIngredients,
+    required this.recipeChainSteps,
     this.excludedPositions = const {},
   });
 }
