@@ -30,13 +30,14 @@ class ProfileDataAdapter extends TypeAdapter<ProfileData> {
       lastDailyClaimTime: fields[10] == null ? 0 : fields[10] as int,
       lastDailyCatchUpTime: fields[11] == null ? 0 : fields[11] as int,
       customName: fields[12] == null ? '' : fields[12] as String,
+      hasInsightAutoEquipped: fields[13] == null ? false : fields[13] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, ProfileData obj) {
     writer
-      ..writeByte(13)
+      ..writeByte(14)
       ..writeByte(0)
       ..write(obj.isFirstTime)
       ..writeByte(1)
@@ -62,7 +63,9 @@ class ProfileDataAdapter extends TypeAdapter<ProfileData> {
       ..writeByte(11)
       ..write(obj.lastDailyCatchUpTime)
       ..writeByte(12)
-      ..write(obj.customName);
+      ..write(obj.customName)
+      ..writeByte(13)
+      ..write(obj.hasInsightAutoEquipped);
   }
 
   @override

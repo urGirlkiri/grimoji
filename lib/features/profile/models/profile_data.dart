@@ -43,6 +43,9 @@ class ProfileData extends HiveObject {
   @HiveField(12, defaultValue: '')
   String customName;
 
+  @HiveField(13, defaultValue: false)
+  bool hasInsightAutoEquipped;
+
   ProfileData({
     this.isFirstTime = true,
     this.avatar = 'cyber_goth',
@@ -57,6 +60,7 @@ class ProfileData extends HiveObject {
     this.lastDailyClaimTime = 0,
     this.lastDailyCatchUpTime = 0,
     this.customName = '',
+    this.hasInsightAutoEquipped = false,
   });
 
   @override

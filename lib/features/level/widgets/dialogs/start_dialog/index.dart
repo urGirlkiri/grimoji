@@ -24,6 +24,23 @@ class _LevelStartDialogState extends State<LevelStartDialog> {
   final Set<String> _selectedPowerupIds = {};
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final profile = context.readProfile;
+      if (widget.level.number == 2 &&
+          !profile.hasInsightAutoEquipped &&
+          profile.getPowerupCount('crystal_ball') > 0) {
+        setState(() {
+          _selectedPowerupIds.add('crystal_ball');
+        });
+        profile.markAutoEquippedInsight();
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final palette = context.palette;
     final profile = context.readProfile;

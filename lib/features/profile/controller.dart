@@ -22,8 +22,15 @@ class ProfileController extends ChangeNotifier {
   Future<void> load() async {
     _log.info('Loading data...');
     _profile = await _persistence.loadProfile();
+
+    if (_profile != null &&
+        _profile!.isFirstTime &&
+        _profile!.inventory.isEmpty) {
+      _profile!.inventory = {'crystal_ball': 3};
+    }
+
     _log.info('Loaded Profile\n$_profile');
-    notifyListeners();
+    await _save();
   }
 
   int get profileVersion => _profileVersion;
@@ -47,6 +54,7 @@ class ProfileController extends ChangeNotifier {
   int get dices => _profile?.dices ?? 0;
   int get currency => _profile?.dices ?? 0;
   bool get isFirstTime => _profile?.isFirstTime ?? true;
+  bool get hasInsightAutoEquipped => _profile?.hasInsightAutoEquipped ?? false;
   bool get isLoaded => _profile != null;
 
   void setAvatar(String avatar) {
@@ -118,6 +126,13 @@ class ProfileController extends ChangeNotifier {
   void markTutorialComplete() {
     _profile?.isFirstTime = false;
     _save();
+  }
+
+  void markAutoEquippedInsight() {
+    if (_profile != null) {
+      _profile!.hasInsightAutoEquipped = true;
+      _save();
+    }
   }
 
   void unlockRecipe(String recipeId) {
@@ -313,6 +328,7 @@ class ProfileController extends ChangeNotifier {
     _profile!.cauldrons = _maxCauldrons;
     _profile!.lastCauldronRegenTime = 0;
     _profile!.lastPlayedGameTime = 0;
+    _profile!.hasInsightAutoEquipped = false;
     _profile!.unlockedRecipeIds = [];
     _profile!.unreadRecipeIds = [];
     _profileVersion++;

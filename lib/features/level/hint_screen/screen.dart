@@ -68,10 +68,16 @@ class _LevelHintScreenState extends State<LevelHintScreen> {
     await Future.delayed(Duration(milliseconds: delay));
     if (!mounted) return;
 
+    final profile = context.readProfile;
+    final boosters = widget.startingBoosters.toSet();
+    if (profile.isFirstTime && profile.getPowerupCount('crystal_ball') > 0) {
+      boosters.add('crystal_ball');
+    }
+
     context.replaceNamed(
       Routes.levelPlay,
       pathParameters: {'level': widget.level.toString()},
-      extra: {'startingBoosters': widget.startingBoosters},
+      extra: {'startingBoosters': boosters.toList()},
     );
   }
 
