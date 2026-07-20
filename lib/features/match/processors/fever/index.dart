@@ -7,6 +7,7 @@ import 'package:grimoji/features/alchemy/models/behavior_action.dart';
 import 'package:grimoji/features/match/board/manager.dart';
 import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/match/controllers/hint.dart';
+import 'package:grimoji/features/match/detectors/match.dart';
 import 'package:grimoji/features/match/engines/game.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:grimoji/features/match/processors/effects/index.dart';
@@ -47,6 +48,19 @@ class FeverProcessor {
   });
 
   bool get _shouldAbort => _skipRequested || state.isDisposed;
+
+  Future<void> _ensureBoardSettled() async {
+    if (_shouldAbort) return;
+    if (MatchDetector.findMatchedGroups(boardManager.gridTiles).isEmpty &&
+        boardManager.getTriggeredEmojis().isEmpty) {
+      return;
+    }
+
+    await cascadeSequence(TileCoordinate(row: 3, col: 3));
+    while (state.isProcessing && !_shouldAbort) {
+      await Future<void>.delayed(flagPollingInterval);
+    }
+  }
 
   void skip() {
     _skipRequested = true;
@@ -96,6 +110,8 @@ class FeverProcessor {
     if (!await _executeAutoTriggers()) return false;
 
     for (var index = 0; index < bonusBombs; index++) {
+      if (_shouldAbort) return false;
+      await _ensureBoardSettled();
       if (_shouldAbort) return false;
       boardManager.spawnBomb();
       onSpawn();
