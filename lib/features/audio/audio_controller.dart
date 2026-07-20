@@ -31,6 +31,10 @@ class AudioController {
   /// sound effects.
   final List<AudioPlayer> _sfxPlayers;
 
+  /// A queue of pending SFX playback futures, one per player, used to avoid
+  /// concurrent [setSource] calls on the same [AudioPlayer].
+  late final List<Future<void>> _sfxPlayerFutures;
+
   int _currentSfxPlayer = 0;
 
   final Queue<Song> _playlist;
@@ -67,6 +71,11 @@ class AudioController {
         (i) => AudioPlayer(playerId: 'sfxPlayer#$i'),
       ).toList(growable: false),
       _playlist = Queue.of(List<Song>.of(menuSongs)..shuffle()) {
+    _sfxPlayerFutures = List<Future<void>>.filled(
+      polyphony,
+      Future<void>.value(),
+    );
+
     _musicCompleteSubscription = _musicPlayer.onPlayerComplete.listen(
       _handleSongFinished,
     );
@@ -140,14 +149,19 @@ class AudioController {
     final filename = options[_random.nextInt(options.length)];
     _log.fine(() => '- Chosen filename: $filename');
 
-    final currentPlayer = _sfxPlayers[_currentSfxPlayer];
+    final currentIndex = _currentSfxPlayer;
+    final currentPlayer = _sfxPlayers[currentIndex];
     _currentSfxPlayer = (_currentSfxPlayer + 1) % _sfxPlayers.length;
 
     final double finalVolume =
         soundTypeToVolume(type) * (_settings?.sfxVolume.value ?? 1.0);
     final assetPath = 'sfx/$filename';
 
-    unawaited(_playSfxAsset(currentPlayer, assetPath, finalVolume));
+    _sfxPlayerFutures[currentIndex] = _sfxPlayerFutures[currentIndex]
+        .then((_) => _playSfxAsset(currentPlayer, assetPath, finalVolume))
+        .catchError((Object e, StackTrace s) {
+          _log.warning('SFX playback failed for $assetPath', e, s);
+        });
   }
 
   Future<void> _playSfxAsset(
@@ -155,8 +169,12 @@ class AudioController {
     String assetPath,
     double volume,
   ) async {
-    await _ensureSfxLoaded(assetPath);
-    await player.play(AssetSource(assetPath), volume: volume);
+    try {
+      await _ensureSfxLoaded(assetPath);
+      await player.play(AssetSource(assetPath), volume: volume);
+    } catch (e, stack) {
+      _log.warning('Failed to play SFX $assetPath', e, stack);
+    }
   }
 
   Future<void> _ensureSfxLoaded(String assetPath) async {
