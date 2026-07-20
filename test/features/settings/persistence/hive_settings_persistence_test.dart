@@ -72,11 +72,11 @@ void main() {
       },
     );
 
-    test('should default daily claim reminder to true when unset', () async {
+    test('should default daily claim reminder to false when unset', () async {
       final dailyClaimReminderOn = await persistence.getDailyClaimReminderOn(
-        defaultValue: true,
+        defaultValue: false,
       );
-      expect(dailyClaimReminderOn, isTrue);
+      expect(dailyClaimReminderOn, isFalse);
     });
   });
 }

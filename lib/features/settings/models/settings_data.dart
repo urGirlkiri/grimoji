@@ -28,7 +28,7 @@ class SettingsData {
     this.musicOn = true,
     this.sfxVolume = 1.0,
     this.musicVolume = 0.12,
-    this.dailyClaimReminderOn = true,
+    this.dailyClaimReminderOn = false,
   });
 
   SettingsData copyWith({

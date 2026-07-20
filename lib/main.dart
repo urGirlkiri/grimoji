@@ -68,11 +68,13 @@ void main() async {
 
   final profileController = ProfileController(
     persistence: persistence,
-    onDailyClaim: (nextClaimTime) {
-      if (settingsController.dailyClaimReminderOn.value) {
-        reminder.scheduleReminder(nextClaimTime);
+    onDailyClaim: (nextClaimTime) async {
+      if (settingsController.dailyClaimReminderOn.value &&
+          await reminder.areNotificationsEnabled()) {
+        await reminder.scheduleReminder(nextClaimTime);
       } else {
-        reminder.cancelReminder();
+        await settingsController.setDailyClaimReminderOn(false);
+        await reminder.cancelReminder();
       }
     },
   );
@@ -81,7 +83,12 @@ void main() async {
   profileController.checkCauldronRegen();
 
   if (settingsController.dailyClaimReminderOn.value) {
-    await reminder.rescheduleFromProfile(profileController);
+    if (await reminder.areNotificationsEnabled()) {
+      await reminder.showCatchUpReminder(profileController);
+      await reminder.rescheduleFromProfile(profileController);
+    } else {
+      await settingsController.setDailyClaimReminderOn(false);
+    }
   }
 
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);

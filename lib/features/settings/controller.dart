@@ -28,7 +28,7 @@ class SettingsController {
 
   ValueNotifier<double> musicVolume = ValueNotifier(0.4);
 
-  ValueNotifier<bool> dailyClaimReminderOn = ValueNotifier(true);
+  ValueNotifier<bool> dailyClaimReminderOn = ValueNotifier(false);
 
   /// Creates a new instance of [SettingsController] backed by [store].
   ///
