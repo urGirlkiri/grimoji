@@ -19,7 +19,7 @@ class SettingsData {
   @HiveField(4)
   final double musicVolume;
 
-  @HiveField(5, defaultValue: true)
+  @HiveField(5, defaultValue: false)
   final bool dailyClaimReminderOn;
 
   const SettingsData({
