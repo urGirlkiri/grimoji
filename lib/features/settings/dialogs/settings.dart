@@ -52,6 +52,7 @@ class SettingsDialog extends StatelessWidget {
                     settings.musicOn,
                     settings.sfxVolume,
                     settings.musicVolume,
+                    settings.emojiAnimations,
                   ]),
                   builder: (context, child) {
                     return Padding(
@@ -91,6 +92,23 @@ class SettingsDialog extends StatelessWidget {
                                     : 'audio_off',
                                 isActive: settings.audioOn.value,
                                 onTap: settings.toggleAudioOn,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 24),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Emoji Animations',
+                                style: context.theme.textTheme.bodyLarge
+                                    ?.copyWith(color: palette.midnight),
+                              ),
+                              Switch.adaptive(
+                                value: settings.emojiAnimations.value,
+                                onChanged: (_) =>
+                                    settings.toggleEmojiAnimations(),
+                                activeThumbColor: palette.midnight,
                               ),
                             ],
                           ),

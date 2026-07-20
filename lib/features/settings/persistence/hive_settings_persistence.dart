@@ -35,6 +35,10 @@ class HiveSettingsPersistence extends SettingsPersistence {
       _currentData.dailyClaimReminderOn;
 
   @override
+  Future<bool> getEmojiAnimations({required bool defaultValue}) async =>
+      _currentData.emojiAnimations;
+
+  @override
   Future<void> saveAudioOn(bool value) async {
     await _box.put('settings', _currentData.copyWith(audioOn: value));
   }
@@ -68,6 +72,11 @@ class HiveSettingsPersistence extends SettingsPersistence {
   }
 
   @override
+  Future<void> saveEmojiAnimations(bool value) async {
+    await _box.put('settings', _currentData.copyWith(emojiAnimations: value));
+  }
+
+  @override
   Future<void> saveAllSettings({
     bool? audioOn,
     bool? soundsOn,
@@ -75,6 +84,7 @@ class HiveSettingsPersistence extends SettingsPersistence {
     double? sfxVolume,
     double? musicVolume,
     bool? dailyClaimReminderOn,
+    bool? emojiAnimations,
   }) async {
     final current = _currentData;
     await _box.put(
@@ -86,6 +96,7 @@ class HiveSettingsPersistence extends SettingsPersistence {
         sfxVolume: sfxVolume,
         musicVolume: musicVolume,
         dailyClaimReminderOn: dailyClaimReminderOn,
+        emojiAnimations: emojiAnimations,
       ),
     );
   }

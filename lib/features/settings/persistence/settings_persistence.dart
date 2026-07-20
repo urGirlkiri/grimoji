@@ -16,6 +16,8 @@ abstract class SettingsPersistence {
 
   Future<bool> getDailyClaimReminderOn({required bool defaultValue});
 
+  Future<bool> getEmojiAnimations({required bool defaultValue});
+
   Future<void> saveAudioOn(bool value);
 
   Future<void> saveMusicOn(bool value);
@@ -27,6 +29,8 @@ abstract class SettingsPersistence {
   Future<void> saveMusicVolume(double value);
 
   Future<void> saveDailyClaimReminderOn(bool value);
+
+  Future<void> saveEmojiAnimations(bool value);
 
   Future<void> saveAllSettings({
     bool? audioOn,

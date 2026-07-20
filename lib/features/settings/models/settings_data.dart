@@ -22,6 +22,9 @@ class SettingsData {
   @HiveField(5, defaultValue: false)
   final bool dailyClaimReminderOn;
 
+  @HiveField(6, defaultValue: true)
+  final bool emojiAnimations;
+
   const SettingsData({
     this.audioOn = true,
     this.soundsOn = true,
@@ -29,6 +32,7 @@ class SettingsData {
     this.sfxVolume = 1.0,
     this.musicVolume = 0.12,
     this.dailyClaimReminderOn = false,
+    this.emojiAnimations = true,
   });
 
   SettingsData copyWith({
@@ -38,6 +42,7 @@ class SettingsData {
     double? sfxVolume,
     double? musicVolume,
     bool? dailyClaimReminderOn,
+    bool? emojiAnimations,
   }) {
     return SettingsData(
       audioOn: audioOn ?? this.audioOn,
@@ -46,6 +51,7 @@ class SettingsData {
       sfxVolume: sfxVolume ?? this.sfxVolume,
       musicVolume: musicVolume ?? this.musicVolume,
       dailyClaimReminderOn: dailyClaimReminderOn ?? this.dailyClaimReminderOn,
+      emojiAnimations: emojiAnimations ?? this.emojiAnimations,
     );
   }
 }

@@ -23,13 +23,14 @@ class SettingsDataAdapter extends TypeAdapter<SettingsData> {
       sfxVolume: fields[3] as double,
       musicVolume: fields[4] as double,
       dailyClaimReminderOn: fields[5] == null ? false : fields[5] as bool,
+      emojiAnimations: fields[6] == null ? true : fields[6] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, SettingsData obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.audioOn)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class SettingsDataAdapter extends TypeAdapter<SettingsData> {
       ..writeByte(4)
       ..write(obj.musicVolume)
       ..writeByte(5)
-      ..write(obj.dailyClaimReminderOn);
+      ..write(obj.dailyClaimReminderOn)
+      ..writeByte(6)
+      ..write(obj.emojiAnimations);
   }
 
   @override

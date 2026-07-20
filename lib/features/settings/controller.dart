@@ -30,6 +30,8 @@ class SettingsController {
 
   ValueNotifier<bool> dailyClaimReminderOn = ValueNotifier(false);
 
+  ValueNotifier<bool> emojiAnimations = ValueNotifier(true);
+
   /// Creates a new instance of [SettingsController] backed by [store].
   ///
   /// By default, settings are persisted using [HiveSettingsPersistence].
@@ -88,6 +90,15 @@ class SettingsController {
     setDailyClaimReminderOn(!dailyClaimReminderOn.value);
   }
 
+  Future<void> setEmojiAnimations(bool value) async {
+    emojiAnimations.value = value;
+    await _store.saveEmojiAnimations(value);
+  }
+
+  void toggleEmojiAnimations() {
+    setEmojiAnimations(!emojiAnimations.value);
+  }
+
   /// Asynchronously loads values from the injected persistence store.
   Future<void> _loadStateFromPersistence() async {
     final loadedValues = await Future.wait([
@@ -115,6 +126,9 @@ class SettingsController {
       _store
           .getDailyClaimReminderOn(defaultValue: false)
           .then((value) => dailyClaimReminderOn.value = value),
+      _store
+          .getEmojiAnimations(defaultValue: true)
+          .then((value) => emojiAnimations.value = value),
     ]);
 
     _log.fine(() => 'Loaded settings: $loadedValues');
