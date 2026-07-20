@@ -89,6 +89,7 @@ flutter_launcher_icons:
   image_path: "assets/icons/2048x2048_bg.png"
   adaptive_icon_background: "#1a1a24"
   adaptive_icon_foreground: "assets/icons/2048x2048_bg.png"
+  adaptive_icon_monochrome: "assets/icons/mono.png"
 
   web:
       generate: true
