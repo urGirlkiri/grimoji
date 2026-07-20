@@ -52,6 +52,45 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  void _showReminderStatus(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: context.palette.crimson,
+        content: Center(
+          child: Text(message, style: context.theme.textTheme.bodyLarge),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _toggleDailyClaimReminder(BuildContext context) async {
+    final settings = context.readSettings;
+    final reminder = context.readDailyClaimReminder;
+
+    if (settings.dailyClaimReminderOn.value) {
+      await settings.setDailyClaimReminderOn(false);
+      await reminder.cancelReminder();
+      return;
+    }
+
+    final granted = await reminder.requestPermission();
+    final enabled = granted && await reminder.areNotificationsEnabled();
+    if (!enabled) {
+      if (context.mounted) {
+        _showReminderStatus(
+          context,
+          'Enable notifications in your device settings to use reminders.',
+        );
+      }
+      return;
+    }
+
+    if (!context.mounted) return;
+    final profile = context.readProfile;
+    await settings.setDailyClaimReminderOn(true);
+    await reminder.rescheduleFromProfile(profile);
+  }
+
   @override
   Widget build(BuildContext context) {
     final settings = context.watchSettings;
@@ -96,7 +135,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       settings.audioOn,
                       settings.soundsOn,
                       settings.musicOn,
-                      settings.dailyClaimReminderOn
+                      settings.dailyClaimReminderOn,
                     ]),
                     builder: (context, child) {
                       return Wrap(
@@ -105,17 +144,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           IconToggle(
                             fileName: 'dice',
                             isActive: settings.dailyClaimReminderOn.value,
-                            onTap: () {
-                              settings.toggleDailyClaimReminderOn();
-                              final reminder = context.readDailyClaimReminder;
-                              if (settings.dailyClaimReminderOn.value) {
-                                final profile = context.readProfile;
-                                reminder.requestPermission();
-                                reminder.rescheduleFromProfile(profile);
-                              } else {
-                                reminder.cancelReminder();
-                              }
-                            },
+                            onTap: () => _toggleDailyClaimReminder(context),
                             label: 'Reminder',
                           ),
                           IconToggle(

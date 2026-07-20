@@ -14,8 +14,6 @@ class DailyClaimReminder {
   static const String _channelName = 'Daily Claim Reminder';
   static const String _channelDescription =
       'Notifies you when free daily dice claim is available.';
-  static const int _notificationId = 1;
-  static const String _payload = Routes.marketRoute;
   static const String _title = 'Daily Reward Ready';
   static const String _body = 'Your free daily dice claim is now available!';
   static const NotificationImage _diceImage = NotificationImage(
@@ -24,15 +22,24 @@ class DailyClaimReminder {
     assetPath: 'assets/images/dice.png',
   );
 
+  static const String _payload = Routes.marketRoute;
+
+  static const int _notificationId = 1;
+  static const int _catchUpNotificationId = 3;
+
   final NotificationService _service;
-  Timer? _linuxFallbackTimer;
+  final bool? _isDesktopFallbackOverride;
+  Timer? _desktopFallbackTimer;
   void Function(String? payload)? _onTapPayload;
   bool _initialized = false;
 
-  bool get _isLinuxFallback => !kIsWeb && Platform.isLinux;
+  bool get _isDesktopFallback =>
+      _isDesktopFallbackOverride ??
+      (!kIsWeb && (Platform.isLinux || Platform.isWindows));
 
-  DailyClaimReminder({NotificationService? service})
-    : _service =
+  DailyClaimReminder({NotificationService? service, bool? isDesktopFallback})
+    : _isDesktopFallbackOverride = isDesktopFallback,
+      _service =
           service ??
           FlutterNotificationService(
             defaultChannel: const AndroidNotificationChannel(
@@ -55,12 +62,12 @@ class DailyClaimReminder {
   }
 
   Future<bool> requestPermission() async {
-    if (_isLinuxFallback) return true;
+    if (_isDesktopFallback) return true;
     return _service.requestPermission();
   }
 
   Future<bool> areNotificationsEnabled() async {
-    if (_isLinuxFallback) return true;
+    if (_isDesktopFallback) return true;
     return _service.areNotificationsEnabled();
   }
 
@@ -79,8 +86,8 @@ class DailyClaimReminder {
 
     if (nextClaimTime.isBefore(DateTime.now())) return;
 
-    if (_isLinuxFallback) {
-      _scheduleLinuxFallback(nextClaimTime);
+    if (_isDesktopFallback) {
+      _scheduleDesktopFallback(nextClaimTime);
       return;
     }
 
@@ -94,30 +101,25 @@ class DailyClaimReminder {
     );
   }
 
-  Future<void> scheduleTestReminder(Duration delay) async {
-    await cancelReminder();
+  Future<void> cancelReminder() async {
+    _desktopFallbackTimer?.cancel();
+    _desktopFallbackTimer = null;
+    await _service.cancel(_notificationId);
+  }
 
-    final scheduledDate = DateTime.now().add(delay);
-
-    if (_isLinuxFallback) {
-      _scheduleLinuxFallback(scheduledDate);
+  Future<void> showCatchUpReminder(ProfileController profile) async {
+    if (!_isDesktopFallback || !profile.shouldCatchUpReminder) {
       return;
     }
 
-    await _service.schedule(
-      id: _notificationId,
+    await _service.show(
+      id: _catchUpNotificationId,
       title: _title,
       body: _body,
-      scheduledDate: scheduledDate,
       payload: _payload,
       image: _diceImage,
     );
-  }
-
-  Future<void> cancelReminder() async {
-    _linuxFallbackTimer?.cancel();
-    _linuxFallbackTimer = null;
-    await _service.cancel(_notificationId);
+    await profile.markCatchUpReminder();
   }
 
   Future<void> rescheduleFromProfile(ProfileController profile) async {
@@ -139,19 +141,24 @@ class DailyClaimReminder {
     }
   }
 
-  void _scheduleLinuxFallback(DateTime scheduledDate) {
-    _linuxFallbackTimer?.cancel();
+  void _scheduleDesktopFallback(DateTime scheduledDate) {
+    _desktopFallbackTimer?.cancel();
     final delay = scheduledDate.difference(DateTime.now());
     if (delay.isNegative) return;
 
-    _linuxFallbackTimer = Timer(delay, () async {
-      await _service.show(
-        id: _notificationId,
-        title: _title,
-        body: _body,
-        payload: _payload,
-        image: _diceImage,
-      );
-    });
+    _desktopFallbackTimer = Timer(
+      delay,
+      () => _showDesktopFallback(_notificationId),
+    );
+  }
+
+  Future<void> _showDesktopFallback(int id) {
+    return _service.show(
+      id: id,
+      title: _title,
+      body: _body,
+      payload: _payload,
+      image: _diceImage,
+    );
   }
 }

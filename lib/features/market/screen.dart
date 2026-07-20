@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/cauldrons.dart';
 import 'package:grimoji/config/powerups.dart';
@@ -7,7 +6,6 @@ import 'package:grimoji/features/market/widgets/daily_reward/index.dart';
 import 'package:grimoji/features/market/widgets/powerups/index.dart';
 import 'package:grimoji/features/market/widgets/powerups/item.dart';
 import 'package:grimoji/utils/context_data.dart';
-import 'package:grimoji/widgets/custom/pill_button.dart';
 
 class MarketScreen extends StatelessWidget {
   const MarketScreen({super.key});
@@ -61,40 +59,6 @@ class MarketScreen extends StatelessWidget {
           padding: EdgeInsets.all(24.0 * scale),
           physics: const BouncingScrollPhysics(),
           children: [
-            if (kDebugMode)
-              Padding(
-                padding: EdgeInsets.only(bottom: 16 * scale),
-                child: PillButton(
-                  text: 'Trigger Daily Claim Notification',
-                  color: context.palette.crimson.withValues(alpha: 0.25),
-                  textColor: context.palette.crimson,
-                  borderWidth: 1,
-                  onTap: () async {
-                    playPurchaseSfx(context);
-                    final reminder = context.readDailyClaimReminder;
-                    final granted = await reminder.requestPermission();
-                    if (!context.mounted) return;
-                    if (!granted) {
-                      _showSnackbar(
-                        context,
-                        'Notification permission denied',
-                        isError: true,
-                      );
-                      return;
-                    }
-                    await reminder.scheduleTestReminder(
-                      const Duration(seconds: 1),
-                    );
-                    await reminder.showDailyClaimNotification();
-                    if (!context.mounted) return;
-                    _showSnackbar(
-                      context,
-                      'Test notification shown and scheduled in 1s',
-                      isError: false,
-                    );
-                  },
-                ),
-              ),
             GestureDetector(
               onDoubleTap: () {
                 context.readProfile.addDice(1000);

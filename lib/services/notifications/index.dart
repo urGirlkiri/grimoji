@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:grimoji/services/notifications/models/image.dart';
@@ -24,16 +25,21 @@ class FlutterNotificationService implements NotificationService {
        _defaultChannel = defaultChannel;
 
   bool get _isSupported =>
-      !kIsWeb && (Platform.isAndroid || Platform.isIOS || Platform.isMacOS);
+      !kIsWeb &&
+      (Platform.isAndroid ||
+          Platform.isIOS ||
+          Platform.isMacOS ||
+          Platform.isWindows);
 
-  bool get _isLinuxFallback => !kIsWeb && Platform.isLinux;
+  bool get _isDesktopFallback =>
+      !kIsWeb && (Platform.isLinux || Platform.isWindows);
 
   @override
   Future<void> initialize({
     void Function(String? payload)? onTapPayload,
   }) async {
     _initialized = true;
-    if (!_isSupported && !_isLinuxFallback) return;
+    if (!_isSupported && !_isDesktopFallback) return;
 
     tz_data.initializeTimeZones();
 
@@ -48,12 +54,18 @@ class FlutterNotificationService implements NotificationService {
     const linuxSettings = LinuxInitializationSettings(
       defaultActionName: 'Open',
     );
+    final windowsSettings = WindowsInitializationSettings(
+      appName: 'Grimoji',
+      appUserModelId: dotenv.env['WINDOWS_USER_MODEL_ID']!,
+      guid: dotenv.env['WINDOWS_NOTIFICATION_GUID']!,
+    );
 
-    const initSettings = InitializationSettings(
+    final initSettings = InitializationSettings(
       android: androidSettings,
       iOS: darwinSettings,
       macOS: darwinSettings,
       linux: linuxSettings,
+      windows: windowsSettings,
     );
 
     await _plugin.initialize(
@@ -168,8 +180,6 @@ class FlutterNotificationService implements NotificationService {
         details,
         payload: payload,
         androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
       );
     } catch (e) {
       _log.warning('Failed to schedule notification: $e');
@@ -185,7 +195,7 @@ class FlutterNotificationService implements NotificationService {
     NotificationImage? image,
   }) async {
     if (!_initialized) return;
-    if (!_isSupported && !_isLinuxFallback) return;
+    if (!_isSupported && !_isDesktopFallback) return;
 
     final details = await _notificationDetails(image: image);
     try {
@@ -235,6 +245,7 @@ class FlutterNotificationService implements NotificationService {
       iOS: await _darwinDetails(image: image),
       macOS: await _darwinDetails(image: image),
       linux: await _linuxDetails(image: image),
+      windows: const WindowsNotificationDetails(),
     );
   }
 
