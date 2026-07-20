@@ -45,6 +45,8 @@ class PillButton extends StatelessWidget {
     final innerText = Text(
       text,
       textAlign: TextAlign.center,
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
       style: GoogleFonts.eagleLake(
         color: effectiveTextColor,
         fontWeight: FontWeight.bold,
@@ -111,7 +113,7 @@ class PillButton extends StatelessWidget {
                           children: [
                             leading!,
                             const SizedBox(width: 8),
-                            innerText,
+                            Flexible(child: innerText),
                           ],
                         )
                       : innerText,
@@ -119,7 +121,11 @@ class PillButton extends StatelessWidget {
               : leading != null
               ? Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: [leading!, const SizedBox(width: 8), innerText],
+                  children: [
+                    leading!,
+                    const SizedBox(width: 8),
+                    Flexible(child: innerText),
+                  ],
                 )
               : innerText,
         ),
