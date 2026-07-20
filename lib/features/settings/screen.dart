@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/settings/dialogs/reset.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
+import 'package:grimoji/widgets/custom/animated_button.dart';
+import 'package:grimoji/widgets/custom/emoji_widget.dart';
 import 'package:grimoji/widgets/custom/scroll_dialog.dart';
 import 'package:provider/provider.dart';
 
@@ -96,6 +99,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final settings = context.watchSettings;
     final palette = context.palette;
     final isLarge = context.isLargeScreen;
+    final scale = context.globalScale;
 
     return Scaffold(
       backgroundColor: palette.voidBlack,
@@ -183,6 +187,42 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   const SizedBox(height: 24),
 
                   ListenableBuilder(
+                    listenable: settings.emojiAnimations,
+                    builder: (context, child) {
+                      return Column(
+                        children: [
+                          Text(
+                            'Emoji Animations',
+                            style: context.theme.textTheme.bodyLarge?.copyWith(
+                              color: palette.midnight,
+                            ),
+                          ),
+                          SizedBox(height: 12 * scale),
+                          AnimatedButton(
+                            onTap: settings.toggleEmojiAnimations,
+                            child: Opacity(
+                              opacity: settings.emojiAnimations.value
+                                  ? 1.0
+                                  : 0.4,
+                              child: settings.emojiAnimations.value
+                                  ? EmojiWidget.lottie(
+                                      path: Emojis.robot.lottie,
+                                      size: 64 * scale,
+                                    )
+                                  : EmojiWidget.svg(
+                                      path: Emojis.robot.svg,
+                                      size: 64 * scale,
+                                    ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  ListenableBuilder(
                     listenable: Listenable.merge([
                       settings.soundsOn,
                       settings.musicOn,
@@ -190,6 +230,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       settings.sfxVolume,
                       settings.musicVolume,
                       settings.dailyClaimReminderOn,
+                      settings.emojiAnimations,
                     ]),
                     builder: (context, child) {
                       return Column(

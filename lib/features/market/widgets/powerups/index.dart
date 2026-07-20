@@ -108,6 +108,7 @@ class _PowerupShopItem extends StatelessWidget {
             description: boost.description,
             cost: boost.price,
             iconPath: boost.iconPath,
+            lottiePath: boost.lottiePath,
             isEmoji: true,
             amount: '×${boost.bundleAmount}',
             ownedCount: count,

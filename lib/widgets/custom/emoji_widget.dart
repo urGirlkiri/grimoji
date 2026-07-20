@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:drop_shadow/drop_shadow.dart' as ds;
+import 'package:grimoji/utils/context_data.dart';
 
 /// A reusable widget that displays emoji animations.
 /// Supports Lottie (.json), SVG (.svg), and plain text emojis.
@@ -12,6 +13,8 @@ class EmojiWidget extends StatelessWidget {
   final Offset shadowOffset;
   final Color shadowColor;
   final bool useDropShadow;
+  final bool? animate;
+  final bool? repeat;
 
   const EmojiWidget({
     super.key,
@@ -21,6 +24,8 @@ class EmojiWidget extends StatelessWidget {
     this.shadowOffset = const Offset(0, 6),
     this.shadowColor = const Color(0x660E0E12),
     this.useDropShadow = false,
+    this.animate,
+    this.repeat,
   });
 
   /// Named constructor for Lottie animations
@@ -32,6 +37,8 @@ class EmojiWidget extends StatelessWidget {
     Offset shadowOffset = const Offset(0, 6),
     Color shadowColor = const Color(0x660E0E12),
     bool useDropShadow = false,
+    bool? animate,
+    bool? repeat,
   }) : this(
          key: key,
          assetPath: path,
@@ -40,6 +47,8 @@ class EmojiWidget extends StatelessWidget {
          shadowOffset: shadowOffset,
          shadowColor: shadowColor,
          useDropShadow: useDropShadow,
+         animate: animate,
+         repeat: repeat,
        );
 
   /// Named constructor for SVG images
@@ -75,6 +84,10 @@ class EmojiWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final settingsOn = context.readSettings.emojiAnimations.value;
+    final shouldAnimate = animate ?? settingsOn;
+    final shouldRepeat = repeat ?? shouldAnimate;
+
     if (assetPath.endsWith('.json')) {
       final child = RepaintBoundary(
         child: Lottie.asset(
@@ -82,8 +95,8 @@ class EmojiWidget extends StatelessWidget {
           width: size,
           height: size,
           fit: BoxFit.contain,
-          animate: true,
-          repeat: true,
+          animate: shouldAnimate,
+          repeat: shouldRepeat,
           frameRate: const FrameRate(30),
         ),
       );

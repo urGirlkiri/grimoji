@@ -21,13 +21,18 @@ class SwallowEffect extends StatelessWidget {
       return child;
     }
 
+    final Widget holeWidget = EmojiWidget.svg(
+      path: Emojis.hole.svg,
+      size: size * 1.4,
+    );
+
     return Stack(
       alignment: Alignment.center,
       clipBehavior: Clip.none,
       children: [
         Positioned.fill(
           child: Center(
-            child: EmojiWidget.svg(path: Emojis.hole.svg, size: size * 1.4)
+            child: holeWidget
                 .animate()
                 .scale(
                   begin: Offset.zero,

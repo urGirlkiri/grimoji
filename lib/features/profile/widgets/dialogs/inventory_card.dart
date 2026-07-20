@@ -72,8 +72,8 @@ class InventoryCard extends StatelessWidget {
                   child: Opacity(
                     opacity: isEmpty ? 0.4 : 1.0,
                     child: Center(
-                      child: EmojiWidget.svg(
-                        path: iconPath,
+                      child: EmojiWidget(
+                        assetPath: boost?.lottiePath ?? iconPath,
                         size: 55 * context.globalScale,
                       ),
                     ),

@@ -96,10 +96,7 @@ class _PurchaseDialog extends StatelessWidget {
         children: [
           const Positioned(
             top: -50,
-            child: CustomPaint(
-              size: Size(5, 500),
-              painter: RopePainter(),
-            ),
+            child: CustomPaint(size: Size(5, 500), painter: RopePainter()),
           ),
           Positioned(
             top: 200,
@@ -138,8 +135,9 @@ class _PurchaseDialog extends StatelessWidget {
                                       borderColor: context.palette.dusk,
                                     ),
                                   ),
-                                  EmojiWidget.svg(
-                                    path: boost.iconPath,
+                                  EmojiWidget(
+                                    assetPath:
+                                        boost.lottiePath ?? boost.iconPath,
                                     size: 58 * scale,
                                   ),
                                 ],

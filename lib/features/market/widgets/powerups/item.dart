@@ -8,6 +8,7 @@ class ShopItemCard extends StatelessWidget {
   final String description;
   final int cost;
   final String iconPath;
+  final String? lottiePath;
   final VoidCallback onTap;
 
   final bool isEmoji;
@@ -21,6 +22,7 @@ class ShopItemCard extends StatelessWidget {
     required this.cost,
     required this.iconPath,
     required this.onTap,
+    this.lottiePath,
     this.isEmoji = false,
     this.amount,
     this.ownedCount,
@@ -139,7 +141,12 @@ class ShopItemCard extends StatelessWidget {
                 alignment: Alignment.center,
                 children: [
                   isEmoji
-                      ? EmojiWidget.svg(path: iconPath, size: 45 * scale)
+                      ? (lottiePath != null
+                            ? EmojiWidget(
+                                assetPath: lottiePath!,
+                                size: 45 * scale,
+                              )
+                            : EmojiWidget.svg(path: iconPath, size: 45 * scale))
                       : Image.asset(
                           iconPath,
                           width: 45 * scale,
