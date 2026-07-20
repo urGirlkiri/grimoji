@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:grimoji/features/match/state.dart';
 import 'package:grimoji/features/match/announcer.dart';
-import '../../mocks/mock_audio_controller.dart';
+import '../../mocks/audio_controller.dart';
 
 void main() {
   group('GameState tests', () {

@@ -16,7 +16,7 @@ import 'package:grimoji/features/level/managers/goal.dart';
 import 'package:logging/logging.dart';
 
 class LevelState extends ChangeNotifier {
-  static final _log = Logger('LevelState.PowerupSelection');
+  static final _log = Logger('LevelState');
   final void Function(int stars) onWin;
   final VoidCallback onLose;
   final GameLevel level;

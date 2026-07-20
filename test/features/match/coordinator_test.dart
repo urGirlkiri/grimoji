@@ -10,7 +10,7 @@ import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:flutter/widgets.dart';
 import 'package:grimoji/features/match/board/manager.dart';
-import '../../mocks/mock_audio_controller.dart';
+import '../../mocks/audio_controller.dart';
 import '../../helpers/index.dart';
 
 void main() {
