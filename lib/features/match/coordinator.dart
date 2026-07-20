@@ -1,12 +1,8 @@
 import 'dart:async';
-import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
-import 'package:grimoji/features/alchemy/behavior_register.dart';
-import 'package:grimoji/features/alchemy/models/action_type.dart';
-import 'package:grimoji/features/alchemy/models/behavior_action.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:grimoji/features/match/models/board_region.dart';
@@ -22,10 +18,10 @@ import 'package:grimoji/features/match/models/collected_emoji.dart';
 import 'package:grimoji/features/match/detectors/match.dart';
 import 'package:grimoji/features/match/state.dart';
 import 'package:grimoji/features/match/detectors/swipe.dart';
-import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/match/board/effects/ghost_dive/effect.dart';
 import 'package:grimoji/features/match/board/effects/wheel_roll/effect.dart';
 import 'package:grimoji/features/match/processors/effects/index.dart';
+import 'package:grimoji/features/match/processors/fever/index.dart';
 import 'package:grimoji/features/match/processors/settlement.dart';
 import 'package:grimoji/features/match/controllers/hint.dart';
 import 'package:logging/logging.dart';
@@ -46,6 +42,7 @@ class GameCoordinator {
 
   late final SettlementProcessor _settlement;
   late final EffectsProcessor _effects;
+  late final FeverProcessor _fever;
   late final HintController _hint;
 
   GameCoordinator({
@@ -71,6 +68,19 @@ class GameCoordinator {
       settlement: _settlement,
     );
     _hint = HintController(engine: engine, state: state, audio: audio);
+    _fever = FeverProcessor(
+      engine: engine,
+      state: state,
+      boardManager: boardManager,
+      effects: _effects,
+      hint: _hint,
+      cascadeSequence: _cascadeSequence,
+      processEffects: ({required isHorizontal, required isWrapping}) =>
+          _processEffects(isHorizontal: isHorizontal, isWrapping: isWrapping),
+      dispatchGhostEffects: (ghosts, {required simultaneous}) =>
+          _dispatchGhostEffects(ghosts, simultaneous: simultaneous),
+      sweepBehaviors: _drainBehaviorFlags,
+    );
     state.setHintsEnabled(startingBoosters.contains('crystal_ball'));
   }
 
@@ -135,7 +145,7 @@ class GameCoordinator {
     TileCoordinate tCoord,
   ) async {
     final dtile = engine.grid[dCoord.row][dCoord.col];
-    
+
     if (state.isGameOver || state.isPaused) return;
 
     state.setProcessing(true);
@@ -231,88 +241,25 @@ class GameCoordinator {
     int bonusBombs,
     VoidCallback onSpawn,
   ) async {
-    state.setFeverTime(true);
-    state.setFeverBombCount(bonusBombs);
-    state.setReFeverBombs(bonusBombs);
-    state.setFeverTimer(bonusBombs);
-    _hint.cancel();
-    _hint.clear();
+    final completed = await _fever.executeSequence(
+      bonusBombs: bonusBombs,
+      onSpawn: onSpawn,
+    );
+    if (!completed || state.isDisposed) return;
 
-    while (state.isProcessing && !state.isDisposed) {
-      await Future.delayed(flagPollingInterval);
-    }
-    if (state.isDisposed) return;
-
-    await _executeFeverAutoTriggers();
-    if (state.isDisposed) return;
-
-    if (bonusBombs > 0) {
-      for (int i = 0; i < bonusBombs; i++) {
-        if (state.isDisposed) return;
-
-        boardManager.spawnBomb();
-        onSpawn();
-        state.updateUI();
-
-        await Future.delayed(feverBombSpawnInterval);
-      }
-
-      await Future.delayed(feverDetonationChainDelay);
-      for (int i = 0; i < bonusBombs; i++) {
-        if (state.isDisposed) return;
-        if (boardManager.countSafeBombs() == 0) break;
-
-        final primedBombs = boardManager.getTriggeredEmojis();
-        final focusCoord = primedBombs.isNotEmpty
-            ? primedBombs.first.coordinate
-            : TileCoordinate(row: 3, col: 3);
-
-        boardManager.triggerNextBomb();
-        state.updateUI();
-
-        await Future.delayed(feverDetonationChainDelay);
-
-        await _cascadeSequence(focusCoord);
-
-        while (state.isProcessing && !state.isDisposed) {
-          await Future.delayed(flagPollingInterval);
-        }
-        if (state.isDisposed) return;
-
-        await _executeFeverAutoTriggers();
-        if (state.isDisposed) return;
-
-        state.setReFeverBombs(boardManager.countSafeBombs());
-        state.decrementFeverTimer();
-        state.updateUI();
-
-        await Future.delayed(feverClockTickInterval);
-      }
-    }
-
-    state.setFeverComplete(true);
     state.setGameOver();
-
     while ((state.isProcessing || announcer.isSpeaking || state.isShuffling) &&
         !state.isDisposed) {
-      await Future.delayed(flagPollingInterval);
+      await Future<void>.delayed(flagPollingInterval);
     }
     if (state.isDisposed) return;
 
-    await Future.delayed(postFeverResultsDelay);
-
-    if (!state.isDisposed) {
-      _hint.clear();
-    }
+    await Future<void>.delayed(postFeverResultsDelay);
   }
 
   void skipFever() {
     state.setGameOver();
-    state.setFeverTime(false);
-    state.setFeverBombCount(0);
-    state.setReFeverBombs(0);
-    state.setFeverTimer(0);
-    _hint.clear();
+    _fever.skip();
   }
 
   void dispose() {
@@ -328,7 +275,6 @@ class GameCoordinator {
     if (state.isGameOver || state.isPaused || state.isProcessing) return;
 
     state.setProcessing(true);
-
     final tile = engine.grid[coord.row][coord.col];
     if (tile.emoji == engine.level.targetEmoji) {
       _resolveCollectedEmojis([CollectedEmoji(emoji: tile.emoji, count: 1)]);
@@ -336,168 +282,6 @@ class GameCoordinator {
 
     await _settlement.settleBoard(BoardRegion({coord}));
     await _finalizeTurnLifecycle();
-  }
-
-  Future<void> _executeFeverAutoTriggers() async {
-    if (state.isDisposed) return;
-    await _executeGhostFever();
-    if (state.isDisposed) return;
-    await _executeBlackHoleFever();
-    if (state.isDisposed) return;
-    await _executePoleFever();
-    if (state.isDisposed) return;
-    await _executeWheelFever();
-  }
-
-  Future<void> _executeGhostFever() async {
-    final safeTargets = <GameEmoji>{
-      engine.level.targetEmoji,
-      ...engine.level.availableEmojis,
-    }..remove(Emojis.bomb);
-
-    final excluded = <TileCoordinate>{};
-    for (int r = 0; r < BoardManager.rows; r++) {
-      for (int c = 0; c < BoardManager.cols; c++) {
-        if (!safeTargets.contains(engine.grid[r][c].emoji)) {
-          excluded.add(TileCoordinate(row: r, col: c));
-        }
-      }
-    }
-
-    for (int r = 0; r < BoardManager.rows; r++) {
-      for (int c = 0; c < BoardManager.cols; c++) {
-        if (engine.grid[r][c].emoji == Emojis.ghost) {
-          engine.executeBehaviorActions(
-            [const BehaviorAction(type: ActionType.ghostDive)],
-            r,
-            c,
-          );
-        }
-      }
-    }
-
-    await _dispatchGhostEffects(
-      await _effects.prepareGhostEffects(excluded: excluded),
-      simultaneous: true,
-    );
-  }
-
-  Future<void> _executeBlackHoleFever() async {
-    final blackHoles = <TileCoordinate>[];
-    for (int r = 0; r < BoardManager.rows; r++) {
-      for (int c = 0; c < BoardManager.cols; c++) {
-        if (engine.grid[r][c].emoji == Emojis.hole) {
-          blackHoles.add(TileCoordinate(row: r, col: c));
-        }
-      }
-    }
-    if (blackHoles.isEmpty) return;
-
-    final specialEmojis = {
-      Emojis.bomb,
-      Emojis.hole,
-      Emojis.barberPole,
-      Emojis.ghost,
-      Emojis.wheel,
-    };
-
-    final blackHoleCoords = blackHoles.map((c) => (c.row, c.col)).toSet();
-
-    final presentTypes = <GameEmoji>{};
-    for (int r = 0; r < BoardManager.rows; r++) {
-      for (int c = 0; c < BoardManager.cols; c++) {
-        if (blackHoleCoords.contains((r, c))) continue;
-        final emoji = engine.grid[r][c].emoji;
-        if (!specialEmojis.contains(emoji)) {
-          presentTypes.add(emoji);
-        }
-      }
-    }
-
-    if (presentTypes.isEmpty) return;
-
-    final random = Random();
-    final chosenEmoji = presentTypes.elementAt(
-      random.nextInt(presentTypes.length),
-    );
-
-    for (final coord in blackHoles) {
-      engine.executeBehaviorActions(
-        [BehaviorAction(type: ActionType.consumeAllOfType, emoji: chosenEmoji)],
-        coord.row,
-        coord.col,
-      );
-    }
-
-    state.updateUI();
-    if (!await _safeDelay(swallowAnimationLock)) return;
-
-    await _drainBehaviorFlags();
-  }
-
-  Future<void> _executePoleFever() async {
-    engine.initializeBehaviors();
-
-    final poles = <TileCoordinate>[];
-    for (int r = 0; r < BoardManager.rows; r++) {
-      for (int c = 0; c < BoardManager.cols; c++) {
-        if (engine.grid[r][c].emoji == Emojis.barberPole) {
-          poles.add(TileCoordinate(row: r, col: c));
-        }
-      }
-    }
-    if (poles.isEmpty) return;
-
-    for (final coord in poles) {
-      final actions = engine.processTappedBehavior(
-        engine.grid[coord.row][coord.col],
-        coord.row,
-        coord.col,
-      );
-
-      if (actions.isEmpty) {
-        final fallback = BehaviorRegister.getBehaviorFor(Emojis.barberPole);
-        if (fallback != null) {
-          engine.executeBehaviorActions(
-            fallback.onTapped(coord.row, coord.col),
-            coord.row,
-            coord.col,
-          );
-        }
-      } else {
-        engine.executeBehaviorActions(actions, coord.row, coord.col);
-      }
-    }
-
-    await _drainBehaviorFlags();
-  }
-
-  Future<void> _executeWheelFever() async {
-    engine.initializeBehaviors();
-
-    final wheels = <TileCoordinate>[];
-    for (int r = 0; r < BoardManager.rows; r++) {
-      for (int c = 0; c < BoardManager.cols; c++) {
-        if (engine.grid[r][c].emoji == Emojis.wheel) {
-          wheels.add(TileCoordinate(row: r, col: c));
-        }
-      }
-    }
-    if (wheels.isEmpty) return;
-
-    for (final coord in wheels) {
-      engine.executeBehaviorActions(
-        [const BehaviorAction(type: ActionType.wheelRoll)],
-        coord.row,
-        coord.col,
-      );
-    }
-
-    final random = Random();
-    final isHorizontal = random.nextBool();
-    final isWrapping = random.nextBool();
-
-    await _processEffects(isHorizontal: isHorizontal, isWrapping: isWrapping);
   }
 
   Future<void> _cascadeSequence(TileCoordinate focusCoordinate) async {
