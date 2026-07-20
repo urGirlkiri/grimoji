@@ -109,13 +109,15 @@ int countNearMisses(
   return nearMissesFound;
 }
 
-bool willDropCreateLevelGoal(
+int countRecipeChainNearMisses(
   List<List<String>> board,
   int rows,
   int cols,
-  String targetVisual,
   Set<String> unmatchable,
+  Map<String, int> recipeChainSteps,
 ) {
+  int nearMissesFound = 0;
+
   for (int row = 0; row < rows; row++) {
     int streak = 1;
     for (int col = 1; col <= cols; col++) {
@@ -126,13 +128,16 @@ bool willDropCreateLevelGoal(
           !unmatchable.contains(board[row][col]);
 
       if (!isMatchingNeighbor) {
-        if (streak >= 3 && board[row][col - 1] == targetVisual) return true;
+        if (streak == 2 && recipeChainSteps.containsKey(board[row][col - 1])) {
+          nearMissesFound++;
+        }
         streak = 1;
       } else {
         streak++;
       }
     }
   }
+
   for (int col = 0; col < cols; col++) {
     int streak = 1;
     for (int row = 1; row <= rows; row++) {
@@ -143,12 +148,15 @@ bool willDropCreateLevelGoal(
           !unmatchable.contains(board[row][col]);
 
       if (!isMatchingNeighbor) {
-        if (streak >= 3 && board[row - 1][col] == targetVisual) return true;
+        if (streak == 2 && recipeChainSteps.containsKey(board[row - 1][col])) {
+          nearMissesFound++;
+        }
         streak = 1;
       } else {
         streak++;
       }
     }
   }
-  return false;
+
+  return nearMissesFound;
 }

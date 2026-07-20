@@ -4,7 +4,7 @@ class HintScanArgs {
   final int rows;
   final int cols;
   final String targetVisual;
-  final Set<String> targetIngredients;
+  final Map<String, int> recipeChainSteps;
   final Set<String> unmatchableVisuals;
 
   HintScanArgs({
@@ -13,7 +13,7 @@ class HintScanArgs {
     required this.rows,
     required this.cols,
     required this.targetVisual,
-    required this.targetIngredients,
+    required this.recipeChainSteps,
     required this.unmatchableVisuals,
   });
 }
