@@ -40,6 +40,9 @@ class ProfileData extends HiveObject {
   @HiveField(11, defaultValue: 0)
   int lastDailyCatchUpTime;
 
+  @HiveField(12, defaultValue: '')
+  String customName;
+
   ProfileData({
     this.isFirstTime = true,
     this.avatar = 'cyber_goth',
@@ -53,6 +56,7 @@ class ProfileData extends HiveObject {
     this.hasClaimedDaily = false,
     this.lastDailyClaimTime = 0,
     this.lastDailyCatchUpTime = 0,
+    this.customName = '',
   });
 
   @override

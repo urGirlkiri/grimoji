@@ -44,6 +44,21 @@ class ProfileController extends ChangeNotifier {
 
   int get profileVersion => _profileVersion;
   String get avatar => _profile?.avatar ?? 'cyber_goth';
+  String get displayName {
+    final custom = _profile?.customName ?? '';
+    if (custom.isNotEmpty) return custom;
+    return defaultNameFromAvatar(avatar);
+  }
+
+  bool get hasCustomName => (_profile?.customName ?? '').isNotEmpty;
+
+  static String defaultNameFromAvatar(String avatar) {
+    return avatar
+        .split('_')
+        .map((word) => '${word[0].toUpperCase()}${word.substring(1)}')
+        .join(' ');
+  }
+
   int get cauldrons => _profile?.cauldrons ?? 5;
   int get dices => _profile?.dices ?? 0;
   int get currency => _profile?.dices ?? 0;
@@ -53,6 +68,14 @@ class ProfileController extends ChangeNotifier {
   void setAvatar(String avatar) {
     if (_profile != null && availableAvatars.contains(avatar)) {
       _profile!.avatar = avatar;
+      _save();
+    }
+  }
+
+  void setDisplayName(String name) {
+    final trimmed = name.trim();
+    if (_profile != null && trimmed.isNotEmpty) {
+      _profile!.customName = trimmed;
       _save();
     }
   }

@@ -3,9 +3,11 @@ import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/profile/widgets/dialogs/avatar_dialog.dart';
 import 'package:grimoji/features/profile/widgets/dialogs/inventory_card.dart';
+import 'package:grimoji/features/profile/widgets/dialogs/name_dialog.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
 import 'package:grimoji/widgets/custom/animated_button.dart';
+import 'package:grimoji/widgets/custom/app_icon.dart';
 import 'package:grimoji/widgets/custom/scroll_dialog.dart';
 import 'package:provider/provider.dart';
 
@@ -65,16 +67,14 @@ class ProfileDialog extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            AnimatedButton(
-                              child: Icon(
-                                Icons.person,
-                                color: context.palette.moonlight,
-                                size: 20,
-                              ),
+                            AppIcon(
+                              fileName: 'edit',
+                              size: 50,
+                              onTap: () => showNameDialog(context),
                             ),
                             const SizedBox(width: 6),
                             Text(
-                              "Unknown Player",
+                              profile.displayName,
                               style: context.theme.textTheme.titleSmall
                                   ?.copyWith(color: context.palette.mist),
                             ),

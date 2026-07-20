@@ -22,7 +22,7 @@ class SettingsDataAdapter extends TypeAdapter<SettingsData> {
       musicOn: fields[2] as bool,
       sfxVolume: fields[3] as double,
       musicVolume: fields[4] as double,
-      dailyClaimReminderOn: fields[5] as bool? ?? false,
+      dailyClaimReminderOn: fields[5] == null ? false : fields[5] as bool,
     );
   }
 
