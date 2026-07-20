@@ -9,6 +9,23 @@ class ProfileController extends ChangeNotifier {
   final Logger _log = Logger('ProfileController');
   static const int _maxCauldrons = 5;
   static const Duration _regenDuration = Duration(hours: 1);
+  static const List<String> availableAvatars = [
+    'cyber_astronaut',
+    'cyber_goth',
+    'fairy_blade',
+    'fairy_mage',
+    'magma_golem',
+    'mecha_tank',
+    'paladin_green',
+    'paladin_silver',
+    'shinobi_blue',
+    'shinobi_purple',
+    'stealth_operative',
+    'toxic_punk',
+    'vr_bot_blue',
+    'vr_bot_silver',
+    'vr_hacker_orange',
+  ];
   int _profileVersion = 0;
   ProfileData? _profile;
 
@@ -32,6 +49,13 @@ class ProfileController extends ChangeNotifier {
   int get currency => _profile?.dices ?? 0;
   bool get isFirstTime => _profile?.isFirstTime ?? true;
   bool get isLoaded => _profile != null;
+
+  void setAvatar(String avatar) {
+    if (_profile != null && availableAvatars.contains(avatar)) {
+      _profile!.avatar = avatar;
+      _save();
+    }
+  }
 
   List<String> get unlockedRecipes => _profile?.unlockedRecipeIds ?? [];
   List<String> get unreadRecipeIds => _profile?.unreadRecipeIds ?? [];
@@ -184,8 +208,7 @@ class ProfileController extends ChangeNotifier {
       _profile != null &&
       _profile!.hasClaimedDaily &&
       canClaimDaily() &&
-      _profile!.lastDailyCatchUpTime !=
-          _profile!.lastDailyClaimTime;
+      _profile!.lastDailyCatchUpTime != _profile!.lastDailyClaimTime;
 
   Future<void> markCatchUpReminder() async {
     if (_profile == null) return;

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:grimoji/app/palette.dart';
 
 class RopePainter extends CustomPainter {
-  static final palette = Palette();
+  static const palette = Palette();
+
+  const RopePainter();
 
   @override
   void paint(Canvas canvas, Size size) {

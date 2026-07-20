@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/level/controller.dart';
+import 'package:grimoji/features/profile/widgets/dialogs/avatar_dialog.dart';
 import 'package:grimoji/features/profile/widgets/dialogs/inventory_card.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
@@ -33,6 +34,7 @@ class ProfileDialog extends StatelessWidget {
                 child: Row(
                   children: [
                     AnimatedButton(
+                      onTap: () => showAvatarPicker(context),
                       child: Container(
                         width: 100,
                         height: 100,

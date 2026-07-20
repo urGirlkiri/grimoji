@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Palette {
+  const Palette();
+
   Color get voidBlack => const Color(0xff0e0e12);
   Color get midnight => const Color(0xff1a1a24);
   Color get twilight => const Color(0xff333346);
