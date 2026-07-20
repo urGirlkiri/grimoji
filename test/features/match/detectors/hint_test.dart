@@ -191,7 +191,7 @@ void main() {
             Emojis.bone,
             Emojis.worm,
           ]);
-          testGrid.place(0, 0, Emojis.fire); 
+          testGrid.place(0, 0, Emojis.fire);
           testGrid.place(0, 1, Emojis.rock);
           testGrid.place(0, 2, Emojis.fire);
           testGrid.place(0, 3, Emojis.fire);
@@ -391,13 +391,14 @@ void main() {
           Emojis.rock,
           Emojis.droplet,
           Emojis.alien,
-          Emojis.rock,
+          Emojis.spider,
         ]);
         testGrid.place(0, 0, Emojis.fire);
         testGrid.place(0, 1, Emojis.fire);
         testGrid.place(0, 2, Emojis.fire);
         testGrid.place(1, 2, Emojis.fire);
         testGrid.place(2, 2, Emojis.fire);
+        testGrid.place(6, 2, Emojis.droplet);
         testGrid.place(7, 0, Emojis.rock);
         testGrid.place(7, 1, Emojis.rock);
         testGrid.place(7, 2, Emojis.rock);
