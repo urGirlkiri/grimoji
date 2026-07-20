@@ -243,8 +243,20 @@ jobs:
       - name: Build MSIX
         run: |
           flutter config --enable-windows-desktop
-          flutter create --platforms=windows . 
+          flutter create --platforms=windows .
           flutter pub get
+
+      - name: MSVC coroutine workaround
+        run: |
+          $content = [System.IO.File]::ReadAllText('windows\CMakeLists.txt')
+          $content = $content -replace '(# Use Unicode for all projects\.\r?\nadd_definitions\(-DUNICODE -D_UNICODE\))', '$1
+          if(MSVC)
+            add_compile_definitions(_SILENCE_EXPERIMENTAL_COROUTINE_DEPRECATION_WARNINGS)
+          endif()'
+          [System.IO.File]::WriteAllText('windows\CMakeLists.txt', $content, [System.Text.UTF8Encoding]::new($false))
+
+      - name: Build MSIX
+        run: |
           flutter build windows --release
           dart run msix:create --store
           ren build\windows\x64\runner\Release\*.msix windows.msix
