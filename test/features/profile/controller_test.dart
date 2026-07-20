@@ -84,6 +84,47 @@ void main() {
     );
   });
 
+  group('Avatar', () {
+    test('should update avatar when given a valid avatar id', () async {
+      final persistence = _FakeProfilePersistence();
+      final controller = ProfileController(persistence: persistence);
+      await controller.load();
+
+      expect(controller.avatar, 'cyber_goth');
+
+      controller.setAvatar('fairy_mage');
+      expect(controller.avatar, 'fairy_mage');
+    });
+
+    test('should ignore invalid avatar ids', () async {
+      final persistence = _FakeProfilePersistence();
+      final controller = ProfileController(persistence: persistence);
+      await controller.load();
+
+      controller.setAvatar('not_an_avatar');
+      expect(controller.avatar, 'cyber_goth');
+    });
+
+    test('should default displayName to formatted avatar name', () async {
+      final persistence = _FakeProfilePersistence();
+      final controller = ProfileController(persistence: persistence);
+      await controller.load();
+
+      expect(controller.displayName, 'Cyber Goth');
+    });
+
+    test('should keep custom displayName when avatar changes', () async {
+      final persistence = _FakeProfilePersistence();
+      final controller = ProfileController(persistence: persistence);
+      await controller.load();
+
+      controller.setDisplayName('God Speed');
+      controller.setAvatar('fairy_mage');
+
+      expect(controller.displayName, 'God Speed');
+    });
+  });
+
   group('Daily Claim Reminder', () {
     test('should invoke callback with next claim time when claiming', () async {
       final persistence = _FakeProfilePersistence();
