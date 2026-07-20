@@ -40,7 +40,7 @@ List<int>? isolate(ThreatScan args) {
         args.unmatchableVisuals,
         args.obstacleVisuals,
         args.targetVisual,
-        args.targetIngredients,
+        args.recipeChainSteps,
       );
 
       potentialTargets.add((coordinates: [row, col], threatScore: threatScore));

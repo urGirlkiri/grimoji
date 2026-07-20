@@ -33,10 +33,9 @@ class ThreatDetector {
 
     final obstacleVisuals = {Emojis.poop.visual};
 
-    final ingredientsForLevelGoal = RecipeBook.allRecipes
-        .where((recipe) => recipe.yields == targetEmoji)
-        .map((recipe) => recipe.ingredient.visual)
-        .toSet();
+    final recipeChainSteps = RecipeBook.getRecipeChainSteps(
+      targetEmoji,
+    ).map((emoji, step) => MapEntry(emoji.visual, step));
 
     final excludedPositions = excluded
         .map((coord) => '${coord.row},${coord.col}')
@@ -53,7 +52,7 @@ class ThreatDetector {
         unmatchableVisuals: solidObstacles,
         obstacleVisuals: obstacleVisuals,
         targetVisual: targetEmoji.visual,
-        targetIngredients: ingredientsForLevelGoal,
+        recipeChainSteps: recipeChainSteps,
         excludedPositions: excludedPositions,
       ),
     );
