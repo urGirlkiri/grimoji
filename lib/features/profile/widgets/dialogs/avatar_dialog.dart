@@ -41,7 +41,7 @@ class _AvatarPickerDialog extends StatelessWidget {
     final scale = context.globalScale;
     final screenHeight = context.screenHeight;
     final dialogTop = (screenHeight * 0.18).clamp(80.0, 200.0);
-    final ropeLength = (dialogTop + 65 ).clamp(80.0, 250.0);
+    final ropeLength = (dialogTop + 65).clamp(80.0, 250.0);
 
     return Align(
       alignment: Alignment.topCenter,
@@ -52,7 +52,7 @@ class _AvatarPickerDialog extends StatelessWidget {
             top: -50,
             child: CustomPaint(
               size: Size(5, ropeLength),
-              painter:  const RopePainter(),
+              painter: const RopePainter(),
             ),
           ),
           Positioned(
@@ -69,12 +69,13 @@ class _AvatarPickerDialog extends StatelessWidget {
                   children: [
                     Text(
                       'Show Us Your Style',
-                      style: context.theme.textTheme.titleMedium?.copyWith(
+                      textAlign: TextAlign.center,
+                      style: context.theme.textTheme.headlineMedium?.copyWith(
                         color: context.palette.midnight,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 24 * scale),
+                    SizedBox(height: 4 * scale),
                     GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
