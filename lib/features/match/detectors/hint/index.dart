@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/config/emojis/index.dart';
@@ -20,10 +19,9 @@ class HintDetector {
     final hasBehaviorGrid = grid
         .map((row) => row.map((t) => t.behavior != null).toList())
         .toList();
-    final targetIngredients = RecipeBook.allRecipes
-        .where((r) => r.yields == targetEmoji)
-        .map((r) => r.ingredient.visual)
-        .toSet();
+    final recipeChainSteps = RecipeBook.getRecipeChainSteps(
+      targetEmoji,
+    ).map((emoji, step) => MapEntry(emoji.visual, step));
     final unmatchableVisuals = MatchDetector.unmatchableEmojis
         .map((e) => e.visual)
         .toSet();
@@ -36,7 +34,7 @@ class HintDetector {
         rows: BoardManager.rows,
         cols: BoardManager.cols,
         targetVisual: targetEmoji.visual,
-        targetIngredients: targetIngredients,
+        recipeChainSteps: recipeChainSteps,
         unmatchableVisuals: unmatchableVisuals,
       ),
     );
