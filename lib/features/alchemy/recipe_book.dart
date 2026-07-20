@@ -11,6 +11,8 @@ import 'package:grimoji/features/alchemy/recipes/chapter1.dart';
 import 'package:grimoji/features/alchemy/recipes/chapter2.dart';
 import 'package:grimoji/features/alchemy/recipes/chapter3.dart';
 import 'package:grimoji/features/alchemy/recipes/chapter4.dart';
+import 'dart:collection';
+
 import 'package:grimoji/features/alchemy/recipes/chapter5.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 
@@ -134,6 +136,60 @@ class RecipeBook {
 
   static bool isLegendary(GameEmoji emoji) {
     return getTier(emoji) >= 5;
+  }
+
+  static final Map<String, GameEmoji> _visualToEmojiCache = {};
+  static final Map<GameEmoji, Map<GameEmoji, int>> _recipeChainStepsCache = {};
+
+  static GameEmoji? emojiForVisual(String visual) {
+    _ensureInitialized();
+    if (_visualToEmojiCache.isEmpty) {
+      for (final emoji in Emojis.all) {
+        _visualToEmojiCache[emoji.visual] = emoji;
+      }
+    }
+    return _visualToEmojiCache[visual];
+  }
+
+  static Map<GameEmoji, int> getRecipeChainSteps(GameEmoji target) {
+    _ensureInitialized();
+    final cached = _recipeChainStepsCache[target];
+    if (cached != null) return cached;
+
+    final steps = <GameEmoji, int>{target: 0};
+    final queue = ListQueue<GameEmoji>()..add(target);
+
+    while (queue.isNotEmpty) {
+      final current = queue.removeFirst();
+      final recipes = _yieldCache[current];
+      if (recipes == null) continue;
+
+      for (final recipe in recipes) {
+        final ingredient = recipe.ingredient;
+        if (!steps.containsKey(ingredient)) {
+          steps[ingredient] = steps[current]! + 1;
+          queue.add(ingredient);
+        }
+      }
+    }
+
+    _recipeChainStepsCache[target] = steps;
+    return steps;
+  }
+
+  static Set<GameEmoji> getRecipeChainTo(GameEmoji target) {
+    return getRecipeChainSteps(target).keys.toSet();
+  }
+
+  static GameEmoji? getRecipeYield(GameEmoji ingredient, int groupSize) {
+    _ensureInitialized();
+    final recipes = _recipeCache[ingredient];
+    if (recipes == null || recipes.isEmpty) return null;
+
+    for (final recipe in recipes) {
+      if (groupSize >= recipe.requiredAmount) return recipe.yields;
+    }
+    return null;
   }
 
   static List<Recipe> get specialRecipes {

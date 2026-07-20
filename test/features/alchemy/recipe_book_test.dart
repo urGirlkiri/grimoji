@@ -263,5 +263,101 @@ void main() {
         );
       });
     });
+
+    group('Recipe Chain Tests', () {
+      test('getRecipeChainSteps should return map with target at step 0', () {
+        RecipeBook.initialize();
+        final chain = RecipeBook.getRecipeChainSteps(Emojis.bomb);
+
+        expect(chain, isNotNull);
+        expect(chain[Emojis.bomb], equals(0));
+      });
+
+      test(
+        'getRecipeChainSteps should include direct ingredients at step 1',
+        () {
+          RecipeBook.initialize();
+          final chain = RecipeBook.getRecipeChainSteps(Emojis.bomb);
+
+          expect(chain[Emojis.fire], equals(1));
+        },
+      );
+
+      test(
+        'getRecipeChainSteps should calculate multi-step chains correctly',
+        () {
+          RecipeBook.initialize();
+          final chain = RecipeBook.getRecipeChainSteps(Emojis.bomb);
+
+          final fireStep = chain[Emojis.fire];
+          expect(fireStep, equals(1));
+
+          final chainEmojis = chain.keys;
+          expect(chainEmojis.length, greaterThan(2));
+        },
+      );
+
+      test('getRecipeChainTo should return set of all chain emojis', () {
+        RecipeBook.initialize();
+        final chain = RecipeBook.getRecipeChainTo(Emojis.bomb);
+
+        expect(chain, isNotEmpty);
+        expect(chain.contains(Emojis.bomb), isTrue);
+        expect(chain.contains(Emojis.fire), isTrue);
+      });
+
+      test('emojiForVisual should return correct emoji for visual string', () {
+        RecipeBook.initialize();
+        final emoji = RecipeBook.emojiForVisual(Emojis.fire.visual);
+
+        expect(emoji, isNotNull);
+        expect(emoji, equals(Emojis.fire));
+      });
+
+      test('emojiForVisual should return null for invalid visual', () {
+        RecipeBook.initialize();
+        final emoji = RecipeBook.emojiForVisual('invalid_emoji');
+
+        expect(emoji, isNull);
+      });
+
+      test(
+        'getRecipeYield should return correct yield for sufficient group size',
+        () {
+          RecipeBook.initialize();
+          final fireRecipe = RecipeBook.getRecipeFor(Emojis.fire);
+          expect(fireRecipe, isNotNull);
+
+          final yield = RecipeBook.getRecipeYield(
+            Emojis.fire,
+            fireRecipe!.requiredAmount,
+          );
+          expect(yield, isNotNull);
+          expect(yield, equals(fireRecipe.yields));
+        },
+      );
+
+      test('getRecipeYield should return null for insufficient group size', () {
+        RecipeBook.initialize();
+        final yield = RecipeBook.getRecipeYield(Emojis.fire, 2);
+
+        expect(yield, isNull);
+      });
+
+      test('getRecipeYield should return null for emoji with no recipe', () {
+        RecipeBook.initialize();
+        final yield = RecipeBook.getRecipeYield(Emojis.noEntry, 3);
+
+        expect(yield, isNull);
+      });
+
+      test('getRecipeChainSteps should be memoized', () {
+        RecipeBook.initialize();
+        final chain1 = RecipeBook.getRecipeChainSteps(Emojis.bomb);
+        final chain2 = RecipeBook.getRecipeChainSteps(Emojis.bomb);
+
+        expect(identical(chain1, chain2), isTrue);
+      });
+    });
   });
 }
