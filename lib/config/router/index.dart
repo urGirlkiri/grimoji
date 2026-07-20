@@ -43,11 +43,11 @@ final router = GoRouter(
         return Routes.levelHintRoute.replaceAll(':level', '1');
       }
 
-      if (!profile.hasRecentlyPlayedGame()) {
-        return Routes.homeRoute;
+      if (profile.hasRecentlyPlayedGame()) {
+        return Routes.mapRoute;
       }
 
-      return Routes.mapRoute;
+      return null;
     }
 
     return null;
