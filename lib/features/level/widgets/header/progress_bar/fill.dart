@@ -15,6 +15,12 @@ class BarFill extends StatelessWidget {
     final isPaused = context.select<LevelState, bool>(
       (s) => s.gameState.isPaused,
     );
+    final isCompleteOrWon = context.select<LevelState, bool>(
+      (s) =>
+          s.isGoalComplete ||
+          (s.gameState.isGameOver && s.goalManager.calculateStars() >= 1),
+    );
+    final isHighlighted = hasTargetCombo || isCompleteOrWon;
 
     return AnimatedFractionallySizedBox(
       duration: const Duration(milliseconds: 600),
@@ -24,13 +30,13 @@ class BarFill extends StatelessWidget {
         duration: isPaused ? Duration.zero : const Duration(milliseconds: 400),
         height: 14,
         decoration: ShapeDecoration(
-          color: hasTargetCombo
+          color: isHighlighted
               ? context.palette.moonlight
               : context.palette.mist,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(60),
           ),
-          shadows: hasTargetCombo && !isPaused
+          shadows: isHighlighted && !isPaused
               ? [
                   BoxShadow(
                     color: context.palette.moonlight.withValues(alpha: .8),
