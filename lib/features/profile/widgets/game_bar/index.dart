@@ -4,7 +4,7 @@ import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/features/profile/widgets/dialogs/cau_dialog.dart';
 import 'package:grimoji/features/profile/widgets/dialogs/prof_dialog.dart';
-import 'package:grimoji/features/profile/widgets/dialogs/notif_dialog.dart';
+import 'package:grimoji/features/profile/widgets/dialogs/notif_dialog/index.dart';
 import 'package:grimoji/features/profile/widgets/game_bar/profile_avatar.dart';
 import 'package:grimoji/features/profile/widgets/game_bar/resource_pill.dart';
 import 'package:grimoji/utils/context_data.dart';
@@ -12,6 +12,7 @@ import 'package:grimoji/widgets/animations/dialog.dart';
 import 'package:grimoji/widgets/custom/animated_button.dart';
 import 'package:grimoji/widgets/custom/app_icon.dart';
 import 'package:grimoji/widgets/custom/plaque.dart';
+import 'package:grimoji/widgets/custom/unread_badge.dart';
 import 'package:provider/provider.dart';
 
 class GameBar extends StatelessWidget {
@@ -40,10 +41,19 @@ class GameBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          AppIcon(
-            fileName: 'mail_inbox',
-            size: 30 * scale,
-            onTap: () => onNotifTap(context),
+          Selector<ProfileController, bool>(
+            selector: (_, profile) => profile.canClaimDaily(),
+            builder: (context, canClaimDaily, _) => Stack(
+              children: [
+                AppIcon(
+                  fileName: 'mail_inbox',
+                  size: 30 * scale,
+                  onTap: () => onNotifTap(context),
+                ),
+                if (canClaimDaily)
+                  const Positioned(right: -1, child: UnreadBadge()),
+              ],
+            ),
           ),
           SizedBox(width: 8 * scale),
           Selector<ProfileController, String>(

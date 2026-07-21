@@ -56,12 +56,10 @@ class ResourcePill extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Text(
                     value,
-                    style: TextStyle(
+                    style: context.theme.textTheme.titleMedium!.copyWith(
                       color: palette.twilight,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'EagleLake',
-                      fontSize: 16 * scale,
                       letterSpacing: 0.5,
+                      height: 0
                     ),
                     maxLines: 1,
                   ),
