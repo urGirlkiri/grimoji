@@ -17,6 +17,7 @@ class ScrollDialog extends StatelessWidget {
   final Widget? leftButton;
   final EdgeInsets? padding;
   final ScrollType? scrollType;
+  final double? maxHeight;
 
   const ScrollDialog({
     super.key,
@@ -25,6 +26,7 @@ class ScrollDialog extends StatelessWidget {
     this.leftButton,
     this.padding,
     this.scrollType = ScrollType.verticalWideLong,
+    this.maxHeight,
   });
 
   String _getScrollImage(ScrollType type) {
@@ -106,7 +108,7 @@ class ScrollDialog extends StatelessWidget {
     final screenWidth = context.screenWidth;
 
     final maxDialogWidth = screenWidth * 0.9;
-    final maxDialogHeight = screenSize.height * 0.8;
+    final maxDialogHeight = maxHeight ?? screenSize.height * 0.8;
 
     final size = _dialogSize(
       scrollType!,
@@ -167,7 +169,7 @@ class ScrollDialog extends StatelessWidget {
           ),
           if (rightButton != null)
             Positioned(
-              top: isLarge ? -15 : -8,
+              top: isLarge ? 1 : -8,
               right: isLarge ? -1 : -8,
               child: SizedBox(
                 width: isLarge ? 80 : 60,
@@ -177,7 +179,7 @@ class ScrollDialog extends StatelessWidget {
             ),
           if (leftButton != null)
             Positioned(
-              top: isLarge ? -15 : -8,
+              top: isLarge ? 1 : -8,
               left: isLarge ? -1 : -8,
               child: SizedBox(
                 width: isLarge ? 80 : 60,

@@ -89,119 +89,134 @@ class _PurchaseDialog extends StatelessWidget {
     final starSize = 110 * scale;
     final profile = context.read<ProfileController>();
 
-    return Align(
-      alignment: Alignment.topCenter,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          const Positioned(
-            top: -50,
-            child: CustomPaint(size: Size(5, 500), painter: RopePainter()),
-          ),
-          Positioned(
-            top: 200,
-            child: ScrollDialog(
-              scrollType: ScrollType.fullyOpenHorizontal,
-              rightButton: CorkScrewCloseButton(
-                onTap: () => Navigator.of(context).pop(false),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isLarge = context.isLargeScreen;
+        final dialogWidth = isLarge
+            ? 550.0
+            : (constraints.maxWidth * 0.9).clamp(300.0, 550.0);
+        final dialogHeight = (dialogWidth * (isLarge ? 1.32 : 1.5)).clamp(
+          180.0,
+          constraints.maxHeight,
+        );
+        final ropeHeight = (constraints.maxHeight - dialogHeight) +80 ;
+
+        return Stack(
+          fit: StackFit.expand,
+          alignment: Alignment.center,
+          children: [
+            Positioned(
+              top: 0,
+              child: CustomPaint(
+                size: Size(5, ropeHeight),
+                painter: const RopePainter(),
               ),
-              padding: const EdgeInsets.all(0),
-              child: ListenableBuilder(
-                listenable: profile,
-                builder: (context, _) => Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const SizedBox(height: 50),
-                    Padding(
-                      padding: EdgeInsets.all(8 * scale),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 1.0 * scale,
-                            ),
-                            child: Row(
-                              children: [
-                                BalancePill(dices: profile.dices),
-                                Expanded(
-                                  child: Center(
-                                    child: SizedBox(
-                                      width: starSize,
-                                      height: starSize,
-                                      child: Stack(
-                                        alignment: Alignment.center,
-                                        children: [
-                                          CustomPaint(
-                                            size: Size(starSize, starSize),
-                                            painter: StarPainter(
-                                              color: context.palette.twilight,
-                                              borderColor: context.palette.dusk,
+            ),
+            Center(
+              child: ScrollDialog(
+                scrollType: ScrollType.fullyOpenHorizontal,
+                maxHeight: constraints.maxHeight,
+                rightButton: CorkScrewCloseButton(
+                  onTap: () => Navigator.of(context).pop(false),
+                ),
+                padding: const EdgeInsets.all(0),
+                child: ListenableBuilder(
+                  listenable: profile,
+                  builder: (context, _) => Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(height: 50),
+                      Padding(
+                        padding: EdgeInsets.all(8 * scale),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 1.0 * scale,
+                              ),
+                              child: Row(
+                                children: [
+                                  BalancePill(dices: profile.dices),
+                                  Expanded(
+                                    child: Center(
+                                      child: SizedBox(
+                                        width: starSize,
+                                        height: starSize,
+                                        child: Stack(
+                                          alignment: Alignment.center,
+                                          children: [
+                                            CustomPaint(
+                                              size: Size(starSize, starSize),
+                                              painter: StarPainter(
+                                                color: context.palette.twilight,
+                                                borderColor:
+                                                    context.palette.dusk,
+                                              ),
                                             ),
-                                          ),
-                                          EmojiWidget(
-                                            assetPath:
-                                                boost.lottiePath ?? boost.iconPath,
-                                            size: 58 * scale,
-                                          ),
-                                        ],
+                                            EmojiWidget(
+                                              assetPath:
+                                                  boost.lottiePath ??
+                                                  boost.iconPath,
+                                              size: 58 * scale,
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 60 *scale,
-                                )
-                              ],
+                                  SizedBox(width: 60 * scale),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      boost.name,
-                      textAlign: TextAlign.center,
-                      style: context.theme.textTheme.headlineSmall,
-                    ),
-                    const SizedBox(height: 8),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 24.0 * scale),
-                      child: Text(
-                        boost.description,
-                        textAlign: TextAlign.center,
-                        style: context.theme.textTheme.bodyMedium?.copyWith(
-                          color: context.palette.mist,
+                          ],
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 24),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 50.0),
-                      child: Column(
-                        children: [
-                          BuyRow(
-                            boost: boost,
-                            qty: 1,
-                            profile: profile,
-                            onTap: () => _onBuy(context, 1),
-                          ),
-                          const SizedBox(height: 10),
-                          BuyRow(
-                            boost: boost,
-                            qty: boost.bundleAmount,
-                            profile: profile,
-                            onTap: () => _onBuy(context, boost.bundleAmount),
-                          ),
-                        ],
+                      const SizedBox(height: 16),
+                      Text(
+                        boost.name,
+                        textAlign: TextAlign.center,
+                        style: context.theme.textTheme.headlineSmall,
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 8),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 24.0 * scale),
+                        child: Text(
+                          boost.description,
+                          textAlign: TextAlign.center,
+                          style: context.theme.textTheme.bodyMedium?.copyWith(
+                            color: context.palette.mist,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                        child: Column(
+                          children: [
+                            BuyRow(
+                              boost: boost,
+                              qty: 1,
+                              profile: profile,
+                              onTap: () => _onBuy(context, 1),
+                            ),
+                            const SizedBox(height: 10),
+                            BuyRow(
+                              boost: boost,
+                              qty: boost.bundleAmount,
+                              profile: profile,
+                              onTap: () => _onBuy(context, boost.bundleAmount),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
-      ),
+          ],
+        );
+      },
     );
   }
 }

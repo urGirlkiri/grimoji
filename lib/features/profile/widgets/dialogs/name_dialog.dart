@@ -93,7 +93,7 @@ class _NameDialogState extends State<_NameDialog> {
               child: Material(
                 type: MaterialType.transparency,
                 child: Padding(
-                  padding: EdgeInsets.all(1 * scale),
+                  padding: EdgeInsets.all(24 * scale),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -102,6 +102,7 @@ class _NameDialogState extends State<_NameDialog> {
                         'What\'s  Your Name',
                         textAlign: TextAlign.center,
                         style: context.theme.textTheme.headlineMedium?.copyWith(
+                          fontSize: 16 * scale,
                           color: palette.midnight,
                           fontWeight: FontWeight.bold,
                         ),
