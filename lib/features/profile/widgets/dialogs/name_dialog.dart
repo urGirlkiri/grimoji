@@ -93,7 +93,7 @@ class _NameDialogState extends State<_NameDialog> {
               child: Material(
                 type: MaterialType.transparency,
                 child: Padding(
-                  padding: EdgeInsets.all(32 * scale),
+                  padding: EdgeInsets.all(1 * scale),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,

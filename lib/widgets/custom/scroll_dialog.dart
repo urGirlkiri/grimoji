@@ -42,7 +42,7 @@ class ScrollDialog extends StatelessWidget {
     }
   }
 
-  Size _getDialogSize(
+  Size _dialogSize(
     ScrollType type,
     bool isLarge,
     double maxWidth,
@@ -73,7 +73,7 @@ class ScrollDialog extends StatelessWidget {
     final screenWidth = context.screenWidth;
     final maxDialogWidth = screenWidth * 0.9;
     final maxDialogHeight = screenSize.height * 0.8;
-    final size = _getDialogSize(
+    final size = _dialogSize(
       scrollType!,
       isLarge,
       maxDialogWidth,
