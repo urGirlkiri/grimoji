@@ -23,7 +23,7 @@ class ScrollDialog extends StatelessWidget {
     required this.child,
     this.rightButton,
     this.leftButton,
-    this.padding ,
+    this.padding,
     this.scrollType = ScrollType.verticalWideLong,
   });
 
@@ -66,21 +66,52 @@ class ScrollDialog extends StatelessWidget {
     }
   }
 
+  EdgeInsetsGeometry _dialogPadding(ScrollType type) {
+    double top = 0;
+    double right = 0;
+    double bottom = 0;
+    double left = 0;
+
+    switch (type) {
+      case ScrollType.horizontalShort:
+      case ScrollType.horizontalLong:
+        top = 56;
+        bottom = 50;
+        right = 45;
+        left = 45;
+      case ScrollType.fullyOpenHorizontal:
+      case ScrollType.verticalWideLong:
+        top = 12;
+        bottom = 24;
+        right = 20;
+        left = 20;
+      default:
+    }
+
+    return EdgeInsets.only(top: top, bottom: bottom, left: left, right: right);
+  }
+
   @override
   Widget build(BuildContext context) {
     final isLarge = context.isLargeScreen;
     final screenSize = MediaQuery.sizeOf(context);
     final screenWidth = context.screenWidth;
+
     final maxDialogWidth = screenWidth * 0.9;
     final maxDialogHeight = screenSize.height * 0.8;
+
     final size = _dialogSize(
       scrollType!,
       isLarge,
       maxDialogWidth,
       maxDialogHeight,
     );
+
+    final dialogPadding = _dialogPadding(scrollType!);
+
     final dialogWidth = size.width;
     final dialogHeight = size.height;
+
     final String scrollImage =
         'assets/images/scrolls/${_getScrollImage(scrollType!)}.png';
 
@@ -101,7 +132,7 @@ class ScrollDialog extends StatelessWidget {
           ),
           Positioned.fill(
             child: Padding(
-              padding: const EdgeInsets.only(top: 12.0, bottom: 24, left: 20, right:  20),
+              padding: dialogPadding,
               child: ClipRect(
                 child: LayoutBuilder(
                   builder: (context, constraints) {
@@ -114,7 +145,8 @@ class ScrollDialog extends StatelessWidget {
                         child: ConstrainedBox(
                           constraints: BoxConstraints(
                             minHeight:
-                                constraints.maxHeight - (padding?.vertical ?? 0),
+                                constraints.maxHeight -
+                                (padding?.vertical ?? 0),
                           ),
                           child: child,
                         ),
