@@ -114,34 +114,44 @@ class _PurchaseDialog extends StatelessWidget {
                     const SizedBox(height: 50),
                     Padding(
                       padding: EdgeInsets.all(8 * scale),
-                      child: Stack(
+                      child: Column(
                         children: [
-                          Positioned(
-                            left: 25,
-                            top: 10,
-                            child: BalancePill(dices: profile.dices),
-                          ),
-                          Center(
-                            child: SizedBox(
-                              width: starSize,
-                              height: starSize,
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  CustomPaint(
-                                    size: Size(starSize, starSize),
-                                    painter: StarPainter(
-                                      color: context.palette.twilight,
-                                      borderColor: context.palette.dusk,
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 1.0 * scale,
+                            ),
+                            child: Row(
+                              children: [
+                                BalancePill(dices: profile.dices),
+                                Expanded(
+                                  child: Center(
+                                    child: SizedBox(
+                                      width: starSize,
+                                      height: starSize,
+                                      child: Stack(
+                                        alignment: Alignment.center,
+                                        children: [
+                                          CustomPaint(
+                                            size: Size(starSize, starSize),
+                                            painter: StarPainter(
+                                              color: context.palette.twilight,
+                                              borderColor: context.palette.dusk,
+                                            ),
+                                          ),
+                                          EmojiWidget(
+                                            assetPath:
+                                                boost.lottiePath ?? boost.iconPath,
+                                            size: 58 * scale,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                  EmojiWidget(
-                                    assetPath:
-                                        boost.lottiePath ?? boost.iconPath,
-                                    size: 58 * scale,
-                                  ),
-                                ],
-                              ),
+                                ),
+                                SizedBox(
+                                  width: 60 *scale,
+                                )
+                              ],
                             ),
                           ),
                         ],

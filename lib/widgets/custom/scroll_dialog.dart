@@ -74,12 +74,20 @@ class ScrollDialog extends StatelessWidget {
 
     switch (type) {
       case ScrollType.horizontalShort:
-      case ScrollType.horizontalLong:
         top = 56;
         bottom = 50;
         right = 45;
         left = 45;
+      case ScrollType.horizontalLong:
+        top = 25;
+        bottom = 45;
+        right = 30;
+        left = 30;
       case ScrollType.fullyOpenHorizontal:
+        top = 56;
+        bottom = 45;
+        right = 23;
+        left = 23;
       case ScrollType.verticalWideLong:
         top = 12;
         bottom = 24;
