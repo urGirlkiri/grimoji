@@ -192,7 +192,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       return Column(
                         children: [
                           Text(
-                            'Emoji Animations',
+                            '${settings.emojiAnimations.value ? 'Disable' : 'Enable'} Emoji Animations',
+                            textAlign: TextAlign.center,
                             style: context.theme.textTheme.bodyLarge?.copyWith(
                               color: palette.midnight,
                             ),

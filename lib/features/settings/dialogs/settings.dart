@@ -95,24 +95,6 @@ class SettingsDialog extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 24),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Emoji Animations',
-                                style: context.theme.textTheme.bodyLarge
-                                    ?.copyWith(color: palette.midnight),
-                              ),
-                              Switch.adaptive(
-                                value: settings.emojiAnimations.value,
-                                onChanged: (_) =>
-                                    settings.toggleEmojiAnimations(),
-                                activeThumbColor: palette.midnight,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 32),
                           VolumeSlider(
                             label: "SFX Volume",
                             value: settings.sfxVolume.value,
