@@ -98,7 +98,10 @@ class BoardManager {
 
   void triggerInitialFall() {
     playSfx?.call(SfxType.fall);
+    settleTileCoordinates();
+  }
 
+  void settleTileCoordinates() {
     for (int r = 0; r < rows; r++) {
       for (int c = 0; c < cols; c++) {
         gridTiles[r][c].coordinate.row = r;

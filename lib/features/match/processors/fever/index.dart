@@ -49,7 +49,15 @@ class FeverProcessor {
 
   bool get _shouldAbort => _skipRequested || state.isDisposed;
 
+  Future<bool> _waitIfPaused() async {
+    while (state.isPaused && !_shouldAbort) {
+      await Future<void>.delayed(flagPollingInterval);
+    }
+    return !_shouldAbort;
+  }
+
   Future<void> _ensureBoardSettled() async {
+    if (!await _waitIfPaused()) return;
     if (_shouldAbort) return;
     if (MatchDetector.findMatchedGroups(boardManager.gridTiles).isEmpty &&
         boardManager.getTriggeredEmojis().isEmpty) {
@@ -105,14 +113,14 @@ class FeverProcessor {
     while (state.isProcessing && !_shouldAbort) {
       await Future<void>.delayed(flagPollingInterval);
     }
-    if (_shouldAbort) return false;
+    if (!await _waitIfPaused()) return false;
 
     if (!await _executeAutoTriggers()) return false;
 
     for (var index = 0; index < bonusBombs; index++) {
-      if (_shouldAbort) return false;
+      if (!await _waitIfPaused()) return false;
       await _ensureBoardSettled();
-      if (_shouldAbort) return false;
+      if (!await _waitIfPaused()) return false;
       boardManager.spawnBomb();
       onSpawn();
       state.updateUI();
@@ -122,8 +130,9 @@ class FeverProcessor {
     if (bonusBombs == 0) return !_shouldAbort;
 
     await Future<void>.delayed(feverDetonationChainDelay);
+    if (!await _waitIfPaused()) return false;
     for (var index = 0; index < bonusBombs; index++) {
-      if (_shouldAbort || boardManager.countSafeBombs() == 0) break;
+      if (!await _waitIfPaused() || boardManager.countSafeBombs() == 0) break;
 
       final primedBombs = boardManager.getTriggeredEmojis();
       final focusCoordinate = primedBombs.isNotEmpty
@@ -133,7 +142,7 @@ class FeverProcessor {
       boardManager.triggerNextBomb();
       state.updateUI();
       await Future<void>.delayed(feverDetonationChainDelay);
-      if (_shouldAbort) return false;
+      if (!await _waitIfPaused()) return false;
 
       await cascadeSequence(focusCoordinate);
       while (state.isProcessing && !_shouldAbort) {

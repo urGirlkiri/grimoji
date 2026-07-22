@@ -111,7 +111,9 @@ class LevelState extends ChangeNotifier {
       }
     } else if (state == AppLifecycleState.resumed) {
       if (gameState.isPaused && !gameState.isGameOver) {
+        boardManager.settleTileCoordinates();
         coordinator.togglePause();
+        gameState.updateUI();
       }
     }
   }
