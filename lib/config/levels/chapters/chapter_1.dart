@@ -26,7 +26,7 @@ final List<GameLevel> chapter1Levels = [
     availableEmojis: [
       Emojis.leafyGreen,
       Emojis.avocado,
-      Emojis.grin,
+      // Emojis.grin,
       Emojis.beans,
     ],
   ),

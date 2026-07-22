@@ -92,8 +92,8 @@ class _LevelStartDialogState extends State<LevelStartDialog> {
                 ),
                 child: Wrap(
                   alignment: WrapAlignment.center,
-                  spacing: 16,
-                  runSpacing: 16,
+                  spacing: 24,
+                  runSpacing: 32,
                   children: prelevelItems.map((item) {
                     final count = profile.getPowerupCount(item.id);
                     final hasInventory = count > 0;

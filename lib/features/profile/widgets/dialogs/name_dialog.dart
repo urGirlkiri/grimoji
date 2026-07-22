@@ -92,49 +92,46 @@ class _NameDialogState extends State<_NameDialog> {
               ),
               child: Material(
                 type: MaterialType.transparency,
-                child: Padding(
-                  padding: EdgeInsets.all(24 * scale),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'What\'s  Your Name',
-                        textAlign: TextAlign.center,
-                        style: context.theme.textTheme.headlineMedium?.copyWith(
-                          fontSize: 16 * scale,
-                          color: palette.midnight,
-                          fontWeight: FontWeight.bold,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'What\'s  Your Name',
+                      textAlign: TextAlign.center,
+                      style: context.theme.textTheme.headlineMedium?.copyWith(
+                        fontSize: 16 * scale,
+                        color: palette.midnight,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 4 * scale),
+                    TextField(
+                      controller: _controller,
+                      textAlign: TextAlign.center,
+                      style: context.theme.textTheme.bodyLarge?.copyWith(
+                        color: palette.voidBlack,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: 'Enter name',
+                        hintStyle: context.theme.textTheme.bodyLarge
+                            ?.copyWith(color: palette.dusk),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: palette.dusk),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: palette.midnight),
                         ),
                       ),
-                      SizedBox(height: 4 * scale),
-                      TextField(
-                        controller: _controller,
-                        textAlign: TextAlign.center,
-                        style: context.theme.textTheme.bodyLarge?.copyWith(
-                          color: palette.voidBlack,
-                        ),
-                        decoration: InputDecoration(
-                          hintText: 'Enter name',
-                          hintStyle: context.theme.textTheme.bodyLarge
-                              ?.copyWith(color: palette.dusk),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: palette.dusk),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: palette.midnight),
-                          ),
-                        ),
-                        onSubmitted: (_) => _save(),
-                      ),
-                      SizedBox(height: 12 * scale),
-                      AppIcon(
-                        fileName: 'confirm_checkmark',
-                        size: 45 * scale,
-                        onTap: _save,
-                      ),
-                    ],
-                  ),
+                      onSubmitted: (_) => _save(),
+                    ),
+                    SizedBox(height: 12 * scale),
+                    AppIcon(
+                      fileName: 'confirm_checkmark',
+                      size: 45 * scale,
+                      onTap: _save,
+                    ),
+                  ],
                 ),
               ),
             ),

@@ -56,7 +56,7 @@ class Powerup {
 
     Powerup(
       id: 'crystal_ball',
-      name: 'Insight',
+      name: 'Hints',
       iconPath: Emojis.crystalBall.svg,
       description: 'Gives you helpful hints during play.',
       isPrelevel: true,
@@ -96,7 +96,7 @@ class Powerup {
       id: 'blood',
       name: 'Immortal Blood',
       iconPath: Emojis.blood.svg,
-      description: 'Converts the emoji its dropped on into barber pole.',
+      description: 'Converts the emoji its dropped on into crossing clear.',
       price: 30,
     ),
     Powerup(
