@@ -25,7 +25,10 @@ class ProfileDialog extends StatelessWidget {
       child: ScrollDialog(
         rightButton: const CorkScrewCloseButton(),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal:  1 * context.globalScale, vertical:  10 * context.globalScale),
+          padding: EdgeInsets.symmetric(
+            horizontal: 24 * context.globalScale,
+            vertical: 10 * context.globalScale,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -86,7 +89,9 @@ class ProfileDialog extends StatelessWidget {
                           ),
                           const SizedBox(height: 8),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 28.0,
+                            ),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
