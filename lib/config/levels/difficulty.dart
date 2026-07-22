@@ -22,4 +22,11 @@ class LevelDifficulty {
     final index = levelNumber ~/ 2;
     return index / _evenLevelCount;
   }
+
+  /// Chance that a barber pole (`Emojis.barberPole`) spawns at level start.
+  /// Starts high on early levels and decreases linearly to 0.25 at the final level.
+  static double barberChanceFor(int levelNumber) {
+    if (_totalLevels == 0) return 0.0;
+    return 0.5 - (levelNumber / _totalLevels) * 0.25;
+  }
 }

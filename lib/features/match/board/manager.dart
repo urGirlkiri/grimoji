@@ -44,6 +44,16 @@ class BoardManager {
       final prankCol = _random.nextInt(cols);
       gridTiles[prankRow][prankCol].emoji = Emojis.impSmile;
     }
+
+    if (_random.nextDouble() < LevelDifficulty.barberChanceFor(level.number)) {
+      var barberRow = 0;
+      var barberCol = 0;
+      do {
+        barberRow = _random.nextInt(rows);
+        barberCol = _random.nextInt(cols);
+      } while (gridTiles[barberRow][barberCol].emoji == Emojis.impSmile);
+      gridTiles[barberRow][barberCol].emoji = Emojis.barberPole;
+    }
   }
 
   GameEmoji getRandomSafeEmoji(int row, int col) {
