@@ -39,7 +39,6 @@ class BoardAnnouncer extends ChangeNotifier {
 
   final List<Dialog> _queue = [];
   bool _isLoopActive = false;
-  Timer? _displayTimer;
   Timer? _cooldownTimer;
   DateTime? _lastAnnouncementTime;
   int _lastPriority = 0;
@@ -98,11 +97,6 @@ class BoardAnnouncer extends ChangeNotifier {
     _queue.add(voice);
     notifyListeners();
 
-    _displayTimer?.cancel();
-    _displayTimer = Timer(voiceTime, () {
-      if (_queue.isEmpty && !_isDisposed) clear();
-    });
-
     if (!_isLoopActive) _runPlaybackLoop();
   }
 
@@ -129,7 +123,6 @@ class BoardAnnouncer extends ChangeNotifier {
   }
 
   void clear() {
-    _displayTimer?.cancel();
     _queue.clear();
     activeAnnouncement = null;
     notifyListeners();
@@ -143,7 +136,6 @@ class BoardAnnouncer extends ChangeNotifier {
   @override
   void dispose() {
     _isDisposed = true;
-    _displayTimer?.cancel();
     _cooldownTimer?.cancel();
     super.dispose();
   }
