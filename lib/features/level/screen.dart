@@ -231,10 +231,14 @@ class _LevelScreenState extends State<LevelScreen> {
                     Selector<LevelState, Map<String, bool>>(
                       selector: (_, state) => {
                         'isGoalComplete': state.isGoalComplete,
+                        'isPaused': state.gameState.isPaused,
+                        'isFeverTime': state.gameState.isFeverTime,
                         'isFeverComplete': state.gameState.isFeverComplete,
                       },
                       builder: (context, stateMap, child) {
                         final isGoalComplete = stateMap['isGoalComplete']!;
+                        final isPaused = stateMap['isPaused']!;
+                        final isFeverTime = stateMap['isFeverTime']!;
                         final isFeverComplete = stateMap['isFeverComplete']!;
 
                         if (!isGoalComplete) return const SizedBox.shrink();
@@ -252,7 +256,10 @@ class _LevelScreenState extends State<LevelScreen> {
                         }
 
                         final shouldShowLevelComplete =
-                            isFirstTime && !isFeverComplete;
+                            !isPaused &&
+                            isFirstTime &&
+                            !isFeverTime &&
+                            !isFeverComplete;
                         if (shouldShowLevelComplete &&
                             LevelComOverlay.currentEntry == null) {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
