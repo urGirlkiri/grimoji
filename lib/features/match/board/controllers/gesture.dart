@@ -22,7 +22,9 @@ class GestureController {
     LevelState levelState,
     VFXController vfx,
   ) {
-    if (levelState.gameState.isProcessing || levelState.gameState.isShuffling) {
+    if (levelState.gameState.isProcessing ||
+        levelState.gameState.isShuffling ||
+        levelState.isPowerupAnimating) {
       vfx.triggerSparkle(details.localPosition);
       return;
     }
@@ -52,7 +54,9 @@ class GestureController {
     LevelState levelState,
     VFXController vfx,
   ) {
-    if (levelState.gameState.isProcessing || levelState.gameState.isShuffling) {
+    if (levelState.gameState.isProcessing ||
+        levelState.gameState.isShuffling ||
+        levelState.isPowerupAnimating) {
       vfx.triggerSparkle(details.localPosition);
       return;
     }
@@ -88,6 +92,10 @@ class GestureController {
     LevelState levelState,
     VFXController vfx,
   ) {
+    if (levelState.isPowerupAnimating) {
+      return;
+    }
+
     if (levelState.isPowerupSelecting) {
       final col = (details.localPosition.dx / tWidth).floor();
       final row = (details.localPosition.dy / tHeight).floor();

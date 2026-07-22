@@ -41,6 +41,7 @@ class Tile {
   bool isGhostBomb = false;
 
   bool isPowerupTarget = false;
+  bool isBloodTarget = false;
 
   bool hasFlown = false;
   bool isFlying = false;
@@ -99,6 +100,7 @@ class Tile {
     newTile.isGhostBomb = isGhostBomb;
 
     newTile.isPowerupTarget = isPowerupTarget;
+    newTile.isBloodTarget = isBloodTarget;
 
     newTile.isShuffling = isShuffling;
     newTile.isClownShuffling = isClownShuffling;
@@ -140,6 +142,7 @@ class Tile {
     isGhostBomb = false;
 
     isPowerupTarget = false;
+    isBloodTarget = false;
 
     isShuffling = false;
     isClownShuffling = false;

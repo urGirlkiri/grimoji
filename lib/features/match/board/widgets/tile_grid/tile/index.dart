@@ -41,6 +41,13 @@ class TileWidget extends StatelessWidget {
       isTouched: isTouched,
     );
 
+    if (tile.isBloodTarget) {
+      content = ColorFiltered(
+        colorFilter: ColorFilter.mode(context.palette.crimson, BlendMode.srcIn),
+        child: content,
+      );
+    }
+
     if (tile.isSwallowTrigger) {
       content = content
           .animate()
@@ -124,16 +131,6 @@ class TileWidget extends StatelessWidget {
                     child: EmojiWidget.lottie(
                       path: tile.emoji.lottie,
                       size: tWidth * emojiSizeFactor,
-                    ),
-                  ),
-
-                if (tile.isPowerupTarget)
-                  Container(
-                    width: tWidth,
-                    height: tHeight,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: context.palette.crimson, width: 3),
-                      borderRadius: BorderRadius.circular(8),
                     ),
                   ),
               ],
