@@ -41,13 +41,6 @@ class TileWidget extends StatelessWidget {
       isTouched: isTouched,
     );
 
-    if (tile.isBloodTarget) {
-      content = ColorFiltered(
-        colorFilter: ColorFilter.mode(context.palette.crimson, BlendMode.srcIn),
-        child: content,
-      );
-    }
-
     if (tile.isSwallowTrigger) {
       content = content
           .animate()
@@ -130,6 +123,18 @@ class TileWidget extends StatelessWidget {
                     opacity: tile.isTransmuting ? 1.0 : 0.0,
                     child: EmojiWidget.lottie(
                       path: tile.emoji.lottie,
+                      size: tWidth * emojiSizeFactor,
+                    ),
+                  ),
+
+                if (tile.isBloodTarget)
+                  ColorFiltered(
+                    colorFilter: ColorFilter.mode(
+                      context.palette.crimson,
+                      BlendMode.srcIn,
+                    ),
+                    child: EmojiWidget.svg(
+                      path: 'assets/emojis/svg/cross_barber_pole.svg',
                       size: tWidth * emojiSizeFactor,
                     ),
                   ),

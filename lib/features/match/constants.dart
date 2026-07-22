@@ -130,6 +130,23 @@ const double fusionBombScaleFactor = 0.5;
 /// The lifetime of the time bonus effect animation.
 const Duration timeBonusDuration = Duration(milliseconds: 1000);
 
+// ─── Blood Drop ───────────────────────────────────────────────────────────
+
+const bloodDrop = 400;
+const bloodBurst = 600;
+
+/// How long the blood drop takes to fall onto the target tile.
+const Duration bloodDropDuration = Duration(milliseconds: bloodDrop);
+
+/// How long the impact crimson flash and red particles linger after the drop lands.
+const Duration bloodBurstDuration = Duration(milliseconds: bloodBurst);
+
+/// Total lifetime of the blood drop effect animation.
+const Duration bloodDropTotalDuration = Duration(milliseconds: bloodBurst + bloodDrop);
+
+/// How long the blood drop effect entry lives in the effect manager after creation.
+const Duration bloodDropLifetime = Duration(milliseconds: bloodBurst + bloodDrop + 300);
+
 // ─── Clown Shuffle ─────────────────────────────────────────────────────────
 
 /// Total duration of the clown shuffle animation cycle.

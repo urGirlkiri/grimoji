@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/features/match/board/controllers/gesture.dart';
 import 'package:grimoji/features/match/board/controllers/v_f_x.dart';
+import 'package:grimoji/features/match/board/effects/blood_drop/index.dart';
 import 'package:grimoji/features/match/board/effects/time_bonus/index.dart';
 import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/match/board/effects/ghost_dive/index.dart';
@@ -206,6 +207,17 @@ class _GameBoardState extends State<GameBoard> {
                               child: IgnorePointer(
                                 child: GhostDiveOverlay(
                                   notifier: _vfx.ghostDiveManager.notifier,
+                                  tileWidth: _tileWidth!,
+                                  tileHeight: _tileHeight!,
+                                ),
+                              ),
+                            ),
+
+                            OverflowBox(
+                              maxWidth: constrainedBoardWidth,
+                              child: IgnorePointer(
+                                child: BloodDropOverlay(
+                                  notifier: _vfx.bloodDropManager.notifier,
                                   tileWidth: _tileWidth!,
                                   tileHeight: _tileHeight!,
                                 ),
