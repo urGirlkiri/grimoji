@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/star_icon.dart';
 
 class Star extends StatelessWidget {
@@ -14,7 +15,10 @@ class Star extends StatelessWidget {
       child: AnimatedOpacity(
         opacity: isActive ? 1.0 : 0.3,
         duration: const Duration(milliseconds: 300),
-        child: const StarIcon(size: 32),
+        child: StarIcon(
+          size: 32,
+          color: isActive ? context.palette.moonlight : null,
+        ),
       ),
     );
   }
