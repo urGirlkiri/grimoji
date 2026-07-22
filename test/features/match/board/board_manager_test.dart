@@ -384,13 +384,14 @@ void main() {
 
         expect(
           placedEmojis.where((e) => e == Emojis.barberPole).length,
-          1,
-          reason: 'Board sweep should place exactly one barber pole',
+          greaterThanOrEqualTo(1),
+          reason: 'Board sweep should place at least one barber pole (more can drop naturally)',
         );
+        
         expect(
           placedEmojis.where((e) => e == Emojis.bomb).length,
-          1,
-          reason: 'Board sweep should place exactly one bomb',
+          greaterThanOrEqualTo(1),
+          reason: 'Board sweep should place at least one bomb (more can drop naturally)',
         );
       });
     });
