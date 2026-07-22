@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/widgets/custom/star_icon.dart';
 
 class Star extends StatelessWidget {
   const Star({super.key, required this.isActive});
@@ -13,15 +14,7 @@ class Star extends StatelessWidget {
       child: AnimatedOpacity(
         opacity: isActive ? 1.0 : 0.3,
         duration: const Duration(milliseconds: 300),
-        child: Container(
-          width: 32,
-          height: 32,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/images/level/star.png"),
-            ),
-          ),
-        ),
+        child: const StarIcon(size: 32),
       ),
     );
   }

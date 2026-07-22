@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:grimoji/widgets/custom/star_icon.dart';
 
 class FlyingStar extends StatelessWidget {
   final int index;
@@ -11,7 +12,7 @@ class FlyingStar extends StatelessWidget {
   Widget build(BuildContext context) {
     final double xSpread = total > 1 ? (index - (total - 1) / 2) : 0;
 
-    return Image.asset('assets/images/level/star.png', width: 60, height: 60)
+    return const StarIcon(size: 60)
         .animate(delay: Duration(milliseconds: index * 200))
         .moveX(begin: 0, end: xSpread * 50)
         .moveY(begin: 0, end: -50)
