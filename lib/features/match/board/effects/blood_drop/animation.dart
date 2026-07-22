@@ -134,13 +134,22 @@ class _BloodDropAnimationState extends State<BloodDropAnimation>
         final dropProgress = t < impactT
             ? Curves.easeIn.transform(t / impactT)
             : 1.0;
-      
+
+        final postImpact = (t - impactT).clamp(0.0, 1.0);
+
+        final dropScale = t < impactT
+            ? 0.6 + dropProgress * 0.4
+            : (1.0 -
+                      Curves.easeIn.transform(
+                        (postImpact / 0.2).clamp(0.0, 1.0),
+                      ))
+                  .clamp(0.0, 1.0);
+
         final startY = -widget.tileHeight * 1.5;
-        final dropSize = widget.tileWidth * (0.6 + dropProgress * 0.4);
+        final dropSize = widget.tileWidth * dropScale;
         final dropX = (targetX - dropSize / 2) + 14;
         final dropY = startY + (targetY - startY) * dropProgress;
 
-        final postImpact = (t - impactT).clamp(0.0, 1.0);
         final bloodOpacity = t < impactT ? 1.0 : 1.0 - postImpact / 0.2;
 
         return Stack(

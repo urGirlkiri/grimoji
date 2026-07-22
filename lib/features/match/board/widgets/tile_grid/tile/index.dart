@@ -8,6 +8,7 @@ import 'package:grimoji/features/match/board/widgets/tile_grid/tile/tile_content
 import 'package:grimoji/features/match/board/widgets/tile_grid/tile/tile_v_f_x/index.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
+import 'package:grimoji/widgets/painters/crack.dart';
 
 class TileWidget extends StatelessWidget {
   const TileWidget({
@@ -41,6 +42,29 @@ class TileWidget extends StatelessWidget {
       isTouched: isTouched,
     );
 
+    if (tile.isBloodTarget) {
+      content = Stack(
+        alignment: Alignment.center,
+        children: [
+          content,
+          AnimatedOpacity(
+            opacity: tile.isLineClearTrigger ? 0.0 : 1.0,
+            duration: lineClearBeamDuration,
+            child: ColorFiltered(
+              colorFilter: ColorFilter.mode(
+                context.palette.crimson,
+                BlendMode.srcIn,
+              ),
+              child: EmojiWidget.svg(
+                path: 'assets/emojis/svg/cross_barber_pole.svg',
+                size: tWidth * emojiSizeFactor,
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+
     if (tile.isSwallowTrigger) {
       content = content
           .animate()
@@ -57,7 +81,7 @@ class TileWidget extends StatelessWidget {
           .scale(end: Offset.zero, duration: 150.ms, curve: Curves.easeInBack);
     }
 
-    if (tile.isLineClearTrigger) {
+    if (tile.isLineClearTrigger && !tile.isBloodTarget) {
       content = content
           .animate()
           .scaleXY(
@@ -66,6 +90,7 @@ class TileWidget extends StatelessWidget {
             duration: lineClearBeamDuration,
             curve: Curves.easeOutBack,
           )
+          .then()
           .scaleXY(
             begin: 1.4,
             end: 0,
@@ -127,17 +152,8 @@ class TileWidget extends StatelessWidget {
                     ),
                   ),
 
-                if (tile.isBloodTarget)
-                  ColorFiltered(
-                    colorFilter: ColorFilter.mode(
-                      context.palette.crimson,
-                      BlendMode.srcIn,
-                    ),
-                    child: EmojiWidget.svg(
-                      path: 'assets/emojis/svg/cross_barber_pole.svg',
-                      size: tWidth * emojiSizeFactor,
-                    ),
-                  ),
+                if (tile.isBloodTarget && tile.isLineClearTrigger)
+                  FissureCracks(size: tWidth, color: Colors.white),
               ],
             ),
           );

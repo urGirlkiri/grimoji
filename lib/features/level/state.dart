@@ -267,9 +267,7 @@ class LevelState extends ChangeNotifier {
   void completePowerupAnimation() {
     final target = _powerupTarget;
     if (target != null) {
-      final tile = boardManager.gridTiles[target.row][target.col];
-      tile.isPowerupTarget = false;
-      tile.isBloodTarget = false;
+      boardManager.gridTiles[target.row][target.col].isPowerupTarget = false;
     }
     _isPowerupAnimating = false;
     _powerupIconPosition = null;

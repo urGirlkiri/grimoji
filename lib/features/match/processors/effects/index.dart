@@ -244,7 +244,8 @@ class EffectsProcessor {
         ..isLineClearTrigger = false
         ..isLineClearTarget = false
         ..isRowClearTrigger = false
-        ..isColClearTrigger = false;
+        ..isColClearTrigger = false
+        ..isBloodTarget = false;
     }
     return await settlement.settleBoard(BoardRegion(destroyed)) != null;
   }
