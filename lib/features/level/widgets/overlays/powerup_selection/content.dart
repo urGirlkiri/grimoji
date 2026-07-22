@@ -42,7 +42,8 @@ class Content extends StatelessWidget {
                   ),
                 const SizedBox(height: 16),
                 Text(
-                  'Select an emoji',
+                  selectedPowerup!.name,
+                  textAlign: TextAlign.center,
                   style: context.theme.textTheme.titleMedium?.copyWith(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,

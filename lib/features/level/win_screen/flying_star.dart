@@ -13,8 +13,8 @@ class FlyingStar extends StatelessWidget {
     final double xSpread = total > 1 ? (index - (total - 1) / 2) : 0;
 
     return const StarIcon(size: 60)
-        .animate(delay: Duration(milliseconds: index * 200))
-        .moveX(begin: 0, end: xSpread * 50)
+        .animate(delay: Duration(milliseconds: index * 300))
+        .moveX(begin: 0, end: xSpread * 60)
         .moveY(begin: 0, end: -50)
         .rotate(begin: 2.0, end: 0.0)
         .scaleXY(begin: 0.0, end: 1.5);

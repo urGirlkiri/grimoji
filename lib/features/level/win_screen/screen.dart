@@ -115,7 +115,7 @@ class _WinGameScreenState extends State<WinGameScreen> {
                       Text(
                         'VICTORY!!',
                         style: context.theme.textTheme.headlineLarge!.copyWith(
-                          color: palette.magicCyan,
+                          color: palette.moonlightSoft,
                         ),
                       ).animate().scale(
                         duration: const Duration(milliseconds: 800),
