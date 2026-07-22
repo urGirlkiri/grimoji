@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/level/state.dart';
-import 'package:grimoji/features/level/widgets/dialogs/pause_dialog.dart';
 import 'package:grimoji/features/level/widgets/dialogs/purchase_dialog/index.dart';
 import 'package:grimoji/features/level/widgets/footer/powerup.dart';
 import 'package:grimoji/features/level/powerup_handlers/index.dart';
 import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/utils/context_data.dart';
-import 'package:grimoji/widgets/animations/dialog.dart';
 import 'package:grimoji/widgets/custom/app_icon.dart';
 import 'package:provider/provider.dart';
 
@@ -21,45 +18,16 @@ class Footer extends StatefulWidget {
 
 class _FooterState extends State<Footer> {
   late LevelState _levelState;
-  bool _isPauseDialogOpen = false;
 
   @override
   void initState() {
     super.initState();
     _levelState = context.read<LevelState>();
-
-    _levelState.gameState.addListener(_onStateChanged);
   }
 
   @override
   void dispose() {
-    _levelState.gameState.removeListener(_onStateChanged);
     super.dispose();
-  }
-
-  void _onStateChanged() {
-    if (_levelState.gameState.isPaused && !_isPauseDialogOpen) {
-      _showPauseDialog();
-    }
-  }
-
-  void _showPauseDialog() {
-    _isPauseDialogOpen = true;
-    final levelNumber = context.read<GameLevel>().number;
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
-
-      showAnimatedDialog(context, PauseDialog(level: levelNumber)).then((_) {
-        if (!mounted) return;
-
-        _isPauseDialogOpen = false;
-
-        if (_levelState.gameState.isPaused) {
-          _levelState.coordinator.togglePause();
-        }
-      });
-    });
   }
 
   void _handlePauseTap() {

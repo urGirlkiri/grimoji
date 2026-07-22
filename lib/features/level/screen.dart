@@ -13,6 +13,7 @@ import 'package:grimoji/features/match/board/index.dart';
 import 'package:grimoji/features/level/widgets/header/index.dart';
 import 'package:grimoji/features/level/widgets/footer/index.dart';
 import 'package:grimoji/features/level/controller.dart';
+import 'package:grimoji/features/level/widgets/dialogs/pause_dialog.dart';
 import 'package:grimoji/features/level/widgets/dialogs/quit_dialog.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animations/dialog.dart';
@@ -37,6 +38,7 @@ class LevelScreen extends StatefulWidget {
 class _LevelScreenState extends State<LevelScreen> {
   bool _duringCelebration = false;
   bool _isQuitDialogOpen = false;
+  bool _isPauseDialogOpen = false;
   bool _hasTriggeredFever = false;
   late final LevelState _levelState;
   final _boardKey = GlobalKey();
@@ -59,6 +61,33 @@ class _LevelScreenState extends State<LevelScreen> {
         setState(() {
           _isQuitDialogOpen = false;
         });
+      }
+    });
+  }
+
+  void _onPauseState() {
+    if (!mounted) return;
+
+    if (_levelState.gameState.isPaused && !_isPauseDialogOpen) {
+      _showPauseDialog();
+    } else if (!_levelState.gameState.isPaused && _isPauseDialogOpen) {
+      Navigator.of(context).pop();
+      _isPauseDialogOpen = false;
+    }
+  }
+
+  void _showPauseDialog() {
+    _isPauseDialogOpen = true;
+
+    showAnimatedDialog(context, PauseDialog(level: widget.level.number)).then((
+      _,
+    ) {
+      if (!mounted) return;
+
+      _isPauseDialogOpen = false;
+
+      if (_levelState.gameState.isPaused) {
+        _levelState.coordinator.togglePause();
       }
     });
   }
@@ -126,6 +155,8 @@ class _LevelScreenState extends State<LevelScreen> {
       startingBoosters: widget.startingBoosters,
     );
 
+    _levelState.gameState.addListener(_onPauseState);
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.readProfile.markGamePlayed();
       for (final boosterId in widget.startingBoosters) {
@@ -136,6 +167,7 @@ class _LevelScreenState extends State<LevelScreen> {
 
   @override
   void dispose() {
+    _levelState.gameState.removeListener(_onPauseState);
     LevelComOverlay.hide();
     _levelState.dispose();
     super.dispose();
@@ -199,12 +231,11 @@ class _LevelScreenState extends State<LevelScreen> {
                     Selector<LevelState, Map<String, bool>>(
                       selector: (_, state) => {
                         'isGoalComplete': state.isGoalComplete,
-                        'isProcessing': state.gameState.isProcessing,
-                        'isFeverTime': state.gameState.isFeverTime,
+                        'isFeverComplete': state.gameState.isFeverComplete,
                       },
                       builder: (context, stateMap, child) {
                         final isGoalComplete = stateMap['isGoalComplete']!;
-                        final isFeverTime = stateMap['isFeverTime']!;
+                        final isFeverComplete = stateMap['isFeverComplete']!;
 
                         if (!isGoalComplete) return const SizedBox.shrink();
 
@@ -220,12 +251,21 @@ class _LevelScreenState extends State<LevelScreen> {
                           });
                         }
 
-                        if (isFirstTime && !isFeverTime) {
+                        final shouldShowLevelComplete =
+                            isFirstTime && !isFeverComplete;
+                        if (shouldShowLevelComplete &&
+                            LevelComOverlay.currentEntry == null) {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
-                            LevelComOverlay.show(context);
+                            if (!mounted) return;
+                            if (LevelComOverlay.currentEntry == null) {
+                              LevelComOverlay.show(context);
+                            }
                           });
-                        } else if (isFeverTime) {
-                          LevelComOverlay.hide();
+                        } else if (!shouldShowLevelComplete &&
+                            LevelComOverlay.currentEntry != null) {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            LevelComOverlay.hide();
+                          });
                         }
                         return const SizedBox.shrink();
                       },
