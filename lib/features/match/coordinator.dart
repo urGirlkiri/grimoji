@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
+import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
+import 'package:grimoji/features/alchemy/models/action_type.dart';
+import 'package:grimoji/features/alchemy/models/behavior_action.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 import 'package:grimoji/features/match/models/board_region.dart';
@@ -282,6 +285,40 @@ class GameCoordinator {
 
     await _settlement.settleBoard(BoardRegion({coord}));
     await _finalizeTurnLifecycle();
+  }
+
+  void bloodDropImpact(TileCoordinate coord) {
+    if (state.isGameOver || state.isPaused) return;
+
+    final tile = engine.grid[coord.row][coord.col];
+    tile
+      ..emoji = Emojis.barberPole
+      ..reset()
+      ..clearBehavior()
+      ..isPowerupTarget = false
+      ..isBloodTarget = true;
+    engine.initializeBehaviors();
+    audio.playSfx(SfxType.transmute);
+    state.updateUI();
+  }
+
+  Future<void> bloodTile(TileCoordinate coord) async {
+    if (state.isGameOver || state.isPaused || state.isProcessing) return;
+
+    state.setProcessing(true);
+
+    final actions = [
+      const BehaviorAction(type: ActionType.clearRow),
+      const BehaviorAction(type: ActionType.clearCol),
+    ];
+    engine.executeBehaviorActions(actions, coord.row, coord.col);
+    audio.playSfx(SfxType.swipe);
+    state.updateUI();
+
+    await _drainBehaviorFlags();
+    if (state.isDisposed) return;
+
+    await _cascadeSequence(coord);
   }
 
   Future<void> _cascadeSequence(TileCoordinate focusCoordinate) async {

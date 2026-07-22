@@ -17,8 +17,13 @@ class PunchingOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final levelState = context.read<LevelState>();
+
+    if (levelState.selectedPowerup?.id != 'boxing_glove') {
+      return const SizedBox.shrink();
+    }
+
     final start = levelState.powerupIconPosition;
-    final target = levelState.punchTarget;
+    final target = levelState.powerupTarget;
 
     if (start == null || target == null || boardRect.isEmpty) {
       _log.warning(
@@ -34,7 +39,7 @@ class PunchingOverlay extends StatelessWidget {
       startPosition: start,
       targetPosition: targetCenter,
       tileSize: tileSize,
-      onImpact: () => levelState.markPunchImpact(),
+      onImpact: () => levelState.markPowerupImpact(),
       onComplete: () => levelState.completePowerupAnimation(),
     );
   }

@@ -46,13 +46,16 @@ class LevelState extends ChangeNotifier {
   Powerup? _selectedPowerup;
   int _powerupHoverToken = 0;
   bool _isPowerupAnimating = false;
-  TileCoordinate? _punchTarget;
-  Completer<void>? _punchAnimationCompleter;
+  TileCoordinate? _powerupTarget;
+  Completer<void>? _powerupAnimationCompleter;
+
+  void Function()? onPowerupImpact;
+  void Function(TileCoordinate)? onBloodDrop;
 
   int get powerupHoverToken => _powerupHoverToken;
 
   bool get isPowerupAnimating => _isPowerupAnimating;
-  TileCoordinate? get punchTarget => _punchTarget;
+  TileCoordinate? get powerupTarget => _powerupTarget;
 
   LevelState({
     required this.onWin,
@@ -216,11 +219,10 @@ class LevelState extends ChangeNotifier {
       return;
     }
     _capturePowerupPosition();
-    _punchTarget = coord;
+    _powerupTarget = coord;
     boardManager.gridTiles[coord.row][coord.col].isPowerupTarget = true;
     completer.complete(coord);
     _powerupSelectionCompleter = null;
-    _selectedPowerup = null;
     notifyListeners();
   }
 
@@ -240,26 +242,42 @@ class LevelState extends ChangeNotifier {
 
   Future<void> startPowerupAnimation() {
     _isPowerupAnimating = true;
-    _punchAnimationCompleter = Completer<void>();
+    _powerupAnimationCompleter = Completer<void>();
     notifyListeners();
-    return _punchAnimationCompleter!.future;
+    return _powerupAnimationCompleter!.future;
   }
 
-  void markPunchImpact() {
-    final target = _punchTarget;
+  void markPowerupImpact() {
+    final target = _powerupTarget;
     if (target != null) {
-      boardManager.gridTiles[target.row][target.col].isExploding = true;
-      gameState.updateUI();
-      notifyListeners();
+      if (onPowerupImpact != null) {
+        onPowerupImpact!();
+      } else {
+        boardManager.gridTiles[target.row][target.col].isExploding = true;
+        gameState.updateUI();
+        notifyListeners();
+      }
     }
   }
 
+  void triggerBloodDrop(TileCoordinate coord) {
+    onBloodDrop?.call(coord);
+  }
+
   void completePowerupAnimation() {
+    final target = _powerupTarget;
+    if (target != null) {
+      final tile = boardManager.gridTiles[target.row][target.col];
+      tile.isPowerupTarget = false;
+      tile.isBloodTarget = false;
+    }
     _isPowerupAnimating = false;
     _powerupIconPosition = null;
-    _punchTarget = null;
-    _punchAnimationCompleter?.complete();
-    _punchAnimationCompleter = null;
+    _powerupTarget = null;
+    _selectedPowerup = null;
+    onPowerupImpact = null;
+    _powerupAnimationCompleter?.complete();
+    _powerupAnimationCompleter = null;
     notifyListeners();
   }
 
