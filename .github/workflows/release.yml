@@ -151,7 +151,7 @@ jobs:
             linux-amd64.deb
             linux-x86_64.AppImage
             build\windows\x64\runner\Release\windows.msix
-          name: "Release ${{ github.ref_name }}"
+          name: "${{ github.ref_name }}"
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

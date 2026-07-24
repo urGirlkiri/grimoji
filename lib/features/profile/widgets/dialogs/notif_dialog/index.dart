@@ -29,7 +29,7 @@ class NotifDialog extends StatelessWidget {
               ? AnimatedButton(
                   onTap: () {
                     Navigator.of(context).pop();
-                    GoRouter.of(context).pushNamed(Routes.market);
+                    GoRouter.of(context).goNamed(Routes.market);
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,20 +43,32 @@ class NotifDialog extends StatelessWidget {
                         width: 50 * scale,
                         height: height,
                       ),
-                      SizedBox(width: 10 * scale),
+                      SizedBox(width: 12 * scale),
                       SizedBox(
                         height: height,
-                        child: Center(
-                          child: Text(
-                            'Claim Free Dices',
-                            style: context.theme.textTheme.titleMedium!
-                                .copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 0.5,
-                                  height: 0,
-                                ),
-                            maxLines: 1,
-                          ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Daily Dice',
+                              style: context.theme.textTheme.titleMedium!
+                                  .copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 0.5,
+                                    height: 0,
+                                  ),
+                              maxLines: 1,
+                            ),
+                            const SizedBox(height: 4,),
+                            Text(
+                              'Claim Your Free Dices',
+                              style: context.theme.textTheme.titleSmall!
+                                  .copyWith(
+                                    letterSpacing: 0.5,
+                                  ),
+                              maxLines: 1,
+                            ),
+                          ],
                         ),
                       ),
                     ],
