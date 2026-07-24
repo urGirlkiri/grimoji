@@ -89,13 +89,14 @@ class _LevelHintScreenState extends State<LevelHintScreen> {
   }
 
   String _getHintText(ShapeType shapeType, Recipe recipe) {
+    final visual = recipe.ingredient.visual;
     switch (shapeType) {
       case ShapeType.twoByTwo:
-        return 'Match 2x2 to craft';
+        return 'Match $visual to craft';
       case ShapeType.lShape:
-        return 'Match L-shape to craft';
+        return 'Match $visual to craft';
       case ShapeType.tShape:
-        return 'Match T-shape to craft';
+        return 'Match $visual to craft';
       case ShapeType.line:
         return 'Match ${recipe.requiredAmount} in a line to craft';
     }
