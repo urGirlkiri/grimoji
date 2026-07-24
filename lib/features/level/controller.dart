@@ -43,6 +43,7 @@ class LevelDataController extends ChangeNotifier {
 
   int get mapVersion => _mapVersion;
   int getStars(int level) => _levelData[level]?.stars ?? 0;
+  int getCrimsonStars(int level) => _levelData[level]?.crimsonStars ?? 0;
 
   int currentLevel() {
     _getLatestFromStore();

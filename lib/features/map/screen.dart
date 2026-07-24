@@ -154,14 +154,16 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
     });
   }
 
-  ({Map<int, int> stars, Set<int> unlocked}) _lvProgress(
+  ({Map<int, int> stars, Map<int, int> crimson, Set<int> unlocked}) _lvProgress(
     LevelDataController levelData,
   ) {
     final Map<int, int> stars = {};
+    final Map<int, int> crimson = {};
     final Set<int> unlocked = {};
 
     for (final node in _nodes) {
       stars[node.level] = levelData.getStars(node.level);
+      crimson[node.level] = levelData.getCrimsonStars(node.level);
 
       if (levelData.isLevelCompleted(node.level) ||
           node.level == 1 ||
@@ -169,7 +171,7 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
         unlocked.add(node.level);
       }
     }
-    return (stars: stars, unlocked: unlocked);
+    return (stars: stars, crimson: crimson, unlocked: unlocked);
   }
 
   @override
@@ -209,6 +211,7 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
               nodeScale: mapWidth / mapImgWidth,
               unlockedLevels: levelProgress.unlocked,
               levelStars: levelProgress.stars,
+              levelCrimsonStars: levelProgress.crimson,
             ),
           );
         },

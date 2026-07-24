@@ -3,13 +3,14 @@ import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/level/widgets/dialogs/cauldron_dialog.dart';
 import 'package:grimoji/features/level/widgets/dialogs/start_dialog/index.dart';
+import 'package:grimoji/features/map/widgets/level_node/star_cluster.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animations/dialog.dart';
-import 'package:grimoji/widgets/custom/star_icon.dart';
 
 class LevelNode extends StatelessWidget {
   final GameLevel level;
   final int stars;
+  final int crimsonStars;
   final double cacheSize;
   final bool isUnlocked;
 
@@ -17,6 +18,7 @@ class LevelNode extends StatelessWidget {
     super.key,
     required this.level,
     required this.stars,
+    this.crimsonStars = 0,
     required this.cacheSize,
     required this.isUnlocked,
   });
@@ -46,7 +48,11 @@ class LevelNode extends StatelessWidget {
                 cacheWidth: cacheSize.round(),
                 cacheHeight: cacheSize.round(),
               ),
-              if (stars > 0) Positioned(bottom: 10, child: _StarCluster(stars)),
+              if (stars > 0)
+                Positioned(
+                  bottom: 10,
+                  child: StarCluster(stars, crimsonStars: crimsonStars),
+                ),
               Positioned(
                 top: stars > 0 ? 18 : null,
                 child: Text(
@@ -78,34 +84,3 @@ class LevelNode extends StatelessWidget {
   }
 }
 
-class _StarCluster extends StatelessWidget {
-  final int count;
-  const _StarCluster(this.count);
-
-  @override
-  Widget build(BuildContext context) {
-    if (count == 1) return const StarIcon(size: 24);
-
-    if (count == 2) {
-      return const Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [StarIcon(size: 24), StarIcon(size: 24)],
-      );
-    }
-
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const StarIcon(size: 24),
-        Transform.translate(
-          offset: const Offset(0, -6),
-          child: const StarIcon(size: 26),
-        ),
-        const StarIcon(size: 24),
-      ],
-    );
-  }
-}

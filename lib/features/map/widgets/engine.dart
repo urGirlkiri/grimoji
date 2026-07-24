@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/levels/index.dart';
-import 'package:grimoji/features/map/widgets/level_node.dart';
+import 'package:grimoji/features/map/widgets/level_node/index.dart';
 import 'package:grimoji/features/map/widgets/temp_node.dart';
 
 import 'package:grimoji/features/map/models/level_node.dart';
@@ -18,6 +18,7 @@ class MapEngine extends StatelessWidget {
   final double? hoverPercentX;
   final double? hoverPercentY;
   final Map<int, int> levelStars;
+  final Map<int, int> levelCrimsonStars;
   final Set<int> unlockedLevels;
   final int? previewLevel;
 
@@ -32,6 +33,7 @@ class MapEngine extends StatelessWidget {
     this.hoverPercentX,
     this.hoverPercentY,
     this.levelStars = const {},
+    this.levelCrimsonStars = const {},
     this.unlockedLevels = const {},
     this.previewLevel,
     this.isPlacementMode = false,
@@ -74,6 +76,7 @@ class MapEngine extends StatelessWidget {
 
             final int levelNum = node.level;
             final int stars = levelStars[levelNum] ?? 0;
+            final int crimsonStars = levelCrimsonStars[levelNum] ?? 0;
             final bool isUnlocked = unlockedLevels.contains(levelNum);
             final GameLevel levelDef = levelNum <= gameLevels.length
                 ? gameLevels[levelNum - 1]
@@ -93,6 +96,7 @@ class MapEngine extends StatelessWidget {
                           child: LevelNode(
                             level: levelDef,
                             stars: 3,
+                            crimsonStars: 0,
                             cacheSize: computedNodeCacheSize,
                             isUnlocked: true,
                           ),
@@ -100,6 +104,7 @@ class MapEngine extends StatelessWidget {
                       : LevelNode(
                           level: levelDef,
                           stars: stars,
+                          crimsonStars: crimsonStars,
                           cacheSize: computedNodeCacheSize,
                           isUnlocked: isUnlocked,
                         ),
