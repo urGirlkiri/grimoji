@@ -92,15 +92,18 @@ class _LevelScreenState extends State<LevelScreen> {
     });
   }
 
-  Future<void> _playerWon(int starsEarned) async {
+  Future<void> _playerWon(int normalStars) async {
     if (!mounted) return;
-    _log.info('Level ${widget.level.number} won with $starsEarned stars!');
+    _log.info(
+      'Level ${widget.level.number} won with $normalStars normal stars and ${_levelState.crimsonStars} crimson stars!',
+    );
 
     final levelDataController = context.read<LevelDataController>();
 
     await levelDataController.saveLevelCompletion(
       widget.level.number,
-      starsEarned,
+      normalStars,
+      crimsonStars: _levelState.crimsonStars,
     );
 
     await Future<void>.delayed(_preCelebrationDuration);
@@ -117,7 +120,11 @@ class _LevelScreenState extends State<LevelScreen> {
 
     GoRouter.of(context).goNamed(
       Routes.levelWon,
-      extra: {'level': widget.level.number, 'stars': starsEarned},
+      extra: {
+        'level': widget.level.number,
+        'stars': normalStars,
+        'crimsonStars': _levelState.crimsonStars,
+      },
     );
   }
 
@@ -228,18 +235,28 @@ class _LevelScreenState extends State<LevelScreen> {
 
                     PowerupSelectionOverlay(boardKey: _boardKey),
 
-                    Selector<LevelState, Map<String, bool>>(
-                      selector: (_, state) => {
-                        'isGoalComplete': state.isGoalComplete,
-                        'isPaused': state.gameState.isPaused,
-                        'isFeverTime': state.gameState.isFeverTime,
-                        'isFeverComplete': state.gameState.isFeverComplete,
-                      },
-                      builder: (context, stateMap, child) {
-                        final isGoalComplete = stateMap['isGoalComplete']!;
-                        final isPaused = stateMap['isPaused']!;
-                        final isFeverTime = stateMap['isFeverTime']!;
-                        final isFeverComplete = stateMap['isFeverComplete']!;
+                    Selector<
+                      LevelState,
+                      ({
+                        bool isGoalComplete,
+                        bool isPaused,
+                        bool isFeverTime,
+                        bool isFeverComplete,
+                      })
+                    >(
+                      selector: (_, state) => (
+                        isGoalComplete: state.isGoalComplete,
+                        isPaused: state.gameState.isPaused,
+                        isFeverTime: state.gameState.isFeverTime,
+                        isFeverComplete: state.gameState.isFeverComplete,
+                      ),
+                      builder: (context, flags, child) {
+                        final (
+                          :isGoalComplete,
+                          :isPaused,
+                          :isFeverTime,
+                          :isFeverComplete,
+                        ) = flags;
 
                         if (!isGoalComplete) return const SizedBox.shrink();
 
@@ -260,6 +277,7 @@ class _LevelScreenState extends State<LevelScreen> {
                             isFirstTime &&
                             !isFeverTime &&
                             !isFeverComplete;
+                            
                         if (shouldShowLevelComplete &&
                             LevelComOverlay.currentEntry == null) {
                           WidgetsBinding.instance.addPostFrameCallback((_) {

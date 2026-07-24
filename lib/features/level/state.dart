@@ -188,9 +188,9 @@ class LevelState extends ChangeNotifier {
     coordinator.clearHint();
     audio.playMenuMusic();
 
-    final starsEarned = goalManager.calculateStars();
-    if (starsEarned >= 1) {
-      onWin.call(starsEarned);
+    final normalStars = goalManager.calculateStars();
+    if (normalStars >= 1) {
+      onWin.call(normalStars);
     } else {
       onLose.call();
     }
@@ -337,6 +337,9 @@ class LevelState extends ChangeNotifier {
   int get secondsRemaining => timeManager.secondsRemaining;
   double get progress => goalManager.progress;
   int get collectedAmount => goalManager.collectedAmount;
+
+  double get crimsonProgress => 0;
+  int get crimsonStars => 0;
 
   void startLevel() {
     audio.playLevelMusic();
