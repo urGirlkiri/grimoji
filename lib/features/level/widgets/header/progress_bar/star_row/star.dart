@@ -1,23 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/star_icon.dart';
 
 class Star extends StatelessWidget {
-  const Star({super.key, required this.isActive});
+  const Star({super.key, required this.isActive, this.isCrimson = false});
+
   final bool isActive;
+  final bool isCrimson;
 
   @override
   Widget build(BuildContext context) {
+    final isFullyVisible = isActive || isCrimson;
+
+    final targetOpacity = isFullyVisible ? 1.0 : 0.3;
+    final targetScale = isFullyVisible ? 1.0 : 0.8;
+
+    final Color targetColor;
+    if (isCrimson) {
+      targetColor = isActive
+          ? context.palette.crimson
+          : context.palette.moonlight;
+    } else {
+      targetColor = isActive ? context.palette.moonlight : context.palette.mist;
+    }
+
+    final key = ValueKey('flare_${isCrimson}_$isActive');
+
     return AnimatedScale(
-      scale: isActive ? 1.0 : 0.8,
-      duration: const Duration(milliseconds: 500),
+      scale: targetScale,
+      duration: 500.ms,
       curve: Curves.elasticOut,
       child: AnimatedOpacity(
-        opacity: isActive ? 1.0 : 0.3,
-        duration: const Duration(milliseconds: 300),
-        child: StarIcon(
-          size: 32,
-          color: isActive ? context.palette.moonlight : null,
+        opacity: targetOpacity,
+        duration: 300.ms,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            if (isCrimson && isActive)
+              StarIcon(size: 32, color: context.palette.crimson)
+                  .animate(key: key)
+                  .scale(
+                    begin: const Offset(1, 1),
+                    end: const Offset(2.5, 2.5),
+                    duration: 600.ms,
+                    curve: Curves.easeOutCubic,
+                  )
+                  .fadeOut(duration: 600.ms, curve: Curves.easeOutCubic),
+
+            TweenAnimationBuilder<Color?>(
+              tween: ColorTween(begin: context.palette.mist, end: targetColor),
+              duration: 400.ms,
+              curve: Curves.easeInOut,
+              builder: (context, color, _) => StarIcon(size: 32, color: color),
+            ),
+          ],
         ),
       ),
     );

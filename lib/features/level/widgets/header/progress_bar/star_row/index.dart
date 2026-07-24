@@ -8,14 +8,32 @@ class StarRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final progress = context.select<LevelState, double>((s) => s.progress);
+    final data = context.select<LevelState, ({bool crimson, double progress})>(
+      (s) => (
+        crimson: s.isGoalComplete,
+        progress: s.isGoalComplete ? s.crimsonProgress : s.progress,
+      ),
+    );
+
+    final progress = data.progress.isFinite
+        ? data.progress.clamp(0.0, 1.0)
+        : 0.0;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Star(isActive: progress >= 0.33),
-        Star(isActive: progress >= 0.66),
-        Star(isActive: progress >= 1.00),
+        Star(
+          isActive: progress >= 0.33,
+          isCrimson: data.crimson,
+        ),
+        Star(
+          isActive: progress >= 0.66,
+          isCrimson: data.crimson,
+        ),
+        Star(
+          isActive: progress >= 1.00,
+          isCrimson: data.crimson,
+        ),
       ],
     );
   }
