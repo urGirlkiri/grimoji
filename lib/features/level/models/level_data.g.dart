@@ -16,17 +16,23 @@ class LevelDataAdapter extends TypeAdapter<LevelData> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return LevelData(level: fields[0] as int, stars: fields[1] as int);
+    return LevelData(
+      level: fields[0] as int,
+      stars: fields[1] as int,
+      crimsonStars: fields[2] as int?,
+    );
   }
 
   @override
   void write(BinaryWriter writer, LevelData obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.level)
       ..writeByte(1)
-      ..write(obj.stars);
+      ..write(obj.stars)
+      ..writeByte(2)
+      ..write(obj.crimsonStars);
   }
 
   @override

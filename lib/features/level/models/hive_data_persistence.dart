@@ -37,8 +37,11 @@ class HiveLevelDataPersistence extends LevelDataPersistence {
   }
 
   @override
-  Future<void> saveLevelStars(int level, int stars) async {
-    await _box.put(level, LevelData(level: level, stars: stars));
+  Future<void> saveLevelStars(int level, int stars, {int? crimsonStars}) async {
+    await _box.put(
+      level,
+      LevelData(level: level, stars: stars, crimsonStars: crimsonStars),
+    );
   }
 
   @override

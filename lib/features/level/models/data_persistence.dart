@@ -7,7 +7,7 @@ abstract class LevelDataPersistence {
 
   Future<int> getLevelStars(int level);
 
-  Future<void> saveLevelStars(int level, int stars);
+  Future<void> saveLevelStars(int level, int stars, {int? crimsonStars});
 
   Future<void> clearAllData();
 }
