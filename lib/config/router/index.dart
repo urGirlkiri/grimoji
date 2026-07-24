@@ -207,8 +207,14 @@ final router = GoRouter(
       builder: (context, state) {
         final map = state.extra as Map<String, dynamic>?;
         final stars = map?['stars'] as int;
+        final crimsonStars = map?['crimsonStars'] as int? ?? 0;
         final level = map?['level'] as int;
-        return WinGameScreen(stars: stars, level: level);
+        
+        return WinGameScreen(
+          stars: stars,
+          level: level,
+          crimsonStars: crimsonStars,
+        );
       },
     ),
 

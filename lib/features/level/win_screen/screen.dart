@@ -14,8 +14,14 @@ import 'package:grimoji/utils/context_data.dart';
 class WinGameScreen extends StatefulWidget {
   final int level;
   final int stars;
+  final int crimsonStars;
 
-  const WinGameScreen({super.key, required this.level, required this.stars});
+  const WinGameScreen({
+    super.key,
+    required this.level,
+    required this.stars,
+    this.crimsonStars = 0,
+  });
 
   @override
   State<WinGameScreen> createState() => _WinGameScreenState();
@@ -133,7 +139,11 @@ class _WinGameScreenState extends State<WinGameScreen> {
                           alignment: Alignment.center,
                           children: [
                             for (int i = 0; i < widget.stars; i++)
-                              FlyingStar(index: i, total: widget.stars),
+                              FlyingStar(
+                                index: i,
+                                total: widget.stars,
+                                crimson: i < widget.crimsonStars,
+                              ),
                           ],
                         ),
                       ),
