@@ -41,6 +41,9 @@ class GameCoordinator {
   void Function(int row, int col, bool isHorizontal)? onLineClear;
   Future<void> Function(RollEffect)? onWheelRoll;
   Future<void> Function(GhostDiveEffect)? onGhostDive;
+  void Function(int count)? onIntrusiveDestroyed;
+  void Function(int count)? onShapeMerges;
+  void Function(int count)? onGhostDiveThreats;
   final Logger _log = Logger('GameCoordinator');
 
   late final SettlementProcessor _settlement;
@@ -382,6 +385,9 @@ class GameCoordinator {
         isFirstMatch: isFirstMatch,
       );
 
+      final shapeMerges = matchedGroups.where((g) => g.isSpecial).length;
+      if (shapeMerges > 0) onShapeMerges?.call(shapeMerges);
+
       final mergedFlyingTargets = await _handleFlyingTargets(
         stepResult.collectedEmojis,
         stepResult.tilesToDestroy,
@@ -391,6 +397,8 @@ class GameCoordinator {
       final tilesCleared =
           stepResult.tilesToDestroy.length + mergedFlyingTargets.length;
       state.addClearedTiles(tilesCleared);
+
+      onIntrusiveDestroyed?.call(_countIntrusive(stepResult.tilesToDestroy));
 
       for (var coord in stepResult.transformed) {
         final tile = engine.grid[coord.row][coord.col];
@@ -446,6 +454,8 @@ class GameCoordinator {
         ...stepResult.destroyed,
         ...targetFlyingTransforms,
       };
+
+      onIntrusiveDestroyed?.call(_countIntrusive(blastDestroyed));
 
       if (!await _settlement.afterDetonation(BoardRegion(blastDestroyed))) {
         return false;
@@ -557,6 +567,18 @@ class GameCoordinator {
         action(r, c, engine.grid[r][c]);
       }
     }
+  }
+
+  int _countIntrusive(Iterable<TileCoordinate> coords) {
+    final intrusive =  [Emojis.impSmile, Emojis.clown, Emojis.poop];
+    if (intrusive.isEmpty) return 0;
+    int count = 0;
+    for (final coord in coords) {
+      if (intrusive.contains(engine.grid[coord.row][coord.col].emoji)) {
+        count++;
+      }
+    }
+    return count;
   }
 
   Future<bool> _safeDelay(Duration duration) async {
@@ -703,6 +725,7 @@ class GameCoordinator {
       }
     }
     _resolveCollectedEmojis(await _effects.completeGhostEffects(ghosts));
+    if (ghosts.isNotEmpty) onGhostDiveThreats?.call(ghosts.length);
     return !state.isDisposed;
   }
 

@@ -5,6 +5,7 @@ import 'package:grimoji/app/lifecycle.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
+import 'package:grimoji/features/level/managers/crimson.dart';
 import 'package:grimoji/features/match/board/manager.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:grimoji/features/match/engines/game.dart';
@@ -32,6 +33,7 @@ class LevelState extends ChangeNotifier {
 
   late final TimeManager timeManager;
   late final GoalManager goalManager;
+  late final CrimsonFever _crimsonTracker;
   static const int bonusTime = 5;
 
   late final BoardManager boardManager;
@@ -66,6 +68,10 @@ class LevelState extends ChangeNotifier {
     this.startingBoosters = const [],
   }) {
     goalManager = GoalManager(targetAmount: level.targetAmount);
+    _crimsonTracker = CrimsonFever(
+      level: level,
+      goalManager: goalManager,
+    );
     timeManager = TimeManager(
       timeLimit: level.timeLimit,
       onTick: notifyListeners,
@@ -99,6 +105,11 @@ class LevelState extends ChangeNotifier {
       startingBoosters: startingBoosters,
     );
 
+    gameState.onTilesCleared = _onFeverTilesCleared;
+    coordinator.onIntrusiveDestroyed = _onIntrusiveDestroyed;
+    coordinator.onShapeMerges = _onShapeMerges;
+    coordinator.onGhostDiveThreats = _onGhostDiveThreats;
+
     gameState.addListener(notifyListeners);
     gameState.addListener(_onGameStateChanged);
     lifecycleNotifier.addListener(_onLifecycleChanged);
@@ -130,13 +141,23 @@ class LevelState extends ChangeNotifier {
   }
 
   void _incrementCollectedAmnt(int count) async {
-    if (goalManager.isComplete) return;
+    if (goalManager.isComplete) {
+      _crimsonTracker.addExtraTargets(count);
+      notifyListeners();
+      return;
+    }
 
+    final previous = goalManager.collectedAmount;
     goalManager.add(count);
     notifyListeners();
 
-    if (goalManager.isComplete && !gameState.isFeverTime) {
-      timeManager.stop();
+    if (goalManager.isComplete) {
+      final extra = (previous + count) - level.targetAmount;
+      if (extra > 0) _crimsonTracker.addExtraTargets(extra);
+
+      if (!gameState.isFeverTime) {
+        timeManager.stop();
+      }
     }
   }
 
@@ -338,8 +359,17 @@ class LevelState extends ChangeNotifier {
   double get progress => goalManager.progress;
   int get collectedAmount => goalManager.collectedAmount;
 
-  double get crimsonProgress => 0;
-  int get crimsonStars => 0;
+  double get crimsonProgress => _crimsonTracker.progress;
+  int get crimsonStars => _crimsonTracker.stars;
+  int get crimsonScore => _crimsonTracker.score;
+
+  void _onFeverTilesCleared(int count) =>
+      _crimsonTracker.addClearedTiles(count);
+  void _onIntrusiveDestroyed(int count) =>
+      _crimsonTracker.addIntrusiveDestroyed(count);
+  void _onShapeMerges(int count) => _crimsonTracker.addShapeMerges(count);
+  void _onGhostDiveThreats(int count) =>
+      _crimsonTracker.addGhostDiveThreats(count);
 
   void startLevel() {
     audio.playLevelMusic();

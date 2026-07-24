@@ -21,6 +21,8 @@ class GameState extends ChangeNotifier {
   bool hasLegendaryEmoji = false;
   double shuffleProgress = 1.0;
 
+  void Function(int)? onTilesCleared;
+
   int updateToken = 0;
 
   GameState();
@@ -74,6 +76,7 @@ class GameState extends ChangeNotifier {
 
   void addClearedTiles(int count) {
     tilesCleared += count;
+    onTilesCleared?.call(count);
     _notify();
   }
 
