@@ -67,12 +67,12 @@ class GameState extends ChangeNotifier {
     }
   }
 
-  void incrementComboMultiplier() {
+  void incrementCombo() {
     currentComboMultiplier++;
     _notify();
   }
 
-  void addTilesCleared(int count) {
+  void addClearedTiles(int count) {
     tilesCleared += count;
     _notify();
   }

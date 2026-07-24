@@ -62,12 +62,30 @@ class LevelDataController extends ChangeNotifier {
 
   bool isLevelCompleted(int level) => _levelData.containsKey(level);
 
-  Future<void> saveLevelCompletion(int level, int stars) async {
-    _levelData[level] = LevelData(level: level, stars: stars);
+  Future<void> saveLevelCompletion(
+    int level,
+    int stars, {
+    int? crimsonStars,
+  }) async {
+    final existing = _levelData[level];
+
+    final bestStars = math.max(stars, existing?.stars ?? 0);
+    final bestCStars = math.max(
+      crimsonStars ?? 0,
+      existing?.crimsonStars ?? 0,
+    );
+
+    final finalCrimsonStars = bestStars == 3 ? bestCStars : null;
+
+    _levelData[level] = LevelData(
+      level: level,
+      stars: bestStars,
+      crimsonStars: finalCrimsonStars,
+    );
     _mapVersion++;
     notifyListeners();
 
-    await _store.saveLevelStars(level, stars);
+    await _store.saveLevelStars(level, bestStars, crimsonStars: finalCrimsonStars);
   }
 
   Map<int, LevelData> getAllLevelData() => Map.unmodifiable(_levelData);

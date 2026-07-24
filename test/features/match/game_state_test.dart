@@ -86,10 +86,10 @@ void main() {
       bool notified = false;
       gameState.addListener(() => notified = true);
 
-      gameState.incrementComboMultiplier();
+      gameState.incrementCombo();
       expect(gameState.currentComboMultiplier, 1);
 
-      gameState.incrementComboMultiplier();
+      gameState.incrementCombo();
       expect(gameState.currentComboMultiplier, 2);
     });
 

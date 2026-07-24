@@ -365,7 +365,7 @@ class GameCoordinator {
       executionOccurred = true;
 
       if (!isFirstMatch) {
-        state.incrementComboMultiplier();
+        state.incrementCombo();
       }
 
       if (!await _handleMatchAnimations(
@@ -390,7 +390,7 @@ class GameCoordinator {
 
       final tilesCleared =
           stepResult.tilesToDestroy.length + mergedFlyingTargets.length;
-      state.addTilesCleared(tilesCleared);
+      state.addClearedTiles(tilesCleared);
 
       for (var coord in stepResult.transformed) {
         final tile = engine.grid[coord.row][coord.col];
