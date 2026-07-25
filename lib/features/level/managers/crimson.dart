@@ -8,29 +8,11 @@ class CrimsonFever {
 
   CrimsonFever({required this.level, required this.goalManager});
 
-  void addExtraTargets(int count) {
-    if (!goalManager.isComplete) return;
-    _score += count * level.extraTargetWeight;
-  }
+  bool get _canEarn => goalManager.isComplete;
 
-  void addClearedTiles(int count) {
-    if (!goalManager.isComplete) return;
-    _score += count * level.tileClearWeight;
-  }
-
-  void addIntrusiveDestroyed(int count) {
-    if (!goalManager.isComplete) return;
-    _score += count * level.intrusiveWeight;
-  }
-
-  void addShapeMerges(int count) {
-    if (!goalManager.isComplete) return;
-    _score += count * level.shapeMergeWeight;
-  }
-
-  void addGhostDiveThreats(int count) {
-    if (!goalManager.isComplete) return;
-    _score += count * level.ghostDiveWeight;
+  void addScore(int points) {
+    if (!_canEarn) return;
+    _score += points;
   }
 
   int get target => level.crimsonStarTarget;

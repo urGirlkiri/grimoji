@@ -68,10 +68,7 @@ class LevelState extends ChangeNotifier {
     this.startingBoosters = const [],
   }) {
     goalManager = GoalManager(targetAmount: level.targetAmount);
-    _crimsonTracker = CrimsonFever(
-      level: level,
-      goalManager: goalManager,
-    );
+    _crimsonTracker = CrimsonFever(level: level, goalManager: goalManager);
     timeManager = TimeManager(
       timeLimit: level.timeLimit,
       onTick: notifyListeners,
@@ -105,10 +102,18 @@ class LevelState extends ChangeNotifier {
       startingBoosters: startingBoosters,
     );
 
-    gameState.onTilesCleared = _onFeverTilesCleared;
-    coordinator.onIntrusiveDestroyed = _onIntrusiveDestroyed;
-    coordinator.onShapeMerges = _onShapeMerges;
-    coordinator.onGhostDiveThreats = _onGhostDiveThreats;
+    gameState.onTilesCleared = (count) =>
+        recordCrimsonProgress(tileClears: count);
+    coordinator.onCrimsonProgress =
+        ({
+          int intrusiveDestroyed = 0,
+          int shapeMerges = 0,
+          int ghostThreats = 0,
+        }) => recordCrimsonProgress(
+          intrusiveDestroyed: intrusiveDestroyed,
+          shapeMerges: shapeMerges,
+          ghostThreats: ghostThreats,
+        );
 
     gameState.addListener(notifyListeners);
     gameState.addListener(_onGameStateChanged);
@@ -142,8 +147,7 @@ class LevelState extends ChangeNotifier {
 
   void _incrementCollectedAmnt(int count) async {
     if (goalManager.isComplete) {
-      _crimsonTracker.addExtraTargets(count);
-      notifyListeners();
+      recordCrimsonProgress(extraTargets: count);
       return;
     }
 
@@ -153,7 +157,7 @@ class LevelState extends ChangeNotifier {
 
     if (goalManager.isComplete) {
       final extra = (previous + count) - level.targetAmount;
-      if (extra > 0) _crimsonTracker.addExtraTargets(extra);
+      if (extra > 0) recordCrimsonProgress(extraTargets: extra);
 
       if (!gameState.isFeverTime) {
         timeManager.stop();
@@ -363,13 +367,27 @@ class LevelState extends ChangeNotifier {
   int get crimsonStars => _crimsonTracker.stars;
   int get crimsonScore => _crimsonTracker.score;
 
-  void _onFeverTilesCleared(int count) =>
-      _crimsonTracker.addClearedTiles(count);
-  void _onIntrusiveDestroyed(int count) =>
-      _crimsonTracker.addIntrusiveDestroyed(count);
-  void _onShapeMerges(int count) => _crimsonTracker.addShapeMerges(count);
-  void _onGhostDiveThreats(int count) =>
-      _crimsonTracker.addGhostDiveThreats(count);
+  void recordCrimsonProgress({
+    int extraTargets = 0,
+    int tileClears = 0,
+    int intrusiveDestroyed = 0,
+    int shapeMerges = 0,
+    int ghostThreats = 0,
+  }) {
+    if (!goalManager.isComplete) return;
+
+    final points =
+        extraTargets * level.extraTargetWeight +
+        tileClears * level.tileClearWeight +
+        intrusiveDestroyed * level.intrusiveWeight +
+        shapeMerges * level.shapeMergeWeight +
+        ghostThreats * level.ghostDiveWeight;
+
+    if (points > 0) {
+      _crimsonTracker.addScore(points);
+      notifyListeners();
+    }
+  }
 
   void startLevel() {
     audio.playLevelMusic();

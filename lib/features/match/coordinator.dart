@@ -41,9 +41,8 @@ class GameCoordinator {
   void Function(int row, int col, bool isHorizontal)? onLineClear;
   Future<void> Function(RollEffect)? onWheelRoll;
   Future<void> Function(GhostDiveEffect)? onGhostDive;
-  void Function(int count)? onIntrusiveDestroyed;
-  void Function(int count)? onShapeMerges;
-  void Function(int count)? onGhostDiveThreats;
+  void Function({int intrusiveDestroyed, int shapeMerges, int ghostThreats})?
+  onCrimsonProgress;
   final Logger _log = Logger('GameCoordinator');
 
   late final SettlementProcessor _settlement;
@@ -386,7 +385,11 @@ class GameCoordinator {
       );
 
       final shapeMerges = matchedGroups.where((g) => g.isSpecial).length;
-      if (shapeMerges > 0) onShapeMerges?.call(shapeMerges);
+      final intrusiveCount = _countIntrusive(stepResult.tilesToDestroy);
+      onCrimsonProgress?.call(
+        shapeMerges: shapeMerges,
+        intrusiveDestroyed: intrusiveCount,
+      );
 
       final mergedFlyingTargets = await _handleFlyingTargets(
         stepResult.collectedEmojis,
@@ -398,7 +401,9 @@ class GameCoordinator {
           stepResult.tilesToDestroy.length + mergedFlyingTargets.length;
       state.addClearedTiles(tilesCleared);
 
-      onIntrusiveDestroyed?.call(_countIntrusive(stepResult.tilesToDestroy));
+      onCrimsonProgress?.call(
+        intrusiveDestroyed: _countIntrusive(stepResult.tilesToDestroy),
+      );
 
       for (var coord in stepResult.transformed) {
         final tile = engine.grid[coord.row][coord.col];
@@ -455,7 +460,9 @@ class GameCoordinator {
         ...targetFlyingTransforms,
       };
 
-      onIntrusiveDestroyed?.call(_countIntrusive(blastDestroyed));
+      onCrimsonProgress?.call(
+        intrusiveDestroyed: _countIntrusive(blastDestroyed),
+      );
 
       if (!await _settlement.afterDetonation(BoardRegion(blastDestroyed))) {
         return false;
@@ -570,7 +577,7 @@ class GameCoordinator {
   }
 
   int _countIntrusive(Iterable<TileCoordinate> coords) {
-    final intrusive =  [Emojis.impSmile, Emojis.clown, Emojis.poop];
+    final intrusive = [Emojis.impSmile, Emojis.clown, Emojis.poop];
     if (intrusive.isEmpty) return 0;
     int count = 0;
     for (final coord in coords) {
@@ -725,7 +732,9 @@ class GameCoordinator {
       }
     }
     _resolveCollectedEmojis(await _effects.completeGhostEffects(ghosts));
-    if (ghosts.isNotEmpty) onGhostDiveThreats?.call(ghosts.length);
+    if (ghosts.isNotEmpty) {
+      onCrimsonProgress?.call(ghostThreats: ghosts.length);
+    }
     return !state.isDisposed;
   }
 
