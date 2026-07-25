@@ -158,6 +158,9 @@ class FeverProcessor {
       await Future<void>.delayed(feverClockTickInterval);
     }
 
+    if (!await _waitIfPaused()) return false;
+    await _ensureBoardSettled();
+
     return !_shouldAbort;
   }
 
