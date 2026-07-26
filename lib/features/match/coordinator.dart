@@ -41,7 +41,13 @@ class GameCoordinator {
   void Function(int row, int col, bool isHorizontal)? onLineClear;
   Future<void> Function(RollEffect)? onWheelRoll;
   Future<void> Function(GhostDiveEffect)? onGhostDive;
-  void Function({int intrusiveDestroyed, int shapeMerges, int ghostThreats})?
+  void Function({
+    int intrusiveDestroyed,
+    int shapeMerges,
+    int ghostThreats,
+    int blackHoleClears,
+    int barberPoleClears,
+  })?
   onCrimsonProgress;
   final Logger _log = Logger('GameCoordinator');
 
@@ -760,6 +766,15 @@ class GameCoordinator {
           !await _effects.completeLineClear(drained.clearedLines)) {
         return false;
       }
+    }
+    if (drained.consumedTiles.isNotEmpty || drained.clearedLines.isNotEmpty) {
+      final totalCleared =
+          drained.consumedTiles.length + drained.clearedLines.length;
+      state.addClearedTiles(totalCleared);
+      onCrimsonProgress?.call(
+        blackHoleClears: drained.consumedTiles.isNotEmpty ? 1 : 0,
+        barberPoleClears: drained.clearedLines.isNotEmpty ? 1 : 0,
+      );
     }
     return drained.hasBoardChanged;
   }

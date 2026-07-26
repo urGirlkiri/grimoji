@@ -17,6 +17,8 @@ class GameLevel {
   final int intrusiveWeight;
   final int shapeMergeWeight;
   final int ghostDiveWeight;
+  final int blackHoleWeight;
+  final int barberPoleWeight;
 
   final String? achievementIdIOS;
   final String? achievementIdAndroid;
@@ -31,13 +33,15 @@ class GameLevel {
     required this.availableEmojis,
     required this.goal,
     required this.description,
-    
-    this.crimsonStarTarget = 1500,
+
+    this.crimsonStarTarget = 2500,
     this.extraTargetWeight = 30,
     this.tileClearWeight = 5,
     this.intrusiveWeight = 50,
     this.shapeMergeWeight = 20,
     this.ghostDiveWeight = 80,
+    this.blackHoleWeight = 60,
+    this.barberPoleWeight = 60,
     this.achievementIdIOS,
     this.achievementIdAndroid,
   }) : assert(

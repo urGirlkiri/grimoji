@@ -109,10 +109,14 @@ class LevelState extends ChangeNotifier {
           int intrusiveDestroyed = 0,
           int shapeMerges = 0,
           int ghostThreats = 0,
+          int blackHoleClears = 0,
+          int barberPoleClears = 0,
         }) => recordCrimsonProgress(
           intrusiveDestroyed: intrusiveDestroyed,
           shapeMerges: shapeMerges,
           ghostThreats: ghostThreats,
+          blackHoleClears: blackHoleClears,
+          barberPoleClears: barberPoleClears,
         );
 
     gameState.addListener(notifyListeners);
@@ -373,6 +377,8 @@ class LevelState extends ChangeNotifier {
     int intrusiveDestroyed = 0,
     int shapeMerges = 0,
     int ghostThreats = 0,
+    int blackHoleClears = 0,
+    int barberPoleClears = 0,
   }) {
     if (!goalManager.isComplete) return;
 
@@ -381,7 +387,9 @@ class LevelState extends ChangeNotifier {
         tileClears * level.tileClearWeight +
         intrusiveDestroyed * level.intrusiveWeight +
         shapeMerges * level.shapeMergeWeight +
-        ghostThreats * level.ghostDiveWeight;
+        ghostThreats * level.ghostDiveWeight +
+        blackHoleClears * level.blackHoleWeight +
+        barberPoleClears * level.barberPoleWeight;
 
     if (points > 0) {
       _crimsonTracker.addScore(points);
