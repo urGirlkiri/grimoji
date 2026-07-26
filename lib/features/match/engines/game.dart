@@ -126,8 +126,6 @@ class GameEngine {
 
               if (!tile.isMergePoint) {
                 tile.isMerging = true;
-                tile.coordinate.col = catalyst.col;
-                tile.coordinate.row = catalyst.row;
               } else {
                 tile.morphTarget = recipe.yields;
               }
@@ -165,8 +163,6 @@ class GameEngine {
 
       if (!tile.isMergePoint) {
         tile.isMerging = true;
-        tile.coordinate.col = catalyst.col;
-        tile.coordinate.row = catalyst.row;
       } else {
         tile.morphTarget = group.yields;
       }

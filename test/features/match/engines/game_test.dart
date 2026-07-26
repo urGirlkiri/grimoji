@@ -5,6 +5,7 @@ import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/match/board/manager.dart';
 import 'package:grimoji/features/match/engines/game.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
+import 'package:grimoji/features/match/detectors/match.dart';
 import 'package:grimoji/features/match/detectors/swipe.dart';
 import '../../../helpers/test_grid.dart';
 
@@ -159,5 +160,42 @@ void main() {
 
       expect(gameEngine.grid, equals(boardManager.gridTiles));
     });
+
+    test(
+      'categorizeAnimations should keep merge-source tile coordinates unchanged',
+      () {
+        grid.fillPattern([
+          Emojis.fire,
+          Emojis.rock,
+          Emojis.droplet,
+          Emojis.alien,
+        ]);
+        grid.place(0, 0, Emojis.fire);
+        grid.place(0, 1, Emojis.fire);
+        grid.place(0, 2, Emojis.fire);
+
+        final matchGroups = MatchDetector.findMatchedGroups(
+          boardManager.gridTiles,
+        );
+
+        final sourceCoord = TileCoordinate(row: 0, col: 0);
+        final sourceBefore =
+            boardManager.gridTiles[sourceCoord.row][sourceCoord.col];
+        final originalCoordinate = sourceBefore.coordinate;
+
+        gameEngine.categorizeAnimations(
+          matchGroups,
+          true,
+          TileCoordinate(row: 0, col: 1),
+        );
+
+        expect(
+          sourceBefore.coordinate,
+          originalCoordinate,
+          reason:
+              'Merge-source tile coordinate should not snap to the catalyst',
+        );
+      },
+    );
   });
 }

@@ -97,6 +97,35 @@ void main() {
     });
 
     test(
+      'applyGravity should leave every existing tile coordinate matching its grid slot',
+      () {
+        boardManager.triggerInitialFall();
+
+        final tilesToDestroy = {
+          TileCoordinate(row: 7, col: 0),
+          TileCoordinate(row: 6, col: 1),
+          TileCoordinate(row: 5, col: 2),
+        };
+
+        boardManager.applyGravity(tilesToDestroy);
+
+        for (int r = 0; r < BoardManager.rows; r++) {
+          for (int c = 0; c < BoardManager.cols; c++) {
+            final tile = boardManager.gridTiles[r][c];
+            if (tile.coordinate.row >= 0) {
+              expect(
+                tile.coordinate,
+                TileCoordinate(row: r, col: c),
+                reason:
+                    'Existing tile at ($r,$c) has stale/wrong coordinate after gravity',
+              );
+            }
+          }
+        }
+      },
+    );
+
+    test(
       'triggerInitialFall should reset all row coordinates to their final landing spots',
       () {
         boardManager.gridTiles[3][3].coordinate.row = -5;
@@ -385,13 +414,15 @@ void main() {
         expect(
           placedEmojis.where((e) => e == Emojis.barberPole).length,
           greaterThanOrEqualTo(1),
-          reason: 'Board sweep should place at least one barber pole (more can drop naturally)',
+          reason:
+              'Board sweep should place at least one barber pole (more can drop naturally)',
         );
-        
+
         expect(
           placedEmojis.where((e) => e == Emojis.bomb).length,
           greaterThanOrEqualTo(1),
-          reason: 'Board sweep should place at least one bomb (more can drop naturally)',
+          reason:
+              'Board sweep should place at least one bomb (more can drop naturally)',
         );
       });
     });

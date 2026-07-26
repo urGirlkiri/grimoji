@@ -228,8 +228,12 @@ class BoardManager {
       List<Tile> newColumn = [...skyTiles, ...remainingTiles];
 
       for (int r = 0; r < rows; r++) {
-        gridTiles[r][c] = newColumn[r];
-        gridTiles[r][c].coordinate.col = c;
+        final tile = newColumn[r];
+        gridTiles[r][c] = tile;
+        tile.coordinate.col = c;
+        if (tile.coordinate.row >= 0) {
+          tile.coordinate.row = r;
+        }
       }
     }
 
