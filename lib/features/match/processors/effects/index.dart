@@ -1,6 +1,9 @@
 import 'package:flutter/foundation.dart';
 
 import 'package:grimoji/config/emojis/index.dart';
+import 'package:grimoji/features/alchemy/behaviors/clear.dart';
+import 'package:grimoji/features/alchemy/models/action_type.dart';
+import 'package:grimoji/features/alchemy/models/behavior_action.dart';
 import 'package:grimoji/features/match/board/effects/ghost_dive/effect.dart';
 import 'package:grimoji/features/match/board/effects/wheel_roll/effect.dart';
 import 'package:grimoji/features/match/board/manager.dart';
@@ -138,8 +141,9 @@ class EffectsProcessor {
           effect: GhostDiveEffect(
             origin: trigger.origin,
             target: target,
-            bombOrigin: trigger.bombOrigin,
-            isBomb: trigger.isBomb,
+            powerupOrigin: trigger.powerupOrigin,
+            powerup: trigger.powerup,
+            isHorizontal: trigger.isHorizontal,
           ),
         ),
       );
@@ -159,22 +163,41 @@ class EffectsProcessor {
       if (kDebugMode) {
         engine.grid[effect.target.row][effect.target.col].isGhostTarget = false;
       }
-      if (effect.isBomb && effect.bombOrigin != null) {
+      if (effect.powerup != GhostPowerup.none &&
+          effect.powerupOrigin != null) {
         engine
-                .grid[effect.bombOrigin!.row][effect.bombOrigin!.col]
-                .isGhostBomb =
+                .grid[effect.powerupOrigin!.row][effect.powerupOrigin!.col]
+                .isGhostPowerup =
             false;
-        destroyed.add(effect.bombOrigin!);
+        destroyed.add(effect.powerupOrigin!);
       }
       destroyed.add(effect.origin);
-      if (effect.isBomb) {
-        final targetTile = engine.grid[effect.target.row][effect.target.col];
-        if (targetTile.emoji == engine.level.targetEmoji) {
-          collected.add(CollectedEmoji(emoji: targetTile.emoji, count: 1));
-        }
-        newBombs.add(effect.target);
-      } else {
-        destroyed.add(effect.target);
+      switch (effect.powerup) {
+        case GhostPowerup.bomb:
+          final targetTile = engine.grid[effect.target.row][effect.target.col];
+          if (targetTile.emoji == engine.level.targetEmoji) {
+            collected.add(CollectedEmoji(emoji: targetTile.emoji, count: 1));
+          }
+          newBombs.add(effect.target);
+          break;
+        case GhostPowerup.pole:
+          if (effect.isHorizontal != null) {
+            engine.executeBehaviorActions(
+              [
+                BehaviorAction(
+                  type: effect.isHorizontal!
+                      ? ActionType.clearRow
+                      : ActionType.clearCol,
+                ),
+              ],
+              effect.target.row,
+              effect.target.col,
+            );
+          }
+          break;
+        case GhostPowerup.none:
+          destroyed.add(effect.target);
+          break;
       }
     }
 
@@ -254,12 +277,25 @@ class EffectsProcessor {
     final triggers = <GhostTriggerEvent>[];
     _forEachTile((row, col, tile) {
       if (!tile.isGhostTrigger && !tile.isGhostOrigin) return;
-      TileCoordinate? bombOrigin;
+      TileCoordinate? powerupOrigin;
+      GhostPowerup powerup = GhostPowerup.none;
+      bool? isHorizontal;
       if (tile.isGhostOrigin) {
         for (final adjacent in boardManager.getAdjacentTiles(row, col)) {
           if (adjacent.emoji == Emojis.bomb) {
-            bombOrigin = adjacent.coordinate;
-            adjacent.isGhostBomb = true;
+            powerup = GhostPowerup.bomb;
+            powerupOrigin = adjacent.coordinate;
+            adjacent.isGhostPowerup = true;
+            break;
+          }
+          if (adjacent.emoji == Emojis.barberPole) {
+            powerup = GhostPowerup.pole;
+            powerupOrigin = adjacent.coordinate;
+            adjacent.isGhostPowerup = true;
+            final behavior = adjacent.behavior;
+            if (behavior is ClearBehavior) {
+              isHorizontal = behavior.isHorizontal;
+            }
             break;
           }
         }
@@ -267,8 +303,9 @@ class EffectsProcessor {
       triggers.add(
         GhostTriggerEvent(
           origin: TileCoordinate(row: row, col: col),
-          isBomb: tile.isGhostOrigin,
-          bombOrigin: bombOrigin,
+          powerup: powerup,
+          powerupOrigin: powerupOrigin,
+          isHorizontal: isHorizontal,
         ),
       );
       tile.isGhostTrigger = false;

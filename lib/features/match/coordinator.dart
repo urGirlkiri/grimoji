@@ -24,6 +24,7 @@ import 'package:grimoji/features/match/detectors/swipe.dart';
 import 'package:grimoji/features/match/board/effects/ghost_dive/effect.dart';
 import 'package:grimoji/features/match/board/effects/wheel_roll/effect.dart';
 import 'package:grimoji/features/match/processors/effects/index.dart';
+import 'package:grimoji/features/match/processors/effects/models/ghost_trigger_event.dart';
 import 'package:grimoji/features/match/processors/fever/index.dart';
 import 'package:grimoji/features/match/processors/settlement.dart';
 import 'package:grimoji/features/match/controllers/hint.dart';
@@ -722,7 +723,8 @@ class GameCoordinator {
       animations.add(onGhostDive?.call(ghost.effect));
       if (!simultaneous) {
         state.updateUI();
-        if (!ghost.effect.isBomb && !await _safeDelay(ghostDiveDuration)) {
+        if (ghost.effect.powerup == GhostPowerup.none &&
+            !await _safeDelay(ghostDiveDuration)) {
           return false;
         }
         await animations.last;
