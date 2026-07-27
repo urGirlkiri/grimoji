@@ -7,6 +7,7 @@ import 'package:grimoji/features/match/board/manager.dart';
 class ClearBehavior extends EmojiBehavior {
   static final emoji = Emojis.barberPole;
   static final waveTrigger = Emojis.bomb;
+  static final unSwipeEmo = Emojis.ghost;
 
   final bool isHorizontal;
 
@@ -21,6 +22,8 @@ class ClearBehavior extends EmojiBehavior {
 
   @override
   List<BehaviorAction> onSwipedWith(int x, int y, GameEmoji targetEmoji) {
+    if(targetEmoji == unSwipeEmo) return [];
+    
     if (targetEmoji == waveTrigger) {
       return _build3Clears(x, y); 
     }
