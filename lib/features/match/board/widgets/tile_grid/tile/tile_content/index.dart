@@ -25,7 +25,7 @@ class TileContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (tile.isGhostBomb || tile.isGhostOrigin) {
+    if (tile.isGhostPowerup || tile.isGhostOrigin) {
       return const SizedBox.shrink();
     }
 

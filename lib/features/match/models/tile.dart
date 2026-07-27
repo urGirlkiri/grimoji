@@ -38,7 +38,7 @@ class Tile {
   bool isGhostOrigin = false;
   bool isGhostTarget = false;
 
-  bool isGhostBomb = false;
+  bool isGhostPowerup = false;
 
   bool isPowerupTarget = false;
   bool isBloodTarget = false;
@@ -97,7 +97,7 @@ class Tile {
     newTile.isGhostOrigin = isGhostOrigin;
     newTile.isGhostTarget = isGhostTarget;
     newTile.isGhostOrigin = isGhostOrigin;
-    newTile.isGhostBomb = isGhostBomb;
+    newTile.isGhostPowerup = isGhostPowerup;
 
     newTile.isPowerupTarget = isPowerupTarget;
     newTile.isBloodTarget = isBloodTarget;
@@ -139,7 +139,7 @@ class Tile {
     isGhostOrigin = false;
     isGhostTarget = false;
     isGhostOrigin = false;
-    isGhostBomb = false;
+    isGhostPowerup = false;
 
     isPowerupTarget = false;
     isBloodTarget = false;

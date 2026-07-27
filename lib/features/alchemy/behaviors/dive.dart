@@ -6,6 +6,7 @@ import 'package:grimoji/features/alchemy/models/behavior_action.dart';
 class DiveBehavior extends EmojiBehavior {
   static final emoji = Emojis.ghost;
   static final bombTrigger = Emojis.bomb;
+  static final poleTrigger = Emojis.barberPole;
 
   static const _action = BehaviorAction(type: ActionType.ghostDive);
 
@@ -19,6 +20,9 @@ class DiveBehavior extends EmojiBehavior {
   List<BehaviorAction> onSwipedWith(int x, int y, GameEmoji targetEmoji) {
     if (targetEmoji == bombTrigger) {
       return [BehaviorAction(type: ActionType.ghostDive, emoji: bombTrigger)];
+    }
+    if (targetEmoji == poleTrigger) {
+      return [BehaviorAction(type: ActionType.ghostDive, emoji: poleTrigger)];
     }
     return [];
   }

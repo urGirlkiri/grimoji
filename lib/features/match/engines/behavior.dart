@@ -177,7 +177,7 @@ class BehaviorEngine {
           break;
 
         case ActionType.ghostDive:
-          if (action.emoji == Emojis.bomb) {
+          if (action.emoji != null) {
             boardManager.gridTiles[x][y].isGhostOrigin = true;
           } else {
             boardManager.gridTiles[x][y].isGhostTrigger = true;

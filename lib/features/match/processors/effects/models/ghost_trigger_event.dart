@@ -1,13 +1,17 @@
 import 'package:grimoji/features/match/models/coordinate.dart';
 
+enum GhostPowerup { none, bomb, pole }
+
 class GhostTriggerEvent {
   final TileCoordinate origin;
-  final bool isBomb;
-  final TileCoordinate? bombOrigin;
+  final GhostPowerup powerup;
+  final TileCoordinate? powerupOrigin;
+  final bool? isHorizontal;
 
   GhostTriggerEvent({
     required this.origin,
-    this.isBomb = false,
-    this.bombOrigin,
+    this.powerup = GhostPowerup.none,
+    this.powerupOrigin,
+    this.isHorizontal,
   });
 }
