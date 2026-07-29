@@ -1,7 +1,7 @@
 import 'package:grimoji/features/level/models/powerup_handler.dart';
-import 'package:grimoji/features/level/powerup_handlers/blood.dart';
-import 'package:grimoji/features/level/powerup_handlers/hourglass.dart';
-import 'package:grimoji/features/level/powerup_handlers/punch.dart';
+import 'package:grimoji/features/level/widgets/footer/powerups/blood.dart';
+import 'package:grimoji/features/level/widgets/footer/powerups/hourglass.dart';
+import 'package:grimoji/features/level/widgets/footer/powerups/punch.dart';
 
 class PowerupHandlerRegistry {
   static final Map<String, PowerupHandler> _handlers = {
