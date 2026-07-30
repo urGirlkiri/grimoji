@@ -5,25 +5,26 @@ import 'package:grimoji/features/map/utils/world_physics.dart';
 const palette = Palette();
 
 class GroundPainter extends CustomPainter {
-  static const double _horizonBow = 52.0;
-  static const double _rimShadowDepth = 40.0;
-  
   static final Color _bottomColor = palette.twilight;
   static final Color _topColor = palette.midnight;
   static final Color _rimShadowColor = palette.voidBlack;
 
+  GroundPainter({super.repaint});
+
   @override
   void paint(Canvas canvas, Size size) {
     final double horizonY = WorldPhysics.horizonY(size.height);
-    final double crestY = horizonY - _horizonBow;
+    final double horizonBow = size.height * 0.0523;
+    final double rimShadowDepth = size.height * 0.0402;
+    final double crestY = horizonY - horizonBow;
 
     final Path groundPath = Path()
-      ..moveTo(0, horizonY + _horizonBow)
+      ..moveTo(0, horizonY + horizonBow)
       ..quadraticBezierTo(
         size.width / 2,
         crestY,
         size.width,
-        horizonY + _horizonBow,
+        horizonY + horizonBow,
       )
       ..lineTo(size.width, size.height)
       ..lineTo(0, size.height)
@@ -31,7 +32,7 @@ class GroundPainter extends CustomPainter {
 
     final Paint groundPaint = Paint()
       ..shader =
-           LinearGradient(
+          LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [_topColor, _bottomColor],
@@ -42,18 +43,18 @@ class GroundPainter extends CustomPainter {
     canvas.drawPath(groundPath, groundPaint);
 
     final Path rimShadowPath = Path()
-      ..moveTo(0, horizonY + _horizonBow)
+      ..moveTo(0, horizonY + horizonBow)
       ..quadraticBezierTo(
         size.width / 2,
         crestY,
         size.width,
-        horizonY + _horizonBow,
+        horizonY + horizonBow,
       )
       ..quadraticBezierTo(
         size.width / 2,
-        crestY + _rimShadowDepth,
+        crestY + rimShadowDepth,
         0,
-        horizonY + _horizonBow,
+        horizonY + horizonBow,
       )
       ..close();
 
@@ -67,7 +68,7 @@ class GroundPainter extends CustomPainter {
               _rimShadowColor.withValues(alpha: 0),
             ],
           ).createShader(
-            Rect.fromLTWH(0, crestY, size.width, _rimShadowDepth + _horizonBow),
+            Rect.fromLTWH(0, crestY, size.width, rimShadowDepth + horizonBow),
           );
 
     canvas.drawPath(rimShadowPath, rimShadowPaint);

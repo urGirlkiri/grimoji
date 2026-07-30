@@ -154,6 +154,7 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final scale = context.globalScale;
     return Scaffold(
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -180,6 +181,7 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
                     maxWorldZ: _maxWorldZ,
                     width: screenWidth,
                     height: screenHeight,
+                    scale: scale,
                   ),
                   CustomPaint(
                     size: Size(screenWidth, screenHeight),
@@ -187,6 +189,7 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
                       cameraZ: _cameraZ,
                       center: _roadCenter,
                       maxZ: _maxWorldZ,
+                      scale: scale,
                     ),
                   ),
                   CustomPaint(
@@ -195,6 +198,7 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
                       cameraZ: _cameraZ,
                       center: _roadCenter,
                       maxZ: _maxWorldZ,
+                      scale: scale,
                     ),
                   ),
                   LevelNodes(

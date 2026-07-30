@@ -14,6 +14,7 @@ class Decorations extends StatefulWidget {
   final double maxWorldZ;
   final double width;
   final double height;
+  final double scale;
 
   const Decorations({
     super.key,
@@ -23,6 +24,7 @@ class Decorations extends StatefulWidget {
     required this.maxWorldZ,
     required this.width,
     required this.height,
+    required this.scale,
   });
 
   @override
@@ -32,6 +34,9 @@ class Decorations extends StatefulWidget {
 class _DecorationsState extends State<Decorations> {
   final List<Decoration> _items = [];
   static const double _levelSpacing = 20.0;
+  static const double _targetSpacing = 220.0;
+  static const double _availableSpacing = 140.0;
+  static const double _leftOverSpacing = 180.0;
 
   @override
   void initState() {
@@ -40,6 +45,7 @@ class _DecorationsState extends State<Decorations> {
   }
 
   void _generateDecor() {
+    final scale = widget.scale;
     for (int i = 0; i < widget.gameLevels.length; i++) {
       final level = widget.gameLevels[i];
       final z = widget.levelNodes[i].worldZ;
@@ -48,7 +54,7 @@ class _DecorationsState extends State<Decorations> {
       _items.add(
         Decoration(
           worldZ: z,
-          lateralOffset: targetSide * 220.0,
+          lateralOffset: targetSide * _targetSpacing,
           emoji: level.targetEmoji,
           sizeScale: 1.1,
         ),
@@ -57,7 +63,7 @@ class _DecorationsState extends State<Decorations> {
       final available = level.availableEmojis;
       for (int j = 0; j < available.length; j++) {
         final side = ((i + j) % 2 == 0) ? 1.0 : -1.0;
-        final lateral = 140.0 + (j % 4) * 50.0;
+        final lateral = _availableSpacing + (j % 4) * 50.0;
         final stagger = (j - (available.length - 1) / 2.0) * 8.0;
         _items.add(
           Decoration(
@@ -83,7 +89,7 @@ class _DecorationsState extends State<Decorations> {
       int i = 0;
       for (double z = startZ; z <= endZ; z += 25.0) {
         final side = i.isEven ? 1.0 : -1.0;
-        final lateral = 180.0 + ((i % 3) * 50.0);
+        final lateral = _leftOverSpacing+ ((i % 3) * 50.0);
         _items.add(
           Decoration(
             worldZ: z,

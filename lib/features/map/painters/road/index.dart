@@ -19,11 +19,13 @@ class RoadPainter extends CustomPainter {
   final double cameraZ;
   final double maxZ;
   final double center;
+  final double scale;
 
   RoadPainter({
     required this.cameraZ,
     required this.maxZ,
     required this.center,
+    required this.scale,
   });
 
   static const double _baseRoadHalfWidth = 80.0;
@@ -68,7 +70,7 @@ class RoadPainter extends CustomPainter {
           ? const Offset(1, 0)
           : Offset(-dir.dy, dir.dx) / len;
 
-      final double halfWidth = _baseRoadHalfWidth * scales[i];
+      final double halfWidth = _baseRoadHalfWidth * scales[i] * scale;
       leftEdge.add(centerPoints[i] - normal * halfWidth);
       rightEdge.add(centerPoints[i] + normal * halfWidth);
     }

@@ -16,11 +16,13 @@ class RoadStripePainter extends CustomPainter {
   final double cameraZ;
   final double maxZ;
   final double center;
+  final double scale;
 
   RoadStripePainter({
     required this.cameraZ,
     required this.maxZ,
     required this.center,
+    required this.scale,
   });
 
   static const double _baseRopeWidth = 9.0;
@@ -63,9 +65,9 @@ class RoadStripePainter extends CustomPainter {
       ..strokeCap = StrokeCap.round;
 
     for (int i = 1; i < points.length; i++) {
-      ropePaint.strokeWidth = (_baseRopeWidth * scales[i]).clamp(
+      ropePaint.strokeWidth = (_baseRopeWidth * scales[i] * scale).clamp(
         1.0,
-        _baseRopeWidth,
+        _baseRopeWidth * scale,
       );
       ropePaint.color = _ropeColor.withValues(alpha: opacities[i]);
       canvas.drawLine(points[i - 1], points[i], ropePaint);
@@ -85,9 +87,12 @@ class RoadStripePainter extends CustomPainter {
       if (len == 0) continue;
 
       final Offset normal = Offset(-dir.dy, dir.dx) / len;
-      final double tieLen = 5.0 * scales[i];
+      final double tieLen = 5.0 * scales[i] * scale;
 
-      tiePaint.strokeWidth = (2.0 * scales[i]).clamp(0.5, 2.0);
+      tiePaint.strokeWidth = (2.0 * scales[i] * scale).clamp(
+        0.5,
+        2.0 * scale,
+      );
       tiePaint.color = _ropeTieColor.withValues(alpha: opacities[i]);
       canvas.drawLine(b - normal * tieLen, b + normal * tieLen, tiePaint);
     }
