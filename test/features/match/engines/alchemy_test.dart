@@ -31,8 +31,6 @@ void main() {
             : throw Exception('No emojis found'),
         targetAmount: 1,
         availableEmojis: allKnownEmojis,
-        goal: 'Test goal',
-        description: 'Test description',
       );
 
       boardManager = BoardManager(level);

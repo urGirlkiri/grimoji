@@ -9,8 +9,6 @@ class TestLevel {
     GameEmoji? targetEmoji,
     int targetAmount = 10,
     List<GameEmoji>? availableEmojis,
-    String goal = 'Test goal',
-    String description = 'Test description',
   }) {
     RecipeBook.initialize();
 
@@ -29,8 +27,6 @@ class TestLevel {
       availableEmojis:
           availableEmojis ??
           [Emojis.fire, Emojis.rock, Emojis.droplet, Emojis.alien],
-      goal: goal,
-      description: description,
     );
   }
 }

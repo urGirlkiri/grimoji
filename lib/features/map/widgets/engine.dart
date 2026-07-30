@@ -154,8 +154,6 @@ class MapEngine extends StatelessWidget {
       timeLimit: 60,
       targetAmount: 10,
       targetEmoji: Emojis.ocean,
-      goal: '',
-      description: '',
       availableEmojis: [],
     );
   }
