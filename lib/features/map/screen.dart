@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/features/map/models/level_node.dart';
+import 'package:grimoji/features/map/painters/ground.dart';
 import 'package:grimoji/features/map/painters/road/stripe.dart';
 import 'package:grimoji/features/map/widgets/level_nodes/index.dart';
 import 'package:grimoji/features/map/widgets/sky.dart';
@@ -14,7 +15,7 @@ class LevelsMapScreen extends StatefulWidget {
 }
 
 class _LevelsMapScreenState extends State<LevelsMapScreen> {
-  static const double _levelSpacing = 40.0;
+  static const double _levelSpacing = 20.0;
   static const double _roadCenter = 2;
 
   double _cameraZ = 0.0;
@@ -62,6 +63,10 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
               child: Stack(
                 children: [
                   const Sky(),
+                  CustomPaint(
+                    size: Size(screenWidth, screenHeight),
+                    painter: GroundPainter(),
+                  ),
                   CustomPaint(
                     size: Size(screenWidth, screenHeight),
                     painter: RoadStripePainter(
