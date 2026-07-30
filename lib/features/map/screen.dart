@@ -3,6 +3,7 @@ import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/features/map/models/level_node.dart';
 import 'package:grimoji/features/map/painters/ground.dart';
+import 'package:grimoji/features/map/painters/road/index.dart';
 import 'package:grimoji/features/map/painters/road/stripe.dart';
 import 'package:grimoji/features/map/widgets/level_nodes/index.dart';
 import 'package:grimoji/features/map/widgets/sky.dart';
@@ -66,6 +67,14 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
                   CustomPaint(
                     size: Size(screenWidth, screenHeight),
                     painter: GroundPainter(),
+                  ),
+                  CustomPaint(
+                    size: Size(screenWidth, screenHeight),
+                    painter: RoadPainter(
+                      cameraZ: _cameraZ,
+                      center: _roadCenter,
+                      maxZ: _maxWorldZ,
+                    ),
                   ),
                   CustomPaint(
                     size: Size(screenWidth, screenHeight),

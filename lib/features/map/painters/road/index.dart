@@ -1,7 +1,16 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart'
-    show CustomPainter, Color, Canvas, Size, Offset, Paint, Path;
+    show
+        BlendMode,
+        CustomPainter,
+        Color,
+        Canvas,
+        Size,
+        Offset,
+        Paint,
+        Path,
+        Rect,
+        Alignment,
+        LinearGradient;
 import 'package:grimoji/app/palette.dart';
 import 'package:grimoji/features/map/models/projection.dart';
 import 'package:grimoji/features/map/utils/world_physics.dart';
@@ -18,7 +27,7 @@ class RoadPainter extends CustomPainter {
   });
 
   static const double _baseRoadHalfWidth = 80.0;
-  static const double _stepSize = 0.0;
+  static const double _stepSize = 16.0;
   static final Color _roadColor = palette.dusk;
 
   @override
@@ -28,10 +37,8 @@ class RoadPainter extends CustomPainter {
 
     final List<Offset> centerPoints = [];
     final List<double> scales = [];
-    final List<double> opacities = [];
 
     for (double z = startZ; z <= endZ; z += _stepSize) {
-
       final Projection proj = WorldPhysics.project(
         worldX: center,
         worldZ: z,
@@ -43,7 +50,6 @@ class RoadPainter extends CustomPainter {
       if (proj.isVisible) {
         centerPoints.add(Offset(proj.x, proj.y));
         scales.add(proj.scale);
-        opacities.add(proj.opacity);
       }
     }
 
@@ -67,23 +73,31 @@ class RoadPainter extends CustomPainter {
       rightEdge.add(centerPoints[i] + normal * halfWidth);
     }
 
-    final Paint segmentPaint = Paint()..color = _roadColor;
-
-    for (int i = 1; i < centerPoints.length; i++) {
-      final double segmentOpacity = math.min(opacities[i - 1], opacities[i]);
-      if (segmentOpacity <= 0.01) continue;
-
-      final Path segment = Path()
-        ..moveTo(leftEdge[i - 1].dx, leftEdge[i - 1].dy)
-        ..lineTo(leftEdge[i].dx, leftEdge[i].dy)
-        ..lineTo(rightEdge[i].dx, rightEdge[i].dy)
-        ..lineTo(rightEdge[i - 1].dx, rightEdge[i - 1].dy)
-        ..close();
-
-      // segmentPaint.color = _roadColor.withValues(alpha: segmentOpacity);
-      segmentPaint.color = _roadColor;
-      canvas.drawPath(segment, segmentPaint);
+    final Path roadPath = Path()..moveTo(leftEdge.first.dx, leftEdge.first.dy);
+    for (final point in leftEdge.skip(1)) {
+      roadPath.lineTo(point.dx, point.dy);
     }
+    for (final point in rightEdge.reversed) {
+      roadPath.lineTo(point.dx, point.dy);
+    }
+    roadPath.close();
+
+    final Rect bounds = roadPath.getBounds();
+
+    canvas.saveLayer(bounds, Paint());
+    canvas.drawPath(roadPath, Paint()..color = _roadColor);
+
+    final Paint fadeMask = Paint()
+      ..blendMode = BlendMode.dstIn
+      ..shader = const LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [Color(0x00FFFFFF), Color(0xFFFFFFFF)],
+        stops: [0.0, 0.6],
+      ).createShader(bounds);
+    canvas.drawRect(bounds, fadeMask);
+
+    canvas.restore();
   }
 
   @override
