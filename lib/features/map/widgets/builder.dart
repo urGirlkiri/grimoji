@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:grimoji/features/cauldron/game/core/prediction_line.dart';
-import 'package:grimoji/features/map/models/level_node.dart';
+import 'package:grimoji/features/map/models/_level_node.dart';
 import 'package:grimoji/features/map/widgets/engine.dart';
 import 'package:logging/logging.dart';
 

@@ -3,7 +3,7 @@ import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/level/widgets/dialogs/cauldron_dialog.dart';
 import 'package:grimoji/features/level/widgets/dialogs/start_dialog/index.dart';
-import 'package:grimoji/features/map/widgets/level_node/star_cluster.dart';
+import 'package:grimoji/features/map/widgets/level_nodes/node/star_cluster.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animations/dialog.dart';
 

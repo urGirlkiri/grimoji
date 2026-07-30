@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/levels/index.dart';
-import 'package:grimoji/features/map/widgets/level_node/index.dart';
+import 'package:grimoji/features/map/widgets/level_nodes/node/index.dart';
 import 'package:grimoji/features/map/widgets/temp_node.dart';
 
-import 'package:grimoji/features/map/models/level_node.dart';
+import 'package:grimoji/features/map/models/_level_node.dart';
 
 const double mapImgWidth = 755.0;
 const double mapImgHeight = 1967.0;
