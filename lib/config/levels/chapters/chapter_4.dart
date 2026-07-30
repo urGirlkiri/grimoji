@@ -7,8 +7,6 @@ final List<GameLevel> chapter4Levels = [
     timeLimit: 240,
     targetAmount: 4,
     targetEmoji: Emojis.cloudWithLightning,
-    goal: 'Craft storm clouds from wind currents',
-    description: 'High Altitudes - The sky calls',
     availableEmojis: [
       Emojis.rainCloud,
       Emojis.cloud,
@@ -22,8 +20,6 @@ final List<GameLevel> chapter4Levels = [
     timeLimit: 260,
     targetAmount: 15,
     targetEmoji: Emojis.blackBird,
-    goal: 'Collect a murder of crows',
-    description: 'A Murder of Crows - The flock grows',
     availableEmojis: [
       Emojis.babyChick,
       Emojis.windFace,
@@ -37,8 +33,6 @@ final List<GameLevel> chapter4Levels = [
     timeLimit: 220,
     targetAmount: 6,
     targetEmoji: Emojis.poultryLeg,
-    goal: 'Craft poultry from leftover bones',
-    description: 'Sky Feast - A grim harvest',
     availableEmojis: [
       Emojis.fireworks,
       Emojis.cloud,
@@ -52,8 +46,6 @@ final List<GameLevel> chapter4Levels = [
     timeLimit: 280,
     targetAmount: 3,
     targetEmoji: Emojis.eagle,
-    goal: 'Combine 4 crows to form a giant eagle',
-    description: 'The Apex Predator - King of the skies',
     availableEmojis: [
       Emojis.blackBird,
       Emojis.bird,
@@ -67,8 +59,6 @@ final List<GameLevel> chapter4Levels = [
     timeLimit: 300,
     targetAmount: 2,
     targetEmoji: Emojis.tornado,
-    goal: 'Craft tornadoes to destroy the derelict house',
-    description: 'Category 5 - The storm arrives',
     availableEmojis: [
       Emojis.cyclone,
       Emojis.cloudWithLightning,
@@ -82,8 +72,6 @@ final List<GameLevel> chapter4Levels = [
     timeLimit: 260,
     targetAmount: 10,
     targetEmoji: Emojis.cloud,
-    goal: 'Use the wind to gather clouds',
-    description: 'Updraft - The cycle continues',
     availableEmojis: [
       Emojis.tornado,
       Emojis.droplet,
@@ -97,8 +85,6 @@ final List<GameLevel> chapter4Levels = [
     timeLimit: 280,
     targetAmount: 5,
     targetEmoji: Emojis.electricity,
-    goal: 'Harness the power of pure electricity',
-    description: 'The Thunderbolt - The storm\'s heart',
     availableEmojis: [
       Emojis.cloudWithLightning,
       Emojis.eagle,
@@ -112,8 +98,6 @@ final List<GameLevel> chapter4Levels = [
     timeLimit: 260,
     targetAmount: 8,
     targetEmoji: Emojis.salt,
-    goal: 'Harvest salt from the storm-swept sea',
-    description: 'Salt Spray - Brine on the wind',
     availableEmojis: [
       Emojis.windFace,
       Emojis.ocean,
@@ -127,8 +111,6 @@ final List<GameLevel> chapter4Levels = [
     timeLimit: 280,
     targetAmount: 5,
     targetEmoji: Emojis.collision,
-    goal: 'Short circuit the robots with lightning',
-    description: 'The Lightning Rod - Conductivity test',
     availableEmojis: [
       Emojis.fireworks,
       Emojis.metal,
@@ -142,8 +124,6 @@ final List<GameLevel> chapter4Levels = [
     timeLimit: 300,
     targetAmount: 3,
     targetEmoji: Emojis.windFace,
-    goal: 'Survive the eye of the storm',
-    description: 'Eye of the Storm - The calm within',
     availableEmojis: [
       Emojis.cloud,
       Emojis.rainCloud,
@@ -157,8 +137,6 @@ final List<GameLevel> chapter4Levels = [
     timeLimit: 250,
     targetAmount: 10,
     targetEmoji: Emojis.laptopComputer,
-    goal: 'Harness the power of storm machines',
-    description: 'Static Charge - The storm\'s heart',
     availableEmojis: [
       Emojis.metal,
       Emojis.cloudWithLightning,
@@ -172,8 +150,6 @@ final List<GameLevel> chapter4Levels = [
     timeLimit: 300,
     targetAmount: 4,
     targetEmoji: Emojis.iceCream,
-    goal: 'Master ice magic with frozen blocks',
-    description: 'Freezing Winds - The cold arrives',
     availableEmojis: [
       Emojis.cloud,
       Emojis.coldFace,
@@ -187,8 +163,6 @@ final List<GameLevel> chapter4Levels = [
     timeLimit: 280,
     targetAmount: 4,
     targetEmoji: Emojis.leafyGreen,
-    goal: 'Build an aviary for nature spirits',
-    description: 'The Aviary - Wings of the sky',
     availableEmojis: [
       Emojis.herb,
       Emojis.blackBird,
@@ -202,8 +176,6 @@ final List<GameLevel> chapter4Levels = [
     timeLimit: 240,
     targetAmount: 15,
     targetEmoji: Emojis.peacock,
-    goal: 'Use lightning to summon a majestic peacock',
-    description: 'Storm Plumage - The hunt begins',
     availableEmojis: [
       Emojis.eagle,
       Emojis.cloudWithLightning,
@@ -217,8 +189,6 @@ final List<GameLevel> chapter4Levels = [
     timeLimit: 320,
     targetAmount: 5,
     targetEmoji: Emojis.cyclone,
-    goal: 'Destroy the derelict house with hurricanes',
-    description: 'Hurricane - The storm\'s fury',
     availableEmojis: [
       Emojis.tornado,
       Emojis.derelictHouse,
@@ -232,8 +202,6 @@ final List<GameLevel> chapter4Levels = [
     timeLimit: 300,
     targetAmount: 8,
     targetEmoji: Emojis.warning,
-    goal: 'Charge the storm warning systems',
-    description: 'Storm Warning - The skies are not safe',
     availableEmojis: [
       Emojis.cloudWithLightning,
       Emojis.snake,
@@ -247,8 +215,6 @@ final List<GameLevel> chapter4Levels = [
     timeLimit: 280,
     targetAmount: 4,
     targetEmoji: Emojis.robot,
-    goal: 'Overload the mechanical systems with tech',
-    description: 'Mechanical Failure - The robots rebel',
     availableEmojis: [
       Emojis.metal,
       Emojis.laptopComputer,
@@ -262,8 +228,6 @@ final List<GameLevel> chapter4Levels = [
     timeLimit: 260,
     targetAmount: 8,
     targetEmoji: Emojis.coldFace,
-    goal: 'Freeze the dust across the mountains',
-    description: 'Frozen Peaks - The cold settles',
     availableEmojis: [
       Emojis.iceCream,
       Emojis.rock,
@@ -277,8 +241,6 @@ final List<GameLevel> chapter4Levels = [
     timeLimit: 300,
     targetAmount: 6,
     targetEmoji: Emojis.faceInClouds,
-    goal: 'Build the ultimate sky fortress',
-    description: 'The Nest - A home in the sky',
     availableEmojis: [
       Emojis.cloud,
       Emojis.blackBird,
@@ -292,8 +254,6 @@ final List<GameLevel> chapter4Levels = [
     timeLimit: 450,
     targetAmount: 1,
     targetEmoji: Emojis.phoenix,
-    goal: 'Combine eagles to form a phoenix',
-    description: 'Rebirth in the Sky - The final storm',
     availableEmojis: [
       Emojis.eagle,
       Emojis.cloudWithLightning,

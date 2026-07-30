@@ -8,9 +8,6 @@ class GameLevel {
   final GameEmoji targetEmoji;
   final List<GameEmoji> availableEmojis;
 
-  final String description;
-  final String goal;
-
   final int crimsonStarTarget;
   final int extraTargetWeight;
   final int tileClearWeight;
@@ -31,8 +28,6 @@ class GameLevel {
     required this.timeLimit,
     required this.targetEmoji,
     required this.availableEmojis,
-    required this.goal,
-    required this.description,
 
     this.crimsonStarTarget = 2500,
     this.extraTargetWeight = 30,

@@ -7,8 +7,6 @@ final List<GameLevel> chapter1Levels = [
     timeLimit: 120,
     targetAmount: 5,
     targetEmoji: Emojis.ocean,
-    goal: 'Collect water',
-    description: 'The Awakening - Super easy, introducing basic matches',
     availableEmojis: [
       Emojis.droplet, 
       Emojis.fire, 
@@ -21,8 +19,6 @@ final List<GameLevel> chapter1Levels = [
     timeLimit: 150,
     targetAmount: 3,
     targetEmoji: Emojis.mushroom,
-    goal: 'The first alchemical yield!',
-    description: 'Spark of Life - Focus on nature',
     availableEmojis: [
       Emojis.leafyGreen,
       Emojis.avocado,
@@ -36,8 +32,6 @@ final List<GameLevel> chapter1Levels = [
     timeLimit: 180,
     targetAmount: 10,
     targetEmoji: Emojis.skull,
-    goal: 'Matches the graveyard theme',
-    description: 'Unearthing the Dead - Introducing Skulls',
     availableEmojis: [
       Emojis.bone,
       Emojis.rock,
@@ -50,8 +44,6 @@ final List<GameLevel> chapter1Levels = [
     timeLimit: 180,
     targetAmount: 3,
     targetEmoji: Emojis.bomb,
-    goal: 'Players must craft bombs!',
-    description: "The Alchemist's Fire",
     availableEmojis: [
       Emojis.fire,
       Emojis.leaflessTree,
@@ -65,8 +57,6 @@ final List<GameLevel> chapter1Levels = [
     timeLimit: 200,
     targetAmount: 5,
     targetEmoji: Emojis.bone,
-    goal: 'Collect bones',
-    description: 'Graveyard Shift',
     availableEmojis: [
       Emojis.skull,
       Emojis.rock,
@@ -80,8 +70,6 @@ final List<GameLevel> chapter1Levels = [
     timeLimit: 200,
     targetAmount: 8,
     targetEmoji: Emojis.bug,
-    goal: 'Collect bugs',
-    description: 'Toxic Soils',
     availableEmojis: [
       Emojis.worm,
       Emojis.wiltedFlower,
@@ -95,8 +83,6 @@ final List<GameLevel> chapter1Levels = [
     timeLimit: 220,
     targetAmount: 15,
     targetEmoji: Emojis.fire,
-    goal: 'Collect fire',
-    description: 'Will-o\'-the-Wisp',
     availableEmojis: [
       Emojis.leaflessTree,
       Emojis.windFace,
@@ -109,8 +95,6 @@ final List<GameLevel> chapter1Levels = [
     timeLimit: 240,
     targetAmount: 4,
     targetEmoji: Emojis.crystalBall,
-    goal: 'Collect crystal balls',
-    description: 'The Ritual Begins',
     availableEmojis: [
       Emojis.graduationCap,
       Emojis.sparkles,
@@ -124,8 +108,6 @@ final List<GameLevel> chapter1Levels = [
     timeLimit: 300,
     targetAmount: 10,
     targetEmoji: Emojis.anatomicalHeart,
-    goal: 'A complex recipe requirement!',
-    description: 'Guardian of the Gate - Boss Level before the Cauldron',
     availableEmojis: [
       Emojis.bandagedHeart,
       Emojis.bandageFace,
