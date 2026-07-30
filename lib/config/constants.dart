@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 const List<String> availableAvatars = [
   'cyber_astronaut',
   'cyber_goth',
@@ -15,3 +17,5 @@ const List<String> availableAvatars = [
   'vr_bot_silver',
   'vr_hacker_orange',
 ];
+
+const mapSkyColor = Color(0xFF48484f);
