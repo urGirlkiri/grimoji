@@ -30,8 +30,11 @@ class LevelNodes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final levelData = context.watch<LevelDataController>();
+    if (!levelData.isInitialized) {
+      return const SizedBox();
+    }
 
-    final List<Widget> visibleNodeWidgets = [];
+    final List<Widget> visibleNodes = [];
     final List<MapEntry<type.LevelNode, Projection>> projectedNodes = [];
 
     for (final node in nodes) {
@@ -63,7 +66,7 @@ class LevelNodes extends StatelessWidget {
 
       const double baseSize = 100.0;
 
-      visibleNodeWidgets.add(
+      visibleNodes.add(
         Positioned(
           left: proj.x - (baseSize / 2),
           top: proj.y - (baseSize / 2),
@@ -89,6 +92,6 @@ class LevelNodes extends StatelessWidget {
       );
     }
 
-    return Stack(children: [...visibleNodeWidgets]);
+    return Stack(children: [...visibleNodes]);
   }
 }

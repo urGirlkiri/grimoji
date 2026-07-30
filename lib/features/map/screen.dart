@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:grimoji/features/map/models/projection_result.dart';
-import 'package:grimoji/features/map/utils/globe_math.dart';
-import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/config/constants.dart';
+import 'package:grimoji/config/levels/index.dart';
+import 'package:grimoji/features/map/models/level_node.dart';
+import 'package:grimoji/features/map/painters/road/stripe.dart';
+import 'package:grimoji/features/map/widgets/level_nodes/index.dart';
+import 'package:grimoji/features/map/widgets/sky.dart';
 
 class LevelsMapScreen extends StatefulWidget {
   const LevelsMapScreen({super.key});
@@ -11,68 +14,69 @@ class LevelsMapScreen extends StatefulWidget {
 }
 
 class _LevelsMapScreenState extends State<LevelsMapScreen> {
-  double _cameraZ = 0.0; 
+  static const double _levelSpacing = 40.0;
+  static const double _roadCenter = 2;
+
+  double _cameraZ = 0.0;
+  late final double _maxWorldZ;
+
+  final List<LevelNode> _lvNodes = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _genLevelNodes();
+  }
+
+  void _genLevelNodes() {
+    double currentZ = 10.0;
+    for (final level in gameLevels) {
+      _lvNodes.add(LevelNode(levelNumber: level.number, worldZ: currentZ));
+      currentZ += _levelSpacing;
+    }
+    _maxWorldZ = currentZ + 800.0;
+  }
+
 
   void _handlePanUpdate(DragUpdateDetails details) {
     setState(() {
-      _cameraZ -= details.delta.dy * 2.0; 
-      
-      if (_cameraZ < 0) _cameraZ = 0; 
+      _cameraZ -= details.delta.dy * 2.2;
+      _cameraZ = _cameraZ.clamp(0.0, _maxWorldZ);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF48484f), 
       body: LayoutBuilder(
         builder: (context, constraints) {
           final double screenWidth = constraints.maxWidth;
           final double screenHeight = constraints.maxHeight;
 
-          final ProjectionResult testNode = GlobeMath.project(
-            worldX: 0,
-            worldZ: 1000, 
-            cameraZ: _cameraZ,
-            screenWidth: screenWidth,
-            screenHeight: screenHeight,
-          );
-
           return GestureDetector(
             onVerticalDragUpdate: _handlePanUpdate,
             child: Container(
-              color: Colors.transparent, 
               width: double.infinity,
               height: double.infinity,
+              color: mapSkyColor,
               child: Stack(
                 children: [
-                  if (testNode.isVisible)
-                    Positioned(
-                      left: testNode.x - (50 * testNode.scale), 
-                      top: testNode.y - (50 * testNode.scale),
-                      child: Transform.scale(
-                        scale: testNode.scale,
-                        child: Container(
-                          width: 100,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            color: context.palette.crimson,
-                            shape: BoxShape.circle,
-                            border: Border.all(color: context.palette.trueWhite, width: 4),
-                          ),
-                          child:  Center(
-                            child: Text(
-                              "Node",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: context.palette.trueWhite,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                  const Sky(),
+                  CustomPaint(
+                    size: Size(screenWidth, screenHeight),
+                    painter: RoadStripePainter(
+                      cameraZ: _cameraZ,
+                      center: _roadCenter,
+                      maxZ: _maxWorldZ,
                     ),
+                  ),
+                  LevelNodes(
+                    roadCenter: _roadCenter,
+                    cameraZ: _cameraZ,
+                    screenWidth: screenWidth,
+                    screenHeight: screenHeight,
+                    nodes: _lvNodes,
+                  ),
                 ],
               ),
             ),
