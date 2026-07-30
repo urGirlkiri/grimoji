@@ -6,7 +6,7 @@ class Sky extends StatelessWidget {
   const Sky({super.key});
 
   static const size = 65.0;
-  static const opacity = 0.0345;
+  static const opacity = 0.05;
   @override
   Widget build(BuildContext context) {
     return Opacity(

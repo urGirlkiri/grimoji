@@ -34,7 +34,7 @@ class Decorations extends StatefulWidget {
 class _DecorationsState extends State<Decorations> {
   final List<Decoration> _items = [];
   static const double _levelSpacing = 20.0;
-  static const double _targetSpacing = 220.0;
+  static const double _targetSpacing = 110.0;
   static const double _availableSpacing = 140.0;
   static const double _leftOverSpacing = 180.0;
 
@@ -54,7 +54,7 @@ class _DecorationsState extends State<Decorations> {
       _items.add(
         Decoration(
           worldZ: z,
-          lateralOffset: targetSide * _targetSpacing,
+          lateralOffset: targetSide * _targetSpacing * scale,
           emoji: level.targetEmoji,
           sizeScale: 1.1,
         ),
@@ -63,7 +63,7 @@ class _DecorationsState extends State<Decorations> {
       final available = level.availableEmojis;
       for (int j = 0; j < available.length; j++) {
         final side = ((i + j) % 2 == 0) ? 1.0 : -1.0;
-        final lateral = _availableSpacing + (j % 4) * 50.0;
+        final lateral = (_availableSpacing * scale) + (j % 4) * 50.0;
         final stagger = (j - (available.length - 1) / 2.0) * 8.0;
         _items.add(
           Decoration(
@@ -108,12 +108,11 @@ class _DecorationsState extends State<Decorations> {
     final projected = <MapEntry<Decoration, Projection>>[];
 
     for (final item in _items) {
-      const double pathCenterX = 3;
-      final double worldX = pathCenterX + item.lateralOffset;
+      final double worldX = 3 + item.lateralOffset;
 
       final proj = WorldPhysics.project(
-        worldX: worldX,
-        worldZ: item.worldZ,
+        worldX: worldX * widget.scale,
+        worldZ: item.worldZ * widget.scale,
         cameraZ: widget.cameraZ,
         screenWidth: widget.width,
         screenHeight: widget.height,
@@ -134,8 +133,8 @@ class _DecorationsState extends State<Decorations> {
               final item = entry.key;
               final proj = entry.value;
               final double scale = proj.scale * item.sizeScale;
-              final double size = 28.0 * scale;
-              final double left = proj.x - size / 2;
+              final double size = 28.0 * scale * widget.scale;
+              final double left = proj.x - size / 2 * widget.scale;
               final double top = proj.y - size / 2;
 
               return Positioned(
