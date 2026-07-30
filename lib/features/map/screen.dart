@@ -3,6 +3,7 @@ import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/features/map/models/level_node.dart';
 import 'package:grimoji/features/map/painters/ground.dart';
+import 'package:grimoji/features/map/painters/decorations.dart';
 import 'package:grimoji/features/map/painters/road/index.dart';
 import 'package:grimoji/features/map/painters/road/stripe.dart';
 import 'package:grimoji/features/map/widgets/level_nodes/index.dart';
@@ -39,7 +40,6 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
     _maxWorldZ = currentZ + 800.0;
   }
 
-
   void _handlePanUpdate(DragUpdateDetails details) {
     setState(() {
       _cameraZ -= details.delta.dy * 2.2;
@@ -67,6 +67,14 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
                   CustomPaint(
                     size: Size(screenWidth, screenHeight),
                     painter: GroundPainter(),
+                  ),
+                  Decorations(
+                    cameraZ: _cameraZ,
+                    gameLevels: gameLevels,
+                    levelNodes: _lvNodes,
+                    maxWorldZ: _maxWorldZ,
+                    width: screenWidth,
+                    height: screenHeight,
                   ),
                   CustomPaint(
                     size: Size(screenWidth, screenHeight),
