@@ -30,13 +30,10 @@ class LayoutScaffold extends StatelessWidget {
     return ShellTabScope(
       activeIndex: navigationShell.currentIndex,
       child: Scaffold(
+        backgroundColor: isMap ? mapSkyColor : palette.midnight,
         body: Column(
           children: [
-            GameBar(
-              backgroundColor: isMap
-                  ? mapSkyColor
-                  : palette.midnight,
-            ),
+            GameBar(backgroundColor: isMap ? mapSkyColor : palette.midnight),
             Expanded(child: navigationShell),
           ],
         ),
