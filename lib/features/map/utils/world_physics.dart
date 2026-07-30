@@ -3,15 +3,6 @@ import 'dart:math' as math;
 import 'package:grimoji/features/map/models/projection.dart';
 
 class WorldPhysics {
-  // static const double _perspectiveDepth = 0.0022;
-  // static const double _climbDepth = 5.0;
-  // static const double _fadeDepth = 99.0;
-
-  // static const double _worldHeight = 0.11;
-  // static const double _bottomOverflow = 50.0;
-
-  // static const double _lateralDepth = 2.1;
-  // static const double _bellyCurve = 0.22;
 
   static const double _perspectiveDepth = 0.0034;
   static const double _climbDepth = 8.0;
@@ -35,7 +26,6 @@ class WorldPhysics {
     required double screenHeight,
   }) {
     final double u = (screenX / screenWidth).clamp(0.0, 1.0);
-    // final double lateral = (_lateralDepth * u) - 1.0;
     final double lateral = (_lateralDepth * u);
     return domeCurve(screenHeight) * lateral * lateral;
   }

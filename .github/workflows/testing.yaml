@@ -40,7 +40,6 @@ jobs:
         run: |
           cat << EOF > .env
           HACKAI_API_KEY=${{ secrets.HACKAI_API_KEY }}
-          MAP_BUILDER_MODE=${{ secrets.MAP_BUILDER_MODE }}
           EOF
 
       - name: Install Dependencies
