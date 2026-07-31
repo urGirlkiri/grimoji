@@ -42,7 +42,7 @@ class MapState extends ChangeNotifier {
     }
 
     if (lv.levelNumber != 1) {
-      if (cameraZ < (lv.worldZ - _firstLvZ)) {
+      if (cameraZ < (lv.worldZ - (_levelSpacing + _firstLvZ))) {
         isBelowLevel = false;
       }
     }
