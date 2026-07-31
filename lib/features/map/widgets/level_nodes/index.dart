@@ -5,24 +5,21 @@ import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/map/models/projection.dart';
 import 'package:grimoji/features/map/models/level_node.dart' as type;
 import 'package:grimoji/features/map/physics.dart';
+import 'package:grimoji/features/map/state.dart';
 import 'package:grimoji/features/map/widgets/level_nodes/node/index.dart';
 import 'package:provider/provider.dart';
 
 
 class LevelNodes extends StatelessWidget {
   final double roadCenter;
-  final double cameraZ;
   final double screenWidth;
   final double screenHeight;
-  final List<type.LevelNode> nodes;
 
   const LevelNodes({
     super.key,
     required this.roadCenter,
-    required this.cameraZ,
     required this.screenWidth,
     required this.screenHeight,
-    required this.nodes,
   });
 
   static const double _nodeSquashY = 0.55;
@@ -30,6 +27,7 @@ class LevelNodes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final levelData = context.watch<LevelDataController>();
+    final mapState = context.watch<MapState>();
     if (!levelData.isInitialized) {
       return const SizedBox();
     }
@@ -37,11 +35,11 @@ class LevelNodes extends StatelessWidget {
     final List<Widget> visibleNodes = [];
     final List<MapEntry<type.LevelNode, Projection>> projectedNodes = [];
 
-    for (final node in nodes) {
+    for (final node in mapState.lvNodes) {
       final Projection proj = WorldPhysics.project(
         worldX: roadCenter,
         worldZ: node.worldZ,
-        cameraZ: cameraZ,
+        cameraZ: mapState.cameraZ,
         screenWidth: screenWidth,
         screenHeight: screenHeight,
       );

@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/constants.dart';
-// import 'package:grimoji/config/levels/index.dart';
-// import 'package:grimoji/features/map/models/level_node.dart';
 import 'package:grimoji/features/map/painters/ground.dart';
 import 'package:grimoji/features/map/painters/decorations.dart';
-// import 'package:grimoji/features/map/painters/road/index.dart';
-// import 'package:grimoji/features/map/painters/road/stripe.dart';
+import 'package:grimoji/features/map/painters/road/index.dart';
+import 'package:grimoji/features/map/painters/road/stripe.dart';
 import 'package:grimoji/features/map/state.dart';
-// import 'package:grimoji/features/map/widgets/level_nodes/index.dart';
+import 'package:grimoji/features/map/widgets/level_nodes/index.dart';
 import 'package:grimoji/features/map/widgets/sky.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:provider/provider.dart';
@@ -42,29 +40,29 @@ class MapWidget extends StatelessWidget {
                   painter: GroundPainter(),
                 ),
                 Decorations(width: screenWidth, height: screenHeight),
-                // CustomPaint(
-                //   size: Size(screenWidth, screenHeight),
-                //   painter: RoadPainter(
-                //     center: _roadCenter,
-                //     maxZ: state.maxWorldZ,
-                //     cameraZ: state.cameraZ,
-                //     scale: scale,
-                //   ),
-                // ),
-                // CustomPaint(
-                //   size: Size(screenWidth, screenHeight),
-                //   painter: RoadStripePainter(
-                //     center: _roadCenter,
-                //     maxZ: state.maxWorldZ,
-                //     cameraZ: state.cameraZ,
-                //     scale: scale,
-                //   ),
-                // ),
-                // LevelNodes(
-                //   roadCenter: _roadCenter,
-                //   screenWidth: screenWidth,
-                //   screenHeight: screenHeight,
-                // ),
+                CustomPaint(
+                  size: Size(screenWidth, screenHeight),
+                  painter: RoadPainter(
+                    center: _roadCenter,
+                    maxZ: state.maxWorldZ,
+                    cameraZ: state.cameraZ,
+                    scale: scale,
+                  ),
+                ),
+                CustomPaint(
+                  size: Size(screenWidth, screenHeight),
+                  painter: RoadStripePainter(
+                    center: _roadCenter,
+                    maxZ: state.maxWorldZ,
+                    cameraZ: state.cameraZ,
+                    scale: scale,
+                  ),
+                ),
+                LevelNodes(
+                  roadCenter: _roadCenter,
+                  screenWidth: screenWidth,
+                  screenHeight: screenHeight,
+                ),
               ],
             ),
           ),
