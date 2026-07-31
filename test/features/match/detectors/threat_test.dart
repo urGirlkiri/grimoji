@@ -26,8 +26,6 @@ void main() {
           Emojis.droplet,
           Emojis.alien,
         ],
-        goal: 'Test goal',
-        description: 'Test description',
       );
 
       boardManager = BoardManager(level);

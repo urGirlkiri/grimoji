@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'dart:convert';
+import 'package:grimoji/config/global_keys.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/levels/index.dart';
-import 'package:grimoji/config/global_keys.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/level/widgets/dialogs/cauldron_dialog.dart';
 import 'package:grimoji/features/level/widgets/dialogs/start_dialog/index.dart';
-import 'package:grimoji/features/map/models/level_node.dart';
-import 'package:grimoji/features/map/widgets/engine.dart';
+import 'package:grimoji/features/map/state.dart';
+import 'package:grimoji/features/map/widgets/level_finder.dart';
+import 'package:grimoji/features/map/widgets/map.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animations/dialog.dart';
 import 'package:grimoji/widgets/animations/recipe_flight.dart';
-import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 
 class LevelsMapScreen extends StatefulWidget {
@@ -24,25 +22,13 @@ class LevelsMapScreen extends StatefulWidget {
 }
 
 class _LevelsMapScreenState extends State<LevelsMapScreen> {
-  List<LevelNde> _nodes = [];
-  bool _isLoadingMap = true;
   bool _pendingAutoOpen = false;
   LevelDataController? _levelData;
-
-  final Logger _logger = Logger('LevelsMapScreen');
-
-  @override
-  void initState() {
-    super.initState();
-    context.readAudio.playMenuMusic();
-    _loadMapData();
-  }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     final controller = context.read<LevelDataController>();
-    _logger.info('Seq init');
     if (_levelData != controller) {
       _levelData?.removeListener(_checkAutoOpen);
       _levelData = controller;
@@ -62,35 +48,10 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
   }
 
   void _checkAutoOpen() {
-    _logger.info("Checking auto open : ${_levelData?.autoOpenLvl}");
     final levelData = _levelData;
-    _logger.info("Is mounted: $mounted");
-
     if (levelData == null || !mounted) return;
     if (levelData.autoOpenLvl != null && !_pendingAutoOpen) {
-      _logger.info("Handling seq auto open");
       _handleAutoOpenSequence(levelData);
-    }
-  }
-
-  Future<void> _loadMapData() async {
-    try {
-      final String response = await rootBundle.loadString(
-        'assets/data/map.json',
-      );
-      final List<dynamic> data = json.decode(response) as List<dynamic>;
-
-      if (mounted) {
-        setState(() {
-          _nodes = data
-              .map((json) => LevelNde.fromJson(json as Map<String, dynamic>))
-              .toList();
-          _isLoadingMap = false;
-        });
-      }
-    } catch (e) {
-      _logger.severe("Error loading map data: $e");
-      if (mounted) setState(() => _isLoadingMap = false);
     }
   }
 
@@ -139,7 +100,9 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
               if (mounted) {
                 context.readAudio.playSfx(SfxType.recipeCollection);
                 if (unlockedRecipeId != null) {
-                  context.readProfile.completeRecipeCollection(unlockedRecipeId);
+                  context.readProfile.completeRecipeCollection(
+                    unlockedRecipeId,
+                  );
                 }
               }
               Future.delayed(const Duration(milliseconds: 200), () {
@@ -154,67 +117,12 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
     });
   }
 
-  ({Map<int, int> stars, Map<int, int> crimson, Set<int> unlocked}) _lvProgress(
-    LevelDataController levelData,
-  ) {
-    final Map<int, int> stars = {};
-    final Map<int, int> crimson = {};
-    final Set<int> unlocked = {};
-
-    for (final node in _nodes) {
-      stars[node.level] = levelData.getStars(node.level);
-      crimson[node.level] = levelData.getCrimsonStars(node.level);
-
-      if (levelData.isLevelCompleted(node.level) ||
-          node.level == 1 ||
-          levelData.isLevelCompleted(node.level - 1)) {
-        unlocked.add(node.level);
-      }
-    }
-    return (stars: stars, crimson: crimson, unlocked: unlocked);
-  }
-
   @override
   Widget build(BuildContext context) {
-    if (_isLoadingMap) {
-      return const Scaffold(
-        backgroundColor: Color(0xFF48484f),
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
-
-    context.select<LevelDataController, int>((c) => c.mapVersion);
-    final bool isInitialized = context.select<LevelDataController, bool>(
-      (c) => c.isInitialized,
-    );
-
-    if (!isInitialized) {
-      return const Scaffold(
-        backgroundColor: Color(0xFF48484f),
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
-
-    final levelProgress = _lvProgress(context.read<LevelDataController>());
-
     return Scaffold(
-      backgroundColor: const Color(0xFF48484f),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          final double mapWidth = constraints.maxWidth;
-
-          return SingleChildScrollView(
-            reverse: true,
-            child: MapEngine(
-              mapWidth: mapWidth,
-              nodes: _nodes,
-              nodeScale: mapWidth / mapImgWidth,
-              unlockedLevels: levelProgress.unlocked,
-              levelStars: levelProgress.stars,
-              levelCrimsonStars: levelProgress.crimson,
-            ),
-          );
-        },
+      body: ChangeNotifierProvider(
+        create: (context) => MapState(lvData: _levelData!),
+        child: const Stack(children: [MapWidget(), LevelFinder()]),
       ),
     );
   }

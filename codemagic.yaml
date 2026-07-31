@@ -28,7 +28,6 @@ workflows:
       - name: Create .env file for Flutter
         script: |
           echo "HACKAI_API_KEY=$HACKAI_API_KEY" > .env
-          echo "MAP_BUILDER_MODE=$MAP_BUILDER_MODE" >> .env
 
       - name: Fetch packages
         script: flutter pub get

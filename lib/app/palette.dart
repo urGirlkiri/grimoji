@@ -18,3 +18,5 @@ class Palette {
   Color get magicCyan => const Color(0xFFd9f8fa);
   Color get magicCyanDeep => const Color(0xFFb3edfc);
 }
+
+const palette = Palette();

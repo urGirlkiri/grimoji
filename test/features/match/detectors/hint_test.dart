@@ -29,8 +29,6 @@ void main() {
           Emojis.droplet,
           Emojis.alien,
         ],
-        goal: 'Test goal',
-        description: 'Test description',
       );
 
       boardManager = BoardManager(level);
@@ -137,8 +135,6 @@ void main() {
             targetEmoji: Emojis.fire,
             targetAmount: 10,
             availableEmojis: [Emojis.fire, Emojis.rock],
-            goal: 'test',
-            description: 'test',
           );
 
           testGrid.fillPattern([
@@ -181,8 +177,6 @@ void main() {
             targetEmoji: Emojis.fire,
             targetAmount: 10,
             availableEmojis: [Emojis.fire, Emojis.rock],
-            goal: 'test',
-            description: 'test',
           );
 
           testGrid.fillPattern([
@@ -224,8 +218,6 @@ void main() {
             targetEmoji: Emojis.fire,
             targetAmount: 10,
             availableEmojis: [Emojis.fire, Emojis.rock],
-            goal: 'test',
-            description: 'test',
           );
 
           testGrid.fillPattern([
@@ -267,8 +259,6 @@ void main() {
             targetEmoji: Emojis.fire,
             targetAmount: 10,
             availableEmojis: [Emojis.fire, Emojis.rock],
-            goal: 'test',
-            description: 'test',
           );
 
           testGrid.fillPattern([
@@ -352,8 +342,6 @@ void main() {
               Emojis.droplet,
               Emojis.alien,
             ],
-            goal: 'Test goal',
-            description: 'Test description',
           );
 
           for (int r = 0; r < BoardManager.rows; r++) {

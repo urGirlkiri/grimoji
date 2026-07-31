@@ -41,12 +41,12 @@ class GamePlaque extends StatelessWidget {
                     offset: Offset(0, 6 * scale),
                     blurRadius: 0,
                   ),
-                  BoxShadow(
-                    color: context.palette.voidBlack.withValues(alpha: 0.3),
-                    offset: Offset(0, 10 * scale),
-                    blurRadius: 10,
-                    spreadRadius: 1,
-                  ),
+                  // BoxShadow(
+                  //   color: context.palette.voidBlack.withValues(alpha: 0.3),
+                  //   offset: Offset(0, 10 * scale),
+                  //   blurRadius: 10,
+                  //   spreadRadius: 1,
+                  // ),
                 ],
                 image: DecorationImage(
                   image: const AssetImage('assets/images/vertical_lines.png'),

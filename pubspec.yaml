@@ -62,7 +62,6 @@ flutter:
 
   assets:
     - .env
-    - assets/data/
     - assets/images/
     - assets/images/scrolls/
     - assets/images/map/

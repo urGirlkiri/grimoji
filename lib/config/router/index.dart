@@ -10,7 +10,6 @@ import 'package:grimoji/app/menu.dart';
 import 'package:grimoji/features/map/screen.dart';
 import 'package:grimoji/features/level/fail_screen/screen.dart';
 import 'package:grimoji/features/level/hint_screen/screen.dart';
-import 'package:grimoji/features/map/widgets/builder.dart';
 import 'package:grimoji/features/market/screen.dart';
 import 'package:grimoji/features/settings/screen.dart';
 import 'package:grimoji/config/router/layout/index.dart';
@@ -62,14 +61,7 @@ final router = GoRouter(
             GoRoute(
               path: Routes.mapRoute,
               name: Routes.map,
-              builder: (context, state) {
-                final isDevMode = dotenv.env['MAP_BUILDER_MODE'] == 'true';
-
-                if (isDevMode) {
-                  return const MapBuilderScreen();
-                }
-                return const LevelsMapScreen();
-              },
+              builder: (context, state) => const LevelsMapScreen(),
             ),
           ],
         ),
@@ -83,6 +75,7 @@ final router = GoRouter(
             ),
           ],
         ),
+
         // StatefulShellBranch(
         //   routes: [
         //     GoRoute(
@@ -118,7 +111,6 @@ final router = GoRouter(
         //     ),
         //   ],
         // ),
-
         StatefulShellBranch(
           routes: [
             GoRoute(
@@ -209,7 +201,7 @@ final router = GoRouter(
         final stars = map?['stars'] as int;
         final crimsonStars = map?['crimsonStars'] as int? ?? 0;
         final level = map?['level'] as int;
-        
+
         return WinGameScreen(
           stars: stars,
           level: level,

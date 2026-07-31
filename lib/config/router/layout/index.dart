@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/config/router/layout/nav_item.dart';
 import 'package:grimoji/config/router/layout/shell_tab.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
@@ -29,13 +30,10 @@ class LayoutScaffold extends StatelessWidget {
     return ShellTabScope(
       activeIndex: navigationShell.currentIndex,
       child: Scaffold(
+        backgroundColor: isMap ? mapSkyColor : palette.midnight,
         body: Column(
           children: [
-            GameBar(
-              backgroundColor: isMap
-                  ? const Color(0xFF48484f)
-                  : palette.midnight,
-            ),
+            GameBar(backgroundColor: isMap ? mapSkyColor : palette.midnight),
             Expanded(child: navigationShell),
           ],
         ),

@@ -43,7 +43,6 @@ jobs:
         run: |
           cat << EOF > .env
           HACKAI_API_KEY=${{ secrets.HACKAI_API_KEY }}
-          MAP_BUILDER_MODE=${{ secrets.MAP_BUILDER_MODE }}
           WINDOWS_USER_MODEL_ID=${{ secrets.WINDOWS_USER_MODEL_ID }}
           WINDOWS_NOTIFICATION_GUID=${{ secrets.WINDOWS_NOTIFICATION_GUID }}
           EOF
@@ -76,7 +75,6 @@ jobs:
         run: |
           cat << EOF > build/web/assets/.env
           HACKAI_API_KEY=hehehe_no_chance
-          MAP_BUILDER_MODE=${{ secrets.MAP_BUILDER_MODE }}
           EOF
 
       - name: Build Android (AAB & APK)
@@ -173,7 +171,6 @@ jobs:
         run: |
           cat << EOF > .env
           HACKAI_API_KEY=${{ secrets.HACKAI_API_KEY }}
-          MAP_BUILDER_MODE=${{ secrets.MAP_BUILDER_MODE }}
           EOF
 
       - name: Prepare Snap Metadata
@@ -238,7 +235,6 @@ jobs:
       - name: Create .env file for Windows
         run: |
           echo HACKAI_API_KEY=${{ secrets.HACKAI_API_KEY }} > .env
-          echo MAP_BUILDER_MODE=${{ secrets.MAP_BUILDER_MODE }} >> .env
           echo WINDOWS_USER_MODEL_ID=${{ secrets.WINDOWS_USER_MODEL_ID }} >> .env
           echo WINDOWS_NOTIFICATION_GUID=${{ secrets.WINDOWS_NOTIFICATION_GUID }} >> .env
 
@@ -288,7 +284,6 @@ jobs:
         run: |
           cat << EOF > flatpak/app-dir/data/flutter_assets/.env
           HACKAI_API_KEY=${{ secrets.HACKAI_API_KEY }}
-          MAP_BUILDER_MODE=${{ secrets.MAP_BUILDER_MODE }}
           EOF
           
       - name: Copy Desktop and Icon Files

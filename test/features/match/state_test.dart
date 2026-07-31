@@ -26,8 +26,6 @@ void main() {
         targetEmoji: Emojis.fire,
         targetAmount: 10,
         timeLimit: 60,
-        goal: 'Test goal',
-        description: 'Test description',
       );
       mockAudio = MockAudioController();
     });
