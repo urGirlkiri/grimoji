@@ -91,7 +91,7 @@ class RecipeFlightAnimator {
                       ],
                     ),
                     child: Center(
-                      child: EmojiWidget.svg(path: unlockedEmoji.svg, size: 56),
+                      child: EmojiWidget.svg(emoji: unlockedEmoji, size: 56),
                     ),
                   ),
                 ),

@@ -215,11 +215,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     : 0.4,
                                 child: settings.emojiAnimations.value
                                     ? EmojiWidget.lottie(
-                                        path: Emojis.robot.lottie,
+                                        emoji: Emojis.robot,
                                         size: 64 * scale,
                                       )
                                     : EmojiWidget.svg(
-                                        path: Emojis.robot.svg,
+                                        emoji: Emojis.robot,
                                         size: 64 * scale,
                                       ),
                               ),

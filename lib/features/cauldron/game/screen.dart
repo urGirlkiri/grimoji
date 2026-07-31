@@ -102,7 +102,7 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        EmojiWidget.svg(path: Emojis.moai.svg, size: 20),
+                        EmojiWidget.svg(emoji: Emojis.moai, size: 20),
                         const SizedBox(width: 3),
                         Text('20000', style: context.theme.textTheme.bodySmall),
                       ],
@@ -131,7 +131,7 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
                   children: [
                     Text("Next", style: context.theme.textTheme.titleSmall),
                     const SizedBox(width: 6),
-                    EmojiWidget.svg(path: Emojis.heart.svg, size: 15),
+                    EmojiWidget.svg(emoji: Emojis.heart, size: 15),
                   ],
                 ),
               ),

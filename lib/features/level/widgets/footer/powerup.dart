@@ -50,7 +50,7 @@ class PowerupBtn extends StatelessWidget {
               ],
             ),
             child: Center(
-              child: EmojiWidget.svg(path: assetPath, size: 45 * scale),
+              child: EmojiWidget(assetPath: assetPath, size: 45 * scale),
             ),
           ),
           if (count > 0)

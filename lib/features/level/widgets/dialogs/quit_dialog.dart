@@ -29,7 +29,7 @@ class QuitDialog extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             EmojiWidget.lottie(
-              path: Emojis.cryingCatFace.lottie,
+              emoji: Emojis.cryingCatFace,
               useDropShadow: true,
               size: 70,
             ),

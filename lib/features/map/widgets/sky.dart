@@ -14,12 +14,9 @@ class Sky extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          EmojiWidget.lottie(path: Emojis.rainCloud.lottie, size: size),
-          EmojiWidget.lottie(
-            path: Emojis.cloudWithLightning.lottie,
-            size: size,
-          ),
-          EmojiWidget.lottie(path: Emojis.rainCloud.lottie, size: size),
+          EmojiWidget.lottie(emoji: Emojis.rainCloud, size: size),
+          EmojiWidget.lottie(emoji: Emojis.cloudWithLightning, size: size),
+          EmojiWidget.lottie(emoji: Emojis.rainCloud, size: size),
         ],
       ),
     );

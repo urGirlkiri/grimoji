@@ -24,7 +24,7 @@ class DisplayContent extends StatelessWidget {
     if (tile.isClownShuffling && tile.emoji == Emojis.clown) {
       emojiWidget = EmojiWidget.lottie(
         key: ValueKey('clown_lottie_${tile.id}'),
-        path: tile.emoji.lottie,
+        emoji: tile.emoji,
         size: size,
       );
     } else if (tile.isShuffling) {
@@ -35,7 +35,7 @@ class DisplayContent extends StatelessWidget {
     } else {
       emojiWidget = EmojiWidget.svg(
         key: ValueKey(displayEmoji.visual),
-        path: displayEmoji.svg,
+        emoji: displayEmoji,
         size: size,
       );
     }

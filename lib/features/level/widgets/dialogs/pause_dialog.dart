@@ -43,7 +43,7 @@ class PauseDialog extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               EmojiWidget.svg(
-                path: Emojis.alienMonster.svg,
+                emoji: Emojis.alienMonster,
                 useDropShadow: true,
                 size: isLarge ? 100 : 70,
               ),

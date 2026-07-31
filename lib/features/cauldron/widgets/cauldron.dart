@@ -27,7 +27,7 @@ class Cauldron extends StatelessWidget {
                 (i) => Positioned(
                   left: i * 35,
                   child: EmojiWidget.lottie(
-                    path: Emojis.fire.lottie,
+                    emoji: Emojis.fire,
                     size: size * 0.5,
                   ),
                 ),

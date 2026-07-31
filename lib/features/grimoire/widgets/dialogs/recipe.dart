@@ -43,7 +43,7 @@ class RecipeDialog extends StatelessWidget {
                             ),
                             const SizedBox(width: 2),
                             EmojiWidget.lottie(
-                              path: recipe.ingredient.lottie,
+                              emoji: recipe.ingredient,
                               size: 128,
                             ),
                           ],
@@ -59,7 +59,7 @@ class RecipeDialog extends StatelessWidget {
                         ),
                         const SizedBox(height: 32),
                         EmojiWidget.lottie(
-                          path: recipe.yields.lottie,
+                          emoji: recipe.yields,
                           size: 128,
                         ),
                       ],

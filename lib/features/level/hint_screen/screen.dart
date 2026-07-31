@@ -151,7 +151,7 @@ class _LevelHintScreenState extends State<LevelHintScreen> {
                         ),
                         const SizedBox(width: 16),
                         EmojiWidget.lottie(
-                          path: _recipe!.yields.lottie,
+                          emoji: _recipe!.yields,
                           useDropShadow: true,
                           size: 80 * scale,
                         ),

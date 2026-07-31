@@ -140,11 +140,11 @@ class _GhostDiverState extends State<GhostDiver>
       builder: (context, child) {
         final ghostWidget = carriedEmoji != null
             ? EmojiWidget.svg(
-                path: DiveBehavior.emoji.svg,
+                emoji: DiveBehavior.emoji,
                 size: widget.tileWidth * ghostScaleFactor,
               )
             : EmojiWidget.lottie(
-                path: DiveBehavior.emoji.lottie,
+                emoji: DiveBehavior.emoji,
                 size: widget.tileWidth * ghostScaleFactor,
               );
 
@@ -182,7 +182,7 @@ class _GhostDiverState extends State<GhostDiver>
                       top: widget.tileHeight * 0.3,
                     ),
                     child: EmojiWidget.svg(
-                      path: carriedEmoji.svg,
+                      emoji: carriedEmoji,
                       size:
                           widget.tileWidth *
                           ghostScaleFactor *

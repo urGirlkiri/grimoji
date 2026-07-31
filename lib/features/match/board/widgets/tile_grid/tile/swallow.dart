@@ -22,7 +22,7 @@ class SwallowEffect extends StatelessWidget {
     }
 
     final Widget holeWidget = EmojiWidget.svg(
-      path: Emojis.hole.svg,
+      emoji: Emojis.hole,
       size: size * 1.4,
     );
 

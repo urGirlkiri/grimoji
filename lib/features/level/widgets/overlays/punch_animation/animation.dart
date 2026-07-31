@@ -114,7 +114,7 @@ class _PunchFlyAnimationState extends State<FlyingPunchAnimation>
                 scaleX: scaleX,
                 scaleY: scaleY,
                 child: EmojiWidget.svg(
-                  path: Emojis.boxingGlove.svg,
+                  emoji: Emojis.boxingGlove,
                   size: widget.tileSize * 1.2,
                 ),
               ),

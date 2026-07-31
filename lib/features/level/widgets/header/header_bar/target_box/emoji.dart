@@ -26,13 +26,13 @@ class TargetEmoji extends StatelessWidget {
     return hasCombo && !isPaused
         ? EmojiWidget.lottie(
             key: targetIconKey,
-            path: targetEmoji.lottie,
+            emoji: targetEmoji,
             useDropShadow: true,
             size: 40,
             blurRadius: 4,
             shadowOffset: const Offset(0, 4),
             shadowColor: context.palette.midnight,
           )
-        : EmojiWidget.svg(key: targetIconKey, path: targetEmoji.svg, size: 40);
+        : EmojiWidget.svg(key: targetIconKey, emoji: targetEmoji, size: 40);
   }
 }

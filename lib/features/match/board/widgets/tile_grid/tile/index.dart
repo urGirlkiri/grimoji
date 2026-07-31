@@ -55,8 +55,8 @@ class TileWidget extends StatelessWidget {
                 context.palette.crimson,
                 BlendMode.srcIn,
               ),
-              child: EmojiWidget.svg(
-                path: 'assets/emojis/svg/cross_barber_pole.svg',
+              child: EmojiWidget(
+                assetPath: 'assets/emojis/svg/cross_barber_pole.svg',
                 size: tWidth * emojiSizeFactor,
               ),
             ),
@@ -147,7 +147,7 @@ class TileWidget extends StatelessWidget {
                     duration: const Duration(milliseconds: 50),
                     opacity: tile.isTransmuting ? 1.0 : 0.0,
                     child: EmojiWidget.lottie(
-                      path: tile.emoji.lottie,
+                      emoji: tile.emoji,
                       size: tWidth * emojiSizeFactor,
                     ),
                   ),

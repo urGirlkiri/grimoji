@@ -80,8 +80,8 @@ class BoosterButton extends StatelessWidget {
                   child: Center(
                     child: Opacity(
                       opacity: hasInventory ? (isSelected ? 1.0 : 0.8) : 0.5,
-                      child: EmojiWidget.svg(
-                        path: item.iconPath,
+                      child: EmojiWidget(
+                        assetPath: item.iconPath,
                         size: 36 * scale,
                       ),
                     ),

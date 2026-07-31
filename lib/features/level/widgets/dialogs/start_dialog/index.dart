@@ -70,7 +70,7 @@ class _LevelStartDialogState extends State<LevelStartDialog> {
               ),
               const SizedBox(height: 16),
               EmojiWidget.lottie(
-                path: widget.level.targetEmoji.lottie,
+                emoji: widget.level.targetEmoji,
                 useDropShadow: true,
                 size: 100,
               ),

@@ -146,7 +146,7 @@ class ShopItemCard extends StatelessWidget {
                                 assetPath: lottiePath!,
                                 size: 45 * scale,
                               )
-                            : EmojiWidget.svg(path: iconPath, size: 45 * scale))
+                            : EmojiWidget(assetPath: iconPath, size: 45 * scale))
                       : Image.asset(
                           iconPath,
                           width: 45 * scale,

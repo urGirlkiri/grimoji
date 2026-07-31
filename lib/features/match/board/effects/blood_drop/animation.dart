@@ -175,7 +175,7 @@ class _BloodDropAnimationState extends State<BloodDropAnimation>
               height: dropSize,
               child: Opacity(
                 opacity: bloodOpacity.clamp(0.0, 1.0),
-                child: EmojiWidget.svg(path: Emojis.blood.svg, size: dropSize),
+                child: EmojiWidget.svg(emoji: Emojis.blood, size: dropSize),
               ),
             ),
           ],

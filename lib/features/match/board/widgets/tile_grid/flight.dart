@@ -53,7 +53,7 @@ class TargetFlightAnimator {
               top: currentY,
               child: Transform.scale(
                 scale: scale,
-                child: EmojiWidget.svg(path: emoji.svg, size: 50),
+                child: EmojiWidget.svg(emoji: emoji, size: 50),
               ),
             );
           },

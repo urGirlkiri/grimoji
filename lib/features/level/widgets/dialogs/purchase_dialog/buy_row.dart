@@ -55,7 +55,7 @@ class BuyRow extends StatelessWidget {
         ),
         child: Row(
           children: [
-            EmojiWidget.svg(path: boost.iconPath, size: 28 * scale),
+            EmojiWidget(assetPath: boost.iconPath, size: 28 * scale),
             SizedBox(width: 8 * scale),
             Text(
               '×$qty',

@@ -76,7 +76,7 @@ class MatchShape extends StatelessWidget {
                     ],
                   ),
                   child: EmojiWidget.lottie(
-                    path: _tileEmoji.lottie,
+                    emoji: _tileEmoji,
                     size: 48 * context.globalScale,
                   ),
                 ),

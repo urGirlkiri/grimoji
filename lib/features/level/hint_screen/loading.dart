@@ -16,7 +16,7 @@ class Loading extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         EmojiWidget.lottie(
-          path: Emojis.package.lottie,
+          emoji: Emojis.package,
           useDropShadow: false,
           size: 120 * scale,
         ),

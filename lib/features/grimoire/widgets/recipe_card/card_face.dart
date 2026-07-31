@@ -52,7 +52,7 @@ class CardFace extends StatelessWidget {
         ),
         Center(
           child: showEmoji
-              ? EmojiWidget.svg(path: recipe.yields.svg, size: layout.emojiSize)
+              ? EmojiWidget.svg(emoji: recipe.yields, size: layout.emojiSize)
               : Image.asset(
                   'assets/images/grimoire/queston_mark.png',
                   cacheWidth: iconCacheSize,

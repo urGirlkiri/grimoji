@@ -35,9 +35,9 @@ class Content extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 if (selectedPowerup != null && !isAnimating)
-                  EmojiWidget.svg(
+                  EmojiWidget(
                     key: context.read<LevelState>().powerupIconKey,
-                    path: selectedPowerup.iconPath,
+                    assetPath: selectedPowerup.iconPath,
                     size: 80,
                   ),
                 const SizedBox(height: 16),
