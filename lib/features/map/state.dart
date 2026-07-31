@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/levels/index.dart';
+import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/map/models/level_node.dart';
 import 'package:logging/logging.dart';
 
 class MapState extends ChangeNotifier {
-  static const double firstLvZ = 10;
-  static const double levelSpacing = 20;
+  static const double _firstLvZ = 10;
+  static const double _levelSpacing = 20;
 
   late final double _maxWorldZ;
 
   final List<LevelNode> _lvNodes = [];
+  final LevelDataController _lvData;
   final Logger _logger = Logger('MapState');
 
   double _cameraZ = 0.0;
   bool? isBelowLevel;
 
-  MapState() {
+  MapState({required LevelDataController lvData}) : _lvData = lvData {
     _genLevelNodes();
   }
 
@@ -24,41 +26,54 @@ class MapState extends ChangeNotifier {
 
   List<LevelNode> get lvNodes => _lvNodes;
 
-  void handlePanUpdate(
-    DragUpdateDetails details,
-    int levelNumber,
-  ) {
+  void handlePanUpdate(DragUpdateDetails details) {
     _cameraZ -= details.delta.dy * 2.2;
     _cameraZ = _cameraZ.clamp(0.0, _maxWorldZ);
-    checkLvOutOfView(levelNumber);
+    checkLvOutOfView();
     notifyListeners();
   }
 
-  void checkLvOutOfView(int levelNumber) {
-    final lv = _lvNodes.firstWhere((lv) => lv.levelNumber == levelNumber);
-    if (cameraZ >= lv.worldZ) {
+  void checkLvOutOfView() {
+    final lv = _lvFromNumber(_lvData.currentLevel());
+    isBelowLevel = null;
+
+    if (cameraZ > (lv.worldZ - _firstLvZ)) {
       isBelowLevel = true;
     }
 
-    if (cameraZ <= lv.worldZ){
-      isBelowLevel = false;
+    if (lv.levelNumber != 1) {
+      if (cameraZ < (lv.worldZ - _firstLvZ)) {
+        isBelowLevel = false;
+      }
     }
-    _logger.info("First Level Z: $firstLvZ");
+    _logger.info("First Level Z: $_firstLvZ");
     _logger.info("Current Level: ${lv.levelNumber}");
     _logger.info("Camera Z: $cameraZ");
-    _logger.info("Current Level Z: ${lv.worldZ}");
-    _logger.info("Is Out of View: $isBelowLevel");
+    _logger.info("Current Level Z: ${lv.worldZ - _firstLvZ}");
+    _logger.info("Is Below Level $isBelowLevel");
   }
 
   void goToCurrentLv() {
+    _logger.info("Naving to Current");
+    final lv = _lvFromNumber(_lvData.currentLevel());
+    _logger.info("Current Level: ${lv.levelNumber}");
+    _logger.info("Init Camera Z: $cameraZ");
+    _cameraZ = lv.levelNumber == 1 ? 0 : lv.worldZ - _firstLvZ;
+    _logger.info("Final Camera Z: $cameraZ");
+    checkLvOutOfView();
+    notifyListeners();
+  }
 
+  LevelNode _lvFromNumber(int num) {
+    final lv = _lvNodes.firstWhere((lv) => lv.levelNumber == num);
+    return lv;
   }
 
   void _genLevelNodes() {
     double currentZ = 10.0;
     for (final level in gameLevels) {
       _lvNodes.add(LevelNode(levelNumber: level.number, worldZ: currentZ));
-      currentZ += levelSpacing;
+      currentZ += _levelSpacing;
     }
     _maxWorldZ = currentZ + 800.0;
   }

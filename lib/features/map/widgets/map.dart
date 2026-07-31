@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/constants.dart';
-import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/map/painters/ground.dart';
 import 'package:grimoji/features/map/painters/decorations.dart';
 import 'package:grimoji/features/map/painters/road/index.dart';
@@ -11,26 +10,35 @@ import 'package:grimoji/features/map/widgets/sky.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:provider/provider.dart';
 
-class MapWidget extends StatelessWidget {
+class MapWidget extends StatefulWidget {
   const MapWidget({super.key});
 
   static const double _roadCenter = 2;
 
   @override
+  State<MapWidget> createState() => _MapWidgetState();
+}
+
+class _MapWidgetState extends State<MapWidget> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => context.read<MapState>().goToCurrentLv(),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     final scale = context.globalScale;
     final state = context.watch<MapState>();
-    final currentLv = context.read<LevelDataController>().currentLevel();
-
     return LayoutBuilder(
       builder: (context, constraints) {
         final double screenWidth = constraints.maxWidth;
         final double screenHeight = constraints.maxHeight;
 
         return GestureDetector(
-          onVerticalDragUpdate: (DragUpdateDetails det) {
-            state.handlePanUpdate(det, currentLv);
-          },
+          onVerticalDragUpdate: state.handlePanUpdate,
           child: Container(
             width: double.infinity,
             height: double.infinity,
@@ -47,7 +55,7 @@ class MapWidget extends StatelessWidget {
                 CustomPaint(
                   size: Size(screenWidth, screenHeight),
                   painter: RoadPainter(
-                    center: _roadCenter,
+                    center: MapWidget._roadCenter,
                     maxZ: state.maxWorldZ,
                     cameraZ: state.cameraZ,
                     scale: scale,
@@ -56,14 +64,14 @@ class MapWidget extends StatelessWidget {
                 CustomPaint(
                   size: Size(screenWidth, screenHeight),
                   painter: RoadStripePainter(
-                    center: _roadCenter,
+                    center: MapWidget._roadCenter,
                     maxZ: state.maxWorldZ,
                     cameraZ: state.cameraZ,
                     scale: scale,
                   ),
                 ),
                 LevelNodes(
-                  roadCenter: _roadCenter,
+                  roadCenter: MapWidget._roadCenter,
                   screenWidth: screenWidth,
                   screenHeight: screenHeight,
                 ),

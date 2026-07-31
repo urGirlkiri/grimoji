@@ -121,8 +121,25 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ChangeNotifierProvider(
-        create: (context) => MapState(),
-        child: const Stack(children: [MapWidget(), LevelFinder()]),
+        create: (context) => MapState(lvData: _levelData!),
+        child: Stack(
+          children: [
+            const MapWidget(),
+            Selector<MapState, bool?>(
+              selector: (_, state) => state.isBelowLevel,
+              builder: (context, isBelow, _) => isBelow == null
+                  ? const SizedBox()
+                  : AnimatedPositioned(
+                      duration: const Duration(milliseconds: 1200),
+                      curve: Curves.bounceIn,
+                      bottom: isBelow ? 3.0 : null,
+                      top: isBelow ? null : 3.0,
+                      left: (context.screenWidth / 2) + (-46),
+                      child: const LevelFinder(),
+                    ),
+            ),
+          ],
+        ),
       ),
     );
   }
