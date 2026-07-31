@@ -121,11 +121,8 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ChangeNotifierProvider(
-        create: (context) => MapState(levelSpacing: 20),
-        child: const Stack(children: [
-          MapWidget(), 
-        LevelFinder()
-        ]),
+        create: (context) => MapState(),
+        child: const Stack(children: [MapWidget(), LevelFinder()]),
       ),
     );
   }

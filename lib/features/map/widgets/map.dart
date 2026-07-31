@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/constants.dart';
+import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/map/painters/ground.dart';
 import 'package:grimoji/features/map/painters/decorations.dart';
 import 'package:grimoji/features/map/painters/road/index.dart';
@@ -19,6 +20,7 @@ class MapWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final scale = context.globalScale;
     final state = context.watch<MapState>();
+    final currentLv = context.read<LevelDataController>().currentLevel();
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -26,7 +28,9 @@ class MapWidget extends StatelessWidget {
         final double screenHeight = constraints.maxHeight;
 
         return GestureDetector(
-          onVerticalDragUpdate: state.handlePanUpdate,
+          onVerticalDragUpdate: (DragUpdateDetails det) {
+            state.handlePanUpdate(det, currentLv);
+          },
           child: Container(
             width: double.infinity,
             height: double.infinity,
