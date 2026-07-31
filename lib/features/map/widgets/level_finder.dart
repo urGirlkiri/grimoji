@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:grimoji/features/map/state.dart';
 import 'package:grimoji/utils/context_data.dart';
+import 'package:provider/provider.dart';
 
 class LevelFinder extends StatelessWidget {
-  final bool isBelow;
-  const LevelFinder({super.key, required this.isBelow});
+  const LevelFinder({super.key});
 
   @override
   Widget build(BuildContext context) {
     final scale = context.globalScale;
-    final bottom = isBelow ? 3.0 : null;
-    final top = isBelow ? null : 3.0;
+
+    final isBelowLv = context.select((MapState state) => state.isBelowLevel);
+
+    if (isBelowLv == null) return const SizedBox();
+
+    final bottom = isBelowLv ? 3.0 : null;
+    final top = isBelowLv ? null : 3.0;
+
     return AnimatedPositioned(
       bottom: bottom,
       top: top,

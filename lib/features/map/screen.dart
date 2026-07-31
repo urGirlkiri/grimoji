@@ -6,6 +6,7 @@ import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/level/widgets/dialogs/cauldron_dialog.dart';
 import 'package:grimoji/features/level/widgets/dialogs/start_dialog/index.dart';
+import 'package:grimoji/features/map/state.dart';
 import 'package:grimoji/features/map/widgets/level_finder.dart';
 import 'package:grimoji/features/map/widgets/map.dart';
 import 'package:grimoji/utils/context_data.dart';
@@ -118,8 +119,14 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Stack(children: [MapWidget(), LevelFinder(isBelow: true)]),
+    return Scaffold(
+      body: ChangeNotifierProvider(
+        create: (context) => MapState(levelSpacing: 20),
+        child: const Stack(children: [
+          MapWidget(), 
+        LevelFinder()
+        ]),
+      ),
     );
   }
 }
