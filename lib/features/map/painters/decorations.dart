@@ -135,7 +135,7 @@ class _DecorationsState extends State<Decorations> {
               final double scale = proj.scale * item.sizeScale;
               final double size = 28.0 * scale * widget.scale;
               final double left = proj.x - size / 2 * widget.scale;
-              final double top = proj.y - size / 2;
+              final double top = proj.y - size / 2 + 20;
 
               return Positioned(
                 left: left,

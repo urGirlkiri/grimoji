@@ -4,15 +4,15 @@ import 'package:grimoji/features/map/models/projection.dart';
 
 class WorldPhysics {
 
-  static const double _perspectiveDepth = 0.0034;
-  static const double _climbDepth = 8.0;
+  static const double horizonDepth = 0.0083;
   static const double _fadeDepth = 300.0;
 
+  static const double _climbHeight = 8.0;
   static const double _worldHeight = 0.11;
   static const double _bottomOverflow = 50.0;
 
   static const double _bellyCurve = 0.011;
-  static const double _lateralDepth = 1.1;
+  static const double _lateralDepth = 0.02;
 
   static double horizonY(double screenHeight) =>
       screenHeight * _worldHeight;
@@ -50,7 +50,7 @@ class WorldPhysics {
       );
     }
 
-    final double scale = (1.0 / (1.0 + (relativeZ * _perspectiveDepth))).clamp(
+    final double scale = (1.0 / (1.0 + (relativeZ * horizonDepth))).clamp(
       0.0,
       1.0,
     );
@@ -60,9 +60,9 @@ class WorldPhysics {
 
     // t: 0 right at the camera plane, approaches 1 as depth grows.
     final double t = (1.0 - scale).clamp(0.0, 1.0);
-    final double easedT = 1.0 - math.pow(1.0 - t, _climbDepth).toDouble();
 
     final double nearY = screenHeight + _bottomOverflow;
+    final double easedT = 1.0 - math.pow(1.0 - t, _climbHeight).toDouble();
     final double dome = domeOffset(
       screenX: screenX,
       screenWidth: screenWidth,

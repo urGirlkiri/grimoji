@@ -14,17 +14,17 @@ class GroundPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final double horizonY = WorldPhysics.horizonY(size.height);
-    final double horizonBow = size.height * 0.0523;
+    final double horizonCurve = size.height * 0.0523;
     final double rimShadowDepth = size.height * 0.0402;
-    final double crestY = horizonY - horizonBow;
+    final double horizonPeak = horizonY - horizonCurve;
 
     final Path groundPath = Path()
-      ..moveTo(0, horizonY + horizonBow)
+      ..moveTo(0, horizonY + horizonCurve)
       ..quadraticBezierTo(
         size.width / 2,
-        crestY,
+        horizonPeak,
         size.width,
-        horizonY + horizonBow,
+        horizonY + horizonCurve,
       )
       ..lineTo(size.width, size.height)
       ..lineTo(0, size.height)
@@ -37,24 +37,24 @@ class GroundPainter extends CustomPainter {
             end: Alignment.bottomCenter,
             colors: [_topColor, _bottomColor],
           ).createShader(
-            Rect.fromLTWH(0, crestY, size.width, size.height - crestY),
+            Rect.fromLTWH(0, horizonPeak, size.width, size.height - horizonPeak),
           );
 
     canvas.drawPath(groundPath, groundPaint);
 
     final Path rimShadowPath = Path()
-      ..moveTo(0, horizonY + horizonBow)
+      ..moveTo(0, horizonY + horizonCurve)
       ..quadraticBezierTo(
         size.width / 2,
-        crestY,
+        horizonPeak,
         size.width,
-        horizonY + horizonBow,
+        horizonY + horizonCurve,
       )
       ..quadraticBezierTo(
         size.width / 2,
-        crestY + rimShadowDepth,
+        horizonPeak + rimShadowDepth,
         0,
-        horizonY + horizonBow,
+        horizonY + horizonCurve,
       )
       ..close();
 
@@ -68,7 +68,7 @@ class GroundPainter extends CustomPainter {
               _rimShadowColor.withValues(alpha: 0),
             ],
           ).createShader(
-            Rect.fromLTWH(0, crestY, size.width, rimShadowDepth + horizonBow),
+            Rect.fromLTWH(0, horizonPeak, size.width, rimShadowDepth + horizonCurve),
           );
 
     canvas.drawPath(rimShadowPath, rimShadowPaint);
