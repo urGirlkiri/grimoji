@@ -11,7 +11,7 @@ class LevelFinder extends StatelessWidget {
   Widget build(BuildContext context) {
     final scale = context.globalScale;
 
-    final isBelowLv = context.select((MapState state) => state.isBelowLevel);
+    final isBelowLv = context.select((MapState state) => state.isBelowCurrentLv);
 
     if (isBelowLv == null) return const SizedBox();
 

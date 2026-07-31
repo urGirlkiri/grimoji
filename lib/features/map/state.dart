@@ -3,19 +3,20 @@ import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/features/map/models/level_node.dart';
 
 class MapState extends ChangeNotifier {
-  double _cameraZ = 0.0;
-  late final double levelSpacing;
   late final double _maxWorldZ;
-
+  late final double levelSpacing;
+  
   final List<LevelNode> _lvNodes = [];
 
-  MapState({required this.levelSpacing,}) {
+  double _cameraZ = 0.0;
+
+  MapState({required this.levelSpacing}) {
     _genLevelNodes();
   }
 
   double get cameraZ => _cameraZ;
   double get maxWorldZ => _maxWorldZ;
-  bool? get isBelowLevel => null;
+  bool? get isBelowCurrentLv => null;
 
   List<LevelNode> get lvNodes => _lvNodes;
 
