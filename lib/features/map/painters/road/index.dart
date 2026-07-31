@@ -13,7 +13,7 @@ import 'package:flutter/material.dart'
         LinearGradient;
 import 'package:grimoji/app/palette.dart';
 import 'package:grimoji/features/map/models/projection.dart';
-import 'package:grimoji/features/map/utils/world_physics.dart';
+import 'package:grimoji/features/map/physics.dart';
 
 class RoadPainter extends CustomPainter {
   final double cameraZ;

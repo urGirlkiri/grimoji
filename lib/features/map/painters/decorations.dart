@@ -5,7 +5,7 @@ import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/map/models/level_node.dart';
 import 'package:grimoji/features/map/models/decoration.dart';
 import 'package:grimoji/features/map/models/projection.dart';
-import 'package:grimoji/features/map/utils/world_physics.dart';
+import 'package:grimoji/features/map/physics.dart';
 
 class Decorations extends StatefulWidget {
   final double cameraZ;

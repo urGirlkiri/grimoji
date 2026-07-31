@@ -4,7 +4,7 @@ import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/map/models/projection.dart';
 import 'package:grimoji/features/map/models/level_node.dart' as type;
-import 'package:grimoji/features/map/utils/world_physics.dart';
+import 'package:grimoji/features/map/physics.dart';
 import 'package:grimoji/features/map/widgets/level_nodes/node/index.dart';
 import 'package:provider/provider.dart';
 

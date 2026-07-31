@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/app/palette.dart';
-import 'package:grimoji/features/map/utils/world_physics.dart';
+import 'package:grimoji/features/map/physics.dart';
 
 const palette = Palette();
 
