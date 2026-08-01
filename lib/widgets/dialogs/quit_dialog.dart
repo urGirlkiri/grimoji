@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/emojis/index.dart';
-import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
 import 'package:grimoji/widgets/custom/pill_button.dart';
 import 'package:grimoji/widgets/custom/scroll_dialog.dart';
 
 class QuitDialog extends StatelessWidget {
-  final int level;
+  final VoidCallback onQuit;
+  final VoidCallback onStay;
 
-  const QuitDialog({super.key, required this.level});
+  const QuitDialog({super.key, required this.onQuit, required this.onStay});
 
   @override
   Widget build(BuildContext context) {
-    
-
     return Dialog(
       backgroundColor: Colors.transparent,
       elevation: 0,
       insetPadding: const EdgeInsets.all(0),
       child: ScrollDialog(
-        rightButton: const CorkScrewCloseButton(),
+        rightButton: CorkScrewCloseButton(
+          onTap: () {
+            Navigator.of(context).pop();
+            onStay();
+          },
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -71,10 +73,7 @@ class QuitDialog extends StatelessWidget {
                   borderWidth: 3,
                   onTap: () {
                     Navigator.of(context).pop();
-                    GoRouter.of(context).goNamed(
-                      Routes.levelFail,
-                      pathParameters: {'level': level.toString()},
-                    );
+                    onQuit();
                   },
                 ),
                 PillButton(
@@ -89,7 +88,10 @@ class QuitDialog extends StatelessWidget {
                   borderRadius: 20,
                   borderColor: palette.twilight,
                   borderWidth: 3,
-                  onTap: () => Navigator.of(context).pop(),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    onStay();
+                  },
                 ),
               ],
             ),

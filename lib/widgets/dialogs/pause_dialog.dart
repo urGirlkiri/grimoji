@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/emojis/index.dart';
-import 'package:grimoji/config/router/routes.dart';
-import 'package:grimoji/features/settings/dialogs/settings.dart';
 import 'package:grimoji/utils/context_data.dart';
-import 'package:grimoji/widgets/animations/dialog.dart';
 import 'package:grimoji/widgets/custom/app_icon.dart';
 import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
@@ -14,13 +10,19 @@ import 'package:grimoji/widgets/custom/pill_button.dart';
 import 'package:grimoji/widgets/custom/scroll_dialog.dart';
 
 class PauseDialog extends StatelessWidget {
-  final int level;
+  final VoidCallback onResume;
+  final VoidCallback onQuit;
+  final VoidCallback? onSettings;
 
-  const PauseDialog({super.key, required this.level});
+  const PauseDialog({
+    super.key,
+    required this.onResume,
+    required this.onQuit,
+    this.onSettings,
+  });
 
   @override
   Widget build(BuildContext context) {
-    
     final screenWidth = context.screenWidth;
     final isLarge = screenWidth > 400;
 
@@ -29,14 +31,15 @@ class PauseDialog extends StatelessWidget {
       elevation: 0,
       insetPadding: const EdgeInsets.all(0),
       child: ScrollDialog(
-        rightButton: const CorkScrewCloseButton(),
-        leftButton: AppIcon(
-          fileName: 'settings',
-          size: 80,
+        rightButton: CorkScrewCloseButton(
           onTap: () {
-            showAnimatedDialog(context, SettingsDialog(level: level));
+            Navigator.of(context).pop();
+            onResume();
           },
         ),
+        leftButton: onSettings != null
+            ? AppIcon(fileName: 'settings', size: 80, onTap: onSettings)
+            : null,
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
@@ -86,10 +89,7 @@ class PauseDialog extends StatelessWidget {
                     borderWidth: 3,
                     onTap: () {
                       Navigator.of(context).pop();
-                      GoRouter.of(context).goNamed(
-                        Routes.levelFail,
-                        pathParameters: {'level': level.toString()},
-                      );
+                      onQuit();
                     },
                   ),
                   PillButton(
@@ -104,7 +104,10 @@ class PauseDialog extends StatelessWidget {
                     borderRadius: 20,
                     borderColor: palette.twilight,
                     borderWidth: 3,
-                    onTap: () => Navigator.of(context).pop(),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      onResume();
+                    },
                   ),
                 ],
               ),

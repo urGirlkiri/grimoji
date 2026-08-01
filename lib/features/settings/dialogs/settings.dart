@@ -11,14 +11,14 @@ import 'package:grimoji/widgets/custom/pill_button.dart';
 import 'package:grimoji/widgets/custom/scroll_dialog.dart';
 
 class SettingsDialog extends StatelessWidget {
-  final int level;
+  final int? level;
 
-  const SettingsDialog({super.key, required this.level});
+  const SettingsDialog({super.key, this.level});
 
   @override
   Widget build(BuildContext context) {
-    
     final settings = context.readSettings;
+    final quitLevel = level;
 
     return Dialog(
       backgroundColor: Colors.transparent,
@@ -125,23 +125,24 @@ class SettingsDialog extends StatelessWidget {
                   },
                 ),
 
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                    vertical: 16.0,
+                if (quitLevel != null)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 16.0,
+                    ),
+                    child: PillButton(
+                      text: "Quit level",
+                      color: palette.crimson,
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        GoRouter.of(context).goNamed(
+                          Routes.levelFail,
+                          pathParameters: {'level': quitLevel.toString()},
+                        );
+                      },
+                    ),
                   ),
-                  child: PillButton(
-                    text: "Quit level",
-                    color: palette.crimson,
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      GoRouter.of(context).goNamed(
-                        Routes.levelFail,
-                        pathParameters: {'level': level.toString()},
-                      );
-                    },
-                  ),
-                ),
                 const SizedBox(height: 8),
               ],
             ),

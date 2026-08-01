@@ -13,8 +13,9 @@ import 'package:grimoji/features/match/board/index.dart';
 import 'package:grimoji/features/level/widgets/header/index.dart';
 import 'package:grimoji/features/level/widgets/footer/index.dart';
 import 'package:grimoji/features/level/controller.dart';
-import 'package:grimoji/features/level/widgets/dialogs/pause_dialog.dart';
-import 'package:grimoji/features/level/widgets/dialogs/quit_dialog.dart';
+import 'package:grimoji/widgets/dialogs/pause_dialog.dart';
+import 'package:grimoji/widgets/dialogs/quit_dialog.dart';
+import 'package:grimoji/features/settings/dialogs/settings.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animations/dialog.dart';
 import 'package:grimoji/widgets/responsive_screen.dart';
@@ -54,7 +55,18 @@ class _LevelScreenState extends State<LevelScreen> {
       _isQuitDialogOpen = true;
     });
 
-    showAnimatedDialog(context, QuitDialog(level: widget.level.number)).then((
+    showAnimatedDialog(
+      context,
+      QuitDialog(
+        onQuit: () {
+          GoRouter.of(context).goNamed(
+            Routes.levelFail,
+            pathParameters: {'level': widget.level.number.toString()},
+          );
+        },
+        onStay: () {},
+      ),
+    ).then((
       _,
     ) {
       if (mounted) {
@@ -79,7 +91,24 @@ class _LevelScreenState extends State<LevelScreen> {
   void _showPauseDialog() {
     _isPauseDialogOpen = true;
 
-    showAnimatedDialog(context, PauseDialog(level: widget.level.number)).then((
+    showAnimatedDialog(
+      context,
+      PauseDialog(
+        onResume: () {},
+        onQuit: () {
+          GoRouter.of(context).goNamed(
+            Routes.levelFail,
+            pathParameters: {'level': widget.level.number.toString()},
+          );
+        },
+        onSettings: () {
+          showAnimatedDialog(
+            context,
+            SettingsDialog(level: widget.level.number),
+          );
+        },
+      ),
+    ).then((
       _,
     ) {
       if (!mounted) return;
