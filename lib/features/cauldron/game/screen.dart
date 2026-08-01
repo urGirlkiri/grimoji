@@ -5,7 +5,6 @@ import 'package:grimoji/features/cauldron/game/index.dart';
 import 'package:grimoji/features/cauldron/game/widgets/bottom_powerups.dart';
 import 'package:grimoji/features/cauldron/game/widgets/next_card.dart';
 import 'package:grimoji/features/cauldron/game/widgets/score_card.dart';
-import 'package:grimoji/features/level/hint_screen/loading.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/app_icon.dart';
 import 'package:grimoji/widgets/responsive_screen.dart';
@@ -18,7 +17,6 @@ class CauldronPlayScreen extends StatefulWidget {
 }
 
 class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
-  
   late final CauldronGame _game;
   bool _isGameInitialized = false;
 
@@ -76,7 +74,9 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
             Expanded(
               child: GameWidget(
                 game: _game,
-                loadingBuilder: (context) => const Center(child: Loading()),
+                loadingBuilder: (context) => Center(
+                  child: Image.asset('assets/images/cauldron/Cauldron.png'),
+                ),
               ),
             ),
           ],
