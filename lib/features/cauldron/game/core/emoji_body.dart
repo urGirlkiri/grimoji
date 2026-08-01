@@ -6,11 +6,10 @@ import 'package:grimoji/features/cauldron/game/index.dart';
 
 class EmojiBody extends BodyComponent<CauldronGame> {
   static const double vsize = 1.0;
- 
+
   final double scaleFactor;
   final Vector2 initialPosition;
   final GameEmoji emoji;
-
 
   EmojiBody({
     required this.initialPosition,
@@ -77,6 +76,7 @@ class EmojiBody extends BodyComponent<CauldronGame> {
       );
     }
 
+    body.userData = this;
     return body;
   }
 }
