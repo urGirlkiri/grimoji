@@ -38,18 +38,10 @@ class EmojiSpawner extends Component with HasGameReference<Forge2DGame> {
     _canDrop = false;
 
     final emoji = gameState.nextEmoji;
-    game.world.add(
-      EmojiBody(
-        initialPosition: position,
-        emoji: emoji,
-      ),
-    );
+    game.world.add(EmojiBody(initialPosition: position, emoji: emoji));
 
     rollNextEmoji();
-
-    Future.delayed(const Duration(milliseconds: 1000), () {
-      _canDrop = true;
-    });
+    _canDrop = true;
   }
 
   void reset() {

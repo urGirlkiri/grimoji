@@ -21,7 +21,7 @@ class CauldronGame extends Forge2DGame
 
   static final Vector2 worldCauldronSize = Vector2(10.5125, 9.573);
 
-  static const double overflowY = -3.5;
+  static const double overflowPosition = -4.5;
 
   late final OverflowSensor _overflowSensor;
   late final EmojiSpawner _spawner;
@@ -65,7 +65,7 @@ class CauldronGame extends Forge2DGame
     _spawner.rollNextEmoji();
 
     _overflowSensor = OverflowSensor(
-      sensorPosition: Vector2(0, overflowY),
+      sensorPosition: Vector2(0, overflowPosition),
       size: Vector2(worldCauldronSize.x - 3, 0.1),
       lineColor: palette.crimson,
       onGameOver: () {
