@@ -19,10 +19,10 @@ class ScoreCard extends StatelessWidget {
     final scale = context.globalScale;
     final score = context.select<CauldronState, int>((s) => s.score);
     return Container(
-      width: 150,
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 6,
+      width: 150 * scale,
+      padding:  EdgeInsets.symmetric(
+        horizontal: 16 *scale,
+        vertical: 6 *scale,
       ),
       decoration: BoxDecoration(
         color: Color.alphaBlend(

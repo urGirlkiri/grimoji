@@ -159,26 +159,41 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
                   ),
                 ),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    AppIcon(
-                      fileName: _game.paused ? 'resume' : 'pause',
-                      enableAnimation: false,
-                      onTap: () {
-                        if (_game.paused) {
-                          if (_isPauseDialogOpen) {
-                            Navigator.of(context).pop();
+                    Flexible(
+                      child: AppIcon(
+                        size: 50 * context.globalScale,
+                        fileName: _game.paused ? 'resume' : 'pause',
+                        enableAnimation: false,
+                        onTap: () {
+                          if (_game.paused) {
+                            if (_isPauseDialogOpen) {
+                              Navigator.of(context).pop();
+                            }
+                            _game.resumeEngine();
+                          } else {
+                            _showPauseDialog();
                           }
-                          _game.resumeEngine();
-                        } else {
-                          _showPauseDialog();
-                        }
-                        setState(() {});
-                      },
+                          setState(() {});
+                        },
+                      ),
                     ),
-                    const Spacer(),
-                    const ScoreCard(),
-                    const Spacer(),
-                    const NextCard(),
+                    const SizedBox(width: 4,),
+                    const Flexible(
+                      flex: 2,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: ScoreCard(),
+                      ),
+                    ),
+                    const SizedBox(width: 4,),
+                    const Flexible(
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: NextCard(),
+                      ),
+                    ),
                   ],
                 ),
               ),
