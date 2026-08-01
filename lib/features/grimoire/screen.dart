@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/features/profile/controller.dart';
 import 'package:provider/provider.dart';
-import 'package:grimoji/features/grimoire/ticker.dart';
+import 'package:grimoji/features/grimoire/widgets/ticker/index.dart';
 
 class GrimoireScreen extends StatelessWidget {
   const GrimoireScreen({super.key});
