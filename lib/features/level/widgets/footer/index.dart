@@ -38,10 +38,15 @@ class _FooterState extends State<Footer> {
   }
 
   void _showSnackbar(BuildContext context) {
+    final scale = context.globalScale;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: palette.dusk,
         behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.symmetric(
+          horizontal: 24 * scale,
+          vertical: 125 * scale,
+        ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         content: Text(
           'Coming Soon',

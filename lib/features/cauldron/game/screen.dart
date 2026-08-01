@@ -35,53 +35,61 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/emo.png'),
-          fit: BoxFit.cover,
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/emo.png'),
+            fit: BoxFit.cover,
+          ),
         ),
-      ),
-      child: ResponsiveScreen(
-        topMessageArea: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          decoration: ShapeDecoration(
-            color: palette.twilight,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+        child: ResponsiveScreen(
+          topMessageArea: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: ShapeDecoration(
+              color: palette.twilight,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            child: Row(
+              children: [
+                AppIcon(
+                  fileName: _game.paused ? 'resume' : 'pause',
+                  enableAnimation: false,
+                  onTap: () {
+                    setState(() {
+                      _game.paused ? _game.resumeEngine() : _game.pauseEngine();
+                    });
+                  },
+                ),
+                const Spacer(),
+                const ScoreCard(),
+                const Spacer(),
+                const NextCard(),
+              ],
             ),
           ),
-          child: Row(
+          squarishMainArea: Column(
             children: [
-              AppIcon(
-                fileName: _game.paused ? 'resume' : 'pause',
-                enableAnimation: false,
-                onTap: () {
-                  setState(() {
-                    _game.paused ? _game.resumeEngine() : _game.pauseEngine();
-                  });
-                },
-              ),
-              const Spacer(),
-              const ScoreCard(),
-              const Spacer(),
-              const NextCard(),
-            ],
-          ),
-        ),
-        squarishMainArea: Column(
-          children: [
-            Expanded(
-              child: GameWidget(
-                game: _game,
-                loadingBuilder: (context) => Center(
-                  child: Image.asset('assets/images/cauldron/Cauldron.png'),
+              Expanded(
+                child: GameWidget(
+                  game: _game,
+                  loadingBuilder: (context) => Center(
+                    child: AspectRatio(
+                      aspectRatio: 10.5125 / 9.573,
+                      child: Image.asset(
+                        'assets/images/cauldron/Cauldron.png',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
+          rectangularMenuArea: const BottomPowerups(),
         ),
-        rectangularMenuArea: const BottomPowerups(),
       ),
     );
   }
