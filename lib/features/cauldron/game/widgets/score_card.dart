@@ -52,13 +52,13 @@ class ScoreCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Text(score.toString(), style: context.theme.textTheme.bodyLarge),
+          Text(score.toString(), style: context.theme.textTheme.headlineSmall),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              EmojiWidget.svg(emoji: Emojis.moai, size: 20),
+              EmojiWidget.svg(emoji: Emojis.moai, size: 30 * context.globalScale),
               const SizedBox(width: 3),
-              Text(highScore.toString(), style: context.theme.textTheme.bodySmall),
+              Text(highScore.toString(), style: context.theme.textTheme.bodyMedium),
             ],
           ),
         ],

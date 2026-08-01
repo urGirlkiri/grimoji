@@ -232,7 +232,7 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
                         Text(
                           'Auto',
                           style: context.theme.textTheme.bodyLarge!.copyWith(
-                            color: palette.slate,
+                            color: _auto ? palette.moonlight : palette.slate,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
