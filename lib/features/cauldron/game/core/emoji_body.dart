@@ -5,10 +5,12 @@ import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/cauldron/game/index.dart';
 
 class EmojiBody extends BodyComponent<CauldronGame> {
+  static const double vsize = 1.0;
+ 
+  final double scaleFactor;
   final Vector2 initialPosition;
   final GameEmoji emoji;
 
-  final double scaleFactor;
 
   EmojiBody({
     required this.initialPosition,
@@ -24,7 +26,6 @@ class EmojiBody extends BodyComponent<CauldronGame> {
     await super.onLoad();
 
     final svgInstance = await Svg.load(emoji.svg.replaceAll('assets/', ''));
-    const double vsize = 1.0;
 
     final svgComp = SvgComponent(
       svg: svgInstance,

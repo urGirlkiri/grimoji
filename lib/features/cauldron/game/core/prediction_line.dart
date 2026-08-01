@@ -3,9 +3,10 @@ import 'package:flame/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:grimoji/app/theme/palette.dart';
 
-const Palette palette = Palette();
-
 class PredictionLine extends PositionComponent {
+  static const double dashLength = 0.3;
+  static const double gapLength = 0.2;
+
   Vector2? start;
   Vector2? end;
 
@@ -17,9 +18,6 @@ class PredictionLine extends PositionComponent {
       ..color = palette.slate
       ..strokeWidth = 0.1
       ..strokeCap = StrokeCap.round;
-
-    const double dashLength = 0.3;
-    const double gapLength = 0.2;
 
     final direction = end! - start!;
     final totalLength = direction.length;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grimoji/features/cauldron/game/core/prediction_line.dart';
+import 'package:grimoji/app/theme/palette.dart';
 
 class UnreadBadge extends StatelessWidget {
   const UnreadBadge({super.key, this.width = 10.00, this.height = 10.00});
