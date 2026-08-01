@@ -21,7 +21,7 @@ class CauldronGame extends Forge2DGame
 
   static final Vector2 worldCauldronSize = Vector2(10.5125, 9.573);
 
-  static const double overflowPosition = -4.5;
+  static const double overflowPosition = -5.0;
 
   late final OverflowSensor _overflowSensor;
   late final EmojiSpawner _spawner;
@@ -33,6 +33,11 @@ class CauldronGame extends Forge2DGame
   static const double dropSpawnY = -4.5;
   static const double cauldronBottomY = 3.5;
   static const bool showHalfLine = false;
+
+  bool isAuto = false;
+  bool _isHolding = false;
+  double _autoDropTimer = 0.0;
+  final double _autoDropInterval = 0.2;
 
   CauldronGame({
     required this.context,
@@ -89,6 +94,20 @@ class CauldronGame extends Forge2DGame
     fitCauldronCamera(camera, size, worldCauldronSize);
   }
 
+  @override
+  void update(double dt) {
+    super.update(dt);
+    if (isAuto && _isHolding) {
+      _autoDropTimer += dt;
+      if (_autoDropTimer >= _autoDropInterval) {
+        _autoDropTimer = 0;
+        if (predictionLine.start != null) {
+          _spawner.spawn(Vector2(predictionLine.start!.x, dropSpawnY));
+        }
+      }
+    }
+  }
+
   void _updateDropPosition(Vector2 screenPosition) {
     final worldPosition = camera.globalToLocal(screenPosition);
     final clampedX = worldPosition.x.clamp(minDropX, maxDropX);
@@ -127,19 +146,58 @@ class CauldronGame extends Forge2DGame
   }
 
   @override
-  void onTapUp(TapUpEvent event) {
+  void onTapDown(TapDownEvent event) {
     _updateDropPosition(event.canvasPosition);
-    if (predictionLine.start != null) {
+    _isHolding = isAuto;
+    if (isAuto && predictionLine.start != null) {
+      _autoDropTimer = 0;
       _spawner.spawn(Vector2(predictionLine.start!.x, dropSpawnY));
     }
+    super.onTapDown(event);
+  }
+
+  @override
+  void onTapUp(TapUpEvent event) {
+    _updateDropPosition(event.canvasPosition);
+    if (!isAuto && predictionLine.start != null) {
+      _spawner.spawn(Vector2(predictionLine.start!.x, dropSpawnY));
+    }
+    _isHolding = false;
     super.onTapUp(event);
   }
 
   @override
-  void onDragEnd(DragEndEvent event) {
-    if (predictionLine.start != null) {
+  void onTapCancel(TapCancelEvent event) {
+    _isHolding = false;
+    _autoDropTimer = 0;
+    super.onTapCancel(event);
+  }
+
+  @override
+  void onDragStart(DragStartEvent event) {
+    _updateDropPosition(event.canvasPosition);
+    _isHolding = isAuto;
+    if (isAuto && predictionLine.start != null) {
+      _autoDropTimer = 0;
       _spawner.spawn(Vector2(predictionLine.start!.x, dropSpawnY));
     }
+    super.onDragStart(event);
+  }
+
+  @override
+  void onDragEnd(DragEndEvent event) {
+    if (!isAuto && predictionLine.start != null) {
+      _spawner.spawn(Vector2(predictionLine.start!.x, dropSpawnY));
+    }
+    _isHolding = false;
+    _autoDropTimer = 0;
     super.onDragEnd(event);
+  }
+
+  @override
+  void onDragCancel(DragCancelEvent event) {
+    _isHolding = false;
+    _autoDropTimer = 0;
+    super.onDragCancel(event);
   }
 }

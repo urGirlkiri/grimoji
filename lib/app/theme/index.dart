@@ -64,6 +64,38 @@ class AppTheme {
           color: palette.moonlightSoft,
         ),
       ),
+      switchTheme: SwitchThemeData(
+        thumbIcon: WidgetStateProperty.resolveWith<Icon?>((
+          Set<WidgetState> states,
+        ) {
+          if (states.contains(WidgetState.disabled)) {
+            return const Icon(Icons.close);
+          }
+          return null;
+        }),
+        thumbColor: WidgetStateProperty.resolveWith<Color?>((
+          Set<WidgetState> states,
+        ) {
+          if (states.contains(WidgetState.selected)) {
+            return palette.moonlight;
+          }
+          if (states.contains(WidgetState.disabled)) {
+            return palette.dusk;
+          }
+          return palette.slate;
+        }),
+        trackOutlineColor: WidgetStateProperty.resolveWith<Color?>((
+          Set<WidgetState> states,
+        ) {
+          if (states.contains(WidgetState.selected)) {
+            return palette.moonlight;
+          }
+          if (states.contains(WidgetState.disabled)) {
+            return palette.dusk;
+          }
+          return palette.slate;
+        }),
+      ),
 
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(

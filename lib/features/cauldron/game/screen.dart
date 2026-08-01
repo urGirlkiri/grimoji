@@ -32,6 +32,7 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
   bool _isPauseDialogOpen = false;
   bool _isQuitDialogOpen = false;
   bool _isGameOverDialogOpen = false;
+  bool _auto = false;
 
   @override
   void initState() {
@@ -179,7 +180,7 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
                         },
                       ),
                     ),
-                    const SizedBox(width: 4,),
+                    const SizedBox(width: 4),
                     const Flexible(
                       flex: 2,
                       child: FittedBox(
@@ -187,7 +188,7 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
                         child: ScoreCard(),
                       ),
                     ),
-                    const SizedBox(width: 4,),
+                    const SizedBox(width: 4),
                     const Flexible(
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
@@ -197,7 +198,7 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
                   ],
                 ),
               ),
-              squarishMainArea: Column(
+              squarishMainArea: Stack(
                 children: [
                   Expanded(
                     child: GameWidget(
@@ -211,6 +212,31 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
                           ),
                         ),
                       ),
+                    ),
+                  ),
+                  Positioned(
+                    right: 4,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Switch(
+                          value: _auto,
+                          onChanged: (bool val) {
+                            setState(() {
+                              _auto = val;
+                              _game.isAuto = val;
+                            });
+                          },
+                        ),
+                        Text(
+                          'Auto',
+                          style: context.theme.textTheme.bodyLarge!.copyWith(
+                            color: palette.slate,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
