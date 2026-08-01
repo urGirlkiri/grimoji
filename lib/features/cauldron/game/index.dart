@@ -1,16 +1,15 @@
 import 'dart:async';
-import 'dart:math' as math;
-import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart' hide PointerMoveEvent;
 import 'package:grimoji/app/theme/palette.dart';
-import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/cauldron/game/state.dart';
+import 'package:grimoji/features/cauldron/game/utils/camera.dart';
 import 'package:grimoji/features/cauldron/game/core/container/front.dart';
+import 'package:grimoji/features/cauldron/game/core/emoji_spawner/index.dart';
 import 'package:grimoji/features/cauldron/game/core/prediction_line.dart';
 import 'package:grimoji/features/cauldron/game/core/container/index.dart';
-import 'package:grimoji/features/cauldron/game/core/emoji_body.dart';
+import 'package:grimoji/features/cauldron/game/core/emoji_spawner/emoji.dart';
 import 'package:grimoji/features/cauldron/game/core/overflow_sensor/index.dart';
 
 class CauldronGame extends Forge2DGame
@@ -25,6 +24,7 @@ class CauldronGame extends Forge2DGame
   static const double overflowY = -3.5;
 
   late final OverflowSensor _overflowSensor;
+  late final EmojiSpawner _spawner;
   late final PredictionLine predictionLine;
 
   static const double minDropX = -4.5;
@@ -33,19 +33,6 @@ class CauldronGame extends Forge2DGame
   static const double dropSpawnY = -4.5;
   static const double cauldronBottomY = 3.5;
   static const bool showHalfLine = false;
-
-  bool _canDrop = true;
-  final math.Random _random = math.Random();
-
-  final List<GameEmoji> _spawnableEmojis = [
-    Emojis.smile,
-    Emojis.fire,
-    Emojis.pizza,
-    Emojis.alien,
-    Emojis.rocket,
-    Emojis.poop,
-    Emojis.heart,
-  ];
 
   CauldronGame({
     required this.context,
@@ -73,9 +60,9 @@ class CauldronGame extends Forge2DGame
 
     await world.add(predictionLine);
 
-    gameState.setNextEmoji(
-      _spawnableEmojis[_random.nextInt(_spawnableEmojis.length)],
-    );
+    _spawner = EmojiSpawner(gameState: gameState);
+    await world.add(_spawner);
+    _spawner.rollNextEmoji();
 
     _overflowSensor = OverflowSensor(
       sensorPosition: Vector2(0, overflowY),
@@ -99,16 +86,7 @@ class CauldronGame extends Forge2DGame
   @override
   void onGameResize(Vector2 size) {
     super.onGameResize(size);
-
-    camera.viewport.size = size;
-
-    const padding = 0.90;
-
-    final zoomX = (size.x * padding) / worldCauldronSize.x;
-    final zoomY = (size.y * padding) / worldCauldronSize.y;
-    camera.viewfinder.zoom = math.min(zoomX, zoomY);
-    camera.viewfinder.anchor = Anchor.center;
-    camera.viewfinder.position = Vector2(0, 0);
+    fitCauldronCamera(camera, size, worldCauldronSize);
   }
 
   void _updateDropPosition(Vector2 screenPosition) {
@@ -121,31 +99,6 @@ class CauldronGame extends Forge2DGame
     );
   }
 
-  void _dropEmoji() {
-    if (!_canDrop || predictionLine.start == null || gameState.isGameOver) {
-      return;
-    }
-
-    _canDrop = false;
-
-    final dropX = predictionLine.start!.x;
-    final emoji = gameState.nextEmoji;
-
-    final emojiBody = EmojiBody(
-      initialPosition: Vector2(dropX, dropSpawnY),
-      emoji: emoji,
-    );
-
-    world.add(emojiBody);
-    gameState.setNextEmoji(
-      _spawnableEmojis[_random.nextInt(_spawnableEmojis.length)],
-    );
-
-    Future.delayed(const Duration(milliseconds: 1000), () {
-      _canDrop = true;
-    });
-  }
-
   void reset() {
     final emojis = world.children.whereType<EmojiBody>().toList();
     for (final emoji in emojis) {
@@ -153,12 +106,10 @@ class CauldronGame extends Forge2DGame
     }
 
     _overflowSensor.reset();
-    _canDrop = true;
+    _spawner.reset();
 
     gameState.reset();
-    gameState.setNextEmoji(
-      _spawnableEmojis[_random.nextInt(_spawnableEmojis.length)],
-    );
+    _spawner.rollNextEmoji();
 
     resumeEngine();
   }
@@ -178,13 +129,17 @@ class CauldronGame extends Forge2DGame
   @override
   void onTapUp(TapUpEvent event) {
     _updateDropPosition(event.canvasPosition);
-    _dropEmoji();
+    if (predictionLine.start != null) {
+      _spawner.spawn(Vector2(predictionLine.start!.x, dropSpawnY));
+    }
     super.onTapUp(event);
   }
 
   @override
   void onDragEnd(DragEndEvent event) {
-    _dropEmoji();
+    if (predictionLine.start != null) {
+      _spawner.spawn(Vector2(predictionLine.start!.x, dropSpawnY));
+    }
     super.onDragEnd(event);
   }
 }
