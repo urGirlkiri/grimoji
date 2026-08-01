@@ -3,7 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/cauldron/game/screen.dart';
-// import 'package:grimoji/features/cauldron/screen.dart';
+import 'package:grimoji/features/cauldron/screen.dart';
 import 'package:grimoji/features/grimoire/screen.dart';
 
 import 'package:grimoji/features/menu/screen.dart';
@@ -76,15 +76,15 @@ final router = GoRouter(
           ],
         ),
 
-        // StatefulShellBranch(
-        //   routes: [
-        //     GoRoute(
-        //       path: Routes.cauldronRoute,
-        //       name: Routes.cauldron,
-        //       builder: (context, state) => const CauldronScreen(),
-        //     ),
-        //   ],
-        // ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: Routes.cauldronRoute,
+              name: Routes.cauldron,
+              builder: (context, state) => const CauldronScreen(),
+            ),
+          ],
+        ),
         // StatefulShellBranch(
         //   routes: [
         //     GoRoute(

@@ -8,7 +8,7 @@ class Destination {
 const destinations = [
   Destination(label: 'Map', imagePath: 'assets/images/tab/map.png'),
   Destination(label: 'Grimoire', imagePath: 'assets/images/tab/grimoire.png'),
-  // Destination(label: 'Cauldron', imagePath: 'assets/images/tab/cauldron.png'),
+  Destination(label: 'Cauldron', imagePath: 'assets/images/tab/cauldron.png'),
   // Destination(label: 'Coven', imagePath: 'assets/images/tab/coven.png'),
   Destination(label: 'Market', imagePath: 'assets/images/tab/market.png'),
 ];
