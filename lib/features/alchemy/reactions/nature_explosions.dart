@@ -1,5 +1,5 @@
 import 'package:grimoji/config/emojis/index.dart';
-import 'package:grimoji/features/alchemy/reactions/reaction.dart';
+import 'package:grimoji/features/alchemy/reactions/models/reaction.dart';
 
 class NatureReactions {
   static final Reaction burning = Reaction(

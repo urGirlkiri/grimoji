@@ -2,7 +2,7 @@ import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/behaviors/models/behavior.dart';
 import 'package:grimoji/features/alchemy/behaviors/models/action_type.dart';
 import 'package:grimoji/features/alchemy/behaviors/models/behavior_action.dart';
-import 'package:grimoji/features/alchemy/reactions/reaction.dart';
+import 'package:grimoji/features/alchemy/reactions/models/reaction.dart';
 
 class SwallowBehavior extends EmojiBehavior {
   static final emoji = Emojis.hole;

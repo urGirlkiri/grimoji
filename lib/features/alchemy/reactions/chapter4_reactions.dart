@@ -1,5 +1,5 @@
 import 'package:grimoji/config/emojis/index.dart';
-import 'package:grimoji/features/alchemy/reactions/reaction.dart';
+import 'package:grimoji/features/alchemy/reactions/models/reaction.dart';
 
 class Chapter4Reactions {
   static final Reaction electric = Reaction(

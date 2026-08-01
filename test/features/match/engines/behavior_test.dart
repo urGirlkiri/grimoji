@@ -5,7 +5,7 @@ import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/alchemy/behaviors/models/behavior.dart';
 import 'package:grimoji/features/alchemy/behaviors/models/action_type.dart';
 import 'package:grimoji/features/alchemy/behaviors/models/behavior_action.dart';
-import 'package:grimoji/features/alchemy/reactions/reaction.dart';
+import 'package:grimoji/features/alchemy/reactions/models/reaction.dart';
 import 'package:grimoji/features/match/board/manager.dart';
 import 'package:grimoji/features/match/engines/behavior.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';

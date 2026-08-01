@@ -6,7 +6,7 @@ import 'package:grimoji/features/match/board/manager.dart';
 import 'package:grimoji/features/match/engines/alchemy.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:grimoji/features/match/detectors/match.dart';
-import 'package:grimoji/features/alchemy/reactions/reaction.dart';
+import 'package:grimoji/features/alchemy/reactions/models/reaction.dart';
 import '../../../helpers/test_grid.dart';
 
 void main() {

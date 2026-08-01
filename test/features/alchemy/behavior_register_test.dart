@@ -3,7 +3,7 @@ import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/behavior_register.dart';
 import 'package:grimoji/features/alchemy/behaviors/models/behavior.dart';
 import 'package:grimoji/features/alchemy/behaviors/models/behavior_action.dart';
-import 'package:grimoji/features/alchemy/reactions/reaction.dart';
+import 'package:grimoji/features/alchemy/reactions/models/reaction.dart';
 
 void main() {
   group('BehaviorRegister Tests', () {
