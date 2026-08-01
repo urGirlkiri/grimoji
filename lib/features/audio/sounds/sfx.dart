@@ -1,4 +1,4 @@
-enum SfxType {
+enum Sfx {
   buttonTap,
   congrats,
   celebration,

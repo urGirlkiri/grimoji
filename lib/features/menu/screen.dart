@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/router/routes.dart';
-import 'package:grimoji/features/audio/sounds/sfx_type.dart';
+import 'package:grimoji/features/audio/sounds/sfx.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/app_icon.dart';
 import 'package:grimoji/widgets/neon_logo.dart';
@@ -82,7 +82,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                     borderColor: palette.magicCyan.withValues(alpha: .2),
                     borderWidth: 3,
                     onTap: () {
-                      audioController.playSfx(SfxType.buttonTap);
+                      audioController.playSfx(Sfx.buttonTap);
                       GoRouter.of(context).goNamed(Routes.map);
                     },
                   ),
@@ -100,7 +100,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                     borderColor: palette.magicCyan.withValues(alpha: .2),
                     borderWidth: 3,
                     onTap: () {
-                      audioController.playSfx(SfxType.buttonTap);
+                      audioController.playSfx(Sfx.buttonTap);
                       GoRouter.of(context).pushNamed(Routes.settings);
                     },
                   ),

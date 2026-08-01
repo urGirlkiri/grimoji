@@ -4,7 +4,7 @@ import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/config/router/layout/nav_item.dart';
 import 'package:grimoji/config/router/layout/shell_tab.dart';
-import 'package:grimoji/features/audio/sounds/sfx_type.dart';
+import 'package:grimoji/features/audio/sounds/sfx.dart';
 import 'package:grimoji/features/profile/widgets/game_bar/index.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/config/global_keys.dart';
@@ -78,7 +78,7 @@ class LayoutScaffold extends StatelessWidget {
                         : null,
                     behavior: HitTestBehavior.opaque,
                     onTap: () {
-                      context.readAudio.playSfx(SfxType.buttonTap);
+                      context.readAudio.playSfx(Sfx.buttonTap);
                       navigationShell.goBranch(index);
                     },
                     child: NavItem(

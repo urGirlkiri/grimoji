@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
-import 'package:grimoji/features/audio/sounds/sfx_type.dart';
+import 'package:grimoji/features/audio/sounds/sfx.dart';
 import 'package:grimoji/features/alchemy/behaviors/models/action_type.dart';
 import 'package:grimoji/features/alchemy/behaviors/models/behavior_action.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
@@ -118,7 +118,7 @@ class GameCoordinator {
     if (isExplosive && !tile.isTriggered) {
       state.setProcessing(true);
       _hint.clear();
-      audio.playSfx(SfxType.trigger);
+      audio.playSfx(Sfx.trigger);
       tile.isTriggered = true;
       state.updateUI();
       await _cascadeSequence(coord);
@@ -132,7 +132,7 @@ class GameCoordinator {
     state.setProcessing(true);
     _hint.clear();
 
-    audio.playSfx(SfxType.swipe);
+    audio.playSfx(Sfx.swipe);
 
     engine.executeBehaviorActions(actions, coord.row, coord.col);
     state.updateUI();
@@ -165,7 +165,7 @@ class GameCoordinator {
     final decision = engine.evaluateSwipe(dCoord, tCoord);
 
     if (decision.type == SwipeResult.invalid) {
-      audio.playSfx(SfxType.invalidMove);
+      audio.playSfx(Sfx.invalidMove);
       boardManager.swapTiles(dCoord, tCoord);
       state.updateUI();
 
@@ -180,7 +180,7 @@ class GameCoordinator {
       return;
     }
 
-    audio.playSfx(SfxType.swipe);
+    audio.playSfx(Sfx.swipe);
 
     final isPoweredGhostDive = decision.actions.any(
       (action) => action.type == ActionType.ghostDive && action.emoji != null,
@@ -309,7 +309,7 @@ class GameCoordinator {
       ..isPowerupTarget = false
       ..isBloodTarget = true;
     engine.initializeBehaviors();
-    audio.playSfx(SfxType.transmute);
+    audio.playSfx(Sfx.transmute);
     state.updateUI();
   }
 
@@ -323,7 +323,7 @@ class GameCoordinator {
       const BehaviorAction(type: ActionType.clearCol),
     ];
     engine.executeBehaviorActions(actions, coord.row, coord.col);
-    audio.playSfx(SfxType.swipe);
+    audio.playSfx(Sfx.swipe);
     state.updateUI();
 
     await _drainBehaviorFlags();

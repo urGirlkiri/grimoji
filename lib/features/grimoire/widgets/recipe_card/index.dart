@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/features/alchemy/recipes/models/recipe.dart';
-import 'package:grimoji/features/audio/sounds/sfx_type.dart';
+import 'package:grimoji/features/audio/sounds/sfx.dart';
 import 'package:grimoji/features/grimoire/widgets/dialogs/locked.dart';
 import 'package:grimoji/features/grimoire/widgets/dialogs/recipe.dart';
 import 'package:grimoji/features/grimoire/layout.dart';
@@ -40,7 +40,7 @@ class _RecipeCardState extends State<RecipeCard> {
 
     if (widget.autoOpen == true) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        context.readAudio.playSfx(SfxType.recipeRead);
+        context.readAudio.playSfx(Sfx.recipeRead);
         _unlockedDialog();
       });
     }
@@ -72,7 +72,7 @@ class _RecipeCardState extends State<RecipeCard> {
     if (widget.isUnlocked) {
       _unlockedDialog();
     } else {
-      context.readAudio.playSfx(SfxType.recipeLocked);
+      context.readAudio.playSfx(Sfx.recipeLocked);
       setState(() {
         _isShaking = true;
       });

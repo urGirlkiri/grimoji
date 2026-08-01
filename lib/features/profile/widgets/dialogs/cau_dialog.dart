@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/cauldrons.dart';
 import 'package:grimoji/config/router/routes.dart';
-import 'package:grimoji/features/audio/sounds/sfx_type.dart';
+import 'package:grimoji/features/audio/sounds/sfx.dart';
 import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/features/profile/widgets/caul_regen_tim.dart';
 import 'package:grimoji/utils/context_data.dart';
@@ -43,7 +43,7 @@ class CauldronDialog extends StatelessWidget {
   void _buyOne(BuildContext context) {
     final profile = context.read<ProfileController>();
     if (profile.spendDice(CauldronPrice.restoreOne)) {
-      context.readAudio.playSfx(SfxType.purchase);
+      context.readAudio.playSfx(Sfx.purchase);
       profile.refillCauldrons();
       _showSnackbar(context, 'Cauldron restored!');
     } else {
@@ -54,7 +54,7 @@ class CauldronDialog extends StatelessWidget {
   void _buyAll(BuildContext context) {
     final profile = context.read<ProfileController>();
     if (profile.spendDice(CauldronPrice.refillAll)) {
-      context.readAudio.playSfx(SfxType.purchase);
+      context.readAudio.playSfx(Sfx.purchase);
       profile.refillCauldrons();
       _showSnackbar(context, 'All cauldrons refilled!');
     } else {

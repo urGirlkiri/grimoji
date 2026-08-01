@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/config/powerups.dart';
-import 'package:grimoji/features/audio/sounds/sfx_type.dart';
+import 'package:grimoji/features/audio/sounds/sfx.dart';
 import 'package:grimoji/features/level/widgets/dialogs/purchase_dialog/balance_pill.dart';
 import 'package:grimoji/features/level/widgets/dialogs/purchase_dialog/buy_row.dart';
 import 'package:grimoji/features/level/widgets/dialogs/purchase_dialog/insufficient.dart';
@@ -54,7 +54,7 @@ class _PurchaseDialog extends StatelessWidget {
 
     if (profile.spendDice(total)) {
       profile.updatePowerupCount(boost.id, qty);
-      context.readAudio.playSfx(SfxType.purchase);
+      context.readAudio.playSfx(Sfx.purchase);
       Navigator.of(context).pop(true);
     } else {
       final goToMarket = await showInsufficiensAlert(context, total);

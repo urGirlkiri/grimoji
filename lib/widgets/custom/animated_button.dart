@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:grimoji/features/audio/sounds/sfx_type.dart';
+import 'package:grimoji/features/audio/sounds/sfx.dart';
 import 'package:grimoji/utils/context_data.dart';
 
 class AnimatedButton extends StatefulWidget {
@@ -32,7 +32,7 @@ class _AnimatedButtonState extends State<AnimatedButton> {
     _isProcessing = true;
     try {
       if (widget.enableSound && mounted) {
-        context.readAudio.playSfx(SfxType.buttonTap);
+        context.readAudio.playSfx(Sfx.buttonTap);
       }
       await widget.onTap?.call();
     } finally {

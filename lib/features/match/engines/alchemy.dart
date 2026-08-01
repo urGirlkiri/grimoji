@@ -1,6 +1,6 @@
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/behaviors/clear.dart';
-import 'package:grimoji/features/audio/sounds/sfx_type.dart';
+import 'package:grimoji/features/audio/sounds/sfx.dart';
 import 'package:grimoji/features/match/models/match_group.dart';
 import 'package:grimoji/features/match/models/tile.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
@@ -21,7 +21,7 @@ typedef TileMatchedCallback = void Function(Tile tile, int x, int y);
 
 class AlchemyEngine {
   final BoardManager boardManager;
-  final void Function(SfxType) playSfx;
+  final void Function(Sfx) playSfx;
   final List<Recipe>? Function(GameEmoji) getRecipes;
   final Reaction? Function(GameEmoji) getReactionFor;
   final Map<GameEmoji, GameEmoji> Function(ReactionType)
@@ -196,7 +196,7 @@ class AlchemyEngine {
                       targetTile.reset();
                       targetTile.isTransmuting = true;
                       transmutedTiles.add(targetCoord);
-                      playSfx(SfxType.transmute);
+                      playSfx(Sfx.transmute);
                       if (initializeBehavior != null) {
                         initializeBehavior!(targetTile);
                       }
@@ -242,7 +242,7 @@ class AlchemyEngine {
               reaction.type == ReactionType.explosive &&
               !neighbor.isTriggered) {
             neighbor.isTriggered = true;
-            playSfx(SfxType.trigger);
+            playSfx(Sfx.trigger);
           }
         }
       }
@@ -271,7 +271,7 @@ class AlchemyEngine {
 
     while (primedBombs.isNotEmpty) {
       final currentBombs = List<Tile>.from(primedBombs);
-      playSfx(SfxType.explosion);
+      playSfx(Sfx.explosion);
 
       for (Tile activeBomb in currentBombs) {
         if (!activeBomb.isTriggered) continue;

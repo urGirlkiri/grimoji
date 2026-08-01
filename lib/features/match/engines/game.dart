@@ -4,7 +4,7 @@ import 'package:grimoji/features/alchemy/behaviors/models/behavior_action.dart';
 import 'package:grimoji/features/alchemy/reactions/models/reaction.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/alchemy/behavior_register.dart';
-import 'package:grimoji/features/audio/sounds/sfx_type.dart';
+import 'package:grimoji/features/audio/sounds/sfx.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:grimoji/features/match/models/match_group.dart';
 import 'package:grimoji/features/match/models/tile.dart';
@@ -20,7 +20,7 @@ import 'package:grimoji/features/match/engines/behavior.dart';
 class GameEngine {
   final GameLevel level;
   final BoardManager boardManager;
-  final void Function(SfxType) playSfx;
+  final void Function(Sfx) playSfx;
 
   late final AlchemyEngine _alchemy;
   late final BehaviorEngine _behavior;
@@ -142,11 +142,11 @@ class GameEngine {
         } else {
           for (var coord in groupMatch.coordinates) {
             grid[coord.row][coord.col].isExploding = true;
-            playSfx(SfxType.explode);
+            playSfx(Sfx.explode);
           }
         }
       } else {
-        playSfx(SfxType.merge);
+        playSfx(Sfx.merge);
       }
     }
   }
@@ -167,7 +167,7 @@ class GameEngine {
         tile.morphTarget = group.yields;
       }
     }
-    playSfx(SfxType.merge);
+    playSfx(Sfx.merge);
   }
 
   void shuffleGrid() {

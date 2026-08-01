@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/powerups.dart';
-import 'package:grimoji/features/audio/sounds/sfx_type.dart';
+import 'package:grimoji/features/audio/sounds/sfx.dart';
 import 'package:grimoji/features/market/widgets/powerups/item.dart';
 import 'package:grimoji/utils/context_data.dart';
 
@@ -78,7 +78,7 @@ class _PowerupShopItem extends StatelessWidget {
   void _onTap(BuildContext context) {
     final profile = context.readProfile;
     if (profile.spendDice(boost.price)) {
-      context.readAudio.playSfx(SfxType.purchase);
+      context.readAudio.playSfx(Sfx.purchase);
       profile.updatePowerupCount(boost.id, boost.bundleAmount);
       _showSnackbar(
         context,

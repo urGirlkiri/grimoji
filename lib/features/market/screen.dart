@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/cauldrons.dart';
 import 'package:grimoji/config/powerups.dart';
-import 'package:grimoji/features/audio/sounds/sfx_type.dart';
+import 'package:grimoji/features/audio/sounds/sfx.dart';
 import 'package:grimoji/features/market/widgets/daily_reward/index.dart';
 import 'package:grimoji/features/market/widgets/powerups/index.dart';
 import 'package:grimoji/features/market/widgets/powerups/item.dart';
@@ -12,7 +12,7 @@ class MarketScreen extends StatelessWidget {
   const MarketScreen({super.key});
 
   void playPurchaseSfx(BuildContext context) {
-    context.readAudio.playSfx(SfxType.purchase);
+    context.readAudio.playSfx(Sfx.purchase);
   }
 
   void _showSnackbar(

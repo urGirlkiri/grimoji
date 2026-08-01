@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:grimoji/app/lifecycle.dart' show AppLifecycleStateNotifier;
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/router/routes.dart';
-import 'package:grimoji/features/audio/sounds/sfx_type.dart';
+import 'package:grimoji/features/audio/sounds/sfx.dart';
 import 'package:grimoji/features/level/widgets/footer/skip_btn.dart';
 import 'package:grimoji/features/level/widgets/overlays/level_complete.dart';
 import 'package:grimoji/features/level/widgets/overlays/powerup_selection/index.dart';
@@ -113,7 +113,7 @@ class _LevelScreenState extends State<LevelScreen> {
       _duringCelebration = true;
     });
 
-    context.readAudio.playSfx(SfxType.congrats);
+    context.readAudio.playSfx(Sfx.congrats);
 
     await Future<void>.delayed(_celebrationDuration);
     if (!mounted) return;
@@ -132,7 +132,7 @@ class _LevelScreenState extends State<LevelScreen> {
     if (!mounted) return;
     _log.info('Level ${widget.level.number} failed');
 
-    context.readAudio.playSfx(SfxType.fail);
+    context.readAudio.playSfx(Sfx.fail);
 
     if (!mounted) return;
 
@@ -143,7 +143,7 @@ class _LevelScreenState extends State<LevelScreen> {
   }
 
   void _skipFever() {
-    context.readAudio.playSfx(SfxType.congrats);
+    context.readAudio.playSfx(Sfx.congrats);
     final stars = _levelState.goalManager.calculateStars();
     _playerWon(stars);
   }

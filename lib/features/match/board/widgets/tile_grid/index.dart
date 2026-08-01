@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/config/emojis/index.dart';
-import 'package:grimoji/features/audio/sounds/sfx_type.dart';
+import 'package:grimoji/features/audio/sounds/sfx.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/shuffle.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/flight.dart';
@@ -52,7 +52,7 @@ class _TileGridState extends State<TileGrid> {
     _scheduledFlyTiles.add(tile.id);
 
     tile.hasFlown = true;
-    context.readAudio.playSfx(SfxType.targetFlight);
+    context.readAudio.playSfx(Sfx.targetFlight);
 
     final targetKey = levelState.targetIconKey;
 

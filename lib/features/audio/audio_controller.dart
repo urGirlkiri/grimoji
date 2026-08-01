@@ -9,8 +9,8 @@ import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/widgets.dart';
 import 'package:grimoji/features/audio/models/song.dart';
-import 'package:grimoji/features/audio/sounds/sfx_type.dart';
-import 'package:grimoji/features/audio/sounds/sound_type_to_volume.dart';
+import 'package:grimoji/features/audio/sounds/sfx.dart';
+import 'package:grimoji/features/audio/sounds/sfx_volume.dart';
 import 'package:grimoji/features/audio/voices/index.dart';
 import 'package:grimoji/features/audio/voices/dialog.dart';
 import 'package:logging/logging.dart';
@@ -100,7 +100,7 @@ class AudioController {
     );
     AudioPlayer.global.setAudioContext(audioContext);
 
-    unawaited(_preloadSfxTypes(const [SfxType.buttonTap]));
+    unawaited(_preloadSfxs(const [Sfx.buttonTap]));
   }
 
   /// Makes sure the audio controller is listening to changes
@@ -131,7 +131,7 @@ class AudioController {
   /// The controller will ignore this call when the attached settings'
   /// [SettingsController.audioOn] is `true` or if its
   /// [SettingsController.soundsOn] is `false`.
-  void playSfx(SfxType type) {
+  void playSfx(Sfx type) {
     final audioOn = _settings?.audioOn.value ?? false;
     if (!audioOn) {
       _log.fine(() => 'Ignoring playing sound ($type) because audio is muted.');
@@ -351,7 +351,7 @@ class AudioController {
     }
   }
 
-  Future<void> _preloadSfxTypes(Iterable<SfxType> types) async {
+  Future<void> _preloadSfxs(Iterable<Sfx> types) async {
     _log.info('Preloading ${types.length} priority sound effects');
     for (final type in types) {
       for (final filename in soundTypeToFilename(type)) {

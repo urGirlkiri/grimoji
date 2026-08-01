@@ -3,7 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/features/alchemy/recipes/models/recipe.dart';
-import 'package:grimoji/features/audio/sounds/sfx_type.dart';
+import 'package:grimoji/features/audio/sounds/sfx.dart';
 import 'package:provider/provider.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/config/levels/index.dart';
@@ -37,7 +37,7 @@ class _WinGameScreenState extends State<WinGameScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.readAudio.playMenuMusic();
-      context.readAudio.playSfx(SfxType.celebration);
+      context.readAudio.playSfx(Sfx.celebration);
       context.readProfile.markGamePlayed();
 
       if (widget.level == 1) {

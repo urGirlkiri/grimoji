@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grimoji/config/global_keys.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/levels/index.dart';
-import 'package:grimoji/features/audio/sounds/sfx_type.dart';
+import 'package:grimoji/features/audio/sounds/sfx.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/level/widgets/dialogs/cauldron_dialog.dart';
 import 'package:grimoji/features/level/widgets/dialogs/start_dialog/index.dart';
@@ -87,7 +87,7 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
         final startY = context.screenHeight / 2;
 
         final overlayState = Overlay.of(context, rootOverlay: true);
-        context.readAudio.playSfx(SfxType.recipeUnlock);
+        context.readAudio.playSfx(Sfx.recipeUnlock);
 
         Future.delayed(const Duration(milliseconds: 600), () {
           if (!mounted) return;
@@ -98,7 +98,7 @@ class _LevelsMapScreenState extends State<LevelsMapScreen> {
             unlockedEmoji: unlockedEmoji,
             onComplete: () {
               if (mounted) {
-                context.readAudio.playSfx(SfxType.recipeCollection);
+                context.readAudio.playSfx(Sfx.recipeCollection);
                 if (unlockedRecipeId != null) {
                   context.readProfile.completeRecipeCollection(
                     unlockedRecipeId,

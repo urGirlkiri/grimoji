@@ -3,7 +3,7 @@ import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/levels/difficulty.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/powerups.dart';
-import 'package:grimoji/features/audio/sounds/sfx_type.dart';
+import 'package:grimoji/features/audio/sounds/sfx.dart';
 import 'package:grimoji/features/match/models/tile.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:grimoji/features/match/types.dart';
@@ -17,7 +17,7 @@ class BoardManager {
   late List<List<Tile>> gridTiles;
   final GameLevel level;
   final Random _random = Random();
-  final void Function(SfxType)? playSfx;
+  final void Function(Sfx)? playSfx;
 
   BoardManager(this.level, {this.playSfx});
 
@@ -107,7 +107,7 @@ class BoardManager {
   }
 
   void triggerInitialFall() {
-    playSfx?.call(SfxType.fall);
+    playSfx?.call(Sfx.fall);
     settleTileCoordinates();
   }
 
@@ -204,7 +204,7 @@ class BoardManager {
         affectedRows.add(r);
       }
 
-      playSfx?.call(SfxType.fall);
+      playSfx?.call(Sfx.fall);
 
       List<Tile> skyTiles = List.generate(destroyedCount, (i) {
         GameEmoji emoji;

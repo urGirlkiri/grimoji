@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:grimoji/features/audio/audio_controller.dart';
-import 'package:grimoji/features/audio/sounds/sfx_type.dart';
+import 'package:grimoji/features/audio/sounds/sfx.dart';
 import 'package:grimoji/features/match/engines/game.dart';
 import 'package:grimoji/features/match/state.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
@@ -67,7 +67,7 @@ class HintController {
     if (state.isDisposed) return;
 
     if (_currentHints != null) {
-      audio.playSfx(SfxType.hint);
+      audio.playSfx(Sfx.hint);
       Tile tileA = engine.grid[_currentHints![0].row][_currentHints![0].col];
       Tile tileB = engine.grid[_currentHints![1].row][_currentHints![1].col];
 
