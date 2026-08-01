@@ -1,12 +1,18 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grimoji/app/theme/palette.dart';
+import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/cauldron/game/index.dart';
 import 'package:grimoji/features/cauldron/game/widgets/bottom_powerups.dart';
 import 'package:grimoji/features/cauldron/game/widgets/next_card.dart';
 import 'package:grimoji/features/cauldron/game/widgets/score_card.dart';
+import 'package:grimoji/features/settings/dialogs/settings.dart';
 import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/widgets/animations/dialog.dart';
 import 'package:grimoji/widgets/custom/app_icon.dart';
+import 'package:grimoji/widgets/dialogs/pause_dialog.dart';
+import 'package:grimoji/widgets/dialogs/quit_dialog.dart';
 import 'package:grimoji/widgets/responsive_screen.dart';
 
 class CauldronPlayScreen extends StatefulWidget {
@@ -19,6 +25,8 @@ class CauldronPlayScreen extends StatefulWidget {
 class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
   late final CauldronGame _game;
   bool _isGameInitialized = false;
+  bool _isPauseDialogOpen = false;
+  bool _isQuitDialogOpen = false;
 
   @override
   void didChangeDependencies() {
@@ -33,62 +41,124 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
     }
   }
 
+  void _showPauseDialog() {
+    if (_isPauseDialogOpen) return;
+    setState(() => _isPauseDialogOpen = true);
+    _game.pauseEngine();
+
+    showAnimatedDialog(
+      context,
+      PauseDialog(
+        onResume: () => _game.resumeEngine(),
+        onQuit: () {
+          GoRouter.of(context).go(Routes.cauldronRoute);
+        },
+        onSettings: () {
+          showAnimatedDialog(context, const SettingsDialog());
+        },
+      ),
+    ).then((_) {
+      if (!mounted) return;
+      if (_game.paused) _game.resumeEngine();
+      setState(() => _isPauseDialogOpen = false);
+    });
+  }
+
+  void _showQuitDialog() {
+    if (_isQuitDialogOpen) return;
+    setState(() => _isQuitDialogOpen = true);
+    _game.pauseEngine();
+
+    showAnimatedDialog(
+      context,
+      QuitDialog(
+        onQuit: () {
+          GoRouter.of(context).go(Routes.cauldronRoute);
+        },
+        onStay: () => _game.resumeEngine(),
+      ),
+    ).then((_) {
+      if (!mounted) return;
+      if (_game.paused) _game.resumeEngine();
+      setState(() => _isQuitDialogOpen = false);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/emo.png'),
-            fit: BoxFit.cover,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        if (_isQuitDialogOpen) {
+          Navigator.of(context).pop();
+          _game.resumeEngine();
+          setState(() {});
+        } else {
+          _showQuitDialog();
+        }
+      },
+      child: Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/emo.png'),
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        child: ResponsiveScreen(
-          topMessageArea: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            decoration: ShapeDecoration(
-              color: palette.twilight,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+          child: ResponsiveScreen(
+            topMessageArea: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: ShapeDecoration(
+                color: palette.twilight,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: Row(
+                children: [
+                  AppIcon(
+                    fileName: _game.paused ? 'resume' : 'pause',
+                    enableAnimation: false,
+                    onTap: () {
+                      if (_game.paused) {
+                        if (_isPauseDialogOpen) {
+                          Navigator.of(context).pop();
+                        }
+                        _game.resumeEngine();
+                      } else {
+                        _showPauseDialog();
+                      }
+                      setState(() {});
+                    },
+                  ),
+                  const Spacer(),
+                  const ScoreCard(),
+                  const Spacer(),
+                  const NextCard(),
+                ],
               ),
             ),
-            child: Row(
+            squarishMainArea: Column(
               children: [
-                AppIcon(
-                  fileName: _game.paused ? 'resume' : 'pause',
-                  enableAnimation: false,
-                  onTap: () {
-                    setState(() {
-                      _game.paused ? _game.resumeEngine() : _game.pauseEngine();
-                    });
-                  },
-                ),
-                const Spacer(),
-                const ScoreCard(),
-                const Spacer(),
-                const NextCard(),
-              ],
-            ),
-          ),
-          squarishMainArea: Column(
-            children: [
-              Expanded(
-                child: GameWidget(
-                  game: _game,
-                  loadingBuilder: (context) => Center(
-                    child: AspectRatio(
-                      aspectRatio: 10.5125 / 9.573,
-                      child: Image.asset(
-                        'assets/images/cauldron/Cauldron.png',
-                        fit: BoxFit.contain,
+                Expanded(
+                  child: GameWidget(
+                    game: _game,
+                    loadingBuilder: (context) => Center(
+                      child: AspectRatio(
+                        aspectRatio: 10.5125 / 9.573,
+                        child: Image.asset(
+                          'assets/images/cauldron/Cauldron.png',
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
+            rectangularMenuArea: const BottomPowerups(),
           ),
-          rectangularMenuArea: const BottomPowerups(),
         ),
       ),
     );
