@@ -6,7 +6,7 @@ import 'package:grimoji/features/cauldron/game/screen.dart';
 // import 'package:grimoji/features/cauldron/screen.dart';
 import 'package:grimoji/features/grimoire/screen.dart';
 
-import 'package:grimoji/features/alchemy/menu/screen.dart';
+import 'package:grimoji/features/menu/screen.dart';
 import 'package:grimoji/features/map/screen.dart';
 import 'package:grimoji/features/level/fail_screen/screen.dart';
 import 'package:grimoji/features/level/hint_screen/screen.dart';
