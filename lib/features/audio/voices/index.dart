@@ -1,11 +1,5 @@
+import 'package:grimoji/features/audio/models/voice.dart';
 import 'package:grimoji/features/audio/voices/dialog.dart';
-
-class Voice {
-  final String file;
-  final String actor;
-
-  const Voice({required this.file, required this.actor});
-}
 
 class Voices {
   static const Map<Dialog, List<Voice>> voices = {

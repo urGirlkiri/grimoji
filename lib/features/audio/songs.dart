@@ -1,3 +1,5 @@
+import 'package:grimoji/features/audio/models/song.dart';
+
 const Set<Song> menuSongs = {
   // Song('midnight_study.m4a', 'Midnight Study', artist: 'Gemmini'),
   // Song('the_mercury_key.m4a', 'The Mercury Key', artist: 'Gemmini'),
@@ -64,16 +66,3 @@ const Set<Song> levelSongs = {
   ),
   Song('halloween_bg3.m4a', 'Halloween Background 3 ', artist: 'Hitlab'),
 };
-
-class Song {
-  final String filename;
-
-  final String name;
-
-  final String? artist;
-
-  const Song(this.filename, this.name, {this.artist});
-
-  @override
-  String toString() => 'Song<$filename>';
-}
