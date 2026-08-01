@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:grimoji/app/palette.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/match/board/effects/blood_drop/effect.dart';

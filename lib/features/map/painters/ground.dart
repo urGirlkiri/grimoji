@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grimoji/app/palette.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/features/map/physics.dart';
 
 const palette = Palette();

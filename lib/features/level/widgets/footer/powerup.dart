@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/animated_button.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
@@ -24,7 +25,7 @@ class PowerupBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scale = context.globalScale;
-    final palette = context.palette;
+    
     return AnimatedButton(
       onTap: onTap,
       child: Stack(

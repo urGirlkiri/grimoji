@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/router/layout/animated_count.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/utils/context_data.dart';
@@ -60,7 +61,7 @@ class NavItem extends StatelessWidget {
                       height: 20,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color: context.palette.crimson,
+                        color: palette.crimson,
                         shape: BoxShape.circle,
                       ),
                       child: AnimatedCount(

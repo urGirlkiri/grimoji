@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/features/level/widgets/header/header_bar/target_box/emoji.dart';
-import 'package:grimoji/utils/context_data.dart';
 
 class TargetBox extends StatelessWidget {
   const TargetBox({super.key});
@@ -10,7 +10,7 @@ class TargetBox extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
       decoration: ShapeDecoration(
-        color: context.palette.dusk,
+        color: palette.dusk,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       ),
       child: const Column(
@@ -29,12 +29,12 @@ class _Label extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
       decoration: ShapeDecoration(
-        color: context.palette.slate,
+        color: palette.slate,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
       child: Text(
         'Target',
-        style: TextStyle(color: context.palette.trueWhite, fontSize: 14),
+        style: TextStyle(color: palette.trueWhite, fontSize: 14),
       ),
     );
   }

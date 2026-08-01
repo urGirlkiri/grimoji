@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
@@ -11,7 +12,7 @@ Future<void> showAvatarPicker(BuildContext context) {
     context: context,
     barrierDismissible: true,
     barrierLabel: 'Dismiss',
-    barrierColor: context.palette.voidBlack.withValues(alpha: .85),
+    barrierColor: palette.voidBlack.withValues(alpha: .85),
     transitionDuration: const Duration(milliseconds: 380),
     pageBuilder: (context, animation, secondaryAnimation) {
       return const _AvatarPickerDialog();
@@ -71,7 +72,7 @@ class _AvatarPickerDialog extends StatelessWidget {
                       'Show Us Your Style',
                       textAlign: TextAlign.center,
                       style: context.theme.textTheme.headlineMedium?.copyWith(
-                        color: context.palette.midnight,
+                        color: palette.midnight,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -98,14 +99,14 @@ class _AvatarPickerDialog extends StatelessWidget {
                           },
                           child: Container(
                             decoration: BoxDecoration(
-                              color: context.palette.voidBlack.withValues(
+                              color: palette.voidBlack.withValues(
                                 alpha: 100,
                               ),
                               borderRadius: BorderRadius.circular(16 * scale),
                               border: Border.all(
                                 color: isSelected
-                                    ? context.palette.moonlight
-                                    : context.palette.dusk.withAlpha(150),
+                                    ? palette.moonlight
+                                    : palette.dusk.withAlpha(150),
                                 width: isSelected ? 3 : 2,
                               ),
                             ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:grimoji/app/palette.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/features/settings/controller.dart';
@@ -8,7 +7,6 @@ import 'package:provider/provider.dart';
 
 extension ContextData on BuildContext {
   ThemeData get theme => Theme.of(this);
-  Palette get palette => read<Palette>();
 
   double get screenWidth => MediaQuery.sizeOf(this).width;
   double get screenHeight => MediaQuery.sizeOf(this).height;

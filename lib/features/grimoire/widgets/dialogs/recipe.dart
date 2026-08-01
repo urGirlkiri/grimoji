@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
@@ -21,7 +22,7 @@ class RecipeDialog extends StatelessWidget {
                 child: Container(
                   width: double.infinity,
                   height: double.infinity,
-                  decoration: BoxDecoration(color: context.palette.midnight),
+                  decoration: BoxDecoration(color: palette.midnight),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(

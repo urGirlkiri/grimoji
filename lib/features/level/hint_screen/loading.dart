@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
@@ -10,7 +11,7 @@ class Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scale = context.globalScale;
-    final palette = context.palette;
+    
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,

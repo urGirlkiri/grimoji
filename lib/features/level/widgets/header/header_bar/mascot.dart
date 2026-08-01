@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/utils/math.dart';
 
 class Mascot extends StatelessWidget {
@@ -16,9 +16,9 @@ class Mascot extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: context.palette.dusk,
+              color: palette.dusk,
               shape: BoxShape.circle,
-              border: Border.all(width: 3, color: context.palette.dusk),
+              border: Border.all(width: 3, color: palette.dusk),
             ),
           ),
 

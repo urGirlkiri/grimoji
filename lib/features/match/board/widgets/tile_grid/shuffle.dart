@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/index.dart';
-import 'package:grimoji/utils/context_data.dart';
 import 'package:provider/provider.dart';
 
 class ShuffleAnimator extends StatelessWidget {
@@ -28,7 +28,7 @@ class ShuffleAnimator extends StatelessWidget {
       child: child,
       builder: (context, widthFactor, cachedGridStack) {
         final double edgeX = boardWidth * widthFactor;
-        final palette = context.palette;
+        
 
         return Stack(
           children: [

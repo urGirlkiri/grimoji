@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
@@ -20,7 +21,7 @@ Future<bool?> showBoostPurchase(BuildContext context, Powerup boost) async {
     context: context,
     barrierDismissible: true,
     barrierLabel: 'Dismiss',
-    barrierColor: context.palette.voidBlack.withValues(alpha: .85),
+    barrierColor: palette.voidBlack.withValues(alpha: .85),
     transitionDuration: const Duration(milliseconds: 380),
     pageBuilder: (context, animation, secondaryAnimation) {
       return _PurchaseDialog(boost: boost);
@@ -69,7 +70,7 @@ class _PurchaseDialog extends StatelessWidget {
       context: context,
       barrierDismissible: true,
       barrierLabel: 'Dismiss',
-      barrierColor: context.palette.voidBlack.withValues(alpha: .6),
+      barrierColor: palette.voidBlack.withValues(alpha: .6),
       transitionDuration: const Duration(milliseconds: 260),
       pageBuilder: (ctx, animation, _) => InsufficientAlert(needed: needed),
       transitionBuilder: (ctx, animation, _, child) {
@@ -148,9 +149,9 @@ class _PurchaseDialog extends StatelessWidget {
                                             CustomPaint(
                                               size: Size(starSize, starSize),
                                               painter: StarPainter(
-                                                color: context.palette.twilight,
+                                                color: palette.twilight,
                                                 borderColor:
-                                                    context.palette.dusk,
+                                                    palette.dusk,
                                               ),
                                             ),
                                             EmojiWidget(
@@ -184,7 +185,7 @@ class _PurchaseDialog extends StatelessWidget {
                           boost.description,
                           textAlign: TextAlign.center,
                           style: context.theme.textTheme.bodyMedium?.copyWith(
-                            color: context.palette.mist,
+                            color: palette.mist,
                           ),
                         ),
                       ),

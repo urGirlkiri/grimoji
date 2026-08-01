@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/config/router/layout/nav_item.dart';
 import 'package:grimoji/config/router/layout/shell_tab.dart';
@@ -16,7 +17,7 @@ class LayoutScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.palette;
+    
     final isLarge = context.isLargeScreen;
 
     final currentPath = GoRouterState.of(context).uri.path;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/settings/dialogs/reset.dart';
 import 'package:grimoji/utils/context_data.dart';
@@ -24,7 +25,7 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   Future<void> _resetProgress(BuildContext context) async {
-    final palette = context.palette;
+    
 
     final confirmed = await showDialog<bool>(
       context: context,
@@ -58,7 +59,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void _showReminderStatus(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: context.palette.crimson,
+        backgroundColor: palette.crimson,
         content: Center(
           child: Text(message, style: context.theme.textTheme.bodyLarge),
         ),
@@ -97,7 +98,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final settings = context.watchSettings;
-    final palette = context.palette;
+    
     final isLarge = context.isLargeScreen;
     final scale = context.globalScale;
 

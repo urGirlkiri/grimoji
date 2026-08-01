@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/utils/context_data.dart';
 
 class GamePlaque extends StatelessWidget {
@@ -31,18 +32,18 @@ class GamePlaque extends StatelessWidget {
             Container(
               height: plaqueHeight,
               decoration: BoxDecoration(
-                color: context.palette.midnight,
+                color: palette.midnight,
                 borderRadius: const BorderRadius.vertical(
                   bottom: Radius.circular(24.0),
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: context.palette.voidBlack,
+                    color: palette.voidBlack,
                     offset: Offset(0, 6 * scale),
                     blurRadius: 0,
                   ),
                   // BoxShadow(
-                  //   color: context.palette.voidBlack.withValues(alpha: 0.3),
+                  //   color: palette.voidBlack.withValues(alpha: 0.3),
                   //   offset: Offset(0, 10 * scale),
                   //   blurRadius: 10,
                   //   spreadRadius: 1,
@@ -52,7 +53,7 @@ class GamePlaque extends StatelessWidget {
                   image: const AssetImage('assets/images/vertical_lines.png'),
                   fit: BoxFit.cover,
                   colorFilter: ColorFilter.mode(
-                    context.palette.midnight.withValues(alpha: 0.069),
+                    palette.midnight.withValues(alpha: 0.069),
                     BlendMode.dstATop,
                   ),
                 ),

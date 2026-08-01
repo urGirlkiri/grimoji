@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/config/router/routes.dart';
@@ -104,7 +105,7 @@ class _LevelHintScreenState extends State<LevelHintScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.palette;
+    
     final scale = context.globalScale;
 
     final shape = _isTargetRecipe ? ShapeType.line : _recipeShape(_recipe!);

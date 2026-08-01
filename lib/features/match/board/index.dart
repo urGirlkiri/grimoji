@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/features/match/board/controllers/gesture.dart';
 import 'package:grimoji/features/match/board/controllers/v_f_x.dart';
 import 'package:grimoji/features/match/board/effects/blood_drop/index.dart';
@@ -63,7 +64,7 @@ class _GameBoardState extends State<GameBoard> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.palette;
+    
     final levelState = context.read<LevelState>();
 
     const int gridColumns = BoardManager.cols;

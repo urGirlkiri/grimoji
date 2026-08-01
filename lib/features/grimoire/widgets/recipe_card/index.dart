@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/features/alchemy/recipes/recipe.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/grimoire/widgets/dialogs/locked.dart';
@@ -54,7 +55,7 @@ class _RecipeCardState extends State<RecipeCard> {
       PageRouteBuilder(
         opaque: false,
         barrierDismissible: true,
-        barrierColor: context.palette.midnight.withValues(alpha: 0.7),
+        barrierColor: palette.midnight.withValues(alpha: 0.7),
         transitionDuration: const Duration(milliseconds: 1000),
         reverseTransitionDuration: const Duration(milliseconds: 600),
         pageBuilder: (context, animation, secondaryAnimation) {
@@ -89,7 +90,7 @@ class _RecipeCardState extends State<RecipeCard> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.palette;
+    
     final layoutConfig = context.read<Layout>();
 
     Widget card = Hero(
@@ -106,7 +107,6 @@ class _RecipeCardState extends State<RecipeCard> {
                 ? fromHeroContext
                 : toHeroContext;
             final layout = cContext.read<Layout>();
-            final tPalette = cContext.palette;
 
             final spinAnim = Tween<double>(begin: 0, end: 4 * pi).animate(
               CurvedAnimation(parent: animation, curve: Curves.easeInOut),
@@ -130,7 +130,7 @@ class _RecipeCardState extends State<RecipeCard> {
                       ..rotateY(spinAnim.value),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: tPalette.midnight,
+                        color: palette.midnight,
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: FadeTransition(
@@ -139,8 +139,8 @@ class _RecipeCardState extends State<RecipeCard> {
                           recipe: widget.recipe,
                           showEmoji: true,
                           showUnreadIndicator: widget.isUnread,
-                          crimsonColor: tPalette.crimson,
-                          midnightColor: tPalette.midnight,
+                          crimsonColor: palette.crimson,
+                          midnightColor: palette.midnight,
                         ),
                       ),
                     ),

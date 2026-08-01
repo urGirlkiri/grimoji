@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/features/level/widgets/header/progress_bar/fill.dart';
 import 'package:grimoji/features/level/widgets/header/progress_bar/star_row/index.dart';
-import 'package:grimoji/utils/context_data.dart';
 
 class ProgressBar extends StatelessWidget {
   const ProgressBar({super.key});
@@ -24,7 +24,7 @@ class _Background extends StatelessWidget {
       width: double.infinity,
       height: 14,
       decoration: ShapeDecoration(
-        color: context.palette.twilight,
+        color: palette.twilight,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(60)),
       ),
     );

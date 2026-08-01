@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/app/theme/palette.dart';
 
 Future<T?> showAnimatedDialog<T>(
   BuildContext context,
@@ -10,7 +10,7 @@ Future<T?> showAnimatedDialog<T>(
     context: context,
     barrierDismissible: barrierDismissible,
     barrierLabel: 'Dismiss',
-    barrierColor: context.palette.voidBlack.withValues(alpha: 0.7),
+    barrierColor: palette.voidBlack.withValues(alpha: 0.7),
     transitionDuration: const Duration(milliseconds: 250),
     pageBuilder: (context, animation, secondaryAnimation) => dialog,
     transitionBuilder: (context, animation, secondaryAnimation, child) {

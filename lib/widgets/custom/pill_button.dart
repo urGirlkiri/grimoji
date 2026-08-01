@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/widgets/animated/breathing_widget.dart';
 import 'package:grimoji/widgets/custom/animated_button.dart';
 
@@ -36,7 +36,7 @@ class PillButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.palette;
+    
 
     final effectiveTextColor = textColor ?? palette.trueWhite;
     final effectiveBorderColor = borderColor ?? palette.twilight;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/features/level/state.dart';
-import 'package:grimoji/utils/context_data.dart';
 import 'package:provider/provider.dart';
 
 class BarFill extends StatelessWidget {
@@ -37,7 +37,7 @@ class BarFill extends StatelessWidget {
     final crimsonProgress = safe(isCrimson ? data.progress : 0.0);
 
     final duration = isPaused ? Duration.zero : const Duration(milliseconds: 600);
-    final baseColor = isHighlighted ? context.palette.moonlight : context.palette.mist;
+    final baseColor = isHighlighted ? palette.moonlight : palette.mist;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -72,12 +72,12 @@ class BarFill extends StatelessWidget {
               width: crimsonProgress * maxWidth,
               height: 14,
               decoration: BoxDecoration(
-                color: context.palette.crimson,
+                color: palette.crimson,
                 borderRadius: BorderRadius.circular(60),
                 boxShadow: (isCrimson && !isPaused)
                     ? [
                         BoxShadow(
-                          color: context.palette.crimson.withValues(alpha: .8),
+                          color: palette.crimson.withValues(alpha: .8),
                           blurRadius: 12,
                           spreadRadius: 2,
                         ),

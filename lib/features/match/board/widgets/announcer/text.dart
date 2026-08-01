@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/app/theme/palette.dart';
 
 class AnText extends StatelessWidget {
   const AnText({super.key, required this.phrase});
@@ -9,7 +9,7 @@ class AnText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.palette;
+    
 
     final glowColor =
         phrase.contains("Calamity") || phrase.contains("Catastrophic")

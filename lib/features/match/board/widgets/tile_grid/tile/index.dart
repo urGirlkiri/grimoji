@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/match/models/tile.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/tile/swallow.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/tile/tile_content/index.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/tile/tile_v_f_x/index.dart';
-import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
 import 'package:grimoji/widgets/painters/crack.dart';
 
@@ -52,7 +52,7 @@ class TileWidget extends StatelessWidget {
             duration: lineClearBeamDuration,
             child: ColorFiltered(
               colorFilter: ColorFilter.mode(
-                context.palette.crimson,
+                palette.crimson,
                 BlendMode.srcIn,
               ),
               child: EmojiWidget(

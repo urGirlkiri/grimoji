@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/widgets/custom/star_icon.dart';
 
 class FlyingStar extends StatelessWidget {
@@ -18,7 +18,7 @@ class FlyingStar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double xSpread = total > 1 ? (index - (total - 1) / 2) : 0;
-    final color = crimson ? context.palette.crimson :  null;
+    final color = crimson ? palette.crimson :  null;
 
     return StarIcon(size: 60, color: color)
         .animate(delay: Duration(milliseconds: index * 300))

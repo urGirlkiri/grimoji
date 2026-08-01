@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/features/match/constants.dart';
-import 'package:grimoji/utils/context_data.dart';
 
 class BoardGrid extends StatelessWidget {
   final int gridColumns;
@@ -21,7 +21,7 @@ class BoardGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final int gridRows = (totalTiles / gridColumns).ceil();
-    final palette = context.palette;
+    
 
     List<Widget> backgrounds = [];
 

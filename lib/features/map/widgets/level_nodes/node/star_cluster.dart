@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/widgets/custom/star_icon.dart';
 
 class StarCluster extends StatelessWidget {
@@ -50,7 +50,7 @@ class _Star extends StatelessWidget {
   Widget build(BuildContext context) {
     return StarIcon(
       size: size,
-      color: crimson ? context.palette.crimson : null,
+      color: crimson ? palette.crimson : null,
     );
   }
 }

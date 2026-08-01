@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/utils/context_data.dart';
@@ -25,7 +26,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.palette;
+    
     final settingsController = context.watchSettings;
     final audioController = context.watchAudio;
 

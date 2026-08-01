@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/utils/context_data.dart';
 
 class BalancePill extends StatelessWidget {
@@ -9,7 +10,7 @@ class BalancePill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scale = context.globalScale;
-    final palette = context.palette;
+    
     return Container(
       decoration: BoxDecoration(
         color: palette.twilight,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/app/theme/palette.dart';
 
 class VolumeSlider extends StatelessWidget {
   final String label;
@@ -27,8 +27,8 @@ class VolumeSlider extends StatelessWidget {
             label,
             style: GoogleFonts.eagleLake(
               color: isEnabled
-                  ? context.palette.midnight
-                  : context.palette.slate,
+                  ? palette.midnight
+                  : palette.slate,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -37,12 +37,12 @@ class VolumeSlider extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           decoration: BoxDecoration(
-            color: context.palette.mist,
+            color: palette.mist,
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: context.palette.slate, width: 2),
+            border: Border.all(color: palette.slate, width: 2),
             boxShadow: [
               BoxShadow(
-                color: context.palette.voidBlack.withValues(alpha: 0.2),
+                color: palette.voidBlack.withValues(alpha: 0.2),
                 offset: const Offset(0, 2),
               ),
             ],
@@ -50,16 +50,16 @@ class VolumeSlider extends StatelessWidget {
           child: SliderTheme(
             data: SliderThemeData(
               activeTrackColor: isEnabled
-                  ? context.palette.midnight
-                  : context.palette.slate,
-              inactiveTrackColor: context.palette.twilight.withValues(
+                  ? palette.midnight
+                  : palette.slate,
+              inactiveTrackColor: palette.twilight.withValues(
                 alpha: 0.3,
               ),
               thumbColor: isEnabled
-                  ? context.palette.trueWhite
-                  : context.palette.mist,
+                  ? palette.trueWhite
+                  : palette.mist,
               overlayColor: isEnabled
-                  ? context.palette.midnight.withValues(alpha: 0.2)
+                  ? palette.midnight.withValues(alpha: 0.2)
                   : Colors.transparent,
               trackHeight: 8.0,
               thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8.0),

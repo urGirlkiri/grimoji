@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/pill_button.dart';
 import 'package:grimoji/widgets/custom/scroll_dialog.dart';
@@ -11,7 +12,7 @@ class InsufficientAlert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scale = context.globalScale;
-    final palette = context.palette;
+    
     return Center(
       child: ScrollDialog(
         scrollType: ScrollType.horizontalShort,
@@ -34,7 +35,7 @@ class InsufficientAlert extends StatelessWidget {
                 'Not enough dice!',
                 textAlign: TextAlign.center,
                 style: context.theme.textTheme.titleMedium?.copyWith(
-                  color: context.palette.moonlight,
+                  color: palette.moonlight,
                   fontWeight: FontWeight.w900,
                   fontSize: 16 * scale,
                 ),
@@ -44,7 +45,7 @@ class InsufficientAlert extends StatelessWidget {
                 'You need $needed dice for this.',
                 textAlign: TextAlign.center,
                 style: context.theme.textTheme.bodySmall?.copyWith(
-                  color: context.palette.mist,
+                  color: palette.mist,
                   fontSize: 12 * scale,
                 ),
               ),

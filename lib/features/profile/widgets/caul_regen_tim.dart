@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/utils/context_data.dart';
 
 class CaulRegenTim extends StatefulWidget {
@@ -55,12 +56,12 @@ class _CaulRegenTimState extends State<CaulRegenTim> {
       child: Container(
         height: 50 * scale,
         decoration: BoxDecoration(
-          color: context.palette.slate,
+          color: palette.slate,
           borderRadius: BorderRadius.circular(20 * scale),
-          border: Border.all(color: context.palette.twilight, width: 2.5),
+          border: Border.all(color: palette.twilight, width: 2.5),
           boxShadow: [
             BoxShadow(
-              color: context.palette.voidBlack,
+              color: palette.voidBlack,
               offset: const Offset(0, 3),
             ),
           ],
@@ -70,7 +71,7 @@ class _CaulRegenTimState extends State<CaulRegenTim> {
           children: [
             Icon(
                   Icons.hourglass_empty_rounded,
-                  color: context.palette.twilight,
+                  color: palette.twilight,
                   size: 32 * scale,
                 )
                 .animate(onPlay: (controller) => controller.repeat())
@@ -89,7 +90,7 @@ class _CaulRegenTimState extends State<CaulRegenTim> {
                   "Next in $timeString",
                   maxLines: 1,
                   style: context.theme.textTheme.titleMedium?.copyWith(
-                    color: context.palette.moonlight,
+                    color: palette.moonlight,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.2,
                   ),

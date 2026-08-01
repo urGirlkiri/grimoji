@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/level/state.dart';
-import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -31,7 +31,7 @@ class TargetEmoji extends StatelessWidget {
             size: 40,
             blurRadius: 4,
             shadowOffset: const Offset(0, 4),
-            shadowColor: context.palette.midnight,
+            shadowColor: palette.midnight,
           )
         : EmojiWidget.svg(key: targetIconKey, emoji: targetEmoji, size: 40);
   }

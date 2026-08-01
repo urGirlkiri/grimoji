@@ -2,10 +2,10 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/features/match/board/effects/time_bonus/effect.dart';
 import 'package:grimoji/features/match/models/particle.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/tile/tile_v_f_x/painter.dart';
-import 'package:grimoji/utils/context_data.dart';
 
 class TimeBonusAnimation extends StatefulWidget {
   final TimeBonusEffect effect;
@@ -45,8 +45,8 @@ class TimeBonusAnimationState extends State<TimeBonusAnimation> {
           vy: sin(angle) * velocity - 50.0,
           size: 3.0 + _random.nextDouble() * 5.0,
           color: _random.nextBool()
-              ? context.palette.midnight
-              : context.palette.dusk,
+              ? palette.midnight
+              : palette.dusk,
           maxLife: 0.5 + _random.nextDouble() * 0.4,
         ),
       );
@@ -71,7 +71,7 @@ class TimeBonusAnimationState extends State<TimeBonusAnimation> {
                   Text(
                         '+${widget.effect.amount}',
                         style: TextStyle(
-                          color: context.palette.trueWhite,
+                          color: palette.trueWhite,
                           fontSize: 32,
                           fontWeight: FontWeight.bold,
                         ),

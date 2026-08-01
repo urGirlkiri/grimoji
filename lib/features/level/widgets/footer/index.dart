@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/level/widgets/dialogs/purchase_dialog/index.dart';
@@ -39,14 +40,14 @@ class _FooterState extends State<Footer> {
   void _showSnackbar(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: context.palette.dusk,
+        backgroundColor: palette.dusk,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         content: Text(
           'Coming Soon',
           textAlign: TextAlign.center,
           style: context.theme.textTheme.bodyMedium?.copyWith(
-            color: context.palette.moonlight,
+            color: palette.moonlight,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -94,7 +95,7 @@ class _FooterState extends State<Footer> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: ShapeDecoration(
-        color: context.palette.mist,
+        color: palette.mist,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       ),
       child: FittedBox(

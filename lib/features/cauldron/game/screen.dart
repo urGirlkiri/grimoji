@@ -1,5 +1,6 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/cauldron/game/index.dart';
 import 'package:grimoji/features/level/hint_screen/loading.dart';
@@ -47,7 +48,7 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
         topMessageArea: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: ShapeDecoration(
-            color: context.palette.twilight,
+            color: palette.twilight,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
@@ -72,25 +73,25 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
                 ),
                 decoration: BoxDecoration(
                   color: Color.alphaBlend(
-                    context.palette.dusk.withValues(alpha: 0.15),
-                    context.palette.twilight,
+                    palette.dusk.withValues(alpha: 0.15),
+                    palette.twilight,
                   ),
                   borderRadius: BorderRadius.circular(20 * scale),
                   border: Border.all(
-                    color: context.palette.slate.withValues(alpha: 0.1),
+                    color: palette.slate.withValues(alpha: 0.1),
                     width: 1,
                   ),
                   image: DecorationImage(
                     image: const AssetImage('assets/images/goth_emo.png'),
                     fit: BoxFit.cover,
                     colorFilter: ColorFilter.mode(
-                      context.palette.voidBlack.withValues(alpha: 0.05),
+                      palette.voidBlack.withValues(alpha: 0.05),
                       BlendMode.dstATop,
                     ),
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: context.palette.voidBlack,
+                      color: palette.voidBlack,
                       offset: Offset(0, 6 * scale),
                       blurRadius: 0,
                     ),
@@ -118,12 +119,12 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
                 ),
 
                 decoration: ShapeDecoration(
-                  color: context.palette.dusk.withValues(alpha: .8),
+                  color: palette.dusk.withValues(alpha: .8),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                     side: BorderSide(
                       width: 2,
-                      color: context.palette.magicCyan.withValues(alpha: .5),
+                      color: palette.magicCyan.withValues(alpha: .5),
                     ),
                   ),
                 ),
@@ -151,7 +152,7 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
         rectangularMenuArea: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: ShapeDecoration(
-            color: context.palette.twilight,
+            color: palette.twilight,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(40),
             ),
@@ -160,25 +161,25 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
             child: Row(
               children: [
                 PowerupBtn(
-                  bgColor: context.palette.dusk,
+                  bgColor: palette.dusk,
                   assetPath: Emojis.shakingFace.svg,
                   onTap: () {},
                 ),
                 const SizedBox(width: 12),
                 PowerupBtn(
-                  bgColor: context.palette.dusk,
+                  bgColor: palette.dusk,
                   assetPath: Emojis.boomerang.svg,
                   onTap: () {},
                 ),
                 const SizedBox(width: 12),
                 PowerupBtn(
-                  bgColor: context.palette.dusk,
+                  bgColor: palette.dusk,
                   assetPath: Emojis.testTube.svg,
                   onTap: () {},
                 ),
                 const SizedBox(width: 12),
                 PowerupBtn(
-                  bgColor: context.palette.dusk,
+                  bgColor: palette.dusk,
                   assetPath: Emojis.flyingSaucer.svg,
                   onTap: () {},
                 ),

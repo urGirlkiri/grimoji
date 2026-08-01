@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/utils/context_data.dart';
@@ -34,19 +35,19 @@ class BuyRow extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: canAfford
-              ? context.palette.twilight
-              : context.palette.midnight.withValues(alpha: 0.5),
+              ? palette.twilight
+              : palette.midnight.withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(14 * scale),
           border: Border.all(
             color: canAfford
-                ? context.palette.dusk
-                : context.palette.dusk.withValues(alpha: 0.3),
+                ? palette.dusk
+                : palette.dusk.withValues(alpha: 0.3),
             width: 1.5,
           ),
           boxShadow: canAfford
               ? [
                   BoxShadow(
-                    color: context.palette.voidBlack,
+                    color: palette.voidBlack,
                     offset: Offset(0, 4 * scale),
                     blurRadius: 0,
                   ),
@@ -61,8 +62,8 @@ class BuyRow extends StatelessWidget {
               '×$qty',
               style: context.theme.textTheme.bodyLarge?.copyWith(
                 color: canAfford
-                    ? context.palette.moonlight
-                    : context.palette.dusk,
+                    ? palette.moonlight
+                    : palette.dusk,
                 fontWeight: FontWeight.w900,
                 fontSize: 16 * scale,
               ),
@@ -72,15 +73,15 @@ class BuyRow extends StatelessWidget {
               'assets/images/dice.png',
               width: 18 * scale,
               height: 18 * scale,
-              color: canAfford ? null : context.palette.dusk,
+              color: canAfford ? null : palette.dusk,
             ),
             SizedBox(width: 6 * scale),
             Text(
               '$total',
               style: context.theme.textTheme.bodyLarge?.copyWith(
                 color: canAfford
-                    ? context.palette.moonlight
-                    : context.palette.dusk,
+                    ? palette.moonlight
+                    : palette.dusk,
                 fontWeight: FontWeight.w900,
                 fontSize: 16 * scale,
               ),

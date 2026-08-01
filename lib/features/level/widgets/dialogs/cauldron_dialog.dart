@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/cauldrons.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
@@ -20,15 +21,15 @@ class CauldronDialog extends StatelessWidget {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: isError
-            ? context.palette.crimson
-            : context.palette.dusk,
+            ? palette.crimson
+            : palette.dusk,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         content: Text(
           message,
           textAlign: TextAlign.center,
           style: context.theme.textTheme.bodyMedium?.copyWith(
-            color: context.palette.moonlight,
+            color: palette.moonlight,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -68,7 +69,7 @@ class CauldronDialog extends StatelessWidget {
       selector: (_, p) => p.dices,
       builder: (context, dices, _) {
         final hasDice = dices > 0;
-        final palette = context.palette;
+        
 
         return Center(
           child: ScrollDialog(

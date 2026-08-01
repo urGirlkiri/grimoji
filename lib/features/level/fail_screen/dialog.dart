@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/utils/context_data.dart';
@@ -15,7 +16,7 @@ class LevelFailDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.palette;
+    
 
     return PopScope(
       canPop: false,

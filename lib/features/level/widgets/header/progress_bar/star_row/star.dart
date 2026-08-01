@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/widgets/custom/star_icon.dart';
 
 class Star extends StatelessWidget {
@@ -19,10 +19,10 @@ class Star extends StatelessWidget {
     final Color targetColor;
     if (isCrimson) {
       targetColor = isActive
-          ? context.palette.crimson
-          : context.palette.moonlight;
+          ? palette.crimson
+          : palette.moonlight;
     } else {
-      targetColor = isActive ? context.palette.moonlight : context.palette.mist;
+      targetColor = isActive ? palette.moonlight : palette.mist;
     }
 
     final key = ValueKey('flare_${isCrimson}_$isActive');
@@ -38,7 +38,7 @@ class Star extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             if (isCrimson && isActive)
-              StarIcon(size: 32, color: context.palette.crimson)
+              StarIcon(size: 32, color: palette.crimson)
                   .animate(key: key)
                   .scale(
                     begin: const Offset(1, 1),
@@ -49,7 +49,7 @@ class Star extends StatelessWidget {
                   .fadeOut(duration: 600.ms, curve: Curves.easeOutCubic),
 
             TweenAnimationBuilder<Color?>(
-              tween: ColorTween(begin: context.palette.mist, end: targetColor),
+              tween: ColorTween(begin: palette.mist, end: targetColor),
               duration: 400.ms,
               curve: Curves.easeInOut,
               builder: (context, color, _) => StarIcon(size: 32, color: color),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
@@ -12,7 +13,7 @@ class Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.palette;
+    
     final selectedPowerup = context.watch<LevelState>().selectedPowerup;
     final topPadding = MediaQuery.paddingOf(context).top;
 

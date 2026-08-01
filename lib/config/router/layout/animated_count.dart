@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/utils/context_data.dart';
 
 class AnimatedCount extends StatefulWidget {
@@ -37,7 +38,7 @@ class _AnimatedCountState extends State<AnimatedCount> {
         return Text(
           value.toString(),
           style: context.theme.textTheme.labelMedium?.copyWith(
-            color: context.palette.trueWhite,
+            color: palette.trueWhite,
             fontSize: 12,
             fontWeight: FontWeight.bold,
           ),

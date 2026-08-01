@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/animated/corkscrew_close_btn.dart';
 import 'package:grimoji/widgets/custom/app_icon.dart';
@@ -10,7 +11,7 @@ Future<void> showNameDialog(BuildContext context) {
     context: context,
     barrierDismissible: true,
     barrierLabel: 'Dismiss',
-    barrierColor: context.palette.voidBlack.withValues(alpha: .85),
+    barrierColor: palette.voidBlack.withValues(alpha: .85),
     transitionDuration: const Duration(milliseconds: 380),
     pageBuilder: (context, animation, secondaryAnimation) {
       return const _NameDialog();
@@ -66,7 +67,7 @@ class _NameDialogState extends State<_NameDialog> {
   @override
   Widget build(BuildContext context) {
     final scale = context.globalScale;
-    final palette = context.palette;
+    
     final screenHeight = context.screenHeight;
     final dialogTop = (screenHeight * 0.18).clamp(80.0, 200.0);
     final ropeLength = (dialogTop + 65).clamp(80.0, 250.0);

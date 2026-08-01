@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/levels/game_level.dart';
-import 'package:grimoji/utils/context_data.dart';
 import 'package:provider/provider.dart';
 
 class LevelText extends StatelessWidget {
@@ -13,7 +13,7 @@ class LevelText extends StatelessWidget {
     return Text(
       'Level $levelNumber',
       style: TextStyle(
-        color: context.palette.trueWhite,
+        color: palette.trueWhite,
         fontSize: 20,
         fontWeight: FontWeight.w900,
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/settings/dialogs/settings.dart';
@@ -19,7 +20,7 @@ class PauseDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.palette;
+    
     final screenWidth = context.screenWidth;
     final isLarge = screenWidth > 400;
 

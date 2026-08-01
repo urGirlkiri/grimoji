@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/app/theme/palette.dart';
 
 class StarIcon extends StatelessWidget {
   final double size;
@@ -20,7 +20,7 @@ class StarIcon extends StatelessWidget {
       height: size,
       fit: BoxFit.contain,
       colorFilter: ColorFilter.mode(
-        color ?? context.palette.mist,
+        color ?? palette.mist,
         BlendMode.srcIn,
       ),
     );

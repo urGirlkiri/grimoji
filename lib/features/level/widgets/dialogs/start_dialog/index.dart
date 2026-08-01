@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/config/router/routes.dart';
@@ -42,7 +43,7 @@ class _LevelStartDialogState extends State<LevelStartDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.palette;
+    
     final profile = context.readProfile;
 
     final prelevelItems = Powerup.all.where((p) => p.isPrelevel).toList();

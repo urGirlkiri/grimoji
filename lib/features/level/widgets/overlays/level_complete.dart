@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/utils/context_data.dart';
 
 class LevelComOverlay {
@@ -28,7 +29,7 @@ class LevelComOverlay {
 class _LevelComOverlayWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final palette = context.palette;
+    
 
     return IgnorePointer(
       ignoring: true,

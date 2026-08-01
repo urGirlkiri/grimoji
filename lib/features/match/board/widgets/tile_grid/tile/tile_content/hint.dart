@@ -1,9 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
-import 'package:grimoji/utils/context_data.dart';
 
 class HintNudge extends StatelessWidget {
   final bool isHinting;
@@ -27,7 +27,7 @@ class HintNudge extends StatelessWidget {
   Widget build(BuildContext context) {
     if (!isHinting || partner == null) return child;
 
-    final palette = context.palette;
+    
     final double dx = (partner!.col - current.col).toDouble();
     final double dy = (partner!.row - current.row).toDouble();
 

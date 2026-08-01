@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/router/layout/shell_tab.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/features/market/widgets/daily_reward/content.dart';
@@ -79,7 +80,7 @@ class _RewardTickerState extends State<RewardTicker> {
   }
 
   void _showSnackBar(BuildContext context, String message) {
-    final palette = context.palette;
+    
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: palette.slate,

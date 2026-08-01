@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/level/widgets/overlays/powerup_selection/content.dart';
 import 'package:grimoji/features/level/widgets/overlays/punch_animation/index.dart';
-import 'package:grimoji/utils/context_data.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 
@@ -59,7 +59,7 @@ class PowerupSelectionOverlay extends StatelessWidget {
                                     .cancelPowerupSelection();
                               },
                         child: Container(
-                          color: context.palette.voidBlack.withValues(
+                          color: palette.voidBlack.withValues(
                             alpha: 0.9,
                           ),
                         ),
@@ -82,7 +82,7 @@ class PowerupSelectionOverlay extends StatelessWidget {
                                     .cancelPowerupSelection();
                               },
                         child: Container(
-                          color: context.palette.voidBlack.withValues(
+                          color: palette.voidBlack.withValues(
                             alpha: 0.9,
                           ),
                         ),
@@ -105,7 +105,7 @@ class PowerupSelectionOverlay extends StatelessWidget {
                                     .cancelPowerupSelection();
                               },
                         child: Container(
-                          color: context.palette.voidBlack.withValues(
+                          color: palette.voidBlack.withValues(
                             alpha: 0.9,
                           ),
                         ),
@@ -128,7 +128,7 @@ class PowerupSelectionOverlay extends StatelessWidget {
                                     .cancelPowerupSelection();
                               },
                         child: Container(
-                          color: context.palette.voidBlack.withValues(
+                          color: palette.voidBlack.withValues(
                             alpha: 0.9,
                           ),
                         ),

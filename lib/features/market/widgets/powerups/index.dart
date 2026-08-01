@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/market/widgets/powerups/item.dart';
@@ -25,7 +26,7 @@ class PowerupSection extends StatelessWidget {
         Text(
           title,
           style: context.theme.textTheme.titleMedium?.copyWith(
-            color: context.palette.mist,
+            color: palette.mist,
             fontSize: 18 * scale,
             fontWeight: FontWeight.w900,
           ),
@@ -34,7 +35,7 @@ class PowerupSection extends StatelessWidget {
         Text(
           subtitle,
           style: context.theme.textTheme.bodySmall?.copyWith(
-            color: context.palette.slate,
+            color: palette.slate,
             fontSize: 12 * scale,
           ),
         ),
@@ -58,15 +59,15 @@ class _PowerupShopItem extends StatelessWidget {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: isError
-            ? context.palette.crimson
-            : context.palette.dusk,
+            ? palette.crimson
+            : palette.dusk,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         content: Text(
           message,
           textAlign: TextAlign.center,
           style: context.theme.textTheme.bodyMedium?.copyWith(
-            color: context.palette.moonlight,
+            color: palette.moonlight,
             fontWeight: FontWeight.bold,
           ),
         ),

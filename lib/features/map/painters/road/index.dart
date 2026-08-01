@@ -11,7 +11,7 @@ import 'package:flutter/material.dart'
         Rect,
         Alignment,
         LinearGradient;
-import 'package:grimoji/app/palette.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/features/map/models/projection.dart';
 import 'package:grimoji/features/map/physics.dart';
 

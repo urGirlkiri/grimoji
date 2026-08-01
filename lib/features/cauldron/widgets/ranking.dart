@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/features/cauldron/widgets/avatar.dart';
 import 'package:grimoji/utils/context_data.dart';
 
@@ -39,7 +40,7 @@ class Ranking extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.palette;
+    
     final textTheme = context.theme.textTheme;
 
     return Padding(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/widgets/custom/pill_button.dart';
 
 class SkipBtn extends StatelessWidget {
@@ -9,7 +9,7 @@ class SkipBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.palette;
+    
 
     return Center(
       child: PillButton(

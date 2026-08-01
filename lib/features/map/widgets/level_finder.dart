@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/features/map/state.dart';
 import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/utils/context_data.dart';
@@ -19,7 +20,7 @@ class _LevelFinderState extends State<LevelFinder> {
   @override
   Widget build(BuildContext context) {
     final scale = context.globalScale;
-    final palette = context.palette;
+    
 
     return Selector<MapState, bool?>(
       selector: (_, state) => state.isBelowLevel,

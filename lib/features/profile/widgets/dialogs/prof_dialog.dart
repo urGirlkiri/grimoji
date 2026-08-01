@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/profile/widgets/dialogs/avatar_dialog.dart';
@@ -44,13 +45,13 @@ class ProfileDialog extends StatelessWidget {
                         width: 100,
                         height: 100,
                         decoration: BoxDecoration(
-                          color: context.palette.voidBlack.withValues(
+                          color: palette.voidBlack.withValues(
                             alpha: 100,
                           ),
                           shape: BoxShape.rectangle,
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
-                            color: context.palette.dusk.withAlpha(150),
+                            color: palette.dusk.withAlpha(150),
                             width: 3,
                           ),
                         ),
@@ -81,7 +82,7 @@ class ProfileDialog extends StatelessWidget {
                                 child: Text(
                                   profile.displayName,
                                   style: context.theme.textTheme.bodyMedium
-                                      ?.copyWith(color: context.palette.mist),
+                                      ?.copyWith(color: palette.mist),
                                   softWrap: true,
                                 ),
                               ),
@@ -98,7 +99,7 @@ class ProfileDialog extends StatelessWidget {
                                 AnimatedButton(
                                   child: Icon(
                                     Icons.stars_rounded,
-                                    color: context.palette.moonlight,
+                                    color: palette.moonlight,
                                     size: 20,
                                   ),
                                 ),
@@ -107,7 +108,7 @@ class ProfileDialog extends StatelessWidget {
                                   "Lv ${level.currentLevel()}",
                                   style: context.theme.textTheme.bodyMedium
                                       ?.copyWith(
-                                        color: context.palette.mist,
+                                        color: palette.mist,
                                         fontWeight: FontWeight.bold,
                                       ),
                                 ),
@@ -125,7 +126,7 @@ class ProfileDialog extends StatelessWidget {
               Text(
                 "Cascet",
                 style: context.theme.textTheme.bodyLarge?.copyWith(
-                  color: context.palette.midnight,
+                  color: palette.midnight,
                   fontWeight: FontWeight.bold,
                 ),
               ),

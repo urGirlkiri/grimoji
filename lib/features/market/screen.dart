@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/cauldrons.dart';
 import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
@@ -22,15 +23,15 @@ class MarketScreen extends StatelessWidget {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: isError
-            ? context.palette.crimson
-            : context.palette.dusk,
+            ? palette.crimson
+            : palette.dusk,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         content: Text(
           message,
           textAlign: TextAlign.center,
           style: context.theme.textTheme.bodyMedium?.copyWith(
-            color: context.palette.moonlight,
+            color: palette.moonlight,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -42,15 +43,15 @@ class MarketScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final scale = context.globalScale;
     return Scaffold(
-      backgroundColor: context.palette.midnight,
+      backgroundColor: palette.midnight,
       body: Container(
         decoration: BoxDecoration(
-          color: context.palette.midnight,
+          color: palette.midnight,
           image: DecorationImage(
             image: const AssetImage('assets/images/vertical_lines.png'),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
-              context.palette.voidBlack.withValues(alpha: 0.009),
+              palette.voidBlack.withValues(alpha: 0.009),
               BlendMode.dstATop,
             ),
           ),
@@ -66,7 +67,7 @@ class MarketScreen extends StatelessWidget {
               child: Text(
                 "Daily Offerings",
                 style: context.theme.textTheme.titleMedium?.copyWith(
-                  color: context.palette.mist,
+                  color: palette.mist,
                   fontSize: 18 * scale,
                   fontWeight: FontWeight.w900,
                 ),
@@ -78,7 +79,7 @@ class MarketScreen extends StatelessWidget {
             Text(
               "Bazaar",
               style: context.theme.textTheme.titleMedium?.copyWith(
-                color: context.palette.mist,
+                color: palette.mist,
                 fontSize: 18 * scale,
                 fontWeight: FontWeight.w900,
               ),

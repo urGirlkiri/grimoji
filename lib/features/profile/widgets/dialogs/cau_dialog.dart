@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/cauldrons.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
@@ -23,15 +24,15 @@ class CauldronDialog extends StatelessWidget {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: isError
-            ? context.palette.crimson
-            : context.palette.dusk,
+            ? palette.crimson
+            : palette.dusk,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         content: Text(
           message,
           textAlign: TextAlign.center,
           style: context.theme.textTheme.bodyMedium?.copyWith(
-            color: context.palette.moonlight,
+            color: palette.moonlight,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -105,15 +106,15 @@ class CauldronDialog extends StatelessWidget {
                             vertical: 6,
                           ),
                           decoration: BoxDecoration(
-                            color: context.palette.slate,
+                            color: palette.slate,
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
-                              color: context.palette.twilight,
+                              color: palette.twilight,
                               width: 2.5,
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: context.palette.voidBlack,
+                                color: palette.voidBlack,
                                 offset: const Offset(0, 3),
                               ),
                             ],
@@ -122,7 +123,7 @@ class CauldronDialog extends StatelessWidget {
                             isFull ? "Full" : "${data.cauldrons}/5",
                             style: context.theme.textTheme.titleMedium
                                 ?.copyWith(
-                                  color: context.palette.trueWhite,
+                                  color: palette.trueWhite,
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 1.5,
                                   fontSize: 24 * context.globalScale,
@@ -145,7 +146,7 @@ class CauldronDialog extends StatelessWidget {
                           Text(
                             "Need more cauldrons?",
                             style: context.theme.textTheme.bodyMedium?.copyWith(
-                              color: context.palette.moonlightSoft,
+                              color: palette.moonlightSoft,
                             ),
                           ),
                           const SizedBox(height: 16),
@@ -176,8 +177,8 @@ class CauldronDialog extends StatelessWidget {
                                 },
                                 child: FilledButton.icon(
                                   style: FilledButton.styleFrom(
-                                    backgroundColor: context.palette.twilight,
-                                    foregroundColor: context.palette.mist,
+                                    backgroundColor: palette.twilight,
+                                    foregroundColor: palette.mist,
                                     padding: const EdgeInsets.symmetric(
                                       vertical: 24,
                                     ),
@@ -192,7 +193,7 @@ class CauldronDialog extends StatelessWidget {
                                   label: Text(
                                     "Visit The Market",
                                     style: context.theme.textTheme.titleMedium
-                                        ?.copyWith(color: context.palette.mist),
+                                        ?.copyWith(color: palette.mist),
                                   ),
                                 ),
                               ),
@@ -228,7 +229,7 @@ class _BuyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final canAfford = dices >= cost;
-    final palette = context.palette;
+    
     return PillButton(
       text: label,
       leading: Image.asset('assets/images/dice.png', width: 22, height: 22),

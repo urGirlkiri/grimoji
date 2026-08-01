@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/app/lifecycle.dart';
-import 'package:grimoji/app/theme.dart';
-import 'package:grimoji/app/palette.dart';
+import 'package:grimoji/app/theme/index.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/router/index.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/level/controller.dart';
@@ -32,7 +32,6 @@ class Grimoji extends StatelessWidget {
           ChangeNotifierProvider.value(value: profileController),
           Provider.value(value: settingsController),
           Provider.value(value: dailyClaimReminder),
-          Provider(create: (context) => const Palette()),
           ChangeNotifierProvider(create: (context) => LevelDataController()),
           ProxyProvider2<
             AppLifecycleStateNotifier,
@@ -50,7 +49,6 @@ class Grimoji extends StatelessWidget {
         ],
         child: Builder(
           builder: (context) {
-            final palette = context.palette;
             final scale = context.globalScale;
 
             return MaterialApp.router(

@@ -1,9 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/features/match/models/particle.dart';
 import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/tile/tile_v_f_x/painter.dart';
-import 'package:grimoji/utils/context_data.dart';
 
 class TileExplosion extends StatefulWidget {
   final double size;
@@ -48,8 +48,8 @@ class _TileExplosionState extends State<TileExplosion>
 
           size: 3.0 + _random.nextDouble() * 4.0,
           color: _random.nextBool()
-              ? context.palette.dusk
-              : context.palette.crimson,
+              ? palette.dusk
+              : palette.crimson,
           maxLife: 0.4 + _random.nextDouble() * 0.3,
         ),
       );
