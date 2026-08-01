@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/behavior_register.dart';
-import 'package:grimoji/features/alchemy/behaviors/behavior.dart';
-import 'package:grimoji/features/alchemy/models/behavior_action.dart';
+import 'package:grimoji/features/alchemy/behaviors/models/behavior.dart';
+import 'package:grimoji/features/alchemy/behaviors/models/behavior_action.dart';
 import 'package:grimoji/features/alchemy/reactions/reaction.dart';
 
 void main() {

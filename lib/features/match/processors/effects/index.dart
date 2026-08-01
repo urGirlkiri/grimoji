@@ -2,8 +2,8 @@ import 'package:flutter/foundation.dart';
 
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/behaviors/clear.dart';
-import 'package:grimoji/features/alchemy/models/action_type.dart';
-import 'package:grimoji/features/alchemy/models/behavior_action.dart';
+import 'package:grimoji/features/alchemy/behaviors/models/action_type.dart';
+import 'package:grimoji/features/alchemy/behaviors/models/behavior_action.dart';
 import 'package:grimoji/features/match/board/effects/ghost_dive/effect.dart';
 import 'package:grimoji/features/match/board/effects/wheel_roll/effect.dart';
 import 'package:grimoji/features/match/board/manager.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/behaviors/dive.dart';
-import 'package:grimoji/features/alchemy/models/action_type.dart';
+import 'package:grimoji/features/alchemy/behaviors/models/action_type.dart';
 
 void main() {
   group('DiveBehavior', () {

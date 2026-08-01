@@ -1,5 +1,5 @@
 import 'package:grimoji/config/emojis/index.dart';
-import 'package:grimoji/features/alchemy/models/behavior_action.dart';
+import 'package:grimoji/features/alchemy/behaviors/models/behavior_action.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:grimoji/features/match/detectors/match.dart';
 import 'package:grimoji/features/match/models/match_group.dart';

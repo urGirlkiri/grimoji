@@ -1,5 +1,5 @@
 import 'package:grimoji/config/emojis/index.dart';
-import 'package:grimoji/features/alchemy/models/action_type.dart';
+import 'package:grimoji/features/alchemy/behaviors/models/action_type.dart';
 
 class BehaviorAction {
   final ActionType type;

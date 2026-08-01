@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:grimoji/config/emojis/index.dart';
-import 'package:grimoji/features/alchemy/behaviors/behavior.dart';
+import 'package:grimoji/features/alchemy/behaviors/models/behavior.dart';
 import 'package:grimoji/features/alchemy/behaviors/clear.dart';
 import 'package:grimoji/features/alchemy/behaviors/dive.dart';
 import 'package:grimoji/features/alchemy/behaviors/swallow.dart';
