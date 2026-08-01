@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/emojis/index.dart';
+import 'package:grimoji/features/cauldron/game/state.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
+import 'package:provider/provider.dart';
 
 class ScoreCard extends StatelessWidget {
   static const highScore = 20000;
@@ -15,6 +17,7 @@ class ScoreCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scale = context.globalScale;
+    final score = context.select<CauldronState, int>((s) => s.score);
     return Container(
       width: 150,
       padding: const EdgeInsets.symmetric(
@@ -49,7 +52,7 @@ class ScoreCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Text("0", style: context.theme.textTheme.bodyLarge),
+          Text(score.toString(), style: context.theme.textTheme.bodyLarge),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
