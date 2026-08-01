@@ -51,7 +51,7 @@ class BottomPowerups extends StatelessWidget {
             const SizedBox(width: 12),
             PowerupBtn(
               bgColor: palette.dusk,
-              assetPath: Emojis.boomerang.svg,
+              assetPath: Emojis.boxingGlove.svg,
               onTap: () {
                 _showSnackbar(context);
               },
@@ -59,7 +59,7 @@ class BottomPowerups extends StatelessWidget {
             const SizedBox(width: 12),
             PowerupBtn(
               bgColor: palette.dusk,
-              assetPath: Emojis.testTube.svg,
+              assetPath: Emojis.up.svg,
               onTap: () {
                 _showSnackbar(context);
               },
@@ -67,7 +67,7 @@ class BottomPowerups extends StatelessWidget {
             const SizedBox(width: 12),
             PowerupBtn(
               bgColor: palette.dusk,
-              assetPath: Emojis.flyingSaucer.svg,
+              assetPath: Emojis.collision.svg,
               onTap: () {
                 _showSnackbar(context);
               },

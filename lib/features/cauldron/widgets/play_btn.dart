@@ -9,10 +9,10 @@ class PlayBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return PillButton(
-      text: "Start Your Own fire",
+      text: "Start Your Own Fire",
       color: palette.dusk,
+      borderColor: palette.slate,
       textColor: palette.mist,
       onTap: () => context.pushNamed(Routes.cauldronPlay),
     );
