@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grimoji/features/alchemy/recipes/recipe.dart';
+import 'package:grimoji/features/alchemy/recipes/models/recipe.dart';
 import 'package:grimoji/features/grimoire/layout.dart';
 import 'package:grimoji/features/grimoire/widgets/recipe_card/unread_badge.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';

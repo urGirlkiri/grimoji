@@ -7,7 +7,7 @@ import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
-import 'package:grimoji/features/alchemy/recipes/recipe.dart';
+import 'package:grimoji/features/alchemy/recipes/models/recipe.dart';
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/level/hint_screen/match_shape.dart';
 import 'package:grimoji/utils/context_data.dart';

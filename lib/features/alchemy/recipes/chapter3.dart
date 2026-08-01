@@ -1,5 +1,5 @@
 import 'package:grimoji/config/emojis/index.dart';
-import 'package:grimoji/features/alchemy/recipes/recipe.dart';
+import 'package:grimoji/features/alchemy/recipes/models/recipe.dart';
 
 final List<Recipe> chapter3Recipes = [
   Recipe(ingredient: Emojis.linkedPaperclips, requiredAmount: 4, yields: Emojis.brokenChain),

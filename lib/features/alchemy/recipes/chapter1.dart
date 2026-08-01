@@ -1,5 +1,5 @@
 import 'package:grimoji/config/emojis/index.dart';
-import 'package:grimoji/features/alchemy/recipes/recipe.dart';
+import 'package:grimoji/features/alchemy/recipes/models/recipe.dart';
 
 final List<Recipe> chapter1Recipes = [
   Recipe(ingredient: Emojis.droplet, requiredAmount: 3, yields: Emojis.ocean),

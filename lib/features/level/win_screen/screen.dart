@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/app/theme/palette.dart';
-import 'package:grimoji/features/alchemy/recipes/recipe.dart';
+import 'package:grimoji/features/alchemy/recipes/models/recipe.dart';
 import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:provider/provider.dart';
 import 'package:grimoji/features/level/controller.dart';

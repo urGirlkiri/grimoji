@@ -14,7 +14,7 @@ import 'package:grimoji/features/alchemy/recipes/chapter4.dart';
 import 'dart:collection';
 
 import 'package:grimoji/features/alchemy/recipes/chapter5.dart';
-import 'package:grimoji/features/alchemy/recipes/recipe.dart';
+import 'package:grimoji/features/alchemy/recipes/models/recipe.dart';
 
 class RecipeBook {
   static final List<Recipe> allRecipes = [

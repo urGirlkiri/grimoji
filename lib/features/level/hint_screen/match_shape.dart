@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/emojis/index.dart';
-import 'package:grimoji/features/alchemy/recipes/recipe.dart';
+import 'package:grimoji/features/alchemy/recipes/models/recipe.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/utils/math.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';

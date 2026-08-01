@@ -4,7 +4,7 @@ import 'package:grimoji/features/audio/sounds/sfx_type.dart';
 import 'package:grimoji/features/match/models/match_group.dart';
 import 'package:grimoji/features/match/models/tile.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
-import 'package:grimoji/features/alchemy/recipes/recipe.dart';
+import 'package:grimoji/features/alchemy/recipes/models/recipe.dart';
 import 'package:grimoji/features/alchemy/reactions/models/reaction.dart';
 import 'package:grimoji/features/match/board/manager.dart';
 import 'package:grimoji/features/match/models/cascade_step_result.dart';
