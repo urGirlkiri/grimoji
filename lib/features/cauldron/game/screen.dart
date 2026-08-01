@@ -16,7 +16,7 @@ import 'package:grimoji/widgets/dialogs/quit_dialog.dart';
 import 'package:grimoji/widgets/responsive_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:grimoji/features/cauldron/game/state.dart';
-import 'package:grimoji/features/cauldron/game/widgets/game_over_dialog.dart';
+import 'package:grimoji/features/cauldron/game/dialogs/game_over.dart';
 
 class CauldronPlayScreen extends StatefulWidget {
   const CauldronPlayScreen({super.key});
@@ -54,8 +54,7 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
       GameOverDialog(
         score: _gameState.score,
         onRetry: () {
-          _gameState.reset();
-          GoRouter.of(context).pushReplacement(Routes.cauldronPlayRoute);
+          _game.reset();
         },
         onQuit: () {
           GoRouter.of(context).go(Routes.cauldronRoute);
