@@ -200,16 +200,14 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
               ),
               squarishMainArea: Stack(
                 children: [
-                  Expanded(
-                    child: GameWidget(
-                      game: _game,
-                      loadingBuilder: (context) => Center(
-                        child: AspectRatio(
-                          aspectRatio: 10.5125 / 9.573,
-                          child: Image.asset(
-                            'assets/images/cauldron/Cauldron.png',
-                            fit: BoxFit.contain,
-                          ),
+                  GameWidget(
+                    game: _game,
+                    loadingBuilder: (context) => Center(
+                      child: AspectRatio(
+                        aspectRatio: 10.5125 / 9.573,
+                        child: Image.asset(
+                          'assets/images/cauldron/Cauldron.png',
+                          fit: BoxFit.contain,
                         ),
                       ),
                     ),
