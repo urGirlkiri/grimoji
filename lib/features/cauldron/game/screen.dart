@@ -2,7 +2,6 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimoji/app/theme/palette.dart';
-import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/cauldron/game/index.dart';
 import 'package:grimoji/features/cauldron/game/widgets/bottom_powerups.dart';
 import 'package:grimoji/features/cauldron/game/widgets/next_card.dart';
@@ -31,7 +30,7 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
   bool _isGameInitialized = false;
   bool _isPauseDialogOpen = false;
   bool _isQuitDialogOpen = false;
-  bool _isGameOverDialogOpen = false;
+  bool _gameOverDialogShown = false;
   bool _auto = false;
 
   @override
@@ -42,14 +41,17 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
   }
 
   void _onGameStateChanged() {
-    if (_gameState.isGameOver && !_isGameOverDialogOpen && mounted) {
-      _showGameOverDialog();
+    if (_gameState.isGameOver) {
+      if (!_gameOverDialogShown && mounted) {
+        _gameOverDialogShown = true;
+        _showGameOverDialog();
+      }
+    } else {
+      _gameOverDialogShown = false;
     }
   }
 
   void _showGameOverDialog() {
-    setState(() => _isGameOverDialogOpen = true);
-
     showAnimatedDialog(
       context,
       GameOverDialog(
@@ -58,12 +60,11 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
           _game.reset();
         },
         onQuit: () {
-          GoRouter.of(context).go(Routes.cauldronRoute);
+          context.pop();
         },
       ),
-    ).then((_) {
-      if (mounted) setState(() => _isGameOverDialogOpen = false);
-    });
+      barrierDismissible: true,
+    );
   }
 
   @override
@@ -90,7 +91,7 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
       PauseDialog(
         onResume: () => _game.resumeEngine(),
         onQuit: () {
-          GoRouter.of(context).go(Routes.cauldronRoute);
+          context.pop();
         },
         onSettings: () {
           showAnimatedDialog(context, const SettingsDialog());
@@ -112,10 +113,11 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
       context,
       QuitDialog(
         onQuit: () {
-          GoRouter.of(context).go(Routes.cauldronRoute);
+          context.pop();
         },
         onStay: () => _game.resumeEngine(),
       ),
+      barrierDismissible: true,
     ).then((_) {
       if (!mounted) return;
       if (_game.paused) _game.resumeEngine();
@@ -252,6 +254,7 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
     _gameState.removeListener(_onGameStateChanged);
     _gameState.dispose();
     _game.dispose();
+    _isGameInitialized = false;
     super.dispose();
   }
 }
