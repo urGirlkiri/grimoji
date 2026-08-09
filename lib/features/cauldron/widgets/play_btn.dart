@@ -12,7 +12,7 @@ class PlayBtn extends StatelessWidget {
     return PillButton(
       text: "Start Your Own Fire",
       color: palette.dusk,
-      borderColor: palette.slate,
+      borderColor: palette.dusk,
       textColor: palette.mist,
       onTap: () => context.pushNamed(Routes.cauldronPlay),
     );
