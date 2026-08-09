@@ -3,6 +3,7 @@ import 'package:flame/events.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart' hide PointerMoveEvent;
 import 'package:grimoji/app/theme/palette.dart';
+import 'package:grimoji/features/cauldron/game/core/inside_landing.dart';
 import 'package:grimoji/features/cauldron/game/core/out_of_bounds.dart';
 import 'package:grimoji/features/cauldron/game/state.dart';
 import 'package:grimoji/features/cauldron/game/utils/camera.dart';
@@ -127,6 +128,7 @@ class CauldronGame extends Forge2DGame
     );
 
     await world.add(OutOfBoundsSensor());
+    await world.add(InsideLandingSensor());
   }
 
   @override
