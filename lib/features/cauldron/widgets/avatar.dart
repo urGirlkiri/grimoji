@@ -37,7 +37,7 @@ class Avatar extends StatelessWidget {
           color: backgroundColor,
           borderRadius: BorderRadius.circular(24 * scale),
           border: border,
-          boxShadow: [
+          boxShadow: backgroundColor != null ? [
             BoxShadow(
               color: palette.voidBlack.withValues(alpha: 0.3),
               blurRadius: 4,
@@ -49,7 +49,7 @@ class Avatar extends StatelessWidget {
               offset: Offset(0, 4 * scale),
               blurRadius: 0,
             ),
-          ],
+          ] : [],
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(16 * scale),
