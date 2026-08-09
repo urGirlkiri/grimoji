@@ -3,6 +3,7 @@ import 'package:flame/events.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart' hide PointerMoveEvent;
 import 'package:grimoji/app/theme/palette.dart';
+import 'package:grimoji/features/cauldron/game/core/out_of_bounds.dart';
 import 'package:grimoji/features/cauldron/game/state.dart';
 import 'package:grimoji/features/cauldron/game/utils/camera.dart';
 import 'package:grimoji/features/cauldron/game/core/container/front.dart';
@@ -18,14 +19,14 @@ class CauldronGame extends Forge2DGame
   final double globalScale;
   final BuildContext context;
   final CauldronState gameState;
-
-  static final Vector2 worldCauldronSize = Vector2(10.5125, 9.573);
-
-  static const double overflowPosition = -5.0;
+  final Set<EmojiBody> _scoredInside = {};
 
   late final OverflowSensor _overflowSensor;
   late final EmojiSpawner _spawner;
   late final PredictionLine predictionLine;
+
+  static final Vector2 worldCauldronSize = Vector2(10.5125, 9.573);
+  static const double overflowPosition = -5.0;
 
   static const double minDropX = -4.5;
   static const double maxDropX = 4.5;
@@ -33,6 +34,10 @@ class CauldronGame extends Forge2DGame
   static const double dropSpawnY = -4.5;
   static const double cauldronBottomY = 3.5;
   static const bool showHalfLine = false;
+  
+  static const int insideScore = 2;
+  static const int outsideDecrease = 1;
+  static const int outsidePenalty = 10;
 
   bool isAuto = false;
   bool _isHolding = false;
@@ -46,6 +51,40 @@ class CauldronGame extends Forge2DGame
     required this.gameState,
   }) : super(gravity: Vector2(0, 30)) {
     debugMode = false;
+  }
+
+
+  void reset() {
+    final emojis = world.children.whereType<EmojiBody>().toList();
+    for (final emoji in emojis) {
+      emoji.removeFromParent();
+    }
+
+    _scoredInside.clear();
+    _overflowSensor.reset();
+    _spawner.reset();
+
+    gameState.reset();
+    _spawner.rollNextEmoji();
+
+    resumeEngine();
+  }
+
+  void fellOutside(EmojiBody emoji) {
+    if (_scoredInside.contains(emoji)) {
+      _scoredInside.remove(emoji);
+      gameState.subtractScore(outsidePenalty);
+    }
+    gameState.subtractScore(outsideDecrease);
+    
+    emoji.removeFromParent();
+  }
+
+  void fellInside(EmojiBody emoji) {
+    if (!_scoredInside.contains(emoji)) {
+      _scoredInside.add(emoji);
+      gameState.addScore(insideScore);
+    }
   }
 
   @override
@@ -86,6 +125,8 @@ class CauldronGame extends Forge2DGame
         worldPosition: Vector2(0, 0.5),
       ),
     );
+
+    await world.add(OutOfBoundsSensor());
   }
 
   @override
@@ -116,21 +157,6 @@ class CauldronGame extends Forge2DGame
       Vector2(clampedX, dropSpawnY),
       Vector2(clampedX, cauldronBottomY + (showHalfLine ? 2.5 : 0)),
     );
-  }
-
-  void reset() {
-    final emojis = world.children.whereType<EmojiBody>().toList();
-    for (final emoji in emojis) {
-      emoji.removeFromParent();
-    }
-
-    _overflowSensor.reset();
-    _spawner.reset();
-
-    gameState.reset();
-    _spawner.rollNextEmoji();
-
-    resumeEngine();
   }
 
   @override

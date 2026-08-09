@@ -20,6 +20,11 @@ class CauldronState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void subtractScore(int points) {
+    score -= points;
+    notifyListeners();
+  }
+
   void setNextEmoji(GameEmoji emoji) {
     nextEmoji = emoji;
     notifyListeners();
