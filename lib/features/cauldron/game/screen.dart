@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/features/cauldron/game/index.dart';
 import 'package:grimoji/features/cauldron/game/widgets/bottom_powerups.dart';
+import 'package:grimoji/features/cauldron/game/widgets/fire_overlay.dart';
 import 'package:grimoji/features/cauldron/game/widgets/next_card.dart';
 import 'package:grimoji/features/cauldron/game/widgets/score_card.dart';
 import 'package:grimoji/features/settings/dialogs/settings.dart';
@@ -201,6 +202,7 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
                 ),
               ),
               squarishMainArea: Stack(
+                clipBehavior: Clip.none, 
                 children: [
                   GameWidget(
                     game: _game,
@@ -214,6 +216,7 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
                       ),
                     ),
                   ),
+                  FireOverlay(game: _game),
                   Positioned(
                     right: 4,
                     child: Column(
