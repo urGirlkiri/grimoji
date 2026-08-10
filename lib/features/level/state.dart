@@ -27,7 +27,17 @@ class LevelState extends ChangeNotifier {
 
   final GlobalKey targetIconKey = GlobalKey();
   final GlobalKey powerupIconKey = GlobalKey();
+  final Map<String, GlobalKey> powerupBtnKeys = {};
+  final Map<String, ValueNotifier<int>> _powerupTokens = {};
   Offset? _powerupIconPosition;
+
+  ValueNotifier<int> bumpPowerupToken(String powerupId) {
+    return _powerupTokens.putIfAbsent(powerupId, () => ValueNotifier(0));
+  }
+
+  void bumpPowerupIcon(String powerupId) {
+    bumpPowerupToken(powerupId).value++;
+  }
 
   Offset? get powerupIconPosition => _powerupIconPosition;
 
@@ -53,6 +63,7 @@ class LevelState extends ChangeNotifier {
 
   void Function()? onPowerupImpact;
   void Function(TileCoordinate)? onBloodDrop;
+  void Function(String powerupId)? onPowerupCollected;
 
   int get powerupHoverToken => _powerupHoverToken;
 
@@ -414,6 +425,9 @@ class LevelState extends ChangeNotifier {
     lifecycleNotifier.removeListener(_onLifecycleChanged);
     coordinator.dispose();
     announcer.removeListener(notifyListeners);
+    for (final token in _powerupTokens.values) {
+      token.dispose();
+    }
     super.dispose();
   }
 }
