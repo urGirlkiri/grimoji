@@ -124,7 +124,7 @@ class ProfileDialog extends StatelessWidget {
               const SizedBox(height: 32),
 
               Text(
-                "Cascet",
+                "Inventory",
                 style: context.theme.textTheme.bodyLarge?.copyWith(
                   color: palette.midnight,
                   fontWeight: FontWeight.bold,
