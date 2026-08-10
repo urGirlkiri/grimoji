@@ -16,9 +16,24 @@ class MapState extends ChangeNotifier {
 
   double _cameraZ = 0.0;
   bool? isBelowLevel;
+  bool _hasScrolledToCurrent = false;
 
   MapState({required LevelDataController lvData}) : _lvData = lvData {
     _genLevelNodes();
+    _lvData.addListener(_onLevelDataChanged);
+  }
+
+  @override
+  void dispose() {
+    _lvData.removeListener(_onLevelDataChanged);
+    super.dispose();
+  }
+
+  void _onLevelDataChanged() {
+    if (!_hasScrolledToCurrent && _lvData.isInitialized) {
+      _hasScrolledToCurrent = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) => goToCurrentLv());
+    }
   }
 
   double get cameraZ => _cameraZ;

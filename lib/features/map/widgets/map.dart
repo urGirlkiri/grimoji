@@ -5,6 +5,7 @@ import 'package:grimoji/features/map/painters/decorations.dart';
 import 'package:grimoji/features/map/painters/road/index.dart';
 import 'package:grimoji/features/map/painters/road/stripe.dart';
 import 'package:grimoji/features/map/state.dart';
+import 'package:grimoji/config/router/layout/shell_tab.dart';
 import 'package:grimoji/features/map/widgets/level_nodes/index.dart';
 import 'package:grimoji/features/map/widgets/sky.dart';
 import 'package:grimoji/utils/context_data.dart';
@@ -20,12 +21,27 @@ class MapWidget extends StatefulWidget {
 }
 
 class _MapWidgetState extends State<MapWidget> {
+  bool? _wasActive;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
       (_) => context.read<MapState>().goToCurrentLv(),
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final shell = ShellTabScope.maybeOf(context);
+    final isActive = shell?.isBranchActive(0) ?? true;
+    if (isActive && _wasActive != true) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) context.read<MapState>().goToCurrentLv();
+      });
+    }
+    _wasActive = isActive;
   }
 
   @override
