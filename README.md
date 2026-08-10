@@ -22,11 +22,11 @@ https://github.com/user-attachments/assets/ceef5a8d-0b00-4a09-b38c-49777ac84560
 
 ### Quick Start
 
-<pre align="center"><code >git clone https://github.com/urGirlkiri/grimoji.git
-cd grimoji
-cp .env.example .env
-flutter pub get
-flutter run -d chrome</code></pre>
+`git clone https://github.com/urGirlkiri/grimoji.git &&
+cd grimoji &&
+cp .env.example .env &&
+flutter pub get &&
+flutter run -d chrome`
 
 > See the [setup guide](docs/SETUP.md) for platform-specific setup and run instructions.
 
