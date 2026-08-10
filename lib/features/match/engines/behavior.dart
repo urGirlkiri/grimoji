@@ -289,7 +289,11 @@ class BehaviorEngine {
     GameEmoji targetEmoji,
   ) {
     if (tile.behavior != null) {
-      return tile.behavior!.onSwipedWith(x, y, targetEmoji);
+      return tile.behavior!.onSwipedWith(
+        tile.coordinate.row,
+        tile.coordinate.col,
+        targetEmoji,
+      );
     }
 
     return [];
@@ -297,7 +301,9 @@ class BehaviorEngine {
 
   bool hasSwipeBehavior(Tile tile, int x, int y, GameEmoji targetEmoji) {
     if (tile.behavior != null) {
-      return tile.behavior!.onSwipedWith(x, y, targetEmoji).isNotEmpty;
+      return tile.behavior!
+          .onSwipedWith(tile.coordinate.row, tile.coordinate.col, targetEmoji)
+          .isNotEmpty;
     }
     return false;
   }

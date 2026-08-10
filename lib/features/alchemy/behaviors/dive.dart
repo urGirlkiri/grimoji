@@ -18,11 +18,28 @@ class DiveBehavior extends EmojiBehavior {
 
   @override
   List<BehaviorAction> onSwipedWith(int x, int y, GameEmoji targetEmoji) {
+    if (targetEmoji == emoji) {
+      return [BehaviorAction(type: ActionType.ghostDive, x: x, y: y)];
+    }
     if (targetEmoji == bombTrigger) {
-      return [BehaviorAction(type: ActionType.ghostDive, emoji: bombTrigger)];
+      return [
+        BehaviorAction(
+          type: ActionType.ghostDive,
+          x: x,
+          y: y,
+          emoji: bombTrigger,
+        ),
+      ];
     }
     if (targetEmoji == poleTrigger) {
-      return [BehaviorAction(type: ActionType.ghostDive, emoji: poleTrigger)];
+      return [
+        BehaviorAction(
+          type: ActionType.ghostDive,
+          x: x,
+          y: y,
+          emoji: poleTrigger,
+        ),
+      ];
     }
     return [];
   }

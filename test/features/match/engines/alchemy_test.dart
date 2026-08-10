@@ -224,6 +224,43 @@ void main() {
       },
     );
 
+    test(
+      'Triggering one bomb should detonate adjacent bombs in the same wave',
+      () {
+        final explosiveEmoji = RecipeBook.allRecipes
+            .firstWhere(
+              (r) =>
+                  RecipeBook.getReactionFor(r.yields)?.type ==
+                  ReactionType.explosive,
+            )
+            .yields;
+
+        grid.fill(Emojis.rock);
+        grid.place(3, 2, explosiveEmoji);
+        grid.place(3, 3, explosiveEmoji);
+        grid.place(3, 4, explosiveEmoji);
+        boardManager.triggerInitialFall();
+        boardManager.gridTiles[3][2].isTriggered = true;
+
+        final detonationResult = alchemyEngine.processDetonationStep();
+
+        expect(
+          detonationResult.destroyed.contains(TileCoordinate(row: 3, col: 2)),
+          isTrue,
+        );
+        expect(
+          detonationResult.destroyed.contains(TileCoordinate(row: 3, col: 3)),
+          isTrue,
+          reason: 'Adjacent bomb should also detonate in the same wave',
+        );
+        expect(
+          detonationResult.destroyed.contains(TileCoordinate(row: 3, col: 4)),
+          isTrue,
+          reason: 'Chained bomb should also detonate in the same wave',
+        );
+      },
+    );
+
     test('Should NOT merge when match size is LESS than requiredAmount', () {
       final candidates = RecipeBook.allRecipes
           .where(

@@ -54,6 +54,14 @@ class BoardManager {
       } while (gridTiles[barberRow][barberCol].emoji == Emojis.impSmile);
       gridTiles[barberRow][barberCol].emoji = Emojis.barberPole;
     }
+    // gridTiles[0][0].emoji = Emojis.ghost;
+    // gridTiles[0][1].emoji = Emojis.ghost;
+
+    // gridTiles[1][0].emoji = Emojis.bomb;
+    // gridTiles[1][1].emoji = Emojis.bomb;
+
+    // gridTiles[2][0].emoji = Emojis.ghost;
+    // gridTiles[2][1].emoji = Emojis.bomb;
   }
 
   GameEmoji getRandomSafeEmoji(int row, int col) {
@@ -418,6 +426,16 @@ class BoardManager {
       }
     }
     return count;
+  }
+
+  void placeEmoji(int row, int col, GameEmoji emoji) {
+    gridTiles[row][col].emoji = emoji;
+  }
+
+  void placeEmojis(Map<TileCoordinate, GameEmoji> placements) {
+    for (final entry in placements.entries) {
+      gridTiles[entry.key.row][entry.key.col].emoji = entry.value;
+    }
   }
 
   void placeStartingBoosters(List<String> boosterIds) {

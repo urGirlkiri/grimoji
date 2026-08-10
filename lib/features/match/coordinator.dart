@@ -185,11 +185,11 @@ class GameCoordinator {
 
     audio.playSfx(Sfx.swipe);
 
-    final isPoweredGhostDive = decision.actions.any(
-      (action) => action.type == ActionType.ghostDive && action.emoji != null,
+    final isAnyGhostDive = decision.actions.any(
+      (action) => action.type == ActionType.ghostDive,
     );
     state.updateUI();
-    if (!isPoweredGhostDive && !await _safeDelay(postSwipeScanDelay)) return;
+    if (!isAnyGhostDive && !await _safeDelay(postSwipeScanDelay)) return;
 
     if (decision.type == SwipeResult.specialBehavior) {
       final TileCoordinate triggerCoord = dtile.behavior != null
@@ -712,7 +712,10 @@ class GameCoordinator {
     }
 
     if (_effects.hasGhostPending &&
-        !await _dispatchGhostEffects(await _effects.prepareGhostEffects())) {
+        !await _dispatchGhostEffects(
+          await _effects.prepareGhostEffects(),
+          simultaneous: true,
+        )) {
       return false;
     }
 
