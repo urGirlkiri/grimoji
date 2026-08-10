@@ -20,17 +20,13 @@ A gothic alchemy game for mixing and collecting emojis.
 
 https://github.com/user-attachments/assets/ceef5a8d-0b00-4a09-b38c-49777ac84560
 
-<h3>Quick Start</h3>
-<div align="center">
+### Quick Start
 
-
-```bash
-git clone https://github.com/urGirlkiri/grimoji.git
+<pre align="center"><code >git clone https://github.com/urGirlkiri/grimoji.git
 cd grimoji
 cp .env.example .env
 flutter pub get
-flutter run -d chrome
-```
+flutter run -d chrome</code></pre>
 
 > See the [setup guide](docs/SETUP.md) for platform-specific setup and run instructions.
 
