@@ -32,13 +32,15 @@ class RecipeCard extends StatefulWidget {
 }
 
 class _RecipeCardState extends State<RecipeCard> {
+  static final Set<String> _autoOpenedIds = <String>{};
   bool _isShaking = false;
 
   @override
   void initState() {
     super.initState();
 
-    if (widget.autoOpen == true) {
+    if (widget.autoOpen == true && !_autoOpenedIds.contains(widget.recipe.id)) {
+      _autoOpenedIds.add(widget.recipe.id);
       WidgetsBinding.instance.addPostFrameCallback((_) {
         context.readAudio.playSfx(Sfx.recipeRead);
         _unlockedDialog();
@@ -90,7 +92,6 @@ class _RecipeCardState extends State<RecipeCard> {
 
   @override
   Widget build(BuildContext context) {
-    
     final layoutConfig = context.read<Layout>();
 
     Widget card = Hero(
