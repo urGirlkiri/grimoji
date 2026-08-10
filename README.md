@@ -20,6 +20,18 @@ A gothic alchemy game for mixing and collecting emojis.
 
 https://github.com/user-attachments/assets/ceef5a8d-0b00-4a09-b38c-49777ac84560
 
+### Quick Start
+
+```bash
+git clone https://github.com/urGirlkiri/grimoji.git
+cd grimoji
+cp .env.example .env
+flutter pub get
+flutter run -d chrome
+```
+
+> See the [setup guide](docs/SETUP.md) for platform-specific setup and run instructions.
+
 ### Documentation
 
 <div align="center">
@@ -34,11 +46,11 @@ https://github.com/user-attachments/assets/ceef5a8d-0b00-4a09-b38c-49777ac84560
 
 ### Core Loops
 
-This game revolves around emojis. 
-They are two main mechanics: `Matches` and `Merges`, illustrated in two modes
+This game revolves around emojis.
+There are two main mechanics: `Matches` and `Merges`, illustrated in two modes.
 
 
-#### _Match 3 - Candy Crush Style With A Twist——Instead Of Crushing, you merge and form emojis_
+#### _Match 3 — Candy Crush Style With a Twist: Instead of Crushing, You Merge and Form Emojis_
 
 <img 
   src="assets/screenshots/match_3.png" 
@@ -47,7 +59,7 @@ They are two main mechanics: `Matches` and `Merges`, illustrated in two modes
 />
 
 
-#### _Drop n Merge - Suika Style With A Twist——Instead Of Accumulating Size, you can react emojis to form emojis_
+#### _Drop n Merge — Suika Style With a Twist: Instead of Accumulating Size, You Can React Emojis to Form Emojis_
 
 <img 
   src="assets/screenshots/cauldron.png" 
@@ -62,11 +74,11 @@ They are two main mechanics: `Matches` and `Merges`, illustrated in two modes
 
 ![rockingdash](https://firebasestorage.googleapis.com/v0/b/dashatar-dev.appspot.com/o/dashatars%2FRGFzaGF0YXJfQm9udXNfU2V0c19Cb251c19E.png?alt=media)
 
-I have fallen in love with flutter after learning about its superpowers. 
+I have fallen in love with Flutter after learning about its superpowers.
 
-Write Once deploy everywhere. I amde games before but i only deployed to the web via itch but flutter gives me the flexibility of one codebase, all platforms.
+Write once, deploy everywhere. I made games before, but I only deployed to the web via itch.io; Flutter gives me the flexibility of one codebase for all platforms.
 
-If you're lazy like me , then this is proof that its very much possible.
+If you're lazy like me, then this is proof that it's very much possible.
 
 **Provider + Hive**
 
@@ -78,13 +90,17 @@ If you're lazy like me , then this is proof that its very much possible.
 
 
 
-For passing data around whats more intuitive than notifiers, or maybae its just that they remind me of Godot Signals? Anyway, if you're coming from ther like me then this stack will be easy. Provider is the memory and hive the hard drive
+For passing data around, what's more intuitive than notifiers? Or maybe it's just that they remind me of Godot Signals. Anyway, if you're coming from there like me, then this stack will be easy: `Provider` is the memory, and `Hive` is the hard drive.
 
-**Flutter + Flame2d**
+On launch, the app opens Hive boxes for `SettingsData`, `LevelData`, and `ProfileData`. `LevelDataController` keeps the local level completion and star counts in memory and writes the best results back to the box after every win. `ProfileController` does the same for the player profile, which also tracks which emojis and recipes have been unlocked in the recipe tree. Because `Hive` persists these records to disk, the map, grimoire unlocks, and player currency all survive cold starts.
+
+**Flutter + Flame2D**
 
 ![managerdash](https://firebasestorage.googleapis.com/v0/b/dashatar-dev.appspot.com/o/dashatars%2FRGFzaGF0YXJfTWFya2V0aW5nX092ZXJJdF9jb2xvcl9NUl9zaGFkb3c=.png?alt=media)
 
-I thought you might ask. Yh the match-3 is pure flutter. Its the suika where it just makes sense to cheat with a game engine :)
+I thought you might ask. The match-3 is pure Flutter; the Suika-style cauldron is where it just makes sense to use a game engine.
+
+Under the hood, `flame_forge2d` runs the rigid-body physics, while a custom Dart backend resolves every collision and spawn. When emojis make contact, the engine checks the recipe group size through `RecipeBook`, promotes the matching ingredient to the next-tier yield, and looks up any special `BehaviorRegister` or `Reaction` triggers. This keeps the merge logic deterministic and lets the recipe tree be validated and cached in memory on app start.
 
 
 
