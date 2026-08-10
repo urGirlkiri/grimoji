@@ -27,7 +27,7 @@ class CauldronGame extends Forge2DGame
   late final PredictionLine predictionLine;
 
   static final Vector2 worldCauldronSize = Vector2(10.5125, 9.573);
-  static const double overflowPosition = -5.0;
+  static const double overflowPosition = -6;
 
   static const double minDropX = -4.5;
   static const double maxDropX = 4.5;

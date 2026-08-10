@@ -40,8 +40,8 @@ class EmojiBody extends BodyComponent<CauldronGame> {
     final bodyDef = BodyDef(
       type: BodyType.dynamic,
       position: initialPosition,
-      linearDamping: 0.2,
-      angularDamping: 1.5,
+      linearDamping: 0.3,
+      angularDamping: 5,
       bullet: true,
     );
 
