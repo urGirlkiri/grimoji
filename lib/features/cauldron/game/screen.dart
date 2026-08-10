@@ -64,7 +64,7 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
           context.pop();
         },
       ),
-      barrierDismissible: true,
+      barrierDismissible: false,
     );
   }
 
@@ -202,7 +202,7 @@ class _CauldronPlayScreenState extends State<CauldronPlayScreen> {
                 ),
               ),
               squarishMainArea: Stack(
-                clipBehavior: Clip.none, 
+                clipBehavior: Clip.none,
                 children: [
                   GameWidget(
                     game: _game,
