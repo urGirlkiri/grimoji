@@ -184,6 +184,10 @@ class BehaviorEngine {
           }
           break;
 
+        case ActionType.bomb:
+          boardManager.gridTiles[x][y].isTriggered = true;
+          break;
+
         case ActionType.shuffleSurrounding:
           final centerTile = boardManager.gridTiles[x][y];
           int radius = 1;
