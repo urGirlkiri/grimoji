@@ -46,6 +46,9 @@ class Tile {
   bool hasFlown = false;
   bool isFlying = false;
 
+  bool isPowerupCollectable = false;
+  bool hasPowerupFlown = false;
+
   bool isHinting = false;
 
   bool isShuffling = false;
@@ -81,6 +84,9 @@ class Tile {
 
     newTile.hasFlown = hasFlown;
     newTile.isFlying = isFlying;
+
+    newTile.isPowerupCollectable = isPowerupCollectable;
+    newTile.hasPowerupFlown = hasPowerupFlown;
 
     newTile.isHinting = isHinting;
     newTile.hintPartner = hintPartner;
@@ -120,6 +126,9 @@ class Tile {
 
     hasFlown = false;
     isFlying = false;
+
+    isPowerupCollectable = false;
+    hasPowerupFlown = false;
 
     isHinting = false;
     hintPartner = null;

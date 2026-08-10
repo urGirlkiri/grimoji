@@ -1,4 +1,5 @@
 import 'package:grimoji/config/emojis/index.dart';
+import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/alchemy/behaviors/clear.dart';
 import 'package:grimoji/features/audio/sounds/sfx.dart';
 import 'package:grimoji/features/match/models/match_group.dart';
@@ -49,6 +50,7 @@ class AlchemyEngine {
     required List<MatchGroup> matchedGroups,
     required TileCoordinate targetCoordinate,
     required bool isFirstMatch,
+    bool isFeverTime = false,
   }) {
     final List<CollectedEmoji> collectedEmojis = [];
     final TileSet tilesToDestroy = {};
@@ -123,6 +125,9 @@ class AlchemyEngine {
                   CollectedEmoji(emoji: recipe.yields, count: 1),
                 );
                 targetTile.isFlying = true;
+              } else if (isFeverTime &&
+                  Powerup.forEmoji(recipe.yields) != null) {
+                targetTile.isPowerupCollectable = true;
               }
 
               final TileSet sources = coords

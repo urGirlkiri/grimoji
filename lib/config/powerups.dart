@@ -115,6 +115,13 @@ class Powerup {
   static Powerup? byId(String id) =>
       all.cast<Powerup?>().firstWhere((p) => p!.id == id, orElse: () => null);
 
+  static Powerup? forEmoji(GameEmoji emoji) {
+    for (final p in bottom) {
+      if (p.iconPath == emoji.svg) return p;
+    }
+    return null;
+  }
+
   String? get lottiePath {
     if (id == 'wheel' || id == 'boxing_glove') return null;
     return emojiForId(id)?.lottie;
