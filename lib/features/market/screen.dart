@@ -1,15 +1,70 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/cauldrons.dart';
 import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/audio/sounds/sfx.dart';
+import 'package:grimoji/features/market/scroll_controller.dart';
 import 'package:grimoji/features/market/widgets/daily_reward/index.dart';
 import 'package:grimoji/features/market/widgets/powerups/index.dart';
 import 'package:grimoji/features/market/widgets/powerups/item.dart';
 import 'package:grimoji/utils/context_data.dart';
 
-class MarketScreen extends StatelessWidget {
+class MarketScreen extends StatefulWidget {
   const MarketScreen({super.key});
+
+  @override
+  State<MarketScreen> createState() => _MarketScreenState();
+}
+
+class _MarketScreenState extends State<MarketScreen> {
+  final GlobalKey _dailyRewardKey = GlobalKey();
+  final ScrollController _scrollController = ScrollController();
+  String? _lastScrolledUri;
+  MarketScrollController? _marketScroller;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final controller = context.readMarketScrollController;
+    if (_marketScroller != controller) {
+      _marketScroller?.removeListener(_scrollToDailyReward);
+      _marketScroller = controller;
+      _marketScroller?.addListener(_scrollToDailyReward);
+    }
+
+    final uri = GoRouterState.of(context).uri;
+    if (uri.queryParameters['claim'] == 'dice' &&
+        _lastScrolledUri != uri.toString()) {
+      _lastScrolledUri = uri.toString();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _scrollToDailyReward();
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _marketScroller?.removeListener(_scrollToDailyReward);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollToDailyReward() {
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+      );
+    } else if (_dailyRewardKey.currentContext != null) {
+      Scrollable.ensureVisible(
+        _dailyRewardKey.currentContext!,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
 
   void playPurchaseSfx(BuildContext context) {
     context.readAudio.playSfx(Sfx.purchase);
@@ -22,9 +77,7 @@ class MarketScreen extends StatelessWidget {
   }) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: isError
-            ? palette.crimson
-            : palette.dusk,
+        backgroundColor: isError ? palette.crimson : palette.dusk,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         content: Text(
@@ -57,6 +110,7 @@ class MarketScreen extends StatelessWidget {
           ),
         ),
         child: ListView(
+          controller: _scrollController,
           padding: EdgeInsets.all(24.0 * scale),
           physics: const BouncingScrollPhysics(),
           children: [
@@ -74,7 +128,7 @@ class MarketScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 16 * scale),
-            const DailyRewardCard(),
+            DailyRewardCard(key: _dailyRewardKey),
             SizedBox(height: 36 * scale),
             Text(
               "Bazaar",

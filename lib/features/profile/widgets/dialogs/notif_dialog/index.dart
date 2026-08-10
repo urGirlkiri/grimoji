@@ -29,7 +29,16 @@ class NotifDialog extends StatelessWidget {
               ? AnimatedButton(
                   onTap: () {
                     Navigator.of(context).pop();
-                    GoRouter.of(context).goNamed(Routes.market);
+                    GoRouter.of(context).goNamed(
+                      Routes.market,
+                      queryParameters: {
+                        'claim': 'dice',
+                        'ts': DateTime.now().millisecondsSinceEpoch.toString(),
+                      },
+                    );
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      context.scrollToDailyReward();
+                    });
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
