@@ -18,6 +18,8 @@ class EmojiWidget extends StatelessWidget {
   final bool? repeat;
   final String? semanticLabel;
   final bool selected;
+  final AnimationController? controller;
+  final void Function(LottieComposition)? onLoaded;
 
   const EmojiWidget({
     super.key,
@@ -31,6 +33,8 @@ class EmojiWidget extends StatelessWidget {
     this.repeat,
     this.semanticLabel,
     this.selected = false,
+    this.controller,
+    this.onLoaded,
   });
 
   /// Named constructor for Lottie animations
@@ -45,6 +49,8 @@ class EmojiWidget extends StatelessWidget {
     bool? animate,
     bool? repeat,
     bool selected = false,
+    AnimationController? controller,
+    void Function(LottieComposition)? onLoaded,
   }) {
     return EmojiWidget(
       key: key,
@@ -58,6 +64,8 @@ class EmojiWidget extends StatelessWidget {
       repeat: repeat,
       semanticLabel: emoji.visual,
       selected: selected,
+      controller: controller,
+      onLoaded: onLoaded,
     );
   }
 
@@ -121,6 +129,8 @@ class EmojiWidget extends StatelessWidget {
           fit: BoxFit.contain,
           animate: shouldAnimate,
           repeat: shouldRepeat,
+          controller: controller,
+          onLoaded: onLoaded,
           frameRate: const FrameRate(30),
         ),
       );
