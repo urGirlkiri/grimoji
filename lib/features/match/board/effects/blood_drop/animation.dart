@@ -34,7 +34,6 @@ class _BloodDropAnimationState extends State<BloodDropAnimation>
   final List<GridParticle> _particles = [];
   final Random _random = Random();
   double _lastT = 0.0;
-  late final Palette _palette;
 
   static const double _overshoot = 1.5;
 
@@ -49,12 +48,6 @@ class _BloodDropAnimationState extends State<BloodDropAnimation>
     _controller.addListener(_onTick);
     _controller.addStatusListener(_onStatus);
     _controller.forward();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _palette = context.read<Palette>();
   }
 
   void _onTick() {
@@ -105,7 +98,7 @@ class _BloodDropAnimationState extends State<BloodDropAnimation>
           vx: cos(angle) * velocity,
           vy: sin(angle) * velocity - 80.0,
           size: 3.0 + _random.nextDouble() * 5.0,
-          color: _random.nextBool() ? _palette.crimson : _palette.dusk,
+          color: _random.nextBool() ? palette.crimson : palette.dusk,
           maxLife: 0.4 + _random.nextDouble() * 0.4,
         ),
       );
