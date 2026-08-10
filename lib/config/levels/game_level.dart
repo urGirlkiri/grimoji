@@ -9,6 +9,9 @@ class GameLevel {
   final List<GameEmoji> availableEmojis;
 
   final int crimsonStarTarget;
+  final double crimsonThreshold1;
+  final double crimsonThreshold2;
+  final double crimsonThreshold3;
   final int extraTargetWeight;
   final int tileClearWeight;
   final int intrusiveWeight;
@@ -30,6 +33,9 @@ class GameLevel {
     required this.availableEmojis,
 
     this.crimsonStarTarget = 2500,
+    this.crimsonThreshold1 = 0.33,
+    this.crimsonThreshold2 = 0.6,
+    this.crimsonThreshold3 = 1.0,
     this.extraTargetWeight = 30,
     this.tileClearWeight = 5,
     this.intrusiveWeight = 50,

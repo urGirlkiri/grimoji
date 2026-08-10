@@ -1,3 +1,4 @@
+import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/levels/index.dart';
 
 class LevelDifficulty {
@@ -28,5 +29,22 @@ class LevelDifficulty {
   static double barberChanceFor(int levelNumber) {
     if (_totalLevels == 0) return 0.0;
     return 0.5 - (levelNumber / _totalLevels) * 0.25;
+  }
+
+  /// Scaled crimson star target based on level properties.
+  /// Early levels ~600-800 (1 star achievable with effort), late levels ~2000-2800.
+  static int crimsonStarTargetFor(GameLevel level) {
+    if (_totalLevels == 0) return 600;
+    const base = 600;
+    final progress = level.number / _totalLevels;
+    final levelScale = 1.0 + progress * 2.5;
+    final ingredientFactor = (level.availableEmojis.length / 4.0).clamp(
+      0.8,
+      1.4,
+    );
+    final targetPressure = (level.targetAmount / 8.0).clamp(0.9, 1.5);
+    final timeFactor = (level.timeLimit / 180.0).clamp(0.8, 1.3);
+    return (base * levelScale * ingredientFactor * targetPressure * timeFactor)
+        .round();
   }
 }
