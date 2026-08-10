@@ -11,6 +11,7 @@ import 'package:grimoji/features/settings/controller.dart';
 import 'package:grimoji/app/index.dart';
 import 'package:grimoji/config/router/index.dart';
 import 'package:grimoji/config/router/routes.dart';
+import 'package:grimoji/features/market/scroll_controller.dart';
 import 'package:grimoji/services/notifications/daily_claim.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logging/logging.dart';
@@ -54,12 +55,17 @@ void main() async {
   final settingsController = SettingsController();
   await settingsController.initialized;
 
+  final marketScroller = MarketScrollController();
   final reminder = DailyClaimReminder();
   await reminder.initialize(
     onTapPayload: (payload) {
       if (payload == Routes.marketRoute) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          router.go(Routes.marketRoute);
+          final ts = DateTime.now().millisecondsSinceEpoch;
+          router.go('${Routes.marketRoute}?claim=dice&ts=$ts');
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            marketScroller.scrollToDailyReward();
+          });
         });
       }
     },
@@ -103,6 +109,7 @@ void main() async {
       profileController: profileController,
       settingsController: settingsController,
       dailyClaimReminder: reminder,
+      marketScrollController: marketScroller,
     ),
   );
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
+import 'package:grimoji/features/market/scroll_controller.dart';
 import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/features/settings/controller.dart';
 import 'package:grimoji/services/notifications/daily_claim.dart';
@@ -23,4 +24,10 @@ extension ContextData on BuildContext {
   AudioController get watchAudio => watch<AudioController>();
 
   DailyClaimReminder get readDailyClaimReminder => read<DailyClaimReminder>();
+
+  MarketScrollController get readMarketScrollController =>
+      read<MarketScrollController>();
+
+  void scrollToDailyReward() =>
+      readMarketScrollController.scrollToDailyReward();
 }

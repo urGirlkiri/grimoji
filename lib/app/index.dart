@@ -5,6 +5,7 @@ import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/router/index.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/level/controller.dart';
+import 'package:grimoji/features/market/scroll_controller.dart';
 import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/features/settings/controller.dart';
 import 'package:grimoji/services/notifications/daily_claim.dart';
@@ -15,12 +16,14 @@ class Grimoji extends StatelessWidget {
   final ProfileController profileController;
   final SettingsController settingsController;
   final DailyClaimReminder dailyClaimReminder;
+  final MarketScrollController marketScrollController;
 
   const Grimoji({
     super.key,
     required this.profileController,
     required this.settingsController,
     required this.dailyClaimReminder,
+    required this.marketScrollController,
   });
 
   @override
@@ -32,6 +35,7 @@ class Grimoji extends StatelessWidget {
           ChangeNotifierProvider.value(value: profileController),
           Provider.value(value: settingsController),
           Provider.value(value: dailyClaimReminder),
+          ChangeNotifierProvider.value(value: marketScrollController),
           ChangeNotifierProvider(create: (context) => LevelDataController()),
           ProxyProvider2<
             AppLifecycleStateNotifier,
