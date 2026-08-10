@@ -10,6 +10,7 @@ class GameState extends ChangeNotifier {
 
   bool isFeverTime = false;
   bool isFeverComplete = false;
+  bool isCollectingPowerup = false;
   int feverBombCount = 0;
   int remainingFeverBombs = 0;
   int feverTimer = 0;
@@ -109,6 +110,13 @@ class GameState extends ChangeNotifier {
   void setFeverComplete(bool value) {
     if (isFeverComplete != value) {
       isFeverComplete = value;
+      _notify();
+    }
+  }
+
+  void setCollectingPowerup(bool value) {
+    if (isCollectingPowerup != value) {
+      isCollectingPowerup = value;
       _notify();
     }
   }
