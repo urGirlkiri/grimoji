@@ -41,6 +41,7 @@ class _LevelScreenState extends State<LevelScreen> {
   bool _isQuitDialogOpen = false;
   bool _isPauseDialogOpen = false;
   bool _hasTriggeredFever = false;
+  bool _hasSkippedFever = false;
   late final LevelState _levelState;
   final _boardKey = GlobalKey();
 
@@ -66,9 +67,7 @@ class _LevelScreenState extends State<LevelScreen> {
         },
         onStay: () {},
       ),
-    ).then((
-      _,
-    ) {
+    ).then((_) {
       if (mounted) {
         setState(() {
           _isQuitDialogOpen = false;
@@ -108,9 +107,7 @@ class _LevelScreenState extends State<LevelScreen> {
           );
         },
       ),
-    ).then((
-      _,
-    ) {
+    ).then((_) {
       if (!mounted) return;
 
       _isPauseDialogOpen = false;
@@ -172,9 +169,10 @@ class _LevelScreenState extends State<LevelScreen> {
   }
 
   void _skipFever() {
+    if (_hasSkippedFever) return;
+    _hasSkippedFever = true;
     context.readAudio.playSfx(Sfx.congrats);
-    final stars = _levelState.goalManager.calculateStars();
-    _playerWon(stars);
+    _levelState.skipFeverAndComplete();
   }
 
   @override
@@ -306,7 +304,7 @@ class _LevelScreenState extends State<LevelScreen> {
                             isFirstTime &&
                             !isFeverTime &&
                             !isFeverComplete;
-                            
+
                         if (shouldShowLevelComplete &&
                             LevelComOverlay.currentEntry == null) {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
