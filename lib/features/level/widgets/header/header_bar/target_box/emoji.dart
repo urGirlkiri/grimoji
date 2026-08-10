@@ -20,7 +20,7 @@ class TargetEmoji extends StatelessWidget {
       (s) => s.level.targetEmoji,
     );
     final isCollecting = context.select<LevelState, bool>(
-      (s) => s.collectedAmount > 0,
+      (s) => s.gameState.hasTargetCombo,
     );
 
     return isCollecting && !isPaused

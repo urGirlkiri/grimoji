@@ -21,7 +21,14 @@ class DisplayContent extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget emojiWidget;
 
-    if (tile.isClownShuffling && tile.emoji == Emojis.clown) {
+    if (tile.isGhostBombTarget) {
+      emojiWidget = EmojiWidget.lottie(
+        key: ValueKey('ghost_bomb_target_${tile.id}'),
+        emoji: displayEmoji,
+        size: size,
+        repeat: false,
+      );
+    } else if (tile.isClownShuffling && tile.emoji == Emojis.clown) {
       emojiWidget = EmojiWidget.lottie(
         key: ValueKey('clown_lottie_${tile.id}'),
         emoji: tile.emoji,

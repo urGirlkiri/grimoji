@@ -120,6 +120,9 @@ const double ghostScaleFactor = .9;
 /// Total time for the ghost dive animation — travel + target destruction.
 const Duration ghostDiveDuration = Duration(milliseconds: 600);
 
+/// How long a ghost-bomb target tile plays its emoji Lottie before destruction.
+const Duration ghostBombTargetAnimDuration = Duration(milliseconds: 500);
+
 // ─── Ghost + Powerup  ───────────────────────────────────────────────────────
 
 /// How much the powerup scales down when attached to ghost after swipe.
@@ -142,10 +145,14 @@ const Duration bloodDropDuration = Duration(milliseconds: bloodDrop);
 const Duration bloodBurstDuration = Duration(milliseconds: bloodBurst);
 
 /// Total lifetime of the blood drop effect animation.
-const Duration bloodDropTotalDuration = Duration(milliseconds: bloodBurst + bloodDrop);
+const Duration bloodDropTotalDuration = Duration(
+  milliseconds: bloodBurst + bloodDrop,
+);
 
 /// How long the blood drop effect entry lives in the effect manager after creation.
-const Duration bloodDropLifetime = Duration(milliseconds: bloodBurst + bloodDrop + 300);
+const Duration bloodDropLifetime = Duration(
+  milliseconds: bloodBurst + bloodDrop + 300,
+);
 
 // ─── Clown Shuffle ─────────────────────────────────────────────────────────
 
