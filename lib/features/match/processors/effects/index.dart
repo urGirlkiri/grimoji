@@ -203,6 +203,18 @@ class EffectsProcessor {
 
     if (destroyed.isNotEmpty) boardManager.flagFlyingTargetEmojis(destroyed);
     for (final coordinate in newBombs) {
+      engine.grid[coordinate.row][coordinate.col].isGhostBombTarget = true;
+    }
+
+    if (newBombs.isNotEmpty) {
+      state.updateUI();
+      await Future<void>.delayed(ghostBombTargetAnimDuration);
+      for (final coordinate in newBombs) {
+        engine.grid[coordinate.row][coordinate.col].isGhostBombTarget = false;
+      }
+    }
+
+    for (final coordinate in newBombs) {
       engine.grid[coordinate.row][coordinate.col]
         ..isTriggered = true
         ..clearBehavior();

@@ -7,6 +7,7 @@ import 'package:grimoji/features/alchemy/behaviors/dive.dart';
 import 'package:grimoji/features/alchemy/behaviors/swallow.dart';
 import 'package:grimoji/features/alchemy/behaviors/virus.dart';
 import 'package:grimoji/features/alchemy/behaviors/prank.dart';
+import 'package:grimoji/features/alchemy/behaviors/bomb.dart';
 import 'package:grimoji/features/alchemy/behaviors/wheel.dart';
 import 'package:grimoji/features/alchemy/behaviors/clown.dart';
 
@@ -20,6 +21,7 @@ class BehaviorRegister {
     ClearBehavior.emoji: () => ClearBehavior(isHorizontal: _random.nextBool()),
     WheelBehavior.emoji: () => WheelBehavior(),
     DiveBehavior.emoji: () => DiveBehavior(),
+    BombBehavior.emoji: () => BombBehavior(),
     ClownBehavior.emoji: () => ClownBehavior(),
   };
 

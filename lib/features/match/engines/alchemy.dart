@@ -276,11 +276,16 @@ class AlchemyEngine {
     bool chainReaction = primedBombs.isNotEmpty;
 
     while (primedBombs.isNotEmpty) {
-      final currentBombs = List<Tile>.from(primedBombs);
+      final processedBombs = <TileCoordinate>{};
+      final waveFront = List<Tile>.from(primedBombs);
       playSfx(Sfx.explosion);
 
-      for (Tile activeBomb in currentBombs) {
+      while (waveFront.isNotEmpty) {
+        final activeBomb = waveFront.removeAt(0);
+        if (processedBombs.contains(activeBomb.coordinate)) continue;
         if (!activeBomb.isTriggered) continue;
+
+        processedBombs.add(activeBomb.coordinate);
         if (activeBomb.emoji == boardManager.level.targetEmoji) {
           collectedEmojis.add(
             CollectedEmoji(emoji: activeBomb.emoji, count: 1),
@@ -291,6 +296,13 @@ class AlchemyEngine {
         final blastResult = _executeBlastRadius(activeBomb.coordinate);
         allBlastedCoords.addAll(blastResult.destroyed);
         allTransformedCoords.addAll(blastResult.transformed);
+
+        for (final newBomb in boardManager.getTriggeredEmojis()) {
+          if (processedBombs.contains(newBomb.coordinate)) continue;
+          if (!waveFront.any((b) => b.coordinate == newBomb.coordinate)) {
+            waveFront.add(newBomb);
+          }
+        }
       }
 
       primedBombs = boardManager.getTriggeredEmojis();
