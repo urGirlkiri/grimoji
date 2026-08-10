@@ -54,6 +54,88 @@ class Ranking extends StatelessWidget {
     }
   }
 
+  BoxShadow _getBeginShadow(int rank, double scale) {
+    switch (rank) {
+      case 1:
+        return BoxShadow(
+          color: palette.crimson.withValues(alpha: 0.2),
+          blurRadius: 8,
+          spreadRadius: 0,
+          offset: Offset(0, 2 * scale),
+        );
+      case 2:
+        return BoxShadow(
+          color: palette.magicCyan.withValues(alpha: 0.15),
+          blurRadius: 6,
+          spreadRadius: 0,
+          offset: Offset(0, 2 * scale),
+        );
+      case 3:
+        return BoxShadow(
+          color: palette.twilight.withValues(alpha: 0.1),
+          blurRadius: 4,
+          spreadRadius: 0,
+          offset: Offset(0, 2 * scale),
+        );
+      default:
+        return const BoxShadow(color: Colors.transparent);
+    }
+  }
+
+  BoxShadow _getEndShadow(int rank, double scale) {
+    switch (rank) {
+      case 1:
+        return BoxShadow(
+          color: palette.crimson.withValues(alpha: 0.7),
+          blurRadius: 12,
+          spreadRadius: 6,
+          offset: Offset(0, 4 * scale),
+        );
+      case 2:
+        return BoxShadow(
+          color: palette.magicCyan.withValues(alpha: 0.1),
+          blurRadius: 4,
+          spreadRadius: 3,
+          offset: Offset(0, 3 * scale),
+        );
+      case 3:
+        return BoxShadow(
+          color: palette.twilight.withValues(alpha: 0.4),
+          blurRadius: 2,
+          spreadRadius: 1,
+          offset: Offset(0, 2 * scale),
+        );
+      default:
+        return const BoxShadow(color: Colors.transparent);
+    }
+  }
+
+  double _getMaxScale(int rank) {
+    switch (rank) {
+      case 1:
+        return 1.054; 
+      case 2:
+        return 1.025;
+      case 3:
+        return 1.015; 
+      default:
+        return 1.0;
+    }
+  }
+
+  Duration _getDuration(int rank) {
+    switch (rank) {
+      case 1:
+        return const Duration(milliseconds: 700); 
+      case 2:
+        return const Duration(milliseconds: 1000); 
+      case 3:
+        return const Duration(milliseconds: 1200); 
+      default:
+        return const Duration(milliseconds: 800);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final textTheme = context.theme.textTheme;
@@ -68,7 +150,7 @@ class Ranking extends StatelessWidget {
           children: players.map((player) {
             final rank = player['rank'] as int;
             final rankColor = _rankColor(rank);
-            final isFirst = rank == 1;
+            final isTopThree = rank <= 3;
             final cardBorderRadius = BorderRadius.circular(12 * scale);
 
             return Padding(
@@ -76,22 +158,15 @@ class Ranking extends StatelessWidget {
                 horizontal: 8.0 * scale,
                 vertical: 8.0 * scale,
               ),
-              child: AnimatedButton(
+            child: AnimatedButton(
                 child: BreathingWidget(
-                  enabled: isFirst,
+                  enabled: isTopThree,
+                  minScale: 1.0,
+                  maxScale: _getMaxScale(rank),
+                  duration: _getDuration(rank),
                   borderRadius: cardBorderRadius,
-                  beginShadow: BoxShadow(
-                    color: palette.crimson.withValues(alpha: 0.2),
-                    blurRadius: 8,
-                    spreadRadius: 0,
-                    offset: Offset(0, 2 * scale),
-                  ),
-                  endShadow: BoxShadow(
-                    color: palette.crimson.withValues(alpha: 0.6),
-                    blurRadius: 8,
-                    spreadRadius: 4,
-                    offset: Offset(0,4 * scale),
-                  ),
+                  beginShadow: _getBeginShadow(rank, scale),
+                  endShadow: _getEndShadow(rank, scale),
                   child: Container(
                     width: 160 * scale,
                     padding: EdgeInsets.all(12.0 * scale),
@@ -106,20 +181,11 @@ class Ranking extends StatelessWidget {
                       ),
                       borderRadius: cardBorderRadius,
                       boxShadow: [
-                        // Only draw the static black shadow if it's NOT first place
-                        // First place is handled by BreathingWidget now.
-                        if (!isFirst)
+                        if (!isTopThree)
                           BoxShadow(
                             color: palette.voidBlack,
                             blurRadius: 12,
                             offset: Offset(0, 6 * scale),
-                          ),
-                  
-                        if (rank <= 3)
-                          BoxShadow(
-                            color: rankColor.withValues(alpha: 0.15),
-                            blurRadius: 10,
-                            spreadRadius: -2,
                           ),
                       ],
                     ),
@@ -140,14 +206,11 @@ class Ranking extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 12 * scale),
-                  
                         Avatar(
                           name: player['name'] as String,
                           radius: 28 * scale,
                         ),
-                  
                         SizedBox(height: 10 * scale),
-                  
                         Container(
                           height: 1.5,
                           width: 40 * scale,
@@ -161,7 +224,6 @@ class Ranking extends StatelessWidget {
                             ),
                           ),
                         ),
-                  
                         SizedBox(height: 10 * scale),
                         Text(
                           player['realName'] as String,
