@@ -5,7 +5,9 @@ import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/audio/sounds/sfx.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/shuffle.dart';
 import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/flight.dart';
+import 'package:grimoji/features/match/board/widgets/tile_grid/powerup_flight.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/tile/index.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/match/models/tile.dart';
@@ -31,6 +33,7 @@ class TileGrid extends StatefulWidget {
 
 class _TileGridState extends State<TileGrid> {
   final Set<String> _scheduledFlyTiles = {};
+  final Set<String> _scheduledPowerupTiles = {};
 
   void _initialFall(LevelState levelState) {
     if (levelState.boardManager.gridTiles[0][0].coordinate.row >= 0) return;
@@ -81,6 +84,62 @@ class _TileGridState extends State<TileGrid> {
     });
   }
 
+  void _launchPowerupEmo(
+    Tile tile,
+    LevelState levelState,
+    double leftPixel,
+    double topPixel,
+  ) {
+    if (_scheduledPowerupTiles.contains(tile.id)) return;
+    _scheduledPowerupTiles.add(tile.id);
+
+    tile.hasPowerupFlown = true;
+
+    final powerup = Powerup.forEmoji(tile.emoji);
+    if (powerup == null) return;
+
+    final targetKey = levelState.powerupBtnKeys[powerup.id];
+    if (targetKey == null) return;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+
+      levelState.gameState.setCollectingPowerup(true);
+      context.readAudio.playSfx(Sfx.targetFlight);
+
+      final RenderBox? boardBox = context.findRenderObject() as RenderBox?;
+      if (boardBox == null) {
+        levelState.gameState.setCollectingPowerup(false);
+        return;
+      }
+
+      final Offset globalStart = boardBox.localToGlobal(
+        Offset(leftPixel, topPixel),
+      );
+
+      final int randomDelay = Random().nextInt(150);
+
+      Future.delayed(Duration(milliseconds: randomDelay), () {
+        if (!mounted) return;
+        if (targetKey.currentContext == null) return;
+        PowerupFlightAnimator.launch(
+          context: context,
+          startOffset: globalStart,
+          targetKey: targetKey,
+          emoji: tile.emoji,
+          onComplete: () {
+            levelState.bumpPowerupIcon(powerup.id);
+            Future.delayed(const Duration(milliseconds: 320), () {
+              if (!mounted) return;
+              levelState.onPowerupCollected?.call(powerup.id);
+              levelState.gameState.setCollectingPowerup(false);
+            });
+          },
+        );
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final targetEmoji = context.select<LevelState, GameEmoji>(
@@ -113,10 +172,14 @@ class _TileGridState extends State<TileGrid> {
             (tile.coordinate.row * tileSpacingGap);
 
         bool isTargetMatch = (tile.emoji == targetEmoji);
-        bool shouldFly = tile.isFlying && !tile.hasFlown && isTargetMatch;
+        bool shouldFly = tile.isFlying && !tile.hasTargetFlown && isTargetMatch;
 
         if (shouldFly) {
           _launchTargetEmo(tile, levelState, leftPixel, topPixel);
+        }
+
+        if (tile.isCollectiblePowerup && !tile.hasPowerupFlown) {
+          _launchPowerupEmo(tile, levelState, leftPixel, topPixel);
         }
 
         tileWidgets.add(
