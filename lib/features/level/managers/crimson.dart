@@ -1,3 +1,4 @@
+import 'package:grimoji/config/levels/difficulty.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/level/managers/goal.dart';
 
@@ -15,7 +16,7 @@ class CrimsonFever {
     _score += points;
   }
 
-  int get target => level.crimsonStarTarget;
+  int get target => LevelDifficulty.crimsonStarTargetFor(level);
   int get score => _score;
 
   double get progress {
@@ -24,9 +25,11 @@ class CrimsonFever {
   }
 
   int get stars {
-    if (_score >= target) return 3;
-    if (_score >= target * 0.7) return 2;
-    if (_score >= target * 0.5) return 1;
+    if (_score >= target * level.crimsonThreshold3) return 3;
+    if (_score >= target * level.crimsonThreshold2) return 2;
+    if (_score >= target * level.crimsonThreshold1) return 1;
     return 0;
   }
+
+  bool get hasMaxStars => stars >= 3;
 }
