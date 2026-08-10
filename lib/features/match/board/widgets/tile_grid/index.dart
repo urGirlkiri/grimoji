@@ -129,9 +129,9 @@ class _TileGridState extends State<TileGrid> {
           emoji: tile.emoji,
           onComplete: () {
             levelState.bumpPowerupIcon(powerup.id);
+            levelState.onPowerupCollected?.call(powerup.id);
             Future.delayed(const Duration(milliseconds: 320), () {
               if (!mounted) return;
-              levelState.onPowerupCollected?.call(powerup.id);
               levelState.gameState.setCollectingPowerup(false);
             });
           },
