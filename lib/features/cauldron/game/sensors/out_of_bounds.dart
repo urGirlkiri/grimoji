@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:grimoji/features/cauldron/game/index.dart';
 import 'package:grimoji/features/cauldron/game/core/emoji_spawner/emoji.dart';
@@ -23,11 +24,13 @@ class OutOfBoundsSensor extends BodyComponent<CauldronGame>
   }
 
   @override
+  void render(Canvas canvas) {}
+
+  @override
   void beginContact(Object other, Contact contact) {
     if (other is EmojiBody) {
       game.fellOutside(other);
     }
     super.beginContact(other, contact);
   }
-
 }

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:grimoji/features/cauldron/game/index.dart';
 import 'package:grimoji/features/cauldron/game/core/emoji_spawner/emoji.dart';
@@ -18,6 +19,9 @@ class InsideLandingSensor extends BodyComponent<CauldronGame> with ContactCallba
     body.createFixture(FixtureDef(shape, isSensor: true, userData: this));
     return body;
   }
+
+  @override
+  void render(Canvas canvas) {}
 
   @override
   void beginContact(Object other, Contact contact) {
