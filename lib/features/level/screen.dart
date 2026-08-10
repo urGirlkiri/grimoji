@@ -190,6 +190,10 @@ class _LevelScreenState extends State<LevelScreen> {
     );
 
     _levelState.gameState.addListener(_onPauseState);
+    _levelState.onPowerupCollected = (powerupId) {
+      if (!mounted) return;
+      context.readProfile.updatePowerupCount(powerupId, 1);
+    };
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.readProfile.markGamePlayed();
@@ -238,12 +242,39 @@ class _LevelScreenState extends State<LevelScreen> {
                         key: _boardKey,
                         child: const GameBoard(),
                       ),
-                      rectangularMenuArea: Selector<LevelState, bool>(
-                        selector: (_, state) => state.gameState.isFeverTime,
-                        builder: (context, isFeverTime, child) => isFeverTime
-                            ? SkipBtn(onSkip: _skipFever)
-                            : const Footer(),
-                      ),
+                      rectangularMenuArea:
+                          Selector<
+                            LevelState,
+                            ({bool isFeverTime, bool isCollecting})
+                          >(
+                            selector: (_, state) => (
+                              isFeverTime: state.gameState.isFeverTime,
+                              isCollecting: state.gameState.isCollectingPowerup,
+                            ),
+                            builder: (context, flags, child) {
+                              final showFooter =
+                                  !flags.isFeverTime || flags.isCollecting;
+                              final showSkip =
+                                  flags.isFeverTime && !flags.isCollecting;
+                              return Stack(
+                                children: [
+                                  Opacity(
+                                    opacity: showFooter ? 1.0 : 0.0,
+                                    child: IgnorePointer(
+                                      ignoring: !showFooter,
+                                      child: const Footer(),
+                                    ),
+                                  ),
+                                  if (showSkip)
+                                    Positioned.fill(
+                                      child: Center(
+                                        child: SkipBtn(onSkip: _skipFever),
+                                      ),
+                                    ),
+                                ],
+                              );
+                            },
+                          ),
                       mobileBackgroundImage: const AssetImage(
                         'assets/images/level/game.png',
                       ),
