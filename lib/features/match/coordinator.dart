@@ -394,6 +394,7 @@ class GameCoordinator {
         matchedGroups: matchedGroups,
         targetCoordinate: targetCoordinate,
         isFirstMatch: isFirstMatch,
+        isFeverTime: state.isFeverTime,
       );
 
       final shapeMerges = matchedGroups.where((g) => g.isSpecial).length;
@@ -615,7 +616,7 @@ class GameCoordinator {
     final result = <TileCoordinate>{};
 
     _forEachTile((r, c, tile) {
-      if (!tile.isFlying) return;
+      if (!tile.isFlying && !tile.isCollectiblePowerup) return;
 
       if (excluding?.contains(TileCoordinate(row: r, col: c)) ?? false) {
         return;

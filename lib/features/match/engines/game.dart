@@ -81,11 +81,13 @@ class GameEngine {
     required List<MatchGroup> matchedGroups,
     required TileCoordinate targetCoordinate,
     required bool isFirstMatch,
+    bool isFeverTime = false,
   }) {
     return _alchemy.processCascadeStep(
       matchedGroups: matchedGroups,
       targetCoordinate: targetCoordinate,
       isFirstMatch: isFirstMatch,
+      isFeverTime: isFeverTime,
     );
   }
 
