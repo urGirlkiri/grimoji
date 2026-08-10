@@ -38,6 +38,7 @@ class GameCoordinator {
 
   final void Function(int) onTargetAcquired;
   final Future<bool> Function() onComboFinished;
+  final bool Function() hasMaxCStars;
   void Function(int row, int col, bool isHorizontal)? onLineClear;
   Future<void> Function(RollEffect)? onWheelRoll;
   Future<void> Function(GhostDiveEffect)? onGhostDive;
@@ -64,6 +65,7 @@ class GameCoordinator {
     required this.announcer,
     required this.onTargetAcquired,
     required this.onComboFinished,
+    required this.hasMaxCStars,
     required List<String> startingBoosters,
   }) {
     _settlement = SettlementProcessor(
@@ -91,6 +93,7 @@ class GameCoordinator {
       dispatchGhostEffects: (ghosts, {required simultaneous}) =>
           _dispatchGhostEffects(ghosts, simultaneous: simultaneous),
       sweepBehaviors: _drainBehaviorFlags,
+      hasMaxCStars: hasMaxCStars,
     );
     state.setHintsEnabled(startingBoosters.contains('crystal_ball'));
   }

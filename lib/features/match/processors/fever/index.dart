@@ -32,6 +32,7 @@ class FeverProcessor {
   })
   dispatchGhostEffects;
   final Future<bool> Function() sweepBehaviors;
+  final bool Function() hasMaxCStars;
 
   bool _skipRequested = false;
 
@@ -45,9 +46,11 @@ class FeverProcessor {
     required this.processEffects,
     required this.dispatchGhostEffects,
     required this.sweepBehaviors,
+    required this.hasMaxCStars,
   });
 
-  bool get _shouldAbort => _skipRequested || state.isDisposed;
+  bool get _shouldAbort =>
+      _skipRequested || state.isDisposed || hasMaxCStars();
 
   Future<bool> _waitIfPaused() async {
     while (state.isPaused && !_shouldAbort) {

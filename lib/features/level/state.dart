@@ -99,6 +99,7 @@ class LevelState extends ChangeNotifier {
       announcer: announcer,
       onTargetAcquired: _incrementCollectedAmnt,
       onComboFinished: () async => false,
+      hasMaxCStars: () => _crimsonTracker.hasMaxStars,
       startingBoosters: startingBoosters,
     );
 
@@ -183,7 +184,7 @@ class LevelState extends ChangeNotifier {
           timeManager.removeTime(bonusTime);
         })
         .then((_) {
-          if (_isDisposed) return;
+          if (_isDisposed || gameState.isGameOver) return;
 
           audio.playMenuMusic();
           gameState.setHasTargetCombo(true);
@@ -193,6 +194,7 @@ class LevelState extends ChangeNotifier {
 
   void skipFeverAndComplete() {
     if (_isDisposed) return;
+    coordinator.skipFever();
     audio.playMenuMusic();
     gameState.setHasTargetCombo(true);
     onWin.call(goalManager.calculateStars());
