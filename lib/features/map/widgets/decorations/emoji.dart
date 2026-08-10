@@ -9,6 +9,7 @@ class InteractableEmoji extends StatefulWidget {
   final GameEmoji emoji;
   final double size;
   final VoidCallback? onTap;
+  final Logger _logger    Logger();
 
   const InteractableEmoji({
     super.key,
@@ -48,6 +49,7 @@ class _InteractableEmojiState extends State<InteractableEmoji>
   }
 
   void _onTap() {
+    
     if (_isPlaying) return;
 
     widget.onTap?.call();
@@ -71,6 +73,7 @@ class _InteractableEmojiState extends State<InteractableEmoji>
   Widget build(BuildContext context) {
     if (!_isPlaying) {
       return GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onTap: _onTap,
         child: EmojiWidget.svg(emoji: widget.emoji, size: widget.size),
       );

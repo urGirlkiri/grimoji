@@ -54,6 +54,7 @@ class _MapWidgetState extends State<MapWidget> {
         final double screenHeight = constraints.maxHeight;
 
         return GestureDetector(
+          behavior: HitTestBehavior.translucent,
           onVerticalDragUpdate: state.handlePanUpdate,
           child: Container(
             width: double.infinity,
@@ -68,22 +69,26 @@ class _MapWidgetState extends State<MapWidget> {
                   painter: GroundPainter(),
                 ),
                 Decorations(width: screenWidth, height: screenHeight),
-                CustomPaint(
-                  size: Size(screenWidth, screenHeight),
-                  painter: RoadPainter(
-                    center: MapWidget._roadCenter,
-                    maxZ: state.maxWorldZ,
-                    cameraZ: state.cameraZ,
-                    scale: scale,
+                IgnorePointer(
+                  child: CustomPaint(
+                    size: Size(screenWidth, screenHeight),
+                    painter: RoadPainter(
+                      center: MapWidget._roadCenter,
+                      maxZ: state.maxWorldZ,
+                      cameraZ: state.cameraZ,
+                      scale: scale,
+                    ),
                   ),
                 ),
-                CustomPaint(
-                  size: Size(screenWidth, screenHeight),
-                  painter: RoadStripePainter(
-                    center: MapWidget._roadCenter,
-                    maxZ: state.maxWorldZ,
-                    cameraZ: state.cameraZ,
-                    scale: scale,
+                IgnorePointer(
+                  child: CustomPaint(
+                    size: Size(screenWidth, screenHeight),
+                    painter: RoadStripePainter(
+                      center: MapWidget._roadCenter,
+                      maxZ: state.maxWorldZ,
+                      cameraZ: state.cameraZ,
+                      scale: scale,
+                    ),
                   ),
                 ),
                 LevelNodes(
