@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/features/map/painters/ground.dart';
-import 'package:grimoji/features/map/widgets/decorations.dart';
+import 'package:grimoji/features/map/widgets/decorations/index.dart';
 import 'package:grimoji/features/map/painters/road/index.dart';
 import 'package:grimoji/features/map/painters/road/stripe.dart';
 import 'package:grimoji/features/map/state.dart';
