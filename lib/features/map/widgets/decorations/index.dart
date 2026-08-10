@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart' hide Decoration;
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/levels/index.dart';
 import 'package:grimoji/features/map/models/decoration.dart';
@@ -7,6 +6,7 @@ import 'package:grimoji/features/map/models/level_node.dart';
 import 'package:grimoji/features/map/models/projection.dart';
 import 'package:grimoji/features/map/physics.dart';
 import 'package:grimoji/features/map/state.dart';
+import 'package:grimoji/features/map/widgets/decorations/emoji.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +27,7 @@ class _DecorationsState extends State<Decorations> {
   static const double _leftOverSpacing = 180.0;
 
   double _scale = 1;
-  
+
   late final List<Decoration> _items;
   late final double _maxWorldZ;
   late final List<LevelNode> _levelNodes;
@@ -148,12 +148,7 @@ class _DecorationsState extends State<Decorations> {
                 top: top,
                 child: Opacity(
                   opacity: proj.opacity,
-                  child: SvgPicture.asset(
-                    item.emoji.svg,
-                    width: size,
-                    height: size,
-                    fit: BoxFit.contain,
-                  ),
+                  child: InteractableEmoji(emoji: item.emoji, size: size),
                 ),
               );
             },

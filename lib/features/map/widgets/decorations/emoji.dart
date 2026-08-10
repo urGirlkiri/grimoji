@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/utils/context_data.dart';
+import 'package:grimoji/widgets/custom/emoji_widget.dart';
 
 class InteractableEmoji extends StatefulWidget {
   final GameEmoji emoji;
@@ -60,32 +60,29 @@ class _InteractableEmojiState extends State<InteractableEmoji>
     }
   }
 
+  void _onLoaded(LottieComposition composition) {
+    _controller.duration = composition.duration;
+    if (_isPlaying && !_controller.isAnimating) {
+      _controller.forward(from: 0);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (!_isPlaying) {
       return GestureDetector(
         onTap: _onTap,
-        child: SvgPicture.asset(
-          widget.emoji.svg,
-          width: widget.size,
-          height: widget.size,
-          fit: BoxFit.contain,
-        ),
+        child: EmojiWidget.svg(emoji: widget.emoji, size: widget.size),
       );
     }
 
-    return Lottie.asset(
-      widget.emoji.lottie,
-      width: widget.size,
-      height: widget.size,
-      fit: BoxFit.contain,
+    return EmojiWidget.lottie(
+      emoji: widget.emoji,
+      size: widget.size,
+      animate: true,
+      repeat: false,
       controller: _controller,
-      onLoaded: (composition) {
-        _controller.duration = composition.duration;
-        if (_isPlaying && !_controller.isAnimating) {
-          _controller.forward(from: 0);
-        }
-      },
+      onLoaded: _onLoaded,
     );
   }
 }
