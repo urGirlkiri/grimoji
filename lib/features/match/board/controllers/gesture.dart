@@ -24,6 +24,7 @@ class GestureController {
   ) {
     if (levelState.gameState.isProcessing ||
         levelState.gameState.isShuffling ||
+        levelState.gameState.isFeverTime ||
         levelState.isPowerupAnimating) {
       vfx.triggerSparkle(details.localPosition);
       return;
@@ -56,6 +57,7 @@ class GestureController {
   ) {
     if (levelState.gameState.isProcessing ||
         levelState.gameState.isShuffling ||
+        levelState.gameState.isFeverTime ||
         levelState.isPowerupAnimating) {
       vfx.triggerSparkle(details.localPosition);
       return;
