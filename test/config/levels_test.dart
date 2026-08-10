@@ -98,6 +98,32 @@ void main() {
         );
       });
 
+      test('Level ${level.number} target is one recipe step from board', () {
+        final chainSteps = RecipeBook.getRecipeChainSteps(level.targetEmoji);
+        final availableSteps = level.availableEmojis
+            .where((e) => chainSteps.containsKey(e))
+            .map((e) => chainSteps[e]!)
+            .toList();
+
+        expect(
+          availableSteps,
+          isNotEmpty,
+          reason:
+              'Level ${level.number} has no available emoji that can reach '
+              'target ${level.targetEmoji.visual}',
+        );
+
+        final minSteps = availableSteps.reduce((a, b) => a < b ? a : b);
+        expect(
+          minSteps,
+          lessThanOrEqualTo(1),
+          reason:
+              'Level ${level.number} target ${level.targetEmoji.visual} is '
+              '$minSteps recipe steps away from the nearest available emoji. '
+              'Keep targets one step away from board ingredients.',
+        );
+      });
+
       test('Level ${level.number} should respect design constraints', () {
         expect(
           level.availableEmojis.length,

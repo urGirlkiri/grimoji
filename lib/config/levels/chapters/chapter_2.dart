@@ -20,12 +20,7 @@ final List<GameLevel> chapter2Levels = [
     timeLimit: 220,
     targetAmount: 3,
     targetEmoji: Emojis.spider,
-    availableEmojis: [
-      Emojis.bug, 
-      Emojis.ant, 
-      Emojis.cricket, 
-      Emojis.gasp
-    ],
+    availableEmojis: [Emojis.bug, Emojis.ant, Emojis.cricket, Emojis.gasp],
   ),
 
   GameLevel(
@@ -59,12 +54,7 @@ final List<GameLevel> chapter2Levels = [
     timeLimit: 260,
     targetAmount: 2,
     targetEmoji: Emojis.lobster,
-    availableEmojis: [
-      Emojis.crab, 
-      Emojis.orca, 
-      Emojis.seal, 
-      Emojis.concerned
-    ],
+    availableEmojis: [Emojis.crab, Emojis.orca, Emojis.seal, Emojis.concerned],
   ),
 
   GameLevel(
@@ -85,12 +75,7 @@ final List<GameLevel> chapter2Levels = [
     timeLimit: 300,
     targetAmount: 6,
     targetEmoji: Emojis.eyes,
-    availableEmojis: [
-      Emojis.eye, 
-      Emojis.ear, 
-      Emojis.nose, 
-      Emojis.mouthNone
-    ],
+    availableEmojis: [Emojis.eye, Emojis.ear, Emojis.nose, Emojis.mouthNone],
   ),
 
   GameLevel(
@@ -150,11 +135,7 @@ final List<GameLevel> chapter2Levels = [
     timeLimit: 240,
     targetAmount: 5,
     targetEmoji: Emojis.scorpion,
-    availableEmojis: [
-      Emojis.crab, 
-      Emojis.fish, 
-      Emojis.concerned
-    ],
+    availableEmojis: [Emojis.lobster, Emojis.crab, Emojis.fish],
   ),
 
   GameLevel(
@@ -201,11 +182,7 @@ final List<GameLevel> chapter2Levels = [
     timeLimit: 240,
     targetAmount: 5,
     targetEmoji: Emojis.snake,
-    availableEmojis: [
-      Emojis.biohazard, 
-      Emojis.mask, 
-      Emojis.microbe
-    ],
+    availableEmojis: [Emojis.biohazard, Emojis.mask, Emojis.microbe],
   ),
 
   GameLevel(
@@ -239,10 +216,6 @@ final List<GameLevel> chapter2Levels = [
     timeLimit: 400,
     targetAmount: 1,
     targetEmoji: Emojis.television,
-    availableEmojis: [
-      Emojis.sparkles, 
-      Emojis.wand, 
-      Emojis.screamCat
-    ],
+    availableEmojis: [Emojis.sparkles, Emojis.wand, Emojis.screamCat],
   ),
 ];

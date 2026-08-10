@@ -98,12 +98,7 @@ final List<GameLevel> chapter4Levels = [
     timeLimit: 260,
     targetAmount: 8,
     targetEmoji: Emojis.salt,
-    availableEmojis: [
-      Emojis.windFace,
-      Emojis.ocean,
-      Emojis.bug,
-      Emojis.bone,
-    ],
+    availableEmojis: [Emojis.windFace, Emojis.ocean, Emojis.bug, Emojis.bone],
   ),
 
   GameLevel(
@@ -124,12 +119,7 @@ final List<GameLevel> chapter4Levels = [
     timeLimit: 300,
     targetAmount: 3,
     targetEmoji: Emojis.windFace,
-    availableEmojis: [
-      Emojis.cloud,
-      Emojis.rainCloud,
-      Emojis.rock,
-      Emojis.fire,
-    ],
+    availableEmojis: [Emojis.cloud, Emojis.rainCloud, Emojis.rock, Emojis.fire],
   ),
 
   GameLevel(
@@ -150,12 +140,7 @@ final List<GameLevel> chapter4Levels = [
     timeLimit: 300,
     targetAmount: 4,
     targetEmoji: Emojis.iceCream,
-    availableEmojis: [
-      Emojis.cloud,
-      Emojis.coldFace,
-      Emojis.rock,
-      Emojis.bone,
-    ],
+    availableEmojis: [Emojis.cloud, Emojis.coldFace, Emojis.rock, Emojis.bone],
   ),
 
   GameLevel(
@@ -200,13 +185,12 @@ final List<GameLevel> chapter4Levels = [
   GameLevel(
     number: 64,
     timeLimit: 300,
-    targetAmount: 8,
+    targetAmount: 3,
     targetEmoji: Emojis.warning,
     availableEmojis: [
       Emojis.cloudWithLightning,
-      Emojis.snake,
+      Emojis.electricity,
       Emojis.droplet,
-      Emojis.rock,
     ],
   ),
 
