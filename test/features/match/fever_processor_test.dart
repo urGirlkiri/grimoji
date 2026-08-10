@@ -50,6 +50,7 @@ void main() {
             true,
         dispatchGhostEffects: (_, {required simultaneous}) async => true,
         sweepBehaviors: () async => false,
+        hasMaxCStars: () => false,
       );
     });
 
@@ -90,5 +91,53 @@ void main() {
         expect(state.isFeverTime, isFalse);
       },
     );
+
+    test('exits early when hasCrimsonMaxStars returns true', () async {
+      final level = TestLevel.create();
+      final boardManager = BoardManager(level);
+      boardManager.initialize();
+      final engine = GameEngine(
+        level: level,
+        boardManager: boardManager,
+        playSfx: (_) {},
+      );
+      engine.initialize();
+      final earlyState = GameState();
+      final effects = EffectsProcessor(
+        engine: engine,
+        state: earlyState,
+        boardManager: boardManager,
+        settlement: SettlementProcessor(
+          engine: engine,
+          state: earlyState,
+          boardManager: boardManager,
+        ),
+      );
+      final earlyFever = FeverProcessor(
+        engine: engine,
+        state: earlyState,
+        boardManager: boardManager,
+        effects: effects,
+        hint: HintController(
+          engine: engine,
+          state: earlyState,
+          audio: MockAudioController(),
+        ),
+        cascadeSequence: (_) async {},
+        processEffects: ({required isHorizontal, required isWrapping}) async =>
+            true,
+        dispatchGhostEffects: (_, {required simultaneous}) async => true,
+        sweepBehaviors: () async => false,
+        hasMaxCStars: () => true,
+      );
+
+      final completed = await earlyFever.executeSequence(
+        bonusBombs: 3,
+        onSpawn: () {},
+      );
+
+      expect(completed, isFalse);
+      expect(earlyState.isFeverTime, isFalse);
+    });
   });
 }
