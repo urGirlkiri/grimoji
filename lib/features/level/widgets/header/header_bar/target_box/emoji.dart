@@ -10,9 +10,6 @@ class TargetEmoji extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasCombo = context.select<LevelState, bool>(
-      (s) => s.gameState.hasTargetCombo,
-    );
     final isPaused = context.select<LevelState, bool>(
       (s) => s.gameState.isPaused,
     );
@@ -22,8 +19,11 @@ class TargetEmoji extends StatelessWidget {
     final targetEmoji = context.select<LevelState, GameEmoji>(
       (s) => s.level.targetEmoji,
     );
+    final isCollecting = context.select<LevelState, bool>(
+      (s) => s.collectedAmount > 0,
+    );
 
-    return hasCombo && !isPaused
+    return isCollecting && !isPaused
         ? EmojiWidget.lottie(
             key: targetIconKey,
             emoji: targetEmoji,
