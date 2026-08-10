@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/features/cauldron/widgets/cauldron.dart';
 import 'package:grimoji/features/cauldron/widgets/ranking.dart';
-import 'package:grimoji/widgets/responsive_screen.dart';
 
 class CauldronScreen extends StatelessWidget {
   const CauldronScreen({super.key});
@@ -10,15 +9,13 @@ class CauldronScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
+        alignment: Alignment.center,
         children: [
           Positioned.fill(
             child: Image.asset('assets/images/emo.png', fit: BoxFit.cover),
           ),
-          const ResponsiveScreen(
-            topMessageArea: Ranking(),
-            squarishMainArea: Cauldron(),
-            rectangularMenuArea: SizedBox.shrink(),
-          ),
+          const Positioned(bottom: 1, child: Cauldron()),
+          const Positioned(top: 20, left: 0, right: 0, child: Ranking()),
         ],
       ),
     );
