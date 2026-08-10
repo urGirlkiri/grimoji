@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 import 'package:lottie/lottie.dart';
 
 import 'package:grimoji/config/emojis/index.dart';
@@ -9,7 +10,6 @@ class InteractableEmoji extends StatefulWidget {
   final GameEmoji emoji;
   final double size;
   final VoidCallback? onTap;
-  final Logger _logger    Logger();
 
   const InteractableEmoji({
     super.key,
@@ -24,6 +24,7 @@ class InteractableEmoji extends StatefulWidget {
 
 class _InteractableEmojiState extends State<InteractableEmoji>
     with SingleTickerProviderStateMixin {
+  final Logger _logger = Logger("InteractableEmoji");
   late final AnimationController _controller;
   bool _isPlaying = false;
 
@@ -49,8 +50,9 @@ class _InteractableEmojiState extends State<InteractableEmoji>
   }
 
   void _onTap() {
-    
+    _logger.info("Tapped");
     if (_isPlaying) return;
+    _logger.info("Playing");
 
     widget.onTap?.call();
 
