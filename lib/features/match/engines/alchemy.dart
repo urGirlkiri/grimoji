@@ -82,6 +82,8 @@ class AlchemyEngine {
         if (group.yields! == boardManager.level.targetEmoji) {
           collectedEmojis.add(CollectedEmoji(emoji: group.yields!, count: 1));
           targetTile.isFlying = true;
+        } else if (Powerup.forEmoji(group.yields!) != null) {
+          targetTile.isCollectiblePowerup = true;
         }
 
         final TileSet sources = coords.where((c) => c != spawnPoint).toSet();
@@ -125,9 +127,8 @@ class AlchemyEngine {
                   CollectedEmoji(emoji: recipe.yields, count: 1),
                 );
                 targetTile.isFlying = true;
-              } else if (isFeverTime &&
-                  Powerup.forEmoji(recipe.yields) != null) {
-                targetTile.isPowerupCollectable = true;
+              } else if (Powerup.forEmoji(recipe.yields) != null) {
+                targetTile.isCollectiblePowerup = true;
               }
 
               final TileSet sources = coords
