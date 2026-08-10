@@ -47,9 +47,7 @@ class _TileExplosionState extends State<TileExplosion>
           vy: sin(angle) * velocity - 100.0,
 
           size: 3.0 + _random.nextDouble() * 4.0,
-          color: _random.nextBool()
-              ? palette.dusk
-              : palette.crimson,
+          color: _random.nextBool() ? palette.dusk : palette.crimson,
           maxLife: 0.4 + _random.nextDouble() * 0.3,
         ),
       );
@@ -76,10 +74,15 @@ class _TileExplosionState extends State<TileExplosion>
 
   @override
   Widget build(BuildContext context) {
-    return RepaintBoundary(
-      child: CustomPaint(
-        size: Size(widget.size, widget.size),
-        painter: ParticleCanvPainter(_particles, isCircular: false),
+    return OverflowBox(
+      maxWidth: widget.size,
+      maxHeight: widget.size,
+      alignment: Alignment.center,
+      child: RepaintBoundary(
+        child: CustomPaint(
+          size: Size(widget.size, widget.size),
+          painter: ParticleCanvPainter(_particles, isCircular: false),
+        ),
       ),
     );
   }

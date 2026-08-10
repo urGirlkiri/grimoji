@@ -73,10 +73,15 @@ class _TileMatchState extends State<TileMatch>
 
   @override
   Widget build(BuildContext context) {
-    return RepaintBoundary(
-      child: CustomPaint(
-        size: Size(widget.size, widget.size),
-        painter: ParticleCanvPainter(_particles, isCircular: true),
+    return OverflowBox(
+      maxWidth: widget.size,
+      maxHeight: widget.size,
+      alignment: Alignment.center,
+      child: RepaintBoundary(
+        child: CustomPaint(
+          size: Size(widget.size, widget.size),
+          painter: ParticleCanvPainter(_particles, isCircular: true),
+        ),
       ),
     );
   }

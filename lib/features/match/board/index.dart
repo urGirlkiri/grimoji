@@ -64,24 +64,17 @@ class _GameBoardState extends State<GameBoard> {
 
   @override
   Widget build(BuildContext context) {
-    
     final levelState = context.read<LevelState>();
 
     const int gridColumns = BoardManager.cols;
     const int gridRows = BoardManager.rows;
     const int totalTiles = gridColumns * gridRows;
-    const double maxAllowedBoardWidth = 350.0;
 
     return LayoutBuilder(
       builder: (context, screenConstraints) {
-        final screenWidth = context.screenWidth;
         final isLargeSCreen = context.isLargeScreen;
 
-        final double constrainedBoardWidth = isLargeSCreen
-            ? (screenWidth > maxAllowedBoardWidth
-                  ? maxAllowedBoardWidth
-                  : screenWidth * largeScreenBoardWidthFactor)
-            : screenWidth * smallScreenBoardWidthFactor;
+        final double constrainedBoardWidth = screenConstraints.maxWidth;
 
         final double proportionalBoardHeight =
             ((constrainedBoardWidth * gridRows) / gridColumns) *
@@ -172,6 +165,7 @@ class _GameBoardState extends State<GameBoard> {
 
                             OverflowBox(
                               maxWidth: constrainedBoardWidth,
+                              alignment: Alignment.topLeft,
                               child: IgnorePointer(
                                 child: TimeBonusOverlay(
                                   effectsNotifier:
@@ -181,6 +175,7 @@ class _GameBoardState extends State<GameBoard> {
                             ),
                             OverflowBox(
                               maxWidth: constrainedBoardWidth,
+                              alignment: Alignment.topLeft,
                               child: IgnorePointer(
                                 child: LineClearOverlay(
                                   notifier: _vfx.lineClearManager.notifier,
@@ -194,6 +189,7 @@ class _GameBoardState extends State<GameBoard> {
 
                             OverflowBox(
                               maxWidth: constrainedBoardWidth,
+                              alignment: Alignment.topLeft,
                               child: IgnorePointer(
                                 child: WheelRollOverlay(
                                   notifier: _vfx.wheelRollManager.notifier,
@@ -205,6 +201,7 @@ class _GameBoardState extends State<GameBoard> {
 
                             OverflowBox(
                               maxWidth: constrainedBoardWidth,
+                              alignment: Alignment.topLeft,
                               child: IgnorePointer(
                                 child: GhostDiveOverlay(
                                   notifier: _vfx.ghostDiveManager.notifier,
@@ -216,6 +213,7 @@ class _GameBoardState extends State<GameBoard> {
 
                             OverflowBox(
                               maxWidth: constrainedBoardWidth,
+                              alignment: Alignment.topLeft,
                               child: IgnorePointer(
                                 child: BloodDropOverlay(
                                   notifier: _vfx.bloodDropManager.notifier,
