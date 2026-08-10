@@ -69,6 +69,7 @@ class Ranking extends StatelessWidget {
             final rank = player['rank'] as int;
             final rankColor = _rankColor(rank);
             final isFirst = rank == 1;
+            final cardBorderRadius = BorderRadius.circular(12 * scale);
 
             return Padding(
               padding: EdgeInsets.symmetric(
@@ -78,6 +79,19 @@ class Ranking extends StatelessWidget {
               child: AnimatedButton(
                 child: BreathingWidget(
                   enabled: isFirst,
+                  borderRadius: cardBorderRadius,
+                  beginShadow: BoxShadow(
+                    color: palette.crimson.withValues(alpha: 0.2),
+                    blurRadius: 8,
+                    spreadRadius: 0,
+                    offset: Offset(0, 2 * scale),
+                  ),
+                  endShadow: BoxShadow(
+                    color: palette.crimson.withValues(alpha: 0.6),
+                    blurRadius: 8,
+                    spreadRadius: 4,
+                    offset: Offset(0,4 * scale),
+                  ),
                   child: Container(
                     width: 160 * scale,
                     padding: EdgeInsets.all(12.0 * scale),
@@ -90,15 +104,16 @@ class Ranking extends StatelessWidget {
                           palette.voidBlack.withValues(alpha: 0.95),
                         ],
                       ),
-                      borderRadius: BorderRadius.circular(12 * scale),
+                      borderRadius: cardBorderRadius,
                       boxShadow: [
-                        BoxShadow(
-                          color: isFirst
-                              ? palette.magicCyan.withValues(alpha: 0.4)
-                              : palette.voidBlack,
-                          blurRadius: 12,
-                          offset: Offset(0, 6 * scale),
-                        ),
+                        // Only draw the static black shadow if it's NOT first place
+                        // First place is handled by BreathingWidget now.
+                        if (!isFirst)
+                          BoxShadow(
+                            color: palette.voidBlack,
+                            blurRadius: 12,
+                            offset: Offset(0, 6 * scale),
+                          ),
                   
                         if (rank <= 3)
                           BoxShadow(
