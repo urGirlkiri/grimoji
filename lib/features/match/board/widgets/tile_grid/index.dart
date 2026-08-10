@@ -51,7 +51,7 @@ class _TileGridState extends State<TileGrid> {
     if (_scheduledFlyTiles.contains(tile.id)) return;
     _scheduledFlyTiles.add(tile.id);
 
-    tile.hasFlown = true;
+    tile.hasTargetFlown = true;
     context.readAudio.playSfx(Sfx.targetFlight);
 
     final targetKey = levelState.targetIconKey;

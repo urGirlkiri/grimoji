@@ -43,10 +43,10 @@ class Tile {
   bool isPowerupTarget = false;
   bool isBloodTarget = false;
 
-  bool hasFlown = false;
+  bool hasTargetFlown = false;
   bool isFlying = false;
 
-  bool isPowerupCollectable = false;
+  bool isCollectiblePowerup = false;
   bool hasPowerupFlown = false;
 
   bool isHinting = false;
@@ -82,10 +82,10 @@ class Tile {
     newTile.isTransmuting = isTransmuting;
     newTile.morphTarget = morphTarget;
 
-    newTile.hasFlown = hasFlown;
+    newTile.hasTargetFlown = hasTargetFlown;
     newTile.isFlying = isFlying;
 
-    newTile.isPowerupCollectable = isPowerupCollectable;
+    newTile.isCollectiblePowerup = isCollectiblePowerup;
     newTile.hasPowerupFlown = hasPowerupFlown;
 
     newTile.isHinting = isHinting;
@@ -124,10 +124,10 @@ class Tile {
     isTransmuting = false;
     morphTarget = null;
 
-    hasFlown = false;
+    hasTargetFlown = false;
     isFlying = false;
 
-    isPowerupCollectable = false;
+    isCollectiblePowerup = false;
     hasPowerupFlown = false;
 
     isHinting = false;

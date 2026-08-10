@@ -125,7 +125,7 @@ class TileWidget extends StatelessWidget {
       height: tHeight,
       child: Builder(
         builder: (context) {
-          if (tile.hasFlown) {
+          if (tile.hasTargetFlown) {
             return const SizedBox.shrink();
           }
 

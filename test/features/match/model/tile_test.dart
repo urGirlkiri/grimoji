@@ -54,7 +54,7 @@ void main() {
 
       tile.isExploding = true;
       tile.isMerging = true;
-      tile.hasFlown = true;
+      tile.hasTargetFlown = true;
       tile.isFlying = true;
       tile.isHinting = true;
       tile.hintPartner = TileCoordinate(row: 2, col: 3);
@@ -63,7 +63,7 @@ void main() {
 
       expect(tile.isExploding, isFalse);
       expect(tile.isMerging, isFalse);
-      expect(tile.hasFlown, isFalse);
+      expect(tile.hasTargetFlown, isFalse);
       expect(tile.isFlying, isFalse);
       expect(tile.isHinting, isFalse);
       expect(tile.hintPartner, isNull);
