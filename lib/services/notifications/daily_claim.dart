@@ -130,6 +130,7 @@ class DailyClaimReminder {
       await scheduleReminder(nextClaim);
     } else {
       await cancelReminder();
+      await scheduleReminder(DateTime.now().add(const Duration(hours: 24)));
     }
   }
 
