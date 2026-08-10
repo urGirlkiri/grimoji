@@ -32,6 +32,63 @@ https://github.com/user-attachments/assets/ceef5a8d-0b00-4a09-b38c-49777ac84560
 
 </div>
 
+### Core Loops
+
+This game revolves around emojis. 
+They are two main mechanics: `Matches` and `Merges`, illustrated in two modes
+
+
+#### _Match 3 - Candy Crush Style With A Twist——Instead Of Crushing, you merge and form emojis_
+
+<img 
+  src="assets/screenshots/match_3.png" 
+  alt="Desktop Screenshot"
+  style="max-width: 300px; max-height: 300px; object-fit: contain; border-radius: 12px;"
+/>
+
+
+#### _Drop n Merge - Suika Style With A Twist——Instead Of Accumulating Size, you can react emojis to form emojis_
+
+<img 
+  src="assets/screenshots/cauldron.png" 
+  alt="Desktop Screenshot"
+  style="max-width: 300px; max-height: 300px; object-fit: contain; border-radius: 12px;"
+/>
+
+
+### Technologies
+
+**Flutter and Dart**
+
+![rockingdash](https://firebasestorage.googleapis.com/v0/b/dashatar-dev.appspot.com/o/dashatars%2FRGFzaGF0YXJfQm9udXNfU2V0c19Cb251c19E.png?alt=media)
+
+I have fallen in love with flutter after learning about its superpowers. 
+
+Write Once deploy everywhere. I amde games before but i only deployed to the web via itch but flutter gives me the flexibility of one codebase, all platforms.
+
+If you're lazy like me , then this is proof that its very much possible.
+
+**Provider + Hive**
+
+<img 
+  src="assets/screenshots/hive_provider.png" 
+  alt="Desktop Screenshot"
+  style="max-width: 300px; max-height: 300px; object-fit: contain; border-radius: 12px;"
+/>
+
+
+
+For passing data around whats more intuitive than notifiers, or maybae its just that they remind me of Godot Signals? Anyway, if you're coming from ther like me then this stack will be easy. Provider is the memory and hive the hard drive
+
+**Flutter + Flame2d**
+
+![managerdash](https://firebasestorage.googleapis.com/v0/b/dashatar-dev.appspot.com/o/dashatars%2FRGFzaGF0YXJfTWFya2V0aW5nX092ZXJJdF9jb2xvcl9NUl9zaGFkb3c=.png?alt=media)
+
+I thought you might ask. Yh the match-3 is pure flutter. Its the suika where it just makes sense to cheat with a game engine :)
+
+
+
+
 ### Credits
 
 [Animated Emoji 💖](https://googlefonts.github.io/noto-emoji-animation/) for the emoji animations and SVG icons<br>
