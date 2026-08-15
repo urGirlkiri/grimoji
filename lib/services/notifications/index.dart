@@ -154,6 +154,42 @@ class FlutterNotificationService implements NotificationService {
   }
 
   @override
+  Future<bool> canScheduleExactAlarms() async {
+    if (!_isSupported || kIsWeb || !Platform.isAndroid) return false;
+
+    try {
+      final androidPlugin = _plugin
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >();
+      return await androidPlugin?.canScheduleExactNotifications() ?? false;
+    } catch (e) {
+      _log.warning('Failed to check exact alarm permission: $e');
+      return false;
+    }
+  }
+
+  @override
+  Future<void> requestExactAlarmPermission() async {
+    if (!_isSupported || kIsWeb || !Platform.isAndroid) return;
+
+    try {
+      final androidPlugin = _plugin
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >();
+      final canSchedule =
+          await androidPlugin?.canScheduleExactNotifications() ?? false;
+      if (!canSchedule) {
+        _log.info('Requesting SCHEDULE_EXACT_ALARM permission...');
+        await androidPlugin?.requestExactAlarmsPermission();
+      }
+    } catch (e) {
+      _log.warning('Failed to request exact alarm permission: $e');
+    }
+  }
+
+  @override
   Future<void> schedule({
     required int id,
     required String title,
@@ -165,11 +201,24 @@ class FlutterNotificationService implements NotificationService {
     if (!_initialized) return;
     if (!_isSupported) return;
 
+    final stopwatch = Stopwatch()..start();
+    _log.info('schedule(id=$id) started. Target Date: $scheduledDate');
+
     final details = await _notificationDetails(image: image);
+    _log.fine(
+      'Notification details resolved in ${stopwatch.elapsedMilliseconds}ms',
+    );
+
     final scheduledTZDateTime = tz.TZDateTime.fromMillisecondsSinceEpoch(
       tz.UTC,
       scheduledDate.millisecondsSinceEpoch,
     );
+
+    final hasExactAlarmPermission = await canScheduleExactAlarms();
+    final scheduleMode = hasExactAlarmPermission
+        ? AndroidScheduleMode.exactAllowWhileIdle
+        : AndroidScheduleMode.inexactAllowWhileIdle;
+    _log.info('Using AndroidScheduleMode: $scheduleMode');
 
     try {
       await _plugin.zonedSchedule(
@@ -179,10 +228,17 @@ class FlutterNotificationService implements NotificationService {
         scheduledTZDateTime,
         details,
         payload: payload,
-        androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+        androidScheduleMode: scheduleMode,
       );
-    } catch (e) {
-      _log.warning('Failed to schedule notification: $e');
+      _log.info(
+        'schedule(id=$id) completed successfully in ${stopwatch.elapsedMilliseconds}ms',
+      );
+    } catch (e, stack) {
+      _log.severe(
+        'schedule(id=$id) FAILED in ${stopwatch.elapsedMilliseconds}ms: $e',
+        e,
+        stack,
+      );
     }
   }
 

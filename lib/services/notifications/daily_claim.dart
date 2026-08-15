@@ -34,6 +34,8 @@ class DailyClaimReminder {
   void Function(String? payload)? _onTapPayload;
   bool _initialized = false;
 
+  NotificationService get service => _service;
+
   bool get _isDesktopFallback =>
       _isDesktopFallbackOverride ??
       (!kIsWeb && (Platform.isLinux || Platform.isWindows));
