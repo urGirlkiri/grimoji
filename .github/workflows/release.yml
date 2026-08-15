@@ -18,6 +18,7 @@ jobs:
     outputs:
       changed: ${{ steps.check.outputs.changed }}
       version: ${{ steps.check.outputs.version }}
+      release_version: ${{ steps.check.outputs.release_version }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -33,6 +34,7 @@ jobs:
             current=$(grep '^version:' pubspec.yaml | awk '{print $2}')
             echo "changed=true" >> $GITHUB_OUTPUT
             echo "version=$current" >> $GITHUB_OUTPUT
+            echo "release_version=$(echo "$current" | cut -d'+' -f1)" >> $GITHUB_OUTPUT
             exit 0
           fi
           current=$(grep '^version:' pubspec.yaml | awk '{print $2}')
@@ -40,6 +42,7 @@ jobs:
           if [ "$current" != "$previous" ]; then
             echo "changed=true" >> $GITHUB_OUTPUT
             echo "version=$current" >> $GITHUB_OUTPUT
+            echo "release_version=$(echo "$current" | cut -d'+' -f1)" >> $GITHUB_OUTPUT
           else
             echo "changed=false" >> $GITHUB_OUTPUT
           fi
@@ -177,8 +180,8 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ needs.detect-version-change.outputs.version }}
-          name: "v${{ needs.detect-version-change.outputs.version }}"
+          tag_name: v${{ needs.detect-version-change.outputs.release_version }}
+          name: "v${{ needs.detect-version-change.outputs.release_version }}"
           files: |
             build/app/outputs/flutter-apk/app-release.apk
             linux-amd64.deb
@@ -296,7 +299,7 @@ jobs:
           ren build\windows\x64\runner\Release\*.msix windows.msix
       - uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ needs.detect-version-change.outputs.version }}
+          tag_name: v${{ needs.detect-version-change.outputs.release_version }}
           files: build\windows\x64\runner\Release\windows.msix
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -346,7 +349,7 @@ jobs:
           manifest-path: flatpak/io.grimoji.game.yml
       - uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ needs.detect-version-change.outputs.version }}
+          tag_name: v${{ needs.detect-version-change.outputs.release_version }}
           files: linux.flatpak
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -384,7 +387,7 @@ jobs:
       - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ needs.detect-version-change.outputs.version }}
+          tag_name: v${{ needs.detect-version-change.outputs.release_version }}
           files: macos.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

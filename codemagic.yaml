@@ -68,7 +68,6 @@ workflows:
             
             if [ -n "$GITHUB_PAT" ]; then
               if [ "$CM_PULL_REQUEST" = "true" ]; then
-                echo "Posting preview link to Pull Request #$CM_PULL_REQUEST_NUMBER..."
                 curl -s -L \
                   -X POST \
                   -H "Accept: application/vnd.github+json" \
@@ -218,7 +217,6 @@ workflows:
         script: |
           CERT_KEY_PATH="$CM_BUILD_DIR/cert_key.pem"
           if [ -n "${CERTIFICATE_PRIVATE_KEY:-}" ]; then
-            # THIS IS THE FIX: We decode the Base64 string back into a real file!
             echo "$CERTIFICATE_PRIVATE_KEY" | base64 --decode > "$CERT_KEY_PATH"
           else
             openssl genrsa -out "$CERT_KEY_PATH" 2048
@@ -263,9 +261,11 @@ workflows:
       - name: Package for Mac App Store
         script: |
           KEYCHAIN_PATH=$(security list-keychains | grep "codemagic" | head -n 1 | tr -d '"' | tr -d ' ')
+          echo "Using keychain: $KEYCHAIN_PATH"
 
-          security default-keychain -s "$KEYCHAIN_PATH"
           security unlock-keychain -p "" "$KEYCHAIN_PATH"
+
+          security set-key-partition-list -S apple-tool:,apple:,codesign:,productbuild:,productsign:,pkgbuild: -s -k "" "$KEYCHAIN_PATH"
 
           INSTALLER_CERT=$(security find-identity -v "$KEYCHAIN_PATH" | grep "Installer" | awk -F'"' '{print $2}' | head -n 1)
 
