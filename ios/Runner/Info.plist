@@ -54,6 +54,10 @@
 			<string>fetch</string>
 			<string>processing</string>
 		</array>
+		<key>BGTaskSchedulerPermittedIdentifiers</key>
+		<array>
+			<string>io.grimoji.game</string>
+		</array>
 		<key>ITSAppUsesNonExemptEncryption</key>
 		<false/>
 	</dict>

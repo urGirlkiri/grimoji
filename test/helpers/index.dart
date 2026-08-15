@@ -11,8 +11,10 @@ class TestHelpers {
     for (int r = 0; r < engine.grid.length; r++) {
       for (int c = 0; c < engine.grid[0].length; c++) {
         engine.grid[r][c].emoji = colors[(r + 2 * c) % 4];
+        engine.grid[r][c].clearBehavior();
       }
     }
+    engine.initializeBehaviors();
   }
 
   static void expectTile(BoardManager board, int r, int c, GameEmoji emoji) {
