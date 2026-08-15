@@ -46,8 +46,9 @@ jobs:
 
   build-and-release:
     name: Android, Releases, Web
+    environment: release
     needs: detect-version-change
-    if: needs.detect-version-change.outputs.changed == 'true'
+    if: github.ref == 'refs/heads/main' && needs.detect-version-change.outputs.changed == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -196,7 +197,9 @@ jobs:
           path: build/linux/x64/release/bundle/
 
   build-snap:
+    environment: release
     needs: build-and-release
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     continue-on-error: true 
     steps:
@@ -260,7 +263,9 @@ jobs:
           release: edge
 
   build-windows:
+    environment: release
     needs: [build-and-release, detect-version-change]
+    if: github.ref == 'refs/heads/main'
     runs-on: windows-latest
     continue-on-error: true
     steps:
@@ -301,7 +306,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build-flatpak:
+    environment: release
     needs: [build-and-release, detect-version-change]
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     continue-on-error: true
     container:
