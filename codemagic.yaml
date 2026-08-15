@@ -242,6 +242,20 @@ workflows:
             --issuer-id "$APP_STORE_CONNECT_ISSUER_ID" \
             --private-key=@env:APP_STORE_CONNECT_PRIVATE_KEY
 
+      - name: Auto-fetch Mac Installer Certificate
+        script: |
+          app-store-connect fetch-certificates \
+            --type MAC_INSTALLER_DISTRIBUTION \
+            --key-id "$APP_STORE_CONNECT_KEY_IDENTIFIER" \
+            --issuer-id "$APP_STORE_CONNECT_ISSUER_ID" \
+            --private-key=@env:APP_STORE_CONNECT_PRIVATE_KEY || \
+          app-store-connect create-certificate \
+            --type MAC_INSTALLER_DISTRIBUTION \
+            --certificate-key=@file:"$CM_BUILD_DIR/cert_key.pem" \
+            --key-id "$APP_STORE_CONNECT_KEY_IDENTIFIER" \
+            --issuer-id "$APP_STORE_CONNECT_ISSUER_ID" \
+            --private-key=@env:APP_STORE_CONNECT_PRIVATE_KEY
+
       - name: Apply Certificates to Xcode
         script: |
           keychain add-certificates
@@ -252,9 +266,16 @@ workflows:
 
       - name: Package for Mac App Store
         script: |
-          echo "Using Certificate: $MAC_CERTIFICATE_NAME"
+          INSTALLER_CERT=$(security find-identity -v | grep "Installer" | awk -F'"' '{print $2}' | head -n 1)
 
-          xcrun productbuild --component build/macos/Build/Products/Release/grimoji.app /Applications --sign "$MAC_CERTIFICATE_NAME" grimoji.pkg
+          if [ -z "$INSTALLER_CERT" ]; then
+            echo "❌ ERROR: Could not find Installer certificate!"
+            security find-identity -v
+            exit 1
+          fi
+
+          echo "Using Certificate: $INSTALLER_CERT"
+          xcrun productbuild --component build/macos/Build/Products/Release/grimoji.app /Applications --sign "$INSTALLER_CERT" grimoji.pkg
 
     artifacts:
       - grimoji.pkg
