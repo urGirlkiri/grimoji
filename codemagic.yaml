@@ -143,7 +143,10 @@ workflows:
           app-store-connect fetch-signing-files "io.grimoji.game" \
             --type IOS_APP_STORE \
             --create \
-            --certificate-key=@file:"$CM_BUILD_DIR/cert_key.pem"
+            --certificate-key=@file:"$CM_BUILD_DIR/cert_key.pem" \
+            --key-id "$APP_STORE_CONNECT_KEY_ID" \
+            --issuer-id "$APP_STORE_CONNECT_ISSUER_ID" \
+            --private-key=@env:APP_STORE_CONNECT_PRIVATE_KEY
 
       - name: Apply Certificates to Xcode
         script: |
@@ -215,7 +218,10 @@ workflows:
           app-store-connect fetch-signing-files "io.grimoji.game" \
             --type MAC_APP_STORE \
             --create \
-            --certificate-key=@file:"$CM_BUILD_DIR/cert_key.pem"
+            --certificate-key=@file:"$CM_BUILD_DIR/cert_key.pem" \
+            --key-id "$APP_STORE_CONNECT_KEY_ID" \
+            --issuer-id "$APP_STORE_CONNECT_ISSUER_ID" \
+            --private-key=@env:APP_STORE_CONNECT_PRIVATE_KEY
 
       - name: Apply Certificates to Xcode
         script: |
