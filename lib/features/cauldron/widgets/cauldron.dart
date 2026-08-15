@@ -9,13 +9,11 @@ class Cauldron extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return AnimatedButton(
       onTap: () => context.pushNamed(Routes.cauldronPlay),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          final double size = constraints.biggest.shortestSide.clamp(300, 600);
-
+          final double size = (constraints.maxWidth * 0.95).clamp(250.0, 600.0);
           return SizedBox(
             width: size,
             height: size,

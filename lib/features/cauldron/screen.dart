@@ -14,8 +14,11 @@ class CauldronScreen extends StatelessWidget {
           Positioned.fill(
             child: Image.asset('assets/images/emo.png', fit: BoxFit.cover),
           ),
-          const Positioned(bottom: 1, child: Cauldron()),
-          const Positioned(top: 20, left: 0, right: 0, child: Ranking()),
+          const Positioned(
+            bottom: -22,
+            child: Cauldron(),
+          ),
+          const Positioned(top: 10, left: 0, right: 0, child: Ranking()),
         ],
       ),
     );
