@@ -134,7 +134,7 @@ workflows:
         script: |
           CERT_KEY_PATH="$CM_BUILD_DIR/cert_key.pem"
           if [ -n "${CERTIFICATE_PRIVATE_KEY:-}" ]; then
-            printf '%s\n' "$CERTIFICATE_PRIVATE_KEY" > "$CERT_KEY_PATH"
+            echo "$CERTIFICATE_PRIVATE_KEY" | base64 --decode > "$CERT_KEY_PATH"
           else
             openssl genrsa -out "$CERT_KEY_PATH" 2048
             echo "⚠️ Set CERTIFICATE_PRIVATE_KEY to this value for future builds:"
@@ -218,7 +218,8 @@ workflows:
         script: |
           CERT_KEY_PATH="$CM_BUILD_DIR/cert_key.pem"
           if [ -n "${CERTIFICATE_PRIVATE_KEY:-}" ]; then
-            printf '%s\n' "$CERTIFICATE_PRIVATE_KEY" > "$CERT_KEY_PATH"
+            # THIS IS THE FIX: We decode the Base64 string back into a real file!
+            echo "$CERTIFICATE_PRIVATE_KEY" | base64 --decode > "$CERT_KEY_PATH"
           else
             openssl genrsa -out "$CERT_KEY_PATH" 2048
             echo "⚠️ Set CERTIFICATE_PRIVATE_KEY to this value for future builds:"
