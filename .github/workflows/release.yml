@@ -2,9 +2,9 @@ name:  Production Release
 
 on:
   push:
-    tags:
-      - 'v*'
-  workflow_dispatch: 
+    branches:
+      - main
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -12,8 +12,42 @@ permissions:
   id-token: write
 
 jobs:
+  detect-version-change:
+    name: Detect version change in pubsec
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.check.outputs.changed }}
+      version: ${{ steps.check.outputs.version }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Check pubspec version
+        id: check
+        env:
+          EVENT: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT" = "workflow_dispatch" ]; then
+            current=$(grep '^version:' pubspec.yaml | awk '{print $2}')
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "version=$current" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          current=$(grep '^version:' pubspec.yaml | awk '{print $2}')
+          previous=$(git show HEAD~1:pubspec.yaml 2>/dev/null | grep '^version:' | awk '{print $2}' || echo "")
+          if [ "$current" != "$previous" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "version=$current" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
   build-and-release:
     name: Android, Releases, Web
+    needs: detect-version-change
+    if: needs.detect-version-change.outputs.changed == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -94,7 +128,7 @@ jobs:
           # FIX: Rename binary from Grimoji to grimoji if needed
           if [ -f debian_build/usr/share/grimoji/Grimoji ]; then mv debian_build/usr/share/grimoji/Grimoji debian_build/usr/share/grimoji/grimoji; fi
           ln -s /usr/share/grimoji/grimoji debian_build/usr/bin/grimoji
-          VERSION=$(echo ${{ github.ref_name }} | sed 's/^v//')
+          VERSION=${{ needs.detect-version-change.outputs.version }}
           cat <<EOF > debian_build/DEBIAN/control
           Package: grimoji
           Version: $VERSION
@@ -144,12 +178,13 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: v${{ needs.detect-version-change.outputs.version }}
+          name: "v${{ needs.detect-version-change.outputs.version }}"
           files: |
             build/app/outputs/flutter-apk/app-release.apk
             linux-amd64.deb
             linux-x86_64.AppImage
             build\windows\x64\runner\Release\windows.msix
-          name: "${{ github.ref_name }}"
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -225,7 +260,7 @@ jobs:
           release: edge
 
   build-windows:
-    needs: build-and-release
+    needs: [build-and-release, detect-version-change]
     runs-on: windows-latest
     continue-on-error: true
     steps:
@@ -260,12 +295,13 @@ jobs:
           ren build\windows\x64\runner\Release\*.msix windows.msix
       - uses: softprops/action-gh-release@v2
         with:
+          tag_name: v${{ needs.detect-version-change.outputs.version }}
           files: build\windows\x64\runner\Release\windows.msix
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build-flatpak:
-    needs: build-and-release
+    needs: [build-and-release, detect-version-change]
     runs-on: ubuntu-latest
     continue-on-error: true
     container:
@@ -308,6 +344,7 @@ jobs:
           manifest-path: flatpak/io.grimoji.game.yml
       - uses: softprops/action-gh-release@v2
         with:
+          tag_name: v${{ needs.detect-version-change.outputs.version }}
           files: linux.flatpak
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
