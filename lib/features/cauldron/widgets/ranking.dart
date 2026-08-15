@@ -141,118 +141,117 @@ class Ranking extends StatelessWidget {
     final textTheme = context.theme.textTheme;
     final scale = context.globalScale;
 
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.0 * scale),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
-        child: Row(
-          children: players.map((player) {
-            final rank = player['rank'] as int;
-            final rankColor = _rankColor(rank);
-            final isTopThree = rank <= 3;
-            final cardBorderRadius = BorderRadius.circular(12 * scale);
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      physics: const BouncingScrollPhysics(),
+      clipBehavior: Clip.none,
+      child: Row(
+        children: players.map((player) {
+          final rank = player['rank'] as int;
+          final rankColor = _rankColor(rank);
+          final isTopThree = rank <= 3;
+          final cardBorderRadius = BorderRadius.circular(12 * scale);
+          final isFirst =  rank == 1;
 
-            return Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 8.0 * scale,
-                vertical: 8.0 * scale,
-              ),
-            child: AnimatedButton(
-                child: BreathingWidget(
-                  enabled: isTopThree,
-                  minScale: 1.0,
-                  maxScale: _getMaxScale(rank),
-                  duration: _getDuration(rank),
-                  borderRadius: cardBorderRadius,
-                  beginShadow: _getBeginShadow(rank, scale),
-                  endShadow: _getEndShadow(rank, scale),
-                  child: Container(
-                    width: 160 * scale,
-                    padding: EdgeInsets.all(12.0 * scale),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          palette.twilight.withValues(alpha: 0.6),
-                          palette.voidBlack.withValues(alpha: 0.95),
-                        ],
-                      ),
-                      borderRadius: cardBorderRadius,
-                      boxShadow: [
-                        if (!isTopThree)
-                          BoxShadow(
-                            color: palette.voidBlack,
-                            blurRadius: 12,
-                            offset: Offset(0, 6 * scale),
-                          ),
+          return Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: (isFirst ? 20.0 : 8 )* scale,
+              vertical: 1.0 * scale,
+            ),
+          child: AnimatedButton(
+              child: BreathingWidget(
+                enabled: isTopThree,
+                minScale: 1.0,
+                maxScale: _getMaxScale(rank),
+                duration: _getDuration(rank),
+                borderRadius: cardBorderRadius,
+                beginShadow: _getBeginShadow(rank, scale),
+                endShadow: _getEndShadow(rank, scale),
+                child: Container(
+                  width: 160 * scale,
+                  padding: EdgeInsets.all(12.0 * scale),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        palette.twilight.withValues(alpha: 0.6),
+                        palette.voidBlack.withValues(alpha: 0.95),
                       ],
                     ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 10 * scale,
-                            vertical: 3 * scale,
-                          ),
-                          child: Text(
-                            "#$rank",
-                            style: textTheme.labelLarge!.copyWith(
-                              color: rankColor,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
+                    borderRadius: cardBorderRadius,
+                    boxShadow: [
+                      if (!isTopThree)
+                        BoxShadow(
+                          color: palette.voidBlack,
+                          blurRadius: 12,
+                          offset: Offset(0, 6 * scale),
                         ),
-                        SizedBox(height: 12 * scale),
-                        Avatar(
-                          name: player['name'] as String,
-                          radius: 28 * scale,
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10 * scale,
+                          vertical: 3 * scale,
                         ),
-                        SizedBox(height: 10 * scale),
-                        Container(
-                          height: 1.5,
-                          width: 40 * scale,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.transparent,
-                                palette.crimson.withValues(alpha: 0.6),
-                                Colors.transparent,
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 10 * scale),
-                        Text(
-                          player['realName'] as String,
-                          textAlign: TextAlign.center,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: textTheme.bodySmall!.copyWith(
-                            color: palette.moonlightSoft,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                        SizedBox(height: 2 * scale),
-                        Text(
-                          player['score'] as String,
+                        child: Text(
+                          "#$rank",
                           style: textTheme.labelLarge!.copyWith(
-                            color: palette.magicCyan,
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: 1.0,
+                            color: rankColor,
+                            fontWeight: FontWeight.w800,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: 12 * scale),
+                      Avatar(
+                        name: player['name'] as String,
+                        radius: 28 * scale,
+                      ),
+                      SizedBox(height: 10 * scale),
+                      Container(
+                        height: 1.5,
+                        width: 40 * scale,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.transparent,
+                              palette.crimson.withValues(alpha: 0.6),
+                              Colors.transparent,
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10 * scale),
+                      Text(
+                        player['realName'] as String,
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: textTheme.bodySmall!.copyWith(
+                          color: palette.moonlightSoft,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                      SizedBox(height: 2 * scale),
+                      Text(
+                        player['score'] as String,
+                        style: textTheme.labelLarge!.copyWith(
+                          color: palette.magicCyan,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 1.0,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            );
-          }).toList(),
-        ),
+            ),
+          );
+        }).toList(),
       ),
     );
   }
