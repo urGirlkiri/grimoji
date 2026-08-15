@@ -32,6 +32,12 @@ class MockNotificationService implements NotificationService {
   Future<bool> requestPermission() async => permissionGranted;
 
   @override
+  Future<bool> canScheduleExactAlarms() async => true;
+
+  @override
+  Future<void> requestExactAlarmPermission() async {}
+
+  @override
   Future<void> schedule({
     required int id,
     required String title,

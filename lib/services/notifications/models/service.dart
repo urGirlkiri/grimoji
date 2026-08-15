@@ -9,6 +9,10 @@ abstract class NotificationService {
 
   Future<bool> areNotificationsEnabled();
 
+  Future<bool> canScheduleExactAlarms();
+
+  Future<void> requestExactAlarmPermission();
+
   Future<void> schedule({
     required int id,
     required String title,
