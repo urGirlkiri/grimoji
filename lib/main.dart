@@ -50,6 +50,7 @@ void main() async {
   await Hive.openBox<SettingsData>('settings');
   await Hive.openBox<LevelData>('level_data');
   await Hive.openBox<ProfileData>('player_profile');
+  await Hive.openBox<int>('launch_state');
 
   final persistence = HiveProfilePersistence();
   final settingsController = SettingsController();
@@ -57,10 +58,14 @@ void main() async {
 
   final marketScroller = MarketScrollController();
   final reminder = DailyClaimReminder();
+ 
+  ProfileController? profileController;
+ 
   await reminder.initialize(
     onTapPayload: (payload) {
       if (payload == Routes.marketRoute) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (profileController?.canClaimDaily() != true) return;
           final ts = DateTime.now().millisecondsSinceEpoch;
           router.go('${Routes.marketRoute}?claim=dice&ts=$ts');
           WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -71,7 +76,7 @@ void main() async {
     },
   );
 
-  final profileController = ProfileController(
+  profileController = ProfileController(
     persistence: persistence,
     onDailyClaim: (nextClaimTime) async {
       if (settingsController.dailyClaimReminderOn.value &&
@@ -114,6 +119,17 @@ void main() async {
   );
 
   WidgetsBinding.instance.addPostFrameCallback((_) async {
+    final launchBox = Hive.box<int>('launch_state');
+    final lastLaunchMs = launchBox.get('lastLaunch');
+    final lastLaunchHandle = lastLaunchMs != null
+        ? DateTime.fromMillisecondsSinceEpoch(lastLaunchMs)
+        : null;
+    final now = DateTime.now();
+    if (lastLaunchHandle != null &&
+        now.difference(lastLaunchHandle) < const Duration(seconds: 2)) {
+      return;
+    }
     await reminder.handleLaunchNotification();
+    await launchBox.put('lastLaunch', now.millisecondsSinceEpoch);
   });
 }

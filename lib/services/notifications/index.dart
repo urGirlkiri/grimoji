@@ -286,7 +286,8 @@ class FlutterNotificationService implements NotificationService {
     if (!_initialized) return null;
     try {
       final details = await _plugin.getNotificationAppLaunchDetails();
-      return details?.notificationResponse;
+      if (details == null || !details.didNotificationLaunchApp) return null;
+      return details.notificationResponse;
     } catch (e) {
       _log.warning('Failed to get launch notification response: $e');
       return null;
