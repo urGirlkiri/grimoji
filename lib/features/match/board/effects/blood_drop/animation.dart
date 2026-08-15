@@ -140,7 +140,7 @@ class _BloodDropAnimationState extends State<BloodDropAnimation>
 
         final startY = -widget.tileHeight * 1.5;
         final dropSize = widget.tileWidth * dropScale;
-        final dropX = (targetX - dropSize / 2) + 14;
+        final dropX = (targetX - dropSize / 2);
         final dropY = startY + (targetY - startY) * dropProgress;
 
         final bloodOpacity = t < impactT ? 1.0 : 1.0 - postImpact / 0.2;
