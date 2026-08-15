@@ -266,14 +266,16 @@ workflows:
 
           if [ -z "$INSTALLER_CERT" ]; then
             echo "❌ ERROR: Could not find Installer certificate!"
-            security find-identity -v
             exit 1
           fi
 
           echo "Using Certificate: $INSTALLER_CERT"
 
-          security unlock-keychain -p "" $CM_KEYCHAIN_PATH
-          security set-key-partition-list -S apple-tool:,apple:,codesign:,productbuild: -s -k "" $CM_KEYCHAIN_PATH
+          KEYCHAIN_PATH=$(security list-keychains | grep "codemagic" | head -n 1 | tr -d '"' | tr -d ' ')
+          echo "Unlocking keychain at: $KEYCHAIN_PATH"
+
+          security unlock-keychain -p "" "$KEYCHAIN_PATH"
+          security set-key-partition-list -S apple-tool:,apple:,codesign:,productbuild:,productsign: -s -k "" "$KEYCHAIN_PATH"
 
           xcrun productbuild --component build/macos/Build/Products/Release/grimoji.app /Applications --sign "$INSTALLER_CERT" grimoji.pkg
 
