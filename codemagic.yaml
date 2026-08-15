@@ -244,13 +244,9 @@ workflows:
 
       - name: Auto-fetch Mac Installer Certificate
         script: |
-          app-store-connect fetch-certificates \
+          app-store-connect list-certificates \
             --type MAC_INSTALLER_DISTRIBUTION \
-            --key-id "$APP_STORE_CONNECT_KEY_IDENTIFIER" \
-            --issuer-id "$APP_STORE_CONNECT_ISSUER_ID" \
-            --private-key=@env:APP_STORE_CONNECT_PRIVATE_KEY || \
-          app-store-connect create-certificate \
-            --type MAC_INSTALLER_DISTRIBUTION \
+            --save \
             --certificate-key=@file:"$CM_BUILD_DIR/cert_key.pem" \
             --key-id "$APP_STORE_CONNECT_KEY_IDENTIFIER" \
             --issuer-id "$APP_STORE_CONNECT_ISSUER_ID" \
