@@ -135,7 +135,7 @@ workflows:
           else
             openssl genrsa -out "$CERT_KEY_PATH" 2048
             echo "⚠️ Set CERTIFICATE_PRIVATE_KEY to this value for future builds:"
-            base64 "$CERT_KEY_PATH"
+            base64 < "$CERT_KEY_PATH"
           fi
 
       - name: Auto-fetch Apple Signing Files
@@ -207,7 +207,7 @@ workflows:
           else
             openssl genrsa -out "$CERT_KEY_PATH" 2048
             echo "⚠️ Set CERTIFICATE_PRIVATE_KEY to this value for future builds:"
-            base64 "$CERT_KEY_PATH"
+            base64 < "$CERT_KEY_PATH"
           fi
 
       - name: Auto-fetch Mac Signing Files
