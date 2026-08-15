@@ -15,7 +15,7 @@ class RewardTicker extends StatefulWidget {
 }
 
 class _RewardTickerState extends State<RewardTicker> {
-  static const int _marketBranchIndex = 4;
+  static const int _marketBranchIndex = 3;
   Timer? _timer;
 
   @override
@@ -80,7 +80,6 @@ class _RewardTickerState extends State<RewardTicker> {
   }
 
   void _showSnackBar(BuildContext context, String message) {
-    
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: palette.slate,
