@@ -252,7 +252,9 @@ workflows:
 
       - name: Package for Mac App Store
         script: |
-          INSTALLER_CERT=$(security find-certificate -c "3rd Party Mac Developer Installer" -p | openssl x509 -subject -noout | sed 's/subject=.*CN=\(.*\)/\1/' | sed 's/^\///')
+          INSTALLER_CERT=$(security find-certificate -c "Apple Distribution" -p | openssl x509 -subject -noout | sed 's/subject=.*CN=\(.*\)/\1/' | sed 's/^\///' | head -n 1)
+
+          echo "Using Certificate: $INSTALLER_CERT"
 
           xcrun productbuild --component build/macos/Build/Products/Release/grimoji.app /Applications --sign "$INSTALLER_CERT" grimoji.pkg
 
