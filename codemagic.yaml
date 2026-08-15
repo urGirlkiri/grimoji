@@ -116,6 +116,9 @@ workflows:
       cocoapods: default
 
     scripts:
+      - name: Create .env file
+        script: touch .env
+
       - name: Fetch packages
         script: flutter pub get
 
@@ -202,6 +205,9 @@ workflows:
       xcode: latest
 
     scripts:
+      - name: Create .env file
+        script: touch .env
+
       - name: Fetch packages
         script: flutter pub get
 
