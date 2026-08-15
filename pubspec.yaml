@@ -3,7 +3,7 @@ description:  A gothic alchemy game for mixing and collecting emojis.
 
 publish_to: 'none'
 
-version: 0.3.1+31
+version: 0.3.2+32
 
 environment:
   sdk: ^3.8.0
