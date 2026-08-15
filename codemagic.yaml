@@ -144,7 +144,7 @@ workflows:
             --type IOS_APP_STORE \
             --create \
             --certificate-key=@file:"$CM_BUILD_DIR/cert_key.pem" \
-            --key-id "$APP_STORE_CONNECT_KEY_ID" \
+            --key-id "$APP_STORE_CONNECT_KEY_IDENTIFIER" \
             --issuer-id "$APP_STORE_CONNECT_ISSUER_ID" \
             --private-key=@env:APP_STORE_CONNECT_PRIVATE_KEY
 
@@ -171,7 +171,7 @@ workflows:
 
     publishing:
       app_store_connect:
-        key_id: $APP_STORE_CONNECT_KEY_ID
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
         issuer_id: $APP_STORE_CONNECT_ISSUER_ID
         api_key: $APP_STORE_CONNECT_PRIVATE_KEY
         submit_to_testflight: true
@@ -219,7 +219,7 @@ workflows:
             --type MAC_APP_STORE \
             --create \
             --certificate-key=@file:"$CM_BUILD_DIR/cert_key.pem" \
-            --key-id "$APP_STORE_CONNECT_KEY_ID" \
+            --key-id "$APP_STORE_CONNECT_KEY_IDENTIFIER" \
             --issuer-id "$APP_STORE_CONNECT_ISSUER_ID" \
             --private-key=@env:APP_STORE_CONNECT_PRIVATE_KEY
 
@@ -242,7 +242,7 @@ workflows:
 
     publishing:
       app_store_connect:
-        key_id: $APP_STORE_CONNECT_KEY_ID
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
         issuer_id: $APP_STORE_CONNECT_ISSUER_ID
         api_key: $APP_STORE_CONNECT_PRIVATE_KEY
         submit_to_testflight: true
