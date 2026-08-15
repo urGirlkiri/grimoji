@@ -94,3 +94,68 @@ workflows:
 
     artifacts:
       - build/ios/iphonesimulator/grimoji_ios_preview.zip
+
+  ios-testflight:
+    name: iOS TestFlight
+    instance_type: mac_mini_m1
+    max_build_duration: 60
+
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+
+    environment:
+      groups:
+        - Apple
+        - Deploy
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+
+    scripts:
+      - name: Fetch packages
+        script: flutter pub get
+
+      - name: Install iOS Pods
+        script: |
+          cd ios
+          pod install --repo-update
+
+      - name: Initialize Keychain
+        script: keychain initialize
+
+      - name: Auto-fetch Apple Signing Files
+        script: |
+          app-store-connect fetch-signing-files "io.grimoji.game" \
+            --type IOS_APP_STORE \
+            --create
+
+      - name: Apply Certificates to Xcode
+        script: |
+          keychain add-certificates
+          xcode-project use-profiles
+
+      - name: Build iOS IPA
+        script: |
+          flutter build ipa --release
+
+      - name: Upload IPA to GitHub Release
+        script: |
+          VERSION=$(grep '^version:' pubspec.yaml | awk '{print $2}')
+
+          echo "Attempting to upload IPA to GitHub Release v$VERSION..."
+
+          mv build/ios/ipa/*.ipa build/ios/ipa/ios.ipa
+          GH_TOKEN=$GITHUB_PAT gh release upload "v$VERSION" build/ios/ipa/ios.ipa --clobber
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        submit_to_app_store: false
