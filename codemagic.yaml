@@ -138,6 +138,12 @@ workflows:
             base64 < "$CERT_KEY_PATH"
           fi
 
+      - name: Verify App Store credentials
+        script: |
+          echo "KEY_ID=${APP_STORE_CONNECT_KEY_IDENTIFIER:+SET}"
+          echo "ISSUER_ID=${APP_STORE_CONNECT_ISSUER_ID:+SET}"
+          echo "PRIVATE_KEY=${APP_STORE_CONNECT_PRIVATE_KEY:+SET}"
+
       - name: Auto-fetch Apple Signing Files
         script: |
           app-store-connect fetch-signing-files "io.grimoji.game" \
@@ -212,6 +218,12 @@ workflows:
             echo "⚠️ Set CERTIFICATE_PRIVATE_KEY to this value for future builds:"
             base64 < "$CERT_KEY_PATH"
           fi
+
+      - name: Verify App Store credentials
+        script: |
+          echo "KEY_ID=${APP_STORE_CONNECT_KEY_IDENTIFIER:+SET}"
+          echo "ISSUER_ID=${APP_STORE_CONNECT_ISSUER_ID:+SET}"
+          echo "PRIVATE_KEY=${APP_STORE_CONNECT_PRIVATE_KEY:+SET}"
 
       - name: Auto-fetch Mac Signing Files
         script: |
