@@ -233,7 +233,7 @@ class ProfileController extends ChangeNotifier {
     final lastCatchUp = DateTime.fromMillisecondsSinceEpoch(
       _profile!.lastDailyCatchUpTime,
     );
-    return DateTime.now().difference(lastCatchUp).inHours >= 24;
+    return DateTime.now().difference(lastCatchUp) >= dailyClaimDuration;
   }
 
   Future<void> markCatchUpReminder() async {

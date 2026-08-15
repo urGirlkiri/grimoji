@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/features/profile/models/profile_data.dart';
 import 'package:grimoji/features/profile/persistance/persistence.dart';
@@ -143,7 +144,7 @@ void main() {
       expect(capturedNextClaimTime, isNotNull);
       expect(
         capturedNextClaimTime!.difference(beforeClaim),
-        greaterThanOrEqualTo(const Duration(hours: 23, minutes: 59)),
+        greaterThanOrEqualTo(dailyClaimDuration - const Duration(minutes: 1)),
       );
     });
   });
