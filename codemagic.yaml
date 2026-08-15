@@ -100,6 +100,13 @@ workflows:
     instance_type: mac_mini_m1
     max_build_duration: 60
 
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+
     environment:
       groups:
         - Apple
@@ -149,7 +156,9 @@ workflows:
 
     publishing:
       app_store_connect:
-        auth: integration
+        key_id: $APP_STORE_CONNECT_KEY_ID
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
         submit_to_testflight: true
         submit_to_app_store: false
 
@@ -157,6 +166,13 @@ workflows:
     name: macOS TestFlight
     instance_type: mac_mini_m1
     max_build_duration: 60
+
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
 
     environment:
       groups:
@@ -196,6 +212,8 @@ workflows:
 
     publishing:
       app_store_connect:
-        auth: integration
+        key_id: $APP_STORE_CONNECT_KEY_ID
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
         submit_to_testflight: true
         submit_to_app_store: false
