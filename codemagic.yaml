@@ -271,6 +271,10 @@ workflows:
           fi
 
           echo "Using Certificate: $INSTALLER_CERT"
+
+          security unlock-keychain -p "" $CM_KEYCHAIN_PATH
+          security set-key-partition-list -S apple-tool:,apple:,codesign:,productbuild: -s -k "" $CM_KEYCHAIN_PATH
+
           xcrun productbuild --component build/macos/Build/Products/Release/grimoji.app /Applications --sign "$INSTALLER_CERT" grimoji.pkg
 
     artifacts:
