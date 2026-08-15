@@ -376,7 +376,7 @@ class FlutterNotificationService implements NotificationService {
 
     try {
       final bytes = await rootBundle.load(assetPath);
-      return _writeToPersistentFile(
+      return await _writeToPersistentFile(
         bytes.buffer.asUint8List(),
         'notification_image',
       );
