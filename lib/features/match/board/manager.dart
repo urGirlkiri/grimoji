@@ -62,6 +62,9 @@ class BoardManager {
 
     // gridTiles[2][0].emoji = Emojis.ghost;
     // gridTiles[2][1].emoji = Emojis.bomb;
+
+    // gridTiles[2][1].emoji = Emojis.ghost;
+    // gridTiles[2][2].emoji = Emojis.barberPole;
   }
 
   GameEmoji getRandomSafeEmoji(int row, int col) {

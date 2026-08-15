@@ -290,8 +290,8 @@ class BehaviorEngine {
   ) {
     if (tile.behavior != null) {
       return tile.behavior!.onSwipedWith(
-        tile.coordinate.row,
-        tile.coordinate.col,
+        x,
+        y,
         targetEmoji,
       );
     }
