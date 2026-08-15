@@ -27,7 +27,7 @@ workflows:
     scripts:
       - name: Create .env file for Flutter
         script: |
-          echo "HACKAI_API_KEY=$HACKAI_API_KEY" > .env
+          touch .env
 
       - name: Fetch packages
         script: flutter pub get

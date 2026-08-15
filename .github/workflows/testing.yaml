@@ -39,7 +39,6 @@ jobs:
       - name: Create .env file
         run: |
           cat << EOF > .env
-          HACKAI_API_KEY=${{ secrets.HACKAI_API_KEY }}
           EOF
 
       - name: Install Dependencies

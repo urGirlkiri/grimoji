@@ -77,7 +77,6 @@ jobs:
       - name: Create .env file
         run: |
           cat << EOF > .env
-          HACKAI_API_KEY=${{ secrets.HACKAI_API_KEY }}
           WINDOWS_USER_MODEL_ID=${{ secrets.WINDOWS_USER_MODEL_ID }}
           WINDOWS_NOTIFICATION_GUID=${{ secrets.WINDOWS_NOTIFICATION_GUID }}
           EOF
@@ -109,7 +108,6 @@ jobs:
       - name: Create .env file for Web
         run: |
           cat << EOF > build/web/assets/.env
-          HACKAI_API_KEY=hehehe_no_chance
           EOF
 
       - name: Build Android (AAB & APK)
@@ -208,7 +206,6 @@ jobs:
       - name: Create .env file for Snap
         run: |
           cat << EOF > .env
-          HACKAI_API_KEY=${{ secrets.HACKAI_API_KEY }}
           EOF
 
       - name: Prepare Snap Metadata
@@ -274,8 +271,7 @@ jobs:
 
       - name: Create .env file for Windows
         run: |
-          echo HACKAI_API_KEY=${{ secrets.HACKAI_API_KEY }} > .env
-          echo WINDOWS_USER_MODEL_ID=${{ secrets.WINDOWS_USER_MODEL_ID }} >> .env
+          echo WINDOWS_USER_MODEL_ID=${{ secrets.WINDOWS_USER_MODEL_ID }} > .env
           echo WINDOWS_NOTIFICATION_GUID=${{ secrets.WINDOWS_NOTIFICATION_GUID }} >> .env
 
       - name: Build MSIX
@@ -326,7 +322,6 @@ jobs:
       - name: Create .env file for Windows
         run: |
           cat << EOF > flatpak/app-dir/data/flutter_assets/.env
-          HACKAI_API_KEY=${{ secrets.HACKAI_API_KEY }}
           EOF
           
       - name: Copy Desktop and Icon Files
