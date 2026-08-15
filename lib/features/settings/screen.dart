@@ -25,8 +25,8 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   Future<void> _resetProgress(BuildContext context) async {
-    
-
+  
+  
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) {
@@ -90,6 +90,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
 
     if (!context.mounted) return;
+
+    await reminder.service.requestExactAlarmPermission();
+    if (!context.mounted) return;
+
     final profile = context.readProfile;
     await settings.setDailyClaimReminderOn(true);
     await reminder.rescheduleFromProfile(profile);
@@ -98,7 +102,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final settings = context.watchSettings;
-    
+
     final isLarge = context.isLargeScreen;
     final scale = context.globalScale;
 
