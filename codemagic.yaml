@@ -159,3 +159,57 @@ workflows:
         auth: integration
         submit_to_testflight: true
         submit_to_app_store: false
+
+  macos-testflight:
+    name: macOS TestFlight
+    instance_type: mac_mini_m1
+    max_build_duration: 60
+
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+
+    environment:
+      groups:
+        - Apple
+      flutter: stable
+      xcode: latest
+
+    scripts:
+      - name: Fetch packages
+        script: flutter pub get
+
+      - name: Initialize Keychain
+        script: keychain initialize
+
+      - name: Auto-fetch Mac Signing Files
+        script: |
+          app-store-connect fetch-signing-files "io.grimoji.game" \
+            --type MAC_APP_STORE \
+            --create
+
+      - name: Apply Certificates to Xcode
+        script: |
+          keychain add-certificates
+          xcode-project use-profiles
+
+      - name: Build macOS App
+        script: flutter build macos --release
+
+      - name: Package for Mac App Store
+        script: |
+          INSTALLER_CERT=$(security find-certificate -c "3rd Party Mac Developer Installer" -p | openssl x509 -subject -noout | sed 's/subject=.*CN=\(.*\)/\1/' | sed 's/^\///')
+
+          xcrun productbuild --component build/macos/Build/Products/Release/grimoji.app /Applications --sign "$INSTALLER_CERT" grimoji.pkg
+
+    artifacts:
+      - grimoji.pkg
+
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        submit_to_app_store: false
