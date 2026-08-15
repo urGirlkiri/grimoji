@@ -86,6 +86,9 @@ flutter_launcher_icons:
   ios: true
   remove_alpha_ios: true
   image_path: "assets/icons/2048x2048_bg.png"
+  macos:
+    generate: true
+    image_path: "assets/icons/2048x2048_bg.png"
   adaptive_icon_background: "#1a1a24"
   adaptive_icon_foreground: "assets/icons/2048x2048_bg.png"
   adaptive_icon_monochrome: "assets/icons/mono.png"
