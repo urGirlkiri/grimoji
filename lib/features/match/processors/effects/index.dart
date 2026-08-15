@@ -163,8 +163,7 @@ class EffectsProcessor {
       if (kDebugMode) {
         engine.grid[effect.target.row][effect.target.col].isGhostTarget = false;
       }
-      if (effect.powerup != GhostPowerup.none &&
-          effect.powerupOrigin != null) {
+      if (effect.powerup != GhostPowerup.none && effect.powerupOrigin != null) {
         engine
                 .grid[effect.powerupOrigin!.row][effect.powerupOrigin!.col]
                 .isGhostPowerup =
@@ -178,10 +177,21 @@ class EffectsProcessor {
           if (targetTile.emoji == engine.level.targetEmoji) {
             collected.add(CollectedEmoji(emoji: targetTile.emoji, count: 1));
           }
+          targetTile
+            ..emoji = Emojis.bomb
+            ..clearBehavior();
           newBombs.add(effect.target);
           break;
         case GhostPowerup.pole:
           if (effect.isHorizontal != null) {
+            final targetTile =
+                engine.grid[effect.target.row][effect.target.col];
+            if (targetTile.emoji == engine.level.targetEmoji) {
+              collected.add(CollectedEmoji(emoji: targetTile.emoji, count: 1));
+            }
+            targetTile
+              ..emoji = Emojis.barberPole
+              ..behavior = ClearBehavior(isHorizontal: effect.isHorizontal!);
             engine.executeBehaviorActions(
               [
                 BehaviorAction(
