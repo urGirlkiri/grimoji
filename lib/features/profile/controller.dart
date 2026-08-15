@@ -249,7 +249,7 @@ class ProfileController extends ChangeNotifier {
       _profile!.lastDailyClaimTime,
     );
     final now = DateTime.now();
-    return now.difference(lastClaim).inHours >= 24;
+    return now.difference(lastClaim) >= dailyClaimDuration;
   }
 
   Duration timeUntilNextDailyClaim() {
@@ -257,7 +257,7 @@ class ProfileController extends ChangeNotifier {
     final lastClaim = DateTime.fromMillisecondsSinceEpoch(
       _profile!.lastDailyClaimTime,
     );
-    final nextClaim = lastClaim.add(const Duration(hours: 24));
+    final nextClaim = lastClaim.add(dailyClaimDuration);
     final now = DateTime.now();
     return nextClaim.isBefore(now) ? Duration.zero : nextClaim.difference(now);
   }
@@ -288,7 +288,7 @@ class ProfileController extends ChangeNotifier {
       _onDailyClaim?.call(
         DateTime.fromMillisecondsSinceEpoch(
           _profile!.lastDailyClaimTime,
-        ).add(const Duration(hours: 24)),
+        ).add(dailyClaimDuration),
       );
     }
   }

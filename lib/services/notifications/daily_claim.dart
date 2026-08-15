@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/services/notifications/models/image.dart';
@@ -126,11 +127,11 @@ class DailyClaimReminder {
     if (!profile.canClaimDaily()) {
       final nextClaim = DateTime.fromMillisecondsSinceEpoch(
         profile.lastDailyClaimTime,
-      ).add(const Duration(hours: 24));
+      ).add(dailyClaimDuration);
       await scheduleReminder(nextClaim);
     } else {
       await cancelReminder();
-      await scheduleReminder(DateTime.now().add(const Duration(hours: 24)));
+      await scheduleReminder(DateTime.now().add(dailyClaimDuration));
     }
   }
 

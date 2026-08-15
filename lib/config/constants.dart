@@ -19,3 +19,5 @@ const List<String> availableAvatars = [
 ];
 
 const mapSkyColor = Color(0xFF48484f);
+
+const Duration dailyClaimDuration = Duration(minutes: 1);
