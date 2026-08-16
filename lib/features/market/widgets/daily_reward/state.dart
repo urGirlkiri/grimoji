@@ -14,13 +14,22 @@ class RewardTicker extends StatefulWidget {
   State<RewardTicker> createState() => _RewardTickerState();
 }
 
-class _RewardTickerState extends State<RewardTicker> {
+class _RewardTickerState extends State<RewardTicker>
+    with WidgetsBindingObserver {
   static const int _marketBranchIndex = 3;
   Timer? _timer;
+  late bool _canClaim = widget.canClaim;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    _refreshClaimState();
     _syncTimer();
   }
 
@@ -28,14 +37,33 @@ class _RewardTickerState extends State<RewardTicker> {
   void didUpdateWidget(covariant RewardTicker oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.canClaim != widget.canClaim) {
+      _canClaim = widget.canClaim;
+      _syncTimer();
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _refreshClaimState();
       _syncTimer();
     }
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _timer?.cancel();
     super.dispose();
+  }
+
+  void _refreshClaimState() {
+    if (!mounted) return;
+    final profile = context.readProfile;
+    final canClaimNow = widget.canClaim || profile.canClaimDaily();
+    if (canClaimNow != _canClaim) {
+      setState(() => _canClaim = canClaimNow);
+    }
   }
 
   void _syncTimer() {
@@ -43,14 +71,20 @@ class _RewardTickerState extends State<RewardTicker> {
         ShellTabScope.maybeOf(context)?.isBranchActive(_marketBranchIndex) ??
         true;
 
-    if (!isMarketTab || widget.canClaim) {
+    if (!isMarketTab || _canClaim) {
       _timer?.cancel();
       _timer = null;
       return;
     }
 
     _timer ??= Timer.periodic(const Duration(seconds: 1), (_) {
-      if (mounted) setState(() {});
+      if (!mounted) return;
+      _refreshClaimState();
+      if (_canClaim) {
+        _syncTimer();
+      } else {
+        setState(() {});
+      }
     });
   }
 
@@ -60,7 +94,7 @@ class _RewardTickerState extends State<RewardTicker> {
     final timeUntil = profile.timeUntilNextDailyClaim();
 
     return CardContent(
-      canClaim: widget.canClaim,
+      canClaim: _canClaim,
       timeUntil: timeUntil,
       onClaimPressed: () async {
         final isFirstClaim = profile.lastDailyClaimTime == 0;
