@@ -23,28 +23,33 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2
+          fetch-depth: 0
 
-      - name: Check pubspec version
+      - name: Check pubspec version against latest tag
         id: check
         env:
           EVENT: ${{ github.event_name }}
         run: |
+          current=$(grep '^version:' pubspec.yaml | awk '{print $2}')
+          release_version=$(echo "$current" | cut -d'+' -f1)
+          
           if [ "$EVENT" = "workflow_dispatch" ]; then
-            current=$(grep '^version:' pubspec.yaml | awk '{print $2}')
             echo "changed=true" >> $GITHUB_OUTPUT
             echo "version=$current" >> $GITHUB_OUTPUT
-            echo "release_version=$(echo "$current" | cut -d'+' -f1)" >> $GITHUB_OUTPUT
+            echo "release_version=$release_version" >> $GITHUB_OUTPUT
             exit 0
           fi
-          current=$(grep '^version:' pubspec.yaml | awk '{print $2}')
-          previous=$(git show HEAD~1:pubspec.yaml 2>/dev/null | grep '^version:' | awk '{print $2}' || echo "")
-          if [ "$current" != "$previous" ]; then
+
+          latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          
+          if [ "$latest_tag" = "v$release_version" ]; then
+            echo "Version v$release_version is already released."
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "New version detected: v$release_version (Previous tag was: $latest_tag)"
             echo "changed=true" >> $GITHUB_OUTPUT
             echo "version=$current" >> $GITHUB_OUTPUT
-            echo "release_version=$(echo "$current" | cut -d'+' -f1)" >> $GITHUB_OUTPUT
-          else
-            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "release_version=$release_version" >> $GITHUB_OUTPUT
           fi
 
   build-and-release:
