@@ -159,7 +159,7 @@ workflows:
 
       - name: Upload IPA to GitHub Release
         script: |
-          VERSION=$(grep '^version:' pubspec.yaml | awk '{print $2}')
+          VERSION=$(grep '^version:' pubspec.yaml | awk '{print $2}' | cut -d'+' -f1)
 
           echo "Attempting to upload IPA to GitHub Release v$VERSION..."
 
