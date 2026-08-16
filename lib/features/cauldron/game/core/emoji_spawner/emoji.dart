@@ -10,11 +10,16 @@ class EmojiBody extends BodyComponent<CauldronGame> {
   final double scaleFactor;
   final Vector2 initialPosition;
   final GameEmoji emoji;
+  final Svg? svg;
+
+  double _bulletTimer = 0;
+  static const double _bulletDisableAfter = 1.0;
 
   EmojiBody({
     required this.initialPosition,
     required this.emoji,
     this.scaleFactor = 1.0,
+    this.svg,
   });
 
   @override
@@ -24,7 +29,8 @@ class EmojiBody extends BodyComponent<CauldronGame> {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    final svgInstance = await Svg.load(emoji.svg.replaceAll('assets/', ''));
+    final svgInstance =
+        svg ?? await Svg.load(emoji.svg.replaceAll('assets/', ''));
 
     final svgComp = SvgComponent(
       svg: svgInstance,
@@ -33,6 +39,17 @@ class EmojiBody extends BodyComponent<CauldronGame> {
     );
 
     add(svgComp);
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    if (body.isBullet) {
+      _bulletTimer += dt;
+      if (_bulletTimer >= _bulletDisableAfter) {
+        body.isBullet = false;
+      }
+    }
   }
 
   @override
