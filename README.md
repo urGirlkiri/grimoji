@@ -11,12 +11,14 @@ A gothic alchemy game for mixing and collecting emojis.
 />
 
 
-[![Web](https://img.shields.io/badge/Web-414141?style=for-the-badge&logo=googlechrome&logoColor=white)](https://play.grimoji.io)
+[![App Store](https://img.shields.io/badge/App_Store-0A84FF?style=for-the-badge&logo=app-store&logoColor=white)](https://testflight.apple.com/join/8ryNgWCU)
 [![Playstore](https://img.shields.io/badge/Google_Play-0F9D58?style=for-the-badge&logo=googleplay&logoColor=white)](https://play.google.com/store/apps/details?id=io.grimoji.game)
+[![macOS](https://img.shields.io/badge/macOS-000000?style=for-the-badge&logo=apple&logoColor=white)](https://testflight.apple.com/join/8ryNgWCU)
 [![Microsoft Store](https://img.shields.io/badge/Microsoft_Store-0078D4?style=for-the-badge&logo=data:image/svg%2Bxml;base64,PHN2ZyBmaWxsPSIjRkZGRkZGIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciICB2aWV3Qm94PSIwIDAgNTAgNTAiIHdpZHRoPSI1MHB4IiBoZWlnaHQ9IjUwcHgiPjxwYXRoIGQ9Ik00IDRIMjRWMjRINHpNMjYgNEg0NlYyNEgyNnpNNCAyNkgyNFY0Nkg0ek0yNiAyNkg0NlY0NkgyNnoiLz48L3N2Zz4=&logoColor=white)](https://apps.microsoft.com/detail/9PFZ6M6XMQ2P)
 [![Snapcraft](https://img.shields.io/badge/Snap_Store-E95420?style=for-the-badge&logo=snapcraft&logoColor=white)](https://snapcraft.io/grimoji)
+[![Web](https://img.shields.io/badge/Web-414141?style=for-the-badge&logo=googlechrome&logoColor=white)](https://play.grimoji.io)
 [![Itch.io](https://img.shields.io/badge/Itch.io-FA5C5C?style=for-the-badge&logo=itch.io&logoColor=white)](https://urgirlkiri.itch.io/grimoji)
-
+[![GitHub Releases](https://img.shields.io/badge/GitHub_Releases-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/urGirlkiri/grimoji/releases)
 
 https://github.com/user-attachments/assets/ceef5a8d-0b00-4a09-b38c-49777ac84560
 
@@ -35,10 +37,10 @@ flutter run -d chrome`
 <div align="center">
 
 [![Setup](https://img.shields.io/badge/Setup-a6a6bf?style=for-the-badge&logo=bookstack&logoColor=white)](./docs/SETUP.md)
-[![Development](https://img.shields.io/badge/Development-8080a4?style=for-the-badge&logo=dart&logoColor=white)](./docs/LOCAL_DEV.md)
+[![Development](https://img.shields.io/badge/Development-8080a4?style=for-the-badge&logo=dart&logoColor=white)](./docs/DEV.md)
 [![Running](https://img.shields.io/badge/Running-535373?style=for-the-badge&logo=gnubash&logoColor=white)](./docs/RUNNING.md)
 [![Building](https://img.shields.io/badge/Building-333346?style=for-the-badge&logo=flatpak&logoColor=white)](./docs/BUILDING.md)
-[![Deploying](https://img.shields.io/badge/Deploying-1a1a24?style=for-the-badge&logo=githubactions&logoColor=white)](./docs/DEPLOYING.md)
+[![Shipping](https://img.shields.io/badge/Shipping-1a1a24?style=for-the-badge&logo=githubactions&logoColor=white)](./docs/SHIPPING.md)
 
 </div>
 

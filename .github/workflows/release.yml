@@ -127,7 +127,6 @@ jobs:
         run: |
           mkdir -p debian_build/usr/share/grimoji debian_build/usr/bin debian_build/DEBIAN
           cp -r build/linux/x64/release/bundle/* debian_build/usr/share/grimoji/
-          # FIX: Rename binary from Grimoji to grimoji if needed
           if [ -f debian_build/usr/share/grimoji/Grimoji ]; then mv debian_build/usr/share/grimoji/Grimoji debian_build/usr/share/grimoji/grimoji; fi
           ln -s /usr/share/grimoji/grimoji debian_build/usr/bin/grimoji
           VERSION=${{ needs.detect-version-change.outputs.version }}
@@ -146,7 +145,6 @@ jobs:
           chmod +x appimagetool
           mkdir -p AppDir/usr/bin AppDir/usr/share/applications AppDir/usr/share/icons/hicolor/256x256/apps
           cp -r build/linux/x64/release/bundle/* AppDir/usr/bin/
-          # FIX: Rename binary from Grimoji to grimoji if needed
           if [ -f AppDir/usr/bin/Grimoji ]; then mv AppDir/usr/bin/Grimoji AppDir/usr/bin/grimoji; fi
           cat <<EOF > AppDir/grimoji.desktop
           [Desktop Entry]
@@ -229,7 +227,6 @@ jobs:
           Categories=Game;Puzzle;
           EOF
 
-          # Create the Metainfo file
           cat <<EOF > snap/gui/grimoji.metainfo.xml
           <?xml version="1.0" encoding="UTF-8"?>
           <component type="desktop-application">

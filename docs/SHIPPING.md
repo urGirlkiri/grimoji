@@ -1,4 +1,30 @@
-# How to Deploy
+# How to Ship
+
+## Environment setup
+
+The release workflows rely on a GitHub `release` environment and several repository secrets. Instead of setting these manually in the GitHub UI, you can use the helper script [`tool/setup_release_env.sh`](/tool/setup_release_env.sh).
+
+### Using the setup script
+
+1. Authenticate the GitHub CLI:
+   ```bash
+   gh auth login
+   ```
+
+2. Export the secrets you want to upload:
+   ```bash
+   export KEYSTORE_BASE64="..."
+   export STORE_PASSWORD="..."
+   export SERVICE_ACCOUNT_JSON="$(cat service-account.json)"
+   # ... see the script for the full list
+   ```
+
+3. Run the script:
+   ```bash
+   bash tool/setup_release_env.sh
+   ```
+
+The script creates the `release` environment, locks it to the `main` branch, and uploads each exported variable as an environment-level secret.
 
 ## Version Change
 

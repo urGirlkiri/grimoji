@@ -20,7 +20,7 @@ flutter build ios --simulator
 
 ### Release
 
-> **Note:** Signed production `.ipa` files and TestFlight uploads are handled entirely by the `ios-testflight` workflow on Codemagic (see [`DEPLOYING.md`](DEPLOYING.md)). Manual local signing in Xcode is not required.
+> **Note:** Signed production `.ipa` files and TestFlight uploads are handled entirely by the `ios-testflight` workflow on Codemagic (see [`SHIPPING.md`](SHIPPING.md)). Manual local signing in Xcode is not required.
 
 ## macOS
 
@@ -33,7 +33,7 @@ The build output is in `build/macos/Build/Products/Release/grimoji.app`.
 
 ### Release
 
-> **Note:** Signed `.pkg` wrappers and Apple notarization are handled entirely by the `macos-testflight` workflow on Codemagic (see [`DEPLOYING.md`](DEPLOYING.md)). Manual `codesign` and `notarytool` commands are not required.
+> **Note:** Signed `.pkg` wrappers and Apple notarization are handled entirely by the `macos-testflight` workflow on Codemagic (see [`SHIPPING.md`](SHIPPING.md)). Manual `codesign` and `notarytool` commands are not required.
 
 ## Windows
 
