@@ -46,3 +46,5 @@ app.*.map.json
 /android/app/release
 .env
 upload-keystore.jks
+*.jks.bak
+upload-keystore.jks.WRONGKEY.bak
