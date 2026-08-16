@@ -98,13 +98,18 @@ class _RewardTickerState extends State<RewardTicker>
       timeUntil: timeUntil,
       onClaimPressed: () async {
         final isFirstClaim = profile.lastDailyClaimTime == 0;
-        profile.claimDailyReward();
         if (isFirstClaim) {
+          final settings = context.readSettings;
           final reminder = context.readDailyClaimReminder;
-          await reminder.requestPermission();
-          await reminder.rescheduleFromProfile(profile);
+          final granted = await reminder.requestPermission();
+          final enabled = granted && await reminder.areNotificationsEnabled();
+          if (enabled) {
+            await reminder.service.requestExactAlarmPermission();
+            await settings.setDailyClaimReminderOn(true);
+          }
         }
         if (!context.mounted) return;
+        profile.claimDailyReward();
         _showSnackBar(context, "Claimed +15 Dices!");
       },
       onLockedPressed: (String timeInTxt) {
