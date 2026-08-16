@@ -9,6 +9,7 @@ import 'package:grimoji/widgets/custom/animated_button.dart';
 import 'package:grimoji/widgets/custom/emoji_widget.dart';
 import 'package:grimoji/widgets/custom/scroll_dialog.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:grimoji/features/level/controller.dart';
 import 'package:grimoji/features/profile/controller.dart';
@@ -25,8 +26,6 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   Future<void> _resetProgress(BuildContext context) async {
-  
-  
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) {
@@ -54,6 +53,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _openPrivacyPolicy(BuildContext context) async {
+    final uri = Uri.parse('https://grimoji.io/privacy');
+    final launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
+
+    if (!launched && context.mounted) {
+      _showReminderStatus(context, 'Could not open the privacy policy.');
+    }
   }
 
   void _showReminderStatus(BuildContext context, String message) {
@@ -279,6 +287,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       enableAnimation: false,
                       color: palette.crimson,
                       onTap: () => _resetProgress(context),
+                    ),
+                    const SizedBox(height: 16),
+                    PillButton(
+                      text: "Privacy Policy",
+                      enableAnimation: false,
+                      color: palette.twilight,
+                      onTap: () => _openPrivacyPolicy(context),
                     ),
                   ],
                 ),
