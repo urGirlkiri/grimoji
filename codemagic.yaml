@@ -260,14 +260,9 @@ workflows:
 
       - name: Package for Mac App Store
         script: |
-          KEYCHAIN_PATH=$(security list-keychains | grep "codemagic" | head -n 1 | tr -d '"' | tr -d ' ')
-          echo "Using keychain: $KEYCHAIN_PATH"
+          xcrun productbuild --component build/macos/Build/Products/Release/grimoji.app /Applications/ unsigned.pkg
 
-          security unlock-keychain -p "" "$KEYCHAIN_PATH"
-
-          security set-key-partition-list -S apple-tool:,apple:,codesign:,productbuild:,productsign:,pkgbuild: -s -k "" "$KEYCHAIN_PATH"
-
-          INSTALLER_CERT=$(security find-identity -v "$KEYCHAIN_PATH" | grep "Installer" | awk -F'"' '{print $2}' | head -n 1)
+          INSTALLER_CERT=$(keychain list-certificates | jq -r '.[] | select(.common_name | contains("Mac Developer Installer")) | .common_name' | head -n 1)
 
           if [ -z "$INSTALLER_CERT" ]; then
             echo "❌ ERROR: Could not find Installer certificate!"
@@ -276,7 +271,9 @@ workflows:
 
           echo "Using Certificate: $INSTALLER_CERT"
 
-          xcrun productbuild --component build/macos/Build/Products/Release/grimoji.app /Applications --sign "$INSTALLER_CERT" --keychain "$KEYCHAIN_PATH" grimoji.pkg
+          xcrun productsign --sign "$INSTALLER_CERT" unsigned.pkg grimoji.pkg
+
+          rm -f unsigned.pkg
 
     artifacts:
       - grimoji.pkg
