@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flame_svg/flame_svg.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/cauldron/game/core/emoji_spawner/emoji.dart';
 import 'package:grimoji/features/cauldron/game/state.dart';
@@ -22,7 +23,18 @@ class EmojiSpawner extends Component with HasGameReference<Forge2DGame> {
     Emojis.heart,
   ];
 
+  final Map<GameEmoji, Svg> _svgCache = {};
+
   EmojiSpawner({required this.gameState});
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    for (final emoji in _spawnableEmojis) {
+      final path = emoji.svg.replaceAll('assets/', '');
+      _svgCache[emoji] = await game.loadSvg(path);
+    }
+  }
 
   void rollNextEmoji() {
     gameState.setNextEmoji(
@@ -38,7 +50,9 @@ class EmojiSpawner extends Component with HasGameReference<Forge2DGame> {
     _canDrop = false;
 
     final emoji = gameState.nextEmoji;
-    game.world.add(EmojiBody(initialPosition: position, emoji: emoji));
+    game.world.add(
+      EmojiBody(initialPosition: position, emoji: emoji, svg: _svgCache[emoji]),
+    );
 
     rollNextEmoji();
     _canDrop = true;
