@@ -33,7 +33,7 @@ class CauldronGame extends Forge2DGame
   static const double maxDropX = 4.5;
 
   static const double dropSpawnY = -4.5;
-  static const double cauldronBottomY = 3.5;
+  static const double cauldronBottomY = 4.1;
   static const bool showHalfLine = false;
   
   static const int insideScore = 2;

@@ -40,8 +40,8 @@ class EmojiBody extends BodyComponent<CauldronGame> {
     final bodyDef = BodyDef(
       type: BodyType.dynamic,
       position: initialPosition,
-      linearDamping: 0.3,
-      angularDamping: 5,
+      linearDamping: 0.8,
+      angularDamping: 8,
       bullet: true,
     );
 
@@ -58,8 +58,8 @@ class EmojiBody extends BodyComponent<CauldronGame> {
 
       final fixtureDef = FixtureDef(
         polygonShape,
-        density: 1.5,
-        friction: 0.75,
+        density: 0.9,
+        friction: 1.0,
         restitution: 0.02,
       );
 
@@ -69,9 +69,9 @@ class EmojiBody extends BodyComponent<CauldronGame> {
       body.createFixture(
         FixtureDef(
           fallbackShape,
-          density: 1.0,
-          friction: 0.5,
-          restitution: 0.05,
+          density: 0.9,
+          friction: 1.0,
+          restitution: 0.02,
         ),
       );
     }

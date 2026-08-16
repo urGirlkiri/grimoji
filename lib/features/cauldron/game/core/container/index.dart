@@ -35,21 +35,19 @@ class CauldronBack extends BodyComponent<CauldronGame> {
 
     final body = world.createBody(bodyDef);
 
-    final shape = ChainShape()..createChain(vertices);
-    body.createFixture(FixtureDef(shape, friction: 1.0, restitution: 0.0));
+    final shape = ChainShape()
+      ..createLoop(vertices.sublist(0, vertices.length - 1));
+    body.createFixture(FixtureDef(shape, friction: 1.0, restitution: 0.05));
 
-    final floorWidth = CauldronGame.worldCauldronSize.x - 3;
+    final floorWidth = CauldronGame.worldCauldronSize.x - 3.5;
     final floorTop = CauldronGame.cauldronBottomY - position.y;
 
     final floorShape = PolygonShape()
-      ..set([
-        Vector2(-floorWidth / 2, floorTop),
-        Vector2(floorWidth / 2, floorTop),
-        Vector2(floorWidth / 2, floorTop + 0.1),
-        Vector2(-floorWidth / 2, floorTop + 0.1),
-      ]);
+      ..setAsBox(floorWidth / 2, 0.5, Vector2(0, floorTop + 0.5), 0);
 
-    body.createFixture(FixtureDef(floorShape, friction: 1.0, restitution: 0.0));
+    body.createFixture(
+      FixtureDef(floorShape, friction: 1.0, restitution: 0.05),
+    );
 
     return body;
   }
