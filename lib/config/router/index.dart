@@ -127,7 +127,7 @@ final router = GoRouter(
       parentNavigatorKey: _routerNavigatorKey,
       path: Routes.homeRoute,
       name: Routes.home,
-      builder: (context, state) => const MainMenuScreen(),
+      builder: (context, state) => const MenuScreen(),
     ),
 
     GoRoute(
