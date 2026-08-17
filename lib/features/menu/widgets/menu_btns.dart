@@ -27,7 +27,7 @@ class _MenuBtnsState extends State<MenuBtns> {
   @override
   Widget build(BuildContext context) {
     final settingsController = context.watchSettings;
-    final audioController = context.watchAudio;
+    final audioController = context.readAudio;
 
     return ResponsiveScreen(
       squarishMainArea: const SizedBox.shrink(),
