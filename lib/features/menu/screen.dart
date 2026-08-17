@@ -5,7 +5,6 @@ import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/audio/sounds/sfx.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/app_icon.dart';
-import 'package:grimoji/widgets/neon_logo.dart';
 
 import 'package:grimoji/widgets/custom/pill_button.dart';
 import 'package:grimoji/widgets/responsive_screen.dart';
@@ -18,6 +17,8 @@ class MainMenuScreen extends StatefulWidget {
 }
 
 class _MainMenuScreenState extends State<MainMenuScreen> {
+  static const _gap = SizedBox(height: 10);
+  static const _xPaddle = 40.0;
   @override
   void initState() {
     super.initState();
@@ -26,7 +27,6 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
     final settingsController = context.watchSettings;
     final audioController = context.watchAudio;
 
@@ -35,36 +35,24 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
       body: Stack(
         children: [
           Positioned.fill(
-            child: Image.asset('assets/images/emo_2.png', fit: BoxFit.cover),
+            child: Image.asset('assets/images/room.jpeg', fit: BoxFit.cover),
+          ),
+          Positioned(
+            top: 32,
+            left: 0,
+            right: 0,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: _xPaddle),
+              child: Center(
+                child: Image.asset(
+                  'assets/images/text_logo.png',
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
           ),
           ResponsiveScreen(
-            squarishMainArea: LayoutBuilder(
-              builder: (context, constraints) {
-                final maxSize = constraints.maxWidth < constraints.maxHeight
-                    ? constraints.maxWidth * 0.65
-                    : constraints.maxHeight * 0.5;
-                final imageSize = maxSize.clamp(100.0, 512.0);
-
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Flexible(
-                        child: Image.asset(
-                          'assets/icons/512x512.png',
-                          fit: BoxFit.contain,
-                          width: imageSize,
-                          height: imageSize,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      NeonLogo(imageSize: imageSize),
-                    ],
-                  ),
-                );
-              },
-            ),
+            squarishMainArea: const SizedBox.shrink(),
             rectangularMenuArea: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -127,6 +115,4 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
       ),
     );
   }
-
-  static const _gap = SizedBox(height: 10);
 }
