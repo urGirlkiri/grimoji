@@ -100,7 +100,6 @@ class LevelState extends ChangeNotifier {
 
     gameState = GameState();
     announcer = BoardAnnouncer(audio);
-    announcer.addListener(notifyListeners);
 
     coordinator = GameCoordinator(
       engine: engine,

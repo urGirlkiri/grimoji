@@ -21,6 +21,7 @@ class BoardAnnouncer extends ChangeNotifier {
     Dialog.magicalAlchemy,
     Dialog.masterfulAlchemy,
   ];
+  
   static const _calamityVoices = [
     Dialog.alchemicalCalamity,
     Dialog.alchemicalCalamity,
