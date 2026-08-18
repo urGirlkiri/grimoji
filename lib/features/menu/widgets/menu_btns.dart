@@ -50,6 +50,21 @@ class _MenuBtnsState extends State<MenuBtns> {
           ),
           MenuBtns._gap,
           PillButton(
+            text: 'Trailer',
+            color: palette.twilight,
+            textColor: palette.mist,
+            fullWidth: false,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            borderRadius: 20,
+            borderColor: palette.magicCyan.withValues(alpha: .2),
+            borderWidth: 3,
+            onTap: () {
+              audioController.playSfx(Sfx.buttonTap);
+              GoRouter.of(context).goNamed(Routes.trailer);
+            },
+          ),
+          MenuBtns._gap,
+          PillButton(
             text: 'Settings',
             color: palette.twilight,
             textColor: palette.mist,

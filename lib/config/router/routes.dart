@@ -29,6 +29,7 @@ class Routes {
   static const String levelPlayRoute = '/map/play/:level';
   static const String levelWonRoute = '/map/won';
   static const String levelFailRoute = '/map/lose/:level';
+  static const String trailerRoute = '/trailer';
 
   static const String bountiesRoute = '/market/bounties';
   static const String settingsRoute = '/settings';
@@ -48,6 +49,7 @@ class Routes {
   static const String levelPlay = 'levelPlay';
   static const String levelWon = 'levelWon';
   static const String levelFail = 'levelFail';
+  static const String trailer = 'trailer';
 
   static const String bounties = 'bounties';
   static const String settings = 'settings';

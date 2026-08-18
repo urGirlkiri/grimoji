@@ -227,5 +227,11 @@ final router = GoRouter(
         return const CauldronPlayScreen();
       },
     ),
+    GoRoute(
+      parentNavigatorKey: _routerNavigatorKey,
+      path: Routes.trailerRoute,
+      name: Routes.trailer,
+      builder: (context, state) => const TrailerScreen(),
+    ),
   ],
 );
