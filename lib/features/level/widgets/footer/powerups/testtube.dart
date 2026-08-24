@@ -29,9 +29,9 @@ class TestTubeHandler implements PowerupHandler {
       final animation = levelState.startPowerupAnimation();
       levelState.triggerTestTube(selected);
 
-      // await animation;
+      await animation;
 
-      // await levelState.coordinator.bloodTile(selected);
+      // await levelState.coordinator.transmuteTile(selected);
     } catch (e) {
       _log.info('Cancelled: $e');
       levelState.updatePowerupHoverTarget(null);

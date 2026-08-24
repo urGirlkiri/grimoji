@@ -3,6 +3,7 @@ import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/features/match/board/controllers/gesture.dart';
 import 'package:grimoji/features/match/board/controllers/v_f_x.dart';
 import 'package:grimoji/features/match/board/effects/blood_drop/index.dart';
+import 'package:grimoji/features/match/board/effects/test_tube/index.dart';
 import 'package:grimoji/features/match/board/effects/time_bonus/index.dart';
 import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/match/board/effects/ghost_dive/index.dart';
@@ -217,6 +218,18 @@ class _GameBoardState extends State<GameBoard> {
                               child: IgnorePointer(
                                 child: BloodDropOverlay(
                                   notifier: _vfx.bloodDropManager.notifier,
+                                  tileWidth: _tileWidth!,
+                                  tileHeight: _tileHeight!,
+                                ),
+                              ),
+                            ),
+
+                            OverflowBox(
+                              maxWidth: constrainedBoardWidth,
+                              alignment: Alignment.topLeft,
+                              child: IgnorePointer(
+                                child: TestTubeOverlay(
+                                  notifier: _vfx.testTubeManager.notifier,
                                   tileWidth: _tileWidth!,
                                   tileHeight: _tileHeight!,
                                 ),
