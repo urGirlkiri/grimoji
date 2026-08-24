@@ -8,6 +8,7 @@ import 'package:grimoji/features/grimoire/screen.dart';
 
 import 'package:grimoji/features/menu/screen.dart';
 import 'package:grimoji/features/map/screen.dart';
+import 'package:grimoji/features/trailer/screen.dart';
 import 'package:grimoji/features/level/fail_screen/screen.dart';
 import 'package:grimoji/features/level/hint_screen/screen.dart';
 import 'package:grimoji/features/market/screen.dart';
@@ -171,7 +172,12 @@ final router = GoRouter(
         final extra = state.extra as Map<String, dynamic>?;
         final boosters = (extra?['startingBoosters'] as List<dynamic>? ?? [])
             .cast<String>();
-        return LevelHintScreen(level: level, startingBoosters: boosters);
+        final isTrailer = extra?['isTrailer'] == true;
+        return LevelHintScreen(
+          level: level,
+          startingBoosters: boosters,
+          isTrailer: isTrailer,
+        );
       },
     ),
 
@@ -188,7 +194,12 @@ final router = GoRouter(
         final extra = state.extra as Map<String, dynamic>?;
         final boosters = (extra?['startingBoosters'] as List<dynamic>? ?? [])
             .cast<String>();
-        return LevelScreen(level: level, startingBoosters: boosters);
+        final isTrailer = extra?['isTrailer'] == true;
+        return LevelScreen(
+          level: level,
+          startingBoosters: boosters,
+          isTrailer: isTrailer,
+        );
       },
     ),
 
