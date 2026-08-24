@@ -62,6 +62,14 @@ class _FooterState extends State<Footer> {
 
   Future<void> _handlePowerupTap(BuildContext context, Powerup powerup) async {
     if (_levelState.gameState.isFeverTime) return;
+    if (_levelState.isTrailer) {
+      final handler = PowerupHandlerRegistry.get(powerup.id);
+      if (handler != null) {
+        await handler.execute(context, powerup, _levelState);
+      }
+      return;
+    }
+
     final profile = context.read<ProfileController>();
     final count = profile.getPowerupCount(powerup.id);
 
@@ -94,6 +102,7 @@ class _FooterState extends State<Footer> {
   @override
   Widget build(BuildContext context) {
     final isPaused = context.watch<LevelState>().gameState.isPaused;
+    final isTrailer = _levelState.isTrailer;
 
     final profile = context.watch<ProfileController>();
     final bottomPowerups = Powerup.bottom;
@@ -109,15 +118,16 @@ class _FooterState extends State<Footer> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            AppIcon(
-              fileName: isPaused ? 'resume' : 'pause',
-              size: 68,
-              onTap: _handlePauseTap,
-              enableAnimation: false,
-            ),
-            const SizedBox(width: 12),
+            if (!isTrailer)
+              AppIcon(
+                fileName: isPaused ? 'resume' : 'pause',
+                size: 68,
+                onTap: _handlePauseTap,
+                enableAnimation: false,
+              ),
+            if (!isTrailer) const SizedBox(width: 12),
             ...bottomPowerups.expand((powerup) {
-              final count = profile.getPowerupCount(powerup.id);
+              final count = isTrailer ? 0 : profile.getPowerupCount(powerup.id);
               final btnKey = _levelState.powerupBtnKeys.putIfAbsent(
                 powerup.id,
                 () => GlobalKey(),
