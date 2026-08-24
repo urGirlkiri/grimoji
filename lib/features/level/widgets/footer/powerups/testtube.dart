@@ -23,15 +23,15 @@ class TestTubeHandler implements PowerupHandler {
       _log.info('Selected tile: ${selected.row}, ${selected.col}');
 
       // levelState.onPowerupImpact = () {
-      //   levelState.coordinator.testTubeImpact(selected);
+        levelState.coordinator.testTubeImpact(selected);
       // };
 
-      final animation = levelState.startPowerupAnimation();
+      // final animation = levelState.startPowerupAnimation();
       // levelState.triggerTestTube(selected);
 
-      await animation;
+      // await animation;
 
-      await levelState.coordinator.bloodTile(selected);
+      // await levelState.coordinator.bloodTile(selected);
     } catch (e) {
       _log.info('Cancelled: $e');
       levelState.updatePowerupHoverTarget(null);

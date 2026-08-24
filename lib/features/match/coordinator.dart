@@ -335,6 +335,18 @@ class GameCoordinator {
     await _cascadeSequence(coord);
   }
 
+  void testTubeImpact(TileCoordinate coord) {
+    if (state.isGameOver || state.isPaused) return;
+
+    final tile = engine.grid[coord.row][coord.col];
+    tile
+      ..isPowerupTarget = false
+      ..isTestTubeTarget = true;
+    engine.initializeBehaviors();
+    audio.playSfx(Sfx.targetCollected);
+    state.updateUI();
+  }
+
   Future<void> _cascadeSequence(TileCoordinate focusCoordinate) async {
     await _runCoreCascadeLoop(focusCoordinate);
     await _finalizeTurnLifecycle();

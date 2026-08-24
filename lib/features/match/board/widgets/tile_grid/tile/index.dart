@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:grimoji/app/theme/palette.dart';
@@ -59,6 +60,26 @@ class TileWidget extends StatelessWidget {
                 assetPath: 'assets/emojis/svg/cross_barber_pole.svg',
                 size: tWidth * emojiSizeFactor,
               ),
+            ),
+          ),
+        ],
+      );
+    }
+
+    if (tile.isTestTubeTarget) {
+      content = Stack(
+        alignment: Alignment.center,
+        children: [
+          // content,
+          AnimatedOpacity(
+            opacity: 1.0,
+            duration: Durations.medium1,
+            child: ColorFiltered(
+              colorFilter: const ColorFilter.mode(
+                Colors.green,
+                BlendMode.srcIn,
+              ),
+              child: EmojiWidget.svg(emoji: displayEmoji)
             ),
           ),
         ],
