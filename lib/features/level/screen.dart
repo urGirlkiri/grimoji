@@ -124,13 +124,14 @@ class _LevelScreenState extends State<LevelScreen> {
       'Level ${widget.level.number} won with $normalStars normal stars and ${_levelState.crimsonStars} crimson stars!',
     );
 
-    final levelDataController = context.read<LevelDataController>();
-
-    await levelDataController.saveLevelCompletion(
-      widget.level.number,
-      normalStars,
-      crimsonStars: _levelState.crimsonStars,
-    );
+    if (!widget.isTrailer) {
+      final levelDataController = context.read<LevelDataController>();
+      await levelDataController.saveLevelCompletion(
+        widget.level.number,
+        normalStars,
+        crimsonStars: _levelState.crimsonStars,
+      );
+    }
 
     await Future<void>.delayed(_preCelebrationDuration);
     if (!mounted) return;
@@ -187,11 +188,12 @@ class _LevelScreenState extends State<LevelScreen> {
       audio: context.readAudio,
       lifecycleNotifier: context.read<AppLifecycleStateNotifier>(),
       startingBoosters: widget.startingBoosters,
+      isTrailer: widget.isTrailer,
     );
 
     _levelState.gameState.addListener(_onPauseState);
     _levelState.onPowerupCollected = (powerupId) {
-      if (!mounted) return;
+      if (!mounted || widget.isTrailer) return;
       context.readProfile.updatePowerupCount(powerupId, 1);
     };
 
@@ -221,9 +223,9 @@ class _LevelScreenState extends State<LevelScreen> {
       child: Builder(
         builder: (context) {
           return PopScope(
-            canPop: false,
+            canPop: widget.isTrailer,
             onPopInvokedWithResult: (didPop, result) {
-              if (didPop) return;
+              if (didPop || widget.isTrailer) return;
 
               if (_isQuitDialogOpen) {
                 Navigator.of(context).pop();

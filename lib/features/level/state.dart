@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:grimoji/app/lifecycle.dart';
+import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
@@ -24,6 +25,7 @@ class LevelState extends ChangeNotifier {
   final AudioController audio;
   final AppLifecycleStateNotifier lifecycleNotifier;
   final List<String> startingBoosters;
+  final bool isTrailer;
 
   final GlobalKey targetIconKey = GlobalKey();
   final GlobalKey powerupIconKey = GlobalKey();
@@ -77,11 +79,12 @@ class LevelState extends ChangeNotifier {
     required this.audio,
     required this.lifecycleNotifier,
     this.startingBoosters = const [],
+    this.isTrailer = false,
   }) {
     goalManager = GoalManager(targetAmount: level.targetAmount);
     _crimsonTracker = CrimsonFever(level: level, goalManager: goalManager);
     timeManager = TimeManager(
-      timeLimit: level.timeLimit,
+      timeLimit: isTrailer ? trailerSeconds : level.timeLimit,
       onTick: notifyListeners,
       onTimeUp: _handleTimeUp,
     );
@@ -183,11 +186,18 @@ class LevelState extends ChangeNotifier {
   Future<void> startFeverSequence() async {
     if (_isDisposed || gameState.isGameOver || gameState.isFeverTime) return;
 
-    while (gameState.isProcessing || gameState.isShuffling) {
+    while (gameState.isProcessing ||
+        gameState.isShuffling ||
+        gameState.isCollectingPowerup ||
+        isPowerupAnimating ||
+        announcer.isSpeaking) {
       await Future.delayed(const Duration(milliseconds: 100));
     }
 
     int bonusBombs = (timeManager.secondsRemaining / bonusTime).floor();
+    if (isTrailer) {
+      bonusBombs = bonusBombs.clamp(0, 10);
+    }
 
     coordinator
         .executeFeverSequence(bonusBombs, () {

@@ -17,11 +17,13 @@ import 'package:provider/provider.dart';
 class LevelHintScreen extends StatefulWidget {
   final int level;
   final List<String> startingBoosters;
+  final bool isTrailer;
 
   const LevelHintScreen({
     super.key,
     required this.level,
     this.startingBoosters = const [],
+    this.isTrailer = false,
   });
 
   @override
@@ -71,14 +73,19 @@ class _LevelHintScreenState extends State<LevelHintScreen> {
 
     final profile = context.readProfile;
     final boosters = widget.startingBoosters.toSet();
-    if (profile.isFirstTime && profile.getPowerupCount('crystal_ball') > 0) {
+    if (!widget.isTrailer &&
+        profile.isFirstTime &&
+        profile.getPowerupCount('crystal_ball') > 0) {
       boosters.add('crystal_ball');
     }
 
     context.replaceNamed(
       Routes.levelPlay,
       pathParameters: {'level': widget.level.toString()},
-      extra: {'startingBoosters': boosters.toList()},
+      extra: {
+        'startingBoosters': boosters.toList(),
+        'isTrailer': widget.isTrailer,
+      },
     );
   }
 
@@ -105,7 +112,6 @@ class _LevelHintScreenState extends State<LevelHintScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
     final scale = context.globalScale;
 
     final shape = _isTargetRecipe ? ShapeType.line : _recipeShape(_recipe!);
