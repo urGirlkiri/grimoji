@@ -27,13 +27,9 @@ void analyzeInIsolate(AnalysisMessage message) {
 
     grid[target.row][target.col].emoji = emoji;
 
-    final matches = MatchDetector.findMatchesInVectors(
-      grid: grid,
-      affectedColumns: {target.col},
-      affectedRows: {target.row},
-    );
+    final allMatches = MatchDetector.findMatchedGroups(grid);
 
-    final targetMatches = matches
+    final targetMatches = allMatches
         .where((m) => m.coordinates.contains(target))
         .toList();
 
@@ -43,18 +39,25 @@ void analyzeInIsolate(AnalysisMessage message) {
       String matchType = 'simple';
 
       for (final match in targetMatches) {
-        currentScore += match.coordinates.length;
-        if (match.isSpecial) currentScore += 10;
+        final size = match.coordinates.length;
 
-        if (match.coordinates.length > maxSize) {
-          maxSize = match.coordinates.length;
-          if (maxSize >= 5) {
-            matchType = 'five_in_row';
-          } else if (match.isSpecial) {
-            matchType = 'special_shape';
-          } else {
-            matchType = '3+';
-          }
+        currentScore += size * 10;
+
+        if (size >= 5 && !match.isSpecial) {
+          currentScore += 500;
+          matchType = 'five_in_row';
+        } else if (match.isSpecial) {
+          currentScore += 300;
+          matchType = 'special_shape';
+        } else if (size >= 4) {
+          currentScore += 100;
+          matchType = '4_in_row';
+        } else {
+          matchType = '3_in_row';
+        }
+
+        if (size > maxSize) {
+          maxSize = size;
         }
       }
 
@@ -82,8 +85,6 @@ void analyzeInIsolate(AnalysisMessage message) {
   message.sendPort.send(bestResult);
 }
 
-
-
 AnalysisResult? _findFallbackMatch(
   List<List<Tile>> grid,
   TileCoordinate target,
@@ -97,25 +98,13 @@ AnalysisResult? _findFallbackMatch(
       : null;
 
   if (left != null && right != null && left == right && left != Emojis.hole) {
-    return AnalysisResult(
-      bestEmoji: left,
-      matchType: 'simple',
-      matchSize: 3,
-    );
+    return AnalysisResult(bestEmoji: left, matchType: 'simple', matchSize: 3);
   }
   if (left != null && left != Emojis.hole) {
-    return AnalysisResult(
-      bestEmoji: left,
-      matchType: 'simple',
-      matchSize: 2,
-    );
+    return AnalysisResult(bestEmoji: left, matchType: 'simple', matchSize: 2);
   }
   if (right != null && right != Emojis.hole) {
-    return AnalysisResult(
-      bestEmoji: right,
-      matchType: 'simple',
-      matchSize: 2,
-    );
+    return AnalysisResult(bestEmoji: right, matchType: 'simple', matchSize: 2);
   }
 
   final up = target.row > 0 ? grid[target.row - 1][target.col].emoji : null;
@@ -124,25 +113,13 @@ AnalysisResult? _findFallbackMatch(
       : null;
 
   if (up != null && down != null && up == down && up != Emojis.hole) {
-    return AnalysisResult(
-      bestEmoji: up,
-      matchType: 'simple',
-      matchSize: 3,
-    );
+    return AnalysisResult(bestEmoji: up, matchType: 'simple', matchSize: 3);
   }
   if (up != null && up != Emojis.hole) {
-    return AnalysisResult(
-      bestEmoji: up,
-      matchType: 'simple',
-      matchSize: 2,
-    );
+    return AnalysisResult(bestEmoji: up, matchType: 'simple', matchSize: 2);
   }
   if (down != null && down != Emojis.hole) {
-    return AnalysisResult(
-      bestEmoji: down,
-      matchType: 'simple',
-      matchSize: 2,
-    );
+    return AnalysisResult(bestEmoji: down, matchType: 'simple', matchSize: 2);
   }
 
   return null;

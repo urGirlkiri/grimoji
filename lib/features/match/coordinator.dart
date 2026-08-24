@@ -341,6 +341,8 @@ class GameCoordinator {
   ) async {
     if (state.isGameOver || state.isPaused) return;
 
+    state.setProcessing(true);
+
     final tile = engine.grid[coord.row][coord.col];
     tile
       ..emoji = targetEmoji
@@ -352,12 +354,12 @@ class GameCoordinator {
     audio.playSfx(Sfx.transmute);
     state.updateUI();
 
-    Future.delayed(greenDropDuration, () {
-      if (!state.isDisposed && !state.isGameOver) {
-        tile.isTestTubeTarget = false;
-        state.updateUI();
-      }
-    });
+    await Future.delayed(greenDropDuration);
+
+    if (state.isDisposed || state.isGameOver) return;
+
+    tile.isTestTubeTarget = false;
+    state.updateUI();
 
     await _cascadeSequence(coord);
   }
