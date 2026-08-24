@@ -9,6 +9,7 @@ import 'package:grimoji/features/level/widgets/overlays/level_complete.dart';
 import 'package:grimoji/features/level/widgets/overlays/powerup_selection/index.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/level/widgets/confetti.dart';
+import 'package:grimoji/features/trailer/controller.dart';
 import 'package:grimoji/features/match/board/index.dart';
 import 'package:grimoji/features/level/widgets/header/index.dart';
 import 'package:grimoji/features/level/widgets/footer/index.dart';
@@ -25,11 +26,13 @@ import 'package:logging/logging.dart' hide Level;
 class LevelScreen extends StatefulWidget {
   final GameLevel level;
   final List<String> startingBoosters;
+  final bool isTrailer;
 
   const LevelScreen({
     super.key,
     required this.level,
     this.startingBoosters = const [],
+    this.isTrailer = false,
   });
 
   @override
@@ -44,6 +47,7 @@ class _LevelScreenState extends State<LevelScreen> {
   bool _hasSkippedFever = false;
   late final LevelState _levelState;
   final _boardKey = GlobalKey();
+  TrailerDriver? _trailerDriver;
 
   static final _log = Logger('LevelScreen');
   static const _celebrationDuration = Duration(milliseconds: 2000);
@@ -199,6 +203,14 @@ class _LevelScreenState extends State<LevelScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.readProfile.markGamePlayed();
+      if (widget.isTrailer) {
+        _trailerDriver = TrailerDriver(
+          levelState: _levelState,
+          context: context,
+        );
+        _trailerDriver!.start();
+        return;
+      }
       for (final boosterId in widget.startingBoosters) {
         context.readProfile.updatePowerupCount(boosterId, -1);
       }
@@ -207,6 +219,7 @@ class _LevelScreenState extends State<LevelScreen> {
 
   @override
   void dispose() {
+    _trailerDriver?.dispose();
     _levelState.gameState.removeListener(_onPauseState);
     LevelComOverlay.hide();
     _levelState.dispose();
@@ -254,10 +267,14 @@ class _LevelScreenState extends State<LevelScreen> {
                               isCollecting: state.gameState.isCollectingPowerup,
                             ),
                             builder: (context, flags, child) {
-                              final showFooter =
-                                  !flags.isFeverTime || flags.isCollecting;
-                              final showSkip =
+                              final isFeverSkip =
                                   flags.isFeverTime && !flags.isCollecting;
+                              final showTrailerSkip =
+                                  widget.isTrailer && !flags.isFeverTime;
+                              final showFooter =
+                                  (!flags.isFeverTime || flags.isCollecting) &&
+                                  !showTrailerSkip;
+                              final showSkip = isFeverSkip || showTrailerSkip;
                               return Stack(
                                 children: [
                                   Opacity(
@@ -270,7 +287,12 @@ class _LevelScreenState extends State<LevelScreen> {
                                   if (showSkip)
                                     Positioned.fill(
                                       child: Center(
-                                        child: SkipBtn(onSkip: _skipFever),
+                                        child: SkipBtn(
+                                          onSkip: widget.isTrailer
+                                              ? () =>
+                                                    context.go(Routes.homeRoute)
+                                              : _skipFever,
+                                        ),
                                       ),
                                     ),
                                 ],
@@ -336,7 +358,8 @@ class _LevelScreenState extends State<LevelScreen> {
                             !isPaused &&
                             isFirstTime &&
                             !isFeverTime &&
-                            !isFeverComplete;
+                            !isFeverComplete &&
+                            !widget.isTrailer;
 
                         if (shouldShowLevelComplete &&
                             LevelComOverlay.currentEntry == null) {

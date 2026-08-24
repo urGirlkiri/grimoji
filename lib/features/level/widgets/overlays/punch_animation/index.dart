@@ -29,6 +29,9 @@ class PunchingOverlay extends StatelessWidget {
       _log.warning(
         'Punch animation skipped: start=$start, target=$target, boardRect=$boardRect',
       );
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        levelState.completePowerupAnimation();
+      });
       return const SizedBox.shrink();
     }
 
