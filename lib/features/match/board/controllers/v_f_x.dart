@@ -5,6 +5,7 @@ import 'package:grimoji/features/match/board/effects/ghost_dive/effect.dart';
 import 'package:grimoji/features/match/board/effects/line_clear/effect.dart';
 import 'package:grimoji/features/match/board/effects/sparkle/effect.dart';
 import 'package:grimoji/features/match/board/effects/blood_drop/effect.dart';
+import 'package:grimoji/features/match/board/effects/test_tube/effect.dart';
 import 'package:grimoji/features/match/board/effects/time_bonus/effect.dart';
 import 'package:grimoji/features/match/board/effects/wheel_roll/effect.dart';
 import 'package:grimoji/features/match/constants.dart';
@@ -27,6 +28,9 @@ class VFXController {
   );
   final bloodDropManager = EffectManager<BloodDropEffect>(
     lifetime: bloodDropLifetime,
+  );
+  final testTubeManager = EffectManager<TestTubeEffect>(
+    lifetime: testTubeDropLifetime,
   );
 
   bool _isDisposed = false;
@@ -69,6 +73,11 @@ class VFXController {
         bloodDropManager.trigger(BloodDropEffect(coord: coord));
       }
     };
+    state.onTestTube = (coord) {
+      if (!_isDisposed) {
+        testTubeManager.trigger(TestTubeEffect(coord: coord));
+      }
+    };
   }
 
   void unbindState(LevelState state) {
@@ -77,6 +86,7 @@ class VFXController {
     state.coordinator.onGhostDive = null;
     state.onTimeBonus = null;
     state.onBloodDrop = null;
+    state.onTestTube = null;
   }
 
   void triggerSparkle(Offset localPosition) {
@@ -101,5 +111,6 @@ class VFXController {
     ghostDiveManager.dispose();
     timeBonusManager.dispose();
     bloodDropManager.dispose();
+    testTubeManager.dispose();
   }
 }

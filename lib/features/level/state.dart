@@ -65,6 +65,7 @@ class LevelState extends ChangeNotifier {
 
   void Function()? onPowerupImpact;
   void Function(TileCoordinate)? onBloodDrop;
+  void Function(TileCoordinate)? onTestTube;
   void Function(String powerupId)? onPowerupCollected;
 
   int get powerupHoverToken => _powerupHoverToken;
@@ -313,6 +314,9 @@ class LevelState extends ChangeNotifier {
 
   void triggerBloodDrop(TileCoordinate coord) {
     onBloodDrop?.call(coord);
+  }
+  void triggerTestTube(TileCoordinate coord) {
+    onTestTube?.call(coord);
   }
 
   void completePowerupAnimation() {

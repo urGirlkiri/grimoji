@@ -154,6 +154,16 @@ const Duration bloodDropLifetime = Duration(
   milliseconds: bloodBurst + bloodDrop + 300,
 );
 
+
+// ─── Test Tube  ───────────────────────────────────────────────────────────
+
+/// How long the test tube drop effect entry lives in the effect manager after creation.
+const Duration testTubeDropLifetime = Duration(
+  milliseconds: 300,
+);
+
+
+
 // ─── Clown Shuffle ─────────────────────────────────────────────────────────
 
 /// Total duration of the clown shuffle animation cycle.

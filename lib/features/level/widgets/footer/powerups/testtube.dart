@@ -22,12 +22,12 @@ class TestTubeHandler implements PowerupHandler {
 
       _log.info('Selected tile: ${selected.row}, ${selected.col}');
 
-      // levelState.onPowerupImpact = () {
+      levelState.onPowerupImpact = () {
         levelState.coordinator.testTubeImpact(selected);
-      // };
+      };
 
-      // final animation = levelState.startPowerupAnimation();
-      // levelState.triggerTestTube(selected);
+      final animation = levelState.startPowerupAnimation();
+      levelState.triggerTestTube(selected);
 
       // await animation;
 
