@@ -10,8 +10,6 @@ class PowerupBump extends StatefulWidget {
   State<PowerupBump> createState() => PowerupBumpState();
 }
 
-
-
 class PowerupBumpState extends State<PowerupBump>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;

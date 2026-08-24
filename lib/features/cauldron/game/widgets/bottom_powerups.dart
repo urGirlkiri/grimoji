@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/emojis/index.dart';
-import 'package:grimoji/features/level/widgets/footer/powerup.dart';
+import 'package:grimoji/widgets/game/powerup_btn.dart';
 import 'package:grimoji/utils/context_data.dart';
 
 class BottomPowerups extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/level/widgets/dialogs/purchase_dialog/index.dart';
-import 'package:grimoji/features/level/widgets/footer/powerup.dart';
+import 'package:grimoji/widgets/game/powerup_btn.dart';
 import 'package:grimoji/features/level/widgets/footer/powerup_bump.dart';
 import 'package:grimoji/features/level/widgets/footer/powerups/index.dart';
 import 'package:grimoji/features/profile/controller.dart';
