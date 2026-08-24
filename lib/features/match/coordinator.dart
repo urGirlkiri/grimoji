@@ -335,12 +335,15 @@ class GameCoordinator {
     await _cascadeSequence(coord);
   }
 
-  void testTubeImpact(TileCoordinate coord) {
+  Future<void> testTubeImpact(
+    TileCoordinate coord,
+    GameEmoji targetEmoji,
+  ) async {
     if (state.isGameOver || state.isPaused) return;
 
     final tile = engine.grid[coord.row][coord.col];
     tile
-      ..emoji = Emojis.bone
+      ..emoji = targetEmoji
       ..reset()
       ..clearBehavior()
       ..isPowerupTarget = false
@@ -355,6 +358,8 @@ class GameCoordinator {
         state.updateUI();
       }
     });
+
+    await _cascadeSequence(coord);
   }
 
   Future<void> _cascadeSequence(TileCoordinate focusCoordinate) async {
