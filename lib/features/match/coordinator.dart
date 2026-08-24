@@ -340,11 +340,21 @@ class GameCoordinator {
 
     final tile = engine.grid[coord.row][coord.col];
     tile
+      ..emoji = Emojis.bone
+      ..reset()
+      ..clearBehavior()
       ..isPowerupTarget = false
       ..isTestTubeTarget = true;
     engine.initializeBehaviors();
-    audio.playSfx(Sfx.targetCollected);
+    audio.playSfx(Sfx.transmute);
     state.updateUI();
+
+    Future.delayed(greenDropDuration, () {
+      if (!state.isDisposed && !state.isGameOver) {
+        tile.isTestTubeTarget = false;
+        state.updateUI();
+      }
+    });
   }
 
   Future<void> _cascadeSequence(TileCoordinate focusCoordinate) async {

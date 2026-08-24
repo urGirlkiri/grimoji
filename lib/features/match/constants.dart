@@ -154,15 +154,34 @@ const Duration bloodDropLifetime = Duration(
   milliseconds: bloodBurst + bloodDrop + 300,
 );
 
-
 // ─── Test Tube  ───────────────────────────────────────────────────────────
+
+const tubeDrop = 400;
+const tubeTilt = 300;
+const greenDropFall = 400;
+const dropBurst = 600;
+
+/// How long the test tube takes to drop onto the target tile.
+const Duration tubeDropDuration = Duration(milliseconds: tubeDrop);
+
+/// How long the test tube tilts toward the target.
+const Duration tubeTiltDuration = Duration(milliseconds: tubeTilt);
+
+/// How long the green drop takes to fall from tube mouth to target.
+const Duration greenDropFallDuration = Duration(milliseconds: greenDropFall);
+
+/// How long it takes for the green filter to disappear from test tube target
+const Duration  greenDropDuration = Duration(milliseconds: 300);
+
+/// Total lifetime of the test tube drop effect animation.
+const Duration tubeDropTotalDuration = Duration(
+  milliseconds: tubeDrop + tubeTilt + greenDropFall + dropBurst,
+);
 
 /// How long the test tube drop effect entry lives in the effect manager after creation.
 const Duration testTubeDropLifetime = Duration(
-  milliseconds: 300,
+  milliseconds: tubeDrop + tubeTilt + greenDropFall + dropBurst + 300,
 );
-
-
 
 // ─── Clown Shuffle ─────────────────────────────────────────────────────────
 

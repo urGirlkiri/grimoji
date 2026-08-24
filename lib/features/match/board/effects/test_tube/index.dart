@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grimoji/features/match/board/effects/test_tube/animation.dart';
 import 'package:grimoji/features/match/board/effects/test_tube/effect.dart';
 import 'package:grimoji/features/match/constants.dart';
 
@@ -31,7 +32,11 @@ class TestTubeOverlay extends StatelessWidget {
               top: effect.coord.row * stepY,
               width: tileWidth,
               height: tileHeight,
-              child: const SizedBox.shrink()
+              child: TestTubeAnimation(
+                effect: effect,
+                tileWidth: tileWidth,
+                tileHeight: tileHeight,
+              ),
             );
           }).toList(),
         );
