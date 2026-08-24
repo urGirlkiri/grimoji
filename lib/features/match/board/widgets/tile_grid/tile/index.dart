@@ -76,7 +76,7 @@ class TileWidget extends StatelessWidget {
             duration: Durations.medium1,
             child: ColorFiltered(
               colorFilter: const ColorFilter.mode(
-                Colors.green,
+                dropColor,
                 BlendMode.srcIn,
               ),
               child: EmojiWidget.svg(emoji: displayEmoji)

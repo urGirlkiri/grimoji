@@ -36,14 +36,11 @@ class _TestTubeAnimationState extends State<TestTubeAnimation>
 
   static const double _overshoot = 1.5;
 
-  double get _dropEnd =>
-      tubeDropDuration.inMilliseconds / tubeDropTotalDuration.inMilliseconds;
   double get _tiltEnd =>
-      (tubeDropDuration + tubeTiltDuration).inMilliseconds /
-      tubeDropTotalDuration.inMilliseconds;
+      tubeTiltDuration.inMilliseconds / tubeDropTotalDuration.inMilliseconds;
+
   double get _dropFallEnd =>
-      (tubeDropDuration + tubeTiltDuration + greenDropFallDuration)
-          .inMilliseconds /
+      (tubeTiltDuration + greenDropFallDuration).inMilliseconds /
       tubeDropTotalDuration.inMilliseconds;
 
   @override
@@ -103,8 +100,8 @@ class _TestTubeAnimationState extends State<TestTubeAnimation>
           vy: sin(angle) * velocity - 80.0,
           size: 3.0 + _random.nextDouble() * 5.0,
           color: _random.nextBool()
-              ? const Color(0xFF4CAF50)
-              : const Color(0xFF2E7D32),
+              ? dropColor.withValues(alpha: 5)
+              : dropColor,
           maxLife: 0.4 + _random.nextDouble() * 0.4,
         ),
       );
@@ -129,23 +126,31 @@ class _TestTubeAnimationState extends State<TestTubeAnimation>
         final targetX = widget.tileWidth / 2;
         final targetY = widget.tileHeight / 2;
 
-        final tiltProgress = ((t - _dropEnd) / (_tiltEnd - _dropEnd)).clamp(
-          0.0,
-          1.0,
-        );
+        final tiltProgress = (t / _tiltEnd).clamp(0.0, 1.0);
         final tiltAngle = tiltProgress * 0.3;
 
         final dropFallProgress = ((t - _tiltEnd) / (_dropFallEnd - _tiltEnd))
             .clamp(0.0, 1.0);
 
         final tubeSize = widget.tileWidth * 0.8;
-        final tubeX = targetX - tubeSize / 2;
-        final tubeY = targetY + widget.tileHeight * 0.5 - tubeSize;
+        final tubeX = targetX - tubeSize;
+        final tubeY = targetY + widget.tileHeight * 0.8 - tubeSize * 2.5;
 
-        final dropStartY = tubeY + tubeSize * 0.3;
+        final tubeCenterX = tubeX + tubeSize / 2;
+        final tubeCenterY = tubeY + tubeSize / 2;
+
+        final mouthOffsetX = (tubeSize / 2) * sin(tiltAngle) + 20;
+        final mouthOffsetY = -(tubeSize / 2) * cos(tiltAngle) + 12;
+       
+        final mouthX = tubeCenterX + mouthOffsetX;
+        final mouthY = tubeCenterY + mouthOffsetY;
+
+        final dropStartY = mouthY;
         final dropEndY = targetY;
+
         final greenDropY =
             dropStartY + (dropEndY - dropStartY) * dropFallProgress;
+
         final greenDropOpacity = dropFallProgress < 1.0 ? 1.0 : 0.0;
 
         final postImpact = ((t - _dropFallEnd) / (1.0 - _dropFallEnd)).clamp(
@@ -190,7 +195,7 @@ class _TestTubeAnimationState extends State<TestTubeAnimation>
 
             if (t >= _tiltEnd && t < _dropFallEnd + 0.1)
               Positioned(
-                left: targetX - widget.tileWidth * 0.15,
+                left: mouthX - widget.tileWidth * 0.15,
                 top: greenDropY - widget.tileWidth * 0.15,
                 width: widget.tileWidth * 0.3,
                 height: widget.tileWidth * 0.3,
@@ -198,7 +203,7 @@ class _TestTubeAnimationState extends State<TestTubeAnimation>
                   opacity: greenDropOpacity.clamp(0.0, 1.0),
                   child: ColorFiltered(
                     colorFilter: const ColorFilter.mode(
-                      Color(0xFF4CAF50),
+                      dropColor,
                       BlendMode.srcATop,
                     ),
                     child: EmojiWidget.svg(
