@@ -56,10 +56,9 @@ class FlutterNotificationService implements NotificationService {
     );
     final windowsSettings = WindowsInitializationSettings(
       appName: 'Grimoji',
-      appUserModelId: dotenv.env['WINDOWS_USER_MODEL_ID']!,
-      guid: dotenv.env['WINDOWS_NOTIFICATION_GUID']!,
+      appUserModelId: dotenv.env['WINDOWS_USER_MODEL_ID'] ?? '',
+      guid: dotenv.env['WINDOWS_NOTIFICATION_GUID'] ?? '',
     );
-
     final initSettings = InitializationSettings(
       android: androidSettings,
       iOS: darwinSettings,
