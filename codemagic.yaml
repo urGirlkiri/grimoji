@@ -26,7 +26,7 @@ workflows:
       
     scripts:
       - name: Create .env file for Flutter
-        script: touch .env
+        script: echo "ENV_LOADED=true" > .env
 
       - name: Fetch packages
         script: flutter pub get
@@ -108,7 +108,7 @@ workflows:
 
     scripts:
       - name: Create .env file
-        script: touch .env
+        script: echo "ENV_LOADED=true" > .env
 
       - name: Fetch packages
         script: flutter pub get
