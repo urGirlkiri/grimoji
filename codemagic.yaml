@@ -44,13 +44,13 @@ workflows:
         script: |
           echo "Uploading zip to Appetize..."
           
-          if [ -z "$APPETIZE_API_TOKEN" ]; then
-            echo "❌ ERROR: APPETIZE_API_TOKEN is empty!"
+          if [ -z "$APPETIZE_API_BACKUP_TOKEN" ]; then
+            echo "❌ ERROR: APPETIZE_API_BACKUP_TOKEN is empty!"
             exit 1
           fi
 
           RESPONSE=$(curl -s -X POST "https://api.appetize.io/v1/apps" \
-            -H "X-API-KEY: $APPETIZE_API_TOKEN" \
+            -H "X-API-KEY: $APPETIZE_API_BACKUP_TOKEN" \
             -F "file=@build/ios/iphonesimulator/grimoji_ios_preview.zip" \
             -F "platform=ios")
           
