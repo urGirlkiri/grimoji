@@ -3,12 +3,12 @@ import 'package:grimoji/app/theme/palette.dart';
 import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/level/widgets/dialogs/purchase_dialog/index.dart';
-import 'package:grimoji/widgets/game/powerup_btn.dart';
-import 'package:grimoji/features/level/widgets/footer/powerup_bump.dart';
+import 'package:grimoji/features/level/widgets/footer/bump.dart';
 import 'package:grimoji/features/level/widgets/footer/powerups/index.dart';
 import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:grimoji/widgets/custom/app_icon.dart';
+import 'package:grimoji/widgets/game/powerup_btn.dart';
 import 'package:provider/provider.dart';
 
 class Footer extends StatefulWidget {

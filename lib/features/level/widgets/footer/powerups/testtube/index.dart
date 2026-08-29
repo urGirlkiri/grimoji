@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/level/models/powerup_handler.dart';
 import 'package:grimoji/features/level/state.dart';
-import 'package:grimoji/features/level/widgets/footer/powerups/testtube/analyzer/index.dart';
+import 'package:grimoji/features/level/widgets/footer/powerups/testtube/analyzer.dart';
 import 'package:logging/logging.dart';
 
 class TestTubeHandler implements PowerupHandler {
