@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/level/state.dart';
-import 'package:grimoji/features/match/board/effects/test_tube/effect.dart';
 import 'package:grimoji/features/match/board/widgets/tile_grid/tile/tile_v_f_x/painter.dart';
 import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/match/models/particle.dart';
@@ -11,13 +10,11 @@ import 'package:grimoji/widgets/custom/emoji_widget.dart';
 import 'package:provider/provider.dart';
 
 class TestTubeAnimation extends StatefulWidget {
-  final TestTubeEffect effect;
   final double tileWidth;
   final double tileHeight;
 
   const TestTubeAnimation({
     super.key,
-    required this.effect,
     required this.tileWidth,
     required this.tileHeight,
   });

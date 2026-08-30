@@ -33,7 +33,6 @@ class TestTubeOverlay extends StatelessWidget {
               width: tileWidth,
               height: tileHeight,
               child: TestTubeAnimation(
-                effect: effect,
                 tileWidth: tileWidth,
                 tileHeight: tileHeight,
               ),

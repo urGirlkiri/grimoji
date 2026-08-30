@@ -33,7 +33,6 @@ class BloodDropOverlay extends StatelessWidget {
               width: tileWidth,
               height: tileHeight,
               child: BloodDropAnimation(
-                effect: effect,
                 tileWidth: tileWidth,
                 tileHeight: tileHeight,
               ),
