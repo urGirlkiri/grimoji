@@ -1,15 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
-
-abstract class BoardEffect {
-  final String id;
-
-  final DateTime timestamp;
-
-  BoardEffect({String? id})
-    : id = id ?? const Uuid().v4(),
-      timestamp = DateTime.now();
-}
+import 'package:grimoji/features/match/board/effect/models/board_effect.dart';
 
 class EffectManager<T extends BoardEffect> {
   final ValueNotifier<List<T>> _notifier = ValueNotifier([]);

@@ -1,4 +1,4 @@
-import 'package:grimoji/features/match/board/effect/manager.dart';
+import 'package:grimoji/features/match/board/effect/models/board_effect.dart';
 
 class LineClearEffect extends BoardEffect {
   final int row;

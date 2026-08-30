@@ -1,12 +1,6 @@
 import 'package:grimoji/features/match/board/effect/manager.dart';
-
-enum EffectType {
-  sparkle,
-  lineClear,
-  wheelRoll,
-  ghostDive,
-  powerup,
-}
+import 'package:grimoji/features/match/board/effect/models/board_effect.dart';
+import 'package:grimoji/features/match/board/effect/models/effect_type.dart';
 
 class EffectRegistry {
   static final Map<EffectType, EffectManager> _managers = {};
