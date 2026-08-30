@@ -80,6 +80,11 @@ class VFXController {
         testTubeManager.trigger(TestTubeEffect(coord: coord));
       }
     };
+    state.onUFO = () {
+      if (!_isDisposed) {
+        ufoManager.trigger(UFOEffect(targets: [], beamTypes: [], beamDelays: []));
+      }
+    };
   }
 
   void unbindState(LevelState state) {

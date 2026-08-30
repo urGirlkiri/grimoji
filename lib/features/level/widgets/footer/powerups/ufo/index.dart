@@ -30,10 +30,10 @@ class UFOHandler implements PowerupHandler {
         // );
       };
 
-      // final animation = levelState.startPowerupAnimation();
-      // levelState.triggerUFOs();
+      final animation = levelState.startPowerupAnimation();
+      levelState.triggerUFO();
 
-      // await animation;
+      await animation;
     } catch (e) {
       _log.info('Cancelled: $e');
       levelState.updatePowerupHoverTarget(null);

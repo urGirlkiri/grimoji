@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/app/theme/palette.dart';
+import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/match/board/controllers/gesture.dart';
 import 'package:grimoji/features/match/board/controllers/v_f_x.dart';
 import 'package:grimoji/features/match/board/effects/blood_drop/index.dart';
+import 'package:grimoji/features/match/board/effects/ghost_dive/index.dart';
+import 'package:grimoji/features/match/board/effects/line_clear/index.dart';
+import 'package:grimoji/features/match/board/effects/sparkle/index.dart';
 import 'package:grimoji/features/match/board/effects/test_tube/index.dart';
 import 'package:grimoji/features/match/board/effects/time_bonus/index.dart';
-import 'package:grimoji/features/match/constants.dart';
-import 'package:grimoji/features/match/board/effects/ghost_dive/index.dart';
+import 'package:grimoji/features/match/board/effects/ufo/index.dart';
 import 'package:grimoji/features/match/board/effects/wheel_roll/index.dart';
-import 'package:grimoji/features/match/board/widgets/announcer/index.dart';
-import 'package:grimoji/features/match/board/effects/line_clear/index.dart';
-import 'package:grimoji/features/match/board/widgets/board_grid.dart';
-import 'package:grimoji/features/match/board/effects/sparkle/index.dart';
-import 'package:grimoji/features/match/board/widgets/tile_grid/index.dart';
-import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/match/board/manager.dart';
+import 'package:grimoji/features/match/board/widgets/announcer/index.dart';
+import 'package:grimoji/features/match/board/widgets/board_grid.dart';
+import 'package:grimoji/features/match/board/widgets/tile_grid/index.dart';
+import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/utils/context_data.dart';
 import 'package:provider/provider.dart';
 
@@ -230,6 +231,17 @@ class _GameBoardState extends State<GameBoard> {
                               child: IgnorePointer(
                                 child: TestTubeOverlay(
                                   notifier: _vfx.testTubeManager.notifier,
+                                  tileWidth: _tileWidth!,
+                                  tileHeight: _tileHeight!,
+                                ),
+                              ),
+                            ),
+                            OverflowBox(
+                              maxWidth: constrainedBoardWidth,
+                              alignment: Alignment.topLeft,
+                              child: IgnorePointer(
+                                child: UFOOverlay(
+                                  notifier: _vfx.ufoManager.notifier,
                                   tileWidth: _tileWidth!,
                                   tileHeight: _tileHeight!,
                                 ),
