@@ -3,14 +3,9 @@ import 'package:grimoji/features/match/board/effects/ufo/effect.dart';
 
 class UFOOverlay extends StatelessWidget {
   final ValueNotifier<List<UFOEffect>> notifier;
-  final double tileWidth;
-  final double tileHeight;
-
   const UFOOverlay({
     super.key,
     required this.notifier,
-    required this.tileWidth,
-    required this.tileHeight,
   });
 
   @override

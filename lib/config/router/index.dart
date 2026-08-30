@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimoji/config/levels/index.dart';
+import 'package:grimoji/config/router/layout/index.dart';
 import 'package:grimoji/config/router/routes.dart';
 import 'package:grimoji/features/cauldron/game/screen.dart';
 import 'package:grimoji/features/cauldron/screen.dart';
 import 'package:grimoji/features/grimoire/screen.dart';
-
-import 'package:grimoji/features/menu/screen.dart';
-import 'package:grimoji/features/map/screen.dart';
-import 'package:grimoji/features/trailer/screen.dart';
 import 'package:grimoji/features/level/fail_screen/screen.dart';
 import 'package:grimoji/features/level/hint_screen/screen.dart';
-import 'package:grimoji/features/market/screen.dart';
-import 'package:grimoji/features/settings/screen.dart';
-import 'package:grimoji/config/router/layout/index.dart';
-
 import 'package:grimoji/features/level/screen.dart';
 import 'package:grimoji/features/level/win_screen/screen.dart';
-import 'package:grimoji/config/levels/index.dart';
+import 'package:grimoji/features/map/screen.dart';
+import 'package:grimoji/features/market/screen.dart';
+import 'package:grimoji/features/menu/screen.dart';
+import 'package:grimoji/features/settings/screen.dart';
+import 'package:grimoji/features/trailer/screen.dart';
 import 'package:grimoji/utils/context_data.dart';
 
 final _routerNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
