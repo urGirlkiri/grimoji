@@ -184,10 +184,14 @@ const Duration testTubeDropLifetime = Duration(
 
 // ─── UFO  ───────────────────────────────────────────────────────────
 
+const abductBeamColor = Color(0xFF4cf9ff);
+const explosiveBeamColor = Color(0xFFf94c4c);
+
+/// How long UFO takes to fly across screen
+const Duration ufoFlyDuration = Duration(milliseconds: 2000);
+
 /// How long the ufo effect entry lives in the effect manager after creation.
-const Duration ufoLifetime = Duration(
-  milliseconds: 300,
-);
+const Duration ufoLifetime = Duration(milliseconds: 2800);
 
 // ─── Clown Shuffle ─────────────────────────────────────────────────────────
 
