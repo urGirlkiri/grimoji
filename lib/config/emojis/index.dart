@@ -12,6 +12,21 @@ class GameEmoji {
 class Emojis {
   Emojis._();
 
+  static final GameEmoji cracker = GameEmoji(
+    'assets/emojis/svg/cracker.svg',
+    'assets/emojis/lottie/cracker.json',
+    '🧨',
+    [
+      Vector2(-0.499, 0.312),
+      Vector2(-0.069, -0.295),
+      Vector2(0.324, -0.500),
+      Vector2(0.497, -0.425),
+      Vector2(0.499, -0.114),
+      Vector2(-0.266, 0.500),
+      Vector2(-0.411, 0.493),
+      Vector2(-0.475, 0.443),
+    ],
+  );
   static final GameEmoji boxingGlove = GameEmoji(
     'assets/emojis/svg/boxing_glove.svg',
     'assets/emojis/lottie/boxing_glove.json',
@@ -13426,6 +13441,7 @@ class Emojis {
     ],
   );
   static final List<GameEmoji> all = [
+    cracker,
     boxingGlove,
     mountain,
     tooth,

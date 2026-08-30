@@ -1,0 +1,4 @@
+enum UFOBeamType {
+  abduct, 
+  explosive, 
+}
