@@ -242,6 +242,8 @@ class _GameBoardState extends State<GameBoard> {
                               child: IgnorePointer(
                                 child: UFOOverlay(
                                   notifier: _vfx.ufoManager.notifier,
+                                  tileWidth: _tileWidth!,
+                                  tileHeight: _tileHeight!,
                                 ),
                               ),
                             ),
