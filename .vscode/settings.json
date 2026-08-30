@@ -1,0 +1,4 @@
+{
+  "chat.disableAIFeatures": true,
+  "github.copilot.editor.enableAutoCompletions": false
+}
