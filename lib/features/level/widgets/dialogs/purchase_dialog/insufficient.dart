@@ -50,32 +50,29 @@ class InsufficientAlert extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20 * scale),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: PillButton(
-                        enableAnimation: false,
-                        color: palette.slate,
-                        fullWidth: false,
-                        fontSize: 12 * scale,
-                        text: 'Cancel',
-                        onTap: () => Navigator.of(context).pop(false),
-                      ),
+              Row(
+                children: [
+                  Expanded(
+                    child: PillButton(
+                      enableAnimation: false,
+                      color: palette.slate,
+                      fullWidth: false,
+                      fontSize: 12 * scale,
+                      text: 'Cancel',
+                      onTap: () => Navigator.of(context).pop(false),
                     ),
-                    SizedBox(width: 10 * scale),
-                    Expanded(
-                      child: PillButton(
-                        color: palette.twilight,
-                        fullWidth: false,
-                        text: 'Market',
-                        fontSize: 12 * scale,
-                        onTap: () => Navigator.of(context).pop(true),
-                      ),
+                  ),
+                  SizedBox(width: 10 * scale),
+                  Expanded(
+                    child: PillButton(
+                      color: palette.twilight,
+                      fullWidth: false,
+                      text: 'Market',
+                      fontSize: 12 * scale,
+                      onTap: () => Navigator.of(context).pop(true),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),

@@ -36,8 +36,6 @@ class PillButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
-
     final effectiveTextColor = textColor ?? palette.trueWhite;
     final effectiveBorderColor = borderColor ?? palette.twilight;
     final effectiveBorderWidth = borderWidth ?? 2;
