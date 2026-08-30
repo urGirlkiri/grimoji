@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/match/board/effect/manager.dart';
+import 'package:grimoji/features/match/board/effects/blood_drop/effect.dart';
 import 'package:grimoji/features/match/board/effects/ghost_dive/effect.dart';
 import 'package:grimoji/features/match/board/effects/line_clear/effect.dart';
 import 'package:grimoji/features/match/board/effects/sparkle/effect.dart';
-import 'package:grimoji/features/match/board/effects/blood_drop/effect.dart';
 import 'package:grimoji/features/match/board/effects/test_tube/effect.dart';
 import 'package:grimoji/features/match/board/effects/time_bonus/effect.dart';
+import 'package:grimoji/features/match/board/effects/ufo/effect.dart';
 import 'package:grimoji/features/match/board/effects/wheel_roll/effect.dart';
 import 'package:grimoji/features/match/constants.dart';
 
@@ -32,6 +33,7 @@ class VFXController {
   final testTubeManager = EffectManager<TestTubeEffect>(
     lifetime: testTubeDropLifetime,
   );
+  final ufoManager = EffectManager<UFOEffect>(lifetime: ufoLifetime);
 
   bool _isDisposed = false;
   double? _boardWidth;
@@ -87,6 +89,7 @@ class VFXController {
     state.onTimeBonus = null;
     state.onBloodDrop = null;
     state.onTestTube = null;
+    state.onUFO = null;
   }
 
   void triggerSparkle(Offset localPosition) {
@@ -112,5 +115,6 @@ class VFXController {
     timeBonusManager.dispose();
     bloodDropManager.dispose();
     testTubeManager.dispose();
+    ufoManager.dispose();
   }
 }

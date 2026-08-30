@@ -182,6 +182,13 @@ const Duration testTubeDropLifetime = Duration(
   milliseconds: tubeTilt + greenDropFall + dropBurst + 300,
 );
 
+// ─── UFO  ───────────────────────────────────────────────────────────
+
+/// How long the ufo effect entry lives in the effect manager after creation.
+const Duration ufoLifetime = Duration(
+  milliseconds: 300,
+);
+
 // ─── Clown Shuffle ─────────────────────────────────────────────────────────
 
 /// Total duration of the clown shuffle animation cycle.
