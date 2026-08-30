@@ -184,8 +184,8 @@ const Duration testTubeDropLifetime = Duration(
 
 // ─── UFO  ───────────────────────────────────────────────────────────
 
-const abductBeamColor = Color(0xFF4cf9ff);
-const explosiveBeamColor = Color(0xFFf94c4c);
+const abductBeamColor = Color(0xFF00E5FF);
+const explosiveBeamColor = Color(0xFFFF1744);
 
 /// How long UFO takes to fly across screen
 const Duration ufoFlyDuration = Duration(milliseconds: 2000);

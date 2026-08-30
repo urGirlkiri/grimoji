@@ -21,27 +21,33 @@ class UFOBeam extends StatelessWidget {
         ? abductBeamColor
         : explosiveBeamColor;
 
-    final beamProgress = beam.progress;
-    final beamHeight = tileHeight * 2;
+    final p = beam.progress;
+    final exactBeamHeight = beam.targetY - beam.ufoY - 25;
 
     return Positioned(
-      left: beam.targetX - tileWidth * 0.1,
-      top: -tileHeight * 0.5 + (beamHeight * beamProgress),
-      width: tileWidth * 0.2,
-      height: beamHeight * beamProgress,
-      child: Opacity(
-        opacity: (1.0 - beamProgress).clamp(0.0, 1.0),
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                beamColor.withValues(alpha: 0.8),
-                beamColor.withValues(alpha: 0.2),
-              ],
+      left: beam.targetX - (tileWidth * 0.005),
+      top: beam.ufoY + (tileHeight * 0.67),
+      width: tileWidth * 0.5,
+      height: exactBeamHeight,
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: FractionallySizedBox(
+          heightFactor: p < 0.5 ? (p * 2) : 1.0,
+          child: Opacity(
+            opacity: p < 0.5 ? 1.0 : (1.0 - ((p - 0.5) * 2)).clamp(0.0, 1.0),
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    beamColor.withValues(alpha: 0.8),
+                    beamColor.withValues(alpha: 0.2),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(4),
+              ),
             ),
-            borderRadius: BorderRadius.circular(4),
           ),
         ),
       ),

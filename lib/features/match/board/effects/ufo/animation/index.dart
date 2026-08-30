@@ -1,16 +1,17 @@
 import 'dart:math';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:grimoji/config/emojis/index.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/match/board/effects/ufo/animation/u_f_o_beam.dart';
 import 'package:grimoji/features/match/board/effects/ufo/effect.dart';
 import 'package:grimoji/features/match/board/effects/ufo/models/beam.dart';
 import 'package:grimoji/features/match/board/effects/ufo/models/beam_type.dart';
+import 'package:grimoji/features/match/board/effects/ufo/models/keyframe.dart';
 import 'package:grimoji/features/match/board/manager.dart';
 import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
-import 'package:grimoji/widgets/custom/emoji_widget.dart';
 import 'package:provider/provider.dart';
 
 class UFOAnimation extends StatefulWidget {
@@ -38,11 +39,7 @@ class _UFOAnimationState extends State<UFOAnimation>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: ufoFlyDuration,
-    );
-
+    _controller = AnimationController(vsync: this, duration: ufoFlyDuration);
     _controller.addListener(_onTick);
     _controller.addStatusListener(_onStatus);
     _controller.forward();
@@ -64,7 +61,7 @@ class _UFOAnimationState extends State<UFOAnimation>
           widget.effect.beamTypes[i],
         );
 
-        WidgetsBinding.instance.addPostFrameCallback((_) {
+        Future.delayed(const Duration(milliseconds: 150), () {
           if (mounted) {
             context.read<LevelState>().impactUFOBeam(
               i,
@@ -96,13 +93,15 @@ class _UFOAnimationState extends State<UFOAnimation>
     final stepX = widget.tileWidth + tileSpacingGap;
     final stepY = widget.tileHeight + tileSpacingGap;
 
-    final targetX = target.col * stepX;
-    final targetY = target.row * stepY;
+    final targetX = (target.col * stepX) + (widget.tileWidth / 2);
+    final targetY = (target.row * stepY) + (widget.tileHeight / 2);
+    final ufoY = -widget.tileHeight * 0.2;
 
     _activeBeams.add(
       BeamAnimation(
         targetX: targetX,
         targetY: targetY,
+        ufoY: ufoY,
         beamType: beamType,
         startTime: _controller.value,
       ),
@@ -123,34 +122,65 @@ class _UFOAnimationState extends State<UFOAnimation>
       animation: _controller,
       builder: (context, child) {
         final t = _controller.value;
-
         final ufoSize = widget.tileWidth * 0.8;
         final boardWidth = widget.tileWidth * BoardManager.cols;
-        final ufoX = (boardWidth + ufoSize) * t - ufoSize;
-        final ufoY = widget.tileHeight * 0.5;
+        final stepX = widget.tileWidth + tileSpacingGap;
+        final ufoY = -widget.tileHeight * 0.2;
+
+        List<UfoKeyframe> keyframes = [UfoKeyframe(0.0, -ufoSize)];
+
+        for (int i = 0; i < widget.effect.targets.length; i++) {
+          final target = widget.effect.targets[i];
+          final targetCenterX = (target.col * stepX) + (widget.tileWidth / 2);
+          final ufoHoverX = targetCenterX - (ufoSize / 2);
+
+          final centerT =
+              widget.effect.beamDelays[i].inMilliseconds /
+              _controller.duration!.inMilliseconds;
+
+          keyframes.add(UfoKeyframe(max(0.0, centerT - 0.05), ufoHoverX));
+          keyframes.add(UfoKeyframe(min(1.0, centerT + 0.10), ufoHoverX));
+        }
+
+        keyframes.add(UfoKeyframe(1.0, boardWidth + ufoSize));
+        keyframes.sort((a, b) => a.t.compareTo(b.t));
+
+        double ufoX = 0.0;
+        for (int i = 0; i < keyframes.length - 1; i++) {
+          if (t >= keyframes[i].t && t <= keyframes[i + 1].t) {
+            final progress =
+                (t - keyframes[i].t) / (keyframes[i + 1].t - keyframes[i].t);
+            ufoX = ui.lerpDouble(
+              keyframes[i].x,
+              keyframes[i + 1].x,
+              Curves.easeInOut.transform(progress),
+            )!;
+            break;
+          }
+        }
 
         return Stack(
           clipBehavior: Clip.none,
           children: [
-            Positioned(
-              left: ufoX,
-              top: ufoY,
-              width: ufoSize,
-              height: ufoSize,
-              child: Transform.rotate(
-                angle: sin(t * pi * 2) * 0.1,
-                child: EmojiWidget.svg(
-                  emoji: Emojis.flyingSaucer,
-                  size: ufoSize,
-                ),
-              ),
-            ),
-
             ..._activeBeams.map(
               (beam) => UFOBeam(
                 beam: beam,
                 tileWidth: widget.tileWidth,
                 tileHeight: widget.tileHeight,
+              ),
+            ),
+            Positioned(
+              left: ufoX,
+              top: ufoY,
+              width: ufoSize * 2,
+              height: ufoSize * 2,
+              child: Transform.rotate(
+                angle: sin(t * pi * 2) * 0.1,
+                child: SvgPicture.asset(
+                  'assets/emojis/svg/ufo.svg',
+                  width: ufoSize,
+                  height: ufoSize,
+                ),
               ),
             ),
           ],
