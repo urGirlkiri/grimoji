@@ -10,6 +10,7 @@ import 'package:grimoji/features/level/managers/crimson.dart';
 import 'package:grimoji/features/level/managers/goal.dart';
 import 'package:grimoji/features/level/managers/time.dart';
 import 'package:grimoji/features/match/announcer.dart';
+import 'package:grimoji/features/match/board/effects/ufo/models/beam_type.dart';
 import 'package:grimoji/features/match/board/manager.dart';
 import 'package:grimoji/features/match/coordinator.dart';
 import 'package:grimoji/features/match/engines/game.dart';
@@ -64,10 +65,13 @@ class LevelState extends ChangeNotifier {
   Completer<void>? _powerupAnimationCompleter;
 
   void Function()? onPowerupImpact;
+  void Function(String powerupId)? onPowerupCollected;
+
   void Function(TileCoordinate)? onBloodDrop;
   void Function(TileCoordinate)? onTestTube;
   void Function()? onUFO;
-  void Function(String powerupId)? onPowerupCollected;
+  void Function(int beamIndex, TileCoordinate coord, UFOBeamType beamType)?
+  onUFOBeamImpact;
 
   int get powerupHoverToken => _powerupHoverToken;
 
@@ -318,6 +322,13 @@ class LevelState extends ChangeNotifier {
   }
   void triggerTestTube(TileCoordinate coord) {
     onTestTube?.call(coord);
+  }
+  void impactUFOBeam(
+    int beamIndex,
+    TileCoordinate coord,
+    UFOBeamType beamType,
+  ) {
+    onUFOBeamImpact?.call(beamIndex, coord, beamType);
   }
   void triggerUFO() {
     onUFO?.call();

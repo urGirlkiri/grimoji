@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grimoji/features/match/board/effects/ufo/animation.dart';
+import 'package:grimoji/features/match/board/effects/ufo/animation/index.dart';
 import 'package:grimoji/features/match/board/effects/ufo/effect.dart';
 
 class UFOOverlay extends StatelessWidget {

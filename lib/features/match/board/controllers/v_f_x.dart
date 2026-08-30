@@ -8,8 +8,10 @@ import 'package:grimoji/features/match/board/effects/sparkle/effect.dart';
 import 'package:grimoji/features/match/board/effects/test_tube/effect.dart';
 import 'package:grimoji/features/match/board/effects/time_bonus/effect.dart';
 import 'package:grimoji/features/match/board/effects/ufo/effect.dart';
+import 'package:grimoji/features/match/board/effects/ufo/models/beam_type.dart';
 import 'package:grimoji/features/match/board/effects/wheel_roll/effect.dart';
 import 'package:grimoji/features/match/constants.dart';
+import 'package:grimoji/features/match/models/coordinate.dart';
 
 class VFXController {
   final sparkleManager = EffectManager<SparkleEffect>(
@@ -82,7 +84,25 @@ class VFXController {
     };
     state.onUFO = () {
       if (!_isDisposed) {
-        ufoManager.trigger(UFOEffect(targets: [], beamTypes: [], beamDelays: []));
+        ufoManager.trigger(
+          UFOEffect(
+            targets: [
+              TileCoordinate(row: 1, col: 1),
+              TileCoordinate(row: 2, col: 3),
+              TileCoordinate(row: 3, col: 2),
+            ],
+            beamTypes: [
+              UFOBeamType.abduct,
+              UFOBeamType.explosive,
+              UFOBeamType.abduct,
+            ],
+            beamDelays: const [
+              Duration(milliseconds: 500),
+              Duration(milliseconds: 1000),
+              Duration(milliseconds: 1500),
+            ],
+          ),
+        );
       }
     };
   }
