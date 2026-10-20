@@ -49,6 +49,7 @@ void main() {
     });
 
     test('Should merge N ingredients into Yield dynamically', () {
+      grid.fill(Emojis.hole);
       final mergeRecipe = RecipeBook.allRecipes.first;
 
       for (int i = 0; i < mergeRecipe.requiredAmount; i++) {
@@ -130,6 +131,7 @@ void main() {
     });
 
     test('Crafting an Explosive should NOT self-ignite dynamically', () {
+      grid.fill(Emojis.hole);
       final explosiveRecipe = RecipeBook.allRecipes.firstWhere(
         (r) =>
             RecipeBook.getReactionFor(r.yields)?.type == ReactionType.explosive,
