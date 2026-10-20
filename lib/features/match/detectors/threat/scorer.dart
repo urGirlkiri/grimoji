@@ -1,4 +1,3 @@
-import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/match/detectors/hint/scanner.dart' as hint;
 import 'package:grimoji/features/match/detectors/threat/scanner.dart';
@@ -19,9 +18,7 @@ int scoreThreatTarget(
   int threatScore = 0;
 
   if (unmatchableVisuals.contains(currentVisual)) {
-    threatScore += currentVisual == Emojis.hole.visual
-        ? holeObstacleScore
-        : unmatchableObstacleScore;
+    threatScore += unmatchableObstacleScore;
   } else {
     final currentStep = recipeChainSteps[currentVisual];
     if (currentStep != null) {

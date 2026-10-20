@@ -1,5 +1,4 @@
 const unmatchableObstacleScore = 150;
-const holeObstacleScore = 100;
 const matchScoreMultiplier = 50;
 const nearMissScoreMultiplier = 20;
 const chainTileScore = 50;
