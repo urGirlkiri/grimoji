@@ -1,13 +1,14 @@
 import 'package:flutter/foundation.dart';
+import 'package:grimoji/config/constants.dart';
+import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/behavior_register.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
-import 'package:grimoji/features/match/models/coordinate.dart';
-import 'package:grimoji/features/match/models/tile.dart';
 import 'package:grimoji/features/match/board/manager.dart';
 import 'package:grimoji/features/match/detectors/match.dart';
-import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/match/detectors/threat/isolate.dart';
 import 'package:grimoji/features/match/detectors/threat/models/threat_scan.dart';
+import 'package:grimoji/features/match/models/coordinate.dart';
+import 'package:grimoji/features/match/models/tile.dart';
 
 class ThreatDetector {
   static Future<TileCoordinate?> findTarget({
@@ -31,7 +32,9 @@ class ThreatDetector {
         .map((emoji) => emoji.visual)
         .toSet();
 
-    final obstacleVisuals = {Emojis.poop.visual};
+    final obstacleVisuals = {
+      ...intrusiveEmojis.map((emoji) => emoji.visual),
+    };
 
     final recipeChainSteps = RecipeBook.getRecipeChainSteps(
       targetEmoji,
