@@ -1,32 +1,34 @@
 import 'dart:async';
+
 import 'package:flutter/foundation.dart';
+import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/config/emojis/index.dart';
-import 'package:grimoji/features/match/constants.dart';
-import 'package:grimoji/features/audio/audio_controller.dart';
-import 'package:grimoji/features/audio/sounds/sfx.dart';
 import 'package:grimoji/features/alchemy/behaviors/models/action_type.dart';
 import 'package:grimoji/features/alchemy/behaviors/models/behavior_action.dart';
-import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:grimoji/features/alchemy/reactions/models/reaction.dart';
+import 'package:grimoji/features/alchemy/recipe_book.dart';
+import 'package:grimoji/features/audio/audio_controller.dart';
+import 'package:grimoji/features/audio/sounds/sfx.dart';
+import 'package:grimoji/features/match/announcer.dart';
+import 'package:grimoji/features/match/board/effects/ghost_dive/effect.dart';
+import 'package:grimoji/features/match/board/effects/wheel_roll/effect.dart';
+import 'package:grimoji/features/match/board/manager.dart';
+import 'package:grimoji/features/match/constants.dart';
+import 'package:grimoji/features/match/controllers/hint.dart';
+import 'package:grimoji/features/match/detectors/match.dart';
+import 'package:grimoji/features/match/detectors/swipe.dart';
+import 'package:grimoji/features/match/engines/game.dart';
 import 'package:grimoji/features/match/models/board_region.dart';
+import 'package:grimoji/features/match/models/collected_emoji.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:grimoji/features/match/models/match_group.dart';
 import 'package:grimoji/features/match/models/tile.dart';
-import 'package:grimoji/features/match/processors/effects/models/pending_ghost_dive.dart';
-import 'package:grimoji/features/match/types.dart';
-import 'package:grimoji/features/match/board/manager.dart';
-import 'package:grimoji/features/match/announcer.dart';
-import 'package:grimoji/features/match/engines/game.dart';
-import 'package:grimoji/features/match/models/collected_emoji.dart';
-import 'package:grimoji/features/match/detectors/match.dart';
-import 'package:grimoji/features/match/state.dart';
-import 'package:grimoji/features/match/detectors/swipe.dart';
-import 'package:grimoji/features/match/board/effects/ghost_dive/effect.dart';
-import 'package:grimoji/features/match/board/effects/wheel_roll/effect.dart';
 import 'package:grimoji/features/match/processors/effects/index.dart';
+import 'package:grimoji/features/match/processors/effects/models/pending_ghost_dive.dart';
 import 'package:grimoji/features/match/processors/fever/index.dart';
 import 'package:grimoji/features/match/processors/settlement.dart';
-import 'package:grimoji/features/match/controllers/hint.dart';
+import 'package:grimoji/features/match/state.dart';
+import 'package:grimoji/features/match/types.dart';
 import 'package:logging/logging.dart';
 
 class GameCoordinator {
@@ -619,11 +621,10 @@ class GameCoordinator {
   }
 
   int _countIntrusive(Iterable<TileCoordinate> coords) {
-    final intrusive = [Emojis.impSmile, Emojis.clown, Emojis.poop];
-    if (intrusive.isEmpty) return 0;
+    if (intrusiveEmojis.isEmpty) return 0;
     int count = 0;
     for (final coord in coords) {
-      if (intrusive.contains(engine.grid[coord.row][coord.col].emoji)) {
+      if (intrusiveEmojis.contains(engine.grid[coord.row][coord.col].emoji)) {
         count++;
       }
     }

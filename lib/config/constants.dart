@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:grimoji/config/emojis/index.dart';
+
 const List<String> availableAvatars = [
   'cyber_astronaut',
   'cyber_goth',
@@ -23,3 +25,7 @@ const mapSkyColor = Color(0xFF48484f);
 const Duration dailyClaimDuration = Duration(minutes: 1);
 
 const trailerSeconds = 90;
+
+final intrusiveEmojis = [Emojis.impSmile, Emojis.clown, Emojis.poop];
+
+final unmatchableEmojis = [Emojis.hole];

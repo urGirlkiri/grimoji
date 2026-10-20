@@ -19,10 +19,7 @@ class TestTubeAnalyzer {
     final originalEmoji = grid[target.row][target.col].emoji;
 
     for (final emoji in availableEmojis) {
-      if (emoji == Emojis.hole ||
-          emoji == Emojis.impSmile ||
-          emoji == Emojis.clown ||
-          emoji == Emojis.poop) {
+      if (MatchDetector.unmatchableEmojis.contains(emoji)) {
         continue;
       }
 
@@ -84,7 +81,9 @@ class TestTubeAnalyzer {
     );
 
     bestResult ??= AnalysisResult(
-      bestEmoji: availableEmojis.firstWhere((e) => e != Emojis.hole),
+      bestEmoji: availableEmojis.firstWhere(
+        (e) => !MatchDetector.unmatchableEmojis.contains(e),
+      ),
       matchType: 'none',
       matchSize: 0,
     );
@@ -104,13 +103,16 @@ class TestTubeAnalyzer {
         ? grid[target.row][target.col + 1].emoji
         : null;
 
-    if (left != null && right != null && left == right && left != Emojis.hole) {
+    if (left != null &&
+        right != null &&
+        left == right &&
+        !MatchDetector.unmatchableEmojis.contains(left)) {
       return AnalysisResult(bestEmoji: left, matchType: 'simple', matchSize: 3);
     }
-    if (left != null && left != Emojis.hole) {
+    if (left != null && !MatchDetector.unmatchableEmojis.contains(left)) {
       return AnalysisResult(bestEmoji: left, matchType: 'simple', matchSize: 2);
     }
-    if (right != null && right != Emojis.hole) {
+    if (right != null && !MatchDetector.unmatchableEmojis.contains(right)) {
       return AnalysisResult(
         bestEmoji: right,
         matchType: 'simple',
@@ -123,13 +125,16 @@ class TestTubeAnalyzer {
         ? grid[target.row + 1][target.col].emoji
         : null;
 
-    if (up != null && down != null && up == down && up != Emojis.hole) {
+    if (up != null &&
+        down != null &&
+        up == down &&
+        !MatchDetector.unmatchableEmojis.contains(up)) {
       return AnalysisResult(bestEmoji: up, matchType: 'simple', matchSize: 3);
     }
-    if (up != null && up != Emojis.hole) {
+    if (up != null && !MatchDetector.unmatchableEmojis.contains(up)) {
       return AnalysisResult(bestEmoji: up, matchType: 'simple', matchSize: 2);
     }
-    if (down != null && down != Emojis.hole) {
+    if (down != null && !MatchDetector.unmatchableEmojis.contains(down)) {
       return AnalysisResult(bestEmoji: down, matchType: 'simple', matchSize: 2);
     }
 

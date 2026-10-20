@@ -1,11 +1,15 @@
+import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/config/emojis/index.dart';
+import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:grimoji/features/match/models/match_group.dart';
 import 'package:grimoji/features/match/models/tile.dart';
-import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:grimoji/features/match/types.dart';
 
 class MatchDetector {
-  static final Set<GameEmoji> unmatchableEmojis = {Emojis.hole};
+  static final Set<GameEmoji> unmatchableEmojis = {
+    ...intrusiveEmojis,
+    ...unmatchableEmojis
+  };
 
   static final GameEmoji _twoBytwoYield = Emojis.ghost;
   static final GameEmoji _pivotShapeYield = Emojis.bomb;
