@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/behavior_register.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
@@ -32,10 +31,6 @@ class ThreatDetector {
         .map((emoji) => emoji.visual)
         .toSet();
 
-    final obstacleVisuals = {
-      ...intrusiveEmojis.map((emoji) => emoji.visual),
-    };
-
     final recipeChainSteps = RecipeBook.getRecipeChainSteps(
       targetEmoji,
     ).map((emoji, step) => MapEntry(emoji.visual, step));
@@ -53,7 +48,6 @@ class ThreatDetector {
         cols: BoardManager.cols,
         intrusiveVisuals: intrusiveEnemies,
         unmatchableVisuals: solidObstacles,
-        obstacleVisuals: obstacleVisuals,
         targetVisual: targetEmoji.visual,
         recipeChainSteps: recipeChainSteps,
         excludedPositions: excludedPositions,

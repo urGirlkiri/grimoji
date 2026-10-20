@@ -5,7 +5,6 @@ class ThreatScan {
   final int cols;
   final Set<String> intrusiveVisuals;
   final Set<String> unmatchableVisuals;
-  final Set<String> obstacleVisuals;
   final String targetVisual;
   final Map<String, int> recipeChainSteps;
   final Set<String> excludedPositions;
@@ -17,7 +16,6 @@ class ThreatScan {
     required this.cols,
     required this.intrusiveVisuals,
     required this.unmatchableVisuals,
-    required this.obstacleVisuals,
     required this.targetVisual,
     required this.recipeChainSteps,
     this.excludedPositions = const {},
