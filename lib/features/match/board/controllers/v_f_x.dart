@@ -26,6 +26,9 @@ class VFXController {
   final ghostDiveManager = EffectManager<GhostDiveEffect>(
     lifetime: ghostDiveDuration,
   );
+  final ghostHauntManager = EffectManager<GhostDiveEffect>(
+    lifetime: ghostHauntDuration,
+  );
   final timeBonusManager = EffectManager<TimeBonusEffect>(
     lifetime: timeBonusDuration,
   );
@@ -60,6 +63,10 @@ class VFXController {
     };
     state.coordinator.onGhostDive = (effect) {
       if (!_isDisposed) ghostDiveManager.trigger(effect);
+      return Future.delayed(const Duration(microseconds: 0));
+    };
+    state.coordinator.onGhostHaunt = (effect) {
+      if (!_isDisposed) ghostHauntManager.trigger(effect);
       return Future.delayed(const Duration(microseconds: 0));
     };
     state.onTimeBonus = (amount) {
@@ -111,6 +118,7 @@ class VFXController {
     state.coordinator.onLineClear = null;
     state.coordinator.onWheelRoll = null;
     state.coordinator.onGhostDive = null;
+    state.coordinator.onGhostHaunt = null;
     state.onTimeBonus = null;
     state.onBloodDrop = null;
     state.onTestTube = null;
@@ -137,6 +145,7 @@ class VFXController {
     lineClearManager.dispose();
     wheelRollManager.dispose();
     ghostDiveManager.dispose();
+    ghostHauntManager.dispose();
     timeBonusManager.dispose();
     bloodDropManager.dispose();
     testTubeManager.dispose();

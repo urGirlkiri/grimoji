@@ -44,6 +44,8 @@ class GameCoordinator {
   void Function(int row, int col, bool isHorizontal)? onLineClear;
   Future<void> Function(RollEffect)? onWheelRoll;
   Future<void> Function(GhostDiveEffect)? onGhostDive;
+  Future<void> Function(GhostDiveEffect)? onGhostHaunt;
+  
   void Function({
     int intrusiveDestroyed,
     int shapeMerges,
