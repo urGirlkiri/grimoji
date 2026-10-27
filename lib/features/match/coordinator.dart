@@ -789,7 +789,7 @@ class GameCoordinator {
       }
     }
     final dives = ghosts.where((g) => !g.effect.isHaunting).toList();
-    _resolveCollectedEmojis(await _effects.completeGhostEffects(dives));
+    _resolveCollectedEmojis(await _effects.completeGhostEffects(ghosts));
     if (dives.isNotEmpty) {
       onCrimsonProgress?.call(ghostThreats: dives.length);
     }

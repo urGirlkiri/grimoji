@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/behaviors/clear.dart';
 import 'package:grimoji/features/alchemy/behaviors/models/action_type.dart';
@@ -126,25 +127,39 @@ class EffectsProcessor {
       ..addAll(triggers.map((trigger) => trigger.origin));
 
     for (final trigger in triggers) {
-      final target = await ThreatDetector.findTarget(
-        grid: engine.grid,
-        targetEmoji: engine.level.targetEmoji,
-        excluded: reservedTargets,
-      );
+      final target = dotenv.env['FORCE_GHOST_HAUNT'] == 'true'
+          ? null
+          : await ThreatDetector.findTarget(
+              grid: engine.grid,
+              targetEmoji: engine.level.targetEmoji,
+              excluded: reservedTargets,
+            );
       if (state.isDisposed) return plans;
 
       if (target == null) {
-        final wanderTo = _pickWanderCell(trigger.origin, reservedTargets);
-        if (wanderTo == null) continue;
+        final path = _pickWanderPath(trigger.origin, reservedTargets);
+        if (path.isEmpty) continue;
 
-        _relocateGhost(trigger.origin, wanderTo);
-        reservedTargets.add(wanderTo);
+        engine.grid[trigger.origin.row][trigger.origin.col]
+          ..isGhostTrigger = false
+          ..clearBehavior()
+          ..isGhostOrigin = true;
+
+        for (final adjacent in boardManager.getAdjacentTiles(
+          trigger.origin.row,
+          trigger.origin.col,
+        )) {
+          adjacent.isGhostPowerup = false;
+        }
+
+        reservedTargets.addAll(path);
         plans.add(
           PendingGhostDive(
             effect: GhostDiveEffect(
               origin: trigger.origin,
-              target: wanderTo,
+              target: path.last,
               isHaunting: true,
+              wanderPath: path,
             ),
           ),
         );
@@ -182,7 +197,10 @@ class EffectsProcessor {
 
     for (final plan in plans) {
       final effect = plan.effect;
-      if (effect.isHaunting) continue;
+      if (effect.isHaunting) {
+        destroyed.add(effect.origin);
+        continue;
+      }
       if (kDebugMode) {
         engine.grid[effect.target.row][effect.target.col].isGhostTarget = false;
       }
@@ -357,7 +375,7 @@ class EffectsProcessor {
     return triggers;
   }
 
-  TileCoordinate? _pickWanderCell(TileCoordinate origin, TileSet reserved) {
+  List<TileCoordinate> _pickWanderPath(TileCoordinate origin, TileSet reserved) {
     final candidates = <TileCoordinate>[];
     _forEachTile((row, col, tile) {
       if (row == origin.row && col == origin.col) return;
@@ -366,31 +384,8 @@ class EffectsProcessor {
       if (reserved.contains(coord)) return;
       candidates.add(coord);
     });
-    if (candidates.isEmpty) return null;
-    return candidates[Random().nextInt(candidates.length)];
-  }
-
-  void _relocateGhost(TileCoordinate from, TileCoordinate to) {
-    final fromTile = engine.grid[from.row][from.col];
-    final toTile = engine.grid[to.row][to.col];
-
-    final displacedEmoji = toTile.emoji;
-    final displacedBehavior = toTile.behavior;
-
-    toTile
-      ..emoji = fromTile.emoji
-      ..behavior = fromTile.behavior
-      ..isGhostOrigin = true;
-
-    fromTile
-      ..emoji = displacedEmoji
-      ..behavior = displacedBehavior
-      ..isGhostTrigger = false
-      ..isGhostOrigin = false;
-
-    for (final adjacent in boardManager.getAdjacentTiles(from.row, from.col)) {
-      adjacent.isGhostPowerup = false;
-    }
+    candidates.shuffle(Random());
+    return candidates.take(ghostHauntWaypoints).toList();
   }
 
   int _wrapCoordinate(int current, int offset, int maxIndex) =>

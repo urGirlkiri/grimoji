@@ -54,9 +54,7 @@ class _GhostDiverState extends State<GhostDiver>
 
     _controller = AnimationController(
       vsync: this,
-      duration: widget.effect.isHaunting
-          ? ghostHauntDuration
-          : ghostDiveDuration,
+      duration: ghostDiveDuration,
     )..forward();
 
     _position = TweenSequence<Offset>([
