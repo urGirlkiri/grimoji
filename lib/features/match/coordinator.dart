@@ -147,6 +147,7 @@ class GameCoordinator {
     state.updateUI();
 
     if (_effects.hasSwallowPending) {
+      audio.playSfx(Sfx.blackHole);
       if (!await _safeDelay(swallowAnimationLock)) return;
     }
 
@@ -216,6 +217,7 @@ class GameCoordinator {
 
       final hasSwallow = _effects.hasSwallowPending;
       if (hasSwallow) {
+        audio.playSfx(Sfx.blackHole);
         if (!await _safeDelay(swallowAnimationLock)) return;
       }
 

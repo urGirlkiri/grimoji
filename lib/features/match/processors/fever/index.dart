@@ -4,6 +4,7 @@ import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/behavior_register.dart';
 import 'package:grimoji/features/alchemy/behaviors/models/action_type.dart';
 import 'package:grimoji/features/alchemy/behaviors/models/behavior_action.dart';
+import 'package:grimoji/features/audio/sounds/sfx.dart';
 import 'package:grimoji/features/match/board/manager.dart';
 import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/match/controllers/hint.dart';
@@ -251,6 +252,7 @@ class FeverProcessor {
       );
     }
 
+    engine.playSfx(Sfx.blackHole);
     state.updateUI();
     await Future<void>.delayed(swallowAnimationLock);
     if (_shouldAbort) return false;

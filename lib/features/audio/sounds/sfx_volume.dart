@@ -25,6 +25,8 @@ double soundTypeToVolume(Sfx type) {
 
     case Sfx.ghostHaunt:
     case Sfx.ghostDive:
+    
+    case Sfx.blackHole:
       return 0.8;
 
     case Sfx.invalidMove:
