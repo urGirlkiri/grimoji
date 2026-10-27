@@ -5,6 +5,7 @@ import 'package:grimoji/features/match/board/controllers/gesture.dart';
 import 'package:grimoji/features/match/board/controllers/v_f_x.dart';
 import 'package:grimoji/features/match/board/effects/blood_drop/index.dart';
 import 'package:grimoji/features/match/board/effects/ghost_dive/index.dart';
+import 'package:grimoji/features/match/board/effects/ghost_haunt/index.dart';
 import 'package:grimoji/features/match/board/effects/line_clear/index.dart';
 import 'package:grimoji/features/match/board/effects/sparkle/index.dart';
 import 'package:grimoji/features/match/board/effects/test_tube/index.dart';
@@ -217,7 +218,7 @@ class _GameBoardState extends State<GameBoard> {
                               maxWidth: constrainedBoardWidth,
                               alignment: Alignment.topLeft,
                               child: IgnorePointer(
-                                child: GhostDiveOverlay(
+                                child: GhostHauntOverlay(
                                   notifier: _vfx.ghostHauntManager.notifier,
                                   tileWidth: _tileWidth!,
                                   tileHeight: _tileHeight!,

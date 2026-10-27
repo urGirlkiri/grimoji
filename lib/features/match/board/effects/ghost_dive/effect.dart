@@ -9,6 +9,7 @@ class GhostDiveEffect extends BoardEffect {
   final GhostPowerup powerup;
   final bool? isPoleHorizontal;
   final bool isHaunting;
+  final List<TileCoordinate> wanderPath;
 
   GhostDiveEffect({
     required this.origin,
@@ -17,5 +18,6 @@ class GhostDiveEffect extends BoardEffect {
     this.powerup = GhostPowerup.none,
     this.isPoleHorizontal,
     this.isHaunting = false,
+    this.wanderPath = const [],
   }) : super();
 }

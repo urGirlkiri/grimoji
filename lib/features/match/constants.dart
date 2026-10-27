@@ -125,6 +125,9 @@ const Duration ghostDiveDuration = Duration(milliseconds: 600);
 /// Total time for the ghost haunt board when no dive target is available.
 const Duration ghostHauntDuration = Duration(milliseconds: 1200);
 
+/// How many random cells a haunting ghost drifts through before fading out.
+const int ghostHauntWaypoints = 4;
+
 /// How long a ghost-bomb target tile plays its emoji Lottie before destruction.
 const Duration ghostBombTargetAnimDuration = Duration(milliseconds: 500);
 
