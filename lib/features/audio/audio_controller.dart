@@ -8,17 +8,16 @@ import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/widgets.dart';
-import 'package:grimoji/features/audio/models/song.dart';
-import 'package:grimoji/features/audio/sounds/sfx.dart';
-import 'package:grimoji/features/audio/sounds/sfx_volume.dart';
-import 'package:grimoji/features/audio/voices/index.dart';
-import 'package:grimoji/features/audio/voices/dialog.dart';
-import 'package:logging/logging.dart';
-
 import 'package:grimoji/app/lifecycle.dart';
-import 'package:grimoji/features/settings/controller.dart';
+import 'package:grimoji/features/audio/models/song.dart';
 import 'package:grimoji/features/audio/songs.dart';
 import 'package:grimoji/features/audio/sounds/index.dart';
+import 'package:grimoji/features/audio/sounds/sfx.dart';
+import 'package:grimoji/features/audio/sounds/sfx_volume.dart';
+import 'package:grimoji/features/audio/voices/dialog.dart';
+import 'package:grimoji/features/audio/voices/index.dart';
+import 'package:grimoji/features/settings/controller.dart';
+import 'package:logging/logging.dart';
 
 enum PlaylistType { none, menu, level }
 
@@ -41,6 +40,8 @@ class AudioController {
   Future<void> _voicePlayerFuture = Future<void>.value();
 
   int _currentSfxPlayer = 0;
+
+
 
   final Queue<Song> _playlist;
 
@@ -100,7 +101,14 @@ class AudioController {
     );
     AudioPlayer.global.setAudioContext(audioContext);
 
-    unawaited(_preloadSfxs(const [Sfx.buttonTap]));
+    unawaited(
+      _preloadSfxs(const [
+        Sfx.buttonTap,
+        Sfx.blackHole,
+        Sfx.ghostDive,
+        Sfx.ghostHaunt,
+      ]),
+    );
   }
 
   /// Makes sure the audio controller is listening to changes
@@ -154,9 +162,14 @@ class AudioController {
     final filename = options[_random.nextInt(options.length)];
     _log.fine(() => '- Chosen filename: $filename');
 
-    final currentIndex = _currentSfxPlayer;
+    var currentIndex = _sfxPlayers.indexWhere(
+      (p) => p.state != PlayerState.playing,
+    );
+    if (currentIndex == -1) {
+      currentIndex = _currentSfxPlayer;
+      _currentSfxPlayer = (_currentSfxPlayer + 1) % _sfxPlayers.length;
+    }
     final currentPlayer = _sfxPlayers[currentIndex];
-    _currentSfxPlayer = (_currentSfxPlayer + 1) % _sfxPlayers.length;
 
     final double finalVolume =
         soundTypeToVolume(type) * (_settings?.sfxVolume.value ?? 1.0);

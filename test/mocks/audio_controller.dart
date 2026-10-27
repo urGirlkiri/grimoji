@@ -1,7 +1,7 @@
 import 'package:grimoji/app/lifecycle.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
-import 'package:grimoji/features/audio/voices/dialog.dart';
 import 'package:grimoji/features/audio/sounds/sfx.dart';
+import 'package:grimoji/features/audio/voices/dialog.dart';
 import 'package:grimoji/features/settings/controller.dart';
 
 class MockAudioController implements AudioController {
