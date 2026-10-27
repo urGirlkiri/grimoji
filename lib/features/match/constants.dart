@@ -123,7 +123,7 @@ const double ghostScaleFactor = .9;
 const Duration ghostDiveDuration = Duration(milliseconds: 600);
 
 /// Total time for the ghost haunt board when no dive target is available.
-const Duration ghostHauntDuration = Duration(milliseconds: 1200);
+const Duration ghostHauntDuration = Duration(milliseconds: 1800);
 
 /// How many random cells a haunting ghost drifts through before fading out.
 const int ghostHauntWaypoints = 4;

@@ -69,20 +69,25 @@ class _GhostHaunterState extends State<GhostHaunter>
 
     _opacity = TweenSequence<double>([
       TweenSequenceItem(
-        tween: Tween<double>(begin: 1.0, end: 0.75)
+        tween: Tween<double>(begin: 0.0, end: 0.85)
             .chain(CurveTween(curve: Curves.easeOut)),
-        weight: 20,
+        weight: 30,
       ),
-      TweenSequenceItem(tween: ConstantTween<double>(0.75), weight: 60),
+      TweenSequenceItem(tween: ConstantTween<double>(0.85), weight: 50),
       TweenSequenceItem(
-        tween: Tween<double>(begin: 0.75, end: 0.0)
+        tween: Tween<double>(begin: 0.85, end: 0.0)
             .chain(CurveTween(curve: Curves.easeIn)),
         weight: 20,
       ),
     ]).animate(_controller);
 
     _scale = TweenSequence<double>([
-      TweenSequenceItem(tween: ConstantTween<double>(1.0), weight: 80),
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 0.6, end: 1.0)
+            .chain(CurveTween(curve: Curves.easeOutBack)),
+        weight: 30,
+      ),
+      TweenSequenceItem(tween: ConstantTween<double>(1.0), weight: 50),
       TweenSequenceItem(
         tween: Tween<double>(begin: 1.0, end: 0.0)
             .chain(CurveTween(curve: Curves.easeIn)),

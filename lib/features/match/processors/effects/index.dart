@@ -127,7 +127,8 @@ class EffectsProcessor {
       ..addAll(triggers.map((trigger) => trigger.origin));
 
     for (final trigger in triggers) {
-      final target = dotenv.env['FORCE_GHOST_HAUNT'] == 'true'
+      final target =
+          dotenv.isInitialized && dotenv.env['FORCE_GHOST_HAUNT'] == 'true'
           ? null
           : await ThreatDetector.findTarget(
               grid: engine.grid,
