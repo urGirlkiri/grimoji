@@ -251,8 +251,8 @@ class BoardManager {
     return (cols: affectedColumns, rows: affectedRows);
   }
 
-  ({int x, int y})? findAdjacentEmptyTile(int centerX, int centerY) {
-    final List<({int x, int y})> candidates = [];
+  GridCoord? findAdjacentEmptyTile(int centerX, int centerY) {
+    final List<GridCoord> candidates = [];
 
     for (final (dx, dy) in [(-1, 0), (1, 0), (0, -1), (0, 1)]) {
       final nx = centerX + dx;
@@ -269,8 +269,8 @@ class BoardManager {
     return candidates[_random.nextInt(candidates.length)];
   }
 
-  ({int x, int y})? findAdjacentFilledTile(int centerX, int centerY) {
-    final List<({int x, int y})> candidates = [];
+  GridCoord? findAdjacentFilledTile(int centerX, int centerY) {
+    final List<GridCoord> candidates = [];
 
     for (final (dx, dy) in [(-1, 0), (1, 0), (0, -1), (0, 1)]) {
       final nx = centerX + dx;
