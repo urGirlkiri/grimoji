@@ -41,8 +41,6 @@ class AudioController {
 
   int _currentSfxPlayer = 0;
 
-
-
   final Queue<Song> _playlist;
 
   final Random _random = Random();
@@ -104,7 +102,6 @@ class AudioController {
     unawaited(
       _preloadSfxs(const [
         Sfx.buttonTap,
-        Sfx.blackHole,
         Sfx.ghostDive,
         Sfx.ghostHaunt,
       ]),

@@ -21,8 +21,6 @@ enum Sfx {
 
   ghostHaunt,
   ghostDive,
-  
-  blackHole,
 
   recipeLocked,
   recipeUnlock,
