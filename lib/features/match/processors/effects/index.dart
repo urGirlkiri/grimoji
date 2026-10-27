@@ -1,5 +1,6 @@
-import 'package:flutter/foundation.dart';
+import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/alchemy/behaviors/clear.dart';
 import 'package:grimoji/features/alchemy/behaviors/models/action_type.dart';
@@ -131,10 +132,31 @@ class EffectsProcessor {
         excluded: reservedTargets,
       );
       if (state.isDisposed) return plans;
-      if (target == null) continue;
+
+      if (target == null) {
+        final wanderTo = _pickWanderCell(trigger.origin, reservedTargets);
+        if (wanderTo == null) continue;
+
+        _relocateGhost(trigger.origin, wanderTo);
+        reservedTargets.add(wanderTo);
+        plans.add(
+          PendingGhostDive(
+            effect: GhostDiveEffect(
+              origin: trigger.origin,
+              target: wanderTo,
+              isHaunting: true,
+            ),
+          ),
+        );
+        continue;
+      }
+
+      engine.grid[trigger.origin.row][trigger.origin.col]
+        ..isGhostTrigger = false
+        ..clearBehavior()
+        ..isGhostOrigin = true;
 
       reservedTargets.add(target);
-      engine.grid[trigger.origin.row][trigger.origin.col].isGhostOrigin = true;
       if (kDebugMode) engine.grid[target.row][target.col].isGhostTarget = true;
       plans.add(
         PendingGhostDive(
@@ -160,6 +182,7 @@ class EffectsProcessor {
 
     for (final plan in plans) {
       final effect = plan.effect;
+      if (effect.isHaunting) continue;
       if (kDebugMode) {
         engine.grid[effect.target.row][effect.target.col].isGhostTarget = false;
       }
@@ -330,11 +353,44 @@ class EffectsProcessor {
           isHorizontal: isHorizontal,
         ),
       );
-      tile.isGhostTrigger = false;
-      tile.isGhostOrigin = false;
-      tile.clearBehavior();
     });
     return triggers;
+  }
+
+  TileCoordinate? _pickWanderCell(TileCoordinate origin, TileSet reserved) {
+    final candidates = <TileCoordinate>[];
+    _forEachTile((row, col, tile) {
+      if (row == origin.row && col == origin.col) return;
+      if (tile.isGhostTrigger || tile.isGhostOrigin) return;
+      final coord = TileCoordinate(row: row, col: col);
+      if (reserved.contains(coord)) return;
+      candidates.add(coord);
+    });
+    if (candidates.isEmpty) return null;
+    return candidates[Random().nextInt(candidates.length)];
+  }
+
+  void _relocateGhost(TileCoordinate from, TileCoordinate to) {
+    final fromTile = engine.grid[from.row][from.col];
+    final toTile = engine.grid[to.row][to.col];
+
+    final displacedEmoji = toTile.emoji;
+    final displacedBehavior = toTile.behavior;
+
+    toTile
+      ..emoji = fromTile.emoji
+      ..behavior = fromTile.behavior
+      ..isGhostOrigin = true;
+
+    fromTile
+      ..emoji = displacedEmoji
+      ..behavior = displacedBehavior
+      ..isGhostTrigger = false
+      ..isGhostOrigin = false;
+
+    for (final adjacent in boardManager.getAdjacentTiles(from.row, from.col)) {
+      adjacent.isGhostPowerup = false;
+    }
   }
 
   int _wrapCoordinate(int current, int offset, int maxIndex) =>

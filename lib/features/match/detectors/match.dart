@@ -1,4 +1,4 @@
-import 'package:grimoji/config/constants.dart';
+import 'package:grimoji/config/constants.dart' as config;
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
 import 'package:grimoji/features/match/models/match_group.dart';
@@ -7,8 +7,8 @@ import 'package:grimoji/features/match/types.dart';
 
 class MatchDetector {
   static final Set<GameEmoji> unmatchableEmojis = {
-    ...intrusiveEmojis,
-    ...unmatchableEmojis
+    ...config.intrusiveEmojis,
+    ...config.unmatchableEmojis,
   };
 
   static final GameEmoji _twoBytwoYield = Emojis.ghost;
