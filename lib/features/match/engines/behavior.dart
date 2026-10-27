@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/levels/game_level.dart';
-import 'package:grimoji/features/alchemy/behaviors/models/behavior.dart';
 import 'package:grimoji/features/alchemy/behaviors/clown.dart';
 import 'package:grimoji/features/alchemy/behaviors/models/action_type.dart';
+import 'package:grimoji/features/alchemy/behaviors/models/behavior.dart';
 import 'package:grimoji/features/alchemy/behaviors/models/behavior_action.dart';
 import 'package:grimoji/features/alchemy/reactions/models/reaction.dart';
 import 'package:grimoji/features/match/board/manager.dart';
@@ -101,11 +101,13 @@ class BehaviorEngine {
         case ActionType.consumeRandomType:
           _log.info('Triggering random consumption');
 
+          final triggerEmoji = boardManager.gridTiles[x][y].emoji;
           final emojisOnBoard = <GameEmoji>{};
           for (int r = 0; r < BoardManager.rows; r++) {
             for (int c = 0; c < BoardManager.cols; c++) {
               if (r == x && c == y) continue;
-              emojisOnBoard.add(boardManager.gridTiles[r][c].emoji);
+              final emoji = boardManager.gridTiles[r][c].emoji;
+              if (emoji != triggerEmoji) emojisOnBoard.add(emoji);
             }
           }
 

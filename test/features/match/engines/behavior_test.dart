@@ -2,8 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/levels/chapters/chapter_1.dart';
 import 'package:grimoji/config/levels/game_level.dart';
-import 'package:grimoji/features/alchemy/behaviors/models/behavior.dart';
 import 'package:grimoji/features/alchemy/behaviors/models/action_type.dart';
+import 'package:grimoji/features/alchemy/behaviors/models/behavior.dart';
 import 'package:grimoji/features/alchemy/behaviors/models/behavior_action.dart';
 import 'package:grimoji/features/alchemy/reactions/models/reaction.dart';
 import 'package:grimoji/features/match/board/manager.dart';
@@ -378,6 +378,40 @@ void main() {
             isNull,
             reason: 'The transmuted tile must have its behavior wiped',
           );
+        },
+      );
+
+      test(
+        'ActionType.consumeRandomType should never pick the trigger tile\'s own type',
+        () {
+          for (int r = 0; r < BoardManager.rows; r++) {
+            for (int c = 0; c < BoardManager.cols; c++) {
+              boardManager.gridTiles[r][c].emoji = Emojis.hole;
+            }
+          }
+
+          behaviorEngine.executeBehaviorActions(
+            [const BehaviorAction(type: ActionType.consumeRandomType)],
+            2,
+            2,
+          );
+
+          expect(
+            boardManager.gridTiles[2][2].isSwallowTrigger,
+            isTrue,
+            reason: 'Tapped hole should be the swallow trigger',
+          );
+          for (int r = 0; r < BoardManager.rows; r++) {
+            for (int c = 0; c < BoardManager.cols; c++) {
+              if (r == 2 && c == 2) continue;
+              expect(
+                boardManager.gridTiles[r][c].isSwallowTarget,
+                isFalse,
+                reason:
+                    'Other holes must never be swallowed by a tap; that requires a hole+hole swipe',
+              );
+            }
+          }
         },
       );
 
