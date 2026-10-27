@@ -61,6 +61,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -178,17 +180,48 @@ jobs:
           tracks: beta
           status: completed
 
+      - name: Find previous release tag
+        id: prev_tag
+        run: |
+          PREV=$(git describe --tags --abbrev=0 HEAD 2>/dev/null || true)
+          echo "Previous release tag: ${PREV:-none}"
+          BASE=""
+          if [ -n "$PREV" ]; then
+            BASE=$(git merge-base HEAD "$PREV" 2>/dev/null || true)
+          fi
+          if [ -z "$BASE" ]; then
+            BASE="HEAD~100"
+          elif [ "$(git rev-list --count "$BASE..HEAD")" -gt 100 ]; then
+            BASE="HEAD~100"
+          fi
+          echo "range=$BASE..HEAD" >> $GITHUB_OUTPUT
+
+      - name: Generate release notes (git-cliff)
+        uses: orhun/git-cliff-action@v4
+        with:
+          config: cliff.toml
+          args: --verbose --output github_release_notes.txt ${{ steps.prev_tag.outputs.range }}
+
+      - name: Fallback notes when nothing surfaced
+        run: |
+          if ! grep -q '^- ' github_release_notes.txt; then
+            printf '## Release Notes\n\n### Changes\n\n%s\n\n---\n%s\n' \
+              'Small fixes to keep Grimoji running smoothly.' \
+              'Found a bug or have ideas? Write to **support@grimoji.io** - we read every message.' \
+              > github_release_notes.txt
+          fi
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ needs.detect-version-change.outputs.release_version }}
           name: "v${{ needs.detect-version-change.outputs.release_version }}"
+          body_path: github_release_notes.txt
           files: |
             build/app/outputs/flutter-apk/app-release.apk
             linux-amd64.deb
             linux-x86_64.AppImage
             build\windows\x64\runner\Release\windows.msix
-          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

@@ -1,0 +1,45 @@
+# git-cliff configuration - GitHub release notes.
+
+[changelog]
+header = """
+## Release Notes
+
+### Changes
+
+"""
+trim = true
+
+body = """
+{%- for group, commits in commits | group_by(attribute="group") -%}
+#### {{ group | upper_first }}
+{% for commit in commits -%}
+- {{ commit.message | upper_first | trim }}
+{% endfor %}
+{% endfor -%}
+"""
+
+footer = """
+
+---
+Found a bug or have ideas? Write to **support@grimoji.io** - we read every message.
+"""
+
+[git]
+conventional_commits = false
+filter_unconventional = false
+
+commit_preprocessors = [
+  # Drop PR-squash suffixes: "... (#123)".
+  { pattern = '\s*\(#\d+\)\s*$', replace = "" },
+  # Keep the subject line only - bullets render single-line.
+  { pattern = '(?s)\n.*', replace = "" },
+]
+
+commit_parsers = [
+  # Merge noise and version bumps never surface in the notes.
+  { message = '^merge\b', skip = true },
+  { message = '(?i)^(bump|bumped|bumping)|version bump|^v?[0-9]+\.[0-9]+\.[0-9]+\s*$', skip = true },
+  { message = '(?i)^(add|added|adds|creat|gave|give|implement|introduc|new|launch|enabl|support|built)', group = "New in this release" },
+  { message = '(?i)^(fix|fixed|stop|stopped|drop|dropped|remov|correct|patch|prevent|repair|resolv|solv)', group = "Polish & fixes" },
+  { message = '.*', group = "Other improvements" },
+]
