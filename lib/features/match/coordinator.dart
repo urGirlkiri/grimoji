@@ -761,25 +761,37 @@ class GameCoordinator {
     if (ghosts.isEmpty) return true;
     final animations = <Future<void>?>[];
     for (final ghost in ghosts) {
-      animations.add(onGhostDive?.call(ghost.effect));
+      animations.add(
+        ghost.effect.isHaunting
+            ? onGhostHaunt?.call(ghost.effect)
+            : onGhostDive?.call(ghost.effect),
+      );
       if (!simultaneous) {
         state.updateUI();
-        if (!await _safeDelay(ghostDiveDuration)) return false;
+        if (!await _safeDelay(
+          ghost.effect.isHaunting ? ghostHauntDuration : ghostDiveDuration,
+        )) {
+          return false;
+        }
         await animations.last;
         if (state.isDisposed) return false;
       }
     }
     if (simultaneous) {
       state.updateUI();
-      if (!await _safeDelay(ghostDiveDuration)) return false;
+      final longest = ghosts.any((g) => g.effect.isHaunting)
+          ? ghostHauntDuration
+          : ghostDiveDuration;
+      if (!await _safeDelay(longest)) return false;
       for (final animation in animations) {
         await animation;
         if (state.isDisposed) return false;
       }
     }
-    _resolveCollectedEmojis(await _effects.completeGhostEffects(ghosts));
-    if (ghosts.isNotEmpty) {
-      onCrimsonProgress?.call(ghostThreats: ghosts.length);
+    final dives = ghosts.where((g) => !g.effect.isHaunting).toList();
+    _resolveCollectedEmojis(await _effects.completeGhostEffects(dives));
+    if (dives.isNotEmpty) {
+      onCrimsonProgress?.call(ghostThreats: dives.length);
     }
     return !state.isDisposed;
   }

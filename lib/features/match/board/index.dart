@@ -217,6 +217,18 @@ class _GameBoardState extends State<GameBoard> {
                               maxWidth: constrainedBoardWidth,
                               alignment: Alignment.topLeft,
                               child: IgnorePointer(
+                                child: GhostDiveOverlay(
+                                  notifier: _vfx.ghostHauntManager.notifier,
+                                  tileWidth: _tileWidth!,
+                                  tileHeight: _tileHeight!,
+                                ),
+                              ),
+                            ),
+
+                            OverflowBox(
+                              maxWidth: constrainedBoardWidth,
+                              alignment: Alignment.topLeft,
+                              child: IgnorePointer(
                                 child: BloodDropOverlay(
                                   notifier: _vfx.bloodDropManager.notifier,
                                   tileWidth: _tileWidth!,
