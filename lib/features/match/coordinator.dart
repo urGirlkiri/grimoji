@@ -139,7 +139,9 @@ class GameCoordinator {
     state.setProcessing(true);
     _hint.clear();
 
-    audio.playSfx(Sfx.swipe);
+    if (!actions.any((a) => a.type == ActionType.ghostDive)) {
+      audio.playSfx(Sfx.swipe);
+    }
 
     engine.executeBehaviorActions(actions, coord.row, coord.col);
     state.updateUI();
@@ -760,10 +762,10 @@ class GameCoordinator {
   }) async {
     if (ghosts.isEmpty) return true;
     final animations = <Future<void>?>[];
-    if (ghosts.any((g) => g.effect.isHaunting)) {
-      audio.playSfx(Sfx.ghostHaunt);
-    }
+    final playedSfx = <Sfx>{};
     for (final ghost in ghosts) {
+      final sfx = ghost.effect.isHaunting ? Sfx.ghostHaunt : Sfx.ghostDive;
+      if (!simultaneous || playedSfx.add(sfx)) audio.playSfx(sfx);
       animations.add(
         ghost.effect.isHaunting
             ? onGhostHaunt?.call(ghost.effect)

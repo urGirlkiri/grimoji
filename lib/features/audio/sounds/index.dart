@@ -27,6 +27,8 @@ List<String> soundTypeToFilename(Sfx type) => switch (type) {
 
   Sfx.ghostHaunt => const ['ghost_hooo.m4a'],
 
+  Sfx.ghostDive => const ['ghost_dive.m4a'],
+
   Sfx.swipe => const ['critter.m4a'],
 
   Sfx.invalidMove => const ['bwuu.m4a'],

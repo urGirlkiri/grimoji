@@ -20,6 +20,7 @@ enum Sfx {
   fall,
 
   ghostHaunt,
+  ghostDive,
 
   recipeLocked,
   recipeUnlock,
