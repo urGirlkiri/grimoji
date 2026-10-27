@@ -7,7 +7,7 @@ class GhostDiveEffect extends BoardEffect {
   final TileCoordinate target;
   final TileCoordinate? powerupOrigin;
   final GhostPowerup powerup;
-  final bool? isHorizontal;
+  final bool? isPoleHorizontal;
   final bool isHaunting;
 
   GhostDiveEffect({
@@ -15,7 +15,7 @@ class GhostDiveEffect extends BoardEffect {
     required this.target,
     this.powerupOrigin,
     this.powerup = GhostPowerup.none,
-    this.isHorizontal,
+    this.isPoleHorizontal,
     this.isHaunting = false,
   }) : super();
 }

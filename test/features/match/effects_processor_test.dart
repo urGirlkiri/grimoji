@@ -95,7 +95,7 @@ void main() {
         expect(effect.powerup, GhostPowerup.pole);
         expect(effect.powerupOrigin?.row, 0);
         expect(effect.powerupOrigin?.col, 0);
-        expect(effect.isHorizontal, isTrue);
+        expect(effect.isPoleHorizontal, isTrue);
       },
     );
 
@@ -114,7 +114,7 @@ void main() {
           target: target,
           powerupOrigin: powerupOrigin,
           powerup: GhostPowerup.pole,
-          isHorizontal: false,
+          isPoleHorizontal: false,
         );
 
         await effects.completeGhostEffects([PendingGhostDive(effect: effect)]);

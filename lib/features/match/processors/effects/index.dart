@@ -143,7 +143,7 @@ class EffectsProcessor {
             target: target,
             powerupOrigin: trigger.powerupOrigin,
             powerup: trigger.powerup,
-            isHorizontal: trigger.isHorizontal,
+            isPoleHorizontal: trigger.isHorizontal,
           ),
         ),
       );
@@ -183,7 +183,7 @@ class EffectsProcessor {
           newBombs.add(effect.target);
           break;
         case GhostPowerup.pole:
-          if (effect.isHorizontal != null) {
+          if (effect.isPoleHorizontal != null) {
             final targetTile =
                 engine.grid[effect.target.row][effect.target.col];
             if (targetTile.emoji == engine.level.targetEmoji) {
@@ -191,11 +191,11 @@ class EffectsProcessor {
             }
             targetTile
               ..emoji = Emojis.barberPole
-              ..behavior = ClearBehavior(isHorizontal: effect.isHorizontal!);
+              ..behavior = ClearBehavior(isHorizontal: effect.isPoleHorizontal!);
             engine.executeBehaviorActions(
               [
                 BehaviorAction(
-                  type: effect.isHorizontal!
+                  type: effect.isPoleHorizontal!
                       ? ActionType.clearRow
                       : ActionType.clearCol,
                 ),
