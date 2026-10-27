@@ -760,6 +760,9 @@ class GameCoordinator {
   }) async {
     if (ghosts.isEmpty) return true;
     final animations = <Future<void>?>[];
+    if (ghosts.any((g) => g.effect.isHaunting)) {
+      audio.playSfx(Sfx.ghostHaunt);
+    }
     for (final ghost in ghosts) {
       animations.add(
         ghost.effect.isHaunting

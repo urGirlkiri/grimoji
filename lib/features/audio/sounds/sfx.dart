@@ -19,6 +19,8 @@ enum Sfx {
 
   fall,
 
+  ghostHaunt,
+
   recipeLocked,
   recipeUnlock,
   recipeCollection,

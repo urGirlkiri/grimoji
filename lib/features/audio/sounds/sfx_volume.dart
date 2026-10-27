@@ -23,6 +23,9 @@ double soundTypeToVolume(Sfx type) {
     case Sfx.swipe:
       return 0.6;
 
+    case Sfx.ghostHaunt:
+      return 0.8;
+
     case Sfx.invalidMove:
     case Sfx.hint:
     case Sfx.fall:
