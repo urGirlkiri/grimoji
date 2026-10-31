@@ -21,7 +21,8 @@ body = """
 footer = """
 
 ---
-Found a bug or have ideas? Write to **support@grimoji.io** - we read every message.
+Found a bug or have ideas? 
+Write to **support@grimoji.io** , i read every message :).
 """
 
 [git]

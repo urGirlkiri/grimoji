@@ -207,7 +207,8 @@ jobs:
           if ! grep -q '^- ' github_release_notes.txt; then
             printf '## Release Notes\n\n### Changes\n\n%s\n\n---\n%s\n' \
               'Small fixes to keep Grimoji running smoothly.' \
-              'Found a bug or have ideas? Write to **support@grimoji.io** - we read every message.' \
+              'Found a bug or have ideas? ' \
+              'Write to **support@grimoji.io** , i read every message :).' \
               > github_release_notes.txt
           fi
 
