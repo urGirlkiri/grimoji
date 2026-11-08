@@ -15,6 +15,9 @@ double soundTypeToVolume(Sfx type) {
     case Sfx.recipeCollection:
     case Sfx.recipeRead:
     case Sfx.purchase:
+    case Sfx.liteWhoosh:
+    case Sfx.mediumWhoosh:
+    case Sfx.strongWhoosh:
       return 1.0;
 
     case Sfx.merge:

@@ -816,6 +816,14 @@ class GameCoordinator {
     if (drained.clearedLines.isNotEmpty) {
       if (!await _refreshAndWait(lineClearBeamDuration)) return false;
       for (final event in drained.lineClearEvents) {
+        switch (drained.lineClearEvents.length) {
+          case 1:
+            audio.playSfx(Sfx.liteWhoosh);
+          case 2:
+            audio.playSfx(Sfx.mediumWhoosh);
+          case 3:
+            audio.playSfx(Sfx.strongWhoosh);
+        }
         onLineClear?.call(event.row, event.col, event.isHorizontal);
       }
       await Future.delayed(preShatterDelay);

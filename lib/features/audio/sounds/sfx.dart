@@ -22,6 +22,10 @@ enum Sfx {
   ghostHaunt,
   ghostDive,
 
+  liteWhoosh,
+  mediumWhoosh,
+  strongWhoosh,
+
   recipeLocked,
   recipeUnlock,
   recipeCollection,
