@@ -18,6 +18,7 @@ double soundTypeToVolume(Sfx type) {
     case Sfx.liteWhoosh:
     case Sfx.mediumWhoosh:
     case Sfx.strongWhoosh:
+    case Sfx.wheelRoll:
       return 1.0;
 
     case Sfx.merge:

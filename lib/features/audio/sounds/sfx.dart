@@ -26,6 +26,8 @@ enum Sfx {
   mediumWhoosh,
   strongWhoosh,
 
+  wheelRoll,
+
   recipeLocked,
   recipeUnlock,
   recipeCollection,

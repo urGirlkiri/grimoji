@@ -732,6 +732,7 @@ class GameCoordinator {
       );
       state.updateUI();
       if (!await _safeDelay(wheelWindUpDuration)) return false;
+      audio.playSfx(Sfx.wheelRoll);
 
       for (final wheel in wheels) {
         onWheelRoll?.call(wheel.effect);

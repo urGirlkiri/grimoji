@@ -1,11 +1,12 @@
 import 'dart:math';
-import 'package:grimoji/config/levels/game_level.dart';
-import 'package:grimoji/config/levels/difficulty.dart';
+
 import 'package:grimoji/config/emojis/index.dart';
+import 'package:grimoji/config/levels/difficulty.dart';
+import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/audio/sounds/sfx.dart';
-import 'package:grimoji/features/match/models/tile.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
+import 'package:grimoji/features/match/models/tile.dart';
 import 'package:grimoji/features/match/types.dart';
 import 'package:logging/logging.dart';
 
@@ -54,17 +55,17 @@ class BoardManager {
       } while (gridTiles[barberRow][barberCol].emoji == Emojis.impSmile);
       gridTiles[barberRow][barberCol].emoji = Emojis.barberPole;
     }
-    // gridTiles[0][0].emoji = Emojis.barberPole;
-    // gridTiles[0][1].emoji = Emojis.barberPole;
+    gridTiles[0][0].emoji = Emojis.wheel;
+    // gridTiles[0][1].emoji = Emojis.wheel;
 
-    // gridTiles[1][1].emoji = Emojis.barberPole;
+    gridTiles[1][1].emoji = Emojis.wheel;
     // gridTiles[1][1].emoji = Emojis.bomb;
 
     // gridTiles[2][0].emoji = Emojis.ghost;
-    // gridTiles[2][2].emoji = Emojis.barberPole;
+    gridTiles[2][2].emoji = Emojis.wheel;
 
-    // gridTiles[3][3].emoji = Emojis.barberPole;
-    // gridTiles[4][4].emoji = Emojis.barberPole;
+    gridTiles[3][3].emoji = Emojis.wheel;
+    // gridTiles[4][4].emoji = Emojis.wheel;
   }
 
   GameEmoji getRandomSafeEmoji(int row, int col) {

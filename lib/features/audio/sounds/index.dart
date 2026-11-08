@@ -20,6 +20,10 @@ List<String> soundTypeToFilename(Sfx type) => switch (type) {
     'whoosh-lite.m4a',
   ],
 
+  Sfx.wheelRoll => const [
+    'wheel-roll.m4a',
+  ],
+
   Sfx.congrats => const ['congrats.m4a', 'congrats2.m4a', 'congrats3.m4a'],
 
   Sfx.celebration => const [
