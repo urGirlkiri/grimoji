@@ -7,11 +7,13 @@ The release workflows rely on a GitHub `release` environment and several reposit
 ### Using the setup script
 
 1. Authenticate the GitHub CLI:
+
    ```bash
    gh auth login
    ```
 
 2. Export the secrets you want to upload:
+
    ```bash
    export KEYSTORE_BASE64="..."
    export STORE_PASSWORD="..."
@@ -20,6 +22,7 @@ The release workflows rely on a GitHub `release` environment and several reposit
    ```
 
 3. Run the script:
+
    ```bash
    bash tool/setup_release_env.sh
    ```

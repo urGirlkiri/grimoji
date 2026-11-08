@@ -18,7 +18,7 @@ flutter build ios --simulator
 
 ```
 
-### Release
+### Local Release
 
 > **Note:** Signed production `.ipa` files and TestFlight uploads are handled entirely by the `ios-testflight` workflow on Codemagic (see [`SHIPPING.md`](SHIPPING.md)). Manual local signing in Xcode is not required.
 

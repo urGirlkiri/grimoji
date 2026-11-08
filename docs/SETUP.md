@@ -4,12 +4,12 @@
 
 [See the example file](../.env.example)
 
-> Copy that file and rename it to `.env` 
+> Copy that file and rename it to `.env`
 > Then enter your own values
 
 ## [Install Flutter](https://docs.flutter.dev/install)
 
-and run 
+and run
 
 ```bash
 flutter doctor
