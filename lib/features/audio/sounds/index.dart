@@ -17,11 +17,7 @@ List<String> soundTypeToFilename(Sfx type) => switch (type) {
     'witch_laugh_down.m4a',
   ],
 
-  Sfx.fail => const [
-    'slow_trumpet_fail.m4a',
-    'trumpet_fail.m4a',
-    'fail.m4a',
-  ],
+  Sfx.fail => const ['slow_trumpet_fail.m4a', 'trumpet_fail.m4a', 'fail.m4a'],
 
   Sfx.fall => const ['fall.m4a'],
 
@@ -33,7 +29,7 @@ List<String> soundTypeToFilename(Sfx type) => switch (type) {
 
   Sfx.invalidMove => const ['bwuu.m4a'],
 
-  Sfx.hint => const ['swoosh.m4a'],
+  Sfx.hint => const ['twuu.m4a'],
 
   Sfx.trigger => const ['trittle.m4a'],
 
@@ -45,7 +41,7 @@ List<String> soundTypeToFilename(Sfx type) => switch (type) {
 
   Sfx.explosion => const ['bomb.m4a'],
 
-  Sfx.targetFlight => const ['swoosh.m4a'],
+  Sfx.targetFlight => const ['twuu.m4a'],
 
   Sfx.targetCollected => const ['twubi.m4a'],
 
