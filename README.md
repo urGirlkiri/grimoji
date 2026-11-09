@@ -105,13 +105,12 @@ I thought you might ask. The match-3 grid and its mechanics are built in pure Fl
 
 For it, i cheated a bit and consulted  `flame` game engine and its `forge2d` mechanics that emulate real world physics. Am still figuring this out so more on that later
 
-For match-3 _(candy crush style)_ see [board mechanics](lib/features/match/board/index) 
+For match-3 _(candy crush style)_ see [board mechanics](lib/features/match/board/index)
 
 ### Credits
 
 [Animated Emoji 💖](https://googlefonts.github.io/noto-emoji-animation/) for the emoji animations and SVG icons<br>
 [Pixabay](https://pixabay.com/) for the sfx and some music<br>
-[Gemini](https://gemini.google.com/) for the music<br>
 [Vecteezy](https://vecteezy.com/) for the background and pattern images<br>
 [Audjust](https://www.audjust.com/studio) for sfx variations<br>
 [Didier Boelens](https://medium.com/flutter-community/flutter-crush-debee5f389c3) for his amazing article on approaching match-3 in flutter<br>

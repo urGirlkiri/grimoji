@@ -1,9 +1,6 @@
 import 'package:grimoji/features/audio/models/song.dart';
 
 const Set<Song> menuSongs = {
-  // Song('midnight_study.m4a', 'Midnight Study', artist: 'Gemmini'),
-  // Song('the_mercury_key.m4a', 'The Mercury Key', artist: 'Gemmini'),
-  // Song('seven_drops_of_mercury.m4a', 'Seven Drops Of Mercury', artist: 'Gemmini'),
   Song(
     'halloween_trap.m4a',
     'Halloween Trap',
