@@ -357,7 +357,7 @@ class GameCoordinator {
       ..isPowerupTarget = false
       ..isTestTubeTarget = true;
     engine.initializeBehaviors();
-    audio.playSfx(Sfx.transmute);
+    audio.playSfx(Sfx.potionDrop);
     state.updateUI();
 
     await Future.delayed(greenDropDuration);

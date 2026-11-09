@@ -20,6 +20,7 @@ double soundTypeToVolume(Sfx type) {
     case Sfx.strongWhoosh:
     case Sfx.wheelRoll:
     case Sfx.bloodSplatter:
+    case Sfx.potionDrop:
     case Sfx.clownLaugh:
       return 1.0;
 

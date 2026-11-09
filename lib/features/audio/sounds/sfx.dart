@@ -29,6 +29,7 @@ enum Sfx {
   wheelRoll,
   clownLaugh,
   bloodSplatter,
+  potionDrop,
 
   recipeLocked,
   recipeUnlock,
