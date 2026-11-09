@@ -28,6 +28,7 @@ enum Sfx {
 
   wheelRoll,
   clownLaugh,
+  bloodSplatter,
 
   recipeLocked,
   recipeUnlock,

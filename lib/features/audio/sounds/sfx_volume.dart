@@ -19,6 +19,7 @@ double soundTypeToVolume(Sfx type) {
     case Sfx.mediumWhoosh:
     case Sfx.strongWhoosh:
     case Sfx.wheelRoll:
+    case Sfx.bloodSplatter:
     case Sfx.clownLaugh:
       return 1.0;
 

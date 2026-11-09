@@ -318,7 +318,7 @@ class GameCoordinator {
       ..isPowerupTarget = false
       ..isBloodTarget = true;
     engine.initializeBehaviors();
-    audio.playSfx(Sfx.transmute);
+    audio.playSfx(Sfx.bloodSplatter);
     state.updateUI();
   }
 

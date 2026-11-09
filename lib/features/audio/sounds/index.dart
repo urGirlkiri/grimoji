@@ -17,6 +17,7 @@ List<String> soundTypeToFilename(Sfx type) => switch (type) {
   Sfx.strongWhoosh => const ['whoosh_lite.m4a'],
 
   Sfx.wheelRoll => const ['wheel_roll.m4a'],
+  Sfx.bloodSplatter => const ['blood_splatter.m4a'],
 
   Sfx.congrats => const ['congrats.m4a', 'congrats2.m4a', 'congrats3.m4a'],
 
