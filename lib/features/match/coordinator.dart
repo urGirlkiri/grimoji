@@ -536,6 +536,7 @@ class GameCoordinator {
     state.updateUI();
 
     if (boardManager.hasClownShuffling()) {
+      audio.playSfx(Sfx.clownLaugh);
       if (!await _safeDelay(clownShuffleDuration)) return;
     }
     boardManager.clearShufflingFlags();
