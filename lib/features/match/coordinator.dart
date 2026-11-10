@@ -11,6 +11,7 @@ import 'package:grimoji/features/audio/audio_controller.dart';
 import 'package:grimoji/features/audio/sounds/sfx.dart';
 import 'package:grimoji/features/match/announcer.dart';
 import 'package:grimoji/features/match/board/effects/ghost_dive/effect.dart';
+import 'package:grimoji/features/match/board/effects/ufo/models/beam_type.dart';
 import 'package:grimoji/features/match/board/effects/wheel_roll/effect.dart';
 import 'package:grimoji/features/match/board/manager.dart';
 import 'package:grimoji/features/match/constants.dart';
@@ -45,7 +46,7 @@ class GameCoordinator {
   Future<void> Function(RollEffect)? onWheelRoll;
   Future<void> Function(GhostDiveEffect)? onGhostDive;
   Future<void> Function(GhostDiveEffect)? onGhostHaunt;
-  
+
   void Function({
     int intrusiveDestroyed,
     int shapeMerges,
@@ -366,6 +367,27 @@ class GameCoordinator {
 
     tile.isTestTubeTarget = false;
     state.updateUI();
+
+    await _cascadeSequence(coord);
+  }
+
+  Future<void> ufoBeamImpact(
+    int beamIndex,
+    TileCoordinate coord,
+    UFOBeamType beamType,
+  ) async {
+    if (state.isGameOver || state.isPaused || state.isProcessing) return;
+    if (beamType != UFOBeamType.explosive) return;
+
+    state.setProcessing(true);
+
+    engine.grid[coord.row][coord.col].isExploding = true;
+    state.updateUI();
+
+    await Future.delayed(matchFreezeDuration);
+    if (state.isDisposed) return;
+
+    if (await _settlement.settleBoard(BoardRegion({coord})) == null) return;
 
     await _cascadeSequence(coord);
   }

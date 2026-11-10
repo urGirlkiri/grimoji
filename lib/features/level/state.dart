@@ -123,6 +123,10 @@ class LevelState extends ChangeNotifier {
       startingBoosters: startingBoosters,
     );
 
+    onUFOBeamImpact = (beamIndex, coord, beamType) {
+      coordinator.ufoBeamImpact(beamIndex, coord, beamType);
+    };
+
     gameState.onTilesCleared = (count) =>
         recordCrimsonProgress(tileClears: count);
     coordinator.onCrimsonProgress =
@@ -321,7 +325,7 @@ class LevelState extends ChangeNotifier {
   void triggerBloodDrop(TileCoordinate coord) {
     onBloodDrop?.call(coord);
   }
-  
+
   void triggerTestTube(TileCoordinate coord) {
     onTestTube?.call(coord);
   }
