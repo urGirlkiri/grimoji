@@ -23,6 +23,7 @@ double soundTypeToVolume(Sfx type) {
     case Sfx.potionDrop:
     case Sfx.poopSquelch:
     case Sfx.clownLaugh:
+    case Sfx.bonusChime:
       return 1.0;
 
     case Sfx.merge:

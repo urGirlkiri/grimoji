@@ -31,6 +31,7 @@ enum Sfx {
   bloodSplatter,
   potionDrop,
   poopSquelch,
+  bonusChime,
 
   recipeLocked,
   recipeUnlock,

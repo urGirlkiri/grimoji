@@ -9,6 +9,7 @@ List<String> soundTypeToFilename(Sfx type) => switch (type) {
   ],
 
   Sfx.clownLaugh => const ['clown_laugh.m4a'],
+  Sfx.bonusChime => const ['chime.m4a'],
 
   Sfx.liteWhoosh => const ['whoosh_lite.m4a'],
 
