@@ -48,3 +48,4 @@ app.*.map.json
 upload-keystore.jks
 *.jks.bak
 upload-keystore.jks.WRONGKEY.bak
+devlogs.md

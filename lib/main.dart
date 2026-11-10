@@ -4,21 +4,20 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:grimoji/app/index.dart';
+import 'package:grimoji/config/router/index.dart';
+import 'package:grimoji/config/router/routes.dart';
+import 'package:grimoji/features/alchemy/recipe_book.dart';
+import 'package:grimoji/features/level/models/level_data.dart';
+import 'package:grimoji/features/market/scroll_controller.dart';
 import 'package:grimoji/features/profile/controller.dart';
 import 'package:grimoji/features/profile/models/profile_data.dart';
 import 'package:grimoji/features/profile/persistance/hive.dart';
 import 'package:grimoji/features/settings/controller.dart';
-import 'package:grimoji/app/index.dart';
-import 'package:grimoji/config/router/index.dart';
-import 'package:grimoji/config/router/routes.dart';
-import 'package:grimoji/features/market/scroll_controller.dart';
+import 'package:grimoji/features/settings/models/settings_data.dart';
 import 'package:grimoji/services/notifications/daily_claim.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logging/logging.dart';
-
-import 'package:grimoji/features/level/models/level_data.dart';
-import 'package:grimoji/features/settings/models/settings_data.dart';
-import 'package:grimoji/features/alchemy/recipe_book.dart';
 import 'package:path_provider/path_provider.dart';
 
 void main() async {
@@ -58,23 +57,27 @@ void main() async {
 
   final marketScroller = MarketScrollController();
   final reminder = DailyClaimReminder();
- 
+
   ProfileController? profileController;
- 
-  await reminder.initialize(
-    onTapPayload: (payload) {
-      if (payload == Routes.marketRoute) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (profileController?.canClaimDaily() != true) return;
-          final ts = DateTime.now().millisecondsSinceEpoch;
-          router.go('${Routes.marketRoute}?claim=dice&ts=$ts');
+
+  try {
+    await reminder.initialize(
+      onTapPayload: (payload) {
+        if (payload == Routes.marketRoute) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            marketScroller.scrollToDailyReward();
+            if (profileController?.canClaimDaily() != true) return;
+            final ts = DateTime.now().millisecondsSinceEpoch;
+            router.go('${Routes.marketRoute}?claim=dice&ts=$ts');
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              marketScroller.scrollToDailyReward();
+            });
           });
-        });
-      }
-    },
-  );
+        }
+      },
+    );
+  } catch (e) {
+    dev.log('Notification service init failed: $e');
+  }
 
   profileController = ProfileController(
     persistence: persistence,
@@ -101,11 +104,15 @@ void main() async {
     }
   }
 
-  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
+  if (!kIsWeb &&
+      (defaultTargetPlatform == TargetPlatform.android ||
+          defaultTargetPlatform == TargetPlatform.iOS)) {
+    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
 
   RecipeBook.initialize();
 
