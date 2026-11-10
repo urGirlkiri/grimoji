@@ -199,6 +199,12 @@ const Duration ufoFlyDuration = Duration(milliseconds: 2000);
 /// How long the ufo effect entry lives in the effect manager after creation.
 const Duration ufoLifetime = Duration(milliseconds: 2800);
 
+/// Duration of a single UFO beam's grow-retract animation.
+const Duration ufoBeamDuration = Duration(milliseconds: 300);
+
+/// Delay between a beam visually reaching its target and the impact callback.
+const Duration ufoBeamImpactDelay = Duration(milliseconds: 150);
+
 // ─── Clown Shuffle ─────────────────────────────────────────────────────────
 
 /// Total duration of the clown shuffle animation cycle.

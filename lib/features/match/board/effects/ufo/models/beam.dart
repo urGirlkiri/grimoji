@@ -1,4 +1,5 @@
 import 'package:grimoji/features/match/board/effects/ufo/models/beam_type.dart';
+import 'package:grimoji/features/match/constants.dart';
 
 class BeamAnimation {
   final double targetX;
@@ -21,7 +22,9 @@ class BeamAnimation {
 
   void update(double currentTime) {
     final elapsed = currentTime - startTime;
-    _progress = (elapsed / 0.15).clamp(0.0, 1.0);
+    final beamSpan =
+        ufoBeamDuration.inMilliseconds / ufoFlyDuration.inMilliseconds;
+    _progress = (elapsed / beamSpan).clamp(0.0, 1.0);
     if (_progress >= 1.0) {
       _isComplete = true;
     }
