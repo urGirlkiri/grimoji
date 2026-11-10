@@ -115,9 +115,12 @@ jobs:
       - name: Build Web
         run: flutter build web --base-href "/" --no-web-resources-cdn
 
-      - name: Create .env file for Web
+      - name: Create sanitized .env for Web
         run: |
           cat << EOF > build/web/assets/.env
+          MAP_BUILDER_MODE=false
+          DEBUG_WIN_SCREEN=false
+          FORCE_GHOST_HAUNT=false
           EOF
 
       - name: Build Android (AAB & APK)
@@ -243,6 +246,9 @@ jobs:
       - name: Create .env file for Snap
         run: |
           cat << EOF > .env
+          MAP_BUILDER_MODE=false
+          DEBUG_WIN_SCREEN=false
+          FORCE_GHOST_HAUNT=false
           EOF
 
       - name: Prepare Snap Metadata
@@ -346,7 +352,7 @@ jobs:
       options: --privileged
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Download Linux Bundle
         uses: actions/download-artifact@v4
         with:
@@ -356,6 +362,9 @@ jobs:
       - name: Create .env file for Windows
         run: |
           cat << EOF > flatpak/app-dir/data/flutter_assets/.env
+          MAP_BUILDER_MODE=false
+          DEBUG_WIN_SCREEN=false
+          FORCE_GHOST_HAUNT=false
           EOF
           
       - name: Copy Desktop and Icon Files
@@ -372,7 +381,7 @@ jobs:
           Categories=Game;Puzzle;
           Keywords=alchemy;emoji;2048;
           EOF
-      
+
       - name: Build Flatpak
         uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
@@ -397,8 +406,13 @@ jobs:
         with:
           channel: "stable"
 
-      - name: Create .env file for macOS
-        run: touch .env
+      - name: Create .env for macOS
+        run: |
+          cat << EOF > .env
+          MAP_BUILDER_MODE=false
+          DEBUG_WIN_SCREEN=false
+          FORCE_GHOST_HAUNT=false
+          EOF
 
       - name: Enable macOS Desktop
         run: flutter config --enable-macos-desktop

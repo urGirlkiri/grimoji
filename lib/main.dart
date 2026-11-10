@@ -33,7 +33,7 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  await dotenv.load();
+  await dotenv.load(isOptional: true);
 
   if (kIsWeb) {
     await Hive.initFlutter();
