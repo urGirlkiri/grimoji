@@ -10,6 +10,7 @@ class AbductedEmojiWidget extends StatefulWidget {
   final double endX;
   final double endY;
   final double size;
+  final VoidCallback? onComplete;
 
   const AbductedEmojiWidget({
     super.key,
@@ -19,6 +20,7 @@ class AbductedEmojiWidget extends StatefulWidget {
     required this.endX,
     required this.endY,
     required this.size,
+    this.onComplete,
   });
 
   @override
@@ -34,6 +36,9 @@ class _AbductedEmojiWidgetState extends State<AbductedEmojiWidget>
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this, duration: ufoAbductDuration);
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) widget.onComplete?.call();
+    });
     Future.delayed(ufoBeamDuration, () {
       if (mounted) {
         setState(() => _launched = true);

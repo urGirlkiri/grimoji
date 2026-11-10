@@ -141,17 +141,22 @@ class _UFOAnimationState extends State<UFOAnimation>
       final ufoSize = widget.tileWidth * 0.8;
       final ufoCenterY = (-widget.tileHeight * 0.2) + (ufoSize / 2);
 
-      _activeAbductions.add(
-        AbductedEmojiWidget(
-          key: ValueKey('abduct_${target.row}_${target.col}'),
-          emoji: tile.morphTarget ?? tile.emoji,
-          startX: targetX,
-          startY: targetY,
-          endX: targetX,
-          endY: ufoCenterY,
-          size: widget.tileWidth * 0.7,
-        ),
+      late final AbductedEmojiWidget abductWidget;
+      abductWidget = AbductedEmojiWidget(
+        key: ValueKey('abduct_$beamIndex'),
+        emoji: tile.morphTarget ?? tile.emoji,
+        startX: targetX,
+        startY: targetY,
+        endX: targetX,
+        endY: ufoCenterY,
+        size: widget.tileWidth * 0.7,
+        onComplete: () {
+          if (mounted) {
+            setState(() => _activeAbductions.remove(abductWidget));
+          }
+        },
       );
+      _activeAbductions.add(abductWidget);
     }
   }
 
