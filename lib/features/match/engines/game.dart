@@ -34,6 +34,7 @@ class GameEngine {
       level: level,
       boardManager: boardManager,
       getBehavior: BehaviorRegister.getBehaviorFor,
+      playSfx: playSfx,
     );
 
     _alchemy = AlchemyEngine(

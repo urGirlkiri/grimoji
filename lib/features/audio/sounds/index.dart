@@ -9,7 +9,7 @@ List<String> soundTypeToFilename(Sfx type) => switch (type) {
   ],
 
   Sfx.clownLaugh => const ['clown_laugh.m4a'],
-  
+
   Sfx.liteWhoosh => const ['whoosh_lite.m4a'],
 
   Sfx.mediumWhoosh => const ['whoosh_lite.m4a'],
@@ -19,6 +19,7 @@ List<String> soundTypeToFilename(Sfx type) => switch (type) {
   Sfx.wheelRoll => const ['wheel_roll.m4a'],
   Sfx.bloodSplatter => const ['blood_splatter.m4a'],
   Sfx.potionDrop => const ['potion_drop.m4a'],
+  Sfx.poopSquelch => const ['wet_squelch.m4a'],
 
   Sfx.congrats => const ['congrats.m4a', 'congrats2.m4a', 'congrats3.m4a'],
 

@@ -7,6 +7,7 @@ import 'package:grimoji/features/alchemy/behaviors/models/action_type.dart';
 import 'package:grimoji/features/alchemy/behaviors/models/behavior.dart';
 import 'package:grimoji/features/alchemy/behaviors/models/behavior_action.dart';
 import 'package:grimoji/features/alchemy/reactions/models/reaction.dart';
+import 'package:grimoji/features/audio/sounds/sfx.dart';
 import 'package:grimoji/features/match/board/manager.dart';
 import 'package:grimoji/features/match/models/tile.dart';
 import 'package:logging/logging.dart';
@@ -15,6 +16,7 @@ class BehaviorEngine {
   final BoardManager boardManager;
   final EmojiBehavior? Function(GameEmoji) getBehavior;
   final GameLevel level;
+  final void Function(Sfx)? playSfx;
   final Logger _log = Logger('BehaviorEngine');
 
   final List<({Tile tile, int x, int y, ReactionType reactionType})>
@@ -26,6 +28,7 @@ class BehaviorEngine {
     required this.boardManager,
     required this.getBehavior,
     required this.level,
+    this.playSfx,
   });
 
   void initializeBehavior(Tile tile) {
@@ -243,6 +246,7 @@ class BehaviorEngine {
         case ActionType.spawnPoop:
           boardManager.gridTiles[x][y].emoji = Emojis.poop;
           initializeBehavior(boardManager.gridTiles[x][y]);
+          playSfx?.call(Sfx.poopSquelch);
           break;
       }
     }
@@ -291,11 +295,7 @@ class BehaviorEngine {
     GameEmoji targetEmoji,
   ) {
     if (tile.behavior != null) {
-      return tile.behavior!.onSwipedWith(
-        x,
-        y,
-        targetEmoji,
-      );
+      return tile.behavior!.onSwipedWith(x, y, targetEmoji);
     }
 
     return [];

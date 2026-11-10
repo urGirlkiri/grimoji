@@ -30,6 +30,7 @@ enum Sfx {
   clownLaugh,
   bloodSplatter,
   potionDrop,
+  poopSquelch,
 
   recipeLocked,
   recipeUnlock,

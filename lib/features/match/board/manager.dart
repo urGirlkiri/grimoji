@@ -55,8 +55,8 @@ class BoardManager {
       } while (gridTiles[barberRow][barberCol].emoji == Emojis.impSmile);
       gridTiles[barberRow][barberCol].emoji = Emojis.barberPole;
     }
-    // gridTiles[0][0].emoji = Emojis.clown;
-    // gridTiles[0][1].emoji = Emojis.clown;
+    // gridTiles[0][0].emoji = Emojis.impSmile;
+    // gridTiles[0][1].emoji = Emojis.impSmile;
 
     // gridTiles[1][1].emoji = Emojis.clown;
     // gridTiles[1][1].emoji = Emojis.bomb;
