@@ -6,6 +6,7 @@ import 'package:grimoji/config/constants.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/config/powerups.dart';
 import 'package:grimoji/features/audio/audio_controller.dart';
+import 'package:grimoji/features/audio/sounds/sfx.dart';
 import 'package:grimoji/features/level/managers/crimson.dart';
 import 'package:grimoji/features/level/managers/goal.dart';
 import 'package:grimoji/features/level/managers/time.dart';
@@ -320,17 +321,22 @@ class LevelState extends ChangeNotifier {
   void triggerBloodDrop(TileCoordinate coord) {
     onBloodDrop?.call(coord);
   }
+  
   void triggerTestTube(TileCoordinate coord) {
     onTestTube?.call(coord);
   }
+
   void impactUFOBeam(
     int beamIndex,
     TileCoordinate coord,
     UFOBeamType beamType,
   ) {
+    audio.playSfx(beamType == UFOBeamType.abduct ? Sfx.ufoAbduct : Sfx.ufoBeam);
     onUFOBeamImpact?.call(beamIndex, coord, beamType);
   }
+
   void triggerUFO() {
+    audio.playSfx(Sfx.ufoFlight);
     onUFO?.call();
   }
 
@@ -396,6 +402,7 @@ class LevelState extends ChangeNotifier {
 
   void addTime(int seconds) {
     timeManager.addTime(seconds);
+    audio.playSfx(Sfx.bonusChime);
     onTimeBonus?.call(seconds);
     notifyListeners();
   }

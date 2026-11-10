@@ -24,6 +24,9 @@ double soundTypeToVolume(Sfx type) {
     case Sfx.poopSquelch:
     case Sfx.clownLaugh:
     case Sfx.bonusChime:
+    case Sfx.ufoAbduct:
+    case Sfx.ufoFlight:
+    case Sfx.ufoBeam:
       return 1.0;
 
     case Sfx.merge:

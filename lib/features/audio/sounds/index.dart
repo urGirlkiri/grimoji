@@ -11,11 +11,13 @@ List<String> soundTypeToFilename(Sfx type) => switch (type) {
   Sfx.clownLaugh => const ['clown_laugh.m4a'],
   Sfx.bonusChime => const ['chime.m4a'],
 
+  Sfx.ufoAbduct => const ['ufo_abduct.m4a'],
+  Sfx.ufoFlight => const ['ufo_flight.m4a'],
+  Sfx.ufoBeam => const ['ufo_beam.m4a'],
+
   Sfx.liteWhoosh => const ['whoosh_lite.m4a'],
-
-  Sfx.mediumWhoosh => const ['whoosh_lite.m4a'],
-
-  Sfx.strongWhoosh => const ['whoosh_lite.m4a'],
+  Sfx.mediumWhoosh => const ['whoosh_medium.m4a'],
+  Sfx.strongWhoosh => const ['whoosh_strong.m4a'],
 
   Sfx.wheelRoll => const ['wheel_roll.m4a'],
   Sfx.bloodSplatter => const ['blood_splatter.m4a'],

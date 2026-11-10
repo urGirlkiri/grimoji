@@ -26,6 +26,10 @@ enum Sfx {
   mediumWhoosh,
   strongWhoosh,
 
+  ufoFlight,
+  ufoAbduct,
+  ufoBeam,
+
   wheelRoll,
   clownLaugh,
   bloodSplatter,
