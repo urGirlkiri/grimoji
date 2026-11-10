@@ -47,6 +47,26 @@ class _UFOAnimationState extends State<UFOAnimation>
     _controller.forward();
   }
 
+  TileCoordinate? _resolveTargetCoord(int index) {
+    final tileIds = widget.effect.tileIds;
+    if (index >= tileIds.length || tileIds[index].isEmpty) {
+      return widget.effect.targets[index];
+    }
+
+    final grid = context.read<LevelState>().boardManager.gridTiles;
+    for (final row in grid) {
+      for (final tile in row) {
+        if (tile.id == tileIds[index]) {
+          return TileCoordinate(
+            row: tile.coordinate.row,
+            col: tile.coordinate.col,
+          );
+        }
+      }
+    }
+    return null;
+  }
+
   void _onTick() {
     final t = _controller.value;
     final totalDuration = _controller.duration!.inMilliseconds;
@@ -64,13 +84,14 @@ class _UFOAnimationState extends State<UFOAnimation>
         );
 
         Future.delayed(ufoBeamDuration, () {
-          if (mounted) {
-            context.read<LevelState>().impactUFOBeam(
-              i,
-              widget.effect.targets[i],
-              widget.effect.beamTypes[i],
-            );
-          }
+          if (!mounted) return;
+          final resolved = _resolveTargetCoord(i);
+          if (resolved == null) return;
+          context.read<LevelState>().impactUFOBeam(
+            i,
+            resolved,
+            widget.effect.beamTypes[i],
+          );
         });
       }
     }
@@ -92,6 +113,10 @@ class _UFOAnimationState extends State<UFOAnimation>
     TileCoordinate target,
     UFOBeamType beamType,
   ) {
+    final resolved = _resolveTargetCoord(beamIndex);
+    if (resolved == null) return;
+    target = resolved;
+
     final stepX = widget.tileWidth + tileSpacingGap;
     final stepY = widget.tileHeight + tileSpacingGap;
 
@@ -156,7 +181,9 @@ class _UFOAnimationState extends State<UFOAnimation>
 
         for (int i = 0; i < widget.effect.targets.length; i++) {
           final target = widget.effect.targets[i];
-          final targetCenterX = (target.col * stepX) + (widget.tileWidth / 2);
+          final resolved = _resolveTargetCoord(i);
+          final hoverCol = (resolved ?? target).col;
+          final targetCenterX = (hoverCol * stepX) + (widget.tileWidth / 2);
           final ufoHoverX = targetCenterX - (ufoSize / 2);
 
           final centerT = widget.effect.beamDelays[i].inMilliseconds / totalMs;

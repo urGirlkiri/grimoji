@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:grimoji/config/emojis/index.dart';
 import 'package:grimoji/config/levels/game_level.dart';
 import 'package:grimoji/features/alchemy/recipe_book.dart';
+import 'package:grimoji/features/level/widgets/footer/powerups/ufo/analyzer.dart';
 import 'package:grimoji/features/match/board/manager.dart';
 import 'package:grimoji/features/match/detectors/match.dart';
 import 'package:grimoji/features/match/detectors/ufo/scanner.dart';
@@ -112,5 +113,45 @@ void main() {
         greaterThanOrEqualTo(reactionAdjacencyBonus),
       );
     });
+
+    test('UFOAnalyzer returns aligned beam plan sorted by column', () async {
+      final plan = await UFOAnalyzer.analyzeBoard(
+        grid: boardManager.gridTiles,
+        targetEmoji: Emojis.bomb,
+      );
+
+      expect(plan.targets.length, equals(3));
+      expect(plan.beamTypes.length, equals(3));
+      expect(plan.beamDelays.length, equals(3));
+      expect(plan.tileIds.length, equals(3));
+
+      for (int i = 1; i < plan.targets.length; i++) {
+        expect(
+          plan.targets[i].col,
+          greaterThanOrEqualTo(plan.targets[i - 1].col),
+        );
+      }
+
+      for (int i = 0; i < plan.targets.length; i++) {
+        final tile =
+            boardManager.gridTiles[plan.targets[i].row][plan.targets[i].col];
+        expect(tile.id, equals(plan.tileIds[i]));
+      }
+    });
+
+    test(
+      'UFOAnalyzer falls back when every tile is the target emoji',
+      () async {
+        testGrid.fill(Emojis.bomb);
+
+        final plan = await UFOAnalyzer.analyzeBoard(
+          grid: boardManager.gridTiles,
+          targetEmoji: Emojis.bomb,
+        );
+
+        expect(plan.targets.length, equals(3));
+        expect(plan.tileIds, isEmpty);
+      },
+    );
   });
 }

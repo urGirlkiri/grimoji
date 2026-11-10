@@ -102,6 +102,7 @@ class VFXController {
           targets: plan.targets,
           beamTypes: plan.beamTypes,
           beamDelays: plan.beamDelays,
+          tileIds: plan.tileIds,
         ),
       );
     };

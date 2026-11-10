@@ -5,10 +5,12 @@ class UFOPlan {
   final List<TileCoordinate> targets;
   final List<UFOBeamType> beamTypes;
   final List<Duration> beamDelays;
+  final List<String> tileIds;
 
   const UFOPlan({
     required this.targets,
     required this.beamTypes,
     required this.beamDelays,
+    this.tileIds = const [],
   });
 }

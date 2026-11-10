@@ -5,11 +5,13 @@ import 'package:grimoji/features/match/models/coordinate.dart';
 class UFOEffect extends BoardEffect {
   final List<TileCoordinate> targets;
   final List<UFOBeamType> beamTypes;
-    final List<Duration> beamDelays; 
+  final List<Duration> beamDelays;
+  final List<String> tileIds;
 
   UFOEffect({
     required this.targets,
     required this.beamTypes,
     required this.beamDelays,
+    this.tileIds = const [],
   }) : super();
 }

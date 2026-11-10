@@ -371,13 +371,52 @@ class GameCoordinator {
     await _cascadeSequence(coord);
   }
 
+  final List<(int, TileCoordinate, UFOBeamType)> _pendingBeamImpacts = [];
+  bool _isDrainingBeamImpacts = false;
+
   Future<void> ufoBeamImpact(
     int beamIndex,
     TileCoordinate coord,
     UFOBeamType beamType,
   ) async {
-    if (state.isGameOver || state.isPaused || state.isProcessing) return;
+    if (state.isGameOver || state.isPaused) return;
 
+    if (beamType == UFOBeamType.abduct) {
+      engine.grid[coord.row][coord.col].isAbducted = true;
+      state.updateUI();
+    } else {
+      engine.grid[coord.row][coord.col].isExploding = true;
+      state.updateUI();
+    }
+
+    _pendingBeamImpacts.add((beamIndex, coord, beamType));
+    _drainBeamImpacts();
+  }
+
+  Future<void> _drainBeamImpacts() async {
+    if (_isDrainingBeamImpacts || _pendingBeamImpacts.isEmpty) return;
+    if (state.isProcessing || state.isPaused || state.isDisposed) {
+      if (!state.isDisposed && !state.isGameOver) {
+        Future.delayed(const Duration(milliseconds: 100), _drainBeamImpacts);
+      }
+      return;
+    }
+
+    _isDrainingBeamImpacts = true;
+    while (_pendingBeamImpacts.isNotEmpty &&
+        !state.isDisposed &&
+        !state.isGameOver) {
+      final impact = _pendingBeamImpacts.removeAt(0);
+      await _runBeamImpact(impact.$1, impact.$2, impact.$3);
+    }
+    _isDrainingBeamImpacts = false;
+  }
+
+  Future<void> _runBeamImpact(
+    int beamIndex,
+    TileCoordinate coord,
+    UFOBeamType beamType,
+  ) async {
     state.setProcessing(true);
 
     if (beamType == UFOBeamType.abduct) {

@@ -50,10 +50,12 @@ class UFOAnalyzer {
         if (!_isEligible(tile, targetEmoji)) continue;
 
         final coord = TileCoordinate(row: r, col: c);
+        final tileId = tile.id;
         abductRanked.add(
           _Candidate(
             coord: coord,
             beamType: UFOBeamType.abduct,
+            tileId: tileId,
             score: scoreAbductCandidate(
               grid,
               row: r,
@@ -68,6 +70,7 @@ class UFOAnalyzer {
           _Candidate(
             coord: coord,
             beamType: UFOBeamType.explosive,
+            tileId: tileId,
             score: scoreExplosiveCandidate(
               grid,
               row: r,
@@ -130,6 +133,7 @@ class UFOAnalyzer {
       targets: picks.map((p) => p.coord).toList(),
       beamTypes: picks.map((p) => p.beamType).toList(),
       beamDelays: delays,
+      tileIds: picks.map((p) => p.tileId).toList(),
     );
   }
 
@@ -145,6 +149,7 @@ class UFOAnalyzer {
         tile.isFlying ||
         tile.isShuffling ||
         tile.isClownShuffling ||
+        tile.isAbducted ||
         tile.isHinting ||
         tile.isPowerupTarget ||
         tile.isBloodTarget ||
@@ -177,11 +182,13 @@ class UFOAnalyzer {
 class _Candidate {
   final TileCoordinate coord;
   final UFOBeamType beamType;
+  final String tileId;
   final int score;
 
   const _Candidate({
     required this.coord,
     required this.beamType,
+    required this.tileId,
     required this.score,
   });
 }
