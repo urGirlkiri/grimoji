@@ -104,9 +104,9 @@ class VFXController {
               UFOBeamType.abduct,
             ],
             beamDelays: const [
-              Duration(milliseconds: 500),
-              Duration(milliseconds: 1000),
-              Duration(milliseconds: 1500),
+              Duration(milliseconds: 600),
+              Duration(milliseconds: 1800),
+              Duration(milliseconds: 3000),
             ],
           ),
         );

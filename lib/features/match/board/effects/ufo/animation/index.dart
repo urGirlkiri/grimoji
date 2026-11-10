@@ -151,17 +151,23 @@ class _UFOAnimationState extends State<UFOAnimation>
 
         List<UfoKeyframe> keyframes = [UfoKeyframe(0.0, -ufoSize)];
 
+        final totalMs = _controller.duration!.inMilliseconds;
+        final beamSpan = ufoBeamDuration.inMilliseconds / totalMs;
+
         for (int i = 0; i < widget.effect.targets.length; i++) {
           final target = widget.effect.targets[i];
           final targetCenterX = (target.col * stepX) + (widget.tileWidth / 2);
           final ufoHoverX = targetCenterX - (ufoSize / 2);
 
-          final centerT =
-              widget.effect.beamDelays[i].inMilliseconds /
-              _controller.duration!.inMilliseconds;
+          final centerT = widget.effect.beamDelays[i].inMilliseconds / totalMs;
+
+          final isAbduct = widget.effect.beamTypes[i] == UFOBeamType.abduct;
+          final holdMs =
+              (isAbduct ? ufoAbductDuration.inMilliseconds : 0) + 100;
+          final hoverEndT = centerT + beamSpan + (holdMs / totalMs);
 
           keyframes.add(UfoKeyframe(max(0.0, centerT - 0.05), ufoHoverX));
-          keyframes.add(UfoKeyframe(min(1.0, centerT + 0.10), ufoHoverX));
+          keyframes.add(UfoKeyframe(min(1.0, hoverEndT), ufoHoverX));
         }
 
         keyframes.add(UfoKeyframe(1.0, boardWidth + ufoSize));

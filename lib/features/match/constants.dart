@@ -194,16 +194,16 @@ const abductBeamColor = Color(0xFF00E5FF);
 const explosiveBeamColor = Color(0xFFFF1744);
 
 /// How long UFO takes to fly across screen
-const Duration ufoFlyDuration = Duration(milliseconds: 2000);
+const Duration ufoFlyDuration = Duration(milliseconds: 4100);
 
 /// How long the ufo effect entry lives in the effect manager after creation.
-const Duration ufoLifetime = Duration(milliseconds: 2800);
+const Duration ufoLifetime = Duration(milliseconds: 4200);
 
 /// Duration of a single UFO beam's grow-retract animation.
 const Duration ufoBeamDuration = Duration(milliseconds: 300);
 
 /// Duration of an abducted emoji's flight from tile into the UFO.
-const Duration ufoAbductDuration = Duration(milliseconds: 550);
+const Duration ufoAbductDuration = Duration(milliseconds: 500);
 
 // ─── Clown Shuffle ─────────────────────────────────────────────────────────
 
