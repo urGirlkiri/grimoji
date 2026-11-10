@@ -4,6 +4,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:grimoji/features/audio/sounds/sfx.dart';
 import 'package:grimoji/features/level/state.dart';
 import 'package:grimoji/features/level/widgets/footer/powerups/ufo/analyzer.dart';
 import 'package:grimoji/features/match/board/effects/ufo/animation/abducted_emoji.dart';
@@ -76,6 +77,7 @@ class _UFOAnimationState extends State<UFOAnimation>
 
     if (_wasProcessing && hasPendingBeams) {
       _wasProcessing = false;
+      levelState.audio.playSfx(Sfx.ufoFlight);
       _replanRemainingBeams();
     }
 
