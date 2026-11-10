@@ -41,6 +41,9 @@ class AudioController {
 
   int _currentSfxPlayer = 0;
 
+  static const _sameSfxCooldown = Duration(milliseconds: 100);
+  final Map<Sfx, DateTime> _lastSfxPlayedAt = {};
+
   final Queue<Song> _playlist;
 
   final Random _random = Random();
@@ -100,11 +103,7 @@ class AudioController {
     AudioPlayer.global.setAudioContext(audioContext);
 
     unawaited(
-      _preloadSfxs(const [
-        Sfx.buttonTap,
-        Sfx.ghostDive,
-        Sfx.ghostHaunt,
-      ]),
+      _preloadSfxs(const [Sfx.buttonTap, Sfx.ghostDive, Sfx.ghostHaunt]),
     );
   }
 
@@ -149,6 +148,14 @@ class AudioController {
       );
       return;
     }
+
+    final now = DateTime.now();
+    final lastPlayedAt = _lastSfxPlayedAt[type];
+    if (lastPlayedAt != null &&
+        now.difference(lastPlayedAt) < _sameSfxCooldown) {
+      return;
+    }
+    _lastSfxPlayedAt[type] = now;
 
     _log.fine(() => 'Playing sound: $type');
     final options = soundTypeToFilename(type);
