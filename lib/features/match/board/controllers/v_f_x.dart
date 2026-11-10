@@ -97,14 +97,14 @@ class VFXController {
       );
       if (_isDisposed) return;
 
-      ufoManager.trigger(
-        UFOEffect(
-          targets: plan.targets,
-          beamTypes: plan.beamTypes,
-          beamDelays: plan.beamDelays,
-          tileIds: plan.tileIds,
-        ),
+      final ufoEffect = UFOEffect(
+        targets: plan.targets,
+        beamTypes: plan.beamTypes,
+        beamDelays: plan.beamDelays,
+        tileIds: plan.tileIds,
       );
+      ufoEffect.onExtend = () => ufoManager.refresh(ufoEffect.id);
+      ufoManager.trigger(ufoEffect);
     };
   }
 

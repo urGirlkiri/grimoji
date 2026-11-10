@@ -64,6 +64,10 @@ class _UFOAnimationState extends State<UFOAnimation>
     final hasPendingBeams =
         _beamImpactsCalled.length < widget.effect.targets.length;
 
+    if (hasPendingBeams || _controller.isAnimating) {
+      widget.effect.onExtend?.call();
+    }
+
     if (processing && hasPendingBeams) {
       _wasProcessing = true;
       if (_controller.isAnimating) _controller.stop();
