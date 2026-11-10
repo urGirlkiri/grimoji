@@ -33,6 +33,8 @@ class TileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (tile.isAbducted) return const SizedBox.shrink();
+
     final displayEmoji = tile.morphTarget ?? tile.emoji;
 
     Widget content = TileContent(
