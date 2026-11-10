@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:grimoji/features/level/state.dart';
+import 'package:grimoji/features/level/widgets/footer/powerups/ufo/analyzer.dart';
 import 'package:grimoji/features/match/board/effects/ufo/animation/abducted_emoji.dart';
 import 'package:grimoji/features/match/board/effects/ufo/animation/u_f_o_beam.dart';
 import 'package:grimoji/features/match/board/effects/ufo/effect.dart';
@@ -37,6 +39,9 @@ class _UFOAnimationState extends State<UFOAnimation>
   final Set<int> _beamImpactsCalled = {};
   final List<BeamAnimation> _activeBeams = [];
   final List<AbductedEmojiWidget> _activeAbductions = [];
+  Timer? _readinessTimer;
+  bool _wasProcessing = false;
+  bool _replanInFlight = false;
 
   @override
   void initState() {
@@ -45,6 +50,67 @@ class _UFOAnimationState extends State<UFOAnimation>
     _controller.addListener(_onTick);
     _controller.addStatusListener(_onStatus);
     _controller.forward();
+    _readinessTimer = Timer.periodic(
+      const Duration(milliseconds: 100),
+      (_) => _checkBoardReady(),
+    );
+  }
+
+  void _checkBoardReady() {
+    if (!mounted) return;
+
+    final levelState = context.read<LevelState>();
+    final processing = levelState.gameState.isProcessing;
+    final hasPendingBeams =
+        _beamImpactsCalled.length < widget.effect.targets.length;
+
+    if (processing && hasPendingBeams) {
+      _wasProcessing = true;
+      if (_controller.isAnimating) _controller.stop();
+      return;
+    }
+
+    if (_wasProcessing && hasPendingBeams) {
+      _wasProcessing = false;
+      _replanRemainingBeams();
+    }
+
+    if (!_controller.isAnimating && _controller.value < 1.0) {
+      _controller.forward();
+    }
+  }
+
+  Future<void> _replanRemainingBeams() async {
+    if (_replanInFlight || !mounted) return;
+    _replanInFlight = true;
+
+    try {
+      var firstPending = 0;
+      while (firstPending < widget.effect.targets.length &&
+          _beamImpactsCalled.contains(firstPending)) {
+        firstPending++;
+      }
+      final remaining = widget.effect.targets.length - firstPending;
+      if (remaining <= 0) return;
+
+      final levelState = context.read<LevelState>();
+      final plan = await UFOAnalyzer.analyzeBoard(
+        grid: levelState.boardManager.gridTiles,
+        targetEmoji: levelState.level.targetEmoji,
+      );
+      if (!mounted) return;
+
+      for (int j = 0; j < remaining && j < plan.targets.length; j++) {
+        final idx = firstPending + j;
+        widget.effect.targets[idx] = plan.targets[j];
+        widget.effect.beamTypes[idx] = plan.beamTypes[j];
+        widget.effect.tileIds[idx] = j < plan.tileIds.length
+            ? plan.tileIds[j]
+            : '';
+      }
+    } finally {
+      _replanInFlight = false;
+    }
   }
 
   TileCoordinate? _resolveTargetCoord(int index) {
@@ -70,12 +136,16 @@ class _UFOAnimationState extends State<UFOAnimation>
   void _onTick() {
     final t = _controller.value;
     final totalDuration = _controller.duration!.inMilliseconds;
+    final isProcessing = context.read<LevelState>().gameState.isProcessing;
 
     for (int i = 0; i < widget.effect.targets.length; i++) {
       final beamLandTime =
           widget.effect.beamDelays[i].inMilliseconds / totalDuration;
 
-      if (!_beamImpactsCalled.contains(i) && t >= beamLandTime) {
+      if (!_beamImpactsCalled.contains(i) &&
+          t >= beamLandTime &&
+          !isProcessing &&
+          !_replanInFlight) {
         _beamImpactsCalled.add(i);
         _spawnBeamEffect(
           i,
@@ -162,6 +232,7 @@ class _UFOAnimationState extends State<UFOAnimation>
 
   @override
   void dispose() {
+    _readinessTimer?.cancel();
     _controller.removeListener(_onTick);
     _controller.removeStatusListener(_onStatus);
     _controller.dispose();
