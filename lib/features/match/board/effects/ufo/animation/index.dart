@@ -4,16 +4,15 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:grimoji/features/level/state.dart';
+import 'package:grimoji/features/match/board/effects/ufo/animation/abducted_emoji.dart';
 import 'package:grimoji/features/match/board/effects/ufo/animation/u_f_o_beam.dart';
 import 'package:grimoji/features/match/board/effects/ufo/effect.dart';
-import 'package:grimoji/features/match/board/effects/ufo/models/abducted_emoji.dart';
 import 'package:grimoji/features/match/board/effects/ufo/models/beam.dart';
 import 'package:grimoji/features/match/board/effects/ufo/models/beam_type.dart';
 import 'package:grimoji/features/match/board/effects/ufo/models/keyframe.dart';
 import 'package:grimoji/features/match/board/manager.dart';
 import 'package:grimoji/features/match/constants.dart';
 import 'package:grimoji/features/match/models/coordinate.dart';
-import 'package:grimoji/widgets/custom/emoji_widget.dart';
 import 'package:provider/provider.dart';
 
 class UFOAnimation extends StatefulWidget {
@@ -37,7 +36,7 @@ class _UFOAnimationState extends State<UFOAnimation>
   late final AnimationController _controller;
   final Set<int> _beamImpactsCalled = {};
   final List<BeamAnimation> _activeBeams = [];
-  final List<AbductedEmoji> _activeAbductions = [];
+  final List<AbductedEmojiWidget> _activeAbductions = [];
 
   @override
   void initState() {
@@ -64,7 +63,7 @@ class _UFOAnimationState extends State<UFOAnimation>
           widget.effect.beamTypes[i],
         );
 
-        Future.delayed(ufoBeamImpactDelay, () {
+        Future.delayed(ufoBeamDuration, () {
           if (mounted) {
             context.read<LevelState>().impactUFOBeam(
               i,
@@ -79,11 +78,6 @@ class _UFOAnimationState extends State<UFOAnimation>
     _activeBeams.removeWhere((beam) => beam.isComplete);
     for (final beam in _activeBeams) {
       beam.update(t);
-    }
-
-    _activeAbductions.removeWhere((abduction) => abduction.isComplete);
-    for (final abduction in _activeAbductions) {
-      abduction.update(t);
     }
   }
 
@@ -118,15 +112,19 @@ class _UFOAnimationState extends State<UFOAnimation>
     if (beamType == UFOBeamType.abduct) {
       final levelState = context.read<LevelState>();
       final tile = levelState.boardManager.gridTiles[target.row][target.col];
-      tile.isAbducted = true;
-      levelState.gameState.updateUI();
+
+      final ufoSize = widget.tileWidth * 0.8;
+      final ufoCenterY = (-widget.tileHeight * 0.2) + (ufoSize / 2);
 
       _activeAbductions.add(
-        AbductedEmoji(
-          emoji: tile.emoji,
+        AbductedEmojiWidget(
+          key: ValueKey('abduct_${target.row}_${target.col}'),
+          emoji: tile.morphTarget ?? tile.emoji,
           startX: targetX,
           startY: targetY,
-          startTime: _controller.value,
+          endX: targetX,
+          endY: ufoCenterY,
+          size: widget.tileWidth * 0.7,
         ),
       );
     }
@@ -183,10 +181,6 @@ class _UFOAnimationState extends State<UFOAnimation>
           }
         }
 
-        final double ufoCenterX = ufoX + (ufoSize / 2);
-        final double ufoCenterY = ufoY + (ufoSize / 2);
-        final double emojiSize = widget.tileWidth * 0.7;
-
         return Stack(
           clipBehavior: Clip.none,
           children: [
@@ -197,35 +191,7 @@ class _UFOAnimationState extends State<UFOAnimation>
                 tileHeight: widget.tileHeight,
               ),
             ),
-            ..._activeAbductions.map((abduction) {
-              final eased = Curves.easeIn.transform(abduction.progress);
-              final x =
-                  abduction.startX + ((ufoCenterX - abduction.startX) * eased);
-              final y =
-                  abduction.startY + ((ufoCenterY - abduction.startY) * eased);
-              final scale = 1.0 - (0.85 * eased);
-              final opacity = abduction.progress < 0.7
-                  ? 1.0
-                  : (1.0 - ((abduction.progress - 0.7) / 0.3)).clamp(0.0, 1.0);
-
-              return Positioned(
-                key: ValueKey('abduct_${abduction.emoji.visual}'),
-                left: x - (emojiSize / 2),
-                top: y - (emojiSize / 2),
-                width: emojiSize,
-                height: emojiSize,
-                child: Opacity(
-                  opacity: opacity,
-                  child: Transform.scale(
-                    scale: scale,
-                    child: EmojiWidget.svg(
-                      emoji: abduction.emoji,
-                      size: emojiSize,
-                    ),
-                  ),
-                ),
-              );
-            }),
+            ..._activeAbductions,
             Positioned(
               left: ufoX,
               top: ufoY,

@@ -47,7 +47,6 @@ class Tile {
 
   bool hasTargetFlown = false;
   bool isFlying = false;
-  bool isAbducted = false;
 
   bool isCollectiblePowerup = false;
   bool hasPowerupFlown = false;
@@ -87,7 +86,6 @@ class Tile {
 
     newTile.hasTargetFlown = hasTargetFlown;
     newTile.isFlying = isFlying;
-    newTile.isAbducted = isAbducted;
 
     newTile.isCollectiblePowerup = isCollectiblePowerup;
     newTile.hasPowerupFlown = hasPowerupFlown;
@@ -132,7 +130,6 @@ class Tile {
 
     hasTargetFlown = false;
     isFlying = false;
-    isAbducted = false;
 
     isCollectiblePowerup = false;
     hasPowerupFlown = false;

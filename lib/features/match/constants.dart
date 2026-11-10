@@ -202,8 +202,8 @@ const Duration ufoLifetime = Duration(milliseconds: 2800);
 /// Duration of a single UFO beam's grow-retract animation.
 const Duration ufoBeamDuration = Duration(milliseconds: 300);
 
-/// Delay between a beam visually reaching its target and the impact callback.
-const Duration ufoBeamImpactDelay = Duration(milliseconds: 150);
+/// Duration of an abducted emoji's flight from tile into the UFO.
+const Duration ufoAbductDuration = Duration(milliseconds: 550);
 
 // ─── Clown Shuffle ─────────────────────────────────────────────────────────
 

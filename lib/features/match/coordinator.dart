@@ -376,16 +376,11 @@ class GameCoordinator {
     TileCoordinate coord,
     UFOBeamType beamType,
   ) async {
-    if (beamType != UFOBeamType.abduct && beamType != UFOBeamType.explosive) {
-      return;
-    }
     if (state.isGameOver || state.isPaused || state.isProcessing) return;
 
     state.setProcessing(true);
 
     if (beamType == UFOBeamType.abduct) {
-      await Future.delayed(ufoBeamDuration - ufoBeamImpactDelay);
-      if (state.isDisposed) return;
       if (await _settlement.settleBoard(BoardRegion({coord})) == null) return;
       await _cascadeSequence(coord);
       return;
